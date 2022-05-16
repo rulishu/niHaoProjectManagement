@@ -36,7 +36,7 @@ export const columnsSearch = (handleEditTable) => [
         </Button>
         <Button
           size="small"
-          icon="del"
+          icon="user-delete"
           onClick={() => handleEditTable('del', rowData)}>
           删除
         </Button>
