@@ -1,6 +1,16 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button, Input, Select } from 'uiw'
 import styles from './index.module.less'
+
+import Tribute from 'tributejs'
+
+const tribute = new Tribute({
+  trigger: '@',
+  values: [
+    { key: 'Phil Heartman', value: 'pheartman' },
+    { key: 'Gordon Ramsey', value: 'gramsey' },
+  ],
+})
 
 /**
  * This is the search bar component
@@ -12,6 +22,21 @@ const SearchBar = (props) => {
   const { onSearch, butText, isDrop, option } = props
   const [inputValue, setInputValue] = useState()
   const [selectValue, setSelectValue] = useState('1')
+
+  const ref = useRef()
+  console.log('ref: ', ref.current)
+  const isBundle = useRef(false)
+
+  useEffect(() => {
+    if (ref.current && !isBundle.current) {
+      console.log('a')
+      isBundle.current = true
+      tribute.attach(ref.current)
+      ref.current.addEventListener('tribute-replaced', (e) => {
+        console.log('ref', ref.current, ref.current.Input)
+      })
+    }
+  }, [ref.current?.value])
 
   const defOption = [
     { value: 1, text: '打开' },
@@ -40,6 +65,7 @@ const SearchBar = (props) => {
     <div className={styles.searchBar}>
       {isDrop && selectOption('1', option || defOption)}
       <Input
+        ref={ref}
         style={{ flex: 6 }}
         placeholder="请输入内容"
         onInput={(e) => {

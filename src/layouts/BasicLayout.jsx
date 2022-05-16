@@ -7,6 +7,7 @@ import AuthPage from '@uiw-admin/authorized'
 import Bread from './Breadcrumb'
 import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
+// import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const layouts = useLayouts()
@@ -69,6 +70,12 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userData?.userAccount,
       menuLeft: (
         <>
+          <div
+            style={{ marginRight: 15, marginTop: 12, cursor: 'pointer' }}
+            onClick={() => navigate('/TodoList')}>
+            <Icon type="save" color="#343a40" style={{ fontSize: 20 }} />
+          </div>
+
           <div
             style={{ marginRight: 15, cursor: 'pointer' }}
             onClick={() => {
