@@ -1,12 +1,12 @@
 import ProjectHeader from './ProjectHeader'
-import Tables from './Tables'
+import TableUser from './TableUser'
 import TableManage from './TableManage'
 
 export default function Demo() {
   return (
     <div>
       <ProjectHeader />
-      <Tables />
+      <TableUser />
       <TableManage />
     </div>
   )
