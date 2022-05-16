@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   Button,
   Tabs,
+  Input,
   Pagination,
   Row,
   Col,
@@ -12,10 +13,10 @@ import {
   Loader,
   Tooltip,
   Icon,
+  OverlayTrigger,
 } from 'uiw'
 import { useNavigate } from 'react-router-dom'
-import { AuthBtn } from '@uiw-admin/authorized'
-import { StatusTag, SearchBar } from '@/components'
+import { StatusTag } from '@/components'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 
@@ -36,16 +37,16 @@ const Milestone = (props) => {
     // milestonesStatusList 1:打开2:关闭3：删除
     props.dispatch.selectPageList({
       milestonesStatusList: [],
-      projectId: sessionStorage.getItem('id'),
+      projectId: 1320,
     })
     // 查询 已完成
     props.dispatch.selectPageList({
       milestonesStatusList: [1],
-      projectId: sessionStorage.getItem('id'),
+      projectId: 1320,
     })
     props.dispatch.selectPageList({
       milestonesStatusList: [2],
-      projectId: sessionStorage.getItem('id'),
+      projectId: 1320,
     })
   }, [props.dispatch])
 
@@ -66,13 +67,13 @@ const Milestone = (props) => {
     })
   }
 
-  const getMilestoneListData = async (value, selectValue) => {
-    await props.dispatch.update({ activeKey: selectValue })
-    await props.dispatch.selectPageList({
-      milestonesTitle: value,
-      milestonesStatusList: selectValue ? [selectValue] : [],
-    })
-  }
+  // const getMilestoneListData = async (value, selectValue) => {
+  //   await props.dispatch.update({ activeKey: selectValue })
+  //   await props.dispatch.selectPageList({
+  //     milestonesTitle: value,
+  //     milestonesStatusList: selectValue ? [selectValue] : [],
+  //   })
+  // }
 
   // 里程碑列表
   const milesList = (data, newTotal) => {
@@ -170,6 +171,17 @@ const Milestone = (props) => {
     )
   }
 
+  const card = (
+    <div className={styles.dropdownMenu}>
+      <ul>
+        <li>即将到期</li>
+        <li>稍后到期</li>
+        <li>马上开始</li>
+        <li>稍后开始</li>
+      </ul>
+    </div>
+  )
+
   const {
     filter,
     listData,
@@ -184,42 +196,55 @@ const Milestone = (props) => {
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.nav}>
-        <div>
-          <AuthBtn path="/project/milestone/newMilestone">
-            <Button type="primary" onClick={() => goNewNmilestone()}>
-              新建里程碑
-            </Button>
-          </AuthBtn>
-        </div>
-      </div>
-      <div>
-        <SearchBar
-          isDrop={true}
-          onSearch={(value, selectValue) =>
-            getMilestoneListData(value, selectValue)
-          }
-        />
-      </div>
       <Loader
         tip="loading..."
         vertical
         style={{ width: '100%' }}
         loading={loading.effects.milestone.selectPageList}>
-        <Tabs
-          type="line"
-          activeKey={activeKey}
-          onTabClick={(activeKey) => props.dispatch.update({ activeKey })}>
-          <Tabs.Pane label={tabsLabel('打开', openListTotal)} key="1">
-            {milesList(openListData, openListTotal)}
-          </Tabs.Pane>
-          <Tabs.Pane label={tabsLabel('关闭', closeListTotal)} key="2">
-            {milesList(closeListData, closeListTotal)}
-          </Tabs.Pane>
-          <Tabs.Pane label={tabsLabel('所有', total)} key="">
-            {milesList(listData, total)}
-          </Tabs.Pane>
-        </Tabs>
+        <div>
+          <div className={styles.topArea}>
+            <Tabs
+              type="line"
+              activeKey={activeKey}
+              onTabClick={(activeKey) => props.dispatch.update({ activeKey })}>
+              <Tabs.Pane label={tabsLabel('打开', openListTotal)} key="1" />
+              <Tabs.Pane label={tabsLabel('关闭', closeListTotal)} key="2" />
+              <Tabs.Pane label={tabsLabel('所有', total)} key="" />
+            </Tabs>
+            <div className={styles.navControls}>
+              <div>
+                <Input
+                  placeholder="请输入内容"
+                  style={{ maxWidth: 200 }}
+                  onChange={(e) => console.log(e.target.value)}
+                />
+              </div>
+              <div className={styles.dropdown}>
+                <OverlayTrigger
+                  placement="bottomRight"
+                  trigger="click"
+                  overlay={card}>
+                  <div className={styles.toggle}>
+                    <span>即将截止</span>
+                    <Icon type="down" />
+                  </div>
+                </OverlayTrigger>
+              </div>
+              <div>
+                <Button type="primary" onClick={() => goNewNmilestone()}>
+                  新建里程碑
+                </Button>
+              </div>
+            </div>
+          </div>
+          {activeKey === '1' && (
+            <div>{milesList(openListData, openListTotal)}</div>
+          )}
+          {activeKey === '2' && (
+            <div>{milesList(closeListData, closeListTotal)}</div>
+          )}
+          {activeKey === '' && <div>{milesList(listData, total)}</div>}
+        </div>
       </Loader>
     </div>
   )

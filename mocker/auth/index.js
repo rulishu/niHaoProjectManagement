@@ -1,8 +1,8 @@
 module.exports.authList = [
   '/TodoList',
   '/tableList',
-  '/issues-center/:id',
   '/home',
+  "/projectOverview",
   '/demo',
   '/dom',
   '/dom/*',
@@ -10,5 +10,12 @@ module.exports.authList = [
   '/milestone',
   '/milestone/*',
   '/usersManagement',
+  '/projectAuth',
   '/*',
+  '/project',
+  '/project/*',
+  '/exceptions',
+  '/exceptions/403',
+  '/exceptions/404',
+  '/exceptions/500',
 ]
