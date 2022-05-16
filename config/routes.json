@@ -12,6 +12,20 @@
         "redirect": "/milestone"
       },
       {
+        "path": "/tableList/:id",
+        "name": "查询表格2",
+        "component": "@/pages/TableList",
+        "icon": "search",
+        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
+      },
+      {
+        "path": "/issues-center/:id",
+        "name": "任务中心",
+        "component": "@/pages/IssuesCenter",
+        "icon": "wifi",
+        "navigate": "(navigate) => {navigate('/issues-center/:id',{ replace: true })}"
+      },
+      {
         "path": "/home",
         "name": "工作台",
         "component": "@/pages/WorkBench"
@@ -27,6 +41,13 @@
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
         "icon": "save"
+      },
+      {
+        "path": "/projectOverview",
+        "name": "项目概览",
+        "component": "@/pages/ProjectOverview",
+        "icon": "home",
+        "isAuth": true
       },
       {
         "path": "/milestone",
