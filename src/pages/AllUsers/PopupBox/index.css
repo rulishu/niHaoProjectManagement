@@ -1,0 +1,12 @@
+.BasicInfoLeft .w-form-row{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.BasicInfoLeft .w-fileinput-card-shape-circle .w-fileinput-card-box{
+  box-shadow: 0 0 16px 4px #666;
+  width: 120px;
+  height: 120px;
+}

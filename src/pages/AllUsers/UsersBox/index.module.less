@@ -1,0 +1,103 @@
+.content {
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // align-content: center;
+  // align-items: center;
+  // justify-content: flex-start;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .auxiliaryLayout {
+    width: 220px;
+    margin: 1px 12px;
+    height: 1px;
+  }
+  .userBox {
+    width: 220px;
+    white-space: nowrap;
+    margin: 12px;
+    .userHead {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      span {
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 0 4px 1px #a7a8bd;
+      }
+    }
+    .userName {
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      span {
+        padding-left: 3px;
+      }
+    }
+    .userId {
+      padding-left: 16px;
+      width: 100%;
+      font-size: 12px;
+      color: #ccc;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .buttonGroup {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    .info {
+      color: #666;
+      line-height: 28px;
+      .infoName {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+      }
+      .infoCon {
+        padding-left: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // 女性
+  .woman {
+    stroke: #235988;
+    fill: #235988;
+  }
+  // 男性
+  .man {
+    stroke: #a800ad;
+    fill: #a800ad;
+  }
+
+  // 职位
+  .position {
+    color: #fff;
+    border-radius: 4px;
+    padding: 0 2px;
+    display: flex;
+    align-items: center;
+    margin: 2px 10px 2px 0;
+  }
+}

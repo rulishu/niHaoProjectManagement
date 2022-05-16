@@ -9,21 +9,7 @@
     "routes": [
       {
         "index": true,
-        "redirect": "/tableList"
-      },
-      {
-        "path": "/tableList",
-        "name": "查询表格",
-        "component": "@/pages/TableList",
-        "icon": "search",
-        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
-      },
-      {
-        "path": "/tableList/:id",
-        "name": "查询表格2",
-        "component": "@/pages/TableList",
-        "icon": "search",
-        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
+        "redirect": "/milestone"
       },
       {
         "path": "/issues-center/:id",
@@ -45,51 +31,119 @@
         "icon": "save"
       },
       {
-        "path": "/dom",
-        "name": "子项",
-        "icon": "copy",
+        "path": "/milestone",
+        "name": "里程碑",
+        "component": "@/pages/Milestone",
+        "isAuth": true
+      },
+      {
+        "path": "/milestone",
+        "name": "里程碑",
         "isAuth": true,
+        "hideInMenu": true,
+        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
-            "path": "/dom/courses",
-            "name": "Dashboard",
+            "path": "/milestone/newMilestone",
+            "name": "新增里程碑",
+            "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
-            "component": "@/pages/Dashboard"
+            "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/dom/:id",
-            "name": "Dashboard2",
+            "path": "/milestone/editMilestone",
+            "name": "编辑里程碑",
+            "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
-            "hideInMenu": true,
-            "component": "@/pages/TableList"
+            "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
+          },
+          {
+            "path": "/milestone/milestoneInfo",
+            "name": "里程碑详情",
+            "component": "@/pages/Milestone/MilestoneInfo",
+            "isAuth": true,
+            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}`)}"
           }
         ]
       },
       {
-        "path": "/demo",
-        "name": "列表查询/新增demo",
-        "component": "@/pages/Demo",
-        "icon": "component"
+        "path": "/task",
+        "name": "项目任务",
+        "component": "@/pages/Task",
+        "isAuth": true
       },
       {
-        "path": "/exceptions",
-        "name": "异常",
-        "icon": "warning-o",
+        "path": "/task",
+        "name": "项目任务",
+        "isAuth": true,
+        "hideInMenu": true,
+        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
-            "path": "/exceptions/403",
-            "name": "403",
-            "component": "403"
+            "path": "/task/newIssue",
+            "name": "任务需求",
+            "component": "@/pages/NewIssue",
+            "hideInMenu": true,
+            "isAuth": true
           },
           {
-            "path": "/exceptions/500",
-            "name": "500",
-            "component": "500"
+            "path": "/task/taskInfo",
+            "name": "任务详情",
+            "component": "@/pages/TaskInfo",
+            "isAuth": true,
+            "navigate": "(navigate) => {navigate(`/task/${sessionStorage.getItem('id')}`)}"
+          }
+        ]
+      },
+      {
+        "path": "/users",
+        "name": "成员管理",
+        "component": "@/pages/AllUsers",
+        "isAuth": true
+      },
+      {
+        "path": "/team",
+        "name": "团队管理",
+        "component": "@/pages/TeamManagement",
+        "isAuth": true
+      },
+      {
+        "path": "/team",
+        "name": "团队管理",
+        "hideInMenu": true,
+        "isAuth": true,
+        "routes": [
+          {
+            "path": "/team/teamItem/:id",
+            "name": "团队详情",
+            "component": "@/pages/TeamManagement/TeamItem",
+            "hideInMenu": true,
+            "isAuth": true
+          }
+        ]
+      },
+      {
+        "path": "/dictionary",
+        "name": "数据字典",
+        "component": "@/pages/Dictionary",
+        "isAuth": true
+      },
+      {
+        "path": "/Authority",
+        "name": "权限管理",
+        "isAuth": true,
+        "routes": [
+          {
+            "path": "/Authority/RoleManagement",
+            "name": "角色管理",
+            "component": "@/pages/Authority/RoleManagement",
+            "isAuth": true
           },
           {
-            "path": "/exceptions/404",
-            "name": "404",
-            "component": "404"
+            "path": "/Authority/routeManagement",
+            "name": "路由管理",
+            "component": "@/pages/Authority/RouteManagement",
+            "isAuth": true
           }
         ]
       },
