@@ -4,19 +4,17 @@ const NEWMDEditor = (props) => {
   const mdref = useRef()
   useEffect(() => {
     if (mdref?.current) {
-      props.refVal(mdref)
+      props.rfval(mdref)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mdref])
 
   return (
     <MDEditor
-      {...props}
+      // {...props}
       ref={mdref}
       value={props.value}
-      onChange={(value) => {
-        props.onChange(value)
-      }}
+      onChange={(value) => props.onChange(value)}
       style={{ flex: 1 }}
       preview="edit"
     />

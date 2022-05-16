@@ -205,7 +205,13 @@ const NewIssue = (props) => {
             description: {
               inline: true,
               initialValue: fromData.description,
-              children: <NEWMDEditor refVal={(e) => setMdRefs(e)} />,
+              children: (
+                <NEWMDEditor
+                  rfval={(e) => {
+                    setMdRefs(e)
+                  }}
+                />
+              ),
             },
             assigneeUser: {
               inline: true,
