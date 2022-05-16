@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Row,
   Col,
@@ -17,6 +17,19 @@ import { useNavigate } from 'react-router-dom'
 import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
+import 'tributejs/tribute.css'
+import Tribute from 'tributejs'
+import MDEditor from '@uiw/react-md-editor'
+
+let tribute = new Tribute({
+  trigger: '@',
+  values: [
+    { key: '11111111', value: 'pheartman' },
+    { key: '22222222', value: 'gramsey' },
+  ],
+})
+
+let mkdStr = `**Hello world!!!** `
 
 const NewIssue = (props) => {
   const navigate = useNavigate()
@@ -31,6 +44,24 @@ const NewIssue = (props) => {
   } = useSelector((state) => state)
 
   const form = useRef()
+  const MDref = useRef()
+  const isBundle = useRef(false)
+
+  const [value, setValue] = useState(mkdStr)
+  useEffect(() => {
+    console.log('1111', MDref.current)
+    console.log('2222', isBundle.current)
+    if (MDref.current.textarea && !isBundle.current) {
+      isBundle.current = true
+      console.log('MDrefMDref', MDref.current)
+      tribute.attach(MDref.current.textarea)
+      document.addEventListener('tribute-replaced', (e) => {
+        console.log('@', e)
+        setValue(e.target.value)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [MDref.current])
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
@@ -105,6 +136,11 @@ const NewIssue = (props) => {
   return (
     <div className="main">
       <div className="title">新建问题</div>
+      <MDEditor
+        ref={MDref}
+        value={value}
+        onChange={(value) => setValue(value)}
+      />
       {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
       <Loader
         tip="加载中..."
@@ -270,7 +306,7 @@ const NewIssue = (props) => {
                   </Row>
                   <Row align="baseline" className="fromItem">
                     <Col span="4" className="titleInput">
-                      受让人
+                      指派人
                     </Col>
                     <Col span="19">{fields.assigneeUser}</Col>
                   </Row>
