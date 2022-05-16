@@ -1,5 +1,6 @@
 import { Tabs } from 'uiw'
 import { useDispatch, useSelector } from '@uiw-admin/router-control'
+import List from './List'
 
 const Demo = () => {
   const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const Demo = () => {
           updateData({ activeKey })
         }}>
         <Tabs.Pane label="打开的任务" key="open">
-          {'aaaaa'}
+          <List />
         </Tabs.Pane>
         <Tabs.Pane label="关闭的任务" key="close" />
         <Tabs.Pane label="所有任务" key="all" />
