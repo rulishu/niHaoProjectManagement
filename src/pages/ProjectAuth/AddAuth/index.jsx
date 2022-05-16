@@ -1,128 +1,76 @@
-import { useState, useEffect } from 'react'
-import { Form, Row, Col, SearchSelect, Button, Modal, Notify } from 'uiw'
+import { ProForm, useForm } from '@uiw-admin/components'
+import { Button, Modal } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 
 const AddUser = () => {
   const dispatch = useDispatch()
   const {
-    home: { taskId },
-    projectuser: { modalVisible },
+    projectAuth: { isView },
   } = useSelector((state) => state)
 
-  const [loading, setLoading] = useState(false)
+  const form = useForm()
 
-  useEffect(() => {
-    if (modalVisible) {
-      dispatch({
-        type: 'projectuser/pullSelectAll',
-      })
-    }
-  }, [modalVisible, dispatch])
   // 关闭弹窗
   const onClose = () => {
     dispatch({
-      type: 'projectuser/update',
-      payload: { modalVisible: false },
-    })
-  }
-  // 文本框值变化时回调
-  function handleSearch(e) {
-    dispatch({
-      type: 'projectuser/pullSelectAll',
-      payload: { userName: e },
-    })
-  }
-  // 提交
-  function onSubmit({ initial, current }) {
-    const errorObj = {}
-    if (!current.selectField) {
-      errorObj.selectField = '请选择成员'
-    }
-    if (Object.keys(errorObj).length > 0) {
-      const err = new Error()
-      err.filed = errorObj
-      throw err
-    }
-
-    setLoading(true)
-    dispatch({
-      type: 'projectuser/addSaveUser',
-      payload: { projectId: taskId, userId: current.selectField },
-    }).then((res) => {
-      if (res.code === 200) {
-        Notify.success({ description: res.message })
-        setLoading(false)
-        onClose()
-        dispatch({
-          type: 'projectuser/selectUserByProjectId',
-          payload: taskId,
-        })
-      } else {
-        Notify.error({ description: res.message })
-        setLoading(false)
-      }
+      type: 'projectAuth/update',
+      payload: { isView: false },
     })
   }
 
   return (
     <Modal
-      title="添加项目成员"
+      title="新增分组"
       style={{ zIndex: 999 }}
       width={500}
-      isOpen={modalVisible}
+      isOpen={isView}
       type="primary"
       useButton={false}
       onClosed={onClose}>
-      <Form
-        resetOnSubmit={false}
-        onSubmit={onSubmit.bind(this)}
-        onSubmitError={(error) => {
-          if (error.filed) {
-            return { ...error.filed }
-          }
-          return null
-        }}
-        fields={{
-          selectField: {
-            children: (
-              <SearchSelect
-                style={{ width: '100%' }}
-                showSearch={true}
-                allowClear
-                disabled={false}
-                placeholder="请输入成员姓名,可模糊查询"
-                onSearch={handleSearch}
-                onChange={handleSearch}
-                option={[]}
-                loading={loading}
-              />
-            ),
+      <ProForm
+        form={form}
+        formType="pure"
+        formDatas={[
+          {
+            label: '分组名称',
+            key: 'groupName',
+            widget: 'input',
+            initialValue: '',
+            widgetProps: {},
+            span: '24',
+            required: true,
+            rules: [
+              {
+                pattern: new RegExp(/[1][3][0-9]{9}$/),
+                message: '请输入正确手机号',
+              },
+            ],
           },
+          {
+            label: '分组描述',
+            key: 'groupDes',
+            widget: 'textarea',
+            initialValue: '',
+            widgetProps: {},
+            span: '24',
+          },
+        ]}
+      />
+      <Button
+        style={{ marginTop: 10, width: 80 }}
+        type="primary"
+        onClick={async () => {
+          // 触发验证
+          await form.submitvalidate()
+          // 获取错误信息
+          const errors = form.getError()
+          if (errors && Object.keys(errors).length > 0) return
+          const value = form.getFieldValues?.()
+          // 调用请求接口
+          console.log('value: ', value)
         }}>
-        {({ fields, state, canSubmit }) => {
-          return (
-            <div>
-              <Row>
-                <Col>{fields.selectField}</Col>
-              </Row>
-              <Row justify="flex-end">
-                <Col fixed>
-                  <Button loading={loading} type="light" onClick={onClose}>
-                    取消
-                  </Button>
-                  <Button
-                    loading={loading}
-                    disabled={!canSubmit()}
-                    type="primary"
-                    htmlType="submit">
-                    保存
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          )
-        }}
-      </Form>
+        保存
+      </Button>
     </Modal>
   )
 }

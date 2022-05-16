@@ -17,8 +17,8 @@ const Head = () => {
           type="primary"
           onClick={() => {
             dispatch({
-              type: 'projectuser/update',
-              payload: { modalVisible: true },
+              type: 'projectAuth/update',
+              payload: { isView: true },
             })
           }}>
           新增分组
