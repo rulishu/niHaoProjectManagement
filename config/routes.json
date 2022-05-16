@@ -148,6 +148,12 @@
         ]
       },
       {
+        "path": "/usersManagement",
+        "name": "成员管理",
+        "component": "@/pages/UsersManagement",
+        "isAuth": true
+      },
+      {
         "path": "/403",
         "name": "403",
         "hideInMenu": true,
