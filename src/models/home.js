@@ -13,7 +13,7 @@ const home = createModel()({
     async verify() {
       const dph = dispatch;
       dph.global.updateState({
-        test: 'homg2323'
+        test: 'homg'
       });
     }
 
