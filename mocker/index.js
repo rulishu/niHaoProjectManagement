@@ -1,3 +1,4 @@
+const { getData, getCity, getList } = require('./selectPage')
 const { login, verify, logout, reloadAuth } = require('./login')
 const { selectPage, milestonesSave } = require('./milestone')
 const { allusersqueryByPage } = require('./allusers')
@@ -13,6 +14,9 @@ const proxy = {
   'POST /api/login': login,
   'POST /api/logout': logout,
   'GET /api/user/verify': verify,
+  'GET /api/city': getCity,
+  'POST /api/getData': getData,
+  'POST /api/getList': getList,
   'POST /api/reloadAuth': reloadAuth,
   'POST /api/milestones/selectPage': selectPage,
   'POST /api/milestones/milestonesSave': milestonesSave,
