@@ -2,6 +2,85 @@
   padding: 0 15px 15px 15px;
   background-color: #fff;
   border-radius: 2px;
+
+  .topArea {
+    border-bottom: 1px solid #dbdbdb;
+    display: flex;
+    justify-content: space-between;
+
+    .navControls {
+      display: flex;
+      align-items: center;
+
+      // 下拉
+      .dropdown {
+        margin: 0 16px;
+        .toggle {
+          padding: 6px 8px 6px 10px;
+          background-color: #fff;
+          color: #303030;
+          font-size: 14px;
+          text-align: left;
+          border: 1px solid #dbdbdb;
+          border-radius: 0.25rem;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+// 下拉菜单
+.dropdownMenu {
+  width: auto;
+  z-index: 300;
+  min-width: 240px;
+  max-width: 500px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  display: block;
+  min-height: 40px;
+  max-height: 445px;
+  overflow-y: auto;
+
+  ul {
+    display: block;
+    text-align: left;
+    list-style: none;
+    padding: 0 1px;
+
+    li {
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      display: block;
+      font-weight: 400;
+      position: relative;
+      padding: 8px 12px;
+      color: #303030;
+      line-height: 16px;
+      white-space: normal;
+      overflow: hidden;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: #eee;
+        color: #303030;
+        outline: 0;
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 .nav {
@@ -85,9 +164,11 @@
     width: 100%;
     background-color: #fff;
     cursor: pointer;
+
     &:not(:last-child) {
       margin-bottom: 4px;
     }
+
     .itemList {
       .title {
         font-size: 16px;

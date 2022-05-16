@@ -1,10 +1,10 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
+import { Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List, SearchBar } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { AuthBtn } from '@uiw-admin/authorized'
+// import { getProjectID } from '../../utils/getId'
 
 const listField = {
   title: 'assignmentTitle',
@@ -22,10 +22,13 @@ const tabsLabel = (title, num) => {
     </div>
   )
 }
-const Task = () => {
+const TodoList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+  // useEffect(() => {
+  //   getProjectID({ jump: navigate })
+  // }, [navigate])
   const taskId = sessionStorage.getItem('id')
 
   const {
@@ -34,7 +37,7 @@ const Task = () => {
       total,
       filter,
       closeDataList,
-      closeTotal,
+      // closeTotal,
       openTataList,
       openTotal,
       activeKey,
@@ -50,28 +53,35 @@ const Task = () => {
         payload: { activeKey: '1' },
       })
     }
-
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '', ...location?.state }
-        : { assignmentStatus: '' }
-    )
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '1', ...location?.state }
-        : { assignmentStatus: '1' }
-    )
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '3', ...location?.state }
-        : { assignmentStatus: '3' }
-    )
+    if (taskId) {
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '', ...location?.state }
+          : { assignmentStatus: '' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '1', ...location?.state }
+          : { assignmentStatus: '1' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '3', ...location?.state }
+          : { assignmentStatus: '3' }
+      )
+    }
   }, [taskId, dispatch, location?.state])
 
+  // const milestoneStatus = {
+  //   1: { title: 'addtodo', className: 'blue' },
+  //   2: { title: '关闭', className: 'brown' },
+  //   3: { title: '删除', className: 'red' },
+  // }
+
   const SearchBarOption = [
-    { value: 1, text: '已打开' },
-    { value: 3, text: '已关闭' },
-    { value: '', text: '所有' },
+    { value: 1, text: '待处理' },
+    // { value: 3, text: '已关闭' },
+    { value: '', text: '已完成' },
   ]
 
   const updateData = (payload) => {
@@ -80,23 +90,32 @@ const Task = () => {
       payload,
     })
   }
-  const goIssue = () => {
-    updateData({
-      issueType: 'add',
-      fromData: {
-        assignmentTitle: '',
-        assignmentType: 1,
-        description: '',
-        projectId: taskId,
-        labels: [],
-      },
-    })
-    navigate('/project/newIssue')
-  }
+  // const goIssue = () => {
+  //   updateData({
+  //     issueType: 'add',
+  //     fromData: {
+  //       assignmentTitle: '',
+  //       assignmentType: 1,
+  //       description: '',
+  //       projectId: taskId,
+  //       labels: [],
+  //     },
+  //   })
+  //   navigate('/project/newIssue')
+  // }
 
   const listGo = (item) => {
     updateData({ editId: item.assignmentId, editFromData: item })
-    navigate(`/task/taskInfo`)
+    // navigate(`/project/taskInfo/${item.assignmentId}`, {
+    //   state: { editId: item.assignmentId },
+    // })
+    console.log('item', item)
+
+    navigate(
+      `/project/taskInfo/${sessionStorage.getItem('companyId')}/${
+        item.projectId
+      }/${item.assignmentId}`
+    )
   }
   const getTabList = async (activeKey) => {
     await updateData({ activeKey, filter: { ...filter, page: 1 } })
@@ -162,6 +181,11 @@ const Task = () => {
               listNavigate={listGo}
               delAssignment={delAssignment}
             />
+            {/* <StatusTag
+              status={assignmentStatus}
+              statusList={milestoneStatus}
+              size="big"
+            /> */}
             {taskTotal > 0 && (
               <Pagination
                 current={filter.page}
@@ -197,35 +221,51 @@ const Task = () => {
         loading={loading.effects.project.getList}>
         <div>
           <div className={styles.nav}>
-            <div>
-              <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave">
-                <Button type="primary" onClick={() => goIssue()}>
-                  新建问题
-                </Button>
-              </AuthBtn>
-            </div>
-          </div>
-          <div>
-            <SearchBar
-              isDrop={true}
-              option={SearchBarOption}
-              onSearch={(value, selectValue) =>
-                getTaskListData(value, selectValue)
-              }
-            />
+            {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
+            {/* <Button type="primary" onClick={() => goIssue()}> */}
+            待办事项列表
+            {/* </Button> */}
+            {/* </AuthBtn> */}
           </div>
 
           <Tabs
             type="line"
             activeKey={activeKey}
             onTabClick={(activeKey) => getTabList(activeKey)}>
-            <Tabs.Pane label={tabsLabel('已打开', openTotal)} key="1">
+            <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="1">
+              <div>
+                <SearchBar
+                  isDrop={true}
+                  option={SearchBarOption}
+                  onSearch={(value, selectValue) =>
+                    getTaskListData(value, selectValue)
+                  }
+                />
+              </div>
               {taskDataList(openTataList, openTotal, '1')}
             </Tabs.Pane>
-            <Tabs.Pane label={tabsLabel('已关闭', closeTotal)} key="3">
+            {/* <Tabs.Pane label={tabsLabel('已关闭', closeTotal)} key="3">
+              <div>
+                <SearchBar
+                  isDrop={true}
+                  option={SearchBarOption}
+                  onSearch={(value, selectValue) =>
+                    getTaskListData(value, selectValue)
+                  }
+                />
+              </div>
               {taskDataList(closeDataList, closeTotal, '3')}
-            </Tabs.Pane>
-            <Tabs.Pane label={tabsLabel('所有', total)} key="">
+            </Tabs.Pane> */}
+            <Tabs.Pane label={tabsLabel('已完成', total)} key="">
+              <div>
+                <SearchBar
+                  isDrop={true}
+                  option={SearchBarOption}
+                  onSearch={(value, selectValue) =>
+                    getTaskListData(value, selectValue)
+                  }
+                />
+              </div>
               {taskDataList(dataList, total, '')}
             </Tabs.Pane>
           </Tabs>
@@ -235,4 +275,4 @@ const Task = () => {
   )
 }
 
-export default Task
+export default TodoList

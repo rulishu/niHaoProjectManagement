@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Row,
   Col,
@@ -17,11 +17,23 @@ import { useNavigate } from 'react-router-dom'
 import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
+import 'tributejs/tribute.css'
+import Tribute from 'tributejs'
+import MDEditor from '@uiw/react-md-editor'
+
+let tribute = new Tribute({
+  trigger: '@',
+  values: [
+    { key: '11111111', value: 'pheartman' },
+    { key: '22222222', value: 'gramsey' },
+  ],
+})
+
+let mkdStr = `**Hello world!!!** `
 
 const NewIssue = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
   const {
     home: { taskId },
     project: { fromData },
@@ -31,21 +43,39 @@ const NewIssue = (props) => {
     loading,
   } = useSelector((state) => state)
 
+  const form = useRef()
+  const MDref = useRef()
+  const isBundle = useRef(false)
+
+  const [value, setValue] = useState(mkdStr)
+  useEffect(() => {
+    console.log('1111', MDref.current)
+    console.log('2222', isBundle.current)
+    if (MDref.current.textarea && !isBundle.current) {
+      isBundle.current = true
+      console.log('MDrefMDref', MDref.current)
+      tribute.attach(MDref.current.textarea)
+      document.addEventListener('tribute-replaced', (e) => {
+        console.log('@', e)
+        setValue(e.target.value)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [MDref.current])
+
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
     dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
     dispatch.milestone.getListAll()
   }, [dispatch, taskId])
 
-  // useEffect(() => {
-  //   document.addEventListener('paste', pasteDataEvent)
-  //   return () => {
-  //     if (this.editorExample.current) {
-  //       this.editorExample.current.editor.destroy()
-  //     }
-  //     document.removeEventListener('paste', pasteDataEvent)
-  //   }
-  // }, [])
+  useEffect(() => {
+    document.addEventListener('paste', pasteDataEvent)
+    return () => {
+      document.removeEventListener('paste', pasteDataEvent)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const updateData = (payload) => {
     dispatch({
@@ -53,94 +83,64 @@ const NewIssue = (props) => {
       payload,
     })
   }
-  // document.addEventListener('copy', function (e) {
-  //   e.preventDefault()
-  //   const textArr = window.getSelection().toString().split('\t')
-  //   console.log('11111', textArr)
-  //   let pasteText = ''
-  //   textArr.forEach(function (e) {
-  //     pasteText += e
-  //   })
-  //   e.clipboardData.setData('text', pasteText + '拼接的参数')
-  // })
 
-  // document.addEventListener(
-  //   'paste',
-  //   function (e) {
-  //     console.log(e)
-  //     if (!(e.clipboardData && e.clipboardData.items)) {
-  //       return false
-  //     }
-  //     for (let i = 0, len = e.clipboardData.items.length; i < len; i++) {
-  //       const item = e.clipboardData.items[i]
-  //       console.log(item)
-  //       if (item.kind === 'file') {
-  //         const f = item.getAsFile()
-  //         const reader = new FileReader()
-  //         reader.onload = function (e) {
-  //           console.log(e.target.result)
-  //           // const img = document.createElement('img')
-  //           // img.src = e.target.result
-  //           // document.getElementById('pic').appendChild(img)
-  //         }
-  //         reader.readAsDataURL(f)
-  //       }
-  //     }
-  //   },
-  //   false
-  // )
+  const pasteDataEvent = (event) => {
+    // event.preventDefault();
+    if (event.clipboardData || event.originalEvent) {
+      //某些chrome版本使用的是event.originalEvent
+      let clipboardData =
+        event.clipboardData || event.originalEvent.clipboardData
+      if (clipboardData.items) {
+        let items = clipboardData.items,
+          len = items.length,
+          blob = null
+        for (let i = 0; i < len; i++) {
+          let item = clipboardData.items[i]
+          if (item.kind === 'string') {
+            // item.getAsString(function (str) {
+            //   console.log('string', str);
+            // })
+          } else if (item.kind === 'file') {
+            blob = item.getAsFile()
+            addImg(blob)
+          }
+        }
+      }
+    }
+  }
 
-  // const pasteDataEvent = (event) => {
-  //   event.preventDefault()
-  //   if (event.clipboardData || event.originalEvent) {
-  //     //某些chrome版本使用的是event.originalEvent
-  //     let clipboardData =
-  //       event.clipboardData || event.originalEvent.clipboardData
-  //     if (clipboardData.items) {
-  //       // for chrome
-  //       let items = clipboardData.items,
-  //         len = items.length,
-  //         blob = null
-  //       for (let i = 0; i < len; i++) {
-  //         console.log(items[i])
-  //         if (items[i].type.indexOf('image') !== -1) {
-  //           //getAsFile() 此方法只是living standard firefox ie11 并不支持
-  //           blob = items[i].getAsFile()
-  //           this.addImg(blob, 'No') // 自定义上传到oss或是七牛云图片的方法
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
   // 上传图片的方法
-  // const addImg = async (event, val) => {
-  //   const file = val === 'No' ? event : event.currentTarget.files[0]
-  //   if (!file || !this.state.listData.length) return
-  //   uploadImage(file).then(res => {
-  //     // 上传成功之后调用富文本的方法插入到光标的位置
-  //     this.editorExample.current.editor.cmd.do('insertHTML', `<img src=${res.imageUrl} />`)
-  //     document.getElementById('uploadfile').value = null
-  //   })
-  // }
-  // 卸载富文本以及移除事件
+  const addImg = (event) => {
+    const file = event
+    if (!file) return
+    dispatch({
+      type: 'allusers/upLoadImg',
+      payload: {
+        file: file,
+      },
+    }).then((res) => {
+      if (res && res.code === 200) {
+        const fieldValues = form.current.getFieldValues()
+        form.current.setFieldValue(
+          'description',
+          fieldValues.description +
+            `![image](/api/file/selectFile/${res?.data})`
+        )
+      }
+    })
+  }
 
   const onCancel = () => {
     navigate('/project/task')
   }
-  // const onChange = async (e) => {
-  //   console.log('11111', e)
-  //   console.log('22222', e.files)
-  //   // dispatch.users.getUploadFile({
-  //   //   path: e.target.value,
-  //   //   ext: e.target.files[0].type,
-  //   //   originName: e.target.files[0].name,
-  //   //   size: e.target.files[0].size,
-  //   //   uploadTime: e.target.files[0].lastModifiedDate
-  //   // })
-  // }
   return (
     <div className="main">
       <div className="title">新建问题</div>
+      <MDEditor
+        ref={MDref}
+        value={value}
+        onChange={(value) => setValue(value)}
+      />
       {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
       <Loader
         tip="加载中..."
@@ -148,6 +148,7 @@ const NewIssue = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.project.getAdd}>
         <Form
+          ref={form}
           onChange={({ current }) => {
             updateData({
               fromData: {
@@ -156,20 +157,15 @@ const NewIssue = (props) => {
               },
             })
           }}
-          onSubmit={(item) => {
+          onSubmit={() => {
             const errorObj = {}
-            const { current } = item
-            const { dueDate, labels, assigneeUser, ...newCurrent } = current
-            const { assignmentTitle, description } = current
+            const { dueDate, labels, assigneeUser, assignmentTitle } = fromData
             if (
               !assignmentTitle ||
               assignmentTitle.length < 2 ||
               assignmentTitle.length > 100
             ) {
               errorObj.assignmentTitle = '请输入任务名称,长度为2~100'
-            }
-            if (description && description.length > 300) {
-              errorObj.description = '任务详情长度应小于300'
             }
             if (Object.keys(errorObj).length > 0) {
               const err = new Error()
@@ -179,7 +175,6 @@ const NewIssue = (props) => {
             updateData({
               fromData: {
                 ...fromData,
-                ...newCurrent,
                 dueDate: dueDate ? dayjs(dueDate).format('YYYY-MM-DD') : '',
                 labels:
                   labels.length > 0
@@ -311,7 +306,7 @@ const NewIssue = (props) => {
                   </Row>
                   <Row align="baseline" className="fromItem">
                     <Col span="4" className="titleInput">
-                      受让人
+                      指派人
                     </Col>
                     <Col span="19">{fields.assigneeUser}</Col>
                   </Row>

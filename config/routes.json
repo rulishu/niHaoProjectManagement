@@ -31,6 +31,12 @@
         "component": "@/pages/WorkBench"
       },
       {
+        "path": "/projectList",
+        "name": "项目列表",
+        "component": "@/pages/ProjectList",
+        "hideInMenu": true
+      },
+      {
         "path": "/TodoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
@@ -46,8 +52,7 @@
       {
         "path": "/milestone",
         "name": "里程碑",
-        "component": "@/pages/Milestone",
-        "isAuth": true
+        "component": "@/pages/Milestone"
       },
       {
         "path": "/milestone",
@@ -80,32 +85,31 @@
         ]
       },
       {
-        "path": "/task",
-        "name": "项目任务",
-        "component": "@/pages/Task",
-        "isAuth": true
-      },
-      {
-        "path": "/task",
-        "name": "项目任务",
+        "path": "/project",
+        "name": "任务管理",
         "isAuth": true,
         "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
-
         "routes": [
           {
-            "path": "/task/newIssue",
-            "name": "任务需求",
-            "component": "@/pages/NewIssue",
-            "hideInMenu": true,
+            "path": "/project/task",
+            "name": "任务列表",
+            "component": "@/pages/Project/Task",
             "isAuth": true
           },
           {
-            "path": "/task/taskInfo",
+            "path": "/project/newIssue",
+            "name": "新增任务",
+            "component": "@/pages/Project/NewIssue",
+            "isAuth": true
+          },
+          {
+            "path": "/project/taskInfo/:companyId/:projectId/:id",
             "name": "任务详情",
-            "component": "@/pages/TaskInfo",
+            "component": "@/pages/Project/TaskInfo",
             "isAuth": true,
-            "navigate": "(navigate) => {navigate(`/task/${sessionStorage.getItem('id')}`)}"
+            "hideInMenu": true,
+            "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}"
           }
         ]
       },
@@ -160,6 +164,18 @@
             "isAuth": true
           }
         ]
+      },
+      {
+        "path": "/usersManagement",
+        "name": "成员管理",
+        "component": "@/pages/UsersManagement",
+        "isAuth": true
+      },
+      {
+        "path": "/projectAuth",
+        "name": "项目权限",
+        "component": "@/pages/ProjectAuth",
+        "isAuth": true
       },
       {
         "path": "/403",
