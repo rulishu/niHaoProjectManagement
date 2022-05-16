@@ -3,11 +3,12 @@ import { Row, Col, Card, Tag, Progress, Tabs, Steps, Menu, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 // import LineChart from './LineChart'
 import styles from './index.less'
+import SlelectLabel from './SlelectLabel'
 
 export default function Home() {
   const dispatch = useDispatch()
   const {
-    home: { itemInfo, listDynamic, taskId },
+    home: { taskId },
   } = useSelector((state) => state)
 
   useEffect(() => {
@@ -53,14 +54,12 @@ export default function Home() {
             <Card title="我的项目" bordered={false} style={{ height: 400 }}>
               <Row className={styles.colContent}>
                 <Col
-                  fixed
                   style={{
-                    width: 500,
                     borderRight: '1px solid #EBF2FB',
                     textAlign: 'center',
                   }}>
                   <Progress.Circle
-                    width={130}
+                    width={100}
                     strokeWidth={10}
                     percent={75}
                     format={(percent) => (
@@ -81,87 +80,35 @@ export default function Home() {
                       查看详情
                     </Button>
                   </div>
-                  <div style={{ marginTop: 10 }}>
-                    <Row>
-                      <Col span="10"> 项目编号: </Col>
-                      <Col span="10"> {itemInfo?.id} </Col>
-                    </Row>
-                    <Row>
-                      <Col span="10"> 项目名称: </Col>
-                      <Col span="10" title={itemInfo?.name}>
-                        {itemInfo?.name}{' '}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span="10"> 项目状态: </Col>
-                      <Col>
-                        {itemInfo?.status === 1 ? (
-                          <Tag light color="#008EF0">
-                            进行中
-                          </Tag>
-                        ) : itemInfo?.status === 2 ? (
-                          <Tag light color="#008EF0">
-                            已挂起
-                          </Tag>
-                        ) : itemInfo?.status === 3 ? (
-                          <Tag light color="#008EF0">
-                            已关闭
-                          </Tag>
-                        ) : (
-                          <Tag light color="#008EF0">
-                            未开始
-                          </Tag>
-                        )}{' '}
-                      </Col>
-                    </Row>
-                  </div>
                 </Col>
+              </Row>
+              <Row>
                 <Col>
                   <div>
                     <div
                       style={{
+                        marginTop: 20,
                         display: 'flex',
                         justifyContent: 'space-around',
                         flexDirection: 'row',
                       }}>
                       {[
-                        { title: '未开始', num: '10',key:1 },
-                        { title: '开发中', num: '20',key:2 },
-                        { title: '已完成', num: '30',key:3 },
+                        { title: '未开始', num: '10', key: 1 },
+                        { title: '开发中', num: '20', key: 2 },
+                        { title: '已完成', num: '30', key: 3 },
+                        { title: '已关闭', num: '40', key: 1 },
+                        { title: '已逾期', num: '50', key: 2 },
+                        { title: '已上线', num: '60', key: 3 },
                       ].map((item) => {
                         return (
                           <Card
+                            onClick={() => console.log('123')}
                             key={item.key}
                             title={item.title}
-                            extra={<a href="www.baidu.com">详情</a>}
-                            style={{ width: 150 }}>
-                            <span style={{fontSize:48,color:randomColor() }}>
-                            {item.num}
-                            </span>
-                          </Card>
-                        )
-                      })}
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                        marginTop: 10,
-                      }}>
-                         {[
-                        { title: '已关闭', num: '40',key:1 },
-                        { title: '已逾期', num: '50',key:2 },
-                        { title: '已上线', num: '60',key:3 },
-                      ].map((item) => {
-                        return (
-                          <Card
-                            key={item.key}
-                            title={item.title}
-                            extra={<a href="www.baidu.com">详情</a>}
-                            style={{ width: 150 }}>
-                            <span style={{fontSize:48,color:randomColor() }}>
-                            {item.num}
+                            style={{ width: 80 }}>
+                            <span
+                              style={{ fontSize: 36, color: randomColor() }}>
+                              {item.num}
                             </span>
                           </Card>
                         )
@@ -173,56 +120,33 @@ export default function Home() {
             </Card>
           </Col>
           <Col>
-            <Card title="最新动态" bordered={false} style={{ height: 400 }}>
+            <Row>
+              <Col>
+              <Card title="里程碑" bordered={false} style={{ height: 400 }}>
               <div className={styles.newDynamic}>
-              <Steps direction="vertical" progressDot status="error" current={2} style={{ padding: '20px 0' }}>
-          <Steps.Step title="步骤一" description="这里是步骤一的说明，可以很长很长哦。" />
-          <Steps.Step title="步骤二" description="这里是步骤一的说明，可以很长很长哦。" />
-          <Steps.Step title="步骤三" description="这里是步骤一的说明，可以很长很长哦。" />
-          <Steps.Step title="步骤四" description="这里是步骤一的说明，可以很长很长哦。" />
-        </Steps>
+                <Steps
+                  direction="vertical"
+                  progressDot
+                  status="error"
+                  current={2}
+                  style={{ padding: '20px 0' }}>
+                  <Steps.Step
+                    title="步骤一"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                  <Steps.Step
+                    title="步骤二"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                </Steps>
               </div>
-            </Card>
+            </Card></Col>
+            </Row>
           </Col>
         </Row>
       </div>
-      {/* <Card title="个人工作总计" bordered={false} style={{ marginTop: 20 }}>
-        <Row gutter={20} style={{ marginTop: '20px', textAlign: 'center' }}>
-          {list?.map((item, index) => {
-            return (
-              <Col key={index}>
-                <Card style={{ height: '140px' }}>
-                  <div>
-                    <div className={styles.title}>{item.title}</div>
-                    <div className={styles.number}>{item.num}</div>
-                    {item?.postponed > 0 ? (
-                      <Tag color="#F95C2B">已延期 {item?.postponed}</Tag>
-                    ) : null}
-                  </div>
-                </Card>
-              </Col>
-            )
-          })}
-        </Row>
-      </Card> */}
-      {/* <Card title="统计总览" bordered={false} style={{ marginTop: 20 }}>
-        <Tabs
-          type="line"
-          activeKey="1"
-          onTabClick={(tab, key, e) => {
-            console.log('=>', key, tab)
-          }}>
-          <Tabs.Pane label="需求累计新增" key="1">
-            <LineChart />
-          </Tabs.Pane>
-          <Tabs.Pane label="任务累计新增" key="2">
-            <LineChart />
-          </Tabs.Pane>
-          <Tabs.Pane sequence="fadeIn up" label="bug累计新增" key="3">
-            <LineChart />
-          </Tabs.Pane>
-        </Tabs>
-      </Card> */}
+      <div style={{ marginTop: 20 }}></div>
+      <SlelectLabel />
     </div>
   )
 }
