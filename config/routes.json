@@ -9,74 +9,41 @@
     "routes": [
       {
         "index": true,
-        "redirect": "/tableList"
+        "redirect": "/milestone"
       },
       {
-        "path": "/tableList",
-        "name": "查询表格",
-        "component": "@/pages/TableList",
-        "icon": "search",
-        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
+        "path": "/milestone",
+        "name": "里程碑",
+        "component": "@/pages/Milestone",
+        "isAuth": true
       },
       {
-        "path": "/tableList/:id",
-        "name": "查询表格2",
-        "component": "@/pages/TableList",
-        "icon": "search",
-        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
-      },
-      {
-        "path": "/home",
-        "name": "首页",
-        "component": "@/pages/TableList",
-        "icon": "home"
-      },
-      {
-        "path": "/dom",
-        "name": "子项",
-        "icon": "copy",
+        "path": "/milestone",
+        "name": "里程碑",
         "isAuth": true,
+        "hideInMenu": true,
+        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
-            "path": "/dom/courses",
-            "name": "Dashboard",
+            "path": "/milestone/newMilestone",
+            "name": "新增里程碑",
+            "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
-            "component": "@/pages/Dashboard"
+            "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/dom/:id",
-            "name": "Dashboard2",
+            "path": "/milestone/editMilestone",
+            "name": "编辑里程碑",
+            "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
-            "hideInMenu": true,
-            "component": "@/pages/TableList"
-          }
-        ]
-      },
-      {
-        "path": "/demo",
-        "name": "列表查询/新增demo",
-        "component": "@/pages/Demo",
-        "icon": "component"
-      },
-      {
-        "path": "/exceptions",
-        "name": "异常",
-        "icon": "warning-o",
-        "routes": [
-          {
-            "path": "/exceptions/403",
-            "name": "403",
-            "component": "403"
+            "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/exceptions/500",
-            "name": "500",
-            "component": "500"
-          },
-          {
-            "path": "/exceptions/404",
-            "name": "404",
-            "component": "404"
+            "path": "/milestone/milestoneInfo",
+            "name": "里程碑详情",
+            "component": "@/pages/Milestone/MilestoneInfo",
+            "isAuth": true,
+            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}`)}"
           }
         ]
       },

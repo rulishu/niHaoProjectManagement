@@ -1,0 +1,223 @@
+// 封装标签组件
+.label {
+  position: relative;
+
+  .tagList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .tagListLi {
+      margin-bottom: 5px;
+      margin-right: 5px;
+      overflow: hidden;
+      border-radius: 12px;
+      max-width: 100%;
+      padding: 2px 6px;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #fff;
+      line-height: 1;
+
+      .tagTitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        white-space: nowrap;
+        max-width: 100%;
+      }
+
+      .tagBut {
+        display: block;
+        width: 14px;
+        height: 14px;
+        min-width: 14px;
+        min-height: 14px;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover {
+          color: #000;
+          background-color: #fff;
+        }
+
+        .tagIcon {
+          font-size: 8px;
+        }
+      }
+    }
+  }
+
+  .labelCard {
+    .labelCardBody {
+      padding: 0;
+      // position: absolute;
+      // top: 25px;
+      // left: 0px;
+      // z-index: 9999;
+      // background-color: #fff;
+    }
+
+    .labelHead {
+      position: relative;
+      padding: 8px 12px 6px 12px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      line-height: 1;
+      font-size: 12px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-bottom: 1px solid #dbdbdb;
+      overflow: hidden;
+      display: flex;
+
+      .headTitle {
+        flex-grow: 1;
+      }
+
+      .headBut {
+        .headClose {
+          min-width: 12px;
+          min-height: 12px;
+          font-size: 12px;
+          overflow: hidden;
+          padding: 0;
+        }
+      }
+    }
+
+    .searchBox {
+      margin: 6px;
+    }
+
+    .labelBox {
+      // 列表
+      .labelList {
+        overflow: auto;
+        max-height: 189px;
+
+        // 列表项
+        .labelListLi {
+          display: flex;
+          align-items: center;
+          padding: 0 12px;
+
+          &:hover {
+            background-color: #f0f0f0;
+            text-decoration: none;
+            color: #303030;
+            cursor: pointer;
+          }
+
+          .liLeft {
+            flex-shrink: 0;
+            margin-right: 0.5rem;
+            color: #525252;
+            width: 16px;
+            height: 16px;
+            font-size: 12px;
+          }
+
+          .liRight {
+            p {
+              display: flex;
+              align-items: center;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 27px;
+              box-shadow: none;
+              color: #303030;
+              text-align: left;
+              width: 100%;
+              white-space: normal;
+              max-height: 27px;
+
+              .piece {
+                margin-right: 5px;
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                border-radius: 0.25rem;
+              }
+            }
+          }
+        }
+      }
+
+      .labelFoot {
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: #bfbfbf;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+
+        .footBut {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 27px;
+          color: #303030;
+          padding: 0 12px;
+
+          &:hover {
+            background-color: #f0f0f0;
+            text-decoration: none;
+            color: #303030;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .createLabel {
+      // 颜色选择
+      .colSelect {
+        padding: 0 12px;
+
+        .colSelectBlock {
+          display: flex;
+          flex-wrap: wrap;
+          position: static !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin: 5px 0 10px 0;
+          width: 100% !important;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          align-content: center;
+        }
+      }
+
+      // 颜色输入
+      .colInput {
+        display: flex;
+        padding: 0 12px;
+
+        // 颜色块
+        .colBlock {
+          display: inline-block;
+          width: 30px;
+          min-width: 30px;
+          height: 30px;
+        }
+      }
+
+      //按钮组
+      .butGroup {
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  }
+}

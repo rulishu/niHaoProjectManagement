@@ -1,0 +1,96 @@
+// 封装搜索栏
+.step {
+  padding: 10px 4px;
+
+  .stepLeft {
+    border: 2px solid #25a0f3;
+    border-radius: 4px;
+    padding: 14px 16px;
+    height: 58px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    .title {
+      font-size: 16px;
+    }
+  }
+
+  .cable {
+    height: 58px;
+    display: flex;
+    align-items: center;
+
+    .line {
+      height: 2px;
+      background-color: #25a0f3;
+      width: 100%;
+    }
+  }
+
+  .stepRigHt {
+    border: 2px solid #25a0f3;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 10px 20px 10px 100px;
+    transition: max-height 0.2s;
+    overflow: hidden;
+    position: relative;
+
+    .StepsLi {
+      position: relative;
+
+      .StepsLiTime {
+        left: -100px;
+        font-size: 14px;
+        color: #838a9d;
+        position: absolute;
+      }
+
+      .StepsLiText {
+      }
+    }
+  }
+
+  .small {
+    .stepLeft {
+      padding: 10px;
+
+      .title {
+        font-size: 14px;
+      }
+    }
+
+    .stepRigHt {
+      margin-bottom: 0;
+      padding: 10px 10px 10px 70px;
+
+      .StepsLi {
+        font-size: 12px;
+
+        .StepsLiTime {
+          left: -80px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .large {
+    .stepLeft {
+      padding: 14px 20px;
+
+      .title {
+        font-size: 18px;
+      }
+    }
+
+    .stepRigHt {
+      .StepsLi {
+        font-size: 14px;
+      }
+    }
+  }
+}
