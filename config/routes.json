@@ -18,12 +18,11 @@
         "icon": "wifi",
         "navigate": "(navigate) => {navigate('/issues-center/:id',{ replace: true })}"
       },
-      // {
-      //   "path": "/home",
-      //   "name": "首页",
-      //   "component": "@/pages/TableList",
-      //   "icon": "home"
-      // },
+      {
+        "path": "/home",
+        "name": "工作台",
+        "component": "@/pages/WorkBench"
+      },
       {
         "path": "/TodoList",
         "name": "待办事项列表",
@@ -78,6 +77,7 @@
         "isAuth": true,
         "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
+
         "routes": [
           {
             "path": "/task/newIssue",
