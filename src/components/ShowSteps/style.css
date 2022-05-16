@@ -1,0 +1,37 @@
+.ShowStepsRigHtSteps .w-steps-vertical .w-steps-item-main {
+    overflow: visible;
+}
+/* 步骤条最后一项取消下内边距 */
+.ShowStepsRigHtSteps .w-steps-vertical .w-steps-item:last-child .w-steps-item-main {
+    padding-bottom: 0;
+}
+
+/* 切换 展开活动列表任务 样式 StepsPackupRigHtSteps */
+.StepsPackupRigHtSteps .w-steps-item-finish:first-child {
+    display: block;
+    padding-top: 10px;
+}
+
+.StepsPackupRigHtSteps .w-steps-item-finish:first-child .w-steps-item-tail {
+    display: none;
+}
+
+.StepsPackupRigHtSteps .w-steps-dot.w-steps-vertical .w-steps-item-finish:first-child .w-steps-item-main {
+    padding-bottom: 0px;
+}
+
+.StepsPackupRigHtSteps .w-steps-item-finish {
+    display: none;
+}
+
+.StepsPackupRigHtSteps .w-steps-dot.w-steps-vertical .w-steps-item-main {
+    padding-bottom: 12px;
+}
+
+.small .StepsPackupRigHtSteps .w-steps-dot.w-steps-vertical .w-steps-item-main {
+    padding-bottom: 0px;
+}
+
+.small .ShowStepsRigHtSteps .w-steps-vertical .w-steps-item-main {
+    padding-bottom: 14px;
+}
