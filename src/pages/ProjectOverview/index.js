@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Row, Col, Card, Tag, Progress, Tabs, Steps, Menu, Button } from 'uiw'
+import { useEffect, useState } from 'react'
+import { Row, Col, Card, Progress, Steps, Menu, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 // import LineChart from './LineChart'
 import styles from './index.less'
@@ -10,7 +10,7 @@ export default function Home() {
   const {
     home: { taskId },
   } = useSelector((state) => state)
-
+  const [projectData,setProject] = useState({})
   useEffect(() => {
     dispatch({
       type: 'home/queryProject',
@@ -22,18 +22,20 @@ export default function Home() {
     })
   }, [taskId, dispatch])
 
-  // const list = [
-  //   { id: 0, num: 7, title: '今日任务' },
-  //   { id: 1, num: 28, title: '本周任务' },
-  //   { id: 2, num: 33, title: '本月任务' },
-  //   { id: 3, num: 105, title: '我的bug', postponed: 35 },
-  // ]
   function randomColor() {
     return (
       '#' +
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
+  const dataRows = [
+    { icon:"uiw", menusList: 'Uiw',numAll:10,notStart:1,inDevelopment:2,overProject:3,closer:4,expired:5,online:6},
+    { icon:"folder-add", menusList: '每车U货',numAll:20,notStart:11,inDevelopment:12,overProject:13,closer:14,expired:15,online:16},
+    { icon:"linux", menusList: '尼好企业分销',numAll:30,notStart:21,inDevelopment:22,overProject:23,closer:24,expired:25,online:26},
+    { icon:"apple", menusList: '尼好数据库运营管理平台',numAll:40,notStart:31,inDevelopment:32,overProject:33,closer:34,expired:35,online:36},
+    { icon:"twitter", menusList: '帝江OA',numAll:50,notStart:41,inDevelopment:42,overProject:43,closer:44,expired:45,online:46},
+    { icon:"baidu", menusList: '尼好程序开发测试项目管理软件',numAll:60,notStart:51,inDevelopment:52,overProject:53,closer:54,expired:55,online:56},
+  ]
   return (
     <div>
       <div>
@@ -41,17 +43,14 @@ export default function Home() {
           <Card title="项目统计" bordered={false}>
             <Col fixed>
               <Menu>
-                <Menu.Item icon="file-add" text="Uiw" />
-                <Menu.Item icon="folder-add" text="每车U货" />
-                <Menu.Item icon="copy" text="尼好企业分销" />
-                <Menu.Item icon="copy" text="尼好数据库运营管理平台" />
-                <Menu.Item icon="copy" text="帝江OA" />
-                <Menu.Item icon="copy" text="尼好程序开发测试项目管理软件" />
+                {dataRows.map((e,key)=>{
+                  return <Menu.Item icon={e.icon} text={e.menusList} key={key} onClick={()=>{setProject({...e})}}/>
+                })}
               </Menu>
             </Col>
           </Card>
           <Col>
-            <Card title="我的项目" bordered={false} style={{ height: 400 }}>
+            <Card title={'我的项目 / '+ projectData?.menusList} bordered={false} style={{ height: 400 }}>
               <Row className={styles.colContent}>
                 <Col
                   style={{
@@ -61,7 +60,7 @@ export default function Home() {
                   <Progress.Circle
                     width={100}
                     strokeWidth={10}
-                    percent={75}
+                    percent={projectData?.numAll}
                     format={(percent) => (
                       <span>
                         {`${percent}`}
@@ -93,12 +92,12 @@ export default function Home() {
                         flexDirection: 'row',
                       }}>
                       {[
-                        { title: '未开始', num: '10', key: 1 },
-                        { title: '开发中', num: '20', key: 2 },
-                        { title: '已完成', num: '30', key: 3 },
-                        { title: '已关闭', num: '40', key: 1 },
-                        { title: '已逾期', num: '50', key: 2 },
-                        { title: '已上线', num: '60', key: 3 },
+                        { title: '未开始', num: projectData?.notStart, key: 1 },
+                        { title: '开发中', num: projectData?.inDevelopment, key: 2 },
+                        { title: '已完成', num: projectData?.overProject, key: 3 },
+                        { title: '已关闭', num: projectData?.closer, key: 4 },
+                        { title: '已逾期', num: projectData?.expired, key: 5 },
+                        { title: '已上线', num: projectData?.online, key: 6 },
                       ].map((item) => {
                         return (
                           <Card

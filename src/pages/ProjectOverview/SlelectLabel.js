@@ -55,7 +55,7 @@ export default function Home() {
                 table={table}
                 columns={[
                   {
-                    title: '名字',
+                    title: '项目',
                     key: 'name',
                     render: (text) => {
                       return (
@@ -67,19 +67,34 @@ export default function Home() {
                     },
                   },
                   {
-                    title: '年龄',
+                    title: '任务名称',
                     key: 'registered',
                     render: (text) => {
                       return <div>{text.age}</div>
                     },
                   },
                   {
-                    title: '手机号',
+                    title: '任务状态',
+                    key: 'registered',
+                    render: (text) => {
+                      return <div>{text.age}</div>
+                    },
+                  },
+                  {
+                    title: '创建人',
                     key: 'phone',
                   },
                   {
-                    title: '性别',
+                    title: '已关闭',
                     key: 'gender',
+                  },
+                  {
+                    title: '截止时间',
+                    key: 'gender1',
+                  },
+                  {
+                    title: '创建时间',
+                    key: 'gender2',
                   },
                 ]}
               />
