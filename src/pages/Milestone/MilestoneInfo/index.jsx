@@ -61,7 +61,7 @@ const MilestoneInfo = (props) => {
   // 编辑
   const editMilestones = () => {
     props.dispatch.update({ milestoneType: 2 })
-    navigate('/project/milestone/editMilestone', {
+    navigate('/milestone/editMilestone', {
       state: { milestonesId },
     })
   }

@@ -57,11 +57,11 @@ const Milestone = (props) => {
 
   const goNewNmilestone = () => {
     props.dispatch.update({ milestoneType: 1, listDataInfo: {} })
-    navigate('/project/milestone/newMilestone')
+    navigate('/milestone/newMilestone')
   }
 
   const listGo = (milestonesId) => {
-    navigate('/project/milestone/milestoneInfo', {
+    navigate('/milestone/milestoneInfo', {
       state: { milestonesId },
     })
   }
