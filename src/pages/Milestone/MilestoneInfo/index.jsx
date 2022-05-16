@@ -1,20 +1,6 @@
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import {
-  Button,
-  Textarea,
-  Row,
-  Col,
-  Card,
-  RadioGroup,
-  Radio,
-  Progress,
-  Select,
-  Divider,
-  Loader,
-  Alert,
-  Icon,
-} from 'uiw'
+import { Button, Textarea, Row, Col, Card, Alert, Icon, Tag } from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
@@ -34,8 +20,8 @@ const MilestoneInfo = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.milestone.listDataInfo])
   const navigate = useNavigate()
-  const { milestonesId } = props?.router?.location?.state
-  const { listDataInfo = 121 } = props?.milestone
+  const { milestonesId } = 130
+  const { listDataInfo } = props?.milestone
   const { loading } = props
 
   const [milestonesState, setMilestonesState] = useState()
@@ -53,7 +39,7 @@ const MilestoneInfo = (props) => {
     await props.dispatch.editStatusMilestones({
       milestonesId,
       milestonesStatus: status,
-      projectId: Number(sessionStorage.getItem('id')),
+      projectId: 1594,
     })
     await props.dispatch.getMilestone(milestonesId)
   }
@@ -85,74 +71,54 @@ const MilestoneInfo = (props) => {
     <div>
       <Row>
         <Col span="18">
-          <Row>
-            <Col>
-              <Card title={'里程碑状态'} bordered={false}>
-                <Progress.Line
-                  percent={(+listDataInfo.degreeCompletion * 100).toFixed()}
-                  strokeWidth={10}
-                  className={styles.progressBar}
+          <div className={styles.contentWrapper}>
+            <div className={styles.milestoneHeader}>
+              <div>
+                <Tag
+                  title="逾期"
+                  color="#ab6100"
+                  className={styles.statusBox}
                 />
-                <div className={styles.stateBox}>
-                  <Loader
-                    tip="loading..."
-                    style={{ width: '100%' }}
-                    loading={loading.effects.milestone.editStatusMilestones}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: ' space-between',
-                      }}>
-                      <div className={styles.stateAlter}>
-                        <div className={styles.stateAlterLeft}>
-                          状态：
-                          <Select
-                            onChange={(e) => {
-                              setMilestonesState(+e.target.value)
-                            }}
-                            value={milestonesState}
-                            style={{ width: '80px', margin: '0 10px' }}>
-                            <Select.Option value={1}>打开</Select.Option>
-                            <Select.Option value={2}>关闭</Select.Option>
-                          </Select>
-                          <RadioGroup
-                            name="other"
-                            value={milestonesState}
-                            onChange={(e) => {
-                              setMilestonesState(+e.target.value)
-                            }}>
-                            <Radio value={1}>&nbsp;</Radio>
-                            <Radio value={2}>&nbsp;</Radio>
-                          </RadioGroup>
-                        </div>
-                      </div>
-                      <Button
-                        type="primary"
-                        onClick={() => changeState(milestonesState)}>
-                        更新状态
-                      </Button>
-                    </div>
-                  </Loader>
-                  <Divider />
-                  <div>
-                    <span> 更新信息: </span>
-                    <a href="javascript;">
-                      <span> {listDataInfo.updateName} </span>
-                    </a>
-                    于<span> {listDataInfo.updateTime} </span>
-                    更新
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Card bordered={false}>
-                <OtherInfo listDataInfo={listDataInfo} />
-              </Card>
-            </Col>
-          </Row>
+                <span>里程碑</span>
+              </div>
+              <div>
+                <AuthBtn path="/api/milestones/updatestatus">
+                  <Button type="light" onClick={editMilestones}>
+                    编辑
+                  </Button>
+                </AuthBtn>
+                <AuthBtn path="/api/milestones/updatestatus">
+                  <Button
+                    type="light"
+                    loading={loading.effects.milestone.editStatusMilestones}
+                    onClick={() => {
+                      changeStateBut()
+                    }}>
+                    {milestonesState === 1 ? '关闭里程碑' : '打开里程碑'}
+                  </Button>
+                </AuthBtn>
+                <AuthBtn path="/api/milestones/delete">
+                  <Button
+                    type="danger"
+                    // onClick={delMilestones}
+                    onClick={() => setOpenAlert(true)}>
+                    删除
+                  </Button>
+                </AuthBtn>
+              </div>
+            </div>
+            <div className={styles.milestoneDetail}>
+              <h2 className={styles.milestoneTitle}>
+                {listDataInfo.milestonesTitle}
+              </h2>
+              <div className={styles.milestoneDes}>
+                {listDataInfo.milestonesDesc || undefined}
+              </div>
+            </div>
+            <div>
+              <OtherInfo listDataInfo={listDataInfo} />
+            </div>
+          </div>
         </Col>
         <Col>
           <Card bordered={false}>
