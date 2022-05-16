@@ -5,7 +5,6 @@ import styles from './index.module.less'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
-import { getProjectID } from '../../../utils/getId'
 
 const listField = {
   title: 'assignmentTitle',
@@ -27,9 +26,6 @@ const Task = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-  useEffect(() => {
-    getProjectID({ jump: navigate })
-  }, [navigate])
   const taskId = sessionStorage.getItem('id')
 
   const {
@@ -47,7 +43,6 @@ const Task = () => {
   } = useSelector((state) => state)
 
   useEffect(() => {
-    // if (getProjectID({})) return
     if (location?.state) {
       dispatch({
         type: 'project/update',

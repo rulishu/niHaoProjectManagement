@@ -15,7 +15,6 @@ import './style.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { selectOption } from '@/utils/utils'
-import { getProjectID } from '@/utils/getId'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
 
@@ -32,12 +31,8 @@ const NewIssue = (props) => {
   } = useSelector((state) => state)
 
   const form = useRef()
-  useEffect(() => {
-    getProjectID({ jump: navigate })
-  }, [navigate, props])
 
   useEffect(() => {
-    if (!getProjectID({})) return
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
     dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
     dispatch.milestone.getListAll()
