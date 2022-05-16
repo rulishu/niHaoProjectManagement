@@ -7,6 +7,8 @@ import AuthPage from '@uiw-admin/authorized'
 import Bread from './Breadcrumb'
 import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
+import ProjectManagement from '../components/ProjectManagement'
+// import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const layouts = useLayouts()
@@ -14,6 +16,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const passwordRef = useRef()
   const dispatch = useDispatch()
   const userData = JSON.parse(localStorage.getItem('userData'))
+
+  const updateDataGlobal = (payload) => {
+    dispatch({
+      type: 'global/updateState',
+      payload,
+    })
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function refresh(type) {
@@ -70,6 +79,20 @@ function BasicLayoutScreen(props = { routes: [] }) {
       menuLeft: (
         <>
           <div
+            style={{ marginRight: 15 }}
+            onClick={() => {
+              updateDataGlobal({ drawerVisible: true })
+            }}>
+            新增项目
+          </div>
+
+          <div
+            style={{ marginRight: 15, marginTop: 12, cursor: 'pointer' }}
+            onClick={() => navigate('/TodoList')}>
+            <Icon type="save" color="#343a40" style={{ fontSize: 20 }} />
+          </div>
+
+          <div
             style={{ marginRight: 15, cursor: 'pointer' }}
             onClick={() => {
               navigate('/project/task')
@@ -97,15 +120,14 @@ function BasicLayoutScreen(props = { routes: [] }) {
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        // menuHide={['/company', '/projectList'].includes(
-        //   props.router.location.pathname
-        // )}
-      >
+        menuHide={['/projectList'].includes(props.router.location.pathname)}>
         <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div>
         <Outlet />
         <PassWordChange refs={passwordRef} />
+        <ProjectManagement></ProjectManagement>
+        {/* 新增项目弹出框 */}
       </BasicLayout>
     </AuthPage>
   )
