@@ -12,6 +12,19 @@
         "redirect": "/milestone"
       },
       {
+        "path": "/issues-center/:id",
+        "name": "任务中心",
+        "component": "@/pages/IssuesCenter",
+        "icon": "wifi",
+        "navigate": "(navigate) => {navigate('/issues-center/:id',{ replace: true })}"
+      },
+      {
+        "path": "/home",
+        "name": "首页",
+        "component": "@/pages/TableList",
+        "icon": "home"
+      },
+      {
         "path": "/milestone",
         "name": "里程碑",
         "component": "@/pages/Milestone",
