@@ -1,0 +1,47 @@
+.addMenuBut,
+.listHeader {
+  z-index: 9999;
+  padding: 8px 0;
+  border-bottom: 0;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0px 3px 5px 3px #f6f6f6;
+}
+.menuList {
+  .listHeader {
+    background-color: #fff;
+    width: 100%;
+  }
+  .listMenuItem {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    .menuItem {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .titleIcon {
+      margin: 0 5px;
+    }
+  }
+}
+
+// 对齐虚线
+.retract {
+  padding-left: 16px;
+  display: inline-block;
+  position: relative;
+  width: 1px;
+  // 不实用虚线
+  &::after {
+    content: '';
+    width: 1px;
+    height: 30px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: #ececec;
+  }
+}

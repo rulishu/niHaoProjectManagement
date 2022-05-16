@@ -35,7 +35,7 @@ const MilestoneInfo = (props) => {
   }, [props.milestone.listDataInfo])
   const navigate = useNavigate()
   const { milestonesId } = props?.router?.location?.state
-  const { listDataInfo } = props?.milestone
+  const { listDataInfo = 121 } = props?.milestone
   const { loading } = props
 
   const [milestonesState, setMilestonesState] = useState()

@@ -1,0 +1,11 @@
+.editMemberList{
+    padding: 5px 0;
+}
+.editMemberList form{
+    width: 100%;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+.editMemberList  .w-form-item{
+    margin-bottom: 0 ;
+}

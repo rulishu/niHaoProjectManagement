@@ -1,4 +1,5 @@
 export { default as StatusTag } from './StatusTag'
+export { default as List } from './List'
 export { default as PassWordChange } from './PassWordChange'
 export { default as CardList } from './CardList'
 export { default as DeletePopover } from './DeletePopover'
