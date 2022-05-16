@@ -1,4 +1,5 @@
 module.exports.authList = [
+  '/TodoList',
   '/tableList',
   '/issues-center/:id',
   '/home',
