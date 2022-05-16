@@ -19,12 +19,6 @@
         "navigate": "(navigate) => {navigate('/issues-center/:id',{ replace: true })}"
       },
       {
-        "path": "/home",
-        "name": "首页",
-        "component": "@/pages/TableList",
-        "icon": "home"
-      },
-      {
         "path": "/TodoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
