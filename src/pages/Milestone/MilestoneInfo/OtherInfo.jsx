@@ -1,4 +1,4 @@
-import { Tabs, Tooltip } from 'uiw'
+import { Tabs, Tooltip, List, Avatar, Icon } from 'uiw'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -106,8 +106,7 @@ const OtherInfo = (props) => {
             </ul>
           </div>
         </Tabs.Pane>
-        {/* 隐藏成员，后期需求 */}
-        {/* <Tabs.Pane
+        <Tabs.Pane
           label={<>成员{numBox(listDataInfo?.participateUser?.length || 0)}</>}
           key="2">
           <div className={styles.memberBox}>
@@ -138,7 +137,39 @@ const OtherInfo = (props) => {
                 })}
             </List>
           </div>
-        </Tabs.Pane> */}
+        </Tabs.Pane>
+        <Tabs.Pane
+          label={<>标签{numBox(listDataInfo?.participateUser?.length || 0)}</>}
+          key="2">
+          <div className={styles.memberBox}>
+            <List bordered={false} active={false}>
+              {listDataInfo?.participateUser &&
+                listDataInfo?.participateUser?.map((userItem, index) => {
+                  return (
+                    <List.Item key={userItem.id || index}>
+                      <div className={styles.roleItem}>
+                        <Avatar
+                          size="large"
+                          className={styles.roleAvatar}
+                          src={userItem.path}>
+                          {userItem.userName || '名字'}
+                        </Avatar>
+                        <div className={styles.roleItemInfo}>
+                          <div className={styles.roleName}>
+                            {userItem.userName || '名字'}
+                          </div>
+                          <div className={styles.roleVice}>
+                            <Icon type="mobile" />
+                            <span>{userItem.userPhone || '电话'}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </List.Item>
+                  )
+                })}
+            </List>
+          </div>
+        </Tabs.Pane>
       </Tabs>
     </div>
   )
