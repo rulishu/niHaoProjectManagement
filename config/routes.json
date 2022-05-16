@@ -25,6 +25,12 @@
         "icon": "home"
       },
       {
+        "path": "/TodoList",
+        "name": "待办事项列表",
+        "component": "@/pages/TodoList",
+        "icon": "save"
+      },
+      {
         "path": "/milestone",
         "name": "里程碑",
         "component": "@/pages/Milestone",
