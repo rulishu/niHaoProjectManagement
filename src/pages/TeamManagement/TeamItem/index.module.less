@@ -1,0 +1,133 @@
+.teamItem {
+  display: flex;
+
+  .teamItemLeft {
+    .switchTeam {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .memberTabHead {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2px 10px 6px 10px;
+
+      .headTitle {
+        border-bottom: 2px solid #008ef0;
+        color: #228ef0;
+        font-weight: 600;
+      }
+
+      .HeadTitle {
+      }
+    }
+  }
+}
+
+// MemberBox
+.editMemberBox {
+  .listItemsRow {
+    width: 100%;
+    align-items: center;
+
+    .userNameBox {
+      position: relative;
+
+      .userName {
+        & + .userListBox {
+          .unanimation {
+            height: 0px;
+          }
+
+          .animation {
+            height: 0px;
+            transition: all 0.3s ease-in-out;
+            animation: userName 0.3s ease-in-out;
+          }
+        }
+      }
+
+      .userName:focus-within {
+        & + .userListBox {
+          .animation {
+            height: auto;
+            transition: all 0.3s ease-in-out;
+            animation: userNameFocus 0.3s ease-in-out;
+          }
+        }
+      }
+
+      .userListBox {
+        position: absolute;
+        top: 32px;
+        left: 5px;
+        background: #fff;
+        width: calc(100% - 10px);
+        z-index: 999;
+        box-shadow: 0 6px 12px rgb(0 0 0 / 12%), 0 1px 3px rgb(0 0 0 / 10%);
+        max-height: 240px;
+        overflow-y: auto;
+
+        .userListItem {
+          padding: 4px 5px;
+          line-height: 26px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          cursor: pointer;
+
+          &:hover {
+            color: #fff;
+            background-color: #0071bd99;
+          }
+
+          .userAvatar {
+            padding-right: 10px;
+          }
+
+          .userName {
+            display: inline-block;
+            min-width: 40px;
+            font-weight: 700;
+          }
+
+          .roleName {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 12px;
+            opacity: 0.6;
+          }
+        }
+      }
+    }
+  }
+
+  .editButtonGroup {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@keyframes userName {
+  0% {
+    height: auto;
+  }
+
+  90% {
+    height: 0;
+  }
+}
+
+@keyframes userNameFocus {
+  1% {
+    height: auto;
+  }
+
+  100% {
+    height: auto;
+  }
+}

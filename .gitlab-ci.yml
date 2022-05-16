@@ -1,0 +1,75 @@
+default:
+  image: node:14
+
+services:
+  - name: docker:19.03.13-dind
+    command: 
+      [
+        "--registry-mirror=https://docker.mirrors.ustc.edu.cn",
+        "--insecure-registry=192.168.188.222:5008"
+      ]
+
+stages:
+  - build
+  - deploy
+
+Build Static:
+  stage: build
+  before_script: 
+    - pwd
+    - ls -al
+    - npm install
+  script:
+    - npm run build
+  artifacts: 
+    paths: 
+      - build
+  only:
+    - master
+    - dev
+    - v2
+
+Docker Imgae Build Dev:
+  stage: deploy
+  image: docker:19
+  only:
+    - master
+  before_script:
+    - docker info
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - pwd
+    - ls -al
+    # - docker build -t 192.168.188.222:5008/nihao/dtpms/admin .
+    # - docker build -t 192.168.188.222:5008/intelligent-community/admin .
+    # - docker push 192.168.188.222:5008/intelligent-community/admin
+    - docker build --pull -t "$CI_REGISTRY_IMAGE":latest .
+    - docker push "$CI_REGISTRY_IMAGE":latest
+    - echo "$CI_REGISTRY"
+    - echo "$CI_REGISTRY_USER"
+    - echo "$CI_REGISTRY_IMAGE"
+
+Docker Imgae Build:
+  stage: deploy
+  image: docker:19
+  only:
+    - tags
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    # - echo ${CI_REGISTRY_USER}
+    # - echo ${CI_REGISTRY_PASSWORD}
+    # - echo ${CI_REGISTRY}
+    # - echo ${CI_REGISTRY_IMAGE}
+    - echo "$CI_COMMIT_TAG"
+    - VERSION=$(echo $CI_COMMIT_TAG | sed -e 's/^v//')
+    - echo $VERSION
+    - export V=$VERSION
+    - echo "$V"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE":"$V" .
+#    - docker tag "$CI_REGISTRY_IMAGE" "$CI_REGISTRY_IMAGE":$VERSION
+    - docker push "$CI_REGISTRY_IMAGE":"$V"
+#    - docker tag "$CI_REGISTRY_IMAGE" "$CI_REGISTRY_IMAGE":latest
+#    - docker push "$CI_REGISTRY_IMAGE":latest
+    - ls -al
+

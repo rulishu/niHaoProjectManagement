@@ -1,0 +1,95 @@
+@import '../../common.less';
+
+.userWrap {
+  background: @white;
+  padding: 10px 15px 0 15px;
+
+  // padding-top: 10;
+  .child {
+    padding-top: 15px;
+
+    .title {
+      padding: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    // 加载更多
+    .forMore {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+    }
+
+    .loadInfo {
+      padding: 10px;
+
+      .prompt {
+        font-size: 20px;
+        color: #ccc;
+      }
+    }
+  }
+}
+
+.userHead {
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  // .title {
+  //   position: relative;
+  //   height: 54px;
+  //   padding: 0 10px;
+  //   display: flex;
+  //   align-items: center;
+  //   // color: #108ee9;
+  //   font-weight: bold;
+
+  //   span {
+  //     margin-left: 10px;
+  //     display: inline-flex;
+  //     color: #000;
+  //     font-weight: 600;
+  //     padding-left: 0.5rem;
+  //     padding-right: 0.5rem;
+  //     align-items: center;
+  //     font-size: 0.75rem;
+  //     line-height: 1rem;
+  //     background-color: #f0f0f0;
+  //     border-radius: 10rem;
+  //     text-align: center;
+  //     white-space: nowrap;
+  //     vertical-align: baseline;
+  //   }
+
+  //   &:after {
+  //     content: '';
+  //     position: absolute;
+  //     left: 0;
+  //     bottom: -1px;
+  //     width: 100%;
+  //     border-bottom: 1px solid #108ee9;
+  //   }
+  // }
+
+  .right {
+    display: flex;
+    align-items: center;
+
+    .rightForm {
+      margin-top: 10px;
+    }
+
+    .btn {
+      margin-left: 20px;
+
+      .w-icon {
+        font-size: 14px;
+      }
+    }
+  }
+}

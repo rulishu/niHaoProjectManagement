@@ -1,0 +1,46 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 800px;
+  min-width: 600px;
+  max-width: 1000px;
+}
+
+.BasicInfo {
+  padding: 10px;
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .leftForm {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .avatar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      span {
+        width: 100px;
+        height: 100px;
+        box-shadow: 0 0 12px 2px #a7a8bd;
+      }
+    }
+    .message {
+      align-items: center;
+      justify-content: center;
+      line-height: 24px;
+    }
+  }
+  .rightMiddle {
+    display: flex;
+    justify-content: center;
+  }
+}

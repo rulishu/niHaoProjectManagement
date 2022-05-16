@@ -1,0 +1,8 @@
+.w-card-head-title {
+  width: 100%;
+}
+
+.roleMembersProject .w-list {
+  overflow: auto;
+  max-height: calc(100vh - 185px);
+}

@@ -1,0 +1,131 @@
+.membersProject {
+  padding: 10px;
+  width: 100%;
+
+  // 角色列表
+  .roleList {
+    max-width: 200px;
+    position: relative;
+
+    .roleTitle {
+      display: flex;
+      justify-content: space-between;
+
+      .roleNumber {
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 0 5px 2px #007bff9c;
+        background-color: #007bff9c;
+        border-radius: 10px;
+        color: #ffffff;
+      }
+    }
+
+    .roleListitem {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+
+      .roleInfo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 5px;
+
+        .roleAvatar {
+          margin-right: 10px;
+          box-shadow: 0 0 4px 1px #80b0fb;
+          min-width: 30px;
+        }
+
+        span {
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
+// 项目设置标题内容
+.cardTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.membersProjectBox {
+  .companyListitem {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+  }
+
+  .projectEdit {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    // max-height: calc(100vh - 230px);
+    .projectEditTop {
+      width: 100%;
+    }
+
+    .projectEditBot {
+      .companyName {
+        width: 100%;
+        line-height: 30px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .projectList {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+        box-shadow: 0 0 2px #ccc;
+        width: 100%;
+        padding: 10px;
+
+        .projectItem {
+          margin: 10px;
+          // height: 30px;
+          min-height: 30px;
+          line-height: 30px;
+          border-radius: 4px;
+          padding: 0 5px;
+          // border: 1px solid #ccc;
+          box-shadow: 0 0 2px 1px #ccc;
+          margin: 5px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-content: center;
+          justify-content: space-between;
+          align-items: center;
+          word-break: break-all;
+
+          &:hover {
+            box-shadow: 0 0 2px #007bff;
+          }
+        }
+
+        .active {
+          color: #007bff;
+          // border: 1px solid #007bff;
+          box-shadow: 0 0 3px #007bff;
+          background: #f8f8f9;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+  }
+}

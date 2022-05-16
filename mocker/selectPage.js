@@ -67,3 +67,49 @@ module.exports.getCity = function (req, res) {
     })
   }, 1000)
 }
+
+module.exports.getList = function (req, res) {
+  const { page, pageSize } = req.body
+  setTimeout(() => {
+    return res.status(200).json({
+      code: 1,
+      total: 30,
+      page: page,
+      pageSize: pageSize,
+      data: [
+        {
+          id: '1',
+          name: '测试项目管理',
+          state: '进行中',
+          createname: '邓紫棋',
+          endtime: '2019-10-11',
+          info: '测试项目管理开发',
+        },
+        {
+          id: '2',
+          name: '测试项目管理',
+          state: '未开始',
+          createname: '邓紫棋',
+          endtime: '2019-10-11',
+          info: '项目管理模块开发',
+        },
+        {
+          id: '3',
+          name: '数据库管理',
+          state: '已逾期',
+          createname: '邓紫棋',
+          endtime: '2019-10-11',
+          info: '用户管理开发',
+        },
+        {
+          id: '4',
+          name: '共享停车',
+          state: '进行中',
+          createname: '邓紫棋',
+          endtime: '2019-10-11',
+          info: '新增用户bug',
+        },
+      ],
+    })
+  }, 1000)
+}
