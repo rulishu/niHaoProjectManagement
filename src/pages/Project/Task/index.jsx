@@ -43,29 +43,29 @@ const Task = () => {
   } = useSelector((state) => state)
 
   useEffect(() => {
-    // if (getProjectID({})) return
     if (location?.state) {
       dispatch({
         type: 'project/update',
         payload: { activeKey: '1' },
       })
     }
-
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '', ...location?.state }
-        : { assignmentStatus: '' }
-    )
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '1', ...location?.state }
-        : { assignmentStatus: '1' }
-    )
-    dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: '3', ...location?.state }
-        : { assignmentStatus: '3' }
-    )
+    if (taskId) {
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '', ...location?.state }
+          : { assignmentStatus: '' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '1', ...location?.state }
+          : { assignmentStatus: '1' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '3', ...location?.state }
+          : { assignmentStatus: '3' }
+      )
+    }
   }, [taskId, dispatch, location?.state])
 
   const SearchBarOption = [
@@ -96,7 +96,16 @@ const Task = () => {
 
   const listGo = (item) => {
     updateData({ editId: item.assignmentId, editFromData: item })
-    navigate(`/task/taskInfo`)
+    // navigate(`/project/taskInfo/${item.assignmentId}`, {
+    //   state: { editId: item.assignmentId },
+    // })
+    console.log('item', item)
+
+    navigate(
+      `/project/taskInfo/${sessionStorage.getItem('companyId')}/${
+        item.projectId
+      }/${item.assignmentId}`
+    )
   }
   const getTabList = async (activeKey) => {
     await updateData({ activeKey, filter: { ...filter, page: 1 } })
@@ -197,13 +206,11 @@ const Task = () => {
         loading={loading.effects.project.getList}>
         <div>
           <div className={styles.nav}>
-            <div>
-              <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave">
-                <Button type="primary" onClick={() => goIssue()}>
-                  新建问题
-                </Button>
-              </AuthBtn>
-            </div>
+            <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave">
+              <Button type="primary" onClick={() => goIssue()}>
+                新建问题
+              </Button>
+            </AuthBtn>
           </div>
           <div>
             <SearchBar
