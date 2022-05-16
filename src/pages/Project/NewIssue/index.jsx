@@ -19,17 +19,14 @@ import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
-import MDEditor from '@uiw/react-md-editor'
 
 let tribute = new Tribute({
   trigger: '@',
   values: [
-    { key: '11111111', value: 'pheartman' },
-    { key: '22222222', value: 'gramsey' },
+    { key: '展示的第一个key', value: '放上去的第一个值' },
+    { key: '展示的第二个key', value: '放上去的第二个值' },
   ],
 })
-
-let mkdStr = `**Hello world!!!** `
 
 const NewIssue = (props) => {
   const navigate = useNavigate()
@@ -44,24 +41,19 @@ const NewIssue = (props) => {
   } = useSelector((state) => state)
 
   const form = useRef()
-  const MDref = useRef()
   const isBundle = useRef(false)
+  const [mdRefs, setMdRefs] = useState()
 
-  const [value, setValue] = useState(mkdStr)
   useEffect(() => {
-    console.log('1111', MDref.current)
-    console.log('2222', isBundle.current)
-    if (MDref.current.textarea && !isBundle.current) {
+    if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
-      console.log('MDrefMDref', MDref.current)
-      tribute.attach(MDref.current.textarea)
-      document.addEventListener('tribute-replaced', (e) => {
-        console.log('@', e)
-        setValue(e.target.value)
+      tribute.attach(mdRefs.current.textarea)
+      mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
+        form.current.setFieldValue('description', e.target.value)
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [MDref.current])
+  }, [mdRefs?.current])
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
@@ -136,11 +128,6 @@ const NewIssue = (props) => {
   return (
     <div className="main">
       <div className="title">新建问题</div>
-      <MDEditor
-        ref={MDref}
-        value={value}
-        onChange={(value) => setValue(value)}
-      />
       {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
       <Loader
         tip="加载中..."
@@ -218,7 +205,7 @@ const NewIssue = (props) => {
             description: {
               inline: true,
               initialValue: fromData.description,
-              children: <NEWMDEditor />,
+              children: <NEWMDEditor refVal={(e) => setMdRefs(e)} />,
             },
             assigneeUser: {
               inline: true,
