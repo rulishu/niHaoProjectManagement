@@ -85,7 +85,7 @@ export default function Home() {
                     key: 'phone',
                   },
                   {
-                    title: '已关闭',
+                    title: '任务状态',
                     key: 'gender',
                   },
                   {
