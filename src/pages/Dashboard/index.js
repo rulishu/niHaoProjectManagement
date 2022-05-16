@@ -1,5 +1,5 @@
 import { navigate } from '@uiw-admin/router-control';
-import { Form } from '@uiw-admin/components';
+import { Form } from 'uiw';
 import { Input } from 'uiw';
 
 const Dashboard = () => {

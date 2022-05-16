@@ -32,6 +32,12 @@
         "icon": "home"
       },
       {
+        "path": "/TodoList",
+        "name": "待办事项列表",
+        "component": "@/pages/TodoList",
+        "icon": "save"
+      },
+      {
         "path": "/dom",
         "name": "子项",
         "icon": "copy",
