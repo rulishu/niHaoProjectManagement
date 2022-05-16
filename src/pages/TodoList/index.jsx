@@ -72,10 +72,16 @@ const TodoList = () => {
     }
   }, [taskId, dispatch, location?.state])
 
+  // const milestoneStatus = {
+  //   1: { title: 'addtodo', className: 'blue' },
+  //   2: { title: '关闭', className: 'brown' },
+  //   3: { title: '删除', className: 'red' },
+  // }
+
   const SearchBarOption = [
-    { value: 1, text: '已打开' },
-    { value: 3, text: '已关闭' },
-    { value: '', text: '所有' },
+    { value: 1, text: '待处理' },
+    // { value: 3, text: '已关闭' },
+    { value: '', text: '已完成' },
   ]
 
   const updateData = (payload) => {
@@ -175,6 +181,11 @@ const TodoList = () => {
               listNavigate={listGo}
               delAssignment={delAssignment}
             />
+            {/* <StatusTag
+              status={assignmentStatus}
+              statusList={milestoneStatus}
+              size="big"
+            /> */}
             {taskTotal > 0 && (
               <Pagination
                 current={filter.page}
