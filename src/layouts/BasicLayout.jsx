@@ -120,10 +120,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        // menuHide={['/company', '/projectList'].includes(
-        //   props.router.location.pathname
-        // )}
-      >
+        menuHide={['/projectList'].includes(props.router.location.pathname)}>
         <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div>

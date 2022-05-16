@@ -17,6 +17,12 @@
         "component": "@/pages/WorkBench"
       },
       {
+        "path": "/projectList",
+        "name": "项目列表",
+        "component": "@/pages/ProjectList",
+        "hideInMenu": true
+      },
+      {
         "path": "/TodoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
@@ -62,6 +68,8 @@
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
+        "hideInMenu": true,
+        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
             "path": "/project/task",
