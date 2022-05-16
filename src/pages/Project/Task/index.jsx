@@ -14,6 +14,7 @@ const listField = {
   updateTime: 'updateTime',
   updateName: 'updateName',
 }
+
 const tabsLabel = (title, num) => {
   return (
     <div>
@@ -22,10 +23,12 @@ const tabsLabel = (title, num) => {
     </div>
   )
 }
+
 const Task = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+
   const taskId = sessionStorage.getItem('id')
 
   const {
@@ -43,29 +46,29 @@ const Task = () => {
   } = useSelector((state) => state)
 
   useEffect(() => {
-    if (location?.state) {
-      dispatch({
-        type: 'project/update',
-        payload: { activeKey: '1' },
-      })
-    }
-    if (taskId) {
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '', ...location?.state }
-          : { assignmentStatus: '' }
-      )
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '1', ...location?.state }
-          : { assignmentStatus: '1' }
-      )
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '3', ...location?.state }
-          : { assignmentStatus: '3' }
-      )
-    }
+    // if (location?.state) {
+    //   dispatch({
+    //     type: 'project/update',
+    //     payload: { activeKey: '1' },
+    //   })
+    // }
+    // if (taskId) {
+    //   dispatch.project.getList(
+    //     location?.state
+    //       ? { assignmentStatus: '', ...location?.state }
+    //       : { assignmentStatus: '' }
+    //   )
+    //   dispatch.project.getList(
+    //     location?.state
+    //       ? { assignmentStatus: '1', ...location?.state }
+    //       : { assignmentStatus: '1' }
+    //   )
+    //   dispatch.project.getList(
+    //     location?.state
+    //       ? { assignmentStatus: '3', ...location?.state }
+    //       : { assignmentStatus: '3' }
+    //   )
+    // }
   }, [taskId, dispatch, location?.state])
 
   const SearchBarOption = [
@@ -107,8 +110,9 @@ const Task = () => {
       }/${item.assignmentId}`
     )
   }
+
   const getTabList = async (activeKey) => {
-    await updateData({ activeKey, filter: { ...filter, page: 1 } })
+    updateData({ activeKey, filter: { ...filter, page: 1 } })
     await dispatch.project.getList(
       location?.state
         ? { assignmentStatus: activeKey, ...location?.state }
