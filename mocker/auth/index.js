@@ -1,6 +1,7 @@
 module.exports.authList = [
   '/tableList',
   '/home',
+  "/projectOverview",
   '/demo',
   '/dom',
   '/dom/*',
