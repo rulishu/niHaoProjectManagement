@@ -8,7 +8,7 @@ export default function TableManage() {
     <div style={{ marginTop: 5 }}>
       <Split
         style={{ height: 400, border: '1px solid #d5d5d5', borderRadius: 3 }}>
-        <div style={{ width: '70%', minWidth: 30 }}>
+        <div style={{ width: '100%', minWidth: 30 }}>
           <Card style={{ height: '100%' }}>
             <Tabs
               type="line"
@@ -25,16 +25,12 @@ export default function TableManage() {
               <Tabs.Pane sequence="fadeIn up" label="已逾期" key="3">
                 <Overdue />
               </Tabs.Pane>
-              {/* <Tabs.Pane label="更多" style={{marginRight:10}}>
-              </Tabs.Pane> */}
+              <Tabs.Pane
+                label="更多"
+                style={{ marginRight: 10 }}
+                key="4"></Tabs.Pane>
             </Tabs>
           </Card>
-        </div>
-        <div style={{ width: '30%', minWidth: 10 }}>
-          {/* <Card
-            title="成员动态"
-            bordered={false}
-            style={{ height: '100%' }}></Card> */}
         </div>
       </Split>
     </div>
