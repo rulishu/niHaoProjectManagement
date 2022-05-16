@@ -12,13 +12,6 @@
         "redirect": "/milestone"
       },
       {
-        "path": "/tableList/:id",
-        "name": "查询表格2",
-        "component": "@/pages/TableList",
-        "icon": "search",
-        "navigate": "(navigate) => {navigate('/tableList',{ replace: true })}"
-      },
-      {
         "path": "/issues-center/:id",
         "name": "任务中心",
         "component": "@/pages/IssuesCenter",
