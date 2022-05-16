@@ -11,4 +11,10 @@ module.exports.authList = [
   '/milestone/*',
   '/usersManagement',
   '/*',
+  '/project',
+  '/project/*',
+  '/exceptions',
+  '/exceptions/403',
+  '/exceptions/404',
+  '/exceptions/500',
 ]
