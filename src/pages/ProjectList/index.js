@@ -1,13 +1,16 @@
+import { connect } from 'react-redux'
 import { Tabs, Divider, Button, Input, Select, Icon, Avatar } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.module.less'
 
-const Demo = () => {
+const ProjectList = (props) => {
+  const { dataList } = props.projectlist
   const table = useTable('/api/project/selectPageList', {
     formatData: (data) => {
+      console.log(dataList)
       return {
-        total: data.data.total,
-        data: data.data.list,
+        total: data?.data?.total,
+        data: data?.data?.list,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -39,6 +42,7 @@ const Demo = () => {
           <Tabs.Pane label="全部" key="1"></Tabs.Pane>
           <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
           <Tabs.Pane label="已完成" key="3"></Tabs.Pane>
+          <Tabs.Pane label="已挂起" key="4"></Tabs.Pane>
         </Tabs>
         <div style={{ display: 'flex', lineHeight: '30px' }}>
           <Input
@@ -54,6 +58,15 @@ const Demo = () => {
           </Select>
         </div>
       </div>
+      <Tabs
+        style={{ padding: '5px' }}
+        type="line"
+        activeKey="1"
+        // onTabClick={(tab, key, e) => {}}
+      >
+        <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
+        <Tabs.Pane label="我的项目" key="2"></Tabs.Pane>
+      </Tabs>
       <ProTable
         paginationProps={{
           pageSize: 10,
@@ -117,4 +130,12 @@ const Demo = () => {
   )
 }
 
-export default Demo
+const mapStateToProps = ({ projectlist }) => ({
+  projectlist: projectlist,
+})
+
+const mapDispatchToProps = ({ projectlist }) => ({
+  dispatch: projectlist,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectList)

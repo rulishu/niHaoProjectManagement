@@ -18,6 +18,7 @@ const UserLayout = () => {
     '/milestone/*',
     '/project',
     '/project/*',
+    '/projectList',
     '/exceptions',
     '/exceptions/403',
     '/exceptions/404',
