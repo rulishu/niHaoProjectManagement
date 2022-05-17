@@ -141,7 +141,7 @@ export default function TabelView() {
   return (
     <div style={{ marginTop: 10, backgroundColor: '#fff', borderRadius: 5 }}>
       <Button
-        icon="plus-circle-o"
+        icon="plus"
         type="primary"
         style={{ margin: 10 }}
         onClick={() => onOpen()}>

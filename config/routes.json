@@ -152,6 +152,12 @@
             "name": "部门管理",
             "component": "@/pages/Authority/DepartmentPage",
             "isAuth": true
+          },
+          {
+            "path": "/Authority/PostManagement",
+            "name": "岗位管理",
+            "component": "@/pages/Authority/PostManagement",
+            "isAuth": true
           }
         ]
       },
