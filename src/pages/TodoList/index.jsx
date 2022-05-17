@@ -3,30 +3,32 @@ import {
   Tabs,
   Pagination,
   Empty,
-  Tooltip,
-  Icon,
+  // Tooltip,
+  // Icon,
   Loader,
-  Progress,
-  Row,
-  Col,
+  // Progress,
+  // Row,
+  // Col,
   List,
 } from 'uiw'
 import { SearchBar } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import dayjs from 'dayjs'
-import { StatusTag } from '@/components'
+// import dayjs from 'dayjs'
+// import { StatusTag } from '@/components'
+import arr from './data'
+
 // import { getProjectID } from '../../utils/getId'
-const { Line } = Progress
-// const listField = {
-//   title: 'assignmentTitle',
-//   createName: 'createName',
-//   createTime: 'createTime',
-//   issueNo: 'assignmentId',
-//   updateTime: 'updateTime',
-//   updateName: 'updateName',
-// }
+// const { Line } = Progress
+const listField = {
+  title: 'assignmentTitle',
+  createName: 'createName',
+  createTime: 'createTime',
+  issueNo: 'assignmentId',
+  updateTime: 'updateTime',
+  updateName: 'updateName',
+}
 const tabsLabel = (title, num) => {
   return (
     <div>
@@ -58,6 +60,8 @@ const TodoList = () => {
     loading,
   } = useSelector((state) => state)
 
+  // console.log('dataList', dataList)
+
   useEffect(() => {
     // if (getProjectID({})) return
     if (location?.state) {
@@ -85,11 +89,11 @@ const TodoList = () => {
     }
   }, [taskId, dispatch, location?.state])
 
-  const milestoneStatus = {
-    1: { title: 'addtodo', className: 'blue' },
-    2: { title: '关闭', className: 'brown' },
-    3: { title: '删除', className: 'red' },
-  }
+  // const milestoneStatus = {
+  //   1: { title: 'addtodo', className: 'blue' },
+  //   2: { title: '关闭', className: 'brown' },
+  //   3: { title: '删除', className: 'red' },
+  // }
 
   const SearchBarOption = [
     { value: 1, text: '待处理' },
@@ -103,19 +107,6 @@ const TodoList = () => {
       payload,
     })
   }
-  // const goIssue = () => {
-  //   updateData({
-  //     issueType: 'add',
-  //     fromData: {
-  //       assignmentTitle: '',
-  //       assignmentType: 1,
-  //       description: '',
-  //       projectId: taskId,
-  //       labels: [],
-  //     },
-  //   })
-  //   navigate('/project/newIssue')
-  // }
 
   const listGo = (item) => {
     updateData({ editId: item.assignmentId, editFromData: item })
@@ -148,117 +139,18 @@ const TodoList = () => {
     })
   }
 
-  // const delAssignment = async (item) => {
-  //   Modal.show({
-  //     title: '提示',
-  //     confirmText: '确定',
-  //     cancelText: '取消',
-  //     children: `确定要删除该任务吗?`,
-  //     onConfirm: async () => {
-  //       await dispatch.project
-  //         .deleteAssignment([{ id: item.assignmentId, projectId: taskId }])
-  //         .then((res) => {
-  //           if (res.code === 200) {
-  //             Notify.success({ description: res.message })
-  //             let newPage = filter.page
-  //             let newListDate =
-  //               activeKey === '1'
-  //                 ? openTataList
-  //                 : activeKey === '3'
-  //                   ? closeDataList
-  //                   : dataList
-  //             if (newListDate.length === 1 && filter.page !== 1) {
-  //               newPage = filter.page - 1
-  //             }
-  //             dispatch.project.getList({
-  //               page: newPage,
-  //               assignmentStatus: location?.state
-  //                 ? activeKey
-  //                 : { activeKey, ...location?.state },
-  //             })
-  //           }
-  //         })
-  //     },
-  //   })
-  // }
   // 列表
   const taskDataList = (data, taskTotal, num) => {
     return (
       <div>
         {data.length > 0 ? (
           <Fragment>
-            {/* <List
-              data={data || []}
+            <List
+              data={data || [arr]}
               isIssue={true}
               listField={listField}
               listNavigate={listGo}
-              delAssignment={delAssignment}
-            /> */}
-            <List
-              className={styles.list}
-              dataSource={data}
-              bordered={false}
-              noHover={true}
-              renderItem={(item, index) => {
-                return (
-                  <List.Item
-                    key={index}
-                    className={styles.listItem}
-                    onClick={() => {
-                      listGo(item.milestonesId)
-                    }}
-                    style={{ width: '100%', borderRadius: 0 }}>
-                    <Row style={{ width: '100%' }}>
-                      <Col span="10">
-                        <div className={styles.itemList}>
-                          <div className={styles.title}>
-                            {item.milestonesTitle}
-                          </div>
-                          <div className={styles.info}>
-                            创建于 {item.createTime} 由 {item.createName}
-                            {item?.dueTime && (
-                              <Tooltip placement="top" content="Due date">
-                                <span
-                                  className={`dueDate ${
-                                    dayjs(item?.dueTime)?.diff(
-                                      dayjs().format('YYYY-MM-DD'),
-                                      'hour'
-                                    ) < 0 && item?.milestonesStatus === 1
-                                      ? 'redDate'
-                                      : ''
-                                  }`}>
-                                  <Icon type="date" /> {item?.dueTime}
-                                </span>
-                              </Tooltip>
-                            )}
-                          </div>
-                        </div>
-                      </Col>
-                      <Col span="10">
-                        <Line
-                          percent={(+item.degreeCompletion * 100).toFixed()}
-                          showText={false}
-                        />
-                        <div className={styles.progressText}>
-                          <span className={styles.num}>
-                            {item?.allTaskNum} 个任务数
-                          </span>
-                          <span className={styles.plan}>
-                            {(+item?.degreeCompletion * 100).toFixed()} %完成
-                          </span>
-                        </div>
-                      </Col>
-                      <Col span="4" className={styles.status}>
-                        <StatusTag
-                          status={item?.milestonesStatus}
-                          statusList={milestoneStatus}
-                          size="big"
-                        />
-                      </Col>
-                    </Row>
-                  </List.Item>
-                )
-              }}
+              // delAssignment={delAssignment}
             />
             {taskTotal > 0 && (
               <Pagination
@@ -297,7 +189,7 @@ const TodoList = () => {
           <div className={styles.nav}>
             {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
             {/* <Button type="primary" onClick={() => goIssue()}> */}
-            待办事项列表
+            {/* 待办事项列表 */}
             {/* </Button> */}
             {/* </AuthBtn> */}
           </div>
