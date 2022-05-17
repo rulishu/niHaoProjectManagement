@@ -50,28 +50,32 @@ export default function Home() {
     <div>
       <div>
         <Row gutter={20}>
-          <Card
-            title="Uiw"
-            bordered={false}
-            extra={
-              <Button icon="setting-o" basic>
-                修改项目资料
-              </Button>
-            }
-            style={{ width: '25%' }}>
-            <Col fixed>
-              {/* {dataRows.map((e,key)=>{
+          <Col fixed style={{ width: 300 }}>
+            <Card
+              title="Uiw"
+              bordered={false}
+              extra={
+                <Button icon="setting-o" basic>
+                  修改项目资料
+                </Button>
+              }>
+              <Col
+                fixed
+                style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
+                {/* {dataRows.map((e,key)=>{
                   return <Menu.Item icon={e.icon} text={e.menusList} key={key}/>
                 })} */}
-              <List bordered={false}>
-                <List.Item>
-                  项目描述: Uiw是一个大型开源项目,欢迎各位使用
-                </List.Item>
-                <List.Item>项目成员: 王某</List.Item>
-                <List.Item>项目技术: TypeScript</List.Item>
-              </List>
-            </Col>
-          </Card>
+                <List bordered={false}>
+                  <List.Item>
+                    项目描述: Uiw是一个大型开源项目,欢迎各位使用
+                  </List.Item>
+                  <List.Item>项目成员: 王某</List.Item>
+                  <List.Item>项目技术: TypeScript</List.Item>
+                </List>
+              </Col>
+            </Card>
+          </Col>
+
           <Col>
             <Card
               title={'我的项目 / ' + projectData?.menusList}
@@ -152,7 +156,7 @@ export default function Home() {
               </Row>
             </Card>
           </Col>
-          <Col>
+          <Col fixed style={{ width: 405 }}>
             <Row>
               <Col>
                 <Card
