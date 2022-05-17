@@ -33,14 +33,12 @@ export default createModel()({
     async getInfo(payload) {
       const data = await getInfo(payload)
       if (data.code === 200) {
-        Notify.success({ title: data.message })
         return true
       }
     },
     async getRouters(payload) {
       const data = await getRouters(payload)
       if (data.code === 200) {
-        Notify.success({ title: data.message })
         return true
       }
     },

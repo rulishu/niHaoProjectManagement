@@ -7,17 +7,17 @@ export default function Index() {
   const form = useForm()
 
   const {
-    local: { drawerVisible, drawerType, queryInfo },
+    postManagement: { drawerVisible, drawerType, queryInfo },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
     dispatch({
-      type: 'local/updateState',
+      type: 'postManagement/updateState',
       payload,
     })
   }
 
-  const onClose = () => dispatch({ type: 'local/clean' })
+  const onClose = () => dispatch({ type: 'postManagement/clean' })
   return (
     <ProDrawer
       width={800}
@@ -46,12 +46,12 @@ export default function Index() {
         onSubmit={(_, current) => {
           const errorObj = {}
           // 报警事件
-          if (!current?.userId) {
-            errorObj.userId = '岗位名称不能为空'
-          } else if (!current?.deviceName) {
-            errorObj.deviceName = '岗位编码不能为空'
-          } else if (!current?.deviceAddress) {
-            errorObj.deviceAddress = '岗位顺序不能为空'
+          if (!current?.postName) {
+            errorObj.postName = '岗位名称不能为空'
+          } else if (!current?.postCode) {
+            errorObj.postCode = '岗位顺序不能为空'
+          } else if (!current?.postSort) {
+            errorObj.postSort = '岗位顺序不能为空'
           } else if (!current?.status) {
             errorObj.status = '岗位状态不能为空'
           }
@@ -62,14 +62,12 @@ export default function Index() {
             throw err
           }
           dispatch({
-            type: `local/${drawerType === 'add' ? 'getAdd' : 'getEdit'}`,
+            type: `postManagement/${
+              drawerType === 'add' ? 'getAdd' : 'getEdit'
+            }`,
             payload: {
               ...current,
-              warnNum: Number(current?.warnNum),
-              workTime: Number(current?.workTime),
-              status: Number(current?.status),
-              userId: Number(current?.userId),
-              id: queryInfo?.id || null,
+              postId: queryInfo?.postId || null,
             },
           })
         }}

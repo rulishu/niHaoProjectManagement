@@ -1,5 +1,6 @@
 import UserLogin from '@uiw-admin/user-login'
 import { useNavigate } from 'react-router-dom'
+import { Notify } from 'uiw'
 
 export let navigate
 
@@ -55,6 +56,7 @@ const UserLayout = () => {
       onBefore={(store) => ({ ...store })}
       onSuccess={(data) => {
         if (data && data.code === 200) {
+          Notify.success({ title: '登录成功' })
           const userDataAccount = localStorage.getItem('userData')
           if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
             sessionStorage.clear()
@@ -73,6 +75,8 @@ const UserLayout = () => {
           // } else {
           navigate('/home', { replace: true })
           // }
+        } else {
+          Notify.error({ title: '错误通知', description: data?.msg })
         }
       }}
     />

@@ -1,8 +1,8 @@
 import { createModel } from '@rematch/core'
-import { getAdd, getDelete, getEdit } from '@/servers/local'
+import { getAdd, getDelete, getEdit } from '@/servers/postManagement'
 
-const local = createModel()({
-  name: 'local',
+const postManagement = createModel()({
+  name: 'postManagement',
   state: {
     drawerType: '',
     drawerVisible: false,
@@ -19,44 +19,44 @@ const local = createModel()({
   },
   effects: (dispatch) => ({
     // 新增
-    async getAdd(payload, local) {
+    async getAdd(payload, postManagement) {
       const dph = dispatch
       const data = await getAdd(payload)
-      if (data.code === 1) {
-        dph.local.updateState({
+      if (data.code === 200) {
+        dph.postManagement.updateState({
           drawerVisible: false,
           drawerVisiText: '',
         })
-        local.local.tablePro.onSearch()
+        postManagement.postManagement.tablePro.onSearch()
       }
     },
     // 删除
-    async getDelete(payload, local) {
+    async getDelete(payload, postManagement) {
       const dph = dispatch
       const data = await getDelete(payload)
-      if (data.code === 1) {
-        dph.local.updateState({
+      if (data.code === 200) {
+        dph.postManagement.updateState({
           drawerVisible: false,
           drawerVisiText: '',
         })
-        local.local.tablePro.onSearch()
+        postManagement.postManagement.tablePro.onSearch()
       }
     },
     // 编辑
-    async getEdit(payload, local) {
+    async getEdit(payload, postManagement) {
       const dph = dispatch
       const data = await getEdit(payload)
-      if (data.code === 1) {
-        dph.local.updateState({
+      if (data.code === 200) {
+        dph.postManagement.updateState({
           drawerVisible: false,
           drawerVisiText: '',
         })
-        local.local.tablePro.onSearch()
+        postManagement.postManagement.tablePro.onSearch()
       }
     },
     clean() {
       const dph = dispatch
-      dph.local.updateState({
+      dph.postManagement.updateState({
         drawerType: '',
         drawerVisible: false,
         queryInfo: {},
@@ -64,4 +64,4 @@ const local = createModel()({
     },
   }),
 })
-export default local
+export default postManagement
