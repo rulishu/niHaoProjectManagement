@@ -10,7 +10,7 @@ const token = localStorage.getItem('token')
 export default function Index() {
   const dispatch = useDispatch()
   const {
-    local: { alertShow, ids },
+    postManagement: { alertShow, ids },
   } = useSelector((state) => state)
 
   const table = useTable('/api/system/post/optionselect', {
@@ -30,13 +30,13 @@ export default function Index() {
       }
     },
     requestOptions: {
-      method: 'GET',
+      method: 'POST',
       headers: { Authorization: 'Bearer ' + token },
     },
   })
   const onOpenDelete = (data) => {
     dispatch({
-      type: 'local/updateState',
+      type: 'postManagement/updateState',
       payload: {
         alertShow: true,
         ids: data,
@@ -46,7 +46,7 @@ export default function Index() {
   }
   const setCloseDrawerVisible = () => {
     dispatch({
-      type: 'local/updateState',
+      type: 'postManagement/updateState',
       payload: {
         alertShow: false,
       },
@@ -54,7 +54,7 @@ export default function Index() {
   }
   const onOpenEdit = (data) => {
     dispatch({
-      type: 'local/updateState',
+      type: 'postManagement/updateState',
       payload: {
         drawerType: 'edit',
         drawerVisible: true,
@@ -73,9 +73,9 @@ export default function Index() {
         content={`是否确认删除本条数据！`}
         onConfirm={() => {
           dispatch({
-            type: 'local/getDelete',
+            type: 'postManagement/getDelete',
             payload: {
-              id: ids,
+              postIds: ids,
             },
           })
         }}></Alert>
@@ -90,7 +90,7 @@ export default function Index() {
             type: 'primary',
             onClick: () => {
               dispatch({
-                type: 'local/updateState',
+                type: 'postManagement/updateState',
                 payload: {
                   drawerType: 'add',
                   drawerVisible: true,
@@ -136,13 +136,6 @@ export default function Index() {
             ellipsis: true,
           },
           {
-            title: '岗位排序',
-            key: 'createTime',
-            width: 130,
-            align: 'center',
-            ellipsis: true,
-          },
-          {
             title: '岗位状态',
             key: 'status',
             width: 130,
@@ -162,11 +155,18 @@ export default function Index() {
             render: (code) => {
               return (
                 <div>
-                  <Badge color={code === 0 ? '#28a745' : '#c2c2c2'} />
-                  {code === 0 ? '正常' : '停用'}
+                  <Badge color={code === '0' ? '#28a745' : '#c2c2c2'} />
+                  {code === '0' ? '正常' : '停用'}
                 </div>
               )
             },
+          },
+          {
+            title: '备注',
+            key: 'remark',
+            width: 130,
+            align: 'center',
+            ellipsis: true,
           },
           {
             title: '创建时间',
