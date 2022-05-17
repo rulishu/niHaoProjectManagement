@@ -125,7 +125,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
       <BasicLayout
         {...basicLayoutProps}
         menuHide={isNoMenu}
-        headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}>
+        // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
+      >
         {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div> */}
