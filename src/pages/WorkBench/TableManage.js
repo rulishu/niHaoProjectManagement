@@ -43,27 +43,21 @@ export default function TableManage() {
       <div>
         <Row gutter={20}>
           <Col span="16">
-            <Card
-              title="所有的项目"
-              extra={
-                <Tabs
-                  type="line"
-                  activeKey="1"
-                  onTabClick={(tab, key, e) => {
-                    console.log('=>', key, tab)
-                  }}>
-                  <Tabs.Pane label="所有待处理" key="1"></Tabs.Pane>
-                  <Tabs.Pane label="进行中" key="2">
-                    {/* <Ongoing /> */}
-                  </Tabs.Pane>
-                  <Tabs.Pane sequence="fadeIn up" label="已延期" key="3">
-                    {/* <Overdue /> */}
-                  </Tabs.Pane>
-                  <Tabs.Pane sequence="fadeIn up" label="更多" key="4">
-                    更多
-                  </Tabs.Pane>
-                </Tabs>
-              }>
+            <Card title="所有项目" extra={'更多'} bodyStyle={{ paddingTop: 0 }}>
+              <Tabs
+                // type="line"
+                activeKey="1"
+                onTabClick={(tab, key, e) => {
+                  console.log('=>', key, tab)
+                }}>
+                <Tabs.Pane label="所有待处理" key="1"></Tabs.Pane>
+                <Tabs.Pane label="进行中" key="2">
+                  {/* <Ongoing /> */}
+                </Tabs.Pane>
+                <Tabs.Pane sequence="fadeIn up" label="已延期" key="3">
+                  {/* <Overdue /> */}
+                </Tabs.Pane>
+              </Tabs>
               <ProTable
                 style={{ width: 900 }}
                 paginationProps={{
