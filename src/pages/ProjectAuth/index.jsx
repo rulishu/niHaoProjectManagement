@@ -1,9 +1,13 @@
 import { useSelector } from 'react-redux'
 import Head from './Head'
+import { useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { columns } from './items'
 
 const ProjectAuth = () => {
+  const dispatch = useDispatch()
+
   const {
     projectAuth: { dataList },
   } = useSelector((state) => state)
@@ -17,7 +21,15 @@ const ProjectAuth = () => {
       }
     },
   })
-
+  const onTable = (type) => {
+    console.log('type: ', type)
+    if (type === 'lock') {
+      dispatch({
+        type: 'projectAuth/update',
+        payload: { isMain: true },
+      })
+    }
+  }
   return (
     <div className={styles.userWrap}>
       <Head />
@@ -27,24 +39,7 @@ const ProjectAuth = () => {
           pageSize: 10,
         }}
         table={table}
-        columns={[
-          {
-            title: '编号',
-            key: 'code',
-          },
-          {
-            title: '分组名称',
-            key: 'name',
-          },
-          {
-            title: '分组描述',
-            key: 'mshu',
-          },
-          {
-            title: '用户列表',
-            key: 'gender',
-          },
-        ]}
+        columns={columns(onTable)}
       />
     </div>
   )

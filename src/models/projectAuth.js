@@ -11,6 +11,7 @@ export default createModel()({
       { code: '1', name: 'ceshi', mshu: '测试', gender: '张三，李四' },
     ],
     isView: false,
+    isMain: false,
   },
   effects: (dispatch) => {
     return {
