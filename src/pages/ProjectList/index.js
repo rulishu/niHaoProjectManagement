@@ -137,142 +137,144 @@ const ProjectList = (props) => {
     requestOptions: { method: 'POST' },
   })
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <span>项目</span>
-        <div>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              dispatch.global.updataProject({ drawerType: 'add' })
-            }}>
-            新建项目
-          </Button>
+    <div className={styles.warp}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <span>项目</span>
+          <div>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                dispatch.global.updataProject({ drawerType: 'add' })
+              }}>
+              新建项目
+            </Button>
+          </div>
         </div>
-      </div>
-      <Divider />
-      <div className={styles.tabsDiv}>
+        <Divider />
+        <div className={styles.tabsDiv}>
+          <Tabs
+            type="line"
+            activeKey="1"
+            onTabClick={(tab, key, e) => {
+              if (tab === '1') {
+                setProjectStatus('')
+              } else if (tab === '2') {
+                setProjectStatus('1')
+              } else if (tab === '3') {
+                setProjectStatus('2')
+              } else if (tab === '4') {
+                setProjectStatus('3')
+              }
+              table.onSearch()
+            }}>
+            <Tabs.Pane label="全部" key="1"></Tabs.Pane>
+            <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
+            <Tabs.Pane label="已完成" key="3"></Tabs.Pane>
+            <Tabs.Pane label="已挂起" key="4"></Tabs.Pane>
+          </Tabs>
+          <div className={styles.tagsRight}>
+            <Input placeholder="按名称筛选" className={styles.item} />
+            <Select className={styles.item} defaultValue="1">
+              <Select.Option value="1">名称</Select.Option>
+              <Select.Option value="2">Two</Select.Option>
+              <Select.Option value="3">Three</Select.Option>
+            </Select>
+          </div>
+        </div>
         <Tabs
           type="line"
           activeKey="1"
           onTabClick={(tab, key, e) => {
+            console.log(tab)
             if (tab === '1') {
-              setProjectStatus('')
+              setProjectType('20')
             } else if (tab === '2') {
-              setProjectStatus('1')
-            } else if (tab === '3') {
-              setProjectStatus('2')
-            } else if (tab === '4') {
-              setProjectStatus('3')
+              setProjectType('10')
             }
             table.onSearch()
           }}>
-          <Tabs.Pane label="全部" key="1"></Tabs.Pane>
-          <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
-          <Tabs.Pane label="已完成" key="3"></Tabs.Pane>
-          <Tabs.Pane label="已挂起" key="4"></Tabs.Pane>
+          <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
+          <Tabs.Pane label="我的" key="2"></Tabs.Pane>
         </Tabs>
-        <div className={styles.tagsRight}>
-          <Input placeholder="按名称筛选" className={styles.item} />
-          <Select className={styles.item} defaultValue="1">
-            <Select.Option value="1">名称</Select.Option>
-            <Select.Option value="2">Two</Select.Option>
-            <Select.Option value="3">Three</Select.Option>
-          </Select>
-        </div>
-      </div>
-      <Tabs
-        type="line"
-        activeKey="1"
-        onTabClick={(tab, key, e) => {
-          console.log(tab)
-          if (tab === '1') {
-            setProjectType('20')
-          } else if (tab === '2') {
-            setProjectType('10')
-          }
-          table.onSearch()
-        }}>
-        <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
-        <Tabs.Pane label="我的" key="2"></Tabs.Pane>
-      </Tabs>
-      <div className={styles.proTable}>
-        <ProTable
-          tableHeadHidden={true}
-          tableBackgroundColor="#fff"
-          onCell={() => {
-            router.navigate('/projectOverview/333')
-          }}
-          paginationProps={{
-            pageSize: 10,
-          }}
-          table={table}
-          columns={[
-            {
-              // title: '名字',
-              key: 'companyName',
-              render: (text, keyName, rowData) => {
-                return (
-                  <div style={{ display: 'flex' }}>
-                    <div>
-                      <Avatar
-                        size="small"
-                        className={styles.listImg}
-                        src={
-                          rowData?.fileIds !== null && rowData?.fileIds
-                            ? rowData?.fileIds[0]
-                            : ''
-                        }>
-                        {text[0]}
-                      </Avatar>
-                    </div>
-                    <div>
-                      <p className={styles.proName}>{text}</p>
-                      <p className={styles.proName}>{rowData?.descr}</p>
-                    </div>
-                  </div>
-                )
-              },
-            },
-            {
-              // title: '开始时间',
-              key: 'begin',
-              render: (text) => {
-                return <div>{text}</div>
-              },
-            },
-            {
-              // title: '结束时间',
-              key: 'end',
-              render: (text) => {
-                return <div>{text}</div>
-              },
-            },
-            {
-              // title: '操作',
-              key: 'edit',
-              width: 50,
-              render: (text, keyName, rowData) => {
-                return (
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation()
-                    }}>
-                    <Dropdown
-                      placement="bottomLeft"
-                      trigger="click"
-                      menu={menu(rowData.id)}>
+        <div className={styles.proTable}>
+          <ProTable
+            tableHeadHidden={true}
+            tableBackgroundColor="#fff"
+            onCell={() => {
+              router.navigate('/projectOverview/333')
+            }}
+            paginationProps={{
+              pageSize: 10,
+            }}
+            table={table}
+            columns={[
+              {
+                // title: '名字',
+                key: 'companyName',
+                render: (text, keyName, rowData) => {
+                  return (
+                    <div style={{ display: 'flex' }}>
                       <div>
-                        <Icon type="more" />
+                        <Avatar
+                          size="small"
+                          className={styles.listImg}
+                          src={
+                            rowData?.fileIds !== null && rowData?.fileIds
+                              ? rowData?.fileIds[0]
+                              : ''
+                          }>
+                          {text[0]}
+                        </Avatar>
                       </div>
-                    </Dropdown>
-                  </div>
-                )
+                      <div>
+                        <p className={styles.proName}>{text}</p>
+                        <p className={styles.proName}>{rowData?.descr}</p>
+                      </div>
+                    </div>
+                  )
+                },
               },
-            },
-          ]}
-        />
+              {
+                // title: '开始时间',
+                key: 'begin',
+                render: (text) => {
+                  return <div>{text}</div>
+                },
+              },
+              {
+                // title: '结束时间',
+                key: 'end',
+                render: (text) => {
+                  return <div>{text}</div>
+                },
+              },
+              {
+                // title: '操作',
+                key: 'edit',
+                width: 50,
+                render: (text, keyName, rowData) => {
+                  return (
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation()
+                      }}>
+                      <Dropdown
+                        placement="bottomLeft"
+                        trigger="click"
+                        menu={menu(rowData.id)}>
+                        <div>
+                          <Icon type="more" />
+                        </div>
+                      </Dropdown>
+                    </div>
+                  )
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
     </div>
   )
