@@ -9,7 +9,7 @@
     "routes": [
       {
         "index": true,
-        "redirect": "/milestone"
+        "redirect": "/home"
       },
       {
         "path": "/home",
