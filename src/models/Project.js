@@ -52,12 +52,13 @@ export default createModel()({
   },
   effects: (dispatch) => {
     return {
+      // 分页查询
       async getList(params, { project }) {
         const { filter } = project
         const data = await getSelectPage({
           ...filter,
           ...params,
-          projectId: Number(sessionStorage.getItem('id')),
+          projectId: '', // useLocation
         })
         if (data && data.code === 200) {
           if (params?.assignmentStatus === '3') {
