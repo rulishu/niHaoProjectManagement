@@ -17,13 +17,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const dispatch = useDispatch()
   const userData = JSON.parse(localStorage.getItem('userData'))
 
-  const updateDataGlobal = (payload) => {
-    dispatch({
-      type: 'global/updateState',
-      payload,
-    })
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function refresh(type) {
     type && window.location.reload()
@@ -81,7 +74,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             style={{ marginRight: 15 }}
             onClick={() => {
-              updateDataGlobal({ drawerVisible: true })
+              dispatch({
+                type: 'global/updataProject',
+                payload: { drawerType: 'add' },
+              })
             }}>
             新增项目
           </div>
