@@ -1,6 +1,6 @@
 import { ProDrawer, useForm, ProForm } from '@uiw-admin/components'
 import { useDispatch, useSelector } from 'react-redux'
-import { items } from './items'
+import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
 
 const Drawer = (props) => {
@@ -104,7 +104,13 @@ const Drawer = (props) => {
             payload: { ...queryInfo, ...current },
           })
         }
-        formDatas={items(queryInfo)}
+        formDatas={
+          tableType === 'edit'
+            ? items(queryInfo)
+            : tableType === 'member'
+            ? memberItems(queryInfo)
+            : groupItems(queryInfo)
+        }
       />
     </ProDrawer>
   )
