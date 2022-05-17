@@ -1,32 +1,42 @@
 import { Fragment, useEffect } from 'react'
-import {
-  Tabs,
-  Pagination,
-  Empty,
-  Tooltip,
-  Icon,
-  Loader,
-  Progress,
-  Row,
-  Col,
-  List,
-} from 'uiw'
+import { Tabs, Pagination, Loader, Empty, Tooltip } from 'uiw'
 import { SearchBar } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+// import { AuthBtn } from '@uiw-admin/authorized'
+import arr from './data'
+import 'tributejs/tribute.css'
+import {
+  Row,
+  Col,
+  Icon,
+  // Progress,
+  List,
+} from 'uiw'
 import dayjs from 'dayjs'
-import { StatusTag } from '@/components'
-// import { getProjectID } from '../../utils/getId'
-const { Line } = Progress
-// const listField = {
-//   title: 'assignmentTitle',
-//   createName: 'createName',
-//   createTime: 'createTime',
-//   issueNo: 'assignmentId',
-//   updateTime: 'updateTime',
-//   updateName: 'updateName',
+
+const listField = {
+  title: 'assignmentTitle',
+  createName: 'createName',
+  createTime: 'createTime',
+  issueNo: 'assignmentId',
+  updateTime: 'updateTime',
+  updateName: 'updateName',
+}
+
+// const milestoneStatus = {
+//   1: { title: 'addtodo', className: 'blue' },
+//   2: { title: '关闭', className: 'brown' },
+//   3: { title: '删除', className: 'red' },
 // }
+
+const SearchBarOption = [
+  { value: 1, text: '待处理' },
+  // { value: 3, text: '已关闭' },
+  { value: '', text: '已完成' },
+]
+
 const tabsLabel = (title, num) => {
   return (
     <div>
@@ -35,13 +45,12 @@ const tabsLabel = (title, num) => {
     </div>
   )
 }
-const TodoList = () => {
-  const navigate = useNavigate()
+
+const TodoList = (props) => {
+  // const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-  // useEffect(() => {
-  //   getProjectID({ jump: navigate })
-  // }, [navigate])
+
   const taskId = sessionStorage.getItem('id')
 
   const {
@@ -58,13 +67,13 @@ const TodoList = () => {
     loading,
   } = useSelector((state) => state)
 
+  // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
-    // if (getProjectID({})) return
     if (location?.state) {
-      dispatch({
-        type: 'project/update',
-        payload: { activeKey: '1' },
-      })
+      // dispatch({
+      //   type: 'project/update',
+      //   payload: { activeKey: '1' },
+      // })
     }
     if (taskId) {
       dispatch.project.getList(
@@ -83,19 +92,8 @@ const TodoList = () => {
           : { assignmentStatus: '3' }
       )
     }
-  }, [taskId, dispatch, location?.state])
-
-  const milestoneStatus = {
-    1: { title: 'addtodo', className: 'blue' },
-    2: { title: '关闭', className: 'brown' },
-    3: { title: '删除', className: 'red' },
-  }
-
-  const SearchBarOption = [
-    { value: 1, text: '待处理' },
-    // { value: 3, text: '已关闭' },
-    { value: '', text: '已完成' },
-  ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const updateData = (payload) => {
     dispatch({
@@ -103,44 +101,10 @@ const TodoList = () => {
       payload,
     })
   }
-  // const goIssue = () => {
-  //   updateData({
-  //     issueType: 'add',
-  //     fromData: {
-  //       assignmentTitle: '',
-  //       assignmentType: 1,
-  //       description: '',
-  //       projectId: taskId,
-  //       labels: [],
-  //     },
-  //   })
-  //   navigate('/project/newIssue')
-  // }
 
-  const listGo = (item) => {
-    updateData({ editId: item.assignmentId, editFromData: item })
-    // navigate(`/project/taskInfo/${item.assignmentId}`, {
-    //   state: { editId: item.assignmentId },
-    // })
-    console.log('item', item)
-
-    navigate(
-      `/project/taskInfo/${sessionStorage.getItem('companyId')}/${
-        item.projectId
-      }/${item.assignmentId}`
-    )
-  }
-  const getTabList = async (activeKey) => {
-    await updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: activeKey, ...location?.state }
-        : { assignmentStatus: activeKey }
-    )
-  }
-
+  // 搜索按钮事件
   const getTaskListData = async (value, selectValue) => {
-    await updateData({ activeKey: selectValue })
+    updateData({ activeKey: selectValue })
     await dispatch.project.getList({
       assignmentStatus: selectValue,
       assignmentTitle: value,
@@ -148,119 +112,116 @@ const TodoList = () => {
     })
   }
 
-  // const delAssignment = async (item) => {
-  //   Modal.show({
-  //     title: '提示',
-  //     confirmText: '确定',
-  //     cancelText: '取消',
-  //     children: `确定要删除该任务吗?`,
-  //     onConfirm: async () => {
-  //       await dispatch.project
-  //         .deleteAssignment([{ id: item.assignmentId, projectId: taskId }])
-  //         .then((res) => {
-  //           if (res.code === 200) {
-  //             Notify.success({ description: res.message })
-  //             let newPage = filter.page
-  //             let newListDate =
-  //               activeKey === '1'
-  //                 ? openTataList
-  //                 : activeKey === '3'
-  //                   ? closeDataList
-  //                   : dataList
-  //             if (newListDate.length === 1 && filter.page !== 1) {
-  //               newPage = filter.page - 1
-  //             }
-  //             dispatch.project.getList({
-  //               page: newPage,
-  //               assignmentStatus: location?.state
-  //                 ? activeKey
-  //                 : { activeKey, ...location?.state },
-  //             })
-  //           }
-  //         })
-  //     },
-  //   })
-  // }
+  // const {  listField } = props
+
+  console.log('arr--->', arr)
   // 列表
   const taskDataList = (data, taskTotal, num) => {
+    console.log('listField', listField)
     return (
       <div>
         {data.length > 0 ? (
           <Fragment>
-            {/* <List
-              data={data || []}
-              isIssue={true}
-              listField={listField}
-              listNavigate={listGo}
-              delAssignment={delAssignment}
-            /> */}
             <List
               className={styles.list}
-              dataSource={data}
+              dataSource={arr}
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
                 return (
                   <List.Item
                     key={index}
-                    className={styles.listItem}
-                    onClick={() => {
-                      listGo(item.milestonesId)
-                    }}
-                    style={{ width: '100%', borderRadius: 0 }}>
-                    <Row style={{ width: '100%' }}>
-                      <Col span="10">
-                        <div className={styles.itemList}>
-                          <div className={styles.title}>
-                            {item.milestonesTitle}
-                          </div>
-                          <div className={styles.info}>
-                            创建于 {item.createTime} 由 {item.createName}
-                            {item?.dueTime && (
-                              <Tooltip placement="top" content="Due date">
-                                <span
-                                  className={`dueDate ${
-                                    dayjs(item?.dueTime)?.diff(
-                                      dayjs().format('YYYY-MM-DD'),
-                                      'hour'
-                                    ) < 0 && item?.milestonesStatus === 1
-                                      ? 'redDate'
-                                      : ''
-                                  }`}>
-                                  <Icon type="date" /> {item?.dueTime}
-                                </span>
-                              </Tooltip>
-                            )}
-                          </div>
+                    extra={
+                      <div>
+                        <div className={styles.listIssueIcon}>
+                          <Tooltip placement="top" content="Assignees">
+                            <span className={styles.taskUserName}>
+                              {item.assigneeUserName && <Icon type="user" />}{' '}
+                              {item.assigneeUserName}
+                            </span>
+                          </Tooltip>
+                          <Icon type="message" />
+                          <span className={styles.listIconSpan}>0</span>
+                          {/* <Tooltip placement="top" content="Move">
+                            <span
+                              className={styles.listIconSpan}
+                              onClick={() => delAssignment(item)}>
+                              <Icon type="delete" />
+                            </span>
+                          </Tooltip> */}
                         </div>
-                      </Col>
-                      <Col span="10">
-                        <Line
-                          percent={(+item.degreeCompletion * 100).toFixed()}
-                          showText={false}
-                        />
-                        <div className={styles.progressText}>
-                          <span className={styles.num}>
-                            {item?.allTaskNum} 个任务数
-                          </span>
-                          <span className={styles.plan}>
-                            {(+item?.degreeCompletion * 100).toFixed()} %完成
-                          </span>
+                        {listField?.updateName
+                          ? item[listField.updateName]
+                          : item?.updateName}{' '}
+                        更新于{' '}
+                        {listField?.updateTime
+                          ? item[listField.updateTime]
+                          : item?.updateTime}
+                      </div>
+                    }>
+                    <Row gutter={10} className={styles.listRow}>
+                      <Col
+                        // span={18}
+                        className={styles.listCol}>
+                        <a href={item?.nav} className={styles.listTitle}>
+                          {listField?.title
+                            ? item[listField.title]
+                            : item.title}
+                        </a>
+
+                        <div className={styles.listContent}>
+                          #{' '}
+                          {listField?.issueNo
+                            ? item[listField.issueNo]
+                            : item.id}{' '}
+                          · 创建于{' '}
+                          {listField?.createTime
+                            ? item[listField.createTime]
+                            : item?.createTime}{' '}
+                          由{' '}
+                          {listField?.createName
+                            ? item[listField.createName]
+                            : item?.createName}{' '}
+                          {item?.dueDate && (
+                            <Tooltip placement="top" content="Due date">
+                              <span
+                                className={`dueDate ${
+                                  dayjs(item?.dueDate)?.diff(
+                                    dayjs().format('YYYY-MM-DD'),
+                                    'hour'
+                                  ) < 0 && item?.assignmentStatus === 1
+                                    ? 'redDate'
+                                    : ''
+                                }`}>
+                                <Icon type="date" />{' '}
+                                {listField?.dueDate
+                                  ? item[listField.dueDate]
+                                  : item?.dueDate}
+                              </span>
+                            </Tooltip>
+                          )}
+                          {item?.labels
+                            ? item?.labels.map((list, index2) => {
+                                return (
+                                  <span
+                                    key={index2 + index}
+                                    className={styles.listIssueStatus}
+                                    style={{
+                                      backgroundColor: list.dictColour,
+                                    }}>
+                                    {list.dictName}
+                                  </span>
+                                )
+                              })
+                            : null}
                         </div>
-                      </Col>
-                      <Col span="4" className={styles.status}>
-                        <StatusTag
-                          status={item?.milestonesStatus}
-                          statusList={milestoneStatus}
-                          size="big"
-                        />
                       </Col>
                     </Row>
                   </List.Item>
                 )
               }}
             />
-            {taskTotal > 0 && (
+            {taskTotal > 10 && (
               <Pagination
                 current={filter.page}
                 pageSize={10}
@@ -286,6 +247,16 @@ const TodoList = () => {
     )
   }
 
+  // 切换tab，查询分页
+  const getTabList = async (activeKey) => {
+    updateData({ activeKey, filter: { ...filter, page: 1 } })
+    await dispatch.project.getList(
+      location?.state
+        ? { assignmentStatus: activeKey, ...location?.state }
+        : { assignmentStatus: activeKey }
+    )
+  }
+
   return (
     <div className={styles.wrap}>
       <Loader
@@ -294,13 +265,13 @@ const TodoList = () => {
         style={{ width: '100%' }}
         loading={loading.effects.project.getList}>
         <div>
-          <div className={styles.nav}>
-            {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
-            {/* <Button type="primary" onClick={() => goIssue()}> */}
-            待办事项列表
-            {/* </Button> */}
-            {/* </AuthBtn> */}
-          </div>
+          {/* <div className={styles.nav}> */}
+          {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
+          {/* <Button type="primary" onClick={() => goIssue()}> */}
+          {/* 待办事项列表 */}
+          {/* </Button> */}
+          {/* </AuthBtn> */}
+          {/* </div> */}
 
           <Tabs
             type="line"

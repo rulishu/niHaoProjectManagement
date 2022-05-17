@@ -9,40 +9,44 @@
     "routes": [
       {
         "index": true,
-        "redirect": "/milestone"
+        "redirect": "/home"
       },
       {
         "path": "/home",
         "name": "工作台",
-        "component": "@/pages/WorkBench"
+        "component": "@/pages/WorkBench",
+        "hideInMenu": true
       },
       {
         "path": "/projectList",
         "name": "项目列表",
-        "component": "@/pages/ProjectList"
+        "component": "@/pages/ProjectList",
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
-        "path": "/TodoList",
+        "path": "/todoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
-        "icon": "save"
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
-        "path": "/projectOverview",
+        "path": "/projectOverview/:id",
         "name": "项目概览",
         "component": "@/pages/ProjectOverview",
-        "icon": "home",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "component": "@/pages/Milestone"
+        "component": "@/pages/Milestone",
+        "isAuth": false
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "isAuth": true,
+        "isAuth": false,
         "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [

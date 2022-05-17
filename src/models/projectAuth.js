@@ -12,6 +12,7 @@ export default createModel()({
     ],
     isView: false,
     isMain: false,
+    isUsers: false,
   },
   effects: (dispatch) => {
     return {

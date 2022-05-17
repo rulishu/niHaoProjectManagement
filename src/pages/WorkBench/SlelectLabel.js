@@ -53,15 +53,12 @@ export default function Home() {
                   console.log('=>', key, tab)
                 }}>
                 <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
-                <Tabs.Pane label="进行中" key="2">
-                  {/* <Ongoing /> */}
-                </Tabs.Pane>
-                <Tabs.Pane sequence="fadeIn up" label="已逾期" key="3">
-                  {/* <Overdue /> */}
-                </Tabs.Pane>
-                <Tabs.Pane label="我创建的" key="4">
-                  {/* <OurCreate /> */}
-                </Tabs.Pane>
+                <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="已逾期"
+                  key="3"></Tabs.Pane>
+                <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
               </Tabs>
               <ProTable
                 style={{ width: 900 }}
