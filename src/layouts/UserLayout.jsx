@@ -5,25 +5,25 @@ export let navigate
 
 const UserLayout = () => {
   navigate = useNavigate()
-  // let authList = [
-  //   '/TodoList',
-  //   '/tableList',
-  //   '/issues-center/:id',
-  //   '/home',
-  //   '/demo',
-  //   '/dom',
-  //   '/dom/*',
-  //   '/dom/milestone',
-  //   '/milestone',
-  //   '/milestone/*',
-  //   '/project',
-  //   '/project/*',
-  //   '/exceptions',
-  //   '/exceptions/403',
-  //   '/exceptions/404',
-  //   '/exceptions/500',
-  //   '/*',
-  // ]
+  let authList = [
+    '/TodoList',
+    '/tableList',
+    '/issues-center/:id',
+    '/home',
+    '/demo',
+    '/dom',
+    '/dom/*',
+    '/dom/milestone',
+    '/milestone',
+    '/milestone/*',
+    '/project',
+    '/project/*',
+    '/exceptions',
+    '/exceptions/403',
+    '/exceptions/404',
+    '/exceptions/500',
+    '/*',
+  ]
   // const goHome = () => {
   //   navigate('/home', { replace: true })
   //   localStorage.setItem('token', 'cccccc')
@@ -57,13 +57,14 @@ const UserLayout = () => {
             sessionStorage.clear()
           }
           localStorage.setItem('userData', JSON.stringify(data?.data?.user))
-          localStorage.setItem('token', JSON.stringify(data?.token))
+          localStorage.setItem('token', data?.token || '')
           localStorage.setItem('routes', JSON.stringify(data?.data?.menus))
           let roleAuth = []
           data?.data?.menus.forEach((item) => {
             roleAuth.push(item.path)
           })
-          localStorage.setItem('auth', JSON.stringify(roleAuth || []))
+          localStorage.setItem('auth', JSON.stringify(authList || []))
+          // localStorage.setItem('auth', JSON.stringify(roleAuth || []))
           // if (data?.data?.user?.isGuide) {
           //   navigate('/company', { replace: true })
           // } else {
