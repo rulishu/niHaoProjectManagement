@@ -95,7 +95,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             </Badge>
           </div>
 
-          <div
+          {/* <div
             className={styles.title}
             onClick={() => {
               navigate('/project/task')
@@ -103,7 +103,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             <Badge count={66}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
             </Badge>
-          </div>
+          </div> */}
         </>
       ),
     },
@@ -119,13 +119,16 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
 
   const token = localStorage.getItem('token')
+  // 是否是没有左侧菜单的界面
+  const isNoMenu = ['/projectList', '/home', '/todoList'].includes(
+    props.router.location.pathname
+  )
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        menuHide={['/projectList', '/home', '/todoList'].includes(
-          props.router.location.pathname
-        )}>
+        menuHide={isNoMenu}
+        headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}>
         {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div> */}

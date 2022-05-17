@@ -17,7 +17,7 @@ const Search = () => {
     })
   }
 
-  const search = useTable('api/selectPage', {
+  const search = useTable('/api/projectMember/selectAllProjectMember', {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
@@ -95,7 +95,14 @@ const Search = () => {
         />
       </div>
 
-      <ProTable table={search} columns={columnsSearch(handleEditTable)} />
+      <ProTable
+        paginationProps={{
+          pageSizeOptions: [10, 20, 30],
+          pageSize: 10,
+        }}
+        table={search}
+        columns={columnsSearch(handleEditTable)}
+      />
 
       <Drawer updateData={updateData} onSearch={search.onSearch} />
       <Modal onSearch={search.onSearch} />

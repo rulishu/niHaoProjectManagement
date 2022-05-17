@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Row, Col, Card, Progress, Steps, Button, Icon, List } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-// import LineChart from './LineChart'
+import AllTasks from './AllTasks'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
 
@@ -56,7 +56,7 @@ export default function Home() {
     <div>
       <div>
         <Row gutter={20}>
-          <Col fixed style={{ width: 300 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card
               title="Uiw"
               bordered={false}
@@ -81,7 +81,7 @@ export default function Home() {
               </Col>
             </Card>
           </Col>
-          <Col>
+          <Col fixed style={{ width: '50%' }}>
             <Card
               title={'我的项目 / ' + projectData?.menusList}
               bordered={false}
@@ -144,6 +144,7 @@ export default function Home() {
                       ].map((item) => {
                         return (
                           <Card
+                            bordered={false}
                             onClick={() => console.log('123')}
                             key={item.key}
                             title={item.title}
@@ -161,38 +162,36 @@ export default function Home() {
               </Row>
             </Card>
           </Col>
-          <Col fixed style={{ width: 405 }}>
-            <Row>
-              <Col>
-                <Card
-                  title="里程碑"
-                  bordered={false}
-                  style={{ height: 400, width: '%' }}>
-                  <div className={styles.newDynamic}>
-                    <Steps
-                      direction="vertical"
-                      progressDot
-                      status="error"
-                      current={2}
-                      style={{ padding: '20px 0' }}>
-                      <Steps.Step
-                        title="步骤一"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                      <Steps.Step
-                        title="步骤二"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                    </Steps>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
+          <Col fixed style={{ width: '25%' }}>
+            <Card
+              title="里程碑"
+              bordered={false}
+              style={{ height: 400, width: '%' }}>
+              <div className={styles.newDynamic}>
+                <Steps
+                  direction="vertical"
+                  progressDot
+                  status="error"
+                  current={2}
+                  style={{ padding: '20px 0' }}>
+                  <Steps.Step
+                    title="步骤一"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                  <Steps.Step
+                    title="步骤二"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                </Steps>
+              </div>
+            </Card>
           </Col>
         </Row>
       </div>
       <div style={{ marginTop: 20 }}></div>
       <SlelectLabel />
+      <div style={{ marginTop: 20 }}></div>
+      <AllTasks />
     </div>
   )
 }

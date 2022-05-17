@@ -21,13 +21,15 @@
         "path": "/projectList",
         "name": "项目列表",
         "component": "@/pages/ProjectList",
-        "hideInMenu": true
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
         "path": "/todoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
-        "hideInMenu": true
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
         "path": "/projectOverview/:id",
@@ -38,13 +40,12 @@
       {
         "path": "/milestone",
         "name": "里程碑",
-        "component": "@/pages/Milestone"
+        "component": "@/pages/Milestone",
+        "isAuth": false
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "isAuth": true,
-        "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
@@ -85,6 +86,7 @@
           {
             "path": "/project/newIssue",
             "name": "新增任务",
+            "hideInMenu": true,
             "component": "@/pages/Project/NewIssue",
             "isAuth": true
           },
@@ -102,13 +104,13 @@
         "path": "/users",
         "name": "成员管理",
         "component": "@/pages/AllUsers",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",
         "name": "团队管理",
         "component": "@/pages/TeamManagement",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",

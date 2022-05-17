@@ -42,7 +42,7 @@ export default function TableManage() {
     <div>
       <div>
         <Row gutter={20}>
-          <Col span="16">
+          <Col fixed style={{ width: '75%' }}>
             <Card
               title="所有项目"
               extra={

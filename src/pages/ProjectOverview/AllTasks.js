@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Steps, Tabs } from 'uiw'
+import { Row, Col, Card, Tabs, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
-import styles from './index.less'
 
-export default function Home() {
+export default function AllTasks() {
   const dispatch = useDispatch()
   const {
     home: { taskId },
@@ -44,7 +43,17 @@ export default function Home() {
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '75%' }}>
-            <Card title="我的任务" extra={'更多'} bodyStyle={{ paddingTop: 0 }}>
+            <Card
+              title="所有任务"
+              extra={
+                <Button
+                  basic
+                  type="dark"
+                  onClick={() => (window.location.href = '#/projectList')}>
+                  更多
+                </Button>
+              }
+              bodyStyle={{ paddingTop: 0 }}>
               <Tabs
                 // type="line"
                 activeKey="1"
@@ -59,6 +68,14 @@ export default function Home() {
                   label="已逾期"
                   key="3"></Tabs.Pane>
                 <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="已关闭"
+                  key="5"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="逾期完成"
+                  key="6"></Tabs.Pane>
               </Tabs>
               <ProTable
                 style={{ width: 900 }}
@@ -112,43 +129,6 @@ export default function Home() {
                   },
                 ]}
               />
-            </Card>
-          </Col>
-          <Col fixed style={{ width: '25%' }}>
-            <Card title="成员动态" bordered={false} style={{ height: 440 }}>
-              <div className={styles.newDynamic}>
-                <Steps
-                  direction="vertical"
-                  progressDot
-                  status="error"
-                  current={2}
-                  style={{ padding: '20px 0' }}>
-                  <Steps.Step
-                    title="步骤一"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤二"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤三"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤四"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤五"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤六"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                </Steps>
-              </div>
             </Card>
           </Col>
         </Row>
