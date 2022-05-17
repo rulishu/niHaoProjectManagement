@@ -4,8 +4,8 @@ import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange } from '@/components'
 import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
-import Bread from './Breadcrumb'
-import { BreadcrumbMap } from '@/utils/utils'
+// import Bread from './Breadcrumb'
+// import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
 import ProjectManagement from '../components/ProjectManagement'
 // import styles from './index.module.less'
@@ -121,9 +121,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
       <BasicLayout
         {...basicLayoutProps}
         menuHide={['/projectList'].includes(props.router.location.pathname)}>
-        <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+        {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
-        </div>
+        </div> */}
         <Outlet />
         <PassWordChange refs={passwordRef} />
         <ProjectManagement></ProjectManagement>
