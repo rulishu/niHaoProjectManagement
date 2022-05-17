@@ -10,7 +10,6 @@ const projectlist = createModel()({
     page: 1,
     pageSize: 10,
     total: 0,
-    status: '',
     type: '10',
     dataList: [], // 数据列表源
   },
@@ -25,15 +24,12 @@ const projectlist = createModel()({
   effects: (dispatch) => ({
     //查询项目
     async selectOneInfo(payload, { projectlist }) {
-      const { pageSize, page, type, status } = projectlist
+      const { pageSize, page, type } = projectlist
       let params = {
         pageSize,
         page,
         type,
         ...payload,
-      }
-      if (status !== '') {
-        params = { ...params, status }
       }
       const data = await selectOneInfo(params)
       if (data && data.code === 200) {
