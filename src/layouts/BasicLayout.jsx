@@ -15,7 +15,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
-  const userData = JSON.parse(localStorage.getItem('userData'))
+  const userData = localStorage.getItem('userData')
 
   const updateDataGlobal = (payload) => {
     dispatch({
@@ -34,7 +34,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }, [refresh])
 
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
-  const currUserRoute = JSON.parse(localStorage.getItem('routes'))
+  const currUserRoute = localStorage.getItem('routes')
   let routes = props.routes
 
   if (currUserRoute) {

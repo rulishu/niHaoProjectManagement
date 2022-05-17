@@ -8,9 +8,7 @@ const PassWordChange = (props) => {
   const navigate = useNavigate()
   const { dispatch, refs } = props
   const [visible, setVisible] = useState(false)
-  const [userData, setUserData] = useState(
-    JSON.parse(localStorage.getItem('userData'))
-  )
+  const [userData, setUserData] = useState(localStorage.getItem('userData'))
 
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}
@@ -50,7 +48,7 @@ const PassWordChange = (props) => {
     open: () => setVisible(true),
   }))
 
-  useEffect(() => setUserData(JSON.parse(localStorage.getItem('userData'))), [])
+  useEffect(() => setUserData(localStorage.getItem('userData')), [])
 
   return (
     <Modal
