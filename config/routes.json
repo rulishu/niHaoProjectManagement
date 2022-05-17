@@ -84,6 +84,7 @@
           {
             "path": "/project/newIssue",
             "name": "新增任务",
+            "hideInMenu": true,
             "component": "@/pages/Project/NewIssue",
             "isAuth": true
           },
