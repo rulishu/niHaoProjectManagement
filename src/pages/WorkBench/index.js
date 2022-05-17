@@ -5,6 +5,7 @@ import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
+import { Container } from '@/components'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -158,7 +159,7 @@ export default function Demo() {
     },
   ]
   return (
-    <div>
+    <Container>
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>
@@ -295,6 +296,6 @@ export default function Demo() {
       <TableManage />
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
-    </div>
+    </Container>
   )
 }
