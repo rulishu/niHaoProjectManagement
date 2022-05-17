@@ -22,11 +22,20 @@ const ProjectAuth = () => {
     },
   })
   const onTable = (type) => {
-    console.log('type: ', type)
     if (type === 'lock') {
       dispatch({
         type: 'projectAuth/update',
         payload: { isMain: true },
+      })
+    } else if (type === 'user') {
+      dispatch({
+        type: 'projectAuth/update',
+        payload: { isUsers: true },
+      })
+    } else if (type === 'edit') {
+      dispatch({
+        type: 'projectAuth/update',
+        payload: { isView: true },
       })
     }
   }
