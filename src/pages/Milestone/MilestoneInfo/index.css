@@ -1,3 +1,10 @@
-.w-col .w-card{
-    margin: 10px;
+
+.milesTab .w-tabs-item {
+    line-height: 30px;
+}
+.milesTab .w-card-body {
+    padding: 0;
+}
+.milesTab .w-card-head {
+ background: #fafafa;
 }

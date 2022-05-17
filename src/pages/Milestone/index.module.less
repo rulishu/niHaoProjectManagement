@@ -145,15 +145,15 @@
 }
 
 .btnWrap {
-  margin-top: 16px;
+  margin-top: @margin-md;
 }
 
 .markStyle {
-  margin: 15px;
+  margin: 1 @margin-md;
 }
 
 .markBtnSty {
-  margin: 15px 0;
+  margin: @margin-md 0;
 }
 
 .assTitle {
@@ -163,11 +163,17 @@
 
 // 里程碑List.item
 .list {
-  padding: 8px;
-  margin-top: 8px;
+  padding: @padding-xs;
+  margin-top: @margin-xs;
   border-radius: 4px;
   background-color: #dbdbdb;
   font-size: 12px;
+
+  div:last-child {
+    .milestonesItemList {
+      margin-bottom: 0px;
+    }
+  }
 
   .milestonesItemList {
     border: 0;
@@ -232,9 +238,6 @@
     .itemListRight {
       display: flex;
       justify-content: flex-end;
-
-      Button {
-      }
     }
   }
 }
