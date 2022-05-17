@@ -47,11 +47,11 @@ const UserLayout = () => {
         //   title: '注册'
         // }
       ]}
-      api="/api/login/login"
+      api="/api/login"
       btnProps={{ type: 'primary' }}
       saveField={{
-        userName: 'userAccount',
-        passWord: 'userPassword',
+        username: 'userAccount',
+        password: 'userPassword',
       }}
       onBefore={(store) => ({ ...store })}
       onSuccess={(data) => {
@@ -61,9 +61,15 @@ const UserLayout = () => {
           if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
             sessionStorage.clear()
           }
-          localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+          localStorage.setItem(
+            'userData',
+            JSON.stringify(data?.data?.user || {})
+          )
           localStorage.setItem('token', data?.token || '')
-          localStorage.setItem('routes', JSON.stringify(data?.data?.menus))
+          localStorage.setItem(
+            'routes',
+            JSON.stringify(data?.data?.menus || {})
+          )
           let roleAuth = []
           data?.data?.menus.forEach((item) => {
             roleAuth.push(item.path)
