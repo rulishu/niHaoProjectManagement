@@ -26,34 +26,26 @@ export const columns = (onTable) => [
     key: 'edit',
     width: 180,
     align: 'center',
-    render: (text, key, rowData) => (
+    render: () => (
       <div>
         <Tooltip placement="top" content="项目维护权限">
-          <Button
-            size="small"
-            icon="lock"
-            onClick={() => onTable('lock', rowData)}
-          />
+          <Button size="small" icon="lock" onClick={() => onTable('lock')} />
         </Tooltip>
         <Tooltip placement="top" content="维护分组用户">
           <Button
             size="small"
             icon="usergroup-add"
-            onClick={() => onTable('lock', rowData)}
+            onClick={() => onTable('user')}
           />
         </Tooltip>
         <Tooltip placement="top" content="项目编辑分组">
-          <Button
-            size="small"
-            icon="edit"
-            onClick={() => onTable('lock', rowData)}
-          />
+          <Button size="small" icon="edit" onClick={() => onTable('edit')} />
         </Tooltip>
         <Tooltip placement="top" content="删除分组">
           <Button
             size="small"
             icon="delete"
-            onClick={() => onTable('lock', rowData)}
+            onClick={() => onTable('delete')}
           />
         </Tooltip>
       </div>

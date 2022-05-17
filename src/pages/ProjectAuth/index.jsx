@@ -1,10 +1,13 @@
 import { useSelector } from 'react-redux'
 import Head from './Head'
+import { useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { columns } from './items'
 
 const ProjectAuth = () => {
+  const dispatch = useDispatch()
+
   const {
     projectAuth: { dataList },
   } = useSelector((state) => state)
@@ -18,10 +21,13 @@ const ProjectAuth = () => {
       }
     },
   })
-  const onTable = (type, obj) => {
-    console.log('type', type)
-    if (type === 'edit') {
-      console.log('type', type)
+  const onTable = (type) => {
+    console.log('type: ', type)
+    if (type === 'lock') {
+      dispatch({
+        type: 'projectAuth/update',
+        payload: { isMain: true },
+      })
     }
   }
   return (
