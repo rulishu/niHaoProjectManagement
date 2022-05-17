@@ -33,32 +33,7 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
-  const dataProject = [
-    {
-      companyId: 0,
-      createTime: '2022-05-17T08:18:16.691Z',
-      id: 0,
-      milesWorkVoList: [
-        {
-          dueTime: '2022-05-17T08:18:16.691Z',
-          milestonesId: 0,
-          milestonesTitle: 'string',
-          rate: 'string',
-        },
-      ],
-      projectId: 0,
-      projectName: 'string',
-      totalWorkVo: {
-        projectKfzNum: 0,
-        projectNum: 0,
-        projectWksNum: 0,
-        projectYqsNum: 0,
-        projectYwcNum: 0,
-      },
-      userId: 0,
-    },
-  ]
-  console.log('dataProject', dataProject)
+
   const dataRows = [
     {
       icon: 'uiw',
@@ -186,7 +161,7 @@ export default function Demo() {
     <div>
       <div>
         <Row gutter={20}>
-          <Col fixed style={{ width: 300 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card title="项目统计" bordered={false}>
               <Col
                 fixed
@@ -208,7 +183,7 @@ export default function Demo() {
               </Col>
             </Card>
           </Col>
-          <Col>
+          <Col fixed style={{ width: '50%' }}>
             <Card
               title={'我的项目 / ' + projectData?.menusList}
               bordered={false}
@@ -270,16 +245,19 @@ export default function Demo() {
                         { title: '已上线', num: projectData?.online, key: 6 },
                       ].map((item) => {
                         return (
-                          <Card
-                            onClick={() => console.log('123')}
-                            key={item.key}
-                            title={item.title}
-                            style={{ width: 80 }}>
-                            <span
-                              style={{ fontSize: 36, color: randomColor() }}>
-                              {item.num}
-                            </span>
-                          </Card>
+                          <div style={{}}>
+                            <Card
+                              bordered={false}
+                              onClick={() => console.log('123')}
+                              key={item.key}
+                              title={item.title}
+                              style={{ width: 80 }}>
+                              <span
+                                style={{ fontSize: 36, color: randomColor() }}>
+                                {item.num}
+                              </span>
+                            </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -288,7 +266,7 @@ export default function Demo() {
               </Row>
             </Card>
           </Col>
-          <Col fixed style={{ width: 405 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card title="里程碑" bordered={false} style={{ height: 400 }}>
               <div className={styles.newDynamic}>
                 <Steps
