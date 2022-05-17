@@ -3,7 +3,7 @@ import MDEditor from '@uiw/react-md-editor'
 const NEWMDEditor = (props) => {
   const mdref = useRef()
   useEffect(() => {
-    if (mdref?.current) {
+    if (mdref?.current && props.rfval) {
       props.rfval(mdref)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -16,7 +16,7 @@ const NEWMDEditor = (props) => {
       value={props.value}
       onChange={(value) => props.onChange(value)}
       style={{ flex: 1 }}
-      preview="edit"
+      preview={props?.preview || 'edit'}
     />
   )
 }

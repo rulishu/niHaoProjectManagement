@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Button, Textarea, Row, Col, Card, Alert, Icon, Tag } from 'uiw'
-import { AuthBtn } from '@uiw-admin/authorized'
+import { Button, Row, Col, Progress, Alert } from 'uiw'
+// import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
+import MDEditor from '@uiw/react-md-editor'
 import './index.css'
 
 const MilestoneInfo = (props) => {
@@ -26,6 +27,10 @@ const MilestoneInfo = (props) => {
 
   const [milestonesState, setMilestonesState] = useState()
   const [openAlert, setOpenAlert] = useState(false)
+
+  // 右侧边栏收缩
+  const [packup, setPackup] = useState(false)
+
   // 删除
   const delMilestones = async () => {
     await props.dispatch.delMilestones({
@@ -70,136 +75,120 @@ const MilestoneInfo = (props) => {
   return (
     <div className={styles.contentWrapper}>
       <Row>
-        <Col span="18">
-          <div>
-            <div className={styles.milestoneHeader}>
-              <div>
-                <Tag
-                  title={
-                    milestonesState === 1
-                      ? '逾 期'
-                      : milestonesState === 2
-                      ? '关闭'
-                      : '打开'
-                  }
-                  color={milestonesState === 1 ? '#ab6100' : '#108548'}
-                  className={styles.statusBox}
-                />
-                <span>里程碑</span>
-              </div>
-              <div>
-                <AuthBtn path="/api/milestones/updatestatus">
-                  <Button type="light" onClick={editMilestones}>
-                    编辑
-                  </Button>
-                </AuthBtn>
-                <AuthBtn path="/api/milestones/updatestatus">
-                  <Button
-                    type="light"
-                    loading={loading.effects.milestone.editStatusMilestones}
-                    onClick={() => {
-                      changeStateBut()
-                    }}>
-                    {milestonesState === 1 ? '关闭里程碑' : '打开里程碑'}
-                  </Button>
-                </AuthBtn>
-                <AuthBtn path="/api/milestones/delete">
-                  <Button
-                    type="danger"
-                    // onClick={delMilestones}
-                    onClick={() => setOpenAlert(true)}>
-                    删除
-                  </Button>
-                </AuthBtn>
-              </div>
+        <Col className={styles.layoutLeft}>
+          <div className={styles.layoutLeftHead}>
+            <div className={styles.headLeft}>
+              <span
+                className={styles.headStatus}
+                style={{ background: '#666' }}>
+                {milestonesState === 1
+                  ? '逾 期'
+                  : milestonesState === 2
+                  ? '关闭'
+                  : '打开'}
+              </span>
+              <span className={styles.headTitle}>
+                <strong>里程碑</strong>
+                {listDataInfo.startTime}
+                {listDataInfo.dueTime && '-' + listDataInfo.dueTime}
+              </span>
             </div>
-            <div className={styles.milestoneDetail}>
-              <h2 className={styles.milestoneTitle}>
-                {listDataInfo.milestonesTitle}
-              </h2>
-              {listDataInfo.milestonesDesc && (
-                <div className={styles.milestoneDes}>
-                  {listDataInfo.milestonesDesc || undefined}
-                </div>
-              )}
-            </div>
-            <div>
-              <OtherInfo listDataInfo={listDataInfo} />
+            <div className={styles.headRight}>
+              <Button type="light" onClick={() => editMilestones()}>
+                编辑
+              </Button>
+              <Button type="light" onClick={() => goBack()}>
+                返回
+              </Button>
+              <Button
+                type="light"
+                onClick={() => changeStateBut()}
+                loading={loading.effects.milestone.editStatusMilestones}>
+                {milestonesState === 1 ? '关闭里程碑' : '打开里程碑'}
+              </Button>
+              <Button type="danger" onClick={() => setOpenAlert(true)}>
+                删除
+              </Button>
             </div>
           </div>
-        </Col>
-        <Col>
-          <Card bordered={false}>
-            <div className={styles.rigBox}>
-              <span className={styles.title}>
-                {listDataInfo.milestonesTitle}
-              </span>
-              <span className={styles.introduce}>
-                <a href="javascript;">{listDataInfo.createName}</a> 于
-                {listDataInfo.createTime} 创建
-              </span>
-              <ul className={styles.rigBoxUl}>
-                <li>
-                  <div className={styles.liTitle}>项目周期</div>
-                  <div className={styles.liText}>
-                    <span>
-                      <Icon type="date" /> {listDataInfo.startTime}
-                    </span>{' '}
-                    至{' '}
-                    <span>
-                      <Icon type="date" /> {listDataInfo.dueTime}
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className={styles.liTitle}>项目描述</div>
-                  <div className={styles.liText}>
-                    <pre>{listDataInfo.milestonesDesc || undefined}</pre>
-                    <Textarea
-                      className={styles.liTextarea}
-                      value={listDataInfo.milestonesDesc || undefined}
-                      disabled
-                    />
-                  </div>
-                </li>
-                <li>
-                  <AuthBtn path="/api/milestones/updatestatus">
-                    <Button block type="primary" onClick={editMilestones}>
-                      编辑里程碑
-                    </Button>
-                  </AuthBtn>
-                </li>
-                <li>
-                  <AuthBtn path="/api/milestones/updatestatus">
-                    <Button
-                      block
-                      type="primary"
-                      loading={loading.effects.milestone.editStatusMilestones}
-                      onClick={() => {
-                        changeStateBut()
-                      }}>
-                      {listDataInfo.milestonesStatus === 1
-                        ? '关闭里程碑'
-                        : listDataInfo.milestonesStatus === 2
-                        ? '打开里程碑'
-                        : '别点'}
-                    </Button>
-                  </AuthBtn>
-                </li>
-                <li>
-                  <AuthBtn path="/api/milestones/delete">
-                    <Button
-                      block
-                      type="danger"
-                      // onClick={delMilestones}
-                      onClick={() => setOpenAlert(true)}>
-                      删除里程碑
-                    </Button>
-                  </AuthBtn>
-                </li>
-              </ul>
+          <div className={styles.layoutLeftBody}>
+            <h2>{listDataInfo.milestonesTitle || '测试'}</h2>
+            <div className={styles.bodyContent}>
+              <MDEditor
+                style={{ boxShadow: 'none' }}
+                value={listDataInfo.milestonesDesc || null}
+                hideToolbar={true}
+                preview="preview"
+                autoFocus={true}
+                visiableDragbar={true}
+              />
             </div>
-          </Card>
+          </div>
+          <div className={styles.layoutLeftFooty}>
+            <OtherInfo listDataInfo={listDataInfo} />
+          </div>
+        </Col>
+        <Col className={styles.layoutRight}>
+          <ul>
+            <li>
+              <div className={styles.rightHead}>
+                <div>{listDataInfo.degreeCompletion * 100 || 30}% 进度</div>
+                <Button
+                  icon={packup ? 'd-arrow-left' : 'd-arrow-right'}
+                  basic
+                  onClick={() => setPackup(!packup)}
+                />
+              </div>
+              <Progress.Line
+                strokeWidth={6}
+                percent={listDataInfo.degreeCompletion * 100 || 30}
+                showText={false}
+              />
+            </li>
+            <li>
+              <div className={styles.rightHead}>
+                <span>开始时间</span>
+                <Button basic className={styles.rightHeadBut}>
+                  编辑
+                </Button>
+              </div>
+              <div className={styles.rightBelow}>
+                {listDataInfo.createTime || '2022-04-30 00:00:00'}
+              </div>
+            </li>
+            <li>
+              <div className={styles.rightHead}>
+                <span>结束时间</span>
+                <Button basic className={styles.rightHeadBut}>
+                  编辑
+                </Button>
+              </div>
+              <div className={styles.rightBelow}>
+                {listDataInfo.createTime || '2022-04-30 00:00:00'}
+                {milestonesState === 1 && <span>（逾期）</span>}
+              </div>
+            </li>
+            <li>
+              <div className={styles.rightHead}>
+                <span>
+                  任务<span className={styles.num}>2</span>
+                </span>
+                <Button basic className={styles.rightHeadBut}>
+                  新问题
+                </Button>
+              </div>
+              <div className={styles.rightBelow}>
+                <span>
+                  <p>打开：</p>
+                  <span>2</span>
+                </span>
+                <span>
+                  <p>关闭：</p>
+                  <span>2</span>
+                </span>
+              </div>
+            </li>
+          </ul>
         </Col>
       </Row>
       <Alert

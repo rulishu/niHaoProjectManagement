@@ -1,14 +1,16 @@
+@import '../../common.less';
+
 .card {
   width: '100%';
   margin: 20px 10px;
 }
 .title {
-  font-size: 14px;
-  color: #666;
+  font-size: @font-size-base;
+  color: @black;
   margin: 0;
 }
 .colContent {
-  padding: 20px;
+  padding: @padding-md;
 }
 .colDes div {
   -webkit-line-clamp: 2;
@@ -18,12 +20,12 @@
   height: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 10px;
+  margin-top: @margin-sm;
 }
 .number {
-  font-size: 36px;
-  line-height: 36px;
-  margin: 10px 0;
+  font-size: @font-size-lg;
+  line-height: @font-size-lg;
+  margin: @margin-sm 0;
 }
 .muted {
   color: #838a9d;

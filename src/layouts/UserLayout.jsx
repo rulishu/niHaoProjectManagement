@@ -47,11 +47,11 @@ const UserLayout = () => {
         //   title: '注册'
         // }
       ]}
-      api="/api/login"
+      api="/api/login/login"
       btnProps={{ type: 'primary' }}
       saveField={{
-        username: 'userAccount',
-        password: 'userPassword',
+        userName: 'userAccount',
+        passWord: 'userPassword',
       }}
       onBefore={(store) => ({ ...store })}
       onSuccess={(data) => {

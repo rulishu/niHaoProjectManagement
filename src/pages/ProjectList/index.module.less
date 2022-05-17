@@ -1,13 +1,27 @@
 @import '../../common.less';
 
-.container {
+.warp {
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   background-color: @white;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: @padding-md @padding-xss;
+  padding-right: @padding-md;
   font-size: @font-size-lg;
   font-weight: @header-font-weight;
   color: @black;
@@ -26,4 +40,24 @@
   display: flex;
   justify-content: space-between;
   padding: @padding-xss / 2 @padding-xss;
+}
+
+.proTable {
+  margin: @margin-xs;
+}
+
+.proName {
+  margin-left: @margin-xss;
+  line-height: 30px;
+  font-size: @font-size-base;
+}
+
+.tagsRight {
+  display: flex;
+  width: 40%;
+
+  .item {
+    width: 50%;
+    margin: 5px;
+  }
 }

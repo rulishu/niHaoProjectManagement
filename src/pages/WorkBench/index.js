@@ -1,22 +1,10 @@
-// import ProjectHeader from './ProjectHeader'
-// import TableUser from './TableUser'
-// import TableManage from './TableManage'
-
-// export default function Demo() {
-//   return (
-//     <div>
-//       <ProjectHeader />
-//       <TableUser />
-//       <TableManage />
-//     </div>
-//   )
-// }
 import { useEffect, useState } from 'react'
 import { Row, Col, Card, Progress, Steps, Menu, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
+import TodoList from './TodoList'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -25,6 +13,10 @@ export default function Demo() {
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   useEffect(() => {
+    dispatch({
+      type: 'workbench/myProject',
+      payload: { record: taskId },
+    })
     dispatch({
       type: 'home/queryProject',
       payload: { record: taskId },
@@ -41,6 +33,7 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
+
   const dataRows = [
     {
       icon: 'uiw',
@@ -168,7 +161,7 @@ export default function Demo() {
     <div>
       <div>
         <Row gutter={20}>
-          <Col fixed style={{ width: 300 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card title="项目统计" bordered={false}>
               <Col
                 fixed
@@ -190,7 +183,7 @@ export default function Demo() {
               </Col>
             </Card>
           </Col>
-          <Col>
+          <Col fixed style={{ width: '50%' }}>
             <Card
               title={'我的项目 / ' + projectData?.menusList}
               bordered={false}
@@ -252,16 +245,19 @@ export default function Demo() {
                         { title: '已上线', num: projectData?.online, key: 6 },
                       ].map((item) => {
                         return (
-                          <Card
-                            onClick={() => console.log('123')}
-                            key={item.key}
-                            title={item.title}
-                            style={{ width: 80 }}>
-                            <span
-                              style={{ fontSize: 36, color: randomColor() }}>
-                              {item.num}
-                            </span>
-                          </Card>
+                          <div style={{}}>
+                            <Card
+                              bordered={false}
+                              onClick={() => console.log('123')}
+                              key={item.key}
+                              title={item.title}
+                              style={{ width: 80 }}>
+                              <span
+                                style={{ fontSize: 36, color: randomColor() }}>
+                                {item.num}
+                              </span>
+                            </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -270,30 +266,26 @@ export default function Demo() {
               </Row>
             </Card>
           </Col>
-          <Col fixed style={{ width: 405 }}>
-            <Row>
-              <Col>
-                <Card title="里程碑" bordered={false} style={{ height: 400 }}>
-                  <div className={styles.newDynamic}>
-                    <Steps
-                      direction="vertical"
-                      progressDot
-                      status="error"
-                      current={2}
-                      style={{ padding: '20px 0' }}>
-                      <Steps.Step
-                        title="步骤一"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                      <Steps.Step
-                        title="步骤二"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                    </Steps>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
+          <Col fixed style={{ width: '25%' }}>
+            <Card title="里程碑" bordered={false} style={{ height: 400 }}>
+              <div className={styles.newDynamic}>
+                <Steps
+                  direction="vertical"
+                  progressDot
+                  status="error"
+                  current={2}
+                  style={{ padding: '20px 0' }}>
+                  <Steps.Step
+                    title="步骤一"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                  <Steps.Step
+                    title="步骤二"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                </Steps>
+              </div>
+            </Card>
           </Col>
         </Row>
       </div>
@@ -301,6 +293,8 @@ export default function Demo() {
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
       <TableManage />
+      <div style={{ marginTop: 20 }}></div>
+      <TodoList />
     </div>
   )
 }

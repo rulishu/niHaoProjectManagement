@@ -27,7 +27,7 @@ const Users = (props) => {
     getItemList()
     if (userList.length < (page - 1) * pageSize + userList.length) {
       const allUserList = sessionStorage.getItem('allUserList')
-      setUserList(allUserList)
+      setUserList(JSON.parse(allUserList))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
