@@ -1,4 +1,7 @@
 import { createModel } from '@rematch/core'
+// import {
+//   queryProject,
+// } from '@/servers/projectList'
 const global = createModel()({
   name: 'global',
   state: {
@@ -19,6 +22,23 @@ const global = createModel()({
       dph.global.updateState({
         test: '测试2',
       })
+    },
+    async updataProject(params) {
+      const dph = dispatch
+      if (params.drawerType === 'add') {
+        dph.global.updateState({
+          drawerType: 'add',
+          drawerVisible: true,
+        })
+      } else {
+        delete params.drawerType
+        // const data = await queryProject(params)
+        dph.global.updateState({
+          // seachValue: data.data,
+          drawerType: 'edit',
+          drawerVisible: true,
+        })
+      }
     },
   }),
 })
