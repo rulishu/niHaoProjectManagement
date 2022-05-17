@@ -5,6 +5,7 @@ import styles from './index.module.less'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
+import 'tributejs/tribute.css'
 
 const listField = {
   title: 'assignmentTitle',

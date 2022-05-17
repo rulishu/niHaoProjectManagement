@@ -29,7 +29,7 @@ const SearchBar = (props) => {
 
   useEffect(() => {
     if (ref.current && !isBundle.current) {
-      console.log('a')
+      console.log('a', ref)
       isBundle.current = true
       tribute.attach(ref.current)
       ref.current.addEventListener('tribute-replaced', (e) => {

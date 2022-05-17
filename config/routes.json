@@ -12,13 +12,6 @@
         "redirect": "/milestone"
       },
       {
-        "path": "/issues-center/:id",
-        "name": "任务中心",
-        "component": "@/pages/IssuesCenter",
-        "icon": "wifi",
-        "navigate": "(navigate) => {navigate('/issues-center/:id',{ replace: true })}"
-      },
-      {
         "path": "/home",
         "name": "工作台",
         "component": "@/pages/WorkBench"
@@ -81,7 +74,6 @@
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
-        "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
