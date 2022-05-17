@@ -1,4 +1,4 @@
-import { Tabs, Tooltip, List, Avatar, Icon } from 'uiw'
+import { Tabs, Tooltip, List, Avatar, Icon, Card, Row, Col } from 'uiw'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -20,7 +20,13 @@ const OtherInfo = (props) => {
   }
 
   const issuesList = (issuesLists) => {
-    return issuesLists?.map((item, index) => {
+    return [
+      { assignmentTitle: '修改里程碑分页查询返回值', assignmentStatus: 1 },
+      {
+        assignmentTitle: '项目统计只统计当前登陆人的任务和',
+        assignmentStatus: 1,
+      },
+    ]?.map((item, index) => {
       return (
         <div key={index} className={styles.issuesList}>
           <Tooltip
@@ -61,49 +67,82 @@ const OtherInfo = (props) => {
   const numBox = (num) => {
     return (
       <span className={styles.numBox}>
-        <span>{num}</span>
-        <i></i>
+        <span className={styles.num}>{num}</span>
       </span>
     )
   }
 
   return (
     <div className={styles.infoBox}>
-      <Tabs type="line" activeKey="1">
+      <Tabs type="line" activeKey="1" className="milesTab">
         <Tabs.Pane
           label={
             <>
               任务
-              {numBox(
-                finishSize + ' / ' + (unassignedSize + finishSize + conductSize)
-              )}
+              {numBox(unassignedSize + finishSize + conductSize || 0)}
             </>
           }
           key="1">
           <div className={styles.issList}>
-            <ul>
+            <Row justify="space-between" gutter={30}>
+              <Col>
+                <Card
+                  title={<span>未开始的任务（打开和未分配）</span>}
+                  extra={
+                    <span>
+                      <Icon type="tags-o" /> {unassignedSize || 0}
+                    </span>
+                  }>
+                  <div>{issuesList(listDataInfo.unassigned)}</div>
+                </Card>
+              </Col>
+              <Col>
+                <Card
+                  title={<span>未开始的任务（打开和未分配）</span>}
+                  extra={
+                    <span>
+                      <Icon type="tags-o" /> {conductSize || 0}
+                    </span>
+                  }>
+                  <div>{issuesList(listDataInfo.unassigned)}</div>
+                </Card>
+              </Col>
+              <Col>
+                <Card
+                  title={<span>未开始的任务（打开和未分配）</span>}
+                  extra={
+                    <span>
+                      <Icon type="tags-o" /> {finishSize || 0}
+                    </span>
+                  }>
+                  <div>{issuesList(listDataInfo.unassigned)}</div>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* <ul>
               <li>
                 <div className={styles.head}>
-                  <span>未分配</span>
+                  <span>未开始的任务（打开和未分配）</span>
                   <span className={styles.nums}>{unassignedSize || 0}</span>
                 </div>
                 <div>{issuesList(listDataInfo.unassigned)}</div>
               </li>
               <li>
                 <div className={styles.head}>
-                  <span>已完成（已关闭）</span>
-                  <span className={styles.nums}>{finishSize || 0}</span>
+                  <span>正在进行的任务（打开和已分配）</span>
+                  <span className={styles.nums}>{conductSize || 0}</span>
                 </div>
                 {issuesList(listDataInfo.finish)}
               </li>
               <li>
                 <div className={styles.head}>
-                  <span>未完成（已打开和已分配）</span>
-                  <span className={styles.nums}>{conductSize || 0}</span>
+                  <span>已完成的任务（已关闭）</span>
+                  <span className={styles.nums}>{finishSize || 0}</span>
                 </div>
                 {issuesList(listDataInfo.conduct)}
               </li>
-            </ul>
+            </ul> */}
           </div>
         </Tabs.Pane>
         <Tabs.Pane
