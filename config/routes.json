@@ -19,8 +19,7 @@
       {
         "path": "/projectList",
         "name": "项目列表",
-        "component": "@/pages/ProjectList",
-        "hideInMenu": true
+        "component": "@/pages/ProjectList"
       },
       {
         "path": "/TodoList",

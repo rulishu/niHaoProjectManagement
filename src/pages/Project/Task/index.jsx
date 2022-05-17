@@ -4,7 +4,7 @@ import { List, SearchBar } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { AuthBtn } from '@uiw-admin/authorized'
+// import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
 
 const listField = {
@@ -15,6 +15,12 @@ const listField = {
   updateTime: 'updateTime',
   updateName: 'updateName',
 }
+
+const SearchBarOption = [
+  { value: 1, text: '已打开' },
+  { value: 3, text: '已关闭' },
+  { value: '', text: '所有' },
+]
 
 const tabsLabel = (title, num) => {
   return (
@@ -46,37 +52,33 @@ const Task = () => {
     loading,
   } = useSelector((state) => state)
 
+  // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
-    // if (location?.state) {
-    //   dispatch({
-    //     type: 'project/update',
-    //     payload: { activeKey: '1' },
-    //   })
-    // }
-    // if (taskId) {
-    //   dispatch.project.getList(
-    //     location?.state
-    //       ? { assignmentStatus: '', ...location?.state }
-    //       : { assignmentStatus: '' }
-    //   )
-    //   dispatch.project.getList(
-    //     location?.state
-    //       ? { assignmentStatus: '1', ...location?.state }
-    //       : { assignmentStatus: '1' }
-    //   )
-    //   dispatch.project.getList(
-    //     location?.state
-    //       ? { assignmentStatus: '3', ...location?.state }
-    //       : { assignmentStatus: '3' }
-    //   )
-    // }
-  }, [taskId, dispatch, location?.state])
-
-  const SearchBarOption = [
-    { value: 1, text: '已打开' },
-    { value: 3, text: '已关闭' },
-    { value: '', text: '所有' },
-  ]
+    if (location?.state) {
+      dispatch({
+        type: 'project/update',
+        payload: { activeKey: '1' },
+      })
+    }
+    if (taskId) {
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '', ...location?.state }
+          : { assignmentStatus: '' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '1', ...location?.state }
+          : { assignmentStatus: '1' }
+      )
+      dispatch.project.getList(
+        location?.state
+          ? { assignmentStatus: '3', ...location?.state }
+          : { assignmentStatus: '3' }
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const updateData = (payload) => {
     dispatch({
@@ -105,24 +107,12 @@ const Task = () => {
     // })
     console.log('item', item)
 
-    navigate(
-      `/project/taskInfo/${sessionStorage.getItem('companyId')}/${
-        item.projectId
-      }/${item.assignmentId}`
-    )
+    navigate(`/project/taskInfo/${item.projectId}/${item.assignmentId}`)
   }
 
-  const getTabList = async (activeKey) => {
-    updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: activeKey, ...location?.state }
-        : { assignmentStatus: activeKey }
-    )
-  }
-
+  // 搜索按钮事件
   const getTaskListData = async (value, selectValue) => {
-    await updateData({ activeKey: selectValue })
+    updateData({ activeKey: selectValue })
     await dispatch.project.getList({
       assignmentStatus: selectValue,
       assignmentTitle: value,
@@ -202,6 +192,16 @@ const Task = () => {
     )
   }
 
+  // 切换tab，查询分页
+  const getTabList = async (activeKey) => {
+    updateData({ activeKey, filter: { ...filter, page: 1 } })
+    await dispatch.project.getList(
+      location?.state
+        ? { assignmentStatus: activeKey, ...location?.state }
+        : { assignmentStatus: activeKey }
+    )
+  }
+
   return (
     <div className={styles.wrap}>
       <Loader
@@ -211,11 +211,11 @@ const Task = () => {
         loading={loading.effects.project.getList}>
         <div>
           <div className={styles.nav}>
-            <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave">
-              <Button type="primary" onClick={() => goIssue()}>
-                新建问题
-              </Button>
-            </AuthBtn>
+            {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
+            <Button type="primary" onClick={() => goIssue()}>
+              新建问题
+            </Button>
+            {/* </AuthBtn> */}
           </div>
           <div>
             <SearchBar
