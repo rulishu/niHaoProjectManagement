@@ -9,6 +9,7 @@ const global = createModel()({
     drawerVisible: false, //新增项目或编辑项目的弹出框
     seachValue: {}, //新增项目或编辑项目的更改的内容
     drawerType: 'add', //新增项目或编辑项目
+    isView: false,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -29,6 +30,7 @@ const global = createModel()({
         dph.global.updateState({
           drawerType: 'add',
           drawerVisible: true,
+          isView: false,
         })
       } else {
         delete params.drawerType
@@ -37,6 +39,7 @@ const global = createModel()({
           // seachValue: data.data,
           drawerType: 'edit',
           drawerVisible: true,
+          isView: false,
         })
       }
     },
