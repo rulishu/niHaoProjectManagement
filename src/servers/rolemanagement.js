@@ -14,7 +14,7 @@ export const selectRole = (params) => {
 }
 
 // 单个角色添加
-export const addRole = '/api/managerRole/addRole'
+export const addRole = '/api/system/role'
 
 // 单个角色更新
 export const upDateRole = '/api/managerRole/upDateRole'

@@ -26,7 +26,7 @@ export default createModel()({
       if (data.code === 200) {
         dph.routeManagement.update({
           drawerVisible: true,
-          routeMenuList: data.data.list || {},
+          routeMenuList: data.data,
         })
       }
     },

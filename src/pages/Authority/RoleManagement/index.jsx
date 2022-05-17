@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react'
 import { Button, Switch, Tooltip, Card, Modal } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
-import { AuthBtn } from '@uiw-admin/authorized'
+// import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
 import Authorization from './Authorization/index'
@@ -22,13 +22,13 @@ const Demo = (props) => {
       payload,
     })
   }
-
-  const table = useTable('/api/managerRole/selectRole', {
+  const token = localStorage.getItem('token')
+  const table = useTable('/api/system/role/list', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data?.total,
-        data: data?.data?.list,
+        total: data?.total,
+        data: data?.rows,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -38,6 +38,10 @@ const Demo = (props) => {
     // swr options
     SWRConfiguration: {
       revalidateOnFocus: false,
+    },
+    requestOptions: {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
     },
   })
   // 操作
@@ -131,11 +135,11 @@ const Demo = (props) => {
           columns={[
             {
               title: '角色编号',
-              key: 'id',
+              key: 'roleId',
             },
             {
               title: '角色名称',
-              key: 'name',
+              key: 'roleName',
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -144,14 +148,18 @@ const Demo = (props) => {
               },
             },
             {
-              title: '备注',
-              key: 'desc',
-              ellipsis: true,
-              render: (desc) => (
-                <Tooltip placement="topLeft" content={desc}>
-                  {desc}
-                </Tooltip>
-              ),
+              title: '权限字符',
+              key: 'roleKey',
+              props: {
+                widget: 'input',
+                widgetProps: {
+                  placeholder: '请输入权限字符',
+                },
+              },
+            },
+            {
+              title: '显示顺序',
+              key: 'roleSort',
             },
             {
               title: '状态',
@@ -159,20 +167,30 @@ const Demo = (props) => {
               props: {
                 widget: 'select',
                 option: [
-                  { label: '禁用', value: 1 },
-                  { label: '启用', value: 0 },
+                  { label: '停用', value: '1' },
+                  { label: '正常', value: '0' },
                 ],
               },
               render: (text, key, rowData) => (
                 <Switch
                   disabled={rowData.hasUser}
-                  checked={rowData.status === 0}
+                  checked={rowData.status === '0'}
                   onChange={(even) => {
                     updateState(even.target.checked, rowData)
                   }}
-                  data-checked="禁用"
-                  data-unchecked="启用"></Switch>
+                  data-checked="停用"
+                  data-unchecked="正常"></Switch>
               ),
+            },
+            {
+              title: '创建时间',
+              key: 'createTime',
+              align: 'center',
+              props: {
+                // label: '进入时间-离开时间',
+                widget: 'dateInputRange',
+                format: 'YYYY-MM-DD HH:mm:ss',
+              },
             },
             {
               title: '操作',
@@ -180,54 +198,50 @@ const Demo = (props) => {
               width: 200,
               render: (text, key, rowData) => (
                 <div>
-                  <AuthBtn path="/api/managerRole/addMenu">
-                    <Button
-                      size="small"
-                      type="primary"
-                      onClick={handleEditTable.bind(
-                        this,
-                        'authorize',
-                        rowData
-                      )}>
-                      授权
-                    </Button>
-                  </AuthBtn>
-                  <AuthBtn path="/api/managerRole/upDateRole">
-                    <Button
-                      size="small"
-                      type="primary"
-                      onClick={handleEditTable.bind(this, 'edit', rowData)}>
-                      编辑
-                    </Button>
-                  </AuthBtn>
-                  <AuthBtn path="/api/managerRole/selectRole">
-                    <Button
-                      size="small"
-                      type="success"
-                      onClick={handleEditTable.bind(this, 'view', rowData)}>
-                      查看
-                    </Button>
-                  </AuthBtn>
-                  <AuthBtn path="/api/managerRole/deleteRole">
-                    {rowData.hasUser ? (
-                      <Tooltip
-                        placement="left"
-                        content="此角色下存在成员，请先将成员转移到其他角色下再操作">
-                        <Button
-                          size="small"
-                          type="danger"
-                          // disabled={rowData.hasUser}
-                        >
-                          删除
-                        </Button>
-                      </Tooltip>
-                    ) : (
-                      <DeletePopover
-                        disabled={rowData.hasUser}
-                        handleEditTable={() => handleEditTable('del', rowData)}
-                      />
-                    )}
-                  </AuthBtn>
+                  {/* <AuthBtn path="/api/managerRole/addMenu"> */}
+                  <Button
+                    size="small"
+                    type="primary"
+                    onClick={handleEditTable.bind(this, 'authorize', rowData)}>
+                    授权
+                  </Button>
+                  {/* </AuthBtn> */}
+                  {/* <AuthBtn path="/api/managerRole/upDateRole"> */}
+                  <Button
+                    size="small"
+                    type="primary"
+                    onClick={handleEditTable.bind(this, 'edit', rowData)}>
+                    编辑
+                  </Button>
+                  {/* </AuthBtn> */}
+                  {/* <AuthBtn path="/api/managerRole/selectRole"> */}
+                  <Button
+                    size="small"
+                    type="success"
+                    onClick={handleEditTable.bind(this, 'view', rowData)}>
+                    查看
+                  </Button>
+                  {/* </AuthBtn> */}
+                  {/* <AuthBtn path="/api/managerRole/deleteRole"> */}
+                  {rowData.hasUser ? (
+                    <Tooltip
+                      placement="left"
+                      content="此角色下存在成员，请先将成员转移到其他角色下再操作">
+                      <Button
+                        size="small"
+                        type="danger"
+                        // disabled={rowData.hasUser}
+                      >
+                        删除
+                      </Button>
+                    </Tooltip>
+                  ) : (
+                    <DeletePopover
+                      disabled={rowData.hasUser}
+                      handleEditTable={() => handleEditTable('del', rowData)}
+                    />
+                  )}
+                  {/* </AuthBtn> */}
                 </div>
               ),
             },

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
 import { addRole, upDateRole } from '@/servers/rolemanagement'
 import useSWR from 'swr'
+const token = localStorage.getItem('token')
 
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const Detail = ({ updateData, onSearch }) => {
       (tableType === 'add' && addRole) || (tableType === 'edit' && upDateRole),
       {
         method: 'POST',
+        headers: { Authorization: 'Bearer ' + token },
         body: {
           ...queryInfo,
           menuIds: [59, 28, 7, 8, 5, 9, 10, 11, 12, 16, 20],
