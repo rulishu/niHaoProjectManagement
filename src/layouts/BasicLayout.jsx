@@ -74,16 +74,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             className={styles.title}
             onClick={() => {
-              dispatch({
-                type: 'global/updataProject',
-                payload: { drawerType: 'add' },
-              })
-            }}>
-            新增项目
-          </div>
-          <div
-            className={styles.title}
-            onClick={() => {
               navigate('/projectList')
             }}>
             项目管理
