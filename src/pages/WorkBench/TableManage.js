@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Tabs, Button } from 'uiw'
+import { Row, Col, Card, Tabs } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 
@@ -44,7 +44,8 @@ export default function TableManage() {
         <Row gutter={20}>
           <Col span="16">
             <Card
-              title={
+              title="所有的项目"
+              extra={
                 <Tabs
                   type="line"
                   activeKey="1"
@@ -58,11 +59,12 @@ export default function TableManage() {
                   <Tabs.Pane sequence="fadeIn up" label="已延期" key="3">
                     {/* <Overdue /> */}
                   </Tabs.Pane>
+                  <Tabs.Pane sequence="fadeIn up" label="更多" key="4">
+                    更多
+                  </Tabs.Pane>
                 </Tabs>
-              }
-              extra={<Button>更多</Button>}>
+              }>
               <ProTable
-                bordered
                 style={{ width: 900 }}
                 paginationProps={{
                   pageSizeOptions: [10, 20, 30],

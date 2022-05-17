@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Steps, Tabs, Button } from 'uiw'
+import { Row, Col, Card, Steps, Tabs } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
@@ -45,7 +45,8 @@ export default function Home() {
         <Row gutter={20}>
           <Col span="16">
             <Card
-              title={
+              title="当前的项目"
+              extra={
                 <Tabs
                   type="line"
                   activeKey="1"
@@ -62,11 +63,10 @@ export default function Home() {
                   <Tabs.Pane label="我创建的" key="4">
                     {/* <OurCreate /> */}
                   </Tabs.Pane>
+                  <Tabs.Pane label="更多">更多</Tabs.Pane>
                 </Tabs>
-              }
-              extra={<Button>更多</Button>}>
+              }>
               <ProTable
-                bordered
                 style={{ width: 900 }}
                 paginationProps={{
                   pageSizeOptions: [10, 20, 30],

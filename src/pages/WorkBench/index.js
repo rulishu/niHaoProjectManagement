@@ -218,9 +218,9 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        console.log('123')
+                        window.location.href = '#/project/task'
                       }}>
-                      查看详情
+                      查看全部
                     </Button>
                   </div>
                 </Col>
