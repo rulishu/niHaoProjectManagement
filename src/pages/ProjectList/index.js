@@ -13,14 +13,16 @@ import {
 } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.module.less'
+import './index.css'
 
 const ProjectList = (props) => {
   // const { dataList } = props.projectlist;
   const { dispatch } = props
-  const [projectStatus, setStatus] = useState('')
+  const [projectStatus, setProjectStatus] = useState('')
+  const [projectType, setProjectType] = useState('20')
   const menu = (id) => (
     <div>
-      <Menu bordered style={{ minWidth: 120 }}>
+      <Menu bordered style={{ width: '200px' }}>
         <Menu.Item
           onClick={() => {
             dispatch.global.updataProject({ drawerType: 'edit', id: id })
@@ -28,7 +30,13 @@ const ProjectList = (props) => {
           icon="edit"
           text="编辑项目"
         />
-        <Menu.Item icon="delete" text="删除项目" />
+        <Menu.Item
+          onClick={() => {
+            dispatch.projectlist.deleteProject(id)
+          }}
+          icon="delete"
+          text="删除项目"
+        />
       </Menu>
     </div>
   )
@@ -63,6 +71,8 @@ const ProjectList = (props) => {
       dueTime: '2022-03-26',
       milestonesStatus: 2,
       degreeCompletion: 0.0,
+      descr:
+        '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
       milestonesDesc:
         '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
       projectId: 1320,
@@ -105,14 +115,14 @@ const ProjectList = (props) => {
   ]
   const table = useTable('/api/project/selectPageList', {
     formatData: (data) => {
-      if (datas) {
+      if (data?.data) {
         return {
-          data: datas,
+          total: data?.data?.total,
+          data: data?.data?.list,
         }
       }
       return {
-        total: data?.data?.total,
-        data: data?.data?.list,
+        data: datas,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -120,18 +130,20 @@ const ProjectList = (props) => {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        projectStatus: projectStatus,
+        status: projectStatus,
+        type: projectType,
       }
     },
     requestOptions: { method: 'POST' },
   })
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.header}>
         <span>项目</span>
         <div>
           <Button
             type="primary"
+            size="large"
             onClick={() => {
               dispatch.global.updataProject({ drawerType: 'add' })
             }}>
@@ -142,18 +154,17 @@ const ProjectList = (props) => {
       <Divider />
       <div className={styles.tabsDiv}>
         <Tabs
-          style={{ padding: '5px' }}
           type="line"
           activeKey="1"
           onTabClick={(tab, key, e) => {
             if (tab === '1') {
-              setStatus('')
+              setProjectStatus('')
             } else if (tab === '2') {
-              setStatus('1')
+              setProjectStatus('1')
             } else if (tab === '3') {
-              setStatus('2')
+              setProjectStatus('2')
             } else if (tab === '4') {
-              setStatus('3')
+              setProjectStatus('3')
             }
             table.onSearch()
           }}>
@@ -162,14 +173,9 @@ const ProjectList = (props) => {
           <Tabs.Pane label="已完成" key="3"></Tabs.Pane>
           <Tabs.Pane label="已挂起" key="4"></Tabs.Pane>
         </Tabs>
-        <div style={{ display: 'flex', lineHeight: '30px' }}>
-          <Input
-            placeholder="按名称筛选"
-            style={{ maxWidth: 200, margin: '10px' }}
-          />
-          <Select
-            style={{ maxWidth: 200, maxHeight: '30px', margin: '10px' }}
-            defaultValue="1">
+        <div className={styles.tagsRight}>
+          <Input placeholder="按名称筛选" className={styles.item} />
+          <Select className={styles.item} defaultValue="1">
             <Select.Option value="1">名称</Select.Option>
             <Select.Option value="2">Two</Select.Option>
             <Select.Option value="3">Three</Select.Option>
@@ -177,80 +183,91 @@ const ProjectList = (props) => {
         </div>
       </div>
       <Tabs
-        style={{ padding: '5px' }}
         type="line"
         activeKey="1"
-        // onTabClick={(tab, key, e) => {}}
-      >
+        onTabClick={(tab, key, e) => {
+          console.log(tab)
+          if (tab === '1') {
+            setProjectType('20')
+          } else if (tab === '2') {
+            setProjectType('10')
+          }
+          table.onSearch()
+        }}>
         <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
         <Tabs.Pane label="我的" key="2"></Tabs.Pane>
       </Tabs>
-      <ProTable
-        paginationProps={{
-          pageSize: 10,
-        }}
-        table={table}
-        columns={[
-          {
-            title: 'ID',
-            key: 'id',
-            render: (text) => {
-              return <div>{text}</div>
-            },
-          },
-          {
-            title: '名字',
-            key: 'companyName',
-            render: (text, keyName, rowData) => {
-              return (
-                <div>
-                  <Avatar
-                    size="small"
-                    className={styles.listImg}
-                    src={
-                      rowData?.fileIds !== null && rowData?.fileIds
-                        ? rowData?.fileIds[0]
-                        : ''
-                    }>
-                    {text[0]}
-                  </Avatar>
-                  {text}
-                </div>
-              )
-            },
-          },
-          {
-            title: '开始时间',
-            key: 'begin',
-            render: (text) => {
-              return <div>{text}</div>
-            },
-          },
-          {
-            title: '结束时间',
-            key: 'end',
-            render: (text) => {
-              return <div>{text}</div>
-            },
-          },
-          {
-            // title: '操作',
-            key: 'edit',
-            width: 50,
-            render: (text, keyName, rowData) => {
-              return (
-                <div>
-                  <Dropdown trigger="click" menu={menu(rowData.id)}>
+      <div className={styles.proTable}>
+        <ProTable
+          tableHeadHidden={true}
+          tableBackgroundColor="#fff"
+          paginationProps={{
+            pageSize: 10,
+          }}
+          table={table}
+          columns={[
+            {
+              // title: '名字',
+              key: 'companyName',
+              render: (text, keyName, rowData) => {
+                return (
+                  <div style={{ display: 'flex' }}>
                     <div>
-                      <Icon type="more" />
+                      <Avatar
+                        size="small"
+                        className={styles.listImg}
+                        src={
+                          rowData?.fileIds !== null && rowData?.fileIds
+                            ? rowData?.fileIds[0]
+                            : ''
+                        }>
+                        {text[0]}
+                      </Avatar>
                     </div>
-                  </Dropdown>
-                </div>
-              )
+                    <div>
+                      <p className={styles.proName}>{text}</p>
+                      <p className={styles.proName}>{rowData?.descr}</p>
+                    </div>
+                  </div>
+                )
+              },
             },
-          },
-        ]}
-      />
+            {
+              // title: '开始时间',
+              key: 'begin',
+              render: (text) => {
+                return <div>{text}</div>
+              },
+            },
+            {
+              // title: '结束时间',
+              key: 'end',
+              render: (text) => {
+                return <div>{text}</div>
+              },
+            },
+            {
+              // title: '操作',
+              key: 'edit',
+              width: 50,
+              render: (text, keyName, rowData) => {
+                return (
+                  <div>
+                    <Dropdown
+                      placement="bottomLeft"
+                      trigger="click"
+                      menu={menu(rowData.id)}>
+                      <div>
+                        <Icon type="more" />
+                      </div>
+                    </Dropdown>
+                  </div>
+                )
+              },
+            },
+          ]}
+        />
+      </div>
     </div>
   )
 }

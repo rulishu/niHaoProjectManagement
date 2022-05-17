@@ -1,5 +1,6 @@
 import { createModel } from '@rematch/core'
-import { selectOneInfo } from '../servers/projectList'
+import { Notify } from 'uiw'
+import { selectOneInfo, deleteProject } from '../servers/projectList'
 
 /**
  * 项目列表
@@ -22,7 +23,7 @@ const projectlist = createModel()({
     },
   },
   effects: (dispatch) => ({
-    //查询项目
+    //查询项目deleteProject
     async selectOneInfo(payload, { projectlist }) {
       const { pageSize, page, type } = projectlist
       let params = {
@@ -39,6 +40,16 @@ const projectlist = createModel()({
           page: data?.data.pageNum || page,
           pageSize: data?.data.pageSize || pageSize,
         })
+      }
+    },
+
+    //删除单条项目
+    async deleteProject(payload) {
+      const data = await deleteProject(payload)
+      if (data && data.code === 200) {
+        Notify.success({ title: data.message })
+      } else {
+        Notify.error({ title: data.message })
       }
     },
   }),
