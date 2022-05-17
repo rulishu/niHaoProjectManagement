@@ -16,7 +16,7 @@ import styles from './index.module.less'
 
 const ProjectList = (props) => {
   // const { dataList } = props.projectlist;
-  const { dispatch } = props
+  const { dispatch, router } = props
   const [projectStatus, setStatus] = useState('')
   const menu = (id) => (
     <div>
@@ -190,6 +190,9 @@ const ProjectList = (props) => {
           pageSize: 10,
         }}
         table={table}
+        onCell={() => {
+          router.navigate('/projectOverview/333')
+        }}
         columns={[
           {
             title: 'ID',

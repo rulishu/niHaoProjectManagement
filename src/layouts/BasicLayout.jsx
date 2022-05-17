@@ -89,7 +89,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             项目管理
           </div>
 
-          <div className={styles.title} onClick={() => navigate('/TodoList')}>
+          <div className={styles.title} onClick={() => navigate('/todoList')}>
             <Badge count={66}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
             </Badge>
@@ -123,7 +123,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        menuHide={['/projectList'].includes(props.router.location.pathname)}>
+        menuHide={['/projectList', '/home', '/todoList'].includes(
+          props.router.location.pathname
+        )}>
         {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div> */}

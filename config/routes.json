@@ -14,24 +14,25 @@
       {
         "path": "/home",
         "name": "工作台",
-        "component": "@/pages/WorkBench"
+        "component": "@/pages/WorkBench",
+        "hideInMenu": true
       },
       {
         "path": "/projectList",
         "name": "项目列表",
-        "component": "@/pages/ProjectList"
+        "component": "@/pages/ProjectList",
+        "hideInMenu": true
       },
       {
-        "path": "/TodoList",
+        "path": "/todoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
-        "icon": "save"
+        "hideInMenu": true
       },
       {
-        "path": "/projectOverview",
+        "path": "/projectOverview/:id",
         "name": "项目概览",
         "component": "@/pages/ProjectOverview",
-        "icon": "home",
         "isAuth": true
       },
       {
