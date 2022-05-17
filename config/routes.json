@@ -101,13 +101,13 @@
         "path": "/users",
         "name": "成员管理",
         "component": "@/pages/AllUsers",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",
         "name": "团队管理",
         "component": "@/pages/TeamManagement",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",
