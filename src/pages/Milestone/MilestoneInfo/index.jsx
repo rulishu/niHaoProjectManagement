@@ -68,15 +68,21 @@ const MilestoneInfo = (props) => {
   }
 
   return (
-    <div>
+    <div className={styles.contentWrapper}>
       <Row>
         <Col span="18">
-          <div className={styles.contentWrapper}>
+          <div>
             <div className={styles.milestoneHeader}>
               <div>
                 <Tag
-                  title="逾期"
-                  color="#ab6100"
+                  title={
+                    milestonesState === 1
+                      ? '逾 期'
+                      : milestonesState === 2
+                      ? '关闭'
+                      : '打开'
+                  }
+                  color={milestonesState === 1 ? '#ab6100' : '#108548'}
                   className={styles.statusBox}
                 />
                 <span>里程碑</span>
@@ -111,9 +117,11 @@ const MilestoneInfo = (props) => {
               <h2 className={styles.milestoneTitle}>
                 {listDataInfo.milestonesTitle}
               </h2>
-              <div className={styles.milestoneDes}>
-                {listDataInfo.milestonesDesc || undefined}
-              </div>
+              {listDataInfo.milestonesDesc && (
+                <div className={styles.milestoneDes}>
+                  {listDataInfo.milestonesDesc || undefined}
+                </div>
+              )}
             </div>
             <div>
               <OtherInfo listDataInfo={listDataInfo} />

@@ -15,7 +15,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
-  const userData = JSON.parse(localStorage.getItem('userData'))
+  const userData = localStorage.getItem('userData')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function refresh(type) {
@@ -23,11 +23,18 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
 
   useEffect(() => {
+    dispatch({
+      type: 'routeManagement/getInfo',
+    })
+    dispatch({
+      type: 'routeManagement/getRouters',
+    })
     refresh(false)
-  }, [refresh])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
-  const currUserRoute = JSON.parse(localStorage.getItem('routes'))
+  const currUserRoute = localStorage.getItem('routes')
   let routes = props.routes
 
   if (currUserRoute) {

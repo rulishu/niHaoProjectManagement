@@ -12,7 +12,7 @@ const NotifySuccess = (message) => {
   return Notify.success({ title: message, description: '' })
 }
 
-const userData = JSON.parse(localStorage.getItem('userData'))
+const userData = localStorage.getItem('userData')
 /**
  * 任务Project
  */

@@ -20,6 +20,7 @@ module.exports.authList = [
   '/*',
   '/project',
   '/project/*',
+  '/projectList',
   '/exceptions',
   '/exceptions/403',
   '/exceptions/404',
