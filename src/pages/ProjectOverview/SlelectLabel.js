@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Steps } from 'uiw'
+import { Row, Col, Card, Steps, Tabs } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
@@ -43,10 +43,33 @@ export default function Home() {
     <div>
       <div>
         <Row gutter={20}>
-          <Col span="16">
-            <Card>
+          <Col fixed style={{ width: '75%' }}>
+            <Card title="我的任务" extra={'更多'} bodyStyle={{ paddingTop: 0 }}>
+              <Tabs
+                // type="line"
+                activeKey="1"
+                style={{ marginBottom: 0 }}
+                onTabClick={(tab, key, e) => {
+                  console.log('=>', key, tab)
+                }}>
+                <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
+                <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="已逾期"
+                  key="3"></Tabs.Pane>
+                <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="已关闭"
+                  key="5"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="逾期完成"
+                  key="6"></Tabs.Pane>
+              </Tabs>
               <ProTable
-                bordered
+                // bordered
                 style={{ width: 900 }}
                 paginationProps={{
                   pageSizeOptions: [10, 20, 30],
@@ -100,7 +123,7 @@ export default function Home() {
               />
             </Card>
           </Col>
-          <Col span="8">
+          <Col fixed style={{ width: '25%' }}>
             <Row>
               <Col>
                 <Card title="最新动态" bordered={false} style={{ height: 220 }}>
