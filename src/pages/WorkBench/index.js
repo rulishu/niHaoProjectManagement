@@ -1,22 +1,10 @@
-// import ProjectHeader from './ProjectHeader'
-// import TableUser from './TableUser'
-// import TableManage from './TableManage'
-
-// export default function Demo() {
-//   return (
-//     <div>
-//       <ProjectHeader />
-//       <TableUser />
-//       <TableManage />
-//     </div>
-//   )
-// }
 import { useEffect, useState } from 'react'
 import { Row, Col, Card, Progress, Steps, Menu, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
+import TodoList from './TodoList'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -25,6 +13,10 @@ export default function Demo() {
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   useEffect(() => {
+    dispatch({
+      type: 'workbench/myProject',
+      payload: { record: taskId },
+    })
     dispatch({
       type: 'home/queryProject',
       payload: { record: taskId },
@@ -41,6 +33,32 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
+  const dataProject = [
+    {
+      companyId: 0,
+      createTime: '2022-05-17T08:18:16.691Z',
+      id: 0,
+      milesWorkVoList: [
+        {
+          dueTime: '2022-05-17T08:18:16.691Z',
+          milestonesId: 0,
+          milestonesTitle: 'string',
+          rate: 'string',
+        },
+      ],
+      projectId: 0,
+      projectName: 'string',
+      totalWorkVo: {
+        projectKfzNum: 0,
+        projectNum: 0,
+        projectWksNum: 0,
+        projectYqsNum: 0,
+        projectYwcNum: 0,
+      },
+      userId: 0,
+    },
+  ]
+  console.log('dataProject', dataProject)
   const dataRows = [
     {
       icon: 'uiw',
@@ -271,29 +289,25 @@ export default function Demo() {
             </Card>
           </Col>
           <Col fixed style={{ width: 405 }}>
-            <Row>
-              <Col>
-                <Card title="里程碑" bordered={false} style={{ height: 400 }}>
-                  <div className={styles.newDynamic}>
-                    <Steps
-                      direction="vertical"
-                      progressDot
-                      status="error"
-                      current={2}
-                      style={{ padding: '20px 0' }}>
-                      <Steps.Step
-                        title="步骤一"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                      <Steps.Step
-                        title="步骤二"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                    </Steps>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
+            <Card title="里程碑" bordered={false} style={{ height: 400 }}>
+              <div className={styles.newDynamic}>
+                <Steps
+                  direction="vertical"
+                  progressDot
+                  status="error"
+                  current={2}
+                  style={{ padding: '20px 0' }}>
+                  <Steps.Step
+                    title="步骤一"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                  <Steps.Step
+                    title="步骤二"
+                    description="这里是步骤一的说明，可以很长很长哦。"
+                  />
+                </Steps>
+              </div>
+            </Card>
           </Col>
         </Row>
       </div>
@@ -301,6 +315,8 @@ export default function Demo() {
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
       <TableManage />
+      <div style={{ marginTop: 20 }}></div>
+      <TodoList />
     </div>
   )
 }
