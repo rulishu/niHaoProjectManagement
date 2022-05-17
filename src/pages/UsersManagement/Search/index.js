@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { columnsSearch } from './items'
 import { Button } from 'uiw'
 import { SearchBar } from '@/components'
-import styles from './index.module.less'
 import Drawer from '../Drawer/index'
+import Modal from '../Modals/index'
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -36,14 +36,25 @@ const Search = () => {
   })
   // 操作
   function handleEditTable(type, obj) {
-    console.log('type', type)
     updateData({
       tableType: type,
     })
+    if (type === 'member' || type === 'group') {
+      updateData({
+        drawerVisible: true,
+        queryInfo: {},
+      })
+    }
     if (type === 'edit') {
       updateData({
         drawerVisible: true,
         queryInfo: obj,
+      })
+    }
+    if (type === 'del') {
+      updateData({
+        delectVisible: true,
+        id: obj?.id,
       })
     }
   }
@@ -54,7 +65,12 @@ const Search = () => {
   ]
   return (
     <Fragment>
-      <div className={styles.containButton}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: 20,
+        }}>
         <Button
           size="big"
           type="primary"
@@ -70,6 +86,7 @@ const Search = () => {
           邀请群组
         </Button>
       </div>
+
       <div>
         <SearchBar
           isDrop={true}
@@ -77,8 +94,11 @@ const Search = () => {
           onSearch={(value, selectValue) => console.log(value, selectValue)}
         />
       </div>
+
       <ProTable table={search} columns={columnsSearch(handleEditTable)} />
+
       <Drawer updateData={updateData} onSearch={search.onSearch} />
+      <Modal onSearch={search.onSearch} />
     </Fragment>
   )
 }
