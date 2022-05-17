@@ -46,8 +46,6 @@
       {
         "path": "/milestone",
         "name": "里程碑",
-        "isAuth": false,
-        "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
