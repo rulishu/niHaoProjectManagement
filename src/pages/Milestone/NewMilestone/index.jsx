@@ -143,7 +143,13 @@ const NewMilestone = (props) => {
             milestonesDesc: {
               initialValue: listDataInfo.milestonesDesc,
               inline: true,
-              children: <NEWMDEditor />,
+              children: (
+                <NEWMDEditor
+                  rfval={(e) => {
+                    console.log(e)
+                  }}
+                />
+              ),
             },
           }}>
           {({ fields, state, canSubmit }) => {

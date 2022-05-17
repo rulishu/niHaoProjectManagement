@@ -2,6 +2,8 @@ import { Button } from 'uiw'
 import { useDispatch } from 'react-redux'
 import EditOrAdd from './AllAlert/editOrAdd'
 import ProjectMain from './AllAlert/projectMain'
+import MaintainGroup from './AllAlert/maintainGroup'
+
 import styles from './index.module.less'
 
 const Head = () => {
@@ -26,6 +28,7 @@ const Head = () => {
         </Button>
         <EditOrAdd />
         <ProjectMain />
+        <MaintainGroup />
       </div>
     </div>
   )

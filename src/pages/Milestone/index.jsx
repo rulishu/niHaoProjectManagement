@@ -244,7 +244,7 @@ const Milestone = (props) => {
               </div>
               <div>
                 <Button type="primary" onClick={() => goNewNmilestone()}>
-                  新建里程碑
+                  创建里程碑
                 </Button>
               </div>
             </div>

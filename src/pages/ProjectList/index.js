@@ -17,7 +17,7 @@ import './index.css'
 
 const ProjectList = (props) => {
   // const { dataList } = props.projectlist;
-  const { dispatch } = props
+  const { dispatch, router } = props
   const [projectStatus, setProjectStatus] = useState('')
   const [projectType, setProjectType] = useState('20')
   const menu = (id) => (
@@ -201,6 +201,9 @@ const ProjectList = (props) => {
         <ProTable
           tableHeadHidden={true}
           tableBackgroundColor="#fff"
+          onCell={() => {
+            router.navigate('/projectOverview/333')
+          }}
           paginationProps={{
             pageSize: 10,
           }}
@@ -252,7 +255,10 @@ const ProjectList = (props) => {
               width: 50,
               render: (text, keyName, rowData) => {
                 return (
-                  <div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}>
                     <Dropdown
                       placement="bottomLeft"
                       trigger="click"
