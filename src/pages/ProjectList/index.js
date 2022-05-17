@@ -13,7 +13,6 @@ import {
 } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.module.less'
-import './index.css'
 
 const ProjectList = (props) => {
   // const { dataList } = props.projectlist;
