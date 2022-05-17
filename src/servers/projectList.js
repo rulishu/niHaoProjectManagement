@@ -85,3 +85,13 @@ export function projectCountById(params) {
     body: params,
   })
 }
+
+/**
+ * 获取当前用户的项目
+ */
+export function selectOneInfo(params) {
+  return request('/api/project/selectOneInfo', {
+    method: 'POST',
+    body: params,
+  })
+}

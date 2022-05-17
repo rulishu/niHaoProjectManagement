@@ -17,6 +17,8 @@ const UserLayout = () => {
     '/milestone',
     '/milestone/*',
     '/project',
+    '/project/*',
+    '/projectList',
     '/project/task',
     '/project/newIssue',
     '/exceptions',
