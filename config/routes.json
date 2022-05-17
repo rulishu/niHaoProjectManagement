@@ -147,6 +147,12 @@
             "name": "路由管理",
             "component": "@/pages/Authority/RouteManagement",
             "isAuth": true
+          },
+          {
+            "path": "/Authority/DepartmentPage",
+            "name": "部门管理",
+            "component": "@/pages/Authority/DepartmentPage",
+            "isAuth": true
           }
         ]
       },
