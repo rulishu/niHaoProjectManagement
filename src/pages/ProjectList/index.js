@@ -113,7 +113,8 @@ const ProjectList = (props) => {
       overtimeNum: 4,
     },
   ]
-  const table = useTable('/api/project/selectPageList', {
+  // 防止错误的接口超时 影响后续流程查看
+  const table = useTable('111', {
     formatData: (data) => {
       if (data?.data) {
         return {
