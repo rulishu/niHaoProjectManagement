@@ -44,28 +44,22 @@ export default function Home() {
       <div>
         <Row gutter={20}>
           <Col span="16">
-            <Card
-              title="当前的项目"
-              extra={
-                <Tabs
-                  type="line"
-                  activeKey="1"
-                  onTabClick={(tab, key, e) => {
-                    console.log('=>', key, tab)
-                  }}>
-                  <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
-                  <Tabs.Pane label="进行中" key="2">
-                    {/* <Ongoing /> */}
-                  </Tabs.Pane>
-                  <Tabs.Pane sequence="fadeIn up" label="已逾期" key="3">
-                    {/* <Overdue /> */}
-                  </Tabs.Pane>
-                  <Tabs.Pane label="我创建的" key="4">
-                    {/* <OurCreate /> */}
-                  </Tabs.Pane>
-                  <Tabs.Pane label="更多">更多</Tabs.Pane>
-                </Tabs>
-              }>
+            <Card title="我的任务" extra={'更多'} bodyStyle={{ paddingTop: 0 }}>
+              <Tabs
+                // type="line"
+                activeKey="1"
+                style={{ marginBottom: 0 }}
+                onTabClick={(tab, key, e) => {
+                  console.log('=>', key, tab)
+                }}>
+                <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
+                <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
+                <Tabs.Pane
+                  sequence="fadeIn up"
+                  label="已逾期"
+                  key="3"></Tabs.Pane>
+                <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
+              </Tabs>
               <ProTable
                 style={{ width: 900 }}
                 paginationProps={{

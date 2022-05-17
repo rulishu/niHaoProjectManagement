@@ -9,3 +9,13 @@ export function selectOperatingRecord(params) {
     body: params,
   })
 }
+
+/*
+ * 我近期参与的项目统计
+ */
+export function myProject(params) {
+  return request('/api/workbench/myProject', {
+    method: 'POST',
+    body: params,
+  })
+}

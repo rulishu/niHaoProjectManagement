@@ -30,6 +30,12 @@ export default function Home() {
       type: 'home/selectOperatingRecord',
       payload: taskId,
     })
+    dispatch({
+      type: 'projectoverview/projectCountById',
+      payload: {
+        projectId: 1594,
+      },
+    })
   }, [taskId, dispatch])
 
   function randomColor() {

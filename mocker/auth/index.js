@@ -1,5 +1,5 @@
 module.exports.authList = [
-  '/TodoList',
+  '/todoList',
   '/tableList',
   '/home',
   '/projectOverview',
@@ -14,6 +14,9 @@ module.exports.authList = [
   '/project',
   '/project/task',
   '/project/newIssue',
+  '/Authority',
+  '/Authority/DepartmentPage',
+  '/Authority/PostManagement',
   '/*',
   '/project',
   '/project/*',

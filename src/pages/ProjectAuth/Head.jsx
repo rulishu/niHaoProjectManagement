@@ -1,6 +1,9 @@
 import { Button } from 'uiw'
 import { useDispatch } from 'react-redux'
-import AddAuth from './AddAuth'
+import EditOrAdd from './AllAlert/editOrAdd'
+import ProjectMain from './AllAlert/projectMain'
+import MaintainGroup from './AllAlert/maintainGroup'
+
 import styles from './index.module.less'
 
 const Head = () => {
@@ -23,9 +26,9 @@ const Head = () => {
           }}>
           新增分组
         </Button>
-        <div>
-          <AddAuth />
-        </div>
+        <EditOrAdd />
+        <ProjectMain />
+        <MaintainGroup />
       </div>
     </div>
   )
