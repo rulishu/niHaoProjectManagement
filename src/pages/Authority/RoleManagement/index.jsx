@@ -40,7 +40,6 @@ const Demo = (props) => {
       revalidateOnFocus: false,
     },
     requestOptions: {
-      method: 'GET',
       headers: { Authorization: 'Bearer ' + token },
     },
   })
@@ -49,6 +48,7 @@ const Demo = (props) => {
     updateData({
       isView: type === 'view',
       tableType: type,
+      tablePro: table,
     })
     if (type === 'add') {
       updateData({ drawerVisible: true, queryInfo: {} })
@@ -58,8 +58,8 @@ const Demo = (props) => {
     }
     if (type === 'del') {
       const result = await dispatch({
-        type: 'rolemanagement/deleteRole',
-        payload: { id: record?.id },
+        type: 'rolemanagement/getDelete',
+        payload: { ids: [record.roleId] },
       })
       result && table.onSearch()
       return result
@@ -67,7 +67,7 @@ const Demo = (props) => {
     if (type === 'authorize') {
       dispatch({
         type: 'rolemanagement/selectListByRoleId',
-        payload: { id: record.id },
+        payload: { id: record?.roleId },
       })
       updateData({ drawerVisibleAuth: true, queryInfo: record })
     }
@@ -198,14 +198,14 @@ const Demo = (props) => {
               width: 200,
               render: (text, key, rowData) => (
                 <div>
-                  {/* <AuthBtn path="/api/managerRole/addMenu"> */}
+                  {/* <AuthBtn path="/api/managerRole/addMenu">
                   <Button
                     size="small"
                     type="primary"
                     onClick={handleEditTable.bind(this, 'authorize', rowData)}>
                     授权
                   </Button>
-                  {/* </AuthBtn> */}
+                  </AuthBtn> */}
                   {/* <AuthBtn path="/api/managerRole/upDateRole"> */}
                   <Button
                     size="small"

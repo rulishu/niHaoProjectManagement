@@ -142,9 +142,9 @@
             "isAuth": true
           },
           {
-            "path": "/Authority/routeManagement",
+            "path": "/Authority/MenuManagement",
             "name": "路由管理",
-            "component": "@/pages/Authority/RouteManagement",
+            "component": "@/pages/Authority/MenuManagement",
             "isAuth": true
           },
           {

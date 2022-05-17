@@ -1,4 +1,4 @@
-export const items = (queryInfo) => [
+export const items = (queryInfo, Demo) => [
   {
     label: '角色名称',
     key: 'roleName',
@@ -52,18 +52,6 @@ export const items = (queryInfo) => [
     required: true,
     placeholder: '请输入角色顺序',
     span: '24',
-    rules: [
-      {
-        required: true,
-        validator: (item) => {
-          if (item.length < 2 || item.length > 30) {
-            return false
-          }
-          return !!item
-        },
-        message: '请输入角色顺序,长度为2-20',
-      },
-    ],
   },
   {
     label: '状态',
@@ -73,7 +61,15 @@ export const items = (queryInfo) => [
       { label: '停用', value: '1' },
       { label: '正常', value: '0' },
     ],
-    initialValue: queryInfo?.status,
+    initialValue: queryInfo?.status || '0',
+    span: '24',
+  },
+  {
+    label: '菜单权限',
+    key: 'menuIds',
+    widget: 'Demo',
+    style: { maxWidth: '430px' },
+    initialValue: queryInfo?.remark,
     span: '24',
   },
   {
@@ -83,16 +79,5 @@ export const items = (queryInfo) => [
     style: { maxWidth: '430px' },
     initialValue: queryInfo?.remark,
     span: '24',
-    rules: [
-      {
-        validator: (item) => {
-          if (item && (item.length < 2 || item.length > 30)) {
-            return false
-          }
-          return !!item
-        },
-        message: '请输入备注,长度为2-20',
-      },
-    ],
   },
 ]

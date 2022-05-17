@@ -7,6 +7,9 @@ import {
   getAllRoleList,
   menuTiers,
   selectListByRoleId,
+  getAdd,
+  getDelete,
+  getEdit,
 } from '@/servers/rolemanagement'
 
 export default createModel()({
@@ -20,6 +23,7 @@ export default createModel()({
     allRoleList: [],
     allMenuList: [],
     dataRoleMenu: [],
+    tablePro: {},
   },
   effects: (dispatch) => ({
     async selectRole(payload) {
@@ -29,6 +33,42 @@ export default createModel()({
         dph.rolemanagement.update({
           queryInfo: data.data || {},
         })
+      }
+    },
+    // 新增
+    async getAdd(payload, rolemanagement) {
+      const dph = dispatch
+      const data = await getAdd(payload)
+      if (data.code === 200) {
+        dph.rolemanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        rolemanagement.rolemanagement.tablePro.onSearch()
+      }
+    },
+    // 删除
+    async getDelete(payload, rolemanagement) {
+      const dph = dispatch
+      const data = await getDelete(payload)
+      if (data.code === 200) {
+        dph.rolemanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        rolemanagement.rolemanagement.tablePro.onSearch()
+      }
+    },
+    // 编辑
+    async getEdit(payload, rolemanagement) {
+      const dph = dispatch
+      const data = await getEdit(payload)
+      if (data.code === 200) {
+        dph.rolemanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        rolemanagement.rolemanagement.tablePro.onSearch()
       }
     },
     async deleteRole(payload) {
