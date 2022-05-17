@@ -1,7 +1,7 @@
-import { Split, Card, Tabs } from 'uiw'
-import Ongoing from './Ongoing'
+import { Split, Card, Tabs, Button } from 'uiw'
 import Pendings from './Pendings'
-import Overdue from './Overdue'
+// import Ongoing from './Ongoing'
+// import Overdue from './Overdue'
 
 export default function TableManage() {
   return (
@@ -9,27 +9,26 @@ export default function TableManage() {
       <Split
         style={{ height: 400, border: '1px solid #d5d5d5', borderRadius: 3 }}>
         <div style={{ width: '100%', minWidth: 30 }}>
-          <Card style={{ height: '100%' }}>
-            <Tabs
-              type="line"
-              activeKey="1"
-              onTabClick={(tab, key, e) => {
-                console.log('=>', key, tab)
-              }}>
-              <Tabs.Pane label="所有待处理" key="1">
-                <Pendings />
-              </Tabs.Pane>
-              <Tabs.Pane label="进行中" key="2">
-                <Ongoing />
-              </Tabs.Pane>
-              <Tabs.Pane sequence="fadeIn up" label="已逾期" key="3">
-                <Overdue />
-              </Tabs.Pane>
-              <Tabs.Pane
-                label="更多"
-                style={{ marginRight: 10 }}
-                key="4"></Tabs.Pane>
-            </Tabs>
+          <Card
+            style={{ height: '100%' }}
+            title={
+              <Tabs
+                type="line"
+                activeKey="1"
+                onTabClick={(tab, key, e) => {
+                  console.log('=>', key, tab)
+                }}>
+                <Tabs.Pane label="所有待处理" key="1"></Tabs.Pane>
+                <Tabs.Pane label="进行中" key="2">
+                  {/* <Ongoing /> */}
+                </Tabs.Pane>
+                <Tabs.Pane sequence="fadeIn up" label="已逾期" key="3">
+                  {/* <Overdue /> */}
+                </Tabs.Pane>
+              </Tabs>
+            }
+            extra={<Button>更多</Button>}>
+            <Pendings />
           </Card>
         </div>
       </Split>
