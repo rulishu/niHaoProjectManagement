@@ -19,14 +19,20 @@
       {
         "path": "/projectList",
         "name": "项目列表",
-        "component": "@/pages/ProjectList",
-        "hideInMenu": true
+        "component": "@/pages/ProjectList"
       },
       {
         "path": "/TodoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
         "icon": "save"
+      },
+      {
+        "path": "/projectOverview",
+        "name": "项目概览",
+        "component": "@/pages/ProjectOverview",
+        "icon": "home",
+        "isAuth": true
       },
       {
         "path": "/milestone",
@@ -67,7 +73,6 @@
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
-        "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
@@ -140,6 +145,18 @@
             "path": "/Authority/routeManagement",
             "name": "路由管理",
             "component": "@/pages/Authority/RouteManagement",
+            "isAuth": true
+          },
+          {
+            "path": "/Authority/DepartmentPage",
+            "name": "部门管理",
+            "component": "@/pages/Authority/DepartmentPage",
+            "isAuth": true
+          },
+          {
+            "path": "/Authority/PostManagement",
+            "name": "岗位管理",
+            "component": "@/pages/Authority/PostManagement",
             "isAuth": true
           }
         ]

@@ -4,11 +4,11 @@ import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange } from '@/components'
 import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
-import Bread from './Breadcrumb'
-import { BreadcrumbMap } from '@/utils/utils'
+// import Bread from './Breadcrumb'
+// import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
 import ProjectManagement from '../components/ProjectManagement'
-// import styles from './index.module.less'
+import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const layouts = useLayouts()
@@ -16,13 +16,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const passwordRef = useRef()
   const dispatch = useDispatch()
   const userData = localStorage.getItem('userData')
-
-  const updateDataGlobal = (payload) => {
-    dispatch({
-      type: 'global/updateState',
-      payload,
-    })
-  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function refresh(type) {
@@ -86,21 +79,31 @@ function BasicLayoutScreen(props = { routes: [] }) {
       menuLeft: (
         <>
           <div
-            style={{ marginRight: 15 }}
+            className={styles.title}
             onClick={() => {
-              updateDataGlobal({ drawerVisible: true })
+              dispatch({
+                type: 'global/updataProject',
+                payload: { drawerType: 'add' },
+              })
             }}>
             新增项目
           </div>
-
           <div
-            style={{ marginRight: 15, marginTop: 12, cursor: 'pointer' }}
-            onClick={() => navigate('/TodoList')}>
-            <Icon type="save" color="#343a40" style={{ fontSize: 20 }} />
+            className={styles.title}
+            onClick={() => {
+              navigate('/projectList')
+            }}>
+            项目管理
+          </div>
+
+          <div className={styles.title} onClick={() => navigate('/TodoList')}>
+            <Badge count={66}>
+              <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
+            </Badge>
           </div>
 
           <div
-            style={{ marginRight: 15, cursor: 'pointer' }}
+            className={styles.title}
             onClick={() => {
               navigate('/project/task')
             }}>
@@ -128,9 +131,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
       <BasicLayout
         {...basicLayoutProps}
         menuHide={['/projectList'].includes(props.router.location.pathname)}>
-        <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+        {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
-        </div>
+        </div> */}
         <Outlet />
         <PassWordChange refs={passwordRef} />
         <ProjectManagement></ProjectManagement>

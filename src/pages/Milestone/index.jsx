@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
 import {
   Button,
@@ -11,14 +11,13 @@ import {
   Progress,
   Empty,
   Loader,
-  Tooltip,
   Icon,
   OverlayTrigger,
 } from 'uiw'
 import { useNavigate } from 'react-router-dom'
-import { StatusTag } from '@/components'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
+import data from './data'
 
 const { Line } = Progress
 
@@ -50,11 +49,9 @@ const Milestone = (props) => {
     })
   }, [props.dispatch])
 
-  const milestoneStatus = {
-    1: { title: '打开', className: 'blue' },
-    2: { title: '关闭', className: 'brown' },
-    3: { title: '删除', className: 'red' },
-  }
+  const [sorting, setSorting] = useState(1)
+
+  const [isPulldown, setIsPulldown] = useState(false)
 
   const goNewNmilestone = () => {
     props.dispatch.update({ milestoneType: 1, listDataInfo: {} })
@@ -75,10 +72,17 @@ const Milestone = (props) => {
   //   })
   // }
 
+  const sortingList = [
+    { value: 1, title: '即将到期' },
+    { value: 2, title: '稍后到期' },
+    { value: 3, title: '马上开始' },
+    { value: 4, title: '稍后开始' },
+  ]
+
   // 里程碑列表
   const milesList = (data, newTotal) => {
     return (
-      <div>
+      <div className={styles.contentList}>
         {data.length > 0 ? (
           <Fragment>
             <List
@@ -91,37 +95,35 @@ const Milestone = (props) => {
                   <List.Item
                     key={index}
                     className={styles.listItem}
-                    onClick={() => {
-                      listGo(item.milestonesId)
-                    }}
-                    style={{ width: '100%', borderRadius: 0 }}>
-                    <Row style={{ width: '100%' }}>
-                      <Col span="10">
-                        <div className={styles.itemList}>
-                          <div className={styles.title}>
-                            {item.milestonesTitle}
+                    style={{ width: '100%', padding: 0, borderRadius: 0 }}>
+                    <Row className={styles.milestonesItemList}>
+                      <Col span="12" className={styles.itemListLeft}>
+                        <div
+                          className={styles.title}
+                          onClick={() => listGo(item.milestonesId)}>
+                          {item.milestonesTitle}
+                        </div>
+                        {item.startTime && (
+                          <div className={styles.date}>
+                            {item.startTime}
+                            {item.dueTime && '-' + item.dueTime}
                           </div>
-                          <div className={styles.info}>
-                            创建于 {item.createTime} 由 {item.createName}
-                            {item?.dueTime && (
-                              <Tooltip placement="top" content="Due date">
-                                <span
-                                  className={`dueDate ${
-                                    dayjs(item?.dueTime)?.diff(
-                                      dayjs().format('YYYY-MM-DD'),
-                                      'hour'
-                                    ) < 0 && item?.milestonesStatus === 1
-                                      ? 'redDate'
-                                      : ''
-                                  }`}>
-                                  <Icon type="date" /> {item?.dueTime}
-                                </span>
-                              </Tooltip>
-                            )}
-                          </div>
+                        )}
+                        <div>
+                          {dayjs(item?.dueTime)?.diff(
+                            dayjs().format('YYYY-MM-DD'),
+                            'hour'
+                          ) < 0 && item?.milestonesStatus === 1 ? (
+                            <span className={styles.overdue}>已延期</span>
+                          ) : (
+                            <span className={styles.overdue}>已延期</span>
+                          )}
+                          <span className={styles.project}>
+                            {item.createName} / {item.projectName}
+                          </span>
                         </div>
                       </Col>
-                      <Col span="10">
+                      <Col span="8" className={styles.itemListMiddle}>
                         <Line
                           percent={(+item.degreeCompletion * 100).toFixed()}
                           showText={false}
@@ -135,12 +137,10 @@ const Milestone = (props) => {
                           </span>
                         </div>
                       </Col>
-                      <Col span="4" className={styles.status}>
-                        <StatusTag
-                          status={item?.milestonesStatus}
-                          statusList={milestoneStatus}
-                          size="big"
-                        />
+                      <Col span="4" className={styles.itemListRight}>
+                        <div>
+                          <Button>关闭里程碑</Button>
+                        </div>
                       </Col>
                     </Row>
                   </List.Item>
@@ -174,10 +174,16 @@ const Milestone = (props) => {
   const card = (
     <div className={styles.dropdownMenu}>
       <ul>
-        <li>即将到期</li>
-        <li>稍后到期</li>
-        <li>马上开始</li>
-        <li>稍后开始</li>
+        {sortingList.map((item) => (
+          <li
+            key={item.value}
+            onClick={() => {
+              setIsPulldown(false)
+              setSorting(item.value)
+            }}>
+            {item.title}
+          </li>
+        ))}
       </ul>
     </div>
   )
@@ -187,7 +193,7 @@ const Milestone = (props) => {
     listData,
     total,
     activeKey,
-    openListData,
+    // openListData,
     openListTotal,
     closeListData,
     closeListTotal,
@@ -223,10 +229,16 @@ const Milestone = (props) => {
                 <OverlayTrigger
                   placement="bottomRight"
                   trigger="click"
+                  isOpen={isPulldown}
+                  onVisibleChange={(open) => setIsPulldown(open)}
                   overlay={card}>
                   <div className={styles.toggle}>
-                    <span>即将截止</span>
-                    <Icon type="down" />
+                    <span>
+                      {sortingList.map(
+                        (item) => item.value === sorting && item.title
+                      )}
+                    </span>
+                    <Icon type={isPulldown ? 'up' : 'down'} />
                   </div>
                 </OverlayTrigger>
               </div>
@@ -237,9 +249,7 @@ const Milestone = (props) => {
               </div>
             </div>
           </div>
-          {activeKey === '1' && (
-            <div>{milesList(openListData, openListTotal)}</div>
-          )}
+          {activeKey === '1' && <div>{milesList(data, openListTotal)}</div>}
           {activeKey === '2' && (
             <div>{milesList(closeListData, closeListTotal)}</div>
           )}
