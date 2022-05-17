@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import Head from './Head'
 import styles from './index.module.less'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { columns } from './items'
 
 const ProjectAuth = () => {
   const {
@@ -17,7 +18,12 @@ const ProjectAuth = () => {
       }
     },
   })
-
+  const onTable = (type, obj) => {
+    console.log('type', type)
+    if (type === 'edit') {
+      console.log('type', type)
+    }
+  }
   return (
     <div className={styles.userWrap}>
       <Head />
@@ -27,24 +33,7 @@ const ProjectAuth = () => {
           pageSize: 10,
         }}
         table={table}
-        columns={[
-          {
-            title: '编号',
-            key: 'code',
-          },
-          {
-            title: '分组名称',
-            key: 'name',
-          },
-          {
-            title: '分组描述',
-            key: 'mshu',
-          },
-          {
-            title: '用户列表',
-            key: 'gender',
-          },
-        ]}
+        columns={columns(onTable)}
       />
     </div>
   )
