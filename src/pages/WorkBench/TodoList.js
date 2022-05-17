@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Tabs, Button } from 'uiw'
+import { Row, Col, Card, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 
-export default function TableManage() {
+export default function TodoList() {
   const dispatch = useDispatch()
   const {
     home: { taskId },
@@ -44,29 +44,15 @@ export default function TableManage() {
         <Row gutter={20}>
           <Col span="16">
             <Card
-              title="所有项目"
+              title="待办事项"
               extra={
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/projectList')}>
+                  onClick={() => (window.location.href = '#/TodoList')}>
                   更多
                 </Button>
-              }
-              bodyStyle={{ paddingTop: 0 }}>
-              <Tabs
-                // type="line"
-                activeKey="1"
-                onTabClick={(tab, key, e) => {
-                  console.log('=>', key, tab)
-                }}>
-                <Tabs.Pane label="所有待处理" key="1"></Tabs.Pane>
-                <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
-                <Tabs.Pane
-                  sequence="fadeIn up"
-                  label="已延期"
-                  key="3"></Tabs.Pane>
-              </Tabs>
+              }>
               <ProTable
                 style={{ width: 900 }}
                 paginationProps={{
@@ -76,7 +62,19 @@ export default function TableManage() {
                 table={table}
                 columns={[
                   {
-                    title: '项目',
+                    title: 'id',
+                    key: 'phone',
+                  },
+
+                  {
+                    title: '内容',
+                    key: 'registered',
+                    render: (text) => {
+                      return <div>{text.age}</div>
+                    },
+                  },
+                  {
+                    title: '项目名称',
                     key: 'name',
                     render: (text) => {
                       return (
@@ -88,34 +86,15 @@ export default function TableManage() {
                     },
                   },
                   {
-                    title: '任务名称',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
-                    },
+                    title: '时间',
+                    key: 'time',
                   },
                   {
-                    title: '任务状态',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
-                    },
-                  },
-                  {
-                    title: '创建人',
-                    key: 'phone',
-                  },
-                  {
-                    title: '任务状态',
+                    title: '操作',
                     key: 'gender',
-                  },
-                  {
-                    title: '截止时间',
-                    key: 'gender1',
-                  },
-                  {
-                    title: '创建时间',
-                    key: 'gender2',
+                    render: (text) => {
+                      return <text>查看</text>
+                    },
                   },
                 ]}
               />
