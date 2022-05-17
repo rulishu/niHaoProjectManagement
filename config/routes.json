@@ -21,29 +21,32 @@
         "path": "/projectList",
         "name": "项目列表",
         "component": "@/pages/ProjectList",
-        "hideInMenu": true
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
         "path": "/todoList",
         "name": "待办事项列表",
         "component": "@/pages/TodoList",
-        "hideInMenu": true
+        "hideInMenu": true,
+        "isAuth": false
       },
       {
         "path": "/projectOverview/:id",
         "name": "项目概览",
         "component": "@/pages/ProjectOverview",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "component": "@/pages/Milestone"
+        "component": "@/pages/Milestone",
+        "isAuth": false
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "isAuth": true,
+        "isAuth": false,
         "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [

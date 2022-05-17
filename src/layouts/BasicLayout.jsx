@@ -95,7 +95,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             </Badge>
           </div>
 
-          <div
+          {/* <div
             className={styles.title}
             onClick={() => {
               navigate('/project/task')
@@ -103,7 +103,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             <Badge count={66}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
             </Badge>
-          </div>
+          </div> */}
         </>
       ),
     },
