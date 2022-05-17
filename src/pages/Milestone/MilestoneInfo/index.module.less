@@ -1,263 +1,9 @@
+@import '../../../common.less';
+
 .contentWrapper {
-  background-color: #fff;
+  background-color: @white;
   border-radius: 2px;
-}
-
-.milestoneHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #dbdbdb;
-  color: #303030;
-
-  .statusBox {
-    width: 50px;
-    text-align: center;
-    font-size: 14px;
-    margin-right: 10px;
-  }
-}
-
-.milestoneDetail {
-  padding: 15px 0;
-  border-bottom: 1px solid #dbdbdb;
-}
-
-.milestoneTitle {
-  font-size: 24px;
-  font-weight: bold;
-}
-.milestoneDes {
-  border-top: 1px solid #dbdbdb;
-  margin-top: 5px;
-  padding-top: 10px;
-}
-
-.splitLisft {
-  padding: 12px;
-
-  .splitLisftList {
-  }
-}
-
-.splitRight {
-  padding: 20px;
-  background-color: #ededed;
-}
-
-// 按钮组
-.buttonGroup {
-  display: flex;
-  padding-bottom: 12px;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-
-  button {
-    margin-right: 12px;
-  }
-}
-
-.rigBox {
-  .title {
-    display: block;
-    line-height: 30px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .introduce {
-    font-size: 12px;
-  }
-
-  .rigBoxUl {
-    li {
-      padding: 10px 5px;
-    }
-
-    .liTitle {
-      font-size: 14px;
-    }
-
-    .liText {
-      font-size: 12px;
-      position: relative;
-      max-height: 200px;
-      min-height: 20px;
-
-      pre {
-        margin-top: 5px;
-        width: 100%;
-        opacity: 0;
-        z-index: -1;
-        padding: 5px;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
-
-      .liTextarea {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        height: 100%;
-        padding: 5px;
-        box-shadow: inset 0 0 5px 3px #aaa;
-        color: #666;
-      }
-    }
-  }
-}
-
-.stateBox {
-  margin: 20px 5px;
-  padding: 20px;
-  box-shadow: 0 0 2px #666;
-
-  .stateAlter {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .stateAlterLeft {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-.infoBox {
-  .issListLabel {
-    text-shadow: 0 0 7px #008ef0;
-  }
-  .num {
-    background: #f0f0f0;
-    color: #303030;
-  }
-
-  .issList {
-    margin-top: 10px;
-    margin-right: -15px;
-    margin-left: -15px;
-    // padding: 10px;
-
-    // ul {
-    //   display: flex;
-    //   flex-direction: row;
-    //   flex-wrap: nowrap;
-    //   justify-content: space-around;
-
-    //   li {
-    //     flex: 1;
-    //     text-align: center;
-    //     margin: 5px 15px;
-    //     height: 100%;
-    //     box-shadow: 2px 2px 6px 1px #343a406e;
-    //     border-radius: 4px;
-    //     overflow: hidden;
-
-    .head {
-      display: flex;
-      padding: 10px;
-      background-color: #ececec;
-      flex-direction: row;
-      justify-content: space-between;
-      flex-wrap: nowrap;
-
-      .nums {
-        font-size: 16px;
-        font-weight: 600;
-        color: #666;
-        text-shadow: 1px 1px 2px #a7a8bd;
-      }
-    }
-
-    .issuesList {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 10px 16px;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      align-items: flex-start;
-
-      .title {
-        font-size: 14px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        max-width: 100%;
-
-        span {
-          cursor: pointer;
-
-          &:hover {
-            color: #008ef0;
-            text-decoration: underline;
-          }
-        }
-      }
-
-      .text {
-        font-size: 12px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-items: center;
-
-        .type {
-          margin: 0 4px;
-          border-radius: 100px;
-          background-color: #ccc;
-          padding: 0 10px;
-          color: #fff;
-        }
-      }
-    }
-    //   }
-    // }
-  }
-
-  // 里程碑成员
-  .memberBox {
-    padding: 10px;
-
-    .roleItem {
-      display: flex;
-
-      // 头像
-      .roleAvatar {
-        margin-right: 10px;
-        box-shadow: 0 0 4px 1px #80b0fb;
-      }
-
-      .roleItemInfo {
-        .roleName {
-          font-weight: 600;
-          font-size: 16px;
-          color: #008ef0;
-        }
-
-        .roleVice {
-          display: flex;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-}
-
-// 进度条
-.progressBar {
-  display: flex;
-  align-items: center;
+  margin-right: 290px;
 }
 
 // 数字
@@ -272,16 +18,225 @@
     padding: 0px 10px;
     font-size: 12px;
   }
-  // i {
-  //   position: absolute;
-  //   top: 0;
-  //   bottom: 0;
-  //   left: 0;
-  //   right: 0;
-  //   margin: auto;
-  //   width: 20px;
-  //   height: 0px;
-  //   box-shadow: 0 0 10px 4px #008ef0;
-  //   border-radius: 100px;
-  // }
+}
+
+// 里程碑详情 左边布局
+.layoutLeft {
+  max-width: 1280px;
+  padding: 0 @padding-md;
+  margin: auto;
+  background-color: @white;
+
+  // 里程碑详情 左边布局 头部
+  .layoutLeftHead {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid @normal-color;
+    color: #303030;
+
+    .headLeft {
+      display: flex;
+      align-items: center;
+
+      .headStatus {
+        display: inline-block;
+        padding: 0 10px;
+        border-radius: 4px;
+        margin-right: 8px;
+        color: @white;
+        font-size: @font-size-sm;
+        line-height: 20px;
+        height: 20px;
+      }
+
+      .headTitle {
+        strong {
+          color: #303030;
+          line-height: 34px;
+        }
+      }
+    }
+
+    .headRight {
+      display: flex;
+    }
+  }
+
+  // 里程碑详情 左边布局 内容
+  .layoutLeftBody {
+    border-bottom: 1px solid @normal-color;
+    padding: @padding-md 0;
+
+    h2 {
+      font-weight: 600;
+      line-height: 1.2;
+      color: #303030;
+      font-size: 22px;
+    }
+
+    .bodyContent {
+      margin-top: @margin-xs;
+      padding: 0;
+      padding-top: @padding-xs;
+      border-width: 1px;
+      border-color: @normal-color;
+      border-top-style: solid;
+    }
+  }
+
+  // 里程碑详情 左边布局 底部
+  .layoutLeftFooty {
+    // 任务分类列表
+    .infoBox {
+      .tabsHead {
+        border-style: solid;
+        border-color: @normal-color;
+        border-width: 0;
+        border-bottom-width: 1px;
+        margin-bottom: @margin-xss;
+      }
+
+      // 任务列表
+      .taskList {
+        .taskListLi {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+          word-wrap: break-word;
+          background-color: @white;
+          background-clip: border-box;
+          border: 1px solid @normal-color;
+          border-radius: 3px;
+
+          li {
+            padding: @padding-sm + 2px @padding-md;
+            word-break: break-word;
+            border-bottom: 1px solid #eee;
+            display: block;
+            margin: 0;
+            border-color: @normal-color;
+            color: #303030;
+
+            .taskTitle,
+            .taskLink {
+              cursor: pointer;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            .taskBody {
+              margin-top: 7px;
+
+              .taskLink {
+              }
+
+              .taskTags {
+                padding: 0 @padding-xss + 2px;
+                align-items: center;
+                background-color: @white;
+                overflow: hidden;
+                display: inline-flex;
+                border-radius: 10px;
+                max-width: 100%;
+                color: @white;
+                font-size: @font-size-sm;
+                margin-left: @margin-xss;
+                cursor: pointer;
+              }
+
+              .taskAssignPerson {
+                cursor: pointer;
+                margin-left: @margin-xss;
+              }
+            }
+          }
+
+          .liHeader {
+            margin-bottom: 0;
+            background-color: #fafafa;
+            border-bottom: 1px solid @normal-color;
+            padding: @padding-sm @padding-md;
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+            font-size: @font-size-sm;
+
+            .liHeaderRight {
+              display: flex;
+              align-items: center;
+
+              span {
+                margin-left: @margin-xss;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 里程碑详情 右边布局
+.layoutRight {
+  width: 290px;
+  position: fixed;
+  top: 53px;
+  bottom: 0px;
+  right: 0;
+  transition: width 0.3s;
+  background: #fafafa;
+  z-index: 200;
+  overflow: hidden;
+  padding: 0 20px;
+  border-left: 1px solid #dbdbdb;
+
+  li {
+    padding: 16px 0;
+    border-bottom: 1px solid #e8e8e8;
+    width: 250px;
+
+    .rightHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      .num {
+        background-color: #f0f0f0;
+        color: #666;
+        display: inline-flex;
+        align-items: center;
+        font-size: @font-size-sm;
+        font-weight: 400;
+        line-height: 14px;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 6px;
+        padding-right: 6px;
+        border-radius: 120px;
+      }
+
+      .rightHeadBut {
+        min-height: 16px;
+        font-size: @font-size-sm;
+        padding: 2px;
+      }
+    }
+
+    .rightBelow {
+      font-weight: 600;
+      display: flex;
+
+      span {
+        display: flex;
+        margin-right: @margin-xss;
+      }
+    }
+  }
 }
