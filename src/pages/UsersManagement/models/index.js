@@ -6,6 +6,9 @@ const usersManagement = createModel()({
   state: {
     drawerVisible: false,
     queryInfo: {},
+    delectVisible: false,
+    id: '',
+    tableType: '',
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -30,7 +33,9 @@ const usersManagement = createModel()({
       dph.usersManagement.updateState({
         drawerVisible: false,
         queryInfo: {},
+        delectVisible: false,
         loading: false,
+        tableType: '',
       })
     },
   }),
