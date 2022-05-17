@@ -1,27 +1,29 @@
+@import '../../common.less';
+
 .container {
-  background-color: white;
+  background-color: @white;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 12px 5px;
-  font-size: 30px;
-  font-weight: 600;
-  color: #303030;
+  padding: @padding-md @padding-xss;
+  font-size: @font-size-lg;
+  font-weight: @header-font-weight;
+  color: @black;
 }
 
 .listImg {
-  border-radius: 8%;
+  border-radius: @border-radius-base;
   height: 40px;
   width: 40px;
   align-self: center;
-  font-size: 20px;
-  margin: 5px;
+  font-size: @font-size-base;
+  margin: @margin-xss;
 }
 
 .tabsDiv {
   display: flex;
   justify-content: space-between;
-  padding: 2px 5px;
+  padding: @padding-xss / 2 @padding-xss;
 }

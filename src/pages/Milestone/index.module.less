@@ -1,3 +1,5 @@
+@import '../../common.less';
+
 .wrap {
   padding: 0 15px 15px 15px;
   background-color: #fff;
@@ -15,15 +17,21 @@
       // 下拉
       .dropdown {
         margin: 0 16px;
+
         .toggle {
           padding: 6px 8px 6px 10px;
           background-color: #fff;
           color: #303030;
           font-size: 14px;
+          width: 160px;
           text-align: left;
           border: 1px solid #dbdbdb;
           border-radius: 0.25rem;
           white-space: nowrap;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
         }
       }
     }
@@ -158,56 +166,76 @@
   padding: 8px;
   margin-top: 8px;
   border-radius: 4px;
-  background-color: var(--gray-100, #dbdbdb);
-
-  .listItem {
-    width: 100%;
-    background-color: #fff;
-    cursor: pointer;
-
-    &:not(:last-child) {
-      margin-bottom: 4px;
-    }
-
-    .itemList {
-      .title {
-        font-size: 16px;
-        font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .info {
-        font-size: 12px;
-        color: #666;
-      }
-    }
-
-    .status {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-content: center;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-}
-
-// 进度条
-.progressText {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  background-color: #dbdbdb;
   font-size: 12px;
 
-  .num {
-    color: #666;
-  }
+  .milestonesItemList {
+    border: 0;
+    padding: 10px 16px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: @white;
+    margin-bottom: 5px;
 
-  .plan {
-    color: #666;
+    .itemListLeft {
+      .title {
+        font-weight: bold;
+        margin-bottom: @margin-xss;
+        display: inline-block;
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+
+      .date {
+        color: #ccc;
+        margin-bottom: @margin-xss;
+      }
+
+      .overdue {
+        background-color: #f5d9a8;
+        color: #8f4700;
+        border-radius: 140rem;
+        padding: 0 7px;
+        margin-bottom: @margin-xss;
+        margin-right: @margin-xss;
+      }
+
+      .project {
+        background-color: #f0f0f0;
+        color: #666;
+        padding: 0 7px;
+        border-radius: 140rem;
+      }
+    }
+
+    .itemListMiddle {
+      // 进度条
+      .progressText {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 12px;
+
+        .num {
+          color: #1068bf;
+        }
+
+        .plan {
+          color: #303030;
+        }
+      }
+    }
+
+    .itemListRight {
+      display: flex;
+      justify-content: flex-end;
+
+      Button {
+      }
+    }
   }
 }
 
