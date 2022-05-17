@@ -35,7 +35,7 @@
         "path": "/projectOverview/:id",
         "name": "项目概览",
         "component": "@/pages/ProjectOverview",
-        "isAuth": false
+        "isAuth": true
       },
       {
         "path": "/milestone",
