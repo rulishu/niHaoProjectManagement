@@ -1,13 +1,14 @@
 import { ProDrawer, useForm, ProForm } from '@uiw-admin/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { items } from './items'
+import { Notify } from 'uiw'
 
 const Drawer = (props) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
 
   const {
-    usersManagement: { drawerVisible, isView, loading, queryInfo },
+    usersManagement: { drawerVisible, isView, loading, queryInfo, tableType },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -19,7 +20,51 @@ const Drawer = (props) => {
       },
     })
   }
+  // 执行成功返回的信息
+  const information = (data) => {
+    if (data.code === 1) {
+      onClose()
+      props?.onSearch()
+      Notify.success({ title: data?.message || '' })
+    } else {
+      dispatch({
+        type: 'usersManagement/updateState',
+        payload: { loading: false },
+      })
+      Notify.error({ title: data?.message || '' })
+    }
+  }
 
+  const onSubmit = (current) => {
+    console.log('current', current)
+    // 校验
+    const errorObj = {}
+    const arr = Object.keys(current)
+    arr.forEach((element) => {
+      if (
+        !current[element] ||
+        (Array.isArray(current[element]) && current[element].length === 0)
+      ) {
+        errorObj[element] = '此项不能为空'
+      }
+    })
+    if (Object.keys(errorObj).length > 0) {
+      const err = new Error()
+      err.filed = errorObj
+      throw err
+    }
+
+    // 编辑
+    if (tableType === 'edit') {
+      const payload = {
+        ...current,
+      }
+      dispatch({
+        type: 'usersManagement/edit',
+        payload,
+      }).then((data) => information(data))
+    }
+  }
   return (
     <ProDrawer
       title={''}
@@ -37,20 +82,28 @@ const Drawer = (props) => {
           type: 'primary',
           show: !isView,
           loading: loading,
-          onClick: async () => {
-            await baseRef?.submitvalidate?.()
-            const errors = baseRef.getError()
-            if (errors && Object.keys(errors).length > 0) return
-          },
+          onClick: () => baseRef?.submitvalidate?.(),
         },
       ]}>
       <ProForm
-        title="基础信息"
+        title={
+          tableType === 'edit'
+            ? '编辑信息'
+            : tableType === 'member'
+            ? '邀请成员'
+            : '邀请群组'
+        }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
         readOnly={isView}
         buttonsContainer={{ justifyContent: 'flex-start' }}
-        onChange={(initial, current) => console.log(current)}
+        onSubmit={(_, current) => onSubmit(current)}
+        onChange={(initial, current) =>
+          dispatch({
+            type: 'usersManagement/updateData',
+            payload: { ...queryInfo, ...current },
+          })
+        }
         formDatas={items(queryInfo)}
       />
     </ProDrawer>

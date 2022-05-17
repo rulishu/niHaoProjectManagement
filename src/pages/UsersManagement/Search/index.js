@@ -6,6 +6,7 @@ import { Button } from 'uiw'
 import { SearchBar } from '@/components'
 import styles from './index.module.less'
 import Drawer from '../Drawer/index'
+import Modal from '../Modals/index'
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -36,7 +37,6 @@ const Search = () => {
   })
   // 操作
   function handleEditTable(type, obj) {
-    console.log('type', type)
     updateData({
       tableType: type,
     })
@@ -44,6 +44,12 @@ const Search = () => {
       updateData({
         drawerVisible: true,
         queryInfo: obj,
+      })
+    }
+    if (type === 'del') {
+      updateData({
+        delectVisible: true,
+        id: obj?.id,
       })
     }
   }
@@ -77,8 +83,11 @@ const Search = () => {
           onSearch={(value, selectValue) => console.log(value, selectValue)}
         />
       </div>
+
       <ProTable table={search} columns={columnsSearch(handleEditTable)} />
+
       <Drawer updateData={updateData} onSearch={search.onSearch} />
+      <Modal onSearch={search.onSearch} />
     </Fragment>
   )
 }
