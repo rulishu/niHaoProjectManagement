@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
 import {
   Button,
@@ -17,6 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
+import data from './data'
 
 const { Line } = Progress
 
@@ -48,6 +49,10 @@ const Milestone = (props) => {
     })
   }, [props.dispatch])
 
+  const [sorting, setSorting] = useState(1)
+
+  const [isPulldown, setIsPulldown] = useState(false)
+
   const goNewNmilestone = () => {
     props.dispatch.update({ milestoneType: 1, listDataInfo: {} })
     navigate('/milestone/newMilestone')
@@ -66,6 +71,13 @@ const Milestone = (props) => {
   //     milestonesStatusList: selectValue ? [selectValue] : [],
   //   })
   // }
+
+  const sortingList = [
+    { value: 1, title: '即将到期' },
+    { value: 2, title: '稍后到期' },
+    { value: 3, title: '马上开始' },
+    { value: 4, title: '稍后开始' },
+  ]
 
   // 里程碑列表
   const milesList = (data, newTotal) => {
@@ -88,9 +100,7 @@ const Milestone = (props) => {
                       <Col span="12" className={styles.itemListLeft}>
                         <div
                           className={styles.title}
-                          onClick={() => {
-                            listGo(item.milestonesId)
-                          }}>
+                          onClick={() => listGo(item.milestonesId)}>
                           {item.milestonesTitle}
                         </div>
                         {item.startTime && (
@@ -109,7 +119,7 @@ const Milestone = (props) => {
                             <span className={styles.overdue}>已延期</span>
                           )}
                           <span className={styles.project}>
-                            {item.createName} / {item.projectId}
+                            {item.createName} / {item.projectName}
                           </span>
                         </div>
                       </Col>
@@ -164,10 +174,16 @@ const Milestone = (props) => {
   const card = (
     <div className={styles.dropdownMenu}>
       <ul>
-        <li>即将到期</li>
-        <li>稍后到期</li>
-        <li>马上开始</li>
-        <li>稍后开始</li>
+        {sortingList.map((item) => (
+          <li
+            key={item.value}
+            onClick={() => {
+              setIsPulldown(false)
+              setSorting(item.value)
+            }}>
+            {item.title}
+          </li>
+        ))}
       </ul>
     </div>
   )
@@ -177,7 +193,7 @@ const Milestone = (props) => {
     listData,
     total,
     activeKey,
-    openListData,
+    // openListData,
     openListTotal,
     closeListData,
     closeListTotal,
@@ -213,10 +229,16 @@ const Milestone = (props) => {
                 <OverlayTrigger
                   placement="bottomRight"
                   trigger="click"
+                  isOpen={isPulldown}
+                  onVisibleChange={(open) => setIsPulldown(open)}
                   overlay={card}>
                   <div className={styles.toggle}>
-                    <span>即将截止</span>
-                    <Icon type="down" />
+                    <span>
+                      {sortingList.map(
+                        (item) => item.value === sorting && item.title
+                      )}
+                    </span>
+                    <Icon type={isPulldown ? 'up' : 'down'} />
                   </div>
                 </OverlayTrigger>
               </div>
@@ -227,9 +249,7 @@ const Milestone = (props) => {
               </div>
             </div>
           </div>
-          {activeKey === '1' && (
-            <div>{milesList(openListData, openListTotal)}</div>
-          )}
+          {activeKey === '1' && <div>{milesList(data, openListTotal)}</div>}
           {activeKey === '2' && (
             <div>{milesList(closeListData, closeListTotal)}</div>
           )}
