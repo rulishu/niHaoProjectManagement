@@ -35,6 +35,17 @@ export function getEdit(params) {
   })
 }
 /**
+ * 获取部门
+ * @param {Object} params
+ */
+export function getAllDepartment(params) {
+  return request('/api/system/dept/list', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
  * 根据角色编号获取详细信息
  * @param {Object} params
  */
@@ -115,7 +126,8 @@ export const upDateStatusRole = (params) => {
 
 // 获取所有的角色列表
 export const getAllRoleList = (params) => {
-  return request('/api/managerRole/selectRoleList', {
+  return request('/api/system/role/list', {
+    headers: { Authorization: 'Bearer ' + token },
     method: 'POST',
     body: params,
   })
