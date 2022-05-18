@@ -2,10 +2,11 @@ import { Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List, SearchBar } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
+import useLocationPage from '@/hooks/useLocationPage'
 
 // import LabelSelect from './LabelSelect'
 
@@ -39,8 +40,10 @@ const Task = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-
-  const taskId = location.pathname.split('/').pop() || ''
+  const params = useParams()
+  // 处理带id的路由
+  useLocationPage()
+  const taskId = params.projectId || ''
 
   const {
     project: {
@@ -63,6 +66,10 @@ const Task = (props) => {
   const pageS = (payload) => {
     dispatch.project.getList({ ...payload, projectId: taskId })
   }
+
+  useEffect(() => {
+    console.log(params)
+  }, [params])
 
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {

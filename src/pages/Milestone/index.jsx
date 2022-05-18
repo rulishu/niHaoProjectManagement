@@ -17,6 +17,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const { Line } = Progress
 
@@ -34,7 +35,7 @@ const Milestone = (props) => {
   const location = useLocation()
   const pathArr = location.pathname.split('/')
   const projectId = pathArr[pathArr.length - 1]
-
+  useLocationPage()
   useEffect(() => {
     // milestonesStatusList 1:打开2:关闭3：删除
     props.dispatch.selectPageList({
