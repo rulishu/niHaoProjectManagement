@@ -28,7 +28,6 @@ export default function SlelectLabel() {
   const table = useTable('api/workbench/selectProjectPage', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
-      console.log('data?.data?.list,', data?.data?.list)
       return {
         total: data?.data?.total,
         data: data?.data?.list,
@@ -49,7 +48,6 @@ export default function SlelectLabel() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-  console.log('tab', tab)
 
   return (
     <div>
