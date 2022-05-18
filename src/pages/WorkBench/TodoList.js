@@ -93,7 +93,7 @@ export default function TodoList() {
                     title: '操作',
                     key: 'gender',
                     render: (text) => {
-                      return <text>查看</text>
+                      return <div>查看</div>
                     },
                   },
                 ]}
