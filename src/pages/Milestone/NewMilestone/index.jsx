@@ -13,11 +13,8 @@ const NewMilestone = (props) => {
   const { addMilestone, editMilestone, getMilestone } =
     loading.effects.milestone
 
-  console.log(listDataInfo)
-
   const location = useLocation()
-  const pathArr = location.pathname.split('/')
-
+  // const pathArr = location.pathname.split('/')
   useEffect(() => {
     const pathArr = location.pathname.split('/')
     if (!milestoneType) {
@@ -39,24 +36,17 @@ const NewMilestone = (props) => {
         props.dispatch.update({ listDataInfo: {}, projectId, milestoneType: 1 })
       }
     }
-  }, [milestoneType, location, props.dispatch])
-
-  console.log(pathArr)
-
-  useEffect(() => {
     if (milestoneType === 1) {
-      props.dispatch.update({ listDataInfo: {} })
+      if (milestoneType === 1) {
+        props.dispatch.update({ listDataInfo: {} })
+      }
+      if (milestoneType === 2) {
+        const milestonesId = pathArr[pathArr.length - 1]
+        const projectId = pathArr[pathArr.length - 2]
+        props.dispatch.getMilestone(projectId, milestonesId)
+      }
     }
-    if (milestoneType === 2) {
-      props.dispatch.getMilestone(projectId, milestonesId)
-    }
-  }, [
-    props.dispatch,
-    milestoneType,
-    props.router.location.state,
-    projectId,
-    milestonesId,
-  ])
+  }, [milestoneType, location, props.dispatch, projectId, milestonesId])
 
   // 取消回调
   const onCancel = () => {
