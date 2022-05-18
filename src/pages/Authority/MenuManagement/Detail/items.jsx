@@ -1,4 +1,4 @@
-export const items = (queryInfo, datsSource, handleSearch) => [
+export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
   {
     label: '上级菜单',
     key: 'parentId',
@@ -13,9 +13,7 @@ export const items = (queryInfo, datsSource, handleSearch) => [
       //   console.log('onChange',selectedAll, selectd, isChecked)
       // }
     },
-    initialValue: [{ key: queryInfo.parentId, label: '主类目' }] || [
-      { key: 0, label: '主类目', children: [] },
-    ],
+    initialValue: [topDataMenu || { key: 0, label: '主类目', children: [] }],
     multiple: false,
     option: datsSource,
   },

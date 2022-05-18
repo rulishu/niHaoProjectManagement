@@ -49,6 +49,13 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
   const datsSource = (handleTree(dataSourceList || [], 'menuId') || []).map(
     (item) => toTree(item)
   )
+  const dataParent = dataSourceList.find(
+    (code) => code.menuId === queryInfo?.parentId
+  )
+  const topDataMenu = {
+    label: dataParent?.menuName,
+    key: queryInfo.parentId,
+  }
 
   return (
     <ProDrawer
@@ -99,7 +106,7 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
           })
         }
         buttonsContainer={{ justifyContent: 'flex-start' }}
-        formDatas={items(queryInfo, datsSource, handleSearch)}
+        formDatas={items(queryInfo, datsSource, handleSearch, topDataMenu)}
       />
     </ProDrawer>
   )
