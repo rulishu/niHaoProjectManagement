@@ -17,12 +17,15 @@ const Modals = (props) => {
       },
     })
   }
+
+  const token = localStorage.getItem('token')
   const { mutate } = useSWR(
     [
       '/api/member/deleteProjectMember',
       {
         method: 'POST',
         body: { id },
+        headers: { Authorization: 'Bearer ' + token },
       },
     ],
     {

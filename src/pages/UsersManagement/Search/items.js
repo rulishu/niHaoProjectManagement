@@ -5,6 +5,12 @@ export const columnsSearch = (handleEditTable) => [
     title: '成员姓名',
     key: 'memberName',
     align: 'center',
+    props: {
+      widget: 'input',
+      widgetProps: {
+        placeholder: '输入成员姓名',
+      },
+    },
   },
   {
     title: '成员角色',
@@ -12,11 +18,11 @@ export const columnsSearch = (handleEditTable) => [
     align: 'center',
     render: (memberRole) => (
       <div style={{ textAlign: 'center' }}>
-        {memberRole === 0
+        {memberRole === 1
           ? '开发'
-          : memberRole === 1
-          ? '测试'
           : memberRole === 2
+          ? '测试'
+          : memberRole === 3
           ? '项目管理者'
           : ''}
       </div>

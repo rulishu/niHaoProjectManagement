@@ -60,6 +60,7 @@ const Drawer = (props) => {
       const payload = {
         ...current,
         userId: Number(current?.userId),
+        memberRole: Number(current?.memberRole),
         accessExpirationDate: formatter(
           'YYYY-MM-DD HH:mm:ss',
           current?.accessExpirationDate
