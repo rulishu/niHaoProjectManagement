@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Notify } from 'uiw'
-import useSWR from 'swr'
 
 /**
  * 使用方法：
@@ -24,7 +22,7 @@ const ProjectManagement = () => {
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
-    global: { drawerVisible, drawerType, seachValue },
+    global: { drawerVisible, drawerType, seachValue, userList, id },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
@@ -41,26 +39,19 @@ const ProjectManagement = () => {
     })
   }
 
-  const { mutate, isValidating } = useSWR(
-    [
-      (drawerType === 'edit' && '/api/project/update') ||
-        (drawerType === 'add' && '/api/project/add') || {
-          method: 'POST',
-          body: seachValue,
-        },
-    ],
-    {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (data && data.code === 200) {
-          Notify.success({ title: data.msg })
-        } else {
-          Notify.error({ title: data.msg })
-        }
-      },
+  function saveData() {
+    if (drawerType === 'add') {
+      dispatch({
+        type: 'global/addProject',
+        payload: seachValue,
+      })
+    } else if (drawerType === 'edit') {
+      dispatch({
+        type: 'global/updateProject',
+        payload: { ...seachValue, id },
+      })
     }
-  )
+  }
 
   return (
     <div>
@@ -77,12 +68,11 @@ const ProjectManagement = () => {
           {
             label: '保存',
             type: 'primary',
-            loading: isValidating,
             onClick: async () => {
               await baseRef?.submitvalidate?.()
               const errors = baseRef.getError()
               if (errors && Object.keys(errors).length > 0) return
-              mutate()
+              saveData()
             },
           },
         ]}>
@@ -103,15 +93,10 @@ const ProjectManagement = () => {
             },
             {
               label: '项目负责人:',
-              key: 'projectLeaderName',
+              key: 'userId',
               widget: 'select',
-              option: [
-                { value: 1, label: '苹果' },
-                { value: 2, label: '西瓜' },
-                { value: 3, label: '香蕉' },
-                { value: 4, label: '东北大冻梨' },
-              ],
-              initialValue: seachValue.projectLeaderName,
+              option: userList,
+              initialValue: seachValue.updateId,
               widgetProps: {},
               span: '24',
               required: true,
@@ -123,7 +108,7 @@ const ProjectManagement = () => {
               initialValue: seachValue.begin,
               widget: 'dateInput',
               widgetProps: {
-                format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'YYYY-MM-DD',
               },
               span: '24',
               required: true,
@@ -135,7 +120,7 @@ const ProjectManagement = () => {
               initialValue: seachValue.end,
               widget: 'dateInput',
               widgetProps: {
-                format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'YYYY-MM-DD',
               },
               span: '24',
               required: true,
