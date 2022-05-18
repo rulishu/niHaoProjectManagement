@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Row, Col, Card, Progress, Table, Button, Icon, List } from 'uiw'
+import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import AllTasks from './AllTasks'
 import styles from './index.less'
@@ -7,6 +8,8 @@ import SlelectLabel from './SlelectLabel'
 
 export default function Home() {
   const dispatch = useDispatch()
+  const { projectId } = useParams()
+
   const {
     projectoverview: { allDataSource },
   } = useSelector((state) => state)
@@ -15,28 +18,28 @@ export default function Home() {
     dispatch({
       type: 'projectoverview/getProjectOverview', //任务
       payload: {
-        projectId: 1594,
+        projectId: projectId,
       },
     })
     dispatch({
       type: 'projectoverview/getProjectDynamics', //动态
       payload: {
-        projectId: 1594,
+        projectId: projectId,
       },
     })
     dispatch({
       type: 'projectoverview/getProjectMembers', //成员
       payload: {
-        projectId: 1594,
+        projectId: projectId,
       },
     })
     dispatch({
       type: 'projectoverview/getProjectCountById', //统计
       payload: {
-        projectId: 1594,
+        projectId: projectId,
       },
     })
-  }, [dispatch])
+  }, [dispatch, projectId])
 
   function randomColor() {
     return (
