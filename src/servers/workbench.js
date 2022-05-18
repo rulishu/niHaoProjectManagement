@@ -19,3 +19,13 @@ export function myProject(params) {
     body: params,
   })
 }
+
+/*
+ * 成员动态
+ */
+export function memberOperator(params) {
+  return request('/api/workbench/memberOperator', {
+    method: 'POST',
+    body: params,
+  })
+}
