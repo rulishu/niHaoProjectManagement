@@ -90,13 +90,11 @@ const Drawer = (props) => {
       ]}>
       <ProForm
         title={
-          tableType === 'add'
-            ? '新增信息'
-            : tableType === 'edit'
+          tableType === 'edit'
             ? '编辑信息'
             : tableType === 'member'
             ? '邀请成员'
-            : '邀请群组'
+            : tableType === 'group' && '邀请群组'
         }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
@@ -110,11 +108,11 @@ const Drawer = (props) => {
           })
         }
         formDatas={
-          tableType === 'add' || tableType === 'edit'
+          tableType === 'edit'
             ? items(queryInfo)
             : tableType === 'member'
             ? memberItems(queryInfo)
-            : groupItems(queryInfo)
+            : tableType === 'group' && groupItems(queryInfo)
         }
       />
     </ProDrawer>
