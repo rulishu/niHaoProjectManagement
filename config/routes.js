@@ -202,7 +202,7 @@ const routes = [
         path: '/projectAuth',
         name: '项目权限',
         component: '@/pages/ProjectAuth',
-        isAuth: true,
+        hideInMenu: true,
       },
       {
         path: '/403',

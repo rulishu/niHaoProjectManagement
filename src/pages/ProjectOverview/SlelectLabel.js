@@ -1,26 +1,14 @@
-import { useEffect } from 'react'
-import { Row, Col, Card, Steps, Tabs } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+import { Row, Col, Card, List, Tabs, Tooltip } from 'uiw'
+import { useSelector } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
 import { navigate } from '@uiw-admin/router-control'
 
 export default function Home() {
-  const dispatch = useDispatch()
   const {
-    home: { taskId },
+    projectoverview: { projectMembersList, projectDynamicsList },
   } = useSelector((state) => state)
 
-  useEffect(() => {
-    dispatch({
-      type: 'home/queryProject',
-      payload: { record: taskId },
-    })
-    dispatch({
-      type: 'home/selectOperatingRecord',
-      payload: taskId,
-    })
-  }, [taskId, dispatch])
   const table = useTable('https://randomuser.me/api', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
@@ -129,21 +117,26 @@ export default function Home() {
               <Col>
                 <Card title="最新动态" bordered={false} style={{ height: 220 }}>
                   <div className={styles.newDynamic}>
-                    <Steps
-                      direction="vertical"
-                      progressDot
-                      status="error"
-                      current={2}
-                      style={{ padding: '20px 0' }}>
-                      <Steps.Step
-                        title="步骤一"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                      <Steps.Step
-                        title="步骤二"
-                        description="这里是步骤一的说明，可以很长很长哦。"
-                      />
-                    </Steps>
+                    <List
+                      size="small"
+                      noHover={true}
+                      bordered={false}
+                      dataSource={projectDynamicsList}
+                      renderItem={(item) => (
+                        <List.Item
+                          style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}>
+                          <Tooltip
+                            placement="top"
+                            content={item.operatingRecords}>
+                            {item.operatingRecords}
+                          </Tooltip>
+                        </List.Item>
+                      )}
+                    />
                   </div>
                 </Card>
               </Col>
@@ -153,20 +146,17 @@ export default function Home() {
                 <Card
                   title="项目成员"
                   bordered={false}
-                  style={{ height: 200, marginTop: 10 }}>
+                  style={{ height: 265, marginTop: 10 }}>
                   <div
                     style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    {[
-                      { name: '邢跃锋', key: 1 },
-                      { name: '周政', key: 2 },
-                      { name: '王翔', key: 3 },
-                    ].map((e) => {
+                    {projectMembersList.map((e) => {
                       return (
                         <div
                           style={{
                             width: 50,
                             textAlign: 'center',
                             marginRight: 10,
+                            cursor: 'pointer',
                           }}>
                           <div
                             style={{
@@ -180,11 +170,11 @@ export default function Home() {
                             }}
                             onClick={() => navigate('/usersManagement')}>
                             <span style={{ fontSize: 24 }}>
-                              {e.name.slice(0, 1)}
+                              {e.userName.slice(0, 1)}
                             </span>
                           </div>
                           <span style={{ paddingTop: 5, display: 'block' }}>
-                            {e.name}
+                            {e.userName}
                           </span>
                         </div>
                       )
