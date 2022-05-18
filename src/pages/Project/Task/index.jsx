@@ -2,10 +2,11 @@ import { Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List, SearchBar } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
+import useLocationPage from '@/hooks/useLocationPage'
 
 // import LabelSelect from './LabelSelect'
 
@@ -19,8 +20,10 @@ const listField = {
 }
 
 const SearchBarOption = [
-  { value: 1, text: '已打开' },
-  { value: 3, text: '已关闭' },
+  { value: '1', text: '未开始' },
+  { value: '2', text: '已打开' },
+  { value: '3', text: '已完成' },
+  { value: '4', text: '已逾期' },
   { value: '', text: '所有' },
 ]
 
@@ -34,14 +37,13 @@ const tabsLabel = (title, num) => {
 }
 
 const Task = (props) => {
-  console.log('====================================')
-  console.log(props)
-  console.log('====================================')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-
-  const taskId = localStorage.getItem('projectId') || ''
+  const params = useParams()
+  // 处理带id的路由
+  useLocationPage()
+  const taskId = params.projectId || ''
 
   const {
     project: {
@@ -52,46 +54,67 @@ const Task = (props) => {
       closeTotal,
       openTataList,
       openTotal,
+      prepareList,
+      prepareTotal,
+      overtimeList,
+      overtimeTotal,
       activeKey,
     },
     loading,
   } = useSelector((state) => state)
 
-  const page = (payload) => {
-    dispatch.project.getList(payload)
+  const pageS = (payload) => {
+    dispatch.project.getList({ ...payload, projectId: taskId })
   }
+
+  useEffect(() => {
+    console.log('params', params)
+  }, [params])
 
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
-    console.log(location)
     dispatch({
       type: 'project/update',
-      payload: { activeKey: '1' },
+      payload: { activeKey: '2' },
     })
 
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      page({
-        assignmentStatus: '2',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '2',
-          },
-        ],
+      // pageS({
+      //   assignmentStatus: '2',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '2',
+      //     },
+      //   ],
+      // })
+      // pageS({
+      //   assignmentStatus: '3',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '3',
+      //     },
+      //   ],
+      // })
+
+      ;['1', '2', '3', '4'].forEach((item) => {
+        pageS({
+          assignmentStatus: item,
+          splicingConditionsDtos: [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: item,
+            },
+          ],
+        })
       })
-      page({
-        assignmentStatus: '3',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '3',
-          },
-        ],
-      })
-      page({
+
+      pageS({
         assignmentStatus: '',
         splicingConditionsDtos: [],
       })
@@ -103,7 +126,7 @@ const Task = (props) => {
       Notify.success({ description: '查无此项' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [location.pathname])
 
   const updateData = (payload) => {
     dispatch({
@@ -147,7 +170,7 @@ const Task = (props) => {
     //   page: 1,
     // })
 
-    page({
+    pageS({
       assignmentStatus: activeKey,
       splicingConditionsDtos: [
         {
@@ -177,16 +200,30 @@ const Task = (props) => {
             if (res.code === 200) {
               Notify.success({ description: res.message })
               let newPage = filter.page
-              let newListDate =
-                activeKey === '1'
-                  ? openTataList
-                  : activeKey === '3'
-                  ? closeDataList
-                  : dataList
+              let newListDate = []
+              switch (activeKey) {
+                case '1':
+                  newListDate = prepareList
+                  break
+                case '2':
+                  newListDate = openTataList
+                  break
+
+                case '3':
+                  newListDate = closeDataList
+                  break
+                case '4':
+                  newListDate = overtimeList
+                  break
+                default:
+                  newListDate = dataList
+              }
+
+              console.log('newListDate: ', newListDate)
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
-              dispatch.project.getList({
+              pageS({
                 page: newPage,
                 assignmentStatus: activeKey,
                 splicingConditionsDtos: [
@@ -206,7 +243,7 @@ const Task = (props) => {
   const taskDataList = (data, taskTotal, num) => {
     return (
       <div>
-        {data.length > 0 ? (
+        {(data || []).length > 0 ? (
           <Fragment>
             <List
               data={data || []}
@@ -227,6 +264,7 @@ const Task = (props) => {
                     pageSize,
                     // assignmentStatus: num,
                     assignmentStatus: activeKey,
+                    projectId: taskId,
                     // createId: location?.state?.createId
                     //   ? location?.state.createId
                     //   : '',
@@ -245,7 +283,7 @@ const Task = (props) => {
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
     updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList({
+    await pageS({
       assignmentStatus: activeKey,
       splicingConditionsDtos: [
         {
@@ -289,12 +327,21 @@ const Task = (props) => {
             type="line"
             activeKey={activeKey}
             onTabClick={(activeKey) => getTabList(activeKey)}>
+            <Tabs.Pane label={tabsLabel('未开始', prepareTotal)} key="1">
+              {taskDataList(prepareList, prepareTotal, '1')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('进行中', openTotal)} key="2">
               {taskDataList(openTataList, openTotal, '2')}
             </Tabs.Pane>
             <Tabs.Pane label={tabsLabel('已完成', closeTotal)} key="3">
               {taskDataList(closeDataList, closeTotal, '3')}
             </Tabs.Pane>
+
+            <Tabs.Pane label={tabsLabel('已逾期', overtimeTotal)} key="4">
+              {taskDataList(overtimeList, overtimeTotal, '4')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('所有', total)} key="">
               {taskDataList(dataList, total, '')}
             </Tabs.Pane>

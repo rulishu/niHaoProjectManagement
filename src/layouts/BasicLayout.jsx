@@ -7,7 +7,6 @@ import AuthPage from '@uiw-admin/authorized'
 // import Bread from './Breadcrumb'
 // import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
-import ProjectManagement from '../components/ProjectManagement'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
@@ -140,7 +139,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
         </div> */}
         <Outlet />
         <PassWordChange refs={passwordRef} />
-        <ProjectManagement></ProjectManagement>
         {/* 新增项目弹出框 */}
       </BasicLayout>
     </AuthPage>

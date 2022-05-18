@@ -16,8 +16,9 @@ const Search = () => {
       payload,
     })
   }
+  const token = localStorage.getItem('token')
 
-  const search = useTable('/api/projectMember/selectAllProjectMember', {
+  const search = useTable('/api/member/selectAllProjectMember', {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
@@ -28,10 +29,15 @@ const Search = () => {
     },
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
+      // console.log('data',data);
       return {
         total: data?.data?.total,
-        data: data?.data?.rows || [],
+        data: data?.data?.list || [],
       }
+    },
+    requestOptions: {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
     },
   })
   // 操作

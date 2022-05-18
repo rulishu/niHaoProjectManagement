@@ -17,6 +17,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const { Line } = Progress
 
@@ -34,14 +35,13 @@ const Milestone = (props) => {
   const location = useLocation()
   const pathArr = location.pathname.split('/')
   const projectId = pathArr[pathArr.length - 1]
-
+  useLocationPage()
   useEffect(() => {
     // milestonesStatusList 1:打开2:关闭3：删除
     props.dispatch.selectPageList({
       milestonesStatusList: [],
       projectId: projectId,
     })
-    // 查询 已完成
     props.dispatch.selectPageList({
       milestonesStatusList: [1],
       projectId: projectId,
@@ -60,7 +60,7 @@ const Milestone = (props) => {
 
   const goNewNmilestone = () => {
     props.dispatch.update({ milestoneType: 1, listDataInfo: {} })
-    navigate('/milestone/newMilestone')
+    navigate(`/milestone/newMilestone/${projectId}`, { state: { projectId } })
   }
 
   const listGo = (milestonesId) => {
@@ -74,8 +74,7 @@ const Milestone = (props) => {
   //   await props.dispatch.selectPageList({
   //     milestonesTitle: value,
   //     milestonesStatusList: selectValue ? [selectValue] : [],
-  //   })
-  // }
+  //   })  // }
 
   const sortingList = [
     { value: 1, title: '即将到期' },
@@ -83,6 +82,27 @@ const Milestone = (props) => {
     { value: 3, title: '马上开始' },
     { value: 4, title: '稍后开始' },
   ]
+
+  // 关闭里程碑
+  const closingMilestone = async (projectId, milestonesId) => {
+    await props.dispatch.editStatusMilestones({
+      milestonesId,
+      milestonesStatus: 2,
+      projectId,
+    })
+    props.dispatch.selectPageList({
+      milestonesStatusList: [],
+      projectId: projectId,
+    })
+    props.dispatch.selectPageList({
+      milestonesStatusList: [1],
+      projectId: projectId,
+    })
+    props.dispatch.selectPageList({
+      milestonesStatusList: [2],
+      projectId: projectId,
+    })
+  }
 
   // 里程碑列表
   const milesList = (data, newTotal) => {
@@ -121,14 +141,6 @@ const Milestone = (props) => {
                               ?.status && (
                               <span className={styles.overdue}>已延期</span>
                             )}
-                          {/* {dayjs(item?.dueTime)?.diff(
-                            dayjs().format('YYYY-MM-DD'),
-                            'hour'
-                          ) < 0 && item?.milestonesStatus === 1 ? (
-                            <span className={styles.overdue}>已延期</span>
-                          ) : (
-                            <span className={styles.overdue}>已延期</span>
-                          )} */}
                           <span className={styles.project}>
                             {item.createName} / {item.projectName}
                           </span>
@@ -150,7 +162,17 @@ const Milestone = (props) => {
                       </Col>
                       <Col span="4" className={styles.itemListRight}>
                         <div>
-                          <Button>关闭里程碑</Button>
+                          {item.milestonesStatus === 1 && (
+                            <Button
+                              onClick={() => {
+                                closingMilestone(
+                                  item.projectId,
+                                  item.milestonesId
+                                )
+                              }}>
+                              关闭里程碑
+                            </Button>
+                          )}
                         </div>
                       </Col>
                     </Row>
