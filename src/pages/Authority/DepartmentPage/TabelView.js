@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty } from 'uiw' // Pagination,Loader, Icon,
+import { Table, Button, Alert, Empty, Badge } from 'uiw' // Pagination,Loader, Icon,
 
 export default function TabelView() {
   const {
     department: {
       dataSource,
       // Loading,
-      total,
       // pageSize,
       // page,
       alertVisible,
@@ -18,8 +17,8 @@ export default function TabelView() {
   const getChildrenDepart = function (data, root) {
     let children = []
     for (let i = 0; i < data.length; i++) {
-      if (root === data[i].pid) {
-        data[i].children = getChildrenDepart(data, data[i].id)
+      if (root === data[i].parentId) {
+        data[i].children = getChildrenDepart(data, data[i].deptId)
         children.push(data[i])
       }
     }
@@ -27,10 +26,11 @@ export default function TabelView() {
   }
   const dataSourceTreeData = dataSource?.map((code) => ({
     ...code,
-    label: code.fullName,
-    key: code.id,
+    label: code.deptName,
+    key: code.parentId,
   }))
-  const arrSource = getChildrenDepart(dataSourceTreeData, 0)
+  const arrSource = getChildrenDepart(dataSourceTreeData, 0) || []
+  const treeData = dataSourceTreeData?.map((e) => e.status === '1')
   const [iterm, setIterm] = useState({})
   const dispatch = useDispatch()
   // const [childArr, setChildArr] = useState([]);
@@ -72,6 +72,13 @@ export default function TabelView() {
         allEditData: editData,
       },
     })
+    dispatch({
+      type: 'department/getInfoData',
+      payload: {
+        editData,
+      },
+    })
+    //
     e.stopPropagation()
   }
   // 翻页
@@ -85,25 +92,64 @@ export default function TabelView() {
   //   });
   // };
   const columns = [
+    // {
+    //   title: '部门ID',
+    //   key: 'deptId',
+    // },
     {
-      title: 'id',
-      key: 'id',
+      title: '部门名称',
+      key: 'deptName',
     },
-    {
-      title: '部门简称',
-      key: 'simpleName',
-    },
-    {
-      title: '部门全称',
-      key: 'fullName',
-    },
+    // {
+    //   title: '祖级列表',
+    //   key: 'ancestors',
+    //   render: (code) => {
+    //     console.log(code)
+    //     const dataSourceText = dataSource?.map(code=>)
+    //     return (
+    //       <div>
+    //         {code === '0' ? '正常' : '停用'}
+    //       </div>
+    //     )
+    //   },
+    // },
     {
       title: '排序',
-      key: 'num',
+      key: 'orderNum',
     },
     {
-      title: '备注',
-      key: 'tips',
+      title: '负责人',
+      key: 'leader',
+    },
+    {
+      title: '联系电话',
+      key: 'phone',
+    },
+    {
+      title: '邮箱',
+      key: 'email',
+    },
+    {
+      title: '部门状态',
+      key: 'status',
+      props: {
+        widget: 'select',
+        option: [
+          { label: '正常', value: 0 },
+          { label: '停用', value: 1 },
+        ],
+        widgetProps: {
+          placeholder: '请输入设备状态',
+        },
+      },
+      render: (code) => {
+        return (
+          <div>
+            <Badge color={code === '0' ? '#28a745' : '#c2c2c2'} />
+            {code === '0' ? '正常' : '停用'}
+          </div>
+        )
+      },
     },
     {
       title: '操作',
@@ -185,11 +231,11 @@ export default function TabelView() {
       > */}
       <Table
         bordered
-        rowKey="id"
+        rowKey="deptId"
         columns={columns}
-        data={arrSource}
+        data={treeData.includes(false) ? arrSource : dataSourceTreeData}
         footer={
-          total > 0 ? (
+          arrSource.length || dataSourceTreeData.length > 0 ? (
             ''
           ) : (
             // <Pagination
