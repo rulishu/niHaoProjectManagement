@@ -149,9 +149,7 @@ const Task = (props) => {
     // })
     console.log('item', item)
 
-    navigate(
-      `/project/taskInfo/${item.companyId}/${item.projectId}/${item.assignmentId}`
-    )
+    navigate(`/project/taskInfo/${item.projectId}/${item.assignmentId}`)
   }
 
   // 搜索按钮事件

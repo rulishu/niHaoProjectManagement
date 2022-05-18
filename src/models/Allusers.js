@@ -164,6 +164,10 @@ const allusers = createModel()({
         await dispatch.allusers.update({ uuid: data.data })
       }
     },
+    async upLoadImg(payload) {
+      const data = await uploadFile(payload)
+      return data
+    },
     // 根据uuid获取图片
     async getNewUserAvatar(params) {
       const data = await selectFilePathById(params)

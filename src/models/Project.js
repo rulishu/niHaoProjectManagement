@@ -29,22 +29,10 @@ export default createModel()({
     openTotal: 0,
     closeDataList: [],
     closeTotal: 0,
-    overtimeList: [],
-    overtimeTotal: 0,
-    dataList: [],
-    total: 0,
-
-    issueType: 'edit',
+    issueType: '',
     isView: false,
     queryInfo: {},
-    taskInfoData: {
-      operatingRecords: [
-        { title: '用户cccc', text: '姓名', type: 1 },
-        { title: '2022-05-17', text: '事件', type: 2 },
-        { title: '3333', text: 'ccccc', type: 3 },
-        { title: '4444', text: 'ddddd', type: 4 },
-      ],
-    },
+    taskInfoData: {},
     activeKey: '2',
     fromData: {
       createId: userData?.id,
@@ -58,7 +46,7 @@ export default createModel()({
     editFromData: {
       assignmentTitle: '',
       description: '',
-      commentDescription: '### 33333',
+      commentDescription: '',
       labels: [],
       fileId: [],
     },

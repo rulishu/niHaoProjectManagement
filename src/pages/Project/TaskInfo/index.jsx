@@ -15,7 +15,7 @@ const TaskInfo = (props) => {
     home: { taskId },
     project: { issueType, editFromData, taskInfoData },
     allusers: { uuid },
-    // loading,
+    loading,
   } = useSelector((state) => state)
   // const commentForm = useRef()
 
@@ -145,17 +145,18 @@ const TaskInfo = (props) => {
       updateData({ issueType: '' })
     }
   }
+  console.log('editFromData', editFromData)
+  console.log('taskInfoData', taskInfoData)
   return (
     <>
       <Loader
         tip="加载中..."
         vertical
         style={{ width: '100%' }}
-        // loading={
-        //   loading.effects.project.getSelectById ||
-        //   loading.effects.project.getEdit
-        // }
-      >
+        loading={
+          loading.effects.project.getSelectById ||
+          loading.effects.project.getEdit
+        }>
         <div>
           <div className={styles.wrapTask}>
             <div className={styles.leftNav}>
@@ -291,67 +292,69 @@ const TaskInfo = (props) => {
               )}
               <div className={styles.stepsWrap}>
                 <Steps direction="vertical" style={{ padding: '20px 0' }}>
-                  {taskInfoData?.operatingRecords?.length > 0
-                    ? taskInfoData?.operatingRecords.map((item, index) => {
-                        return item.type === 1 ? (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingTop: 0,
-                                }}
-                                type="user"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
-                        item.type === 3 ? (
-                          <Steps.Step
-                            description={
-                              <FromMD
-                                upDate={updateData}
-                                submit={goSaveIssue}
-                                editData={editFromData}
-                                infoData={taskInfoData}
-                              />
-                            }
-                            title="回复"
-                            key={index}
-                          />
-                        ) : (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingLeft: 6,
-                                  paddingTop: 2,
-                                }}
-                                type="tag-o"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        )
-                      })
+                  {taskInfoData?.managerAssignmentHistories?.length > 0
+                    ? taskInfoData?.managerAssignmentHistories.map(
+                        (item, index) => {
+                          return item.type === 1 ? (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 0,
+                                  }}
+                                  type="user"
+                                />
+                              }
+                              title={item?.operatingRecords}
+                              description={item.text}
+                              key={index}
+                            />
+                          ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
+                          item.type === 3 ? (
+                            <Steps.Step
+                              description={
+                                <FromMD
+                                  upDate={updateData}
+                                  submit={goSaveIssue}
+                                  editData={editFromData}
+                                  infoData={taskInfoData}
+                                />
+                              }
+                              title="回复"
+                              key={index}
+                            />
+                          ) : (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingLeft: 6,
+                                    paddingTop: 2,
+                                  }}
+                                  type="tag-o"
+                                />
+                              }
+                              title={item.title}
+                              description={item.text}
+                              key={index}
+                            />
+                          )
+                        }
+                      )
                     : null}
                 </Steps>
               </div>
