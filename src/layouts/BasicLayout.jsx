@@ -61,6 +61,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
         },
       },
       {
+        title: '团队管理',
+        icon: 'usergroup-add',
+        onClick: () => {
+          navigate('/projectAuth', { replace: true })
+        },
+      },
+      {
         title: '退出登录',
         icon: 'logout',
         onClick: async () => {

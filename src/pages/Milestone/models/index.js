@@ -96,7 +96,7 @@ export default createModel()({
         const data = await addMilestones(params)
         if (data.code === 200) {
           NotifySuccess(data.message)
-          callback && callback()
+          callback && callback(data.data.projectId, data.data.milestonesId)
         }
       },
       // 根据id查询里程碑详情
@@ -126,7 +126,6 @@ export default createModel()({
       // 编辑里程碑
       async editMilestone({ payload, callback }, { milestone }) {
         const { milestonesId, projectId } = milestone
-        console.log(milestone)
         const params = { milestonesId, projectId, ...payload }
         const data = await updateMilestones(params)
         if (data.code === 200) {

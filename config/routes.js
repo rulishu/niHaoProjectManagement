@@ -48,7 +48,7 @@ const routes = [
         name: '里程碑',
         component: '@/pages/Milestone',
         navigate:
-          "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('projectId')}`)}",
+          "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         isAuth: true,
       },
       {
@@ -58,31 +58,31 @@ const routes = [
         isAuth: true,
         routes: [
           {
-            path: '/milestone/newMilestone',
+            path: '/milestone/newMilestone/:projectId',
             name: '新增里程碑',
             component: '@/pages/Milestone/NewMilestone',
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('projectId')}`)}",
+              "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}",
           },
           {
-            path: '/milestone/editMilestone/:projectId/:id',
+            path: '/milestone/editMilestone/:projectId/:milestonesId',
             name: '编辑里程碑',
             component: '@/pages/Milestone/NewMilestone',
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('projectId')}/${sessionStorage.getItem('id')}`)}",
+              "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('id')}/${sessionStorage.getItem('milestonesId')}`)}",
           },
           {
-            path: '/milestone/milestoneInfo/:projectId/:id',
+            path: '/milestone/milestoneInfo/:projectId/:milestonesId',
             name: '里程碑详情',
             component: '@/pages/Milestone/MilestoneInfo',
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('projectId')}/${sessionStorage.getItem('id')}`)}",
+              "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}/${sessionStorage.getItem('milestonesId')}`)}",
           },
         ],
       },
@@ -200,7 +200,7 @@ const routes = [
         path: '/projectAuth',
         name: '项目权限',
         component: '@/pages/ProjectAuth',
-        isAuth: true,
+        hideInMenu: true,
       },
       {
         path: '/403',
