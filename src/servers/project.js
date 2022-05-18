@@ -1,4 +1,5 @@
 import { request } from '@uiw-admin/utils'
+import request2 from '../utils/request'
 
 /**
  * 查询任务列表数据
@@ -7,7 +8,7 @@ import { request } from '@uiw-admin/utils'
  *
  */
 export const getSelectPage = (params) => {
-  return request('/api/ManagerAssignment/selectPage', {
+  return request2('/api/ManagerAssignment/selectPage', {
     method: 'POST',
     body: params,
   })
