@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { TreeChecked } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
@@ -6,51 +7,60 @@ import { items } from './items'
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
   const {
-    rolemanagement: { drawerVisible, tableType, queryInfo, isView },
+    rolemanagement: {
+      drawerVisible,
+      tableType,
+      queryInfo,
+      isView,
+      menuOptions,
+      checkedKeys,
+    },
   } = useSelector((state) => state)
-
+  const [menuIds, setMenuIds] = useState([])
   const form = useForm()
   const onClose = () => dispatch({ type: 'rolemanagement/clean' })
 
-  const data = [
-    {
-      label: '湖北省',
-      key: '0-0-0',
-      children: [
-        {
-          label: '武汉市',
-          key: '0-1-0',
-          children: [
-            { label: '新洲区', key: '0-1-1', disabled: true },
-            { label: '武昌区', key: '0-1-2' },
-            {
-              label: '汉南区',
-              key: '0-1-3',
-              children: [
-                { label: '汉南区1', key: '0-1-3-1' },
-                { label: '汉南区2', key: '0-1-3-2' },
-                { label: '汉南区3', key: '0-1-3-3' },
-              ],
-            },
-          ],
-        },
-        { label: '黄冈市', key: '0-2-0' },
-        {
-          label: '黄石市',
-          key: '0-3-0',
-          children: [
-            { label: '青山区', key: '0-3-1' },
-            { label: '黄陂区', key: '0-3-2' },
-            { label: '青山区', key: '0-3-3' },
-          ],
-        },
-      ],
-    },
-    { label: '澳门', key: '3' },
-  ]
+  //修改树结构
+  function toTree(data) {
+    const haveChildren =
+      Array.isArray(data.children) && data.children.length > 0
+    if (haveChildren) {
+      return {
+        label: data.label,
+        key: data.id,
+        children: data.children.map((i) => toTree(i)),
+      }
+    } else {
+      return {
+        label: data.label,
+        key: data.id,
+      }
+    }
+  }
 
-  function Demo({ value, onChange }) {
-    return <TreeChecked data={data} selectedKeys={['0-2-0']} />
+  function TreeData({ value, onChange }) {
+    return (
+      <TreeChecked
+        data={menuOptions.map((item) => toTree(item))}
+        selectedKeys={checkedKeys}
+        onExpand={(key, expanded, data, node) => {
+          console.log(key, expanded, data, node)
+        }}
+        onSelected={(key, selected, item, evn) => {
+          console.log('select:', key)
+          console.log('select:', selected)
+          console.log('select:', item)
+          console.log('select:', evn)
+          setMenuIds(key)
+          // updateData({
+          //   queryInfo: {
+          //     ...queryInfo,
+          //     menuIds: key
+          //   },
+          // })
+        }}
+      />
+    )
   }
 
   return (
@@ -81,7 +91,7 @@ const Detail = ({ updateData, onSearch }) => {
               }`,
               payload: {
                 ...queryInfo,
-                menuIds: [],
+                menuIds: menuIds.filter((n) => n) || [],
                 roleId: queryInfo?.roleId || null,
               },
             })
@@ -93,7 +103,7 @@ const Detail = ({ updateData, onSearch }) => {
         title="基础信息"
         // 自定义组件
         customWidgetsList={{
-          Demo: Demo,
+          TreeData: TreeData,
         }}
         formType={isView ? 'pure' : 'card'}
         readOnly={isView}
@@ -101,7 +111,7 @@ const Detail = ({ updateData, onSearch }) => {
           updateData({ queryInfo: { ...queryInfo, ...current } })
         }
         buttonsContainer={{ justifyContent: 'flex-start' }}
-        formDatas={items(queryInfo, Demo)}
+        formDatas={items(queryInfo, TreeData)}
         readOnlyProps={{ column: 1 }}
       />
     </ProDrawer>

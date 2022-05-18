@@ -1,37 +1,55 @@
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Notify } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
-import { addMenu, updateMenu } from '@/servers/menumanagement'
-import useSWR from 'swr'
 
-const Detail = ({ updateData, onSearch }) => {
+const Detail = ({ updateData, handleTree, onSearch }) => {
   const dispatch = useDispatch()
   const {
-    menumanagement: { drawerVisible, tableType, queryInfo, isView },
+    menumanagement: {
+      drawerVisible,
+      tableType,
+      queryInfo,
+      isView,
+      dataSourceList,
+    },
   } = useSelector((state) => state)
 
   const form = useForm()
   const onClose = () => dispatch({ type: 'menumanagement/clean' })
 
-  const { mutate } = useSWR(
-    [
-      ((tableType === 'add' || tableType === 'addChild') && addMenu) ||
-        (tableType === 'edit' && updateMenu),
-      { method: 'POST', body: queryInfo },
-    ],
-    {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (data && data.code === 200) {
-          Notify.success({ title: data?.message })
-          onClose()
-          onSearch?.()
-        }
-      },
+  // 下拉
+  const handleSearch = (type = '', value = '') => {
+    if (type === 'searchTree') {
+      console.log('value', value.key)
+      updateData({
+        queryInfo: {
+          ...queryInfo,
+          parentId: value.key,
+        },
+      })
     }
+  }
+  //修改树结构
+  function toTree(data) {
+    const haveChildren =
+      Array.isArray(data.children) && data.children.length > 0
+    if (haveChildren) {
+      return {
+        label: data.menuName,
+        key: data.menuId,
+        children: data.children.map((i) => toTree(i)),
+      }
+    } else {
+      return {
+        label: data.menuName,
+        key: data.menuId,
+      }
+    }
+  }
+  const datsSource = (handleTree(dataSourceList || [], 'menuId') || []).map(
+    (item) => toTree(item)
   )
+
   return (
     <ProDrawer
       width={500}
@@ -54,7 +72,14 @@ const Detail = ({ updateData, onSearch }) => {
             await form?.submitvalidate?.()
             const errors = form.getError()
             if (errors && Object.keys(errors).length > 0) return
-            mutate()
+            dispatch({
+              type: `menumanagement/${
+                tableType === 'edit' ? 'getEdit' : 'getAdd'
+              }`,
+              payload: {
+                ...queryInfo,
+              },
+            })
           },
         },
       ]}>
@@ -67,13 +92,14 @@ const Detail = ({ updateData, onSearch }) => {
           updateData({
             queryInfo: {
               ...queryInfo,
-              parentId: tableType === 'addChild' ? queryInfo.parentId : null,
               ...current,
+              parentId: current?.parentId?.[0]?.key || queryInfo.parentId,
+              // parentId: tableType === 'addChild' ? queryInfo.parentId : null,
             },
           })
         }
         buttonsContainer={{ justifyContent: 'flex-start' }}
-        formDatas={items(queryInfo)}
+        formDatas={items(queryInfo, datsSource, handleSearch)}
       />
     </ProDrawer>
   )
