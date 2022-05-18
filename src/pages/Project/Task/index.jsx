@@ -33,12 +33,15 @@ const tabsLabel = (title, num) => {
   )
 }
 
-const Task = () => {
+const Task = (props) => {
+  console.log('====================================')
+  console.log(props)
+  console.log('====================================')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const taskId = sessionStorage.getItem('id')
+  const taskId = localStorage.getItem('projectId') || ''
 
   const {
     project: {
@@ -54,30 +57,50 @@ const Task = () => {
     loading,
   } = useSelector((state) => state)
 
+  const page = (payload) => {
+    dispatch.project.getList(payload)
+  }
+
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
-    if (location?.state) {
-      dispatch({
-        type: 'project/update',
-        payload: { activeKey: '1' },
-      })
-    }
+    console.log(location)
+    dispatch({
+      type: 'project/update',
+      payload: { activeKey: '1' },
+    })
+
     if (taskId) {
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '', ...location?.state }
-          : { assignmentStatus: '' }
-      )
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '1', ...location?.state }
-          : { assignmentStatus: '1' }
-      )
-      dispatch.project.getList(
-        location?.state
-          ? { assignmentStatus: '3', ...location?.state }
-          : { assignmentStatus: '3' }
-      )
+      // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
+      page({
+        assignmentStatus: '2',
+        splicingConditionsDtos: [
+          {
+            condition: '=',
+            field: 'assignmentStatus',
+            value: '2',
+          },
+        ],
+      })
+      page({
+        assignmentStatus: '3',
+        splicingConditionsDtos: [
+          {
+            condition: '=',
+            field: 'assignmentStatus',
+            value: '3',
+          },
+        ],
+      })
+      page({
+        assignmentStatus: '',
+        splicingConditionsDtos: [],
+      })
+
+      // dispatch.project.getList({ assignmentStatus: 1 })
+      // dispatch.project.getList({ assignmentStatus: 2 })
+      // dispatch.project.getList({ assignmentStatus: 3 })
+    } else {
+      Notify.success({ description: '查无此项' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -88,6 +111,7 @@ const Task = () => {
       payload,
     })
   }
+
   const goIssue = () => {
     updateData({
       issueType: 'add',
@@ -117,10 +141,26 @@ const Task = () => {
   // 搜索按钮事件
   const getTaskListData = async (value, selectValue) => {
     updateData({ activeKey: selectValue })
-    await dispatch.project.getList({
-      assignmentStatus: selectValue,
-      assignmentTitle: value,
-      page: 1,
+    // await dispatch.project.getList({
+    //   assignmentStatus: selectValue,
+    //   assignmentTitle: value,
+    //   page: 1,
+    // })
+
+    page({
+      assignmentStatus: activeKey,
+      splicingConditionsDtos: [
+        {
+          condition: '=',
+          field: 'assignmentStatus',
+          value: selectValue,
+        },
+        {
+          condition: '=',
+          field: 'assignmentTitle',
+          value: value,
+        },
+      ],
     })
   }
 
@@ -148,9 +188,14 @@ const Task = () => {
               }
               dispatch.project.getList({
                 page: newPage,
-                assignmentStatus: location?.state
-                  ? activeKey
-                  : { activeKey, ...location?.state },
+                assignmentStatus: activeKey,
+                splicingConditionsDtos: [
+                  {
+                    condition: '=',
+                    field: 'assignmentStatus',
+                    value: activeKey,
+                  },
+                ],
               })
             }
           })
@@ -180,10 +225,11 @@ const Task = () => {
                   dispatch.project.goToPage({
                     page,
                     pageSize,
-                    assignmentStatus: num,
-                    createId: location?.state?.createId
-                      ? location?.state.createId
-                      : '',
+                    // assignmentStatus: num,
+                    assignmentStatus: activeKey,
+                    // createId: location?.state?.createId
+                    //   ? location?.state.createId
+                    //   : '',
                   })
                 }}
               />
@@ -199,12 +245,18 @@ const Task = () => {
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
     updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList(
-      location?.state
-        ? { assignmentStatus: activeKey, ...location?.state }
-        : { assignmentStatus: activeKey }
-    )
+    await dispatch.project.getList({
+      assignmentStatus: activeKey,
+      splicingConditionsDtos: [
+        {
+          condition: '=',
+          field: 'assignmentStatus',
+          value: activeKey,
+        },
+      ],
+    })
   }
+  console.log('activeKey', activeKey)
 
   return (
     <div className={styles.wrap}>
@@ -217,7 +269,7 @@ const Task = () => {
           <div className={styles.nav}>
             {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
             <Button type="primary" onClick={() => goIssue()}>
-              新建问题
+              新建任务
             </Button>
             {/* </AuthBtn> */}
           </div>
@@ -233,15 +285,14 @@ const Task = () => {
               }
             />
           </div>
-
           <Tabs
             type="line"
             activeKey={activeKey}
             onTabClick={(activeKey) => getTabList(activeKey)}>
-            <Tabs.Pane label={tabsLabel('已打开', openTotal)} key="1">
-              {taskDataList(openTataList, openTotal, '1')}
+            <Tabs.Pane label={tabsLabel('进行中', openTotal)} key="2">
+              {taskDataList(openTataList, openTotal, '2')}
             </Tabs.Pane>
-            <Tabs.Pane label={tabsLabel('已关闭', closeTotal)} key="3">
+            <Tabs.Pane label={tabsLabel('已完成', closeTotal)} key="3">
               {taskDataList(closeDataList, closeTotal, '3')}
             </Tabs.Pane>
             <Tabs.Pane label={tabsLabel('所有', total)} key="">

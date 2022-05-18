@@ -1,25 +1,62 @@
 import { useEffect } from 'react'
 import { Row, Col, Input, DateInput, Select, Form, Button, Loader } from 'uiw'
 import { connect } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import formatter from '@uiw/formatter'
 import { NEWMDEditor } from '@/components'
 import styles from './index.module.less'
 
 const NewMilestone = (props) => {
-  const { milestoneType, listDataInfo } = props.milestone
+  const { milestoneType, listDataInfo, projectId, milestonesId } =
+    props.milestone
   const { loading } = props
   const { addMilestone, editMilestone, getMilestone } =
     loading.effects.milestone
+
+  console.log(listDataInfo)
+
+  const location = useLocation()
+  const pathArr = location.pathname.split('/')
+
+  useEffect(() => {
+    const pathArr = location.pathname.split('/')
+    if (!milestoneType) {
+      if (pathArr.includes('editMilestone')) {
+        const milestonesId = pathArr[pathArr.length - 1]
+        const projectId = pathArr[pathArr.length - 2]
+        const callback = async () => {
+          await props.dispatch.getMilestone({ projectId, milestonesId })
+          await props.dispatch.update({
+            milestoneType: 2,
+            projectId,
+            milestonesId,
+          })
+        }
+        callback()
+      }
+      if (pathArr.includes('newMilestone')) {
+        const projectId = pathArr[pathArr.length - 1]
+        props.dispatch.update({ listDataInfo: {}, projectId, milestoneType: 1 })
+      }
+    }
+  }, [milestoneType, location, props.dispatch])
+
+  console.log(pathArr)
 
   useEffect(() => {
     if (milestoneType === 1) {
       props.dispatch.update({ listDataInfo: {} })
     }
     if (milestoneType === 2) {
-      const { milestonesId } = props.router.location.state
-      props.dispatch.getMilestone(milestonesId)
+      props.dispatch.getMilestone(projectId, milestonesId)
     }
-  }, [props.dispatch, milestoneType, props.router.location.state])
+  }, [
+    props.dispatch,
+    milestoneType,
+    props.router.location.state,
+    projectId,
+    milestonesId,
+  ])
 
   // 取消回调
   const onCancel = () => {
@@ -76,7 +113,8 @@ const NewMilestone = (props) => {
                   formatter('YYYY-MM-DD', new Date(current.dueTime)),
                 startTime: formatter('YYYY-MM-DD', new Date(current.startTime)),
                 milestonesStatus: +current.milestonesStatus,
-                projectId: sessionStorage.getItem('id'),
+                milestonesId: current.milestonesId || milestonesId,
+                projectId,
               }
               const params = { payload: param, callback: onCancel }
               milestoneType === 1 && dispatch.addMilestone(params)

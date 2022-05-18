@@ -29,18 +29,22 @@ export default createModel()({
     closeTotal: 0,
     openTataList: [{ companyId: 1, projectId: 1, assignmentId: 1 }],
     openTotal: 0,
-    issueType: '',
+    issueType: 'edit',
     isView: false,
     queryInfo: {},
     taskInfoData: {
       operatingRecords: [
         { title: '用户cccc', text: '姓名', type: 1 },
-        { title: '2022-05-17', text: '事件', type: 2 },
+        {
+          title: '2022-05-17',
+          text: '事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件',
+          type: 2,
+        },
         { title: '3333', text: 'ccccc', type: 3 },
         { title: '4444', text: 'ddddd', type: 4 },
       ],
     },
-    activeKey: '1',
+    activeKey: '2',
     fromData: {
       createId: userData?.id,
       createName: userData?.userName,
@@ -62,24 +66,27 @@ export default createModel()({
     return {
       // 分页查询
       async getList(params, { project }) {
+        const { assignmentStatus, ...others } = params
         const { filter } = project
+        const taskId = localStorage.getItem('projectId')
+
         const data = await getSelectPage({
           ...filter,
-          ...params,
-          projectId: '', // useLocation
+          ...others,
+          projectId: taskId, // useLocation
         })
         if (data && data.code === 200) {
-          if (params?.assignmentStatus === '3') {
+          if (assignmentStatus === '3') {
             dispatch.project.update({
               closeDataList: data?.data.list || [],
               closeTotal: data?.data.total,
             })
-          } else if (params?.assignmentStatus === '1') {
+          } else if (assignmentStatus === '2') {
             dispatch.project.update({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
             })
-          } else {
+          } else if (assignmentStatus === '') {
             dispatch.project.update({
               dataList: data?.data.list || [],
               total: data?.data.total,
@@ -89,19 +96,33 @@ export default createModel()({
       },
       // 翻页
       async goToPage(payload) {
-        const { page, pageSize, assignmentStatus, createId } = payload
-        await dispatch.project.update({
+        const { page, pageSize, assignmentStatus } = payload
+        dispatch.project.update({
           filter: { page, pageSize },
         })
+        let splicingConditionsDtos = []
+        if (assignmentStatus !== '') {
+          splicingConditionsDtos = [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: assignmentStatus,
+            },
+          ]
+        }
+
         await dispatch.project.getList({
-          assignmentStatus: assignmentStatus,
-          createId,
+          page,
+          pageSize,
+          assignmentStatus,
+          splicingConditionsDtos,
         })
       },
 
       // 任务列表新增
       async getAdd(params, { project }) {
         const { fromData } = project
+        console.log('fromData', fromData)
         const data = await getmMnagerAssignmentSave({
           ...fromData,
           ...params,
