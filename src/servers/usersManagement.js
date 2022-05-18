@@ -1,10 +1,11 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
-function addProjectMember(params) {
-  return request('/api/projectMember/addProjectMember', {
+// 邀请成员
+function inviteMember(params) {
+  return request('/api/member/inviteMember', {
     method: 'POST',
     body: { ...params },
   })
 }
 
-export { addProjectMember }
+export { inviteMember }

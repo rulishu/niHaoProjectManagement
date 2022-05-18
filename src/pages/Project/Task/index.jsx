@@ -68,7 +68,7 @@ const Task = (props) => {
   }
 
   useEffect(() => {
-    console.log(params)
+    console.log('params', params)
   }, [params])
 
   // 进页面先查询一次，获取任务数量角标
@@ -198,12 +198,26 @@ const Task = (props) => {
             if (res.code === 200) {
               Notify.success({ description: res.message })
               let newPage = filter.page
-              let newListDate =
-                activeKey === '1'
-                  ? openTataList
-                  : activeKey === '3'
-                  ? closeDataList
-                  : dataList
+              let newListDate = []
+              switch (activeKey) {
+                case '1':
+                  newListDate = prepareList
+                  break
+                case '2':
+                  newListDate = openTataList
+                  break
+
+                case '3':
+                  newListDate = closeDataList
+                  break
+                case '4':
+                  newListDate = overtimeList
+                  break
+                default:
+                  newListDate = dataList
+              }
+
+              console.log('newListDate: ', newListDate)
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
@@ -227,7 +241,7 @@ const Task = (props) => {
   const taskDataList = (data, taskTotal, num) => {
     return (
       <div>
-        {data.length > 0 ? (
+        {(data || []).length > 0 ? (
           <Fragment>
             <List
               data={data || []}
