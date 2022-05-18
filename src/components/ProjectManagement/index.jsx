@@ -1,33 +1,38 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
+import { Loader } from 'uiw'
 
 /**
  * 使用方法：
+ * 先引用组件（fun为回调函数，回调刷新函数）
+ * <ProjectManagement fun={reset}></ProjectManagement>
  *
  * 新增
  * dispatch({
- *  type: 'global/updataProject',
+ *  type: 'projectUpdate/updataProject',
  *  payload: { drawerType: 'add' },
  *})
  *
  * 编辑
  * dispatch({
- *  type: 'global/updataProject',
+ *  type: 'projectUpdate/updataProject',
  *  payload: { drawerType: 'edit'，id:"..." },
  *})
  * @returns
  */
 
-const ProjectManagement = () => {
+const ProjectManagement = (fun) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
-    global: { drawerVisible, drawerType, seachValue, userList, id },
+    projectUpdate: { drawerVisible, drawerType, seachValue, userList, id },
+    loading,
   } = useSelector((state) => state)
 
+  console.log(loading.effects.projectUpdate)
   const updateData = (payload) => {
     dispatch({
-      type: 'global/updateState',
+      type: 'projectUpdate/updateState',
       payload,
     })
   }
@@ -42,13 +47,14 @@ const ProjectManagement = () => {
   function saveData() {
     if (drawerType === 'add') {
       dispatch({
-        type: 'global/addProject',
-        payload: seachValue,
+        type: 'projectUpdate/addProject',
+        payload: { seachValue, callback: fun },
       })
     } else if (drawerType === 'edit') {
+      seachValue.id = id
       dispatch({
-        type: 'global/updateProject',
-        payload: { ...seachValue, id },
+        type: 'projectUpdate/updateProject',
+        payload: { seachValue, callback: fun },
       })
     }
   }
@@ -76,69 +82,77 @@ const ProjectManagement = () => {
             },
           },
         ]}>
-        <ProForm
-          formType="pure"
-          form={baseRef}
-          formDatas={[
-            {
-              label: '项目名称:',
-              key: 'name',
-              widget: 'input',
-              initialValue: seachValue.name,
-              widgetProps: {},
-              placeholder: '请输入项目名称',
-              span: '24',
-              required: true,
-              rules: [{ required: true, message: '请输入项目名称' }],
-            },
-            {
-              label: '项目负责人:',
-              key: 'userId',
-              widget: 'select',
-              option: userList,
-              initialValue: seachValue.updateId,
-              widgetProps: {},
-              span: '24',
-              required: true,
-              rules: [{ required: true, message: '请输入项目负责人' }],
-            },
-            {
-              label: '起止日期:',
-              key: 'begin',
-              initialValue: seachValue.begin,
-              widget: 'dateInput',
-              widgetProps: {
-                format: 'YYYY-MM-DD',
-              },
-              span: '24',
-              required: true,
-              rules: [{ required: true, message: '请输入起止日期' }],
-            },
-            {
-              label: '截止日期:',
-              key: 'end',
-              initialValue: seachValue.end,
-              widget: 'dateInput',
-              widgetProps: {
-                format: 'YYYY-MM-DD',
-              },
-              span: '24',
-              required: true,
-              rules: [{ required: true, message: '请输入截止日期' }],
-            },
-            {
-              label: '项目描述:',
-              key: 'descr',
-              widget: 'textarea',
-              initialValue: seachValue.descr,
-              widgetProps: {},
-              span: '24',
-            },
-          ]}
-          onChange={(initial, current) => {
-            updateData({ seachValue: { ...current } })
-          }}
-        />
+        <Loader
+          loading={loading.effects.projectUpdate.selectAllUser}
+          bgColor="rgba(0, 0, 0, 0.4)"
+          style={{ width: '100%' }}
+          tip="loading...">
+          <div>
+            <ProForm
+              formType="pure"
+              form={baseRef}
+              formDatas={[
+                {
+                  label: '项目名称:',
+                  key: 'name',
+                  widget: 'input',
+                  initialValue: seachValue.name,
+                  widgetProps: {},
+                  placeholder: '请输入项目名称',
+                  span: '24',
+                  required: true,
+                  rules: [{ required: true, message: '请输入项目名称' }],
+                },
+                {
+                  label: '项目负责人:',
+                  key: 'userId',
+                  widget: 'select',
+                  option: userList,
+                  initialValue: seachValue.updateId,
+                  widgetProps: {},
+                  span: '24',
+                  required: true,
+                  rules: [{ required: true, message: '请输入项目负责人' }],
+                },
+                {
+                  label: '起止日期:',
+                  key: 'begin',
+                  initialValue: seachValue.begin,
+                  widget: 'dateInput',
+                  widgetProps: {
+                    format: 'YYYY-MM-DD',
+                  },
+                  span: '24',
+                  required: true,
+                  rules: [{ required: true, message: '请输入起止日期' }],
+                },
+                {
+                  label: '截止日期:',
+                  key: 'end',
+                  initialValue: seachValue.end,
+                  widget: 'dateInput',
+                  widgetProps: {
+                    format: 'YYYY-MM-DD',
+                  },
+                  span: '24',
+                  required: true,
+                  rules: [{ required: true, message: '请输入截止日期' }],
+                },
+                {
+                  label: '项目描述:',
+                  key: 'descr',
+                  widget: 'textarea',
+                  initialValue: seachValue.descr,
+                  widgetProps: {},
+                  span: '24',
+                },
+              ]}
+              onChange={(initial, current) => {
+                updateData({ seachValue: { ...current } })
+              }}
+            />
+          </div>
+        </Loader>
       </ProDrawer>
     </div>
   )
