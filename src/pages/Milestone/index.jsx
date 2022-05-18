@@ -14,10 +14,9 @@ import {
   Icon,
   OverlayTrigger,
 } from 'uiw'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
-import data from './data'
 
 const { Line } = Progress
 
@@ -32,23 +31,28 @@ const tabsLabel = (title, num) => {
 
 const Milestone = (props) => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const pathArr = location.pathname.split('/')
+
   useEffect(() => {
     // milestonesStatusList 1:打开2:关闭3：删除
     props.dispatch.selectPageList({
       milestonesStatusList: [],
-      projectId: 1320,
+      projectId: pathArr[pathArr.length - 1],
     })
     // 查询 已完成
     props.dispatch.selectPageList({
       milestonesStatusList: [1],
-      projectId: 1320,
+      projectId: pathArr[pathArr.length - 1],
     })
     props.dispatch.selectPageList({
       milestonesStatusList: [2],
-      projectId: 1320,
+      projectId: pathArr[pathArr.length - 1],
     })
-  }, [props.dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, props.dispatch])
 
+  // 赛选分类
   const [sorting, setSorting] = useState(1)
 
   const [isPulldown, setIsPulldown] = useState(false)
@@ -59,7 +63,7 @@ const Milestone = (props) => {
   }
 
   const listGo = (milestonesId) => {
-    navigate('/milestone/milestoneInfo', {
+    navigate(`/milestone/milestoneInfo/${milestonesId}`, {
       state: { milestonesId },
     })
   }
@@ -193,7 +197,7 @@ const Milestone = (props) => {
     listData,
     total,
     activeKey,
-    // openListData,
+    openListData,
     openListTotal,
     closeListData,
     closeListTotal,
@@ -249,7 +253,9 @@ const Milestone = (props) => {
               </div>
             </div>
           </div>
-          {activeKey === '1' && <div>{milesList(data, openListTotal)}</div>}
+          {activeKey === '1' && (
+            <div>{milesList(openListData, openListTotal)}</div>
+          )}
           {activeKey === '2' && (
             <div>{milesList(closeListData, closeListTotal)}</div>
           )}

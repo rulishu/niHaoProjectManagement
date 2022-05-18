@@ -1,5 +1,5 @@
 // 里程碑
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
 /**
  * 分页查询里程碑
