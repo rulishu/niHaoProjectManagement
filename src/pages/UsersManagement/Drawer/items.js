@@ -55,9 +55,9 @@ export const memberItems = (queryInfo) => {
   return [
     {
       label: '选择账户地址',
-      key: 'user',
+      key: 'userId',
       widget: 'input',
-      initialValue: queryInfo?.user,
+      initialValue: queryInfo?.userId,
       required: true,
       placeholder: '请输入账户地址',
       span: '24',
@@ -78,24 +78,24 @@ export const memberItems = (queryInfo) => {
       placeholder: '请选择成员角色',
       rules: [{ required: true, message: '请选择成员角色' }],
     },
-    // {
-    //   label: '访问到期日期',
-    //   key: 'time',
-    //   widget: 'dateInput',
-    //   initialValue: queryInfo?.time,
-    //   span: '24',
-    //   placeholder: '请输入访问到期日期',
-    //   rules: [{ required: true, message: '请输入访问到期日期' }],
-    // },
+    {
+      label: '访问到期日期',
+      key: 'accessExpirationDate',
+      widget: 'dateInput',
+      initialValue: queryInfo?.accessExpirationDate,
+      span: '24',
+      placeholder: '请输入访问到期日期',
+      rules: [{ required: true, message: '请输入访问到期日期' }],
+    },
   ]
 }
 export const groupItems = (queryInfo) => {
   return [
     {
       label: '选择要邀请的群组',
-      key: 'user',
+      key: 'userId',
       widget: 'input',
-      initialValue: queryInfo?.user,
+      initialValue: queryInfo?.userId,
       required: true,
       placeholder: '选择要邀请的群组',
       span: '24',
@@ -116,14 +116,14 @@ export const groupItems = (queryInfo) => {
       placeholder: '请输入选择成员角色',
       rules: [{ required: true, message: '请选择成员角色' }],
     },
-    // {
-    //   label: '访问到期日期',
-    //   key: 'time',
-    //   widget: 'dateInput',
-    //   initialValue: queryInfo?.time,
-    //   span: '24',
-    //   placeholder: '请输入访问到期日期',
-    //   rules: [{ required: true, message: '请输入访问到期日期' }],
-    // },
+    {
+      label: '访问到期日期',
+      key: 'accessExpirationDate',
+      widget: 'dateInput',
+      initialValue: queryInfo?.accessExpirationDate,
+      span: '24',
+      placeholder: '请输入访问到期日期',
+      rules: [{ required: true, message: '请输入访问到期日期' }],
+    },
   ]
 }

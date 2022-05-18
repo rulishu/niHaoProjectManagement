@@ -2,10 +2,11 @@ import { Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List, SearchBar } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
+import useLocationPage from '@/hooks/useLocationPage'
 
 // import LabelSelect from './LabelSelect'
 
@@ -19,8 +20,10 @@ const listField = {
 }
 
 const SearchBarOption = [
+  { value: '1', text: '未开始' },
   { value: '2', text: '已打开' },
   { value: '3', text: '已完成' },
+  { value: '4', text: '已逾期' },
   { value: '', text: '所有' },
 ]
 
@@ -37,8 +40,10 @@ const Task = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-
-  const taskId = location.pathname.split('/').pop() || ''
+  const params = useParams()
+  // 处理带id的路由
+  useLocationPage()
+  const taskId = params.projectId || ''
 
   const {
     project: {
@@ -49,6 +54,10 @@ const Task = (props) => {
       closeTotal,
       openTataList,
       openTotal,
+      prepareList,
+      prepareTotal,
+      overtimeList,
+      overtimeTotal,
       activeKey,
     },
     loading,
@@ -57,6 +66,10 @@ const Task = (props) => {
   const pageS = (payload) => {
     dispatch.project.getList({ ...payload, projectId: taskId })
   }
+
+  useEffect(() => {
+    console.log('params', params)
+  }, [params])
 
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
@@ -67,26 +80,40 @@ const Task = (props) => {
 
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      pageS({
-        assignmentStatus: '2',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '2',
-          },
-        ],
+      // pageS({
+      //   assignmentStatus: '2',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '2',
+      //     },
+      //   ],
+      // })
+      // pageS({
+      //   assignmentStatus: '3',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '3',
+      //     },
+      //   ],
+      // })
+
+      ;['1', '2', '3', '4'].forEach((item) => {
+        pageS({
+          assignmentStatus: item,
+          splicingConditionsDtos: [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: item,
+            },
+          ],
+        })
       })
-      pageS({
-        assignmentStatus: '3',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '3',
-          },
-        ],
-      })
+
       pageS({
         assignmentStatus: '',
         splicingConditionsDtos: [],
@@ -173,12 +200,26 @@ const Task = (props) => {
             if (res.code === 200) {
               Notify.success({ description: res.message })
               let newPage = filter.page
-              let newListDate =
-                activeKey === '1'
-                  ? openTataList
-                  : activeKey === '3'
-                  ? closeDataList
-                  : dataList
+              let newListDate = []
+              switch (activeKey) {
+                case '1':
+                  newListDate = prepareList
+                  break
+                case '2':
+                  newListDate = openTataList
+                  break
+
+                case '3':
+                  newListDate = closeDataList
+                  break
+                case '4':
+                  newListDate = overtimeList
+                  break
+                default:
+                  newListDate = dataList
+              }
+
+              console.log('newListDate: ', newListDate)
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
@@ -202,7 +243,7 @@ const Task = (props) => {
   const taskDataList = (data, taskTotal, num) => {
     return (
       <div>
-        {data.length > 0 ? (
+        {(data || []).length > 0 ? (
           <Fragment>
             <List
               data={data || []}
@@ -286,12 +327,21 @@ const Task = (props) => {
             type="line"
             activeKey={activeKey}
             onTabClick={(activeKey) => getTabList(activeKey)}>
+            <Tabs.Pane label={tabsLabel('未开始', prepareTotal)} key="1">
+              {taskDataList(prepareList, prepareTotal, '1')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('进行中', openTotal)} key="2">
               {taskDataList(openTataList, openTotal, '2')}
             </Tabs.Pane>
             <Tabs.Pane label={tabsLabel('已完成', closeTotal)} key="3">
               {taskDataList(closeDataList, closeTotal, '3')}
             </Tabs.Pane>
+
+            <Tabs.Pane label={tabsLabel('已逾期', overtimeTotal)} key="4">
+              {taskDataList(overtimeList, overtimeTotal, '4')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('所有', total)} key="">
               {taskDataList(dataList, total, '')}
             </Tabs.Pane>

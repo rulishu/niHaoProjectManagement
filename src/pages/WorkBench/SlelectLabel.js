@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Row, Col, Card, Steps, Tabs } from 'uiw'
+import { Row, Col, Card, Tabs, List } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
@@ -7,10 +7,13 @@ import styles from './index.less'
 export default function SlelectLabel() {
   const dispatch = useDispatch()
   const {
-    home: { taskId },
+    workbench: { taskId, memberList },
   } = useSelector((state) => state)
 
   useEffect(() => {
+    dispatch({
+      type: 'workbench/memberOperator',
+    })
     dispatch({
       type: 'home/queryProject',
       payload: { record: taskId },
@@ -110,39 +113,25 @@ export default function SlelectLabel() {
             </Card>
           </Col>
           <Col fixed style={{ width: '25%' }}>
-            <Card title="成员动态" bordered={false} style={{ height: 440 }}>
+            <Card
+              title="成员动态"
+              bordered={false}
+              style={{
+                height: 440,
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                marginBottom: 10,
+              }}>
               <div className={styles.newDynamic}>
-                <Steps
-                  direction="vertical"
-                  progressDot
-                  status="error"
-                  current={2}
-                  style={{ padding: '20px 0' }}>
-                  <Steps.Step
-                    title="步骤一"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤二"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤三"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤四"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤五"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                  <Steps.Step
-                    title="步骤六"
-                    description="这里是步骤一的说明，可以很长很长哦。"
-                  />
-                </Steps>
+                <List bordered={false}>
+                  {memberList?.map((a) => {
+                    return (
+                      <List.Item>
+                        {a.createTime}·{a?.operatingRecords}
+                      </List.Item>
+                    )
+                  })}
+                </List>
               </div>
             </Card>
           </Col>
