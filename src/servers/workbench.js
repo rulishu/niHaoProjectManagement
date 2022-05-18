@@ -1,18 +1,6 @@
 import { request } from '@uiw-admin/utils'
 
 const token = localStorage.getItem('token')
-console.log('token', token)
-/**
- * 查询项目的操作动态
- */
-export function selectOperatingRecord(params) {
-  return request('/api/project/selectOperatingRecord', {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
-    body: params,
-  })
-}
-
 /*
  * 我近期参与的项目统计
  */
@@ -29,6 +17,28 @@ export function myProject(params) {
  */
 export function memberOperator(params) {
   return request('/api/workbench/memberOperator', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: params,
+  })
+}
+
+/*
+ * 查询所有任务
+ */
+export function selectAllProjectPage(params) {
+  return request('api/workbench/selectAllProjectPage', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: params,
+  })
+}
+
+/*
+ * 查询个人任务
+ */
+export function selectProjectPage(params) {
+  return request('api/workbench/selectProjectPage', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
     body: params,

@@ -38,36 +38,41 @@
         "isAuth": true
       },
       {
-        "path": "/milestone",
+        "path": "/milestone/:id",
         "name": "里程碑",
         "component": "@/pages/Milestone",
-        "isAuth": false
+        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
+        "isAuth": true
       },
       {
         "path": "/milestone",
         "name": "里程碑",
-        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
+        "hideInMenu": true,
+        "isAuth": true,
         "routes": [
           {
             "path": "/milestone/newMilestone",
             "name": "新增里程碑",
             "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
+            "hideInMenu": true,
             "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/milestone/editMilestone",
+            "path": "/milestone/editMilestone/:projectId/:id",
             "name": "编辑里程碑",
             "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
-            "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
+            "hideInMenu": true,
+            "navigate": "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/milestone/milestoneInfo",
+            "path": "/milestone/milestoneInfo/:projectId/:id",
             "name": "里程碑详情",
             "component": "@/pages/Milestone/MilestoneInfo",
             "isAuth": true,
-            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}`)}"
+            "hideInMenu": true,
+            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}/${sessionStorage.getItem('id')}`)}"
           }
         ]
       },
@@ -85,10 +90,9 @@
         "hideInMenu": true,
         "routes": [
           {
-            "path": "/project/task/:id",
+            "path": "/project/task/:projectId",
             "name": "任务列表",
             "component": "@/pages/Project/Task",
-            "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}",
             "isAuth": true
           },
           {
