@@ -12,7 +12,7 @@ const Demo = (props) => {
 
   useEffect(() => {
     dispatch({
-      type: 'rolemanagement/menuTiers',
+      type: 'rolemanagement/getTreeSelect',
     })
   }, [dispatch])
 
@@ -51,9 +51,17 @@ const Demo = (props) => {
       tablePro: table,
     })
     if (type === 'add') {
-      updateData({ drawerVisible: true, queryInfo: {} })
+      updateData({ drawerVisible: true, queryInfo: {}, checkedKeys: [] })
     }
     if (type === 'edit' || type === 'view') {
+      // dispatch({
+      //   type: 'rolemanagement/getInfo',
+      //   payload: {id:record?.roleId},
+      // })
+      dispatch({
+        type: 'rolemanagement/roleMenuTreeselect',
+        payload: record?.roleId,
+      })
       updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'del') {
@@ -64,25 +72,27 @@ const Demo = (props) => {
       result && table.onSearch()
       return result
     }
-    if (type === 'authorize') {
-      dispatch({
-        type: 'rolemanagement/selectListByRoleId',
-        payload: { id: record?.roleId },
-      })
-      updateData({ drawerVisibleAuth: true, queryInfo: record })
-    }
+    // if (type === 'authorize') {
+    //   dispatch({
+    //     type: 'rolemanagement/selectListByRoleId',
+    //     payload: { id: record?.roleId },
+    //   })
+    //   updateData({ drawerVisibleAuth: true, queryInfo: record })
+    // }
   }
 
-  const updateState = (state, listData) => {
+  const updateState = (state, rowData) => {
     Modal.show({
       title: '提示',
       confirmText: '确定',
       cancelText: '取消',
-      children: `确认要${state ? '启用' : '禁用'}"${listData.name}"角色吗?`,
+      children: `确认要${state ? '"启用"' : '"停用"'}"${
+        rowData.roleName
+      }"角色吗?`,
       onConfirm: async () => {
-        await props.dispatch.upDateStatusRole({
+        await props.dispatch.changeStatus({
           status: state ? 0 : 1,
-          id: listData.id,
+          roleId: rowData.roleId,
         })
       },
       onCancel: () => table.onSearch(),
@@ -215,12 +225,12 @@ const Demo = (props) => {
                   </Button>
                   {/* </AuthBtn> */}
                   {/* <AuthBtn path="/api/managerRole/selectRole"> */}
-                  <Button
+                  {/* <Button
                     size="small"
                     type="success"
                     onClick={handleEditTable.bind(this, 'view', rowData)}>
                     查看
-                  </Button>
+                  </Button> */}
                   {/* </AuthBtn> */}
                   {/* <AuthBtn path="/api/managerRole/deleteRole"> */}
                   {rowData.hasUser ? (
