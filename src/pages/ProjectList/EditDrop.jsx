@@ -11,7 +11,7 @@ const EditDrop = (props) => {
       <Menu bordered style={{ width: '200px' }}>
         <Menu.Item
           onClick={() => {
-            dispatch.global.updataProject({ drawerType: 'edit', id: id })
+            dispatch.projectUpdate.updataProject({ drawerType: 'edit', id: id })
           }}
           icon="edit"
           text="编辑项目"
