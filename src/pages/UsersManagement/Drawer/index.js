@@ -2,6 +2,7 @@ import { ProDrawer, useForm, ProForm } from '@uiw-admin/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
+import formatter from '@uiw/formatter'
 
 const Drawer = (props) => {
   const baseRef = useForm()
@@ -55,12 +56,14 @@ const Drawer = (props) => {
     }
 
     // 编辑
-    if (tableType === 'edit') {
+    if (tableType === 'add') {
       const payload = {
         ...current,
+        joinTime: formatter('YYYY-MM-DD HH:mm:ss', current?.joinTime),
       }
+      console.log('payload', payload)
       dispatch({
-        type: 'usersManagement/edit',
+        type: 'usersManagement/addProjectMember',
         payload,
       }).then((data) => information(data))
     }

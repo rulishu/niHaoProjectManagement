@@ -2,9 +2,9 @@ export const items = (queryInfo) => {
   return [
     {
       label: '成员姓名',
-      key: 'user',
+      key: 'memberName',
       widget: 'input',
-      initialValue: queryInfo?.user,
+      initialValue: queryInfo?.memberName,
       required: true,
       placeholder: '请输入成员姓名',
       span: '24',
@@ -12,9 +12,9 @@ export const items = (queryInfo) => {
     },
     {
       label: '成员角色',
-      key: 'role',
+      key: 'memberRole',
       widget: 'select',
-      initialValue: queryInfo?.role,
+      initialValue: queryInfo?.memberRole,
       required: true,
       option: [
         { label: '开发者', value: '开发者' },
@@ -26,28 +26,28 @@ export const items = (queryInfo) => {
     },
     {
       label: '加入日期',
-      key: 'time',
+      key: 'joinTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.time,
+      initialValue: queryInfo?.joinTime,
       required: true,
       span: '24',
       placeholder: '请输入加入日期',
       rules: [{ required: true, message: '请输入加入日期' }],
     },
-    {
-      label: '受限用户',
-      key: 'name',
-      widget: 'select',
-      initialValue: queryInfo?.name,
-      required: true,
-      option: [
-        { label: '是', value: '是' },
-        { label: '否', value: '管理者' },
-      ],
-      span: '24',
-      placeholder: '请输入受限用户',
-      rules: [{ required: true, message: '请输入受限用户' }],
-    },
+    // {
+    //   label: '受限成员',
+    //   key: 'name',
+    //   widget: 'select',
+    //   initialValue: queryInfo?.name,
+    //   required: true,
+    //   option: [
+    //     { label: '是', value: '是' },
+    //     { label: '否', value: '管理者' },
+    //   ],
+    //   span: '24',
+    //   placeholder: '请输入受限用户',
+    //   rules: [{ required: true, message: '请输入受限用户' }],
+    // },
   ]
 }
 export const memberItems = (queryInfo) => {

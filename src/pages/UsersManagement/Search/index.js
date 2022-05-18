@@ -30,7 +30,7 @@ const Search = () => {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data?.rows || [{ code: '1' }],
+        data: data?.data?.rows || [],
       }
     },
   })
