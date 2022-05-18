@@ -72,9 +72,17 @@
         ]
       },
       {
+        "path": "/project/task/:id",
+        "name": "任务列表",
+        "component": "@/pages/Project/Task",
+        "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}",
+        "isAuth": true
+      },
+      {
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/project/task/:id",
@@ -94,8 +102,8 @@
             "path": "/project/taskInfo/:companyId/:projectId/:id",
             "name": "任务详情",
             "component": "@/pages/Project/TaskInfo",
-            "isAuth": true,
             "hideInMenu": true,
+            "isAuth": true,
             "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}"
           }
         ]
