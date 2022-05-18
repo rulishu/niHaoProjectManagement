@@ -43,7 +43,7 @@ export function updateProject(params) {
  * 查询项目信息
  */
 export function queryProject(params) {
-  return request(`/api/project/select/${params}`, {
+  return request(`/api/project/select/${params.id}`, {
     method: 'POST',
     body: params,
   })
@@ -91,6 +91,16 @@ export function projectCountById(params) {
  */
 export function selectOneInfo(params) {
   return request('/api/project/selectOneInfo', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+/**
+ * 获取所有用户
+ */
+export function selectAllUser(params) {
+  return request('/api/project/selectAllUser', {
     method: 'POST',
     body: params,
   })
