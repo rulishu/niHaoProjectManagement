@@ -54,7 +54,7 @@ const TodoList = (props) => {
   const taskId = sessionStorage.getItem('id')
 
   const {
-    project: {
+    todolist: {
       dataList,
       total,
       filter,
@@ -70,23 +70,23 @@ const TodoList = (props) => {
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     if (location?.state) {
-      // dispatch({
-      //   type: 'project/update',
-      //   payload: { activeKey: '1' },
-      // })
+      dispatch({
+        type: 'todolist/update',
+        payload: { activeKey: '1' },
+      })
     }
     if (taskId) {
-      dispatch.project.getList(
+      dispatch.todolist.getList(
         location?.state
           ? { assignmentStatus: '', ...location?.state }
           : { assignmentStatus: '' }
       )
-      dispatch.project.getList(
+      dispatch.todolist.getList(
         location?.state
           ? { assignmentStatus: '1', ...location?.state }
           : { assignmentStatus: '1' }
       )
-      dispatch.project.getList(
+      dispatch.todolist.getList(
         location?.state
           ? { assignmentStatus: '3', ...location?.state }
           : { assignmentStatus: '3' }
@@ -97,7 +97,7 @@ const TodoList = (props) => {
 
   const updateData = (payload) => {
     dispatch({
-      type: 'project/update',
+      type: 'todolist/update',
       payload,
     })
   }
@@ -105,7 +105,7 @@ const TodoList = (props) => {
   // 搜索按钮事件
   const getTaskListData = async (value, selectValue) => {
     updateData({ activeKey: selectValue })
-    await dispatch.project.getList({
+    await dispatch.todolist.getList({
       assignmentStatus: selectValue,
       assignmentTitle: value,
       page: 1,
@@ -114,10 +114,10 @@ const TodoList = (props) => {
 
   // const {  listField } = props
 
-  console.log('arr--->', arr)
+  // console.log('arr--->', arr)
   // 列表
   const taskDataList = (data, taskTotal, num) => {
-    console.log('listField', listField)
+    // console.log('listField', listField)
     return (
       <div>
         {/* {data.length > 0 ? ( */}
@@ -231,7 +231,7 @@ const TodoList = (props) => {
               total={taskTotal}
               alignment="center"
               onChange={(page, _, pageSize) => {
-                dispatch.project.goToPage({
+                dispatch.todolist.goToPage({
                   page,
                   pageSize,
                   assignmentStatus: num,
@@ -253,7 +253,7 @@ const TodoList = (props) => {
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
     updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList(
+    await dispatch.todolist.getList(
       location?.state
         ? { assignmentStatus: activeKey, ...location?.state }
         : { assignmentStatus: activeKey }
@@ -266,7 +266,7 @@ const TodoList = (props) => {
         tip="加载中..."
         vertical
         style={{ width: '100%' }}
-        loading={loading.effects.project.getList}>
+        loading={loading.effects.todolist.getList}>
         <div>
           <div className={styles.nav}>
             {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
