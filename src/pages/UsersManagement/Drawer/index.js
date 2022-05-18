@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
+import { changeTimeFormat } from '../../../utils/timeDistance'
 
 const Drawer = (props) => {
   const baseRef = useForm()
@@ -54,7 +55,7 @@ const Drawer = (props) => {
       throw err
     }
 
-    // 编辑
+    // 邀请
     if (tableType === 'member') {
       const payload = {
         ...current,
@@ -65,9 +66,24 @@ const Drawer = (props) => {
         ),
         // projectId: localStorage.getItem('projectId') || ''
       }
-      console.log('payload', payload)
       dispatch({
         type: 'usersManagement/inviteMember',
+        payload,
+      }).then((data) => information(data))
+    }
+    // 编辑
+    if (tableType === 'edit') {
+      console.log('queryInfo', queryInfo)
+      const payload = {
+        ...current,
+        id: queryInfo?.id,
+        joinTime: changeTimeFormat(current?.joinTime),
+        memberRole: Number(current?.memberRole),
+        // projectId: localStorage.getItem('projectId') || ''
+      }
+      console.log('payload', payload)
+      dispatch({
+        type: 'usersManagement/updateProjectMember',
         payload,
       }).then((data) => information(data))
     }
