@@ -1,4 +1,4 @@
-export const items = (queryInfo, Demo) => [
+export const items = (queryInfo, TreeData) => [
   {
     label: '角色名称',
     key: 'roleName',
@@ -67,9 +67,8 @@ export const items = (queryInfo, Demo) => [
   {
     label: '菜单权限',
     key: 'menuIds',
-    widget: 'Demo',
-    style: { maxWidth: '430px' },
-    initialValue: queryInfo?.remark,
+    widget: 'TreeData',
+    initialValue: queryInfo?.menuIds,
     span: '24',
   },
   {
