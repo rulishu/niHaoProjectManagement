@@ -20,9 +20,9 @@
 
         .toggle {
           padding: 6px 8px 6px 10px;
-          background-color: #fff;
-          color: #303030;
-          font-size: 14px;
+          background-color: @white;
+          color: @black;
+          font-size: @font-size-base;
           width: 160px;
           text-align: left;
           border: 1px solid #dbdbdb;
@@ -44,14 +44,14 @@
   z-index: 300;
   min-width: 240px;
   max-width: 500px;
-  margin-top: 4px;
-  margin-bottom: 24px;
-  font-size: 0.875rem;
+  margin-top: @margin-xss;
+  margin-bottom: @margin-lg;
+  font-size: @font-size-sm;
   font-weight: 400;
-  padding: 8px 0;
-  background-color: #fff;
+  padding: @padding-xs 0;
+  background-color: @white;
   border: 1px solid #dbdbdb;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   display: block;
   min-height: 40px;
@@ -73,7 +73,7 @@
       display: block;
       font-weight: 400;
       position: relative;
-      padding: 8px 12px;
+      padding: @margin-xs @margin-sm;
       color: #303030;
       line-height: 16px;
       white-space: normal;
@@ -82,8 +82,8 @@
       width: 100%;
 
       &:hover {
-        background-color: #eee;
-        color: #303030;
+        background-color: @normal-color;
+        color: @black;
         outline: 0;
         text-decoration: none;
       }
