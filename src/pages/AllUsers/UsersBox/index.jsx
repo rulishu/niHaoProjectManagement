@@ -44,7 +44,7 @@ const UsersBox = (props) => {
     <div className={styles.content}>
       {data.map((item) => {
         return (
-          <div className={styles.userBoxFather} key={item.id}>
+          <div className={styles.userBoxFather} key={item.userId}>
             <Card className={styles.userBox}>
               <div className={styles.userBoxChild}>
                 <Row>
@@ -76,12 +76,12 @@ const UsersBox = (props) => {
                       <div className={styles.userId}>
                         {item.userPosition &&
                           userPositionBox(item.userPosition)}
-                        ID:{item.id}
+                        ID:{item.userId}
                       </div>
                     </Row>
                     <Row className={styles.buttonGroup}>
                       <Col span="6">
-                        <AuthBtn path="/api/managerUser/edit">
+                        <AuthBtn path="/api/system/user/edit">
                           <Tooltip placement="top" content="编辑">
                             <Button
                               icon="edit"
@@ -115,10 +115,10 @@ const UsersBox = (props) => {
                 <Divider />
                 <Row className={styles.info}>
                   <Col span="6" className={styles.infoName}>
-                    <Icon type="user" /> 账号:
+                    <Icon type="user" /> 帐号:
                   </Col>
                   <Col span="18" className={styles.infoCon}>
-                    {item.userAccount}
+                    {item.userName}
                   </Col>
                 </Row>
                 <Row className={styles.info}>
@@ -126,7 +126,7 @@ const UsersBox = (props) => {
                     <Icon type="mobile" /> 手机:
                   </Col>
                   <Col span="18" className={styles.infoCon}>
-                    {item.userPhone}
+                    {item.phonenumber}
                   </Col>
                 </Row>
                 <Row className={styles.info}>
@@ -134,7 +134,7 @@ const UsersBox = (props) => {
                     <Icon type="mail-o" /> 邮箱：
                   </Col>
                   <Col span="18" className={styles.infoCon}>
-                    {item.userEmail}
+                    {item.email}
                   </Col>
                 </Row>
               </div>

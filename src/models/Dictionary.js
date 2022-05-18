@@ -65,7 +65,7 @@ export default createModel()({
         const data = await getQueryAll(payload)
         if (data.code === 200) {
           dispatch.dictionary.update({
-            dictAllData: data?.data || [],
+            dictAllData: data?.rows || [],
           })
         }
       },
