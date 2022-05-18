@@ -62,24 +62,28 @@ export default createModel()({
     return {
       // 分页查询
       async getList(params, { project }) {
+        const { assignmentStatus, ...others } = params
         const { filter } = project
+        const taskId = sessionStorage.getItem('id')
+
         const data = await getSelectPage({
           ...filter,
-          ...params,
-          projectId: '', // useLocation
+          ...others,
+          // projectId: 1594,
+          projectId: taskId, // useLocation
         })
         if (data && data.code === 200) {
-          if (params?.assignmentStatus === '3') {
+          if (assignmentStatus === '3') {
             dispatch.project.update({
               closeDataList: data?.data.list || [],
               closeTotal: data?.data.total,
             })
-          } else if (params?.assignmentStatus === '1') {
+          } else if (assignmentStatus === '2') {
             dispatch.project.update({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
             })
-          } else {
+          } else if (assignmentStatus === '') {
             dispatch.project.update({
               dataList: data?.data.list || [],
               total: data?.data.total,
@@ -89,13 +93,26 @@ export default createModel()({
       },
       // 翻页
       async goToPage(payload) {
-        const { page, pageSize, assignmentStatus, createId } = payload
-        await dispatch.project.update({
+        const { page, pageSize, assignmentStatus } = payload
+        dispatch.project.update({
           filter: { page, pageSize },
         })
+        let splicingConditionsDtos = []
+        if (assignmentStatus !== '') {
+          splicingConditionsDtos = [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: assignmentStatus,
+            },
+          ]
+        }
+
         await dispatch.project.getList({
-          assignmentStatus: assignmentStatus,
-          createId,
+          page,
+          pageSize,
+          assignmentStatus,
+          splicingConditionsDtos,
         })
       },
 
