@@ -10,14 +10,16 @@ const NEWMDEditor = (props) => {
   }, [mdref])
 
   return (
-    <MDEditor
-      // {...props}
-      ref={mdref}
-      value={props.value}
-      onChange={(value) => props.onChange(value)}
-      style={{ flex: 1 }}
-      preview={props?.preview || 'edit'}
-    />
+    <div data-color-mode="light">
+      <MDEditor
+        // {...props}
+        ref={mdref}
+        value={props.value}
+        onChange={(value) => props.onChange(value)}
+        style={{ flex: 1 }}
+        preview={props?.preview || 'edit'}
+      />
+    </div>
   )
 }
 
