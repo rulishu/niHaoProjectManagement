@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Card, Tabs, List } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -9,6 +9,7 @@ export default function SlelectLabel() {
   const {
     workbench: { taskId, memberList },
   } = useSelector((state) => state)
+  const [tab, setTab] = useState(1)
 
   useEffect(() => {
     dispatch({
@@ -23,24 +24,32 @@ export default function SlelectLabel() {
       payload: taskId,
     })
   }, [taskId, dispatch])
-  const table = useTable('https://randomuser.me/api', {
+  const token = localStorage.getItem('token')
+  const table = useTable('api/workbench/selectProjectPage', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
+      console.log('data?.data?.list,', data?.data?.list)
       return {
-        total: 100,
-        data: data.results,
+        total: data?.data?.total,
+        data: data?.data?.list,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
-        results: pageSize,
+        pageSize: pageSize,
+        assignmentStatus: tab !== 5 ? tab : '',
+        createId: tab === 5 ? 1 : '',
         ...searchValues,
       }
     },
-    requestOptions: { method: 'GET' },
+    requestOptions: {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
+    },
   })
+  console.log('tab', tab)
 
   return (
     <div>
@@ -53,63 +62,59 @@ export default function SlelectLabel() {
                 activeKey="1"
                 style={{ marginBottom: 0 }}
                 onTabClick={(tab, key, e) => {
-                  console.log('=>', key, tab)
+                  setTab(tab)
                 }}>
                 <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
                 <Tabs.Pane
                   sequence="fadeIn up"
                   label="已逾期"
-                  key="3"></Tabs.Pane>
-                <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
+                  key="4"></Tabs.Pane>
+                <Tabs.Pane label="我创建的" key="5"></Tabs.Pane>
               </Tabs>
-              <ProTable
-                paginationProps={{
-                  pageSizeOptions: [10, 20, 30],
-                  pageSize: 10,
-                }}
-                table={table}
-                columns={[
-                  {
-                    title: '项目',
-                    key: 'name',
-                    render: (text) => {
-                      return (
-                        <div>
-                          {text.title}.{text.first}
-                          {text.last}
-                        </div>
-                      )
+              <div
+                style={{
+                  height: 355,
+                  overflowX: 'hidden',
+                  overflowY: 'auto',
+                }}>
+                <ProTable
+                  table={table}
+                  columns={[
+                    {
+                      title: '任务ID',
+                      key: 'assignmentId',
                     },
-                  },
-                  {
-                    title: '任务名称',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
+                    {
+                      title: '项目',
+                      key: 'name',
                     },
-                  },
-                  {
-                    title: '任务状态',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
+                    {
+                      title: '任务状态',
+                      key: 'assignmentStatus',
+                      render: (text) => {
+                        if (text === 1) {
+                          return <div>未开始</div>
+                        } else if (text === 2) {
+                          return <div>进行中</div>
+                        } else if (text === 3) {
+                          return <div>已完成</div>
+                        } else if (text === 4) {
+                          return <div>已逾期</div>
+                        }
+                      },
                     },
-                  },
-                  {
-                    title: '创建人',
-                    key: 'phone',
-                  },
-                  {
-                    title: '任务状态',
-                    key: 'gender',
-                  },
-                  {
-                    title: '截止时间',
-                    key: 'gender1',
-                  },
-                ]}
-              />
+                    {
+                      title: '创建人',
+                      key: 'createName',
+                    },
+                    {
+                      title: '截止时间',
+                      key: 'dueDate',
+                    },
+                  ]}
+                />
+              </div>
             </Card>
           </Col>
           <Col fixed style={{ width: '25%' }}>
