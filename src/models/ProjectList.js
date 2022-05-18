@@ -47,9 +47,9 @@ const projectlist = createModel()({
     async deleteProject(payload) {
       const data = await deleteProject(payload)
       if (data && data.code === 200) {
-        Notify.success({ title: data.message })
+        Notify.success({ title: data.data })
       } else {
-        Notify.error({ title: data.message })
+        Notify.error({ title: data.data })
       }
     },
   }),
