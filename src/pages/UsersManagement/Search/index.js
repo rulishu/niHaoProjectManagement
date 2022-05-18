@@ -30,7 +30,7 @@ const Search = () => {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data?.rows || [{ code: '1' }],
+        data: data?.data?.rows || [],
       }
     },
   })
@@ -40,12 +40,6 @@ const Search = () => {
       tableType: type,
     })
     if (type === 'member' || type === 'group') {
-      updateData({
-        drawerVisible: true,
-        queryInfo: {},
-      })
-    }
-    if (type === 'add') {
       updateData({
         drawerVisible: true,
         queryInfo: {},
@@ -102,16 +96,6 @@ const Search = () => {
       </div>
 
       <ProTable
-        operateButtons={[
-          {
-            label: '添加成员',
-            type: 'primary',
-            icon: 'user-add',
-            onClick: () => {
-              handleEditTable('add', {})
-            },
-          },
-        ]}
         paginationProps={{
           pageSizeOptions: [10, 20, 30],
           pageSize: 10,

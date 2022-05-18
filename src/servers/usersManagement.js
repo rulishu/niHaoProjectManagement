@@ -1,10 +1,10 @@
 import { request } from '@uiw-admin/utils'
 
-function selectById(params) {
-  return request('/api/demo/selectById', {
+function addProjectMember(params) {
+  return request('/api/projectMember/addProjectMember', {
     method: 'POST',
     body: { ...params },
   })
 }
 
-export { selectById }
+export { addProjectMember }
