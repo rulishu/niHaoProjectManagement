@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { Icon, Loader, Overlay, Tabs, Button } from 'uiw'
+import { Icon, Loader, Overlay, Tabs } from 'uiw'
 import Head from './Head'
 import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
@@ -8,7 +8,7 @@ import PopupBox from './PopupBox' // 操作弹窗
 import styles from './index.module.less'
 const Users = (props) => {
   const { dispatch, state, update } = props
-  const { dataList, page, pages, pageSize, memberAvatarArr } = state.allusers
+  const { dataList, page, pageSize, memberAvatarArr } = state.allusers
   const [type, setType] = useState()
   const [isOverlay, setIsOverlay] = useState(false)
   const [userList, setUserList] = useState(dataList)
@@ -17,6 +17,7 @@ const Users = (props) => {
     dispatch.allusers?.queryByPage()
     dispatch.dictionary?.getQueryAll({ dictTypeCode: 'position', dictSort: 2 })
     dispatch.rolemanagement?.getAllRoleList()
+    dispatch.rolemanagement?.getAllDepartment()
   }, [dispatch])
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const Users = (props) => {
     getItemList()
     if (userList.length < (page - 1) * pageSize + userList.length) {
       const allUserList = sessionStorage.getItem('allUserList')
-      setUserList(JSON.parse(allUserList))
+      setUserList(allUserList)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -46,12 +47,12 @@ const Users = (props) => {
       setType(2)
       setIsOverlay(true)
       await update({ baseDetail: { ...value }, cUser: value })
-      await dispatch.allusers.queryById(value.id)
+      await dispatch.allusers.queryById(value.userId)
     } else if (type === 1) {
       setType(1)
       setIsOverlay(true)
       await update({ baseDetail: { ...value }, cUser: value })
-      await dispatch.allusers.queryById(value.id)
+      await dispatch.allusers.queryById(value.userId)
     } else {
       setType('delete')
       await dispatch.allusers.deleteById(value)
@@ -64,23 +65,23 @@ const Users = (props) => {
   }
 
   // 获取更多按钮的回调
-  const forMoreUsers = async () => {
-    await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
-  }
+  // const forMoreUsers = async () => {
+  //   await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
+  // }
 
   // 加载更多成员回调函数
-  const queryCallback = (data) => {
-    sessionStorage.setItem(
-      'allUserList',
-      JSON.stringify([...userList, ...data])
-    )
-    setUserList([...userList, ...data])
-  }
+  // const queryCallback = (data) => {
+  //   sessionStorage.setItem(
+  //     'allUserList',
+  //     JSON.stringify([...userList, ...data])
+  //   )
+  //   setUserList([...userList, ...data])
+  // }
 
   return (
     <div className={styles.userWrap}>
       <Tabs type="line" activeKey="1">
-        <Tabs.Pane label="成员信息" key="1">
+        <Tabs.Pane label="用户信息" key="1">
           <div>
             <Head
               setVisible={setIsOverlay}
@@ -107,7 +108,7 @@ const Users = (props) => {
                       style={{ verticalAlign: 'text-top', fontSize: '16px' }}
                     />
                   }>
-                  <>
+                  {/* <>
                     {pages > page ? (
                       <Button onClick={() => forMoreUsers()}>
                         ↓↓↓ 加载更多...↓↓↓
@@ -115,7 +116,7 @@ const Users = (props) => {
                     ) : (
                       <span className={styles.prompt}>没有更多了！！！</span>
                     )}
-                  </>
+                  </> */}
                 </Loader>
               </div>
             </div>

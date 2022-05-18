@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core'
-import { getAdd, getDelete, getEdit } from '@/servers/postManagement'
+import { getAdd, getDelete, getEdit, getList } from '@/servers/postManagement'
 
 const postManagement = createModel()({
   name: 'postManagement',
@@ -22,6 +22,18 @@ const postManagement = createModel()({
     async getAdd(payload, postManagement) {
       const dph = dispatch
       const data = await getAdd(payload)
+      if (data.code === 200) {
+        dph.postManagement.updateState({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        postManagement.postManagement.tablePro.onSearch()
+      }
+    },
+    // 新增
+    async getList(payload, postManagement) {
+      const dph = dispatch
+      const data = await getList(payload)
       if (data.code === 200) {
         dph.postManagement.updateState({
           drawerVisible: false,

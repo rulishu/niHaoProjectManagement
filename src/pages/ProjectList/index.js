@@ -6,6 +6,7 @@ import { Container } from '@/components'
 import styles from './index.module.less'
 import timeDistance from '@/utils/timeDistance'
 import EditDrop from './EditDrop.jsx'
+import ProjectManagement from '@/components/ProjectManagement/index'
 import './index.css'
 
 const ProjectList = (props) => {
@@ -186,7 +187,7 @@ const ProjectList = (props) => {
               type="primary"
               size="large"
               onClick={() => {
-                dispatch.global.updataProject({ drawerType: 'add' })
+                dispatch.projectUpdate.updataProject({ drawerType: 'add' })
               }}>
               新建项目
             </Button>
@@ -204,9 +205,9 @@ const ProjectList = (props) => {
                   } else if (tab === '2') {
                     setProjectStatus(1)
                   } else if (tab === '3') {
-                    setProjectStatus(3)
-                  } else if (tab === '4') {
                     setProjectStatus(2)
+                  } else if (tab === '4') {
+                    setProjectStatus(3)
                   }
                   table.onSearch()
                 }}>
@@ -434,6 +435,7 @@ const ProjectList = (props) => {
             />
           </div>
         </div>
+        <ProjectManagement fun={table.onSearch}></ProjectManagement>
       </Container>
     </div>
   )
