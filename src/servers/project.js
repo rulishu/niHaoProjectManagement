@@ -1,4 +1,4 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
 /**
  * 查询任务列表数据
