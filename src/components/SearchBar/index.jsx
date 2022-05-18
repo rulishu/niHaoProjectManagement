@@ -27,7 +27,6 @@ const SearchBar = (props) => {
   const [selectValue, setSelectValue] = useState('1')
 
   const ref = useRef()
-  console.log('ref: ', ref.current)
   const isBundle = useRef(false)
 
   useEffect(() => {

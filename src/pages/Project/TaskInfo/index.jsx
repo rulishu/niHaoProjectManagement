@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from 'react'
-import { Button, Input, Steps, Loader, Form, Row, Col, Icon } from 'uiw'
+import { useState, useEffect } from 'react'
+import { Button, Input, Steps, Loader, Icon } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
-import FileInputList from './FileInputList'
 import EditTask from './EditTask'
-import { NEWMDEditor } from '@/components'
+// import { NEWMDEditor } from '@/components'
+import FromMD from './fromMD'
 
 const TaskInfo = (props) => {
   const dispatch = useDispatch()
@@ -15,16 +15,13 @@ const TaskInfo = (props) => {
     home: { taskId },
     project: { issueType, editFromData, taskInfoData },
     allusers: { uuid },
-    loading,
+    // loading,
   } = useSelector((state) => state)
-  const form = useRef()
-  const commentForm = useRef()
+  // const commentForm = useRef()
 
   const [isTitleErr, serIsTitleErr] = useState(false)
-  const [imgUrl, setImgUrl] = useState()
 
   const { projectId, id, companyId } = props?.router?.params
-  const isFileId = !!editFromData?.fileId?.filter((item) => item)?.length
   useEffect(() => {
     if (sessionStorage.getItem('id') === null) {
       sessionStorage.setItem('id', projectId)
@@ -42,10 +39,6 @@ const TaskInfo = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setImgUrl(isFileId && `/api/file/selectFile/${editFromData?.fileId[0]}`)
-  }, [isFileId, editFromData?.fileId])
-
   const updateData = (payload) => {
     dispatch({
       type: 'project/update',
@@ -53,57 +46,57 @@ const TaskInfo = (props) => {
     })
   }
 
-  useEffect(() => {
-    document.addEventListener('paste', pasteDataEvent)
-    return () => {
-      document.removeEventListener('paste', pasteDataEvent)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   document.addEventListener('paste', pasteDataEvent)
+  //   return () => {
+  //     document.removeEventListener('paste', pasteDataEvent)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-  const pasteDataEvent = (event) => {
-    // event.preventDefault();
-    if (event.clipboardData || event.originalEvent) {
-      let clipboardData =
-        event.clipboardData || event.originalEvent.clipboardData
-      if (clipboardData.items) {
-        let items = clipboardData.items,
-          len = items.length,
-          blob = null
-        for (let i = 0; i < len; i++) {
-          let item = clipboardData.items[i]
-          if (item.kind === 'string') {
-            // item.getAsString(function (str) {
-            //   console.log('string', str);
-            // })
-          } else if (item.kind === 'file') {
-            blob = item.getAsFile()
-            addImg(blob)
-          }
-        }
-      }
-    }
-  }
+  // const pasteDataEvent = (event) => {
+  //   // event.preventDefault();
+  //   if (event.clipboardData || event.originalEvent) {
+  //     let clipboardData =
+  //       event.clipboardData || event.originalEvent.clipboardData
+  //     if (clipboardData.items) {
+  //       let items = clipboardData.items,
+  //         len = items.length,
+  //         blob = null
+  //       for (let i = 0; i < len; i++) {
+  //         let item = clipboardData.items[i]
+  //         if (item.kind === 'string') {
+  //           // item.getAsString(function (str) {
+  //           //   console.log('string', str);
+  //           // })
+  //         } else if (item.kind === 'file') {
+  //           blob = item.getAsFile()
+  //           addImg(blob)
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
-  const addImg = (event) => {
-    const file = event
-    if (!file) return
-    dispatch({
-      type: 'allusers/upLoadImg',
-      payload: {
-        file: file,
-      },
-    }).then((res) => {
-      if (res && res.code === 200) {
-        const fieldValues = form.current.getFieldValues()
-        form.current.setFieldValue(
-          'description',
-          fieldValues.description +
-            `![image](/api/file/selectFile/${res?.data})`
-        )
-      }
-    })
-  }
+  // const addImg = (event) => {
+  //   const file = event
+  //   if (!file) return
+  //   dispatch({
+  //     type: 'allusers/upLoadImg',
+  //     payload: {
+  //       file: file,
+  //     },
+  //   }).then((res) => {
+  //     if (res && res.code === 200) {
+  //       const fieldValues = form.current.getFieldValues()
+  //       form.current.setFieldValue(
+  //         'description',
+  //         fieldValues.description +
+  //         `![image](/api/file/selectFile/${res?.data})`
+  //       )
+  //     }
+  //   })
+  // }
   const goEditIssue = (type) => {
     updateData({ issueType: type })
   }
@@ -158,10 +151,11 @@ const TaskInfo = (props) => {
         tip="加载中..."
         vertical
         style={{ width: '100%' }}
-        loading={
-          loading.effects.project.getSelectById ||
-          loading.effects.project.getEdit
-        }>
+        // loading={
+        //   loading.effects.project.getSelectById ||
+        //   loading.effects.project.getEdit
+        // }
+      >
         <div>
           <div className={styles.wrapTask}>
             <div className={styles.leftNav}>
@@ -228,65 +222,69 @@ const TaskInfo = (props) => {
                 </div>
               </div>
               {issueType === 'edit' ? (
-                <Form
-                  ref={form}
-                  onChange={({ current }) => {
-                    updateData({
-                      editFromData: {
-                        ...editFromData,
-                        ...current,
-                      },
-                    })
-                  }}
-                  onSubmit={(item) => {
-                    updateData({
-                      editFromData: {
-                        ...editFromData,
-                        ...item,
-                      },
-                    })
-                    goSaveIssue()
-                  }}
-                  onSubmitError={(error) => {
-                    if (error.filed) {
-                      return { ...error.filed }
-                    }
-                    return null
-                  }}
-                  fields={{
-                    description: {
-                      inline: true,
-                      initialValue: editFromData.description,
-                      children: <NEWMDEditor />,
-                    },
-                  }}>
-                  {({ fields }) => {
-                    return (
-                      <div>
-                        <div className="from">
-                          <Row align="top" className="fromItem">
-                            <Col>{fields.description}</Col>
-                          </Row>
-                        </div>
-                        <Row align="middle" className="fromButton">
-                          <Col>
-                            {!imgUrl && <FileInputList imgUrl={imgUrl} />}
-                            {imgUrl && <FileInputList imgUrl={imgUrl} />}
-                            <div className={styles.btnWrap}>
-                              {!issueType ||
-                              editFromData === taskInfoData ? null : (
-                                <Button type="primary" htmlType="submit">
-                                  保存编辑
-                                </Button>
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
-                      </div>
-                    )
-                  }}
-                </Form>
+                <FromMD
+                  upDate={updateData}
+                  submit={goSaveIssue}
+                  editData={editFromData}
+                  infoData={taskInfoData}
+                />
               ) : (
+                // <Form
+                //   ref={form}
+                //   onChange={({ current }) => {
+                //     updateData({
+                //       editFromData: {
+                //         ...editFromData,
+                //         ...current,
+                //       },
+                //     })
+                //   }}
+                //   onSubmit={(item) => {
+                //     updateData({
+                //       editFromData: {
+                //         ...editFromData,
+                //         ...item,
+                //       },
+                //     })
+                //     goSaveIssue()
+                //   }}
+                //   onSubmitError={(error) => {
+                //     if (error.filed) {
+                //       return { ...error.filed }
+                //     }
+                //     return null
+                //   }}
+                //   fields={{
+                //     description: {
+                //       inline: true,
+                //       initialValue: editFromData.description,
+                //       children: <NEWMDEditor />,
+                //     },
+                //   }}>
+                //   {({ fields }) => {
+                //     return (
+                //       <div>
+                //         <div className="from">
+                //           <Row align="top" className="fromItem">
+                //             <Col>{fields.description}</Col>
+                //           </Row>
+                //         </div>
+                //         <Row align="middle" className="fromButton">
+                //           <Col>
+                //             <div className={styles.btnWrap}>
+                //               {!issueType ||
+                //                 editFromData === taskInfoData ? null : (
+                //                 <Button type="primary" htmlType="submit">
+                //                   保存编辑
+                //                 </Button>
+                //               )}
+                //             </div>
+                //           </Col>
+                //         </Row>
+                //       </div>
+                //     )
+                //   }}
+                // </Form>
                 <div>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
@@ -319,71 +317,15 @@ const TaskInfo = (props) => {
                         ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
                         item.type === 3 ? (
                           <Steps.Step
-                            description=""
-                            title={
-                              <Form
-                                style={{ flex: 1 }}
-                                ref={commentForm}
-                                onChange={({ current }) => {
-                                  updateData({
-                                    editFromData: {
-                                      ...editFromData,
-                                      ...current,
-                                    },
-                                  })
-                                }}
-                                onSubmit={(item) => {
-                                  updateData({
-                                    editFromData: {
-                                      ...editFromData,
-                                      ...item,
-                                    },
-                                  })
-                                  goSaveIssue()
-                                }}
-                                onSubmitError={(error) => {
-                                  if (error.filed) {
-                                    return { ...error.filed }
-                                  }
-                                  return null
-                                }}
-                                fields={{
-                                  commentDescription: {
-                                    inline: true,
-                                    initialValue:
-                                      editFromData.commentDescription,
-                                    children: <NEWMDEditor preview="preview" />,
-                                  },
-                                }}>
-                                {({ fields }) => {
-                                  return (
-                                    <div>
-                                      <div className="from">
-                                        <Row align="top" className="fromItem">
-                                          <Col>{fields.commentDescription}</Col>
-                                        </Row>
-                                      </div>
-                                      <Row
-                                        align="middle"
-                                        className="fromButton">
-                                        <Col>
-                                          <div className={styles.btnWrap}>
-                                            {editFromData ===
-                                            taskInfoData ? null : (
-                                              <Button
-                                                type="primary"
-                                                htmlType="submit">
-                                                保存编辑
-                                              </Button>
-                                            )}
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </div>
-                                  )
-                                }}
-                              </Form>
+                            description={
+                              <FromMD
+                                upDate={updateData}
+                                submit={goSaveIssue}
+                                editData={editFromData}
+                                infoData={taskInfoData}
+                              />
                             }
+                            title="回复"
                             key={index}
                           />
                         ) : (
@@ -413,62 +355,12 @@ const TaskInfo = (props) => {
                     : null}
                 </Steps>
               </div>
-              <Form
-                style={{ flex: 1 }}
-                ref={commentForm}
-                onChange={({ current }) => {
-                  updateData({
-                    editFromData: {
-                      ...editFromData,
-                      ...current,
-                    },
-                  })
-                }}
-                onSubmit={(item) => {
-                  updateData({
-                    editFromData: {
-                      ...editFromData,
-                      ...item,
-                    },
-                  })
-                  goSaveIssue()
-                }}
-                onSubmitError={(error) => {
-                  if (error.filed) {
-                    return { ...error.filed }
-                  }
-                  return null
-                }}
-                fields={{
-                  commentDescription: {
-                    inline: true,
-                    initialValue: editFromData.commentDescription,
-                    children: <NEWMDEditor />,
-                  },
-                }}>
-                {({ fields }) => {
-                  return (
-                    <div>
-                      <div className="from">
-                        <Row align="top" className="fromItem">
-                          <Col>{fields.commentDescription}</Col>
-                        </Row>
-                      </div>
-                      <Row align="middle" className="fromButton">
-                        <Col>
-                          <div className={styles.btnWrap}>
-                            {editFromData === taskInfoData ? null : (
-                              <Button type="primary" htmlType="submit">
-                                保存编辑
-                              </Button>
-                            )}
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  )
-                }}
-              </Form>
+              <FromMD
+                upDate={updateData}
+                submit={goSaveIssue}
+                editData={editFromData}
+                infoData={taskInfoData}
+              />
             </div>
             <EditTask router={props.router} />
           </div>
