@@ -16,7 +16,7 @@ export default defaultConfig({
     app.use(
       '/api',
       createProxyMiddleware({
-        target: 'http://47.111.0.26:31656/', // 测试环境地址
+        target: 'http://192.168.188.222:33202', // 测试环境地址
         changeOrigin: true,
         // headers: {Authorization: 'Bearer ' + token},
       })

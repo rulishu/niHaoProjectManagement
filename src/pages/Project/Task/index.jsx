@@ -33,12 +33,15 @@ const tabsLabel = (title, num) => {
   )
 }
 
-const Task = () => {
+const Task = (props) => {
+  console.log('====================================')
+  console.log(props)
+  console.log('====================================')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const taskId = sessionStorage.getItem('id') || '1346'
+  const taskId = localStorage.getItem('projectId') || ''
 
   const {
     project: {
@@ -253,6 +256,7 @@ const Task = () => {
       ],
     })
   }
+  console.log('activeKey', activeKey)
 
   return (
     <div className={styles.wrap}>
@@ -265,7 +269,7 @@ const Task = () => {
           <div className={styles.nav}>
             {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
             <Button type="primary" onClick={() => goIssue()}>
-              新建问题
+              新建任务
             </Button>
             {/* </AuthBtn> */}
           </div>
@@ -281,7 +285,6 @@ const Task = () => {
               }
             />
           </div>
-
           <Tabs
             type="line"
             activeKey={activeKey}

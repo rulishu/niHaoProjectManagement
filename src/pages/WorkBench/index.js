@@ -17,6 +17,7 @@ import TodoList from './TodoList'
 import { Container } from '@/components'
 export default function Demo() {
   const dispatch = useDispatch()
+  // const navigate = useNavigate()
   const {
     workbench: { projectList },
   } = useSelector((state) => state)
@@ -55,6 +56,7 @@ export default function Demo() {
                         onClick={() => {
                           const totalData = e.totalWorkVo
                           const milesWorkVoList = e.milesWorkVoList?.at(0)
+                          console.log('e', e)
                           console.log('totalData', totalData)
                           console.log('milesWorkVoList', milesWorkVoList)
                           setProject({ ...e })
@@ -96,7 +98,11 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        window.location.href = '#/project/task/:id'
+                        window.location.href = `#/project/task/${projectData.projectId}`
+                        localStorage.setItem(
+                          'projectId',
+                          JSON.stringify(projectData?.projectId || '')
+                        )
                       }}>
                       查看全部
                     </Button>
