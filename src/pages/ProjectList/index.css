@@ -1,0 +1,35 @@
+/* 神奇的一匹，别动 */
+.projectListTabs div div .w-tabs-bar .w-tabs-nav .w-tabs-item {
+    padding: 16px 15px 11px;
+    font-size: 14px;
+    line-height: 28px;
+    border: 0;
+    white-space: nowrap;
+}
+
+.projectListTabs div div .w-tabs-bar .w-tabs-nav .active {
+    color: #000;
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 0 #008ef0;
+}
+
+.projectListTabs div div .w-tabs-bar .w-tabs-nav .w-tabs-slide {
+    display: none;
+}
+
+.proProTable table tbody,
+.proProTable table tbody tr,
+.proProTable table tbody tr td,
+.proProTable table tbody tr:hover td {
+    background: #fff !important;
+    background-color: #fff !important;
+}
+
+.proProTable table tbody tr td{
+    padding: 10px 0;
+}
+
+.proProTable table thead,
+.proProTable+.w-table-footer {
+    display: none;
+}
