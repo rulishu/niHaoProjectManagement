@@ -105,8 +105,8 @@ const ProjectList = (props) => {
     },
   ]
 
-  // const table = useTable('/api/project/selectOneInfo', {
-  const table = useTable('https://randomuser.me/api', {
+  const table = useTable('/api/project/selectOneInfo', {
+    // const table = useTable('https://randomuser.me/api', {
     formatData: (data) => {
       if (data?.data) {
         return {
