@@ -45,7 +45,7 @@ const NewUser = (props) => {
           if (props?.type === 'edit') {
             const param = {
               ...current,
-              id: baseDetail?.id,
+              userId: baseDetail?.userId,
               userPosition: current?.userPosition ? current?.userPosition : ' ',
             }
             await dispatch.editNewUser(param)

@@ -13,7 +13,7 @@ export default function Index() {
     postManagement: { alertShow, ids },
   } = useSelector((state) => state)
 
-  const table = useTable('/api/system/post/optionselect', {
+  const table = useTable('/api/system/post/list', {
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
@@ -26,7 +26,7 @@ export default function Index() {
     formatData: (data) => {
       return {
         total: data?.data?.total || 0,
-        data: data?.data || [],
+        data: data?.rows || [],
       }
     },
     requestOptions: {
@@ -75,7 +75,7 @@ export default function Index() {
           dispatch({
             type: 'postManagement/getDelete',
             payload: {
-              postIds: ids,
+              id: ids,
             },
           })
         }}></Alert>
@@ -183,7 +183,7 @@ export default function Index() {
             render: (_, record, data) =>
               operateFun({
                 onEvenEdit: () => onOpenEdit(data),
-                onEvenDelete: () => onOpenDelete(data.id),
+                onEvenDelete: () => onOpenDelete(data.postId),
               }),
           },
         ]}
