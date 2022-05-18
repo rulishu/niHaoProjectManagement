@@ -1,6 +1,5 @@
 import { request } from '@uiw-admin/utils'
 
-const token = localStorage.getItem('token')
 /**
  * 查询用户列表数据
  * @page
@@ -8,6 +7,7 @@ const token = localStorage.getItem('token')
  *
  */
 export const queryByPage = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/system/user/list', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
@@ -17,6 +17,7 @@ export const queryByPage = (params) => {
 
 // 新增用户列表数据
 export const addNewUser = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/system/user/add', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
@@ -26,6 +27,7 @@ export const addNewUser = (params) => {
 
 // 根据id删除用户
 export const deleteById = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/system/user/remove', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
@@ -35,6 +37,7 @@ export const deleteById = (params) => {
 
 // 修改用户
 export const editNewUser = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/system/user/edit', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },

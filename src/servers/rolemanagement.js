@@ -1,6 +1,6 @@
-import { request } from '@uiw-admin/utils'
+// import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
-const token = localStorage.getItem('token')
 /**
  * 角色新增
  * @param {Object} params
@@ -8,7 +8,6 @@ const token = localStorage.getItem('token')
 export function getAdd(params) {
   return request('/api/system/role/add', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -19,7 +18,6 @@ export function getAdd(params) {
 export function getDelete(params) {
   return request('/api/system/role/remove', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -30,7 +28,6 @@ export function getDelete(params) {
 export function getEdit(params) {
   return request('/api/system/role/edit', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -41,7 +38,6 @@ export function getEdit(params) {
 export function getAllDepartment(params) {
   return request('/api/system/dept/list', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -52,7 +48,6 @@ export function getAllDepartment(params) {
 export function getInfo(params) {
   return request('/api/system/role/getInfo', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -63,7 +58,6 @@ export function getInfo(params) {
 export function getTreeSelect(params) {
   return request('/api/system/menu/treeselect', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -74,7 +68,6 @@ export function getTreeSelect(params) {
 export function roleMenuTreeselect(params) {
   return request(`/api/system/menu/roleMenuTreeselect/${params}`, {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -85,7 +78,6 @@ export function roleMenuTreeselect(params) {
 export const changeStatus = (params) => {
   return request('/api/system/role/changeStatus', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
@@ -127,7 +119,6 @@ export const upDateStatusRole = (params) => {
 // 获取所有的角色列表
 export const getAllRoleList = (params) => {
   return request('/api/system/role/list', {
-    headers: { Authorization: 'Bearer ' + token },
     method: 'POST',
     body: params,
   })

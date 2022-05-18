@@ -1,11 +1,9 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
-const token = localStorage.getItem('token')
 //查询
 function getList(params) {
   return request('/api/system/dept/list', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     // requestType: "urlencoded",
     body: { ...params },
   })
@@ -14,7 +12,6 @@ function getList(params) {
 function getAdd(params) {
   return request('/api/system/dept/add', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -23,7 +20,6 @@ function getDelete(params) {
   return request('/api/dept/remove', {
     method: 'POST',
     requestType: 'urlencoded',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -32,7 +28,6 @@ function judge(params) {
   return request('/api/dept/judgeSubset', {
     method: 'POST',
     requestType: 'urlencoded',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -41,7 +36,6 @@ function judge(params) {
 function getInfoData(params) {
   return request('/api/system/dept/list/exclude', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -49,7 +43,6 @@ function getInfoData(params) {
 function getEdit(params) {
   return request('/api/system/dept/edit', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }

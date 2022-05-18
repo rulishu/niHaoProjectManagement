@@ -6,8 +6,9 @@ import Drawer from './Drawer'
 import { searchFun } from '@/utils/publicFun'
 import operateFun from '@/components/Operate'
 
-const token = localStorage.getItem('token')
 export default function Index() {
+  const token = localStorage.getItem('token')
+
   const dispatch = useDispatch()
   const {
     postManagement: { alertShow, ids },
