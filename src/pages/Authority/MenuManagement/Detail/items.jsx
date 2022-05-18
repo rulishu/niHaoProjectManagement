@@ -1,4 +1,40 @@
-export const items = (queryInfo) => [
+export const items = (queryInfo, datsSource, handleSearch) => [
+  {
+    label: '上级菜单',
+    key: 'parentId',
+    widget: 'searchTree',
+    span: '24',
+    readSpan: 3,
+    widgetProps: {
+      allowClear: true,
+      onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
+      onChange: handleSearch.bind(this, 'searchTree'),
+      // (selectedAll, selectd, isChecked)=>{
+      //   console.log('onChange',selectedAll, selectd, isChecked)
+      // }
+    },
+    initialValue: [{ key: queryInfo.parentId, label: '主类目' }] || [
+      { key: 0, label: '主类目', children: [] },
+    ],
+    multiple: false,
+    option: datsSource,
+  },
+  {
+    label: '菜单类型',
+    key: 'menuType',
+    widget: 'select',
+    initialValue: queryInfo?.menuType,
+    required: true,
+    rules: [{ required: true, message: '请选择用例类型' }],
+    help: '必填，选中为按钮，将不会显示在导航菜单上。用于菜单选中项渲染判断',
+    widgetProps: {},
+    span: '24',
+    option: [
+      { value: 'M', label: '目录' },
+      { value: 'C', label: '菜单' },
+      { value: 'F', label: '按钮' },
+    ],
+  },
   {
     label: '菜单名称',
     key: 'menuName',
@@ -33,22 +69,7 @@ export const items = (queryInfo) => [
     help: '必填，请填写路由地址（如：/Authority/MenuManagement，对应的文件位于：pages/Authority/MenuManagement/）',
     span: '24',
   },
-  {
-    label: '菜单类型',
-    key: 'menuType',
-    widget: 'select',
-    initialValue: queryInfo?.menuType,
-    required: true,
-    rules: [{ required: true, message: '请选择用例类型' }],
-    help: '必填，选中为按钮，将不会显示在导航菜单上。用于菜单选中项渲染判断',
-    widgetProps: {},
-    span: '24',
-    option: [
-      { value: 1, label: '目录' },
-      { value: 2, label: '菜单' },
-      { value: 3, label: '按钮' },
-    ],
-  },
+
   {
     label: '排序',
     key: 'orderNum',
