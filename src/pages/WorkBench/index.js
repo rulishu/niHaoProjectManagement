@@ -18,7 +18,7 @@ import { Container } from '@/components'
 export default function Demo() {
   const dispatch = useDispatch()
   const {
-    workbench: { taskId, projectList },
+    workbench: { projectList },
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
@@ -27,9 +27,9 @@ export default function Demo() {
   useEffect(() => {
     dispatch({
       type: 'workbench/myProject',
-      // payload: { record: taskId },
     })
-  }, [taskId, dispatch])
+  }, [dispatch])
+
   function randomColor() {
     return (
       '#' +

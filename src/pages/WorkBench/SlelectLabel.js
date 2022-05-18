@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
 
-export default function Home() {
+export default function SlelectLabel() {
   const dispatch = useDispatch()
   const {
     home: { taskId },
@@ -61,7 +61,6 @@ export default function Home() {
                 <Tabs.Pane label="我创建的" key="4"></Tabs.Pane>
               </Tabs>
               <ProTable
-                style={{ width: 900 }}
                 paginationProps={{
                   pageSizeOptions: [10, 20, 30],
                   pageSize: 10,
@@ -105,10 +104,6 @@ export default function Home() {
                   {
                     title: '截止时间',
                     key: 'gender1',
-                  },
-                  {
-                    title: '创建时间',
-                    key: 'gender2',
                   },
                 ]}
               />
