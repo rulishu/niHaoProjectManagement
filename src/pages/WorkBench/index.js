@@ -10,6 +10,7 @@ import {
   Descriptions,
 } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
@@ -17,7 +18,7 @@ import TodoList from './TodoList'
 import { Container } from '@/components'
 export default function Demo() {
   const dispatch = useDispatch()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const {
     workbench: { projectList },
   } = useSelector((state) => state)
@@ -182,28 +183,22 @@ export default function Demo() {
           <Col fixed style={{ width: '25%' }}>
             <Card title="里程碑" bordered={false} style={{ height: 400 }}>
               <div className={styles.newDynamic}>
-                {/* <Steps
-                  direction="vertical"
-                  progressDot
-                  status="error"
-                  current={2}
-                  style={{ padding: '20px 0' }}>
-                  <Steps.Step
-                    title="里程碑名称"
-                    description={milepost?.milestonesTitle}
-                  />
-                  <Steps.Step
-                    title="结束时间"
-                    description={milepost?.dueTime}
-                  />
-                  <Steps.Step
-                    title="结束进度"
-                    description={milepost?.rate}
-                  />
-                </Steps> */}
                 <Descriptions layout="vertical">
                   <Descriptions.Item label="里程碑名称">
-                    {milepost?.milestonesTitle}
+                    <span
+                      onClick={() => {
+                        navigate(
+                          `/milestone/milestoneInfo/${projectData.projectId}/${milepost.milestonesId}`,
+                          {
+                            state: {
+                              projectId: projectData.projectId,
+                              milestonesId: milepost.milestonesId,
+                            },
+                          }
+                        )
+                      }}>
+                      {milepost?.milestonesTitle}
+                    </span>
                   </Descriptions.Item>
                   <Descriptions.Item label="结束时间">
                     {milepost?.dueTime}
