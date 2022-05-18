@@ -5,9 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import AllTasks from './AllTasks'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
+import useLocationPage from '@/hooks/useLocationPage'
 
 export default function Home() {
   const dispatch = useDispatch()
+  useLocationPage()
   const { projectId } = useParams()
 
   const {
