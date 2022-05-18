@@ -41,9 +41,10 @@ const Task = (props) => {
   const dispatch = useDispatch()
   const location = useLocation()
   const params = useParams()
+
   // 处理带id的路由
   useLocationPage()
-  const taskId = params.projectId || ''
+  const taskId = params.id || ''
 
   const {
     project: {

@@ -30,3 +30,19 @@ const timeDistance = (beforeTime, afterTime = new Date()) => {
 }
 
 export default timeDistance
+
+// 时间转化
+export function changeTimeFormat(str) {
+  if (!(str instanceof Date)) return str
+  const clock = (str + '').split(' ')[4]
+  if ((str + '').indexOf('-') !== -1) {
+    str = str.replace(new RegExp(/-/gm), '/')
+  }
+  const d = new Date(str)
+  const newDateYear = d.getFullYear()
+  const newDateMonth =
+    d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1
+  const newDateDay =
+    d.getDate() < 10 ? '0' + d.getDate() + '' : d.getDate() + ''
+  return newDateYear + '-' + newDateMonth + '-' + newDateDay + ' ' + clock
+}

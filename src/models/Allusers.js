@@ -87,13 +87,10 @@ const allusers = createModel()({
         //   })
         //   .filter((s) => s)
         await dispatch.allusers.update({
-          dataList: data?.data.list || [],
-          total: data?.data.total,
-          page: data?.data.pageNum || page,
-          pages: data?.data.pages,
-          pageSize: data?.data.pageSize || pageSize,
+          dataList: data?.rows || [],
+          total: data?.total,
         })
-        ;(await callback) && callback(data?.data.list)
+        ;(await callback) && callback(data?.rows)
       }
     },
     // 获取多个
@@ -109,10 +106,12 @@ const allusers = createModel()({
       if (data && data.code === 200) {
         await callback()
         NotifySuccess(data.message)
+      } else {
+        Notify.error({ title: '错误通知', description: data?.message || '' })
       }
     },
     async deleteById(params, { allusers }) {
-      const data = await deleteById(params)
+      const data = await deleteById({ ids: [params] })
       const { pageSize, page } = allusers
       if (data && data.code === 200) {
         dispatch.allusers.update({ page: 1 })

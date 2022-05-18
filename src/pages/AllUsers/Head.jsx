@@ -1,15 +1,15 @@
-import { Form, Input, Row, Col, Notify, Button, Select } from 'uiw'
+import { Form, Input, Row, Col, Notify, Button } from 'uiw' //, Select
 import { connect } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
-import { selectOption } from '@/utils/utils'
+// import { selectOption } from '@/utils/utils'
 import styles from './index.module.less'
 
 const Head = (props) => {
   const { update, state } = props
   const { UserList } = state.allusers
-  const newItem = state.dictionary.dictAllData.filter(
-    (item) => item.dictSort !== 1
-  )
+  // const newItem = state.dictionary.dictAllData.filter(
+  //   (item) => item.dictSort !== 1
+  // )
 
   const handleAdd = () => {
     props.setType(3)
@@ -24,7 +24,7 @@ const Head = (props) => {
           onSubmit={({ initial, current }) => {
             const errorObj = {}
             if (!current.username) {
-              errorObj.username = '用户名不能为空！'
+              errorObj.username = '帐号不能为空！'
             }
             if (!current.password) {
               errorObj.password = '密码不能为空！'
@@ -50,34 +50,34 @@ const Head = (props) => {
             return null
           }}
           fields={{
-            userAccount: {
-              children: <Input placeholder="请输入账号" />,
-            },
             userName: {
-              labelClassName: 'fieldLabel',
-              children: <Input placeholder="请输入姓名" />,
+              children: <Input placeholder="请输入帐号" />,
             },
-            userPosition: {
+            phonenumber: {
               labelClassName: 'fieldLabel',
-              children: (
-                <Select disabled={props?.type === 'view'}>
-                  <Select.Option value="">全部</Select.Option>
-                  {selectOption(newItem, 'dictCode', 'dictName').map((item) => (
-                    <Select.Option key={item.value} value={item.value}>
-                      {item.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              ),
+              children: <Input placeholder="请输入电话" />,
             },
+            // userPosition: {
+            //   labelClassName: 'fieldLabel',
+            //   children: (
+            //     <Select disabled={props?.type === 'view'}>
+            //       <Select.Option value="">全部</Select.Option>
+            //       {selectOption(newItem, 'dictCode', 'dictName').map((item) => (
+            //         <Select.Option key={item.value} value={item.value}>
+            //           {item.label}
+            //         </Select.Option>
+            //       ))}
+            //     </Select>
+            //   ),
+            // },
           }}>
           {({ fields, state, canSubmit, resetForm }) => {
             return (
               <div className={styles.rightForm}>
                 <Row gutter={10}>
-                  <Col fixed>{fields.userAccount}</Col>
                   <Col fixed>{fields.userName}</Col>
-                  <Col fixed>{fields.userPosition}</Col>
+                  <Col fixed>{fields.phonenumber}</Col>
+                  {/* <Col fixed>{fields.userPosition}</Col> */}
                   <Button
                     icon="search"
                     className="icon-btn"
@@ -108,7 +108,7 @@ const Head = (props) => {
             )
           }}
         </Form>
-        <AuthBtn path="/api/managerUser/add">
+        <AuthBtn path="/api/system/user/add">
           <Button
             icon="plus"
             className="icon-btn"

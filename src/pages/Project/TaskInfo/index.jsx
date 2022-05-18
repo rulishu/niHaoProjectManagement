@@ -13,7 +13,7 @@ const TaskInfo = (props) => {
   const dispatch = useDispatch()
   const {
     home: { taskId },
-    project: { issueType, editFromData, taskInfoData },
+    project: { issueType, editFromData, taskInfoData, commentData },
     allusers: { uuid },
     loading,
   } = useSelector((state) => state)
@@ -22,6 +22,13 @@ const TaskInfo = (props) => {
   const [isTitleErr, serIsTitleErr] = useState(false)
 
   const { projectId, id, companyId } = props?.router?.params
+  const updateData = (payload) => {
+    dispatch({
+      type: 'project/update',
+      payload,
+    })
+  }
+
   useEffect(() => {
     if (sessionStorage.getItem('id') === null) {
       sessionStorage.setItem('id', projectId)
@@ -36,15 +43,9 @@ const TaskInfo = (props) => {
       projectId: projectId || taskId,
     })
     dispatch.milestone.getListAll({ milestonesStatusList: [1, 2] })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
 
   // useEffect(() => {
   //   document.addEventListener('paste', pasteDataEvent)
@@ -145,8 +146,13 @@ const TaskInfo = (props) => {
       updateData({ issueType: '' })
     }
   }
-  console.log('editFromData', editFromData)
+  const addComment = () => {
+    dispatch.project.getAddComment()
+  }
+
   console.log('taskInfoData', taskInfoData)
+  console.log('commentData', commentData)
+
   return (
     <>
       <Loader
@@ -228,6 +234,7 @@ const TaskInfo = (props) => {
                   submit={goSaveIssue}
                   editData={editFromData}
                   infoData={taskInfoData}
+                  fromValue={'description'}
                 />
               ) : (
                 // <Form
@@ -360,9 +367,10 @@ const TaskInfo = (props) => {
               </div>
               <FromMD
                 upDate={updateData}
-                submit={goSaveIssue}
-                editData={editFromData}
-                infoData={taskInfoData}
+                submit={addComment}
+                editName="commentData"
+                editData={commentData}
+                fromValue="operatingRecords"
               />
             </div>
             <EditTask router={props.router} />

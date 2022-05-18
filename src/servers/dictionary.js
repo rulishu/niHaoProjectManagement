@@ -1,5 +1,6 @@
 import { request } from '@uiw-admin/utils'
 
+const token = localStorage.getItem('token')
 /**
  * 分页查询字典列表数据
  */
@@ -13,8 +14,9 @@ export function queryByPage(params) {
  * 分页查询字典列表数据
  */
 export function getQueryAll(params) {
-  return request('/api/dict/queryAll', {
+  return request('/api/system/post/list', {
     method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }

@@ -53,3 +53,10 @@ export const deleteAssignment = (params) => {
     body: params,
   })
 }
+//新增评论
+export const getAssignmentHistorySave = (params) => {
+  return request('/api/ManagerAssignmentHistory/assignmentHistorySave', {
+    method: 'POST',
+    body: params,
+  })
+}

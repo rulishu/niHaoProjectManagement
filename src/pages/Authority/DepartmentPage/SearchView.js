@@ -21,14 +21,15 @@ function SearchView() {
         }}
         fields={{
           deptName: {
-            label: '名称',
-            children: <Input placeholder="请输入姓名" />,
+            label: '部门名称',
+            children: <Input placeholder="请输入部门名称" />,
           },
-          tips: {
+          status: {
             label: '部门状态',
             children: (
               <Select>
-                <Select.Option value="w">正常</Select.Option>
+                <Select.Option value="">全部</Select.Option>
+                <Select.Option value="0">正常</Select.Option>
                 <Select.Option value="1">停用</Select.Option>
               </Select>
             ),
@@ -55,7 +56,7 @@ function SearchView() {
                   <Col style={{ maxWidth: 300 }}>{fields.deptName}</Col>
                 </Row>
                 <Row gutter={10} justify="flex-start">
-                  <Col style={{ maxWidth: 300 }}>{fields.tips}</Col>
+                  <Col style={{ maxWidth: 300 }}>{fields.status}</Col>
                 </Row>
               </div>
               <div

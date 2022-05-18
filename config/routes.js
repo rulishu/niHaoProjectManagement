@@ -128,11 +128,11 @@ const routes = [
       },
       {
         path: '/users/:projectId',
-        name: '成员管理',
+        name: '用户管理',
         component: '@/pages/AllUsers',
-        isAuth: false,
-        navigate:
-          "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('projectId')}`)}",
+        isAuth: true,
+        // navigate:
+        //   "(navigate) => {navigate(`/users/:projectId/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/team',

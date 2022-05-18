@@ -10,8 +10,8 @@ export const columnsSearch = (handleEditTable) => [
     title: '成员角色',
     key: 'memberRole',
     align: 'center',
-    render: (memberRole) => {
-      ;<div style={{ textAlign: 'center' }}>
+    render: (memberRole) => (
+      <div style={{ textAlign: 'center' }}>
         {memberRole === 0
           ? '开发'
           : memberRole === 1
@@ -20,7 +20,7 @@ export const columnsSearch = (handleEditTable) => [
           ? '项目管理者'
           : ''}
       </div>
-    },
+    ),
   },
   {
     title: '加入日期',

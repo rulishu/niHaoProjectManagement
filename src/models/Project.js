@@ -5,6 +5,7 @@ import {
   getManagerAssignmentSelectById,
   getmMnagerAssignmentSave,
   deleteAssignment,
+  getAssignmentHistorySave,
 } from '../servers/project'
 import { Notify } from 'uiw'
 
@@ -50,6 +51,7 @@ export default createModel()({
       labels: [],
       fileId: [],
     },
+    commentData: {},
   },
   effects: (dispatch) => {
     return {
@@ -143,6 +145,11 @@ export default createModel()({
           dispatch.project.update({
             taskInfoData: data?.data || {},
             editFromData: data?.data || {},
+            commentData: {
+              type: 2,
+              assignmentId: data?.data?.assignmentId,
+              projectId: data?.data?.projectId,
+            },
           })
         }
       },
@@ -172,6 +179,19 @@ export default createModel()({
       async deleteAssignment(params) {
         const data = await deleteAssignment(params)
         return data
+      },
+      // 添加评论
+      async getAddComment(params, { project }) {
+        const data = await getAssignmentHistorySave({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            id: project?.commentData?.assignmentId,
+          })
+          NotifySuccess(data.message)
+        }
       },
       clean() {
         const dph = dispatch
