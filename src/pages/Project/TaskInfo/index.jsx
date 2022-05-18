@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { Button, Input, Steps, Loader, Form, Row, Col } from 'uiw'
+import { Button, Input, Steps, Loader, Form, Row, Col, Icon } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
-// import MDEditor from '@uiw/react-md-editor'
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
 import FileInputList from './FileInputList'
@@ -19,9 +18,9 @@ const TaskInfo = (props) => {
     loading,
   } = useSelector((state) => state)
   const form = useRef()
+  const commentForm = useRef()
+
   const [isTitleErr, serIsTitleErr] = useState(false)
-  // const [isDescrErr, serIsDescrErr] = useState(false)
-  // const [editDes, serEditDes] = useState(editFromData?.description)
   const [imgUrl, setImgUrl] = useState()
 
   const { projectId, id, companyId } = props?.router?.params
@@ -45,9 +44,6 @@ const TaskInfo = (props) => {
 
   useEffect(() => {
     setImgUrl(isFileId && `/api/file/selectFile/${editFromData?.fileId[0]}`)
-    // return () => {
-    //   setImgUrl(undefined)
-    // }
   }, [isFileId, editFromData?.fileId])
 
   const updateData = (payload) => {
@@ -89,7 +85,6 @@ const TaskInfo = (props) => {
     }
   }
 
-  // 上传图片的方法
   const addImg = (event) => {
     const file = event
     if (!file) return
@@ -296,22 +291,184 @@ const TaskInfo = (props) => {
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
-
               <div className={styles.stepsWrap}>
-                <Steps
-                  current={taskInfoData?.operatingRecords?.length}
-                  progressDot
-                  direction="vertical"
-                  style={{ padding: '20px 0' }}>
+                <Steps direction="vertical" style={{ padding: '20px 0' }}>
                   {taskInfoData?.operatingRecords?.length > 0
                     ? taskInfoData?.operatingRecords.map((item, index) => {
-                        return (
-                          <Steps.Step title={item} description="" key={index} />
+                        return item.type === 1 ? (
+                          <Steps.Step
+                            icon={
+                              <Icon
+                                style={{
+                                  width: 30,
+                                  height: 30,
+                                  borderWidth: 1,
+                                  borderStyle: 'solid',
+                                  borderColor: '#ccc',
+                                  borderRadius: 15,
+                                  padding: 5,
+                                  paddingTop: 0,
+                                }}
+                                type="user"
+                              />
+                            }
+                            title={item.title}
+                            description={item.text}
+                            key={index}
+                          />
+                        ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
+                        item.type === 3 ? (
+                          <Steps.Step
+                            description=""
+                            title={
+                              <Form
+                                style={{ flex: 1 }}
+                                ref={commentForm}
+                                onChange={({ current }) => {
+                                  updateData({
+                                    editFromData: {
+                                      ...editFromData,
+                                      ...current,
+                                    },
+                                  })
+                                }}
+                                onSubmit={(item) => {
+                                  updateData({
+                                    editFromData: {
+                                      ...editFromData,
+                                      ...item,
+                                    },
+                                  })
+                                  goSaveIssue()
+                                }}
+                                onSubmitError={(error) => {
+                                  if (error.filed) {
+                                    return { ...error.filed }
+                                  }
+                                  return null
+                                }}
+                                fields={{
+                                  commentDescription: {
+                                    inline: true,
+                                    initialValue:
+                                      editFromData.commentDescription,
+                                    children: <NEWMDEditor preview="preview" />,
+                                  },
+                                }}>
+                                {({ fields }) => {
+                                  return (
+                                    <div>
+                                      <div className="from">
+                                        <Row align="top" className="fromItem">
+                                          <Col>{fields.commentDescription}</Col>
+                                        </Row>
+                                      </div>
+                                      <Row
+                                        align="middle"
+                                        className="fromButton">
+                                        <Col>
+                                          <div className={styles.btnWrap}>
+                                            {editFromData ===
+                                            taskInfoData ? null : (
+                                              <Button
+                                                type="primary"
+                                                htmlType="submit">
+                                                保存编辑
+                                              </Button>
+                                            )}
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  )
+                                }}
+                              </Form>
+                            }
+                            key={index}
+                          />
+                        ) : (
+                          <Steps.Step
+                            icon={
+                              <Icon
+                                style={{
+                                  width: 30,
+                                  height: 30,
+                                  borderWidth: 1,
+                                  borderStyle: 'solid',
+                                  borderColor: '#ccc',
+                                  borderRadius: 15,
+                                  padding: 5,
+                                  paddingLeft: 6,
+                                  paddingTop: 2,
+                                }}
+                                type="tag-o"
+                              />
+                            }
+                            title={item.title}
+                            description={item.text}
+                            key={index}
+                          />
                         )
                       })
                     : null}
                 </Steps>
               </div>
+              <Form
+                style={{ flex: 1 }}
+                ref={commentForm}
+                onChange={({ current }) => {
+                  updateData({
+                    editFromData: {
+                      ...editFromData,
+                      ...current,
+                    },
+                  })
+                }}
+                onSubmit={(item) => {
+                  updateData({
+                    editFromData: {
+                      ...editFromData,
+                      ...item,
+                    },
+                  })
+                  goSaveIssue()
+                }}
+                onSubmitError={(error) => {
+                  if (error.filed) {
+                    return { ...error.filed }
+                  }
+                  return null
+                }}
+                fields={{
+                  commentDescription: {
+                    inline: true,
+                    initialValue: editFromData.commentDescription,
+                    children: <NEWMDEditor />,
+                  },
+                }}>
+                {({ fields }) => {
+                  return (
+                    <div>
+                      <div className="from">
+                        <Row align="top" className="fromItem">
+                          <Col>{fields.commentDescription}</Col>
+                        </Row>
+                      </div>
+                      <Row align="middle" className="fromButton">
+                        <Col>
+                          <div className={styles.btnWrap}>
+                            {editFromData === taskInfoData ? null : (
+                              <Button type="primary" htmlType="submit">
+                                保存编辑
+                              </Button>
+                            )}
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  )
+                }}
+              </Form>
             </div>
             <EditTask router={props.router} />
           </div>

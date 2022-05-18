@@ -5,6 +5,7 @@ import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
+import { Container } from '@/components'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -33,32 +34,7 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
-  const dataProject = [
-    {
-      companyId: 0,
-      createTime: '2022-05-17T08:18:16.691Z',
-      id: 0,
-      milesWorkVoList: [
-        {
-          dueTime: '2022-05-17T08:18:16.691Z',
-          milestonesId: 0,
-          milestonesTitle: 'string',
-          rate: 'string',
-        },
-      ],
-      projectId: 0,
-      projectName: 'string',
-      totalWorkVo: {
-        projectKfzNum: 0,
-        projectNum: 0,
-        projectWksNum: 0,
-        projectYqsNum: 0,
-        projectYwcNum: 0,
-      },
-      userId: 0,
-    },
-  ]
-  console.log('dataProject', dataProject)
+
   const dataRows = [
     {
       icon: 'uiw',
@@ -116,7 +92,7 @@ export default function Demo() {
       online: 46,
     },
     {
-      icon: 'baidu',
+      icon: 'chrome',
       menusList: '尼好程序开发测试项目管理软件',
       numAll: 60,
       notStart: 51,
@@ -138,7 +114,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'firefox',
       menusList: '尼好测试项目管理软件',
       numAll: 80,
       notStart: 51,
@@ -149,7 +125,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'safari',
       menusList: '尼好项目管理软件',
       numAll: 30,
       notStart: 51,
@@ -160,7 +136,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'ie',
       menusList: '尼好程序开发软件',
       numAll: 90,
       notStart: 51,
@@ -171,7 +147,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'opera',
       menusList: '尼好开发测试管理软件',
       numAll: 10,
       notStart: 51,
@@ -183,10 +159,10 @@ export default function Demo() {
     },
   ]
   return (
-    <div>
+    <Container>
       <div>
         <Row gutter={20}>
-          <Col fixed style={{ width: 300 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card title="项目统计" bordered={false}>
               <Col
                 fixed
@@ -208,7 +184,7 @@ export default function Demo() {
               </Col>
             </Card>
           </Col>
-          <Col>
+          <Col fixed style={{ width: '50%' }}>
             <Card
               title={'我的项目 / ' + projectData?.menusList}
               bordered={false}
@@ -240,6 +216,13 @@ export default function Demo() {
                       }}>
                       查看全部
                     </Button>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        window.location.href = '#/projectOverview/:id'
+                      }}>
+                      项目概览
+                    </Button>
                   </div>
                 </Col>
               </Row>
@@ -270,16 +253,19 @@ export default function Demo() {
                         { title: '已上线', num: projectData?.online, key: 6 },
                       ].map((item) => {
                         return (
-                          <Card
-                            onClick={() => console.log('123')}
-                            key={item.key}
-                            title={item.title}
-                            style={{ width: 80 }}>
-                            <span
-                              style={{ fontSize: 36, color: randomColor() }}>
-                              {item.num}
-                            </span>
-                          </Card>
+                          <div style={{}}>
+                            <Card
+                              bordered={false}
+                              onClick={() => console.log('123')}
+                              key={item.key}
+                              title={item.title}
+                              style={{ width: 80 }}>
+                              <span
+                                style={{ fontSize: 36, color: randomColor() }}>
+                                {item.num}
+                              </span>
+                            </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -288,7 +274,7 @@ export default function Demo() {
               </Row>
             </Card>
           </Col>
-          <Col fixed style={{ width: 405 }}>
+          <Col fixed style={{ width: '25%' }}>
             <Card title="里程碑" bordered={false} style={{ height: 400 }}>
               <div className={styles.newDynamic}>
                 <Steps
@@ -317,6 +303,6 @@ export default function Demo() {
       <TableManage />
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
-    </div>
+    </Container>
   )
 }

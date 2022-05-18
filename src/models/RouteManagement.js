@@ -4,6 +4,8 @@ import {
   addMenuData,
   deleteById,
   editMenu,
+  getInfo,
+  getRouters,
 } from '@/servers/menumanagement'
 import { Notify } from 'uiw'
 
@@ -24,8 +26,20 @@ export default createModel()({
       if (data.code === 200) {
         dph.routeManagement.update({
           drawerVisible: true,
-          routeMenuList: data.data.list || {},
+          routeMenuList: data.data,
         })
+      }
+    },
+    async getInfo(payload) {
+      const data = await getInfo(payload)
+      if (data.code === 200) {
+        return true
+      }
+    },
+    async getRouters(payload) {
+      const data = await getRouters(payload)
+      if (data.code === 200) {
+        return true
       }
     },
     // 增加菜单

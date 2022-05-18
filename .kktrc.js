@@ -1,8 +1,9 @@
 import path from 'path'
 import defaultConfig from '@uiw-admin/config'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 export default defaultConfig({
   define: {
-    // AUTH: false,
+    AUTH: false,
     STORAGE: 'local', // TOKEN_STORAGE: "cookie",
     // TOKEN_NAME: "存储字段"
     SEARCH_MENU: false,
@@ -12,6 +13,14 @@ export default defaultConfig({
   // },
   // 第一种
   proxySetup: (app) => {
+    app.use(
+      '/api',
+      createProxyMiddleware({
+        target: 'http://192.168.188.222:33202', // 测试环境地址
+        changeOrigin: true,
+        // headers: {Authorization: 'Bearer ' + token},
+      })
+    )
     return {
       path: path.resolve('./mocker/index.js'),
     }

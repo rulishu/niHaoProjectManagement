@@ -35,7 +35,7 @@
         "path": "/projectOverview/:id",
         "name": "项目概览",
         "component": "@/pages/ProjectOverview",
-        "isAuth": false
+        "isAuth": true
       },
       {
         "path": "/milestone",
@@ -46,8 +46,6 @@
       {
         "path": "/milestone",
         "name": "里程碑",
-        "isAuth": false,
-        "hideInMenu": true,
         "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
@@ -77,17 +75,18 @@
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
-        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
-            "path": "/project/task",
+            "path": "/project/task/:id",
             "name": "任务列表",
             "component": "@/pages/Project/Task",
+            "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}",
             "isAuth": true
           },
           {
             "path": "/project/newIssue",
             "name": "新增任务",
+            "hideInMenu": true,
             "component": "@/pages/Project/NewIssue",
             "isAuth": true
           },
@@ -105,13 +104,13 @@
         "path": "/users",
         "name": "成员管理",
         "component": "@/pages/AllUsers",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",
         "name": "团队管理",
         "component": "@/pages/TeamManagement",
-        "isAuth": true
+        "isAuth": false
       },
       {
         "path": "/team",
@@ -146,9 +145,9 @@
             "isAuth": true
           },
           {
-            "path": "/Authority/routeManagement",
+            "path": "/Authority/MenuManagement",
             "name": "路由管理",
-            "component": "@/pages/Authority/RouteManagement",
+            "component": "@/pages/Authority/MenuManagement",
             "isAuth": true
           },
           {

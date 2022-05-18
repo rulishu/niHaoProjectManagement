@@ -1,30 +1,30 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { List, Row, Col, Icon } from 'uiw'
-import { StatusTag } from '@/components'
+// import { StatusTag } from '@/components'
 import styles from './index.module.less'
 
 const MenuItem = (props) => {
-  const { dataList, buttonGroup, tier } = props
+  const { dataList, buttonGroup } = props
 
-  const [show, setShow] = useState(false)
+  // const [show, setShow] = useState(false)
   // 是否显示
-  const butClick = () => setShow(!show)
+  // const butClick = () => setShow(!show)
 
-  const statusList = {
-    1: { title: '目录', className: 'blue' },
-    2: { title: '菜单', className: 'red' },
-    3: { title: '按钮', className: 'brown' },
-  }
+  // const statusList = {
+  //   1: { title: '目录', className: 'blue' },
+  //   2: { title: '菜单', className: 'red' },
+  //   3: { title: '按钮', className: 'brown' },
+  // }
 
-  const retract = () => {
-    let nodeList = new Array(tier !== -1 ? tier : 0)
-    for (let i = 0; i < nodeList.length; i++) {
-      nodeList[i] = (
-        <span key={i} className={tier !== -1 && styles.retract}></span>
-      )
-    }
-    return nodeList
-  }
+  // const retract = () => {
+  //   let nodeList = new Array(tier !== -1 ? tier : 0)
+  //   for (let i = 0; i < nodeList.length; i++) {
+  //     nodeList[i] = (
+  //       <span key={i} className={tier !== -1 && styles.retract}></span>
+  //     )
+  //   }
+  //   return nodeList
+  // }
 
   return (
     <List.Item
@@ -32,7 +32,7 @@ const MenuItem = (props) => {
       style={{ width: '100%' }}
       className={styles.listMenuItem}>
       <Row className={styles.menuItem}>
-        <Col span="6">
+        {/* <Col span="6">
           <span className="menuItemTitle">
             {retract()}
             {!!dataList.managerMenus.length && (
@@ -45,17 +45,17 @@ const MenuItem = (props) => {
             )}
             {dataList.menuName}
           </span>
-        </Col>
+        </Col> */}
         <Col span="2">
           <Icon type={dataList.icon} />
         </Col>
         <Col span="10">{dataList.path}</Col>
         <Col span="2">
-          <StatusTag statusList={statusList} status={dataList.menuType} />
+          {/* <StatusTag statusList={statusList} status={dataList.menuType} /> */}
         </Col>
         <Col span="4">{buttonGroup(dataList)}</Col>
       </Row>
-      {show && dataList.managerMenus.length && (
+      {/* {show && dataList.managerMenus.length && (
         <div className="menuListItem">
           <Row className={styles.menuItem}>
             <List
@@ -74,7 +74,7 @@ const MenuItem = (props) => {
             />
           </Row>
         </div>
-      )}
+      )} */}
     </List.Item>
   )
 }
