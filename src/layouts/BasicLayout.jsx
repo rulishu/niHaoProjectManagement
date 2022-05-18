@@ -43,6 +43,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
+    // logo: require('./logo.png'),
     // 刷新权限
     onReloadAuth: async () => {
       await dispatch({ type: 'users/getUserPermis' })
