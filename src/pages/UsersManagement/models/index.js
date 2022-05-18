@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core'
-import { selectById } from '../../../servers/usersManagement'
+import { addProjectMember } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
   name: 'usersManagement',
@@ -17,15 +17,13 @@ const usersManagement = createModel()({
     }),
   },
   effects: (dispatch) => ({
-    async selectById(payload) {
+    async addProjectMember(payload) {
       const dph = dispatch
-      const data = await selectById(payload)
-      if (data.code === 200) {
-        dph.usersManagement.updateState({
-          drawerVisible: true,
-          queryInfo: data.data || {},
-        })
-      }
+      dph.usersManagement.updateState({
+        drawerVisible: true,
+        tableType: '',
+      })
+      return await addProjectMember(payload)
     },
 
     clean() {

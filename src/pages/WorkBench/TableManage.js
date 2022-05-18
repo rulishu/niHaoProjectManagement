@@ -1,24 +1,17 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { Row, Col, Card, Tabs, Button } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 
 export default function TableManage() {
-  const dispatch = useDispatch()
-  const {
-    home: { taskId },
-  } = useSelector((state) => state)
+  // const dispatch = useDispatch()
+  // const {
+  //   home: {  },
+  // } = useSelector((state) => state)
 
-  useEffect(() => {
-    dispatch({
-      type: 'home/queryProject',
-      payload: { record: taskId },
-    })
-    dispatch({
-      type: 'home/selectOperatingRecord',
-      payload: taskId,
-    })
-  }, [taskId, dispatch])
+  // useEffect(() => {
+
+  // }, [ dispatch])
   const table = useTable('https://randomuser.me/api', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
@@ -35,7 +28,7 @@ export default function TableManage() {
         ...searchValues,
       }
     },
-    requestOptions: { method: 'GET' },
+    requestOptions: { method: 'POST' },
   })
 
   return (
@@ -76,30 +69,16 @@ export default function TableManage() {
                 table={table}
                 columns={[
                   {
-                    title: '项目',
+                    title: '任务id',
+                    key: 'assignmentId',
+                  },
+                  {
+                    title: '项目名',
                     key: 'name',
-                    render: (text) => {
-                      return (
-                        <div>
-                          {text.title}.{text.first}
-                          {text.last}
-                        </div>
-                      )
-                    },
                   },
                   {
                     title: '任务名称',
                     key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
-                    },
-                  },
-                  {
-                    title: '任务状态',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
-                    },
                   },
                   {
                     title: '指派人',
@@ -107,19 +86,15 @@ export default function TableManage() {
                   },
                   {
                     title: '创建人',
-                    key: 'phone',
+                    key: 'createName',
                   },
                   {
                     title: '任务状态',
-                    key: 'gender',
+                    key: 'assignmentStatus',
                   },
                   {
                     title: '截止时间',
-                    key: 'gender1',
-                  },
-                  {
-                    title: '创建时间',
-                    key: 'gender2',
+                    key: 'dueDate',
                   },
                 ]}
               />

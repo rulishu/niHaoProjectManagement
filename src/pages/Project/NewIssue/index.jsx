@@ -32,7 +32,6 @@ const NewIssue = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
-    home: { taskId },
     project: { fromData },
     dictionary: { dictAllData },
     milestone: { milepostaData },
@@ -54,6 +53,8 @@ const NewIssue = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mdRefs?.current])
+
+  const taskId = sessionStorage.getItem('projectId') || '1346'
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
@@ -125,9 +126,10 @@ const NewIssue = (props) => {
   const onCancel = () => {
     navigate('/project/task')
   }
+  console.log('fromData', fromData)
   return (
     <div className="main">
-      <div className="title">新建问题</div>
+      <div className="title">新建任务</div>
       {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
       <Loader
         tip="加载中..."
@@ -173,7 +175,6 @@ const NewIssue = (props) => {
                   assigneeUser.length > 0 ? assigneeUser[0].value : '',
                 assigneeUserName:
                   assigneeUser.length > 0 ? assigneeUser[0].label : '',
-                projectId: taskId,
               },
             })
             dispatch.project.getAdd()

@@ -20,7 +20,7 @@ export default function Demo() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
-    workbench: { taskId, projectList },
+    workbench: { projectList },
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
@@ -29,9 +29,9 @@ export default function Demo() {
   useEffect(() => {
     dispatch({
       type: 'workbench/myProject',
-      // payload: { record: taskId },
     })
-  }, [taskId, dispatch])
+  }, [dispatch])
+
   function randomColor() {
     return (
       '#' +
@@ -57,6 +57,7 @@ export default function Demo() {
                         onClick={() => {
                           const totalData = e.totalWorkVo
                           const milesWorkVoList = e.milesWorkVoList?.at(0)
+                          console.log('e', e)
                           console.log('totalData', totalData)
                           console.log('milesWorkVoList', milesWorkVoList)
                           setProject({ ...e })
@@ -98,7 +99,11 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        window.location.href = '#/project/task/:id'
+                        window.location.href = `#/project/task/${projectData.projectId}`
+                        localStorage.setItem(
+                          'projectId',
+                          JSON.stringify(projectData?.projectId || '')
+                        )
                       }}>
                       查看全部
                     </Button>
