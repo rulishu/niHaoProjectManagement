@@ -10,7 +10,7 @@ const NEWMDEditor = (props) => {
   }, [mdref])
 
   return (
-    <div data-color-mode="light">
+    <div data-color-mode="light" style={{ flex: 1 }}>
       <MDEditor
         // {...props}
         ref={mdref}
