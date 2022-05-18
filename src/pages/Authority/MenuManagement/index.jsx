@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Button, Tooltip } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -8,6 +8,11 @@ import './style.css'
 
 const Demo = () => {
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({
+      type: 'menumanagement/getList',
+    })
+  }, [dispatch])
 
   const updateData = (payload) => {
     dispatch({
@@ -21,7 +26,7 @@ const Demo = () => {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data,
+        data: handleTree(data?.data || [], 'menuId') || [],
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -33,7 +38,6 @@ const Demo = () => {
       revalidateOnFocus: false,
     },
     requestOptions: {
-      method: 'GET',
       headers: { Authorization: 'Bearer ' + token },
     },
   })
@@ -42,20 +46,27 @@ const Demo = () => {
     updateData({
       isView: type === 'view',
       tableType: type,
+      tablePro: table,
     })
     if (type === 'add') {
       updateData({ drawerVisible: true, queryInfo: {} })
     }
     if (type === 'addChild') {
-      updateData({ drawerVisible: true, queryInfo: { parentId: record?.id } })
+      updateData({
+        drawerVisible: true,
+        queryInfo: { parentId: record?.parentId },
+      })
     }
     if (type === 'edit' || type === 'view') {
+      // dispatch({
+      //   type: 'menumanagement/getList',
+      // })
       updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'del') {
       const result = await dispatch({
-        type: 'rolemanagement/deleteRole',
-        payload: { id: record?.id },
+        type: 'menumanagement/getDelete',
+        payload: record?.menuId,
       })
       result && table.onSearch()
       return result
@@ -65,6 +76,50 @@ const Demo = () => {
     }
   }
 
+  //构造树型结构数据
+  function handleTree(data, id, parentId, children) {
+    let config = {
+      id: id || 'id',
+      parentId: parentId || 'parentId',
+      childrenList: children || 'children',
+    }
+
+    let childrenListMap = {}
+    let nodeIds = {}
+    let tree = []
+
+    for (let d of data) {
+      let parentId = d[config.parentId]
+      if (childrenListMap[parentId] == null) {
+        childrenListMap[parentId] = []
+      }
+      nodeIds[d[config.id]] = d
+      childrenListMap[parentId].push(d)
+    }
+
+    for (let d of data) {
+      let parentId = d[config.parentId]
+      if (nodeIds[parentId] == null) {
+        tree.push(d)
+      }
+    }
+
+    for (let t of tree) {
+      adaptToChildrenList(t)
+    }
+
+    function adaptToChildrenList(o) {
+      if (childrenListMap[o[config.id]] !== null) {
+        o[config.childrenList] = childrenListMap[o[config.id]]
+      }
+      if (o[config.childrenList]) {
+        for (let c of o[config.childrenList]) {
+          adaptToChildrenList(c)
+        }
+      }
+    }
+    return tree
+  }
   return (
     <Fragment>
       <ProTable
@@ -96,7 +151,6 @@ const Demo = () => {
         ]}
         className="menuTable"
         table={table}
-        // data={dataSource}
         columns={[
           {
             title: '菜单名称',
@@ -115,9 +169,31 @@ const Demo = () => {
             ellipsis: true,
           },
           {
-            title: '路由地址',
-            key: 'path',
+            title: '排序',
+            key: 'orderNum',
             ellipsis: true,
+          },
+          {
+            title: '权限标识',
+            key: 'perms',
+            ellipsis: true,
+          },
+          {
+            title: '组件路径',
+            key: 'component',
+            ellipsis: true,
+          },
+          {
+            title: '状态',
+            key: 'status',
+            ellipsis: true,
+            props: {
+              widget: 'select',
+              option: [
+                { label: '停用', value: '1' },
+                { label: '正常', value: '0' },
+              ],
+            },
             render: (address) => (
               <Tooltip placement="topLeft" content={address}>
                 {address}
@@ -125,27 +201,10 @@ const Demo = () => {
             ),
           },
           {
-            title: '菜单类型',
-            key: 'menuType',
+            title: '创建时间',
+            key: 'createTime',
             ellipsis: true,
           },
-          {
-            title: '排序',
-            key: 'orderNum',
-            ellipsis: true,
-          },
-          // {
-          //   title: '创建人',
-          //   key: 'createName',
-          //   ellipsis: true,
-          //   align: 'center',
-          // },
-          // {
-          //   title: '创建时间',
-          //   key: 'createTime',
-          //   ellipsis: true,
-          //   align: 'center',
-          // },
           {
             title: '操作',
             key: 'edit',
@@ -157,7 +216,7 @@ const Demo = () => {
                     size="small"
                     type="primary"
                     onClick={handleEditTable.bind(this, 'addChild', rowData)}>
-                    添加下级
+                    新增
                   </Button>
                   <Button
                     size="small"
@@ -165,12 +224,12 @@ const Demo = () => {
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑
                   </Button>
-                  <Button
+                  {/* <Button
                     size="small"
                     type="success"
                     onClick={handleEditTable.bind(this, 'view', rowData)}>
                     查看
-                  </Button>
+                  </Button> */}
                   <DeletePopover
                     handleEditTable={() => handleEditTable('del', rowData)}
                   />
@@ -180,7 +239,11 @@ const Demo = () => {
           },
         ]}
       />
-      <Detail updateData={updateData} onSearch={table.onSearch} />
+      <Detail
+        updateData={updateData}
+        handleTree={handleTree}
+        onSearch={table.onSearch}
+      />
     </Fragment>
   )
 }
