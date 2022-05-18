@@ -23,8 +23,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
 
   useEffect(() => {
+    dispatch({
+      type: 'routeManagement/getInfo',
+    })
+    dispatch({
+      type: 'routeManagement/getRouters',
+    })
     refresh(false)
-  }, [refresh])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
@@ -74,16 +81,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             className={styles.title}
             onClick={() => {
-              dispatch({
-                type: 'global/updataProject',
-                payload: { drawerType: 'add' },
-              })
-            }}>
-            新增项目
-          </div>
-          <div
-            className={styles.title}
-            onClick={() => {
               navigate('/projectList')
             }}>
             项目管理
@@ -128,7 +125,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
       <BasicLayout
         {...basicLayoutProps}
         menuHide={isNoMenu}
-        headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}>
+        // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
+      >
         {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
         </div> */}

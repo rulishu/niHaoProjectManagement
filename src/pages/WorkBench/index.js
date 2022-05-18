@@ -5,6 +5,7 @@ import TableManage from './TableManage'
 import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
+import { Container } from '@/components'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -91,7 +92,7 @@ export default function Demo() {
       online: 46,
     },
     {
-      icon: 'baidu',
+      icon: 'chrome',
       menusList: '尼好程序开发测试项目管理软件',
       numAll: 60,
       notStart: 51,
@@ -113,7 +114,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'firefox',
       menusList: '尼好测试项目管理软件',
       numAll: 80,
       notStart: 51,
@@ -124,7 +125,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'safari',
       menusList: '尼好项目管理软件',
       numAll: 30,
       notStart: 51,
@@ -135,7 +136,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'ie',
       menusList: '尼好程序开发软件',
       numAll: 90,
       notStart: 51,
@@ -146,7 +147,7 @@ export default function Demo() {
       online: 56,
     },
     {
-      icon: 'baidu',
+      icon: 'opera',
       menusList: '尼好开发测试管理软件',
       numAll: 10,
       notStart: 51,
@@ -158,7 +159,7 @@ export default function Demo() {
     },
   ]
   return (
-    <div>
+    <Container>
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>
@@ -214,6 +215,13 @@ export default function Demo() {
                         window.location.href = '#/project/task'
                       }}>
                       查看全部
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        window.location.href = '#/projectOverview/:id'
+                      }}>
+                      项目概览
                     </Button>
                   </div>
                 </Col>
@@ -295,6 +303,6 @@ export default function Demo() {
       <TableManage />
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
-    </div>
+    </Container>
   )
 }

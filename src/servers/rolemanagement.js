@@ -1,5 +1,40 @@
 import { request } from '@uiw-admin/utils'
 
+const token = localStorage.getItem('token')
+/**
+ * 角色新增
+ * @param {Object} params
+ */
+export function getAdd(params) {
+  return request('/api/system/role/add', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 角色删除
+ * @param {Object} params
+ */
+export function getDelete(params) {
+  return request('/api/system/role/remove', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 角色修改
+ * @param {Object} params
+ */
+export function getEdit(params) {
+  return request('/api/system/role/edit', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+
 /**
  * 查询角色
  * @page
@@ -14,7 +49,7 @@ export const selectRole = (params) => {
 }
 
 // 单个角色添加
-export const addRole = '/api/managerRole/addRole'
+export const addRole = '/api/system/role'
 
 // 单个角色更新
 export const upDateRole = '/api/managerRole/upDateRole'

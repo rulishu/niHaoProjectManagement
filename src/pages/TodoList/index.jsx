@@ -11,7 +11,9 @@ import {
   Icon,
   List, // Progress,
 } from 'uiw'
-import { SearchBar } from '@/components'
+// import { SearchBar } from '@/components'
+// import { Button, Tabs, Pagination, Loader, Tooltip } from 'uiw'
+import { SearchBar, Container } from '@/components'
 import styles from './index.module.less'
 import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -269,7 +271,7 @@ const TodoList = () => {
   }
 
   return (
-    <div className={styles.wrap}>
+    <Container theme="white">
       <Loader
         tip="加载中..."
         vertical
@@ -327,7 +329,7 @@ const TodoList = () => {
           </Tabs>
         </div>
       </Loader>
-    </div>
+    </Container>
   )
 }
 

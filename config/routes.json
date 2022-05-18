@@ -75,12 +75,12 @@
         "path": "/project",
         "name": "任务管理",
         "isAuth": true,
-        "navigate": "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
         "routes": [
           {
-            "path": "/project/task",
+            "path": "/project/task/:id",
             "name": "任务列表",
             "component": "@/pages/Project/Task",
+            "navigate": "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('id')}`)}",
             "isAuth": true
           },
           {
@@ -145,9 +145,9 @@
             "isAuth": true
           },
           {
-            "path": "/Authority/routeManagement",
+            "path": "/Authority/MenuManagement",
             "name": "路由管理",
-            "component": "@/pages/Authority/RouteManagement",
+            "component": "@/pages/Authority/MenuManagement",
             "isAuth": true
           },
           {

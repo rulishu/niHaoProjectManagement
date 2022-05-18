@@ -3,6 +3,7 @@ import { Row, Col, Card, Steps, Tabs } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.less'
+import { navigate } from '@uiw-admin/router-control'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -176,7 +177,8 @@ export default function Home() {
                               borderRadius: '50%',
                               justifyContent: 'center',
                               alignItems: 'center',
-                            }}>
+                            }}
+                            onClick={() => navigate('/usersManagement')}>
                             <span style={{ fontSize: 24 }}>
                               {e.name.slice(0, 1)}
                             </span>
