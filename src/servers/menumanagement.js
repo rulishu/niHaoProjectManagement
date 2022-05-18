@@ -1,5 +1,51 @@
 import { request } from '@uiw-admin/utils'
+
 const token = localStorage.getItem('token')
+/**
+ * 获取菜单列表
+ * @param {Object} params
+ */
+export const getList = (params) => {
+  return request('/api/system/menu/list', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: params,
+  })
+}
+/**
+ * 菜单新增
+ * @param {Object} params
+ */
+export function getAdd(params) {
+  return request('/api/system/menu/add', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 菜单删除
+ * @param {Object} params
+ */
+export function getDelete(params) {
+  return request(`/api/system/menu/remove/${params}`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 菜单修改
+ * @param {Object} params
+ */
+export function getEdit(params) {
+  return request('/api/system/menu/edit', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+
 /**
  * 分页查询菜单目录
  * @page

@@ -34,7 +34,50 @@ export function getEdit(params) {
     body: { ...params },
   })
 }
-
+/**
+ * 根据角色编号获取详细信息
+ * @param {Object} params
+ */
+export function getInfo(params) {
+  return request('/api/system/role/getInfo', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 获取菜单下拉树列表
+ * @param {Object} params
+ */
+export function getTreeSelect(params) {
+  return request('/api/system/menu/treeselect', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 加载对应角色菜单列表树
+ * @param {Object} params
+ */
+export function roleMenuTreeselect(params) {
+  return request(`/api/system/menu/roleMenuTreeselect/${params}`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+/**
+ * 角色状态修改
+ * @param {Object} params
+ */
+export const changeStatus = (params) => {
+  return request('/api/system/role/changeStatus', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: params,
+  })
+}
 /**
  * 查询角色
  * @page
