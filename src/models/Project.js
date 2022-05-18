@@ -35,11 +35,7 @@ export default createModel()({
     taskInfoData: {
       operatingRecords: [
         { title: '用户cccc', text: '姓名', type: 1 },
-        {
-          title: '2022-05-17',
-          text: '事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件事件',
-          type: 2,
-        },
+        { title: '2022-05-17', text: '事件', type: 2 },
         { title: '3333', text: 'ccccc', type: 3 },
         { title: '4444', text: 'ddddd', type: 4 },
       ],
@@ -68,12 +64,10 @@ export default createModel()({
       async getList(params, { project }) {
         const { assignmentStatus, ...others } = params
         const { filter } = project
-        const taskId = localStorage.getItem('projectId')
 
         const data = await getSelectPage({
           ...filter,
           ...others,
-          projectId: taskId, // useLocation
         })
         if (data && data.code === 200) {
           if (assignmentStatus === '3') {
@@ -96,7 +90,7 @@ export default createModel()({
       },
       // 翻页
       async goToPage(payload) {
-        const { page, pageSize, assignmentStatus } = payload
+        const { page, pageSize, assignmentStatus, projectId } = payload
         dispatch.project.update({
           filter: { page, pageSize },
         })
@@ -116,13 +110,13 @@ export default createModel()({
           pageSize,
           assignmentStatus,
           splicingConditionsDtos,
+          projectId,
         })
       },
 
       // 任务列表新增
       async getAdd(params, { project }) {
         const { fromData } = project
-        console.log('fromData', fromData)
         const data = await getmMnagerAssignmentSave({
           ...fromData,
           ...params,

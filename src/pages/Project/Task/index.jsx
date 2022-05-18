@@ -19,8 +19,8 @@ const listField = {
 }
 
 const SearchBarOption = [
-  { value: 1, text: '已打开' },
-  { value: 3, text: '已关闭' },
+  { value: '2', text: '已打开' },
+  { value: '3', text: '已完成' },
   { value: '', text: '所有' },
 ]
 
@@ -34,14 +34,11 @@ const tabsLabel = (title, num) => {
 }
 
 const Task = (props) => {
-  console.log('====================================')
-  console.log(props)
-  console.log('====================================')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const taskId = localStorage.getItem('projectId') || ''
+  const taskId = location.pathname.split('/').pop() || ''
 
   const {
     project: {
@@ -57,21 +54,20 @@ const Task = (props) => {
     loading,
   } = useSelector((state) => state)
 
-  const page = (payload) => {
-    dispatch.project.getList(payload)
+  const pageS = (payload) => {
+    dispatch.project.getList({ ...payload, projectId: taskId })
   }
 
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
-    console.log(location)
     dispatch({
       type: 'project/update',
-      payload: { activeKey: '1' },
+      payload: { activeKey: '2' },
     })
 
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      page({
+      pageS({
         assignmentStatus: '2',
         splicingConditionsDtos: [
           {
@@ -81,7 +77,7 @@ const Task = (props) => {
           },
         ],
       })
-      page({
+      pageS({
         assignmentStatus: '3',
         splicingConditionsDtos: [
           {
@@ -91,7 +87,7 @@ const Task = (props) => {
           },
         ],
       })
-      page({
+      pageS({
         assignmentStatus: '',
         splicingConditionsDtos: [],
       })
@@ -103,7 +99,7 @@ const Task = (props) => {
       Notify.success({ description: '查无此项' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [location.pathname])
 
   const updateData = (payload) => {
     dispatch({
@@ -147,7 +143,7 @@ const Task = (props) => {
     //   page: 1,
     // })
 
-    page({
+    pageS({
       assignmentStatus: activeKey,
       splicingConditionsDtos: [
         {
@@ -186,7 +182,7 @@ const Task = (props) => {
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
-              dispatch.project.getList({
+              pageS({
                 page: newPage,
                 assignmentStatus: activeKey,
                 splicingConditionsDtos: [
@@ -227,6 +223,7 @@ const Task = (props) => {
                     pageSize,
                     // assignmentStatus: num,
                     assignmentStatus: activeKey,
+                    projectId: taskId,
                     // createId: location?.state?.createId
                     //   ? location?.state.createId
                     //   : '',
@@ -245,7 +242,7 @@ const Task = (props) => {
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
     updateData({ activeKey, filter: { ...filter, page: 1 } })
-    await dispatch.project.getList({
+    await pageS({
       assignmentStatus: activeKey,
       splicingConditionsDtos: [
         {
