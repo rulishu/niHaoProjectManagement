@@ -15,17 +15,7 @@ import { SearchBar, Container } from '@/components'
 import styles from './index.module.less'
 import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-// import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
-
-const listField = {
-  title: 'assignmentTitle',
-  createName: 'createName',
-  createTime: 'createTime',
-  issueNo: 'assignmentId',
-  updateTime: 'updateTime',
-  updateName: 'updateName',
-}
 
 // const milestoneStatus = {
 //   1: { title: 'addtodo', className: 'blue' },
@@ -55,19 +45,11 @@ const TodoList = () => {
   const taskId = sessionStorage.getItem('id')
 
   const {
-    todolist: {
-      dataList,
-      total,
-      filter,
-      // closeDataList,
-      // closeTotal,
-      openTataList,
-      openTotal,
-      activeKey,
-    },
+    todolist: { dataList, total, filter, openTataList, openTotal, activeKey },
     loading,
   } = useSelector((state) => state)
-
+  console.log('openTataList', openTataList)
+  console.log('dataList', dataList)
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     if (location?.state) {
@@ -137,9 +119,7 @@ const TodoList = () => {
                         // span={18}
                         className={styles.listCol}>
                         <a href={item?.nav} className={styles.listTitle}>
-                          {listField?.title
-                            ? item[listField.title]
-                            : item.title}
+                          {item.title}
                         </a>
                         <div className={styles.listContent}>
                           <Icon type="user" size="big" /> 你
@@ -159,8 +139,16 @@ const TodoList = () => {
                       </Col>
                       <Col span="8" className={styles.itemListRight}>
                         <div>
-                          <Button type="primary" size="default">
-                            完毕
+                          <Button
+                            type="primary"
+                            size="default"
+                            onClick={() =>
+                              dispatch({
+                                type: 'todolist/getStrutsSwitch',
+                                payload: { id: item.id },
+                              })
+                            }>
+                            {item.status === 1 ? '去处理' : '完毕'}
                           </Button>
                         </div>
                       </Col>
@@ -180,9 +168,9 @@ const TodoList = () => {
                     page,
                     pageSize,
                     status: num,
-                    createId: location?.state?.createId
-                      ? location?.state.createId
-                      : '',
+                    // createId: location?.state?.createId
+                    //   ? location?.state.createId
+                    //   : '',
                   })
                 }}
               />
