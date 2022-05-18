@@ -1,5 +1,16 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tabs, Pagination, Loader, Tooltip } from 'uiw'
+import {
+  Button,
+  Tabs,
+  Pagination,
+  Loader,
+  Tooltip,
+  Empty,
+  Row,
+  Col,
+  Icon,
+  List, // Progress,
+} from 'uiw'
 import { SearchBar } from '@/components'
 import styles from './index.module.less'
 import { useLocation } from 'react-router-dom'
@@ -7,13 +18,6 @@ import { useSelector, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import arr from './data'
 import 'tributejs/tribute.css'
-import {
-  Row,
-  Col,
-  Icon,
-  // Progress,
-  List,
-} from 'uiw'
 import dayjs from 'dayjs'
 
 const listField = {
@@ -33,8 +37,8 @@ const listField = {
 
 const SearchBarOption = [
   { value: 1, text: '待处理' },
-  // { value: 3, text: '已关闭' },
   { value: '', text: '已完成' },
+  // { value: 3, text: '已关闭' },
 ]
 
 const tabsLabel = (title, num) => {
@@ -46,7 +50,7 @@ const tabsLabel = (title, num) => {
   )
 }
 
-const TodoList = (props) => {
+const TodoList = () => {
   // const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
@@ -120,132 +124,136 @@ const TodoList = (props) => {
     // console.log('listField', listField)
     return (
       <div>
-        {/* {data.length > 0 ? ( */}
-        <Fragment>
-          <List
-            className={styles.list}
-            dataSource={arr}
-            bordered={false}
-            noHover={true}
-            renderItem={(item, index) => {
-              return (
-                <List.Item
-                  key={index}
-                  extra={
-                    <div>
-                      <div className={styles.listIssueIcon}>
-                        <Tooltip placement="top" content="Assignees">
-                          <span className={styles.taskUserName}>
-                            {/* {item.assigneeUserName && <Icon type="user" />}{' '}
+        {data.length > 0 ? (
+          <Fragment>
+            <List
+              className={styles.list}
+              dataSource={arr}
+              bordered={false}
+              noHover={true}
+              renderItem={(item, index) => {
+                return (
+                  <List.Item
+                    key={index}
+                    extra={
+                      <div>
+                        <div className={styles.listIssueIcon}>
+                          <Tooltip placement="top" content="Assignees">
+                            <span className={styles.taskUserName}>
+                              {/* {item.assigneeUserName && <Icon type="user" />}{' '}
                               {item.assigneeUserName} */}
-                          </span>
-                        </Tooltip>
-                        {/* <Icon type="message" /> */}
-                        {/* <span className={styles.listIconSpan}>0</span> */}
-                        {/* <Tooltip placement="top" content="Move">
+                            </span>
+                          </Tooltip>
+                          {/* <Icon type="message" /> */}
+                          {/* <span className={styles.listIconSpan}>0</span> */}
+                          {/* <Tooltip placement="top" content="Move">
                             <span
                               className={styles.listIconSpan}
                               onClick={() => delAssignment(item)}>
                               <Icon type="delete" />
                             </span>
                           </Tooltip> */}
-                      </div>
-                      {/* {listField?.updateName
+                        </div>
+                        {/* {listField?.updateName
                           ? item[listField.updateName]
                           : item?.updateName}{' '}
                         更新于{' '}
                         {listField?.updateTime
                           ? item[listField.updateTime]
                           : item?.updateTime} */}
-                    </div>
-                  }>
-                  <Row gutter={10} className={styles.listRow}>
-                    <Col
-                      // span={18}
-                      className={styles.listCol}>
-                      <a href={item?.nav} className={styles.listTitle}>
-                        {listField?.title ? item[listField.title] : item.title}
-                      </a>
+                      </div>
+                    }>
+                    <Row gutter={10} className={styles.listRow}>
+                      <Col
+                        // span={18}
+                        className={styles.listCol}>
+                        <a href={item?.nav} className={styles.listTitle}>
+                          {listField?.title
+                            ? item[listField.title]
+                            : item.title}
+                        </a>
 
-                      <div className={styles.listContent}>
-                        #{' '}
-                        {listField?.issueNo ? item[listField.issueNo] : item.id}{' '}
-                        · 创建于{' '}
-                        {listField?.createTime
-                          ? item[listField.createTime]
-                          : item?.createTime}{' '}
-                        由{' '}
-                        {listField?.createName
-                          ? item[listField.createName]
-                          : item?.createName}{' '}
-                        {item?.dueDate && (
-                          <Tooltip placement="top" content="Due date">
-                            <span
-                              className={`dueDate ${
-                                dayjs(item?.dueDate)?.diff(
-                                  dayjs().format('YYYY-MM-DD'),
-                                  'hour'
-                                ) < 0 && item?.assignmentStatus === 1
-                                  ? 'redDate'
-                                  : ''
-                              }`}>
-                              <Icon type="date" />{' '}
-                              {listField?.dueDate
-                                ? item[listField.dueDate]
-                                : item?.dueDate}
-                            </span>
-                          </Tooltip>
-                        )}
-                        {item?.labels
-                          ? item?.labels.map((list, index2) => {
-                              return (
-                                <span
-                                  key={index2 + index}
-                                  className={styles.listIssueStatus}
-                                  style={{
-                                    backgroundColor: list.dictColour,
-                                  }}>
-                                  {list.dictName}
-                                </span>
-                              )
-                            })
-                          : null}
-                      </div>
-                    </Col>
-                    <Col span="8" className={styles.itemListRight}>
-                      <div>
-                        <Button type="primary" size="default">
-                          完毕
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                </List.Item>
-              )
-            }}
-          />
-          {taskTotal > 10 && (
-            <Pagination
-              current={filter.page}
-              pageSize={10}
-              total={taskTotal}
-              alignment="center"
-              onChange={(page, _, pageSize) => {
-                dispatch.todolist.goToPage({
-                  page,
-                  pageSize,
-                  assignmentStatus: num,
-                  createId: location?.state?.createId
-                    ? location?.state.createId
-                    : '',
-                })
+                        <div className={styles.listContent}>
+                          #{' '}
+                          {listField?.issueNo
+                            ? item[listField.issueNo]
+                            : item.id}{' '}
+                          · 创建于{' '}
+                          {listField?.createTime
+                            ? item[listField.createTime]
+                            : item?.createTime}{' '}
+                          由{' '}
+                          {listField?.createName
+                            ? item[listField.createName]
+                            : item?.createName}{' '}
+                          {item?.dueDate && (
+                            <Tooltip placement="top" content="Due date">
+                              <span
+                                className={`dueDate ${
+                                  dayjs(item?.dueDate)?.diff(
+                                    dayjs().format('YYYY-MM-DD'),
+                                    'hour'
+                                  ) < 0 && item?.assignmentStatus === 1
+                                    ? 'redDate'
+                                    : ''
+                                }`}>
+                                <Icon type="date" />{' '}
+                                {listField?.dueDate
+                                  ? item[listField.dueDate]
+                                  : item?.dueDate}
+                              </span>
+                            </Tooltip>
+                          )}
+                          {item?.labels
+                            ? item?.labels.map((list, index2) => {
+                                return (
+                                  <span
+                                    key={index2 + index}
+                                    className={styles.listIssueStatus}
+                                    style={{
+                                      backgroundColor: list.dictColour,
+                                    }}>
+                                    {list.dictName}
+                                  </span>
+                                )
+                              })
+                            : null}
+                        </div>
+                      </Col>
+                      <Col span="8" className={styles.itemListRight}>
+                        <div>
+                          <Button type="primary" size="default">
+                            完毕
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </List.Item>
+                )
               }}
             />
-          )}
-        </Fragment>
-        {/* ) : ( */}
-        {/* <Empty /> */}
-        {/* )} */}
+            {taskTotal > 10 && (
+              <Pagination
+                current={filter.page}
+                pageSize={10}
+                total={taskTotal}
+                alignment="center"
+                onChange={(page, _, pageSize) => {
+                  dispatch.todolist.goToPage({
+                    page,
+                    pageSize,
+                    assignmentStatus: num,
+                    createId: location?.state?.createId
+                      ? location?.state.createId
+                      : '',
+                  })
+                }}
+              />
+            )}
+          </Fragment>
+        ) : (
+          <Empty />
+        )}
       </div>
     )
   }

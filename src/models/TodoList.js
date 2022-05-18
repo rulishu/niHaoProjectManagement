@@ -8,6 +8,7 @@ import { getSelectPage } from '../servers/TodoList'
 export default createModel()({
   name: 'todolist',
   state: {
+    activeKey: '1',
     filter: {
       page: 1,
       pageSize: 10,
@@ -30,7 +31,7 @@ export default createModel()({
         const data = await getSelectPage({
           ...filter,
           ...params,
-          todolistId: '', // useLocation
+          //   todolistId: '', // useLocation
         })
         if (data && data.code === 200) {
           if (params?.assignmentStatus === '3') {
