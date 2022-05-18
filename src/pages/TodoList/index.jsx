@@ -55,15 +55,15 @@ const TodoList = () => {
     if (location?.state) {
       dispatch({
         type: 'todolist/update',
-        payload: { activeKey: '1' },
+        payload: { activeKey: '0' },
       })
     }
     if (taskId) {
       dispatch.todolist.getList(
-        location?.state ? { status: 0, ...location?.state } : { status: 0 }
+        location?.state ? { status: '0', ...location?.state } : { status: '0' }
       )
       dispatch.todolist.getList(
-        location?.state ? { status: 1, ...location?.state } : { status: 1 }
+        location?.state ? { status: '1', ...location?.state } : { status: '1' }
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -168,9 +168,9 @@ const TodoList = () => {
                     page,
                     pageSize,
                     status: num,
-                    // createId: location?.state?.createId
-                    //   ? location?.state.createId
-                    //   : '',
+                    createId: location?.state?.createId
+                      ? location?.state.createId
+                      : '',
                   })
                 }}
               />
@@ -202,13 +202,7 @@ const TodoList = () => {
           style={{ width: '100%' }}
           loading={loading.effects.todolist.getList}>
           <div>
-            <div className={styles.nav}>
-              {/* {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
-              {/* <Button type="primary" onClick={() => goIssue()}> */}
-              待办事项列表
-              {/* </Button> */}
-              {/* </AuthBtn> */}
-            </div>
+            <div className={styles.nav}>待办事项列表</div>
 
             <Tabs
               type="line"

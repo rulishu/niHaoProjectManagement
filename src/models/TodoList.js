@@ -8,7 +8,7 @@ import { Notify } from 'uiw'
 export default createModel()({
   name: 'todolist',
   state: {
-    activeKey: '1',
+    activeKey: '0',
     filter: {
       page: 1,
       pageSize: 10,
@@ -58,7 +58,8 @@ export default createModel()({
           Notify.error({ title: data.msg })
         }
         await dispatch.todolist.getList({
-          filter: { page, pageSize },
+          page: page,
+          pageSize: pageSize,
           status: status,
         })
       },
