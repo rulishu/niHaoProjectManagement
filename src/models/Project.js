@@ -23,12 +23,17 @@ export default createModel()({
       page: 1,
       pageSize: 10,
     },
-    dataList: [],
-    total: 0,
+    prepareList: [],
+    prepareTotal: 0,
+    openTataList: [],
+    openTotal: 0,
     closeDataList: [],
     closeTotal: 0,
-    openTataList: [{ companyId: 1, projectId: 1, assignmentId: 1 }],
-    openTotal: 0,
+    overtimeList: [],
+    overtimeTotal: 0,
+    dataList: [],
+    total: 0,
+
     issueType: 'edit',
     isView: false,
     queryInfo: {},
@@ -70,17 +75,27 @@ export default createModel()({
           ...others,
         })
         if (data && data.code === 200) {
-          if (assignmentStatus === '3') {
+          if (assignmentStatus === '1') {
             dispatch.project.update({
-              closeDataList: data?.data.list || [],
-              closeTotal: data?.data.total,
+              prepareList: data?.data.list || [],
+              prepareTotal: data?.data.total,
             })
           } else if (assignmentStatus === '2') {
             dispatch.project.update({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
             })
-          } else if (assignmentStatus === '') {
+          } else if (assignmentStatus === '3') {
+            dispatch.project.update({
+              closeDataList: data?.data.list || [],
+              closeTotal: data?.data.total,
+            })
+          } else if (assignmentStatus === '4') {
+            dispatch.project.update({
+              overtimeList: data?.data.list || [],
+              overtimeTotal: data?.data.total,
+            })
+          } else {
             dispatch.project.update({
               dataList: data?.data.list || [],
               total: data?.data.total,

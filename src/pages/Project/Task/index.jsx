@@ -19,8 +19,10 @@ const listField = {
 }
 
 const SearchBarOption = [
+  { value: '1', text: '未开始' },
   { value: '2', text: '已打开' },
   { value: '3', text: '已完成' },
+  { value: '4', text: '已逾期' },
   { value: '', text: '所有' },
 ]
 
@@ -49,6 +51,10 @@ const Task = (props) => {
       closeTotal,
       openTataList,
       openTotal,
+      prepareList,
+      prepareTotal,
+      overtimeList,
+      overtimeTotal,
       activeKey,
     },
     loading,
@@ -67,26 +73,40 @@ const Task = (props) => {
 
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      pageS({
-        assignmentStatus: '2',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '2',
-          },
-        ],
+      // pageS({
+      //   assignmentStatus: '2',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '2',
+      //     },
+      //   ],
+      // })
+      // pageS({
+      //   assignmentStatus: '3',
+      //   splicingConditionsDtos: [
+      //     {
+      //       condition: '=',
+      //       field: 'assignmentStatus',
+      //       value: '3',
+      //     },
+      //   ],
+      // })
+
+      ;['1', '2', '3', '4'].forEach((item) => {
+        pageS({
+          assignmentStatus: item,
+          splicingConditionsDtos: [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: item,
+            },
+          ],
+        })
       })
-      pageS({
-        assignmentStatus: '3',
-        splicingConditionsDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: '3',
-          },
-        ],
-      })
+
       pageS({
         assignmentStatus: '',
         splicingConditionsDtos: [],
@@ -286,12 +306,21 @@ const Task = (props) => {
             type="line"
             activeKey={activeKey}
             onTabClick={(activeKey) => getTabList(activeKey)}>
+            <Tabs.Pane label={tabsLabel('未开始', prepareTotal)} key="1">
+              {taskDataList(prepareList, prepareTotal, '1')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('进行中', openTotal)} key="2">
               {taskDataList(openTataList, openTotal, '2')}
             </Tabs.Pane>
             <Tabs.Pane label={tabsLabel('已完成', closeTotal)} key="3">
               {taskDataList(closeDataList, closeTotal, '3')}
             </Tabs.Pane>
+
+            <Tabs.Pane label={tabsLabel('已逾期', overtimeTotal)} key="4">
+              {taskDataList(overtimeList, overtimeTotal, '4')}
+            </Tabs.Pane>
+
             <Tabs.Pane label={tabsLabel('所有', total)} key="">
               {taskDataList(dataList, total, '')}
             </Tabs.Pane>
