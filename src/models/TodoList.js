@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core'
-import { getSelectPage } from '../servers/TodoList'
-// import { Notify } from 'uiw'
+import { getSelectPage, getStrutsSwitch } from '../servers/TodoList'
+import { Notify } from 'uiw'
 
 /**
  * 待办事项
@@ -8,16 +8,14 @@ import { getSelectPage } from '../servers/TodoList'
 export default createModel()({
   name: 'todolist',
   state: {
-    activeKey: '1',
+    activeKey: '0',
     filter: {
       page: 1,
       pageSize: 10,
     },
     dataList: [],
     total: 0,
-    closeDataList: [],
-    closeTotal: 0,
-    openTataList: [{ companyId: 1, todolistId: 1, assignmentId: 1 }],
+    openTataList: [],
     openTotal: 0,
     issueType: '',
     isView: false,
@@ -34,32 +32,47 @@ export default createModel()({
           //   todolistId: '', // useLocation
         })
         if (data && data.code === 200) {
-          if (params?.assignmentStatus === '3') {
-            dispatch.todolist.update({
-              closeDataList: data?.data.list || [],
-              closeTotal: data?.data.total,
-            })
-          } else if (params?.assignmentStatus === '1') {
-            dispatch.todolist.update({
-              openTataList: data?.data.list || [],
-              openTotal: data?.data.total,
-            })
-          } else {
+          if (params?.status === '1') {
             dispatch.todolist.update({
               dataList: data?.data.list || [],
               total: data?.data.total,
             })
+          } else {
+            dispatch.todolist.update({
+              openTataList: data?.data.list || [],
+              openTotal: data?.data.total,
+            })
           }
         }
       },
+      async getStrutsSwitch(payload) {
+        const { page, pageSize, status } = payload
+        let params = {
+          ...payload,
+        }
+        const data = await getStrutsSwitch(params)
+        // console.log('data------>11111', data)
+        if (data && data.code === 200) {
+          Notify.success({ title: data.msg })
+        } else {
+          Notify.error({ title: data.msg })
+        }
+        await dispatch.todolist.getList({
+          page: page,
+          pageSize: pageSize,
+          status: status,
+        })
+      },
+
       // 翻页
+
       async goToPage(payload) {
-        const { page, pageSize, assignmentStatus, createId } = payload
+        const { page, pageSize, status, createId } = payload
         await dispatch.todolist.update({
           filter: { page, pageSize },
         })
         await dispatch.todolist.getList({
-          assignmentStatus: assignmentStatus,
+          status: status,
           createId,
         })
       },
