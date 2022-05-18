@@ -105,3 +105,13 @@ export function selectAllUser(params) {
     body: params,
   })
 }
+
+/**
+ * 获取用户各状态项目总数
+ */
+export function selectNumber(params) {
+  return request('/api/project/selectNumber', {
+    method: 'POST',
+    body: params,
+  })
+}
