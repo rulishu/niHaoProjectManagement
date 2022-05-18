@@ -59,7 +59,7 @@
             "navigate": "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/milestone/editMilestone/:id",
+            "path": "/milestone/editMilestone/:projectId/:id",
             "name": "编辑里程碑",
             "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,
@@ -67,12 +67,12 @@
             "navigate": "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('id')}`)}"
           },
           {
-            "path": "/milestone/milestoneInfo/:id",
+            "path": "/milestone/milestoneInfo/:projectId/:id",
             "name": "里程碑详情",
             "component": "@/pages/Milestone/MilestoneInfo",
             "isAuth": true,
             "hideInMenu": true,
-            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}`)}"
+            "navigate": "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}/${sessionStorage.getItem('id')}`)}"
           }
         ]
       },

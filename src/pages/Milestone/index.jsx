@@ -15,7 +15,7 @@ import {
   OverlayTrigger,
 } from 'uiw'
 import { useNavigate, useLocation } from 'react-router-dom'
-import dayjs from 'dayjs'
+import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 
 const { Line } = Progress
@@ -33,21 +33,22 @@ const Milestone = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
   const pathArr = location.pathname.split('/')
+  const projectId = pathArr[pathArr.length - 1]
 
   useEffect(() => {
     // milestonesStatusList 1:打开2:关闭3：删除
     props.dispatch.selectPageList({
       milestonesStatusList: [],
-      projectId: pathArr[pathArr.length - 1],
+      projectId: projectId,
     })
     // 查询 已完成
     props.dispatch.selectPageList({
       milestonesStatusList: [1],
-      projectId: pathArr[pathArr.length - 1],
+      projectId: projectId,
     })
     props.dispatch.selectPageList({
       milestonesStatusList: [2],
-      projectId: pathArr[pathArr.length - 1],
+      projectId: projectId,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, props.dispatch])
@@ -63,8 +64,8 @@ const Milestone = (props) => {
   }
 
   const listGo = (milestonesId) => {
-    navigate(`/milestone/milestoneInfo/${milestonesId}`, {
-      state: { milestonesId },
+    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
+      state: { projectId, milestonesId },
     })
   }
 
@@ -114,14 +115,20 @@ const Milestone = (props) => {
                           </div>
                         )}
                         <div>
-                          {dayjs(item?.dueTime)?.diff(
+                          {item.dueTime &&
+                            item.milestonesStatus === 1 &&
+                            !timeDistance(item.createTime, item.dueTime)
+                              ?.status && (
+                              <span className={styles.overdue}>已延期</span>
+                            )}
+                          {/* {dayjs(item?.dueTime)?.diff(
                             dayjs().format('YYYY-MM-DD'),
                             'hour'
                           ) < 0 && item?.milestonesStatus === 1 ? (
                             <span className={styles.overdue}>已延期</span>
                           ) : (
                             <span className={styles.overdue}>已延期</span>
-                          )}
+                          )} */}
                           <span className={styles.project}>
                             {item.createName} / {item.projectName}
                           </span>
@@ -227,6 +234,7 @@ const Milestone = (props) => {
                   placeholder="请输入内容"
                   style={{ maxWidth: 200 }}
                   onChange={(e) => console.log(e.target.value)}
+                  onBlur={(e) => console.log(e.target.value)}
                 />
               </div>
               <div className={styles.dropdown}>

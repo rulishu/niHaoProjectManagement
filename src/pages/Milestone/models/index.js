@@ -7,7 +7,7 @@ import {
   updateMilestones,
   editStatusMilestones,
   getSelectAll,
-} from '../../../servers/milestone'
+} from '@/servers/milestone'
 import { Notify } from 'uiw'
 
 const NotifySuccess = (message) => {
@@ -27,6 +27,8 @@ export default createModel()({
       milestonesId: 0,
     },
     milestoneType: 0,
+    milestonesId: 0,
+    projectId: 0,
     listData: [],
     openListData: [],
     openListTotal: 0,
@@ -99,9 +101,10 @@ export default createModel()({
       },
       // 根据id查询里程碑详情
       async getMilestone(payload, { milestone }) {
+        const { projectId, milestonesId } = payload
         const data = await getMilestonesInfo({
-          id: payload,
-          projectId: Number(sessionStorage.getItem('id')),
+          id: milestonesId,
+          projectId,
         })
         if (data.code === 200) {
           dispatch.milestone.update({
@@ -113,7 +116,7 @@ export default createModel()({
       async delMilestones({ payload, callback }, { milestone }) {
         const data = await deleteMilestones({
           id: payload,
-          projectId: Number(sessionStorage.getItem('id')),
+          projectId: milestone.projectId,
         })
         if (data.code === 200) {
           NotifySuccess(data.message)
@@ -122,8 +125,9 @@ export default createModel()({
       },
       // 编辑里程碑
       async editMilestone({ payload, callback }, { milestone }) {
-        const { milestonesId } = milestone.fromData
-        const params = { milestonesId, ...payload }
+        const { milestonesId, projectId } = milestone
+        console.log(milestone)
+        const params = { milestonesId, projectId, ...payload }
         const data = await updateMilestones(params)
         if (data.code === 200) {
           NotifySuccess(data.message)
