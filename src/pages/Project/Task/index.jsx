@@ -68,7 +68,7 @@ const Task = (props) => {
   }
 
   useEffect(() => {
-    console.log(params)
+    console.log('params', params)
   }, [params])
 
   // 进页面先查询一次，获取任务数量角标
@@ -243,7 +243,7 @@ const Task = (props) => {
   const taskDataList = (data, taskTotal, num) => {
     return (
       <div>
-        {data.length > 0 ? (
+        {(data || []).length > 0 ? (
           <Fragment>
             <List
               data={data || []}
