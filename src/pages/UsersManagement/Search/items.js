@@ -2,12 +2,12 @@ import { Button } from 'uiw'
 
 export const columnsSearch = (handleEditTable) => [
   {
-    title: '用户',
+    title: '成员姓名',
     key: 'code',
     align: 'center',
   },
   {
-    title: '角色',
+    title: '成员角色',
     key: 'code',
     align: 'center',
   },

@@ -87,7 +87,9 @@ const Drawer = (props) => {
       ]}>
       <ProForm
         title={
-          tableType === 'edit'
+          tableType === 'add'
+            ? '新增信息'
+            : tableType === 'edit'
             ? '编辑信息'
             : tableType === 'member'
             ? '邀请成员'
@@ -105,7 +107,7 @@ const Drawer = (props) => {
           })
         }
         formDatas={
-          tableType === 'edit'
+          tableType === 'add' || tableType === 'edit'
             ? items(queryInfo)
             : tableType === 'member'
             ? memberItems(queryInfo)
