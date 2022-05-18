@@ -44,8 +44,7 @@ const Task = (props) => {
 
   // 处理带id的路由
   useLocationPage()
-  const taskId = params.id || ''
-
+  const taskId = params.projectId || ''
   const {
     project: {
       dataList,

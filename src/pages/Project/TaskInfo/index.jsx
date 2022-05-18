@@ -6,11 +6,17 @@ import styles from './index.module.less'
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
+import { useParams } from 'react-router-dom'
 // import { NEWMDEditor } from '@/components'
 import FromMD from './fromMD'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const TaskInfo = (props) => {
   const dispatch = useDispatch()
+  const params = useParams()
+
+  // 处理带id的路由
+  useLocationPage()
   const {
     home: { taskId },
     project: { issueType, editFromData, taskInfoData, commentData },
@@ -28,7 +34,7 @@ const TaskInfo = (props) => {
       payload,
     })
   }
-
+  console.log('params', params)
   useEffect(() => {
     if (sessionStorage.getItem('id') === null) {
       sessionStorage.setItem('id', projectId)
@@ -323,8 +329,17 @@ const TaskInfo = (props) => {
                               description={item.text}
                               key={index}
                             />
-                          ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
-                          item.type === 3 ? (
+                          ) : item.type === 2 ? (
+                            <Steps.Step
+                              description={
+                                <MarkdownPreview
+                                  source={item?.operatingRecords || ''}
+                                />
+                              }
+                              title={`${item.createName}评论`}
+                              key={index}
+                            />
+                          ) : item.type === 3 ? (
                             <Steps.Step
                               description={
                                 <FromMD
@@ -337,29 +352,7 @@ const TaskInfo = (props) => {
                               title="回复"
                               key={index}
                             />
-                          ) : (
-                            <Steps.Step
-                              icon={
-                                <Icon
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderWidth: 1,
-                                    borderStyle: 'solid',
-                                    borderColor: '#ccc',
-                                    borderRadius: 15,
-                                    padding: 5,
-                                    paddingLeft: 6,
-                                    paddingTop: 2,
-                                  }}
-                                  type="tag-o"
-                                />
-                              }
-                              title={item.title}
-                              description={item.text}
-                              key={index}
-                            />
-                          )
+                          ) : null
                         }
                       )
                     : null}

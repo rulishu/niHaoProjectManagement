@@ -98,7 +98,13 @@ const FromMD = (props) => {
             },
           })
         }}
-        onSubmit={() => {
+        onSubmit={(item) => {
+          upDate({
+            [editName]: {
+              ...editData,
+              ...item.current,
+            },
+          })
           submit()
         }}
         onSubmitError={(error) => {
