@@ -41,10 +41,10 @@ const Task = (props) => {
   const dispatch = useDispatch()
   const location = useLocation()
   const params = useParams()
+
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
-
   const {
     project: {
       dataList,
@@ -156,9 +156,7 @@ const Task = (props) => {
     // })
     console.log('item', item)
 
-    navigate(
-      `/project/taskInfo/${item.companyId}/${item.projectId}/${item.assignmentId}`
-    )
+    navigate(`/project/taskInfo/${item.projectId}/${item.assignmentId}`)
   }
 
   // 搜索按钮事件

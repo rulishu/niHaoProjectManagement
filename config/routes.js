@@ -116,13 +116,11 @@ const routes = [
             isAuth: true,
           },
           {
-            path: '/project/taskInfo/:companyId/:projectId/:id',
+            path: '/project/taskInfo/:projectId/:id',
             name: '任务详情',
             component: '@/pages/Project/TaskInfo',
             hideInMenu: true,
             isAuth: true,
-            navigate:
-              "(navigate) => {navigate(`/project/task/${sessionStorage.getItem('projectId')}`)}",
           },
         ],
       },
