@@ -19,6 +19,7 @@ import './index.css'
 
 const ProjectList = (props) => {
   const { router } = props
+  const token = localStorage.getItem('token')
   const { projectlist } = useSelector((state) => state)
   const dispatch = useDispatch()
   console.log(projectlist)
@@ -125,7 +126,7 @@ const ProjectList = (props) => {
     },
   ]
 
-  // const table = useTable('/api/project/selectPageList', {
+  // const table = useTable('/api/project/selectOneInfo', {
   const table = useTable('https://randomuser.me/api', {
     formatData: (data) => {
       if (data?.data) {
@@ -145,7 +146,10 @@ const ProjectList = (props) => {
         type: projectType,
       }
     },
-    requestOptions: { method: 'POST' },
+    requestOptions: {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
+    },
   })
 
   const goSpecifyPage = (type, option = {}) => {
@@ -217,9 +221,9 @@ const ProjectList = (props) => {
                   } else if (tab === '2') {
                     setProjectStatus(1)
                   } else if (tab === '3') {
-                    setProjectStatus(2)
-                  } else if (tab === '4') {
                     setProjectStatus(3)
+                  } else if (tab === '4') {
+                    setProjectStatus(2)
                   }
                   table.onSearch()
                 }}>
@@ -228,7 +232,7 @@ const ProjectList = (props) => {
                   label={tabsPaneLabel('进行中', 1)}
                   key="2"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel('已完成', 1)}
+                  label={tabsPaneLabel('已关闭', 1)}
                   key="3"></Tabs.Pane>
                 <Tabs.Pane
                   label={tabsPaneLabel('已挂起', 1)}
