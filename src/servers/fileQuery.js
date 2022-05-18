@@ -11,7 +11,8 @@ export const uploadFile = (params) => {
 
 // 根据uuid查询文件路径
 export const selectFilePathById = (params) => {
-  return request(`/api/project/selectFilePathById/${params.uuid}`, {
+  // return request(`/api/project/selectFilePathById/${params.uuid}`, {
+  return request(`/api/file/selectFile/${params.uuid}`, {
     method: 'POST',
     body: params,
     requestType: 'form',

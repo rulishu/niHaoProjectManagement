@@ -156,9 +156,6 @@ const TaskInfo = (props) => {
     dispatch.project.getAddComment()
   }
 
-  console.log('taskInfoData', taskInfoData)
-  console.log('commentData', commentData)
-
   return (
     <>
       <Loader
@@ -238,6 +235,7 @@ const TaskInfo = (props) => {
                 <FromMD
                   upDate={updateData}
                   submit={goSaveIssue}
+                  editName={'editFromData'}
                   editData={editFromData}
                   infoData={taskInfoData}
                   fromValue={'description'}
