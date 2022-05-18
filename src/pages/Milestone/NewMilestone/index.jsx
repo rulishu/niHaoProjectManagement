@@ -36,9 +36,10 @@ const NewMilestone = (props) => {
         props.dispatch.update({ listDataInfo: {}, projectId, milestoneType: 1 })
       }
     }
-    if (milestoneType === 1) {
+    if (milestoneType) {
       if (milestoneType === 1) {
-        props.dispatch.update({ listDataInfo: {} })
+        const projectId = pathArr[pathArr.length - 1]
+        props.dispatch.update({ listDataInfo: {}, projectId })
       }
       if (milestoneType === 2) {
         const milestonesId = pathArr[pathArr.length - 1]

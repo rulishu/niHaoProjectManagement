@@ -51,7 +51,7 @@
         "isAuth": true,
         "routes": [
           {
-            "path": "/milestone/newMilestone",
+            "path": "/milestone/newMilestone/:id",
             "name": "新增里程碑",
             "component": "@/pages/Milestone/NewMilestone",
             "isAuth": true,

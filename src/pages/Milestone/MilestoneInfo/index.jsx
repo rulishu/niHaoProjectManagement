@@ -54,9 +54,9 @@ const MilestoneInfo = (props) => {
     await props.dispatch.editStatusMilestones({
       milestonesId,
       milestonesStatus: status,
-      projectId: 1594,
+      projectId: projectId,
     })
-    await props.dispatch.getMilestone(milestonesId)
+    await props.dispatch.getMilestone({ projectId, milestonesId })
   }
 
   // 编辑
@@ -90,12 +90,12 @@ const MilestoneInfo = (props) => {
             <div className={styles.headLeft}>
               <span
                 className={styles.headStatus}
-                style={{ background: '#666' }}>
+                style={{ background: '#ab6100' }}>
                 {milestonesState === 1
-                  ? '逾 期'
+                  ? '打开'
                   : milestonesState === 2
                   ? '关闭'
-                  : '打开'}
+                  : '未知'}
               </span>
               <span className={styles.headTitle}>
                 <strong>里程碑</strong>
