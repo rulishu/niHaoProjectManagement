@@ -4,10 +4,13 @@ import {
   myProject,
   memberOperator,
 } from '../servers/workbench'
+import { Notify } from 'uiw'
+
 const workbench = createModel()({
   name: 'workbench',
   state: {
     listDynamic: [],
+    projectList: [],
     taskId: '1594',
   },
   effects: (dispatch) => ({
@@ -24,11 +27,12 @@ const workbench = createModel()({
     // 我近期参与的项目统计
     async myProject(payload) {
       const data = await myProject(payload)
-      console.log('近期项目===>', data)
       if (data.code === 200) {
         dispatch.workbench.update({
-          listDynamic: data?.data || [],
+          projectList: data?.data || [],
         })
+      } else {
+        Notify.error({ title: `失败` + data.message })
       }
     },
     // 成员动态
@@ -39,6 +43,8 @@ const workbench = createModel()({
         dispatch.workbench.update({
           listDynamic: data?.data || [],
         })
+      } else {
+        Notify.error({ title: `失败` + data.message })
       }
     },
   }),

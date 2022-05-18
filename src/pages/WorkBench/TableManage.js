@@ -60,11 +60,11 @@ export default function TableManage() {
                 onTabClick={(tab, key, e) => {
                   console.log('=>', key, tab)
                 }}>
-                <Tabs.Pane label="所有待处理" key="1"></Tabs.Pane>
+                <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
                 <Tabs.Pane
                   sequence="fadeIn up"
-                  label="已延期"
+                  label="已逾期"
                   key="3"></Tabs.Pane>
               </Tabs>
               <ProTable
@@ -100,6 +100,10 @@ export default function TableManage() {
                     render: (text) => {
                       return <div>{text.age}</div>
                     },
+                  },
+                  {
+                    title: '指派人',
+                    key: 'phone',
                   },
                   {
                     title: '创建人',
