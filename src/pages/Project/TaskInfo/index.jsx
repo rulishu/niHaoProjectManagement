@@ -297,7 +297,7 @@ const TaskInfo = (props) => {
                 //     )
                 //   }}
                 // </Form>
-                <div>
+                <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
@@ -330,9 +330,13 @@ const TaskInfo = (props) => {
                           ) : item.type === 2 ? (
                             <Steps.Step
                               description={
-                                <MarkdownPreview
-                                  source={item?.operatingRecords || ''}
-                                />
+                                <div
+                                  data-color-mode="light"
+                                  style={{ flex: 1 }}>
+                                  <MarkdownPreview
+                                    source={item?.operatingRecords || ''}
+                                  />
+                                </div>
                               }
                               title={`${item.createName}评论`}
                               key={index}
