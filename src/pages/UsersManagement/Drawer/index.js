@@ -23,7 +23,7 @@ const Drawer = (props) => {
   }
   // 执行成功返回的信息
   const information = (data) => {
-    if (data.code === 1) {
+    if (data.code === 200) {
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })
@@ -37,7 +37,6 @@ const Drawer = (props) => {
   }
 
   const onSubmit = (current) => {
-    console.log('current', current)
     // 校验
     const errorObj = {}
     const arr = Object.keys(current)
@@ -56,14 +55,19 @@ const Drawer = (props) => {
     }
 
     // 编辑
-    if (tableType === 'add') {
+    if (tableType === 'member') {
       const payload = {
         ...current,
-        joinTime: formatter('YYYY-MM-DD HH:mm:ss', current?.joinTime),
+        userId: Number(current?.userId),
+        accessExpirationDate: formatter(
+          'YYYY-MM-DD HH:mm:ss',
+          current?.accessExpirationDate
+        ),
+        // projectId: localStorage.getItem('projectId') || ''
       }
       console.log('payload', payload)
       dispatch({
-        type: 'usersManagement/addProjectMember',
+        type: 'usersManagement/inviteMember',
         payload,
       }).then((data) => information(data))
     }
@@ -112,7 +116,7 @@ const Drawer = (props) => {
             ? items(queryInfo)
             : tableType === 'member'
             ? memberItems(queryInfo)
-            : tableType === 'group' && groupItems(queryInfo)
+            : groupItems(queryInfo)
         }
       />
     </ProDrawer>
