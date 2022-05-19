@@ -15,13 +15,13 @@ function Dictionary() {
       payload,
     })
   }
-
-  const table = useTable('/api/dict/queryByPage', {
+  const token = localStorage.getItem('token')
+  const table = useTable('/api/system/dict/type/list', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data?.total,
-        data: data?.data?.list || [],
+        total: data?.total,
+        data: data?.rows || [],
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -29,9 +29,12 @@ function Dictionary() {
       return {
         page: pageIndex,
         pageSize,
-        dictSort: 1,
+        // dictSort: 1,
         ...searchValues,
       }
+    },
+    requestOptions: {
+      headers: { Authorization: 'Bearer ' + token },
     },
   })
 
@@ -50,7 +53,7 @@ function Dictionary() {
     if (type === 'del') {
       const result = await dispatch({
         type: 'dictionary/deleteByTypeId',
-        payload: [record?.dictId],
+        payload: { ids: [record?.dictId] },
       })
       if (result.code === 200) {
         table.onSearch()
@@ -105,15 +108,15 @@ function Dictionary() {
           columns={[
             {
               title: '字典类型编码',
-              key: 'dictTypeCode',
+              key: 'dictId',
               ellipsis: true,
-              props: {
-                widget: 'input',
-                initialValue: '',
-                widgetProps: {
-                  placeholder: '输入字典类型编码',
-                },
-              },
+              // props: {
+              //   widget: 'input',
+              //   initialValue: '',
+              //   widgetProps: {
+              //     placeholder: '输入字典类型编码',
+              //   },
+              // },
               render: (text) => (
                 <Tooltip placement="topLeft" content={text}>
                   {text}
@@ -122,7 +125,24 @@ function Dictionary() {
             },
             {
               title: '字典类型名称',
-              key: 'dictTypeName',
+              key: 'dictName',
+              ellipsis: true,
+              render: (text, key, rowData) => (
+                <Tooltip placement="topLeft" content={text}>
+                  {text}
+                </Tooltip>
+              ),
+              props: {
+                widget: 'input',
+                initialValue: '',
+                widgetProps: {
+                  placeholder: '输入字典类型名称',
+                },
+              },
+            },
+            {
+              title: '字典类型',
+              key: 'dictType',
               ellipsis: true,
               render: (text, key, rowData) => (
                 <Tooltip placement="topLeft" content={text}>
@@ -137,13 +157,13 @@ function Dictionary() {
                 widget: 'input',
                 initialValue: '',
                 widgetProps: {
-                  placeholder: '输入字典类型名称',
+                  placeholder: '输入字典类型',
                 },
               },
             },
             {
               title: '状态',
-              key: 'deleteMark',
+              key: 'status',
               props: {
                 widget: 'select',
                 option: [
@@ -168,25 +188,21 @@ function Dictionary() {
               },
             },
             {
-              title: '创建人',
-              key: 'createName',
+              title: '备注',
+              key: 'remark',
             },
             {
               title: '创建时间',
               key: 'createTime',
-            },
-            {
-              title: '更新人',
-              key: 'updateName',
-            },
-            {
-              title: '更新时间',
-              key: 'updateTime',
+              align: 'center',
+              props: {
+                widget: 'dateInputRange',
+                format: 'YYYY-MM-DD HH:mm:ss',
+              },
             },
             {
               title: '操作',
               key: 'edit',
-              width: 150,
               render: (text, key, rowData) => (
                 <div>
                   <AuthBtn path="/api/dict/queryById">
