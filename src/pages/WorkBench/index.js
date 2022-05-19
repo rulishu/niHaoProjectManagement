@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Progress, Menu, Button, Descriptions } from 'uiw'
+import {
+  Row,
+  Col,
+  Card,
+  Progress,
+  Menu,
+  Button,
+  Descriptions,
+  Notify,
+} from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
@@ -97,7 +106,14 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        window.location.href = '#/projectOverview/:id'
+                        if (projectData?.projectId === undefined) {
+                          return Notify.warning({
+                            title: '警告通知',
+                            description: '请先点击项目名称',
+                          })
+                        } else {
+                          window.location.href = `#/projectOverview/${projectData?.projectId}`
+                        }
                       }}>
                       项目概览
                     </Button>
@@ -149,7 +165,6 @@ export default function Demo() {
                           <div style={{}}>
                             <Card
                               bordered={false}
-                              onClick={() => console.log('123')}
                               key={item.key}
                               title={item.title}
                               style={{ width: 80 }}>

@@ -76,11 +76,7 @@ export default function SlelectLabel() {
                 }}>
                 <ProTable
                   onCell={(rowData) => {
-                    window.location.href =
-                      `#/project/taskInfo/` +
-                      rowData?.projectId +
-                      '/' +
-                      rowData?.assignmentId
+                    window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
                   }}
                   table={table}
                   columns={[
