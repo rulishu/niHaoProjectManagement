@@ -68,7 +68,6 @@ const projectlist = createModel()({
         Notify.success({ title: data.data })
         setDeleteOpen(false)
         search()
-        dispatch.projectlist.selectNumber()
       } else {
         Notify.error({ title: data.data })
       }
