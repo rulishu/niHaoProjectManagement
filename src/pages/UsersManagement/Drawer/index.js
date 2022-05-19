@@ -81,9 +81,9 @@ const Drawer = (props) => {
         ...current,
         userId: Number(current?.userId),
         memberRole: Number(current?.memberRole),
-        accessExpirationDate: formatter(
+        accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
-          current?.accessExpirationDate
+          current?.accessExpirationTime
         ),
         projectId: projectId,
       }
@@ -98,9 +98,9 @@ const Drawer = (props) => {
         ...current,
         teamId: Number(current?.teamId),
         memberRole: Number(current?.memberRole),
-        accessExpirationDate: formatter(
+        accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
-          current?.accessExpirationDate
+          current?.accessExpirationTime
         ),
         projectId: projectId,
       }
