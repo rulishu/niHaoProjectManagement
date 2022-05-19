@@ -19,7 +19,6 @@ export default function TableManage() {
         page: pageIndex,
         pageSize: pageSize,
         assignmentStatus: tab,
-        ...searchValues,
       }
     },
     requestOptions: {
@@ -49,6 +48,7 @@ export default function TableManage() {
                 activeKey="1"
                 onTabClick={(tab, key, e) => {
                   setTab(tab)
+                  table.onSearch()
                 }}>
                 <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2"></Tabs.Pane>

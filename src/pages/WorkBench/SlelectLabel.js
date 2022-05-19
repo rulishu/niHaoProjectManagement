@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Row, Col, Card, Tabs, List, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
+// import styles from './index.module.less'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
@@ -29,9 +30,8 @@ export default function SlelectLabel() {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        assignmentStatus: tab !== 5 ? tab : '',
-        createId: tab === 5 ? 1 : '',
-        ...searchValues,
+        assignmentStatus: tab !== '5' ? tab : '',
+        createId: tab === '5' ? 1 : '',
       }
     },
     requestOptions: {
@@ -39,7 +39,6 @@ export default function SlelectLabel() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   return (
     <div>
       <div>
@@ -59,6 +58,7 @@ export default function SlelectLabel() {
                 style={{ marginBottom: 0 }}
                 onTabClick={(tab, key, e) => {
                   setTab(tab)
+                  table.onSearch()
                 }}>
                 <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
@@ -128,8 +128,8 @@ export default function SlelectLabel() {
                 <List bordered={false}>
                   {memberList?.map((a) => {
                     return (
-                      <List.Item>
-                        {a.createTime}·{a?.operatingRecords}
+                      <List.Item href={`#/usersManagement/${a?.projectId}`}>
+                        {a?.createTime}·{a?.operatingRecords}
                       </List.Item>
                     )
                   })}
