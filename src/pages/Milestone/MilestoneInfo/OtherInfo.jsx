@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { Tabs, Avatar, Icon, Row, Col, Button, Empty, Loader } from 'uiw'
+import { Tabs, Icon, Row, Col, Button, Empty, Loader } from 'uiw'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import './index.css'
 
 const OtherInfo = (props) => {
-  const { projectId } = props
+  const { projectId, goTaskListPage } = props
   const {
     milestone: { listDataInfo, allLabelData },
     dictionary: { dictDataList },
@@ -78,11 +78,12 @@ const OtherInfo = (props) => {
               <div className={styles.taskBody}>
                 <span className={styles.taskLink}>#{item.assignmentId}</span>
                 {item?.labels?.map((tagItem) => lableBox(tagItem))}
-                <span className={styles.taskAssignPerson}>
+                {/* 等后端完成 */}
+                {/* <span className={styles.taskAssignPerson}>
                   <Avatar size="mini" className={styles.roleAvatar}>
                     {item.userName}
                   </Avatar>
-                </span>
+                </span> */}
               </div>
             </li>
           )
@@ -101,25 +102,11 @@ const OtherInfo = (props) => {
               {lableBox(item?.dictValue)}
             </div>
             <div className={styles.lableLiRight}>
-              <Button
-                basic
-                type="light"
-                onClick={() => {
-                  navigate(`/project/task/${projectId}`, {
-                    state: { projectId },
-                  })
-                }}>
+              <Button basic type="light" onClick={() => goTaskListPage(2)}>
                 {item?.open}个已开启任务
               </Button>
-              <Button
-                basic
-                type="light"
-                onClick={() => {
-                  navigate(`/project/task/${projectId}`, {
-                    state: { projectId },
-                  })
-                }}>
-                {item?.close}个已关闭任务
+              <Button basic type="light" onClick={() => goTaskListPage(3)}>
+                {item?.close}个已完成任务
               </Button>
             </div>
           </li>
