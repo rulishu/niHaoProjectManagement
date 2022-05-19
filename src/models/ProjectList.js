@@ -69,7 +69,7 @@ const projectlist = createModel()({
         setDeleteOpen(false)
         search()
       } else {
-        Notify.error({ title: data.data })
+        // Notify.error({ title: data.data })
       }
     },
   }),
