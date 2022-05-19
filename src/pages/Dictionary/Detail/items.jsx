@@ -1,31 +1,9 @@
 export const itemsDetail = (queryInfo, tableType) => [
   {
-    label: '字典类型编码',
-    key: 'dictTypeCode',
-    widget: 'input',
-    initialValue: queryInfo?.dictTypeCode,
-    widgetProps: {
-      disabled: tableType !== 'add',
-    },
-    required: true,
-    rules: [
-      {
-        required: true,
-        validator: (value = '') => {
-          if (value.length < 2 || value.length > 50) return false
-          return true
-        },
-        message: '请输入字典类型编码,长度为2-50',
-      },
-    ],
-    placeholder: '请输入字典类型编码',
-    span: '24',
-  },
-  {
     label: '字典类型名称',
-    key: 'dictTypeName',
+    key: 'dictName',
     widget: 'input',
-    initialValue: queryInfo?.dictTypeName,
+    initialValue: queryInfo?.dictName,
     widgetProps: {},
     required: true,
     rules: [
@@ -42,14 +20,43 @@ export const itemsDetail = (queryInfo, tableType) => [
     span: '24',
   },
   {
-    label: '数据状态',
-    key: 'deleteMark',
-    widget: 'radio',
-    initialValue: queryInfo?.deleteMark,
-    hide: tableType === 'add',
-    option: [
-      { value: 0, label: '正常' },
-      { value: 2, label: '停用' },
+    label: '字典类型编码',
+    key: 'dictType',
+    widget: 'input',
+    initialValue: queryInfo?.dictType,
+    widgetProps: {
+      // disabled: tableType !== 'add',
+    },
+    required: true,
+    rules: [
+      {
+        required: true,
+        validator: (value = '') => {
+          if (value.length < 2 || value.length > 50) return false
+          return true
+        },
+        message: '请输入字典类型编码,长度为2-50',
+      },
     ],
+    placeholder: '请输入字典类型编码',
+    span: '24',
+  },
+  {
+    label: '状态',
+    key: 'status',
+    widget: 'select',
+    option: [
+      { label: '停用', value: '1' },
+      { label: '正常', value: '0' },
+    ],
+    initialValue: queryInfo?.status || '0',
+    span: '24',
+  },
+  {
+    label: '备注',
+    key: 'remark',
+    widget: 'textarea',
+    initialValue: queryInfo?.remark,
+    span: '24',
   },
 ]
