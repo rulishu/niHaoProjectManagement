@@ -93,14 +93,14 @@ export const memberItems = (queryInfo, userIdList) => {
 export const groupItems = (queryInfo) => {
   return [
     {
-      label: '选择要邀请的群组',
-      key: 'userId',
+      label: '选择要邀请的团队',
+      key: 'teamId',
       widget: 'input',
-      initialValue: queryInfo?.userId,
+      initialValue: queryInfo?.teamId,
       required: true,
-      placeholder: '选择要邀请的群组',
+      placeholder: '选择要邀请的团队',
       span: '24',
-      rules: [{ required: true, message: '请选择要邀请的群组' }],
+      rules: [{ required: true, message: '请选择要邀请的团队' }],
     },
     {
       label: '选择成员角色',

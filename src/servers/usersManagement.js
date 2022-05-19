@@ -10,6 +10,14 @@ function inviteMember(params) {
     body: { ...params },
   })
 }
+// 邀请团队
+function inviteTeam(params) {
+  return request('/api/member/inviteTeam', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
 // 编辑成员
 function updateProjectMember(params) {
   return request('/api/member/updateProjectMember', {
@@ -37,6 +45,7 @@ function queryFuzzyAllUser(params) {
 
 export {
   inviteMember,
+  inviteTeam,
   updateProjectMember,
   deleteProjectMember,
   queryFuzzyAllUser,

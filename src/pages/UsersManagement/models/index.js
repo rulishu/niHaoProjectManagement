@@ -4,6 +4,7 @@ import {
   updateProjectMember,
   deleteProjectMember,
   queryFuzzyAllUser,
+  inviteTeam,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -31,6 +32,15 @@ const usersManagement = createModel()({
         tableType: 'member',
       })
       return await inviteMember(payload)
+    },
+    // 邀请团队
+    async inviteTeam(payload) {
+      const dph = dispatch
+      dph.usersManagement.updateState({
+        drawerVisible: true,
+        tableType: 'group',
+      })
+      return await inviteTeam(payload)
     },
     // 编辑成员
     async updateProjectMember(payload) {

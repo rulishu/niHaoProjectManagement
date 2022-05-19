@@ -71,7 +71,7 @@ const Drawer = (props) => {
       throw err
     }
 
-    // 邀请
+    // 邀请成员
     if (tableType === 'member') {
       const payload = {
         ...current,
@@ -85,6 +85,23 @@ const Drawer = (props) => {
       }
       dispatch({
         type: 'usersManagement/inviteMember',
+        payload,
+      }).then((data) => information(data))
+    }
+    // 邀请团队
+    if (tableType === 'group') {
+      const payload = {
+        ...current,
+        teamId: Number(current?.teamId),
+        memberRole: Number(current?.memberRole),
+        accessExpirationDate: formatter(
+          'YYYY-MM-DD HH:mm:ss',
+          current?.accessExpirationDate
+        ),
+        projectId: projectId,
+      }
+      dispatch({
+        type: 'usersManagement/inviteTeam',
         payload,
       }).then((data) => information(data))
     }
@@ -129,7 +146,7 @@ const Drawer = (props) => {
             ? '编辑信息'
             : tableType === 'member'
             ? '邀请成员'
-            : tableType === 'group' && '邀请群组'
+            : tableType === 'group' && '邀请团队'
         }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
