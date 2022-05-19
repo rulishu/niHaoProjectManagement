@@ -39,8 +39,9 @@ export default createModel()({
       }
     },
     async getRouters(payload) {
-      const data = await getRouters(payload)
+      const data = await getRouters()
       if (data.code === 200) {
+        payload.callback && payload.callback(data.data)
         return true
       }
     },
