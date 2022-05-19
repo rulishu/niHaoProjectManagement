@@ -24,8 +24,8 @@ import 'tributejs/tribute.css'
 // }
 
 const SearchBarOption = [
-  { value: 0, text: '待处理' },
-  { value: 1, text: '已完成' },
+  { value: '0', text: '待处理' },
+  { value: '1', text: '已完成' },
 ]
 
 const tabsLabel = (title, num) => {
@@ -48,8 +48,8 @@ const TodoList = () => {
     todolist: { dataList, total, filter, openTataList, openTotal, activeKey },
     loading,
   } = useSelector((state) => state)
-  console.log('openTataList', openTataList)
-  console.log('dataList', dataList)
+  // console.log('openTataList', openTataList)
+  // console.log('dataList', dataList)
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     if (location?.state) {
@@ -145,7 +145,7 @@ const TodoList = () => {
                             onClick={() =>
                               dispatch({
                                 type: 'todolist/getStrutsSwitch',
-                                payload: { id: item.id },
+                                payload: { id: item.id, status: item.status },
                               })
                             }>
                             {item.status === 1 ? '去处理' : '完毕'}
@@ -168,9 +168,9 @@ const TodoList = () => {
                     page,
                     pageSize,
                     status: num,
-                    createId: location?.state?.createId
-                      ? location?.state.createId
-                      : '',
+                    // createId: location?.state?.createId
+                    //   ? location?.state.createId
+                    //   : '',
                   })
                 }}
               />

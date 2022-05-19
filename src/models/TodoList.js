@@ -21,6 +21,14 @@ export default createModel()({
     isView: false,
     queryInfo: {},
   },
+  reducers: {
+    update: (state, payload) => {
+      return {
+        ...state,
+        ...payload,
+      }
+    },
+  },
   effects: (dispatch) => {
     return {
       // 分页查询
@@ -85,13 +93,5 @@ export default createModel()({
         })
       },
     }
-  },
-  reducers: {
-    update: (state, payload) => {
-      return {
-        ...state,
-        ...payload,
-      }
-    },
   },
 })
