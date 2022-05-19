@@ -2550,7 +2550,7 @@
 
 "@uiw-admin/authorized@^5.3.14", "@uiw-admin/authorized@5.3.14":
   "integrity" "sha512-5g0ZBOOdqBIfqUO/KimODJ84GQmWlNF39TwoQ0qVHb/RQFMI/Ud5Giz2CIPnMU04M/ts6xB27ZlE5b6niOBDDA=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/authorized/-/authorized-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/authorized/-/authorized-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@babel/runtime" "~7.17.0"
@@ -2558,7 +2558,7 @@
 
 "@uiw-admin/basic-layouts@^5.3.14":
   "integrity" "sha512-U00KZ7ETLHw+FWwARt90wLKZQsfnN2kuqM9jR4bGpLP3I2jOFBKD2ydhr9TuvJZd9OIVqXwlMN1tWhGY/lEUqw=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/basic-layouts/-/basic-layouts-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/basic-layouts/-/basic-layouts-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@babel/runtime" "~7.17.0"
@@ -2568,7 +2568,7 @@
 
 "@uiw-admin/components@^5.3.14":
   "integrity" "sha512-O9BdzaSfXVl6lqT1enCeesj1iL6jviukzCKns+PYfHr7IhyKGTApH9bsbGtdMLjqeYlsE7EXiV2cTXVXWGo1dQ=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/components/-/components-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/components/-/components-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@babel/runtime" "~7.17.0"
@@ -2580,7 +2580,7 @@
 
 "@uiw-admin/config@^5.3.14":
   "integrity" "sha512-MDzmAg29nWAozYsxSibrCge5OqF+zHijQJLLmwjGxI2v4hTMbOQ+DC5mzHn1cfIwQrcxYigADMbP14vt1fIfPA=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/config/-/config-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/config/-/config-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@kkt/less-modules" "~7.1.1"
@@ -2591,26 +2591,26 @@
 
 "@uiw-admin/document-title@^5.3.14", "@uiw-admin/document-title@5.3.14":
   "integrity" "sha512-SIvNdc5lhyelaEob9tGeeIlnz4vmpI9K7GqX8Ne2+hWqPd7pkdMjdqiYYLXPUnH7su2JkqtAo4g0SztF3yHx9g=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/document-title/-/document-title-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/document-title/-/document-title-5.3.14.tgz"
   "version" "5.3.14"
 
 "@uiw-admin/exceptions@^5.3.14":
   "integrity" "sha512-o6vO988OQZjTo/eroZ5tGwX6FouY/afbNkWc8SJwWinH4yfmoQVSniTwQJxeMbK4LuEOO0i1yZWQx0QP572Xbw=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/exceptions/-/exceptions-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/exceptions/-/exceptions-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@babel/runtime" "~7.17.0"
 
 "@uiw-admin/layout-tabs@^5.3.14":
   "integrity" "sha512-aseSXAnL8EQemDUj1QRaMXP5IODcurgWcAckfWgU5oAjHJaJj2rZ72RmBMwr8Ae4xr5DA+JO8JD1KCGlxJNNbg=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/layout-tabs/-/layout-tabs-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/layout-tabs/-/layout-tabs-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@babel/runtime" "~7.17.0"
 
 "@uiw-admin/models@^5.3.14":
   "integrity" "sha512-S2AsbmTlXy/ab1nTPcXw38uSwnfdTEhkJBnv5ZnhuclxI7ScOnpPu4u2TX83Mg9clPgnJ1WXaF93HuS5BX4oGQ=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/models/-/models-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/models/-/models-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@rematch/core" "2.2.0"
@@ -2618,17 +2618,17 @@
 
 "@uiw-admin/plugins@5.3.14":
   "integrity" "sha512-Ee8K4uNeQ+rTppuykGJ9NuetNSfxHUMl35pSMFTDoGcSpnYVRYlfqV6eGqe1aYH5/VjCdiwbCxcQBDNVeXz1vQ=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/plugins/-/plugins-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/plugins/-/plugins-5.3.14.tgz"
   "version" "5.3.14"
 
 "@uiw-admin/router-control@^5.3.14", "@uiw-admin/router-control@5.3.14":
   "integrity" "sha512-GlUb6Y647snSyxEJCS17yTA1KTlfIGvOhE0KyN1UwbGW8f9QyRtQjkzyWtuVSPuoPuphCENbKH/irIeWk/l8Tg=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/router-control/-/router-control-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/router-control/-/router-control-5.3.14.tgz"
   "version" "5.3.14"
 
 "@uiw-admin/user-login@^5.3.14":
   "integrity" "sha512-tbBi2m2W5AhMHQ08CMHtOwh4FCmWuQtpmOmugThuumzQzR8HDBktn2rLpLeGQi97V/EZZbkiL2kw/Dmtp9xe7w=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/user-login/-/user-login-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/user-login/-/user-login-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "@uiw-admin/document-title" "5.3.14"
@@ -2636,7 +2636,7 @@
 
 "@uiw-admin/utils@^5.3.14", "@uiw-admin/utils@5.3.14":
   "integrity" "sha512-uw/nhHuCVQtkSNSYb8iqKbqvZm+/WpCGRZ4r41HqgZH24lcpnlPEKZ1qaN8lvTQpGaWnlXHPzjbsFUQ5/J0Hgg=="
-  "resolved" "https://registry.npmjs.org/@uiw-admin/utils/-/utils-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/@uiw-admin/utils/-/utils-5.3.14.tgz"
   "version" "5.3.14"
   dependencies:
     "axios" "~0.24.0"
@@ -5387,7 +5387,7 @@
 
 "eslint-config-uiw-admin@5.3.14":
   "integrity" "sha512-Y5x/lr5mgzZMKIPO28ybXiddkYMrgCR0+f40mlfrKHJOU4z0ekEMcVCyYDcqlkXjaAVMXbbagTJxpy7XJYMG7w=="
-  "resolved" "https://registry.npmjs.org/eslint-config-uiw-admin/-/eslint-config-uiw-admin-5.3.14.tgz"
+  "resolved" "https://registry.npmmirror.com/eslint-config-uiw-admin/-/eslint-config-uiw-admin-5.3.14.tgz"
   "version" "5.3.14"
 
 "eslint-import-resolver-node@^0.3.6":
@@ -5466,7 +5466,7 @@
 "eslint-plugin-react@^7.27.1", "eslint-plugin-react@7.29.0":
   "integrity" "sha512-IOlFIRHzWfEQQKcAD4iyYDndHwTQiCMcJVJjxempf203jnNLUnW34AXLrV33+nEXoifJE2ZEGmcjKPL8957eSw=="
   "resolved" "https://registry.npmmirror.com/eslint-plugin-react/-/eslint-plugin-react-7.28.0.tgz"
-  "version" "7.29.0"
+  "version" "7.28.0"
   dependencies:
     "array-includes" "^3.1.4"
     "array.prototype.flatmap" "^1.2.5"
@@ -9868,7 +9868,7 @@
 
 "qs@~6.10.3":
   "integrity" "sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ=="
-  "resolved" "https://registry.npmjs.org/qs/-/qs-6.10.3.tgz"
+  "resolved" "https://registry.npmmirror.com/qs/-/qs-6.10.3.tgz"
   "version" "6.10.3"
   dependencies:
     "side-channel" "^1.0.4"
