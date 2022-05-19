@@ -99,7 +99,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
             }}>
             项目管理
           </div>
-
+          <div
+            className={styles.title}
+            onClick={() => {
+              navigate('/Authority/users')
+            }}>
+            系统管理
+          </div>
           <div className={styles.title} onClick={() => navigate('/todoList')}>
             <Badge count={66}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
