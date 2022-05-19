@@ -202,7 +202,7 @@ export default function Home() {
       </div>
       <Card
         title="我的任务"
-        extra={'更多'}
+        // extra={'更多'}
         bodyStyle={{ paddingTop: 0 }}
         style={{ margin: '15px 15px 15px 0px' }}>
         <Tabs
@@ -221,6 +221,7 @@ export default function Home() {
         <ProTable
           style={{ width: 900 }}
           table={myTable}
+          tableBackgroundColor="#fff"
           onCell={(rowData) => {
             navigate(
               `/project/taskInfo/${rowData.projectId}/${rowData.assignmentId}`
@@ -292,7 +293,9 @@ export default function Home() {
           <Button
             basic
             type="dark"
-            onClick={() => (window.location.href = '#/projectList')}>
+            onClick={() =>
+              (window.location.href = `#/project/task/${projectId}`)
+            }>
             更多
           </Button>
         }
@@ -314,6 +317,7 @@ export default function Home() {
         <ProTable
           key="description"
           style={{ width: 900 }}
+          tableBackgroundColor="#fff"
           table={table}
           onCell={(rowData) => {
             navigate(
