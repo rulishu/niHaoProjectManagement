@@ -98,10 +98,6 @@ export default function Demo() {
                       type="primary"
                       onClick={() => {
                         window.location.href = `#/project/task/${projectData.projectId}`
-                        localStorage.setItem(
-                          'projectId',
-                          JSON.stringify(projectData?.projectId || '')
-                        )
                       }}>
                       查看全部
                     </Button>
