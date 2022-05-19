@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tooltip } from 'uiw'
+import { Button, Tag } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
@@ -194,11 +194,21 @@ const Demo = () => {
                 { label: '正常', value: '0' },
               ],
             },
-            render: (address) => (
-              <Tooltip placement="topLeft" content={address}>
-                {address}
-              </Tooltip>
-            ),
+            render: (text) => {
+              return (
+                <div>
+                  {text === 2 ? (
+                    <Tag light color="#dc3545">
+                      停用
+                    </Tag>
+                  ) : (
+                    <Tag light color="#28a745">
+                      正常
+                    </Tag>
+                  )}
+                </div>
+              )
+            },
           },
           {
             title: '创建时间',
