@@ -31,7 +31,7 @@ export function getProjectMembers(params) {
 }
 
 /**
- * 查询项目成员
+ * 查询项目概览：任务列表
  */
 export function getProjectOverview(params) {
   return request('/api/ManagerAssignment/projectOverview', {
