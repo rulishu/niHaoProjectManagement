@@ -14,6 +14,7 @@ import {
   getTreeSelect,
   roleMenuTreeselect,
   changeStatus,
+  getAllDepartment,
 } from '@/servers/rolemanagement'
 
 export default createModel()({
@@ -31,6 +32,8 @@ export default createModel()({
     // 菜单列表
     menuOptions: [],
     checkedKeys: [],
+    arrLeverTop: [],
+    arrRole: [],
   },
   effects: (dispatch) => ({
     async selectRole(payload) {
@@ -66,6 +69,7 @@ export default createModel()({
         rolemanagement.rolemanagement.tablePro.onSearch()
       }
     },
+    //
     // 编辑
     async getEdit(payload, rolemanagement) {
       const dph = dispatch
@@ -135,7 +139,48 @@ export default createModel()({
       const data = await getAllRoleList()
       if (data.code === 200) {
         dispatch.rolemanagement.update({
-          allRoleList: data.data.filter((item) => item.status === 0),
+          allRoleList: data.rows.filter((item) => item.status === '0'),
+        })
+      }
+    },
+    // 获取所有的部门列表
+    async getAllDepartment() {
+      const data = await getAllDepartment()
+      if (data.code === 200) {
+        // 层级遍历
+        const getChildrenDepart = function (data, root) {
+          let children = []
+          for (let i = 0; i < data.length; i++) {
+            if (root === data[i].parentId) {
+              data[i].children = getChildrenDepart(data, data[i].deptId)
+              children.push(data[i])
+            }
+          }
+          return children
+        }
+        const dataSourceTreeData = data?.data?.map((code) => ({
+          ...code,
+          label: code.deptName,
+          key: code.deptId,
+        }))
+        const arrSource = getChildrenDepart(dataSourceTreeData, 100) || []
+        const arrLeverTop = [
+          {
+            createBy: 'admin',
+            createTime: '2022-05-15 13:53:04',
+            delFlag: '0',
+            key: 100,
+            label: '尼好科技',
+            orderNum: 0,
+            parentId: 0,
+            parentName: null,
+            status: '0',
+            children: arrSource,
+          },
+        ]
+        dispatch.rolemanagement.update({
+          arrLeverTop: arrLeverTop,
+          arrRole: data?.data,
         })
       }
     },

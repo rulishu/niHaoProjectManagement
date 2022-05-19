@@ -26,7 +26,7 @@ const DeletePopover = (props) => {
               type="danger"
               size="small"
               onClick={() => {
-                handleEdit(data?.id, 'delete')
+                handleEdit(data?.userId, 'delete')
                 setIsOpen(false)
               }}>
               确定

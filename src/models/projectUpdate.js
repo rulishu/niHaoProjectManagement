@@ -12,7 +12,7 @@ const projectUpdate = createModel()({
   state: {
     drawerVisible: false, //新增项目或编辑项目的弹出框
     seachValue: {}, //新增项目或编辑项目的更改的内容
-    drawerType: 'add', //新增项目或编辑项目
+    drawerType: '', //新增项目或编辑项目
     id: '', //需要编辑项目的id
     userList: [], //新增项目或编辑项目的项目负责人列表
     fun: {},
@@ -65,7 +65,10 @@ const projectUpdate = createModel()({
       } else {
         //编辑
         delete params.drawerType
-        await dph.projectUpdate.selectAllUser() //获取用户列表信息
+        dph.projectUpdate.selectAllUser() //获取用户列表信息
+        dph.projectUpdate.updateState({
+          id: params.id,
+        })
         const data = await queryProject(params) //获取项目详细信息
         if (data.code === 200) {
           dph.projectUpdate.updateState({

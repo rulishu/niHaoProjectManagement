@@ -15,23 +15,24 @@ let tribute = new Tribute({
 })
 
 const FromMD = (props) => {
-  const { upDate, submit, editData, infoData } = props
+  console.log('FromMD-props', props)
+  const { upDate, submit, editName, editData, infoData, fromValue } = props
   const dispatch = useDispatch()
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
-  console.log('mdRefs', mdRefs)
+  // console.log('mdRefs', mdRefs)
 
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
       tribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
-        form.current.setFieldValue('description', e.target.value)
+        form.current.setFieldValue(fromValue, e.target.value)
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mdRefs?.current])
+  }, [mdRefs?.current, editData[fromValue]])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)
@@ -39,7 +40,7 @@ const FromMD = (props) => {
       document.removeEventListener('paste', pasteDataEvent)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [editData[fromValue]])
 
   const pasteDataEvent = (event) => {
     // event.preventDefault();
@@ -77,22 +78,21 @@ const FromMD = (props) => {
       if (res && res.code === 200) {
         const fieldValues = form.current.getFieldValues()
         form.current.setFieldValue(
-          'description',
-          fieldValues.description +
-            `![image](/api/file/selectFile/${res?.data})`
+          fromValue,
+          fieldValues[fromValue] + `![image](/api/file/selectFile/${res?.data})`
         )
       }
     })
   }
-
   return (
     <>
       <Form
         style={{ flex: 1, marginBottom: 10 }}
         ref={form}
         onChange={({ current }) => {
+          console.log('current', current)
           upDate({
-            editData: {
+            [editName]: {
               ...editData,
               ...current,
             },
@@ -100,9 +100,9 @@ const FromMD = (props) => {
         }}
         onSubmit={(item) => {
           upDate({
-            editData: {
+            [editName]: {
               ...editData,
-              ...item,
+              ...item.current,
             },
           })
           submit()
@@ -114,9 +114,9 @@ const FromMD = (props) => {
           return null
         }}
         fields={{
-          description: {
+          [fromValue]: {
             inline: true,
-            initialValue: editData.description,
+            initialValue: editData[fromValue],
             children: (
               <NEWMDEditor
                 rfval={(e) => {
@@ -131,7 +131,7 @@ const FromMD = (props) => {
             <div>
               <div className="from">
                 <Row align="top" className="fromItem">
-                  <Col>{fields.description}</Col>
+                  <Col>{fields[fromValue]}</Col>
                 </Row>
               </div>
               <Row align="middle" className="fromButton">
@@ -140,7 +140,7 @@ const FromMD = (props) => {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      disabled={editData === infoData}>
+                      disabled={infoData ? editData === infoData : false}>
                       保存编辑
                     </Button>
                   </div>

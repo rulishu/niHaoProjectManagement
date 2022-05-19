@@ -17,6 +17,7 @@ export default defaultConfig({
       '/api',
       createProxyMiddleware({
         target: 'http://192.168.188.222:33202', // 测试环境地址
+        // target: 'http://52s37919h6.zicp.vip:54132/',
         changeOrigin: true,
         // headers: {Authorization: 'Bearer ' + token},
       })

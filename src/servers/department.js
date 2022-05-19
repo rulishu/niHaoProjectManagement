@@ -1,8 +1,8 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
 //查询
 function getList(params) {
-  return request('/api/dept/selectList', {
+  return request('/api/system/dept/list', {
     method: 'POST',
     // requestType: "urlencoded",
     body: { ...params },
@@ -10,7 +10,7 @@ function getList(params) {
 }
 // //新增
 function getAdd(params) {
-  return request('/api/dept/add', {
+  return request('/api/system/dept/add', {
     method: 'POST',
     body: { ...params },
   })
@@ -32,11 +32,19 @@ function judge(params) {
   })
 }
 
-// //编辑
-function getEdit(params) {
-  return request('/api/dept/edit', {
+// 根据ID获取部门详情
+function getInfoData(params) {
+  return request('/api/system/dept/list/exclude', {
     method: 'POST',
     body: { ...params },
   })
 }
-export { getList, getAdd, getDelete, getEdit, judge }
+// //编辑
+function getEdit(params) {
+  return request('/api/system/dept/edit', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+export { getList, getAdd, getDelete, getEdit, judge, getInfoData }
+//

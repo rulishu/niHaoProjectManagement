@@ -6,22 +6,35 @@ import styles from './index.module.less'
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
+import { useParams } from 'react-router-dom'
 // import { NEWMDEditor } from '@/components'
 import FromMD from './fromMD'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const TaskInfo = (props) => {
   const dispatch = useDispatch()
+  const params = useParams()
+
+  // 处理带id的路由
+  useLocationPage()
   const {
     home: { taskId },
-    project: { issueType, editFromData, taskInfoData },
+    project: { issueType, editFromData, taskInfoData, commentData },
     allusers: { uuid },
-    // loading,
+    loading,
   } = useSelector((state) => state)
   // const commentForm = useRef()
 
   const [isTitleErr, serIsTitleErr] = useState(false)
 
   const { projectId, id, companyId } = props?.router?.params
+  const updateData = (payload) => {
+    dispatch({
+      type: 'project/update',
+      payload,
+    })
+  }
+  console.log('params', params)
   useEffect(() => {
     if (sessionStorage.getItem('id') === null) {
       sessionStorage.setItem('id', projectId)
@@ -36,15 +49,9 @@ const TaskInfo = (props) => {
       projectId: projectId || taskId,
     })
     dispatch.milestone.getListAll({ milestonesStatusList: [1, 2] })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
 
   // useEffect(() => {
   //   document.addEventListener('paste', pasteDataEvent)
@@ -145,17 +152,20 @@ const TaskInfo = (props) => {
       updateData({ issueType: '' })
     }
   }
+  const addComment = () => {
+    dispatch.project.getAddComment()
+  }
+
   return (
     <>
       <Loader
         tip="加载中..."
         vertical
         style={{ width: '100%' }}
-        // loading={
-        //   loading.effects.project.getSelectById ||
-        //   loading.effects.project.getEdit
-        // }
-      >
+        loading={
+          loading.effects.project.getSelectById ||
+          loading.effects.project.getEdit
+        }>
         <div>
           <div className={styles.wrapTask}>
             <div className={styles.leftNav}>
@@ -225,8 +235,10 @@ const TaskInfo = (props) => {
                 <FromMD
                   upDate={updateData}
                   submit={goSaveIssue}
+                  editName={'editFromData'}
                   editData={editFromData}
                   infoData={taskInfoData}
+                  fromValue={'description'}
                 />
               ) : (
                 // <Form
@@ -285,81 +297,75 @@ const TaskInfo = (props) => {
                 //     )
                 //   }}
                 // </Form>
-                <div>
+                <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
               <div className={styles.stepsWrap}>
                 <Steps direction="vertical" style={{ padding: '20px 0' }}>
-                  {taskInfoData?.operatingRecords?.length > 0
-                    ? taskInfoData?.operatingRecords.map((item, index) => {
-                        return item.type === 1 ? (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingTop: 0,
-                                }}
-                                type="user"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
-                        item.type === 3 ? (
-                          <Steps.Step
-                            description={
-                              <FromMD
-                                upDate={updateData}
-                                submit={goSaveIssue}
-                                editData={editFromData}
-                                infoData={taskInfoData}
-                              />
-                            }
-                            title="回复"
-                            key={index}
-                          />
-                        ) : (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingLeft: 6,
-                                  paddingTop: 2,
-                                }}
-                                type="tag-o"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        )
-                      })
+                  {taskInfoData?.managerAssignmentHistories?.length > 0
+                    ? taskInfoData?.managerAssignmentHistories.map(
+                        (item, index) => {
+                          return item.type === 1 ? (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 0,
+                                  }}
+                                  type="user"
+                                />
+                              }
+                              title={item?.operatingRecords}
+                              description={item.text}
+                              key={index}
+                            />
+                          ) : item.type === 2 ? (
+                            <Steps.Step
+                              description={
+                                <div
+                                  data-color-mode="light"
+                                  style={{ flex: 1 }}>
+                                  <MarkdownPreview
+                                    source={item?.operatingRecords || ''}
+                                  />
+                                </div>
+                              }
+                              title={`${item.createName}评论`}
+                              key={index}
+                            />
+                          ) : item.type === 3 ? (
+                            <Steps.Step
+                              description={
+                                <FromMD
+                                  upDate={updateData}
+                                  submit={goSaveIssue}
+                                  editData={editFromData}
+                                  infoData={taskInfoData}
+                                />
+                              }
+                              title="回复"
+                              key={index}
+                            />
+                          ) : null
+                        }
+                      )
                     : null}
                 </Steps>
               </div>
               <FromMD
                 upDate={updateData}
-                submit={goSaveIssue}
-                editData={editFromData}
-                infoData={taskInfoData}
+                submit={addComment}
+                editName="commentData"
+                editData={commentData}
+                fromValue="operatingRecords"
               />
             </div>
             <EditTask router={props.router} />
