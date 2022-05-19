@@ -26,5 +26,18 @@ function deleteProjectMember(params) {
     body: { ...params },
   })
 }
+// 模糊查询成员
+function queryFuzzyAllUser(params) {
+  return request('/api/system/user/queryFuzzyAllUser', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
 
-export { inviteMember, updateProjectMember, deleteProjectMember }
+export {
+  inviteMember,
+  updateProjectMember,
+  deleteProjectMember,
+  queryFuzzyAllUser,
+}

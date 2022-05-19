@@ -5,14 +5,28 @@ import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
 import { changeTimeFormat } from '../../../utils/timeDistance'
 import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Drawer = (props) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
-
   const { projectId } = useParams()
+
+  useEffect(() => {
+    dispatch({
+      type: 'usersManagement/queryFuzzyAllUser',
+    })
+  }, [dispatch])
+
   const {
-    usersManagement: { drawerVisible, isView, loading, queryInfo, tableType },
+    usersManagement: {
+      drawerVisible,
+      isView,
+      loading,
+      queryInfo,
+      tableType,
+      userIdList,
+    },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -76,15 +90,13 @@ const Drawer = (props) => {
     }
     // 编辑
     if (tableType === 'edit') {
-      console.log('queryInfo', queryInfo)
       const payload = {
         ...current,
         id: queryInfo?.id,
         joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
-        // projectId: projectId
+        projectId: queryInfo?.projectId,
       }
-      console.log('payload', payload)
       dispatch({
         type: 'usersManagement/updateProjectMember',
         payload,
@@ -134,7 +146,7 @@ const Drawer = (props) => {
           tableType === 'edit'
             ? items(queryInfo)
             : tableType === 'member'
-            ? memberItems(queryInfo)
+            ? memberItems(queryInfo, userIdList)
             : groupItems(queryInfo)
         }
       />

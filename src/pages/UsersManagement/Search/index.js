@@ -6,24 +6,26 @@ import { Button, Card } from 'uiw'
 // import { SearchBar } from '@/components'
 import Drawer from '../Drawer/index'
 import Modal from '../Modals/index'
+import { useParams } from 'react-router-dom'
 
 const Search = () => {
   const dispatch = useDispatch()
-
   const updateData = (payload) => {
     dispatch({
       type: 'usersManagement/updateState',
       payload,
     })
   }
+  const { projectId } = useParams()
   const token = localStorage.getItem('token')
 
-  const search = useTable('/api/member/selectAllProjectMember', {
+  const search = useTable('/api/member/selectProjectMember', {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
         pageSize: 10,
+        projectId: projectId,
         ...searchValues,
       }
     },

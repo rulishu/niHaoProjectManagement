@@ -25,16 +25,16 @@ export const items = (queryInfo) => {
       placeholder: '请输入成员角色',
       rules: [{ required: true, message: '请输入成员角色' }],
     },
-    {
-      label: '加入日期',
-      key: 'joinTime',
-      widget: 'dateInput',
-      initialValue: queryInfo?.joinTime,
-      required: true,
-      span: '24',
-      placeholder: '请输入加入日期',
-      rules: [{ required: true, message: '请输入加入日期' }],
-    },
+    // {
+    //   label: '加入日期',
+    //   key: 'joinTime',
+    //   widget: 'dateInput',
+    //   initialValue: queryInfo?.joinTime,
+    //   required: true,
+    //   span: '24',
+    //   placeholder: '请输入加入日期',
+    //   rules: [{ required: true, message: '请输入加入日期' }],
+    // },
     // {
     //   label: '受限成员',
     //   key: 'name',
@@ -51,15 +51,16 @@ export const items = (queryInfo) => {
     // },
   ]
 }
-export const memberItems = (queryInfo) => {
+export const memberItems = (queryInfo, userIdList) => {
   return [
     {
       label: '选择账户地址',
       key: 'userId',
-      widget: 'input',
+      widget: 'searchSelect',
       initialValue: queryInfo?.userId,
       required: true,
       placeholder: '请输入账户地址',
+      option: userIdList,
       span: '24',
       rules: [{ required: true, message: '请输入账户地址' }],
     },

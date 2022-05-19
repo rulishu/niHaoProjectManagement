@@ -3,6 +3,7 @@ import {
   inviteMember,
   updateProjectMember,
   deleteProjectMember,
+  queryFuzzyAllUser,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -13,6 +14,7 @@ const usersManagement = createModel()({
     delectVisible: false,
     id: '',
     tableType: '',
+    userIdList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -48,7 +50,20 @@ const usersManagement = createModel()({
       })
       return await deleteProjectMember(payload)
     },
-
+    // 模糊查询成员
+    async queryFuzzyAllUser(payload) {
+      const dph = dispatch
+      const data = await queryFuzzyAllUser(payload)
+      if (data.code === 200) {
+        const userIdList = data?.rows.map((item) => ({
+          label: item.userName,
+          value: item.userId,
+        }))
+        dph.usersManagement.updateState({
+          userIdList: userIdList,
+        })
+      }
+    },
     clean() {
       const dph = dispatch
       dph.usersManagement.updateState({
