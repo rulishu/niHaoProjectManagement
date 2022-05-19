@@ -17,9 +17,8 @@ function getAdd(params) {
 }
 // //删除
 function getDelete(params) {
-  return request('/api/dept/remove', {
+  return request('/api/system/dept/remove', {
     method: 'POST',
-    requestType: 'urlencoded',
     body: { ...params },
   })
 }
