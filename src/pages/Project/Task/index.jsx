@@ -153,7 +153,7 @@ const Task = (props) => {
         labels: [],
       },
     })
-    navigate('/project/newIssue')
+    navigate(`/project/newIssue/${params.projectId}`)
   }
 
   const listGo = (item) => {

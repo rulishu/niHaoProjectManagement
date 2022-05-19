@@ -109,7 +109,7 @@ const routes = [
             isAuth: true,
           },
           {
-            path: '/project/newIssue',
+            path: '/project/newIssue/:projectId',
             name: '新增任务',
             hideInMenu: true,
             component: '@/pages/Project/NewIssue',

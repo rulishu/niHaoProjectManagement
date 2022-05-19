@@ -35,7 +35,7 @@ const ProjectList = (props) => {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data?.list,
+        data: data?.data?.rows,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -207,7 +207,7 @@ const ProjectList = (props) => {
                   setProjectType('10')
                   dispatch.projectlist.selectNumber({ type: '10' })
                 }
-                // table.onSearch();
+                table.onSearch()
               }}>
               <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
               <Tabs.Pane label="我的" key="2"></Tabs.Pane>
@@ -215,7 +215,7 @@ const ProjectList = (props) => {
           </div>
           <div className={styles.projectProTable}>
             <ProTable
-              // tableHeadHidden={true}
+              tableHeadHidden={true}
               // tableBackgroundColor="#fff"
               className="proProTable"
               // onCell={() => router.navigate('/projectOverview/333')}
@@ -359,7 +359,7 @@ const ProjectList = (props) => {
                       <EditDrop
                         rowData={rowData}
                         dispatch={dispatch}
-                        search={table.onSearch}
+                        search={refresh}
                       />
                       // </div>
                     )

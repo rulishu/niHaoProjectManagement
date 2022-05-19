@@ -71,9 +71,9 @@ export const memberItems = (queryInfo, userIdList) => {
     },
     {
       label: '访问到期日期',
-      key: 'accessExpirationDate',
+      key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationDate,
+      initialValue: queryInfo?.accessExpirationTime,
       span: '24',
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
@@ -110,9 +110,9 @@ export const groupItems = (queryInfo, teamIdList) => {
     },
     {
       label: '访问到期日期',
-      key: 'accessExpirationDate',
+      key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationDate,
+      initialValue: queryInfo?.accessExpirationTime,
       span: '24',
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],

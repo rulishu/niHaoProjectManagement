@@ -32,7 +32,7 @@ const projectUpdate = createModel()({
       let arr = []
       list.forEach((element) => {
         let value = element.userId
-        let label = element.userName
+        let label = element.nickName + '  ' + element.email
         arr.push({
           value,
           label,
@@ -41,10 +41,6 @@ const projectUpdate = createModel()({
       if (data.code === 200) {
         dph.projectUpdate.updateState({
           userList: arr,
-        })
-      } else {
-        Notify.error({
-          description: data.message,
         })
       }
     },
@@ -76,10 +72,6 @@ const projectUpdate = createModel()({
             seachValue: data.data,
             drawerVisible: true,
           })
-        } else {
-          Notify.error({
-            description: data.message,
-          })
         }
       }
     },
@@ -98,10 +90,6 @@ const projectUpdate = createModel()({
           drawerVisible: false,
         })
         callback && callback()
-      } else {
-        Notify.error({
-          description: data.message,
-        })
       }
     },
 
@@ -118,10 +106,6 @@ const projectUpdate = createModel()({
         })
         callback && callback()
         Notify.success({
-          description: data.message,
-        })
-      } else {
-        Notify.error({
           description: data.message,
         })
       }

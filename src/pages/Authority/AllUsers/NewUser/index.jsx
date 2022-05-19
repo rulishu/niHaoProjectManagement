@@ -6,7 +6,7 @@ import './style.css'
 const NewUser = (props) => {
   const { dispatch, state } = props
   const { baseDetail } = state.allusers
-  const newItem = state.dictionary.dictAllData.filter(
+  const newItem = state.dictionary.dictDataList.filter(
     (item) => item.dictSort !== 1
   )
   return (

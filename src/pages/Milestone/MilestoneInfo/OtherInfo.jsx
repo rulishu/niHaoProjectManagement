@@ -1,12 +1,22 @@
 import { useState } from 'react'
-import { Tabs, Avatar, Icon, Row, Col, Button, Empty, Loader } from 'uiw'
+import {
+  Tabs,
+  Icon,
+  Avatar,
+  Row,
+  Col,
+  Button,
+  Empty,
+  Loader,
+  Tooltip,
+} from 'uiw'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import './index.css'
 
 const OtherInfo = (props) => {
-  const { projectId } = props
+  const { projectId, goTaskListPage } = props
   const {
     milestone: { listDataInfo, allLabelData },
     dictionary: { dictDataList },
@@ -41,7 +51,7 @@ const OtherInfo = (props) => {
       <span
         key={results?.dictCode}
         className={styles.taskTags}
-        style={{ backgroundColor: results?.cssClass || '#813c858c' }}>
+        style={{ backgroundColor: results?.listClass || '#813c858c' }}>
         {results?.dictLabel}
       </span>
     )
@@ -78,11 +88,25 @@ const OtherInfo = (props) => {
               <div className={styles.taskBody}>
                 <span className={styles.taskLink}>#{item.assignmentId}</span>
                 {item?.labels?.map((tagItem) => lableBox(tagItem))}
-                <span className={styles.taskAssignPerson}>
-                  <Avatar size="mini" className={styles.roleAvatar}>
-                    {item.userName}
-                  </Avatar>
-                </span>
+                {item.assigneeUserId ? (
+                  <Tooltip
+                    placement="top"
+                    content={<>指派给{item.assigneeUserName}</>}>
+                    <span className={styles.taskAssignPerson}>
+                      <Avatar
+                        size="mini"
+                        src={
+                          item.uuid &&
+                          `/api/file/selectFile/${item?.assigneeUserAvatarUuid}`
+                        }
+                        className={styles.roleAvatar}>
+                        {item.assigneeUserName}
+                      </Avatar>
+                    </span>
+                  </Tooltip>
+                ) : (
+                  <></>
+                )}
               </div>
             </li>
           )
@@ -101,25 +125,11 @@ const OtherInfo = (props) => {
               {lableBox(item?.dictValue)}
             </div>
             <div className={styles.lableLiRight}>
-              <Button
-                basic
-                type="light"
-                onClick={() => {
-                  navigate(`/project/task/${projectId}`, {
-                    state: { projectId },
-                  })
-                }}>
+              <Button basic type="light" onClick={() => goTaskListPage(2)}>
                 {item?.open}个已开启任务
               </Button>
-              <Button
-                basic
-                type="light"
-                onClick={() => {
-                  navigate(`/project/task/${projectId}`, {
-                    state: { projectId },
-                  })
-                }}>
-                {item?.close}个已关闭任务
+              <Button basic type="light" onClick={() => goTaskListPage(3)}>
+                {item?.close}个已完成任务
               </Button>
             </div>
           </li>
