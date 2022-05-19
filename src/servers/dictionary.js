@@ -28,20 +28,20 @@ export function queryById(params) {
 }
 
 /**
- * 根据id删除字典项
+ * 根据id删除字典类型
  */
-export function deleteById(params) {
-  return request('/api/dict/deleteById', {
+export function deleteByTypeId(params) {
+  return request('/api/system/dict/type/remove', {
     method: 'POST',
     body: params,
   })
 }
 
 /**
- * 根据id删除字典类型
+ * 根据id删除字典
  */
-export function deleteByTypeId(params) {
-  return request('/api/system/dict/type/remove', {
+export function deleteById(params) {
+  return request('/api/system/dict/data/remove', {
     method: 'POST',
     body: params,
   })
