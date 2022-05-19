@@ -7,7 +7,7 @@ export let navigate
 const UserLayout = () => {
   navigate = useNavigate()
   let authList = [
-    '/TodoList',
+    '/todoList',
     '/tableList',
     '/issues-center/:id',
     '/home',

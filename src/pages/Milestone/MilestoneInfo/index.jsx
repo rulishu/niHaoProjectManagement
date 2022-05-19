@@ -225,9 +225,11 @@ const MilestoneInfo = () => {
                   basic
                   className={styles.rightHeadBut}
                   onClick={() => {
-                    navigate('/project/newIssue', { state: { projectId } })
+                    navigate(`/project/newIssue/${projectId}`, {
+                      state: { projectId },
+                    })
                   }}>
-                  新问题
+                  新任务
                 </Button>
               </div>
               <div className={styles.rightBelow}>

@@ -177,9 +177,17 @@ export default createModel()({
 
       // 任务列表新增
       async getAdd(params, { project }) {
-        const { fromData } = project
+        const { labels, ...newData } = project.fromData
+        let newLabels = []
+        if (labels?.length > 0 && labels[0]?.dictCode) {
+          // eslint-disable-next-line array-callback-return
+          labels.map((item) => {
+            newLabels.push(item?.dictCode.toString())
+          })
+          newData.labels = newLabels
+        }
         const data = await getmMnagerAssignmentSave({
-          ...fromData,
+          ...newData,
           ...params,
         })
         if (data && data.code === 200) {
@@ -194,7 +202,6 @@ export default createModel()({
       // 任务列表查详情
       async getSelectById(params) {
         const data = await getManagerAssignmentSelectById({
-          // projectId: sessionStorage.getItem('id')
           ...params,
         })
         if (data && data.code === 200) {
@@ -213,10 +220,10 @@ export default createModel()({
       async getEdit(params, { project }) {
         const { labels, ...newData } = project.editFromData
         let newLabels = []
-        if (labels?.length > 0) {
+        if (labels?.length > 0 && labels[0]?.dictCode) {
           // eslint-disable-next-line array-callback-return
           labels.map((item) => {
-            newLabels.push(item.dictCode.toString())
+            newLabels.push(item?.dictCode.toString())
           })
           newData.labels = newLabels
         }
