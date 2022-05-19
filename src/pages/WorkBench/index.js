@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import { Row, Col, Card, Progress, Menu, Button } from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button, Empty } from 'uiw'
 import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
@@ -203,49 +203,55 @@ export default function Demo() {
                     <span style={{ flex: 3 }}>结束时间</span>
                     <span style={{ flex: 2 }}>进度</span>
                   </li>
-                  {active === 0
-                    ? milesWorkVoListOne?.map((item) => {
-                        return (
-                          <li
-                            key={item?.milestonesId}
-                            onClick={() =>
-                              goMilestones(
-                                projectListOne?.projectId,
-                                item?.milestonesId
-                              )
-                            }>
-                            <span style={{ flex: 4 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
-                          </li>
-                        )
-                      })
-                    : milepost?.map((item) => {
-                        return (
-                          <li
-                            key={item?.milestonesId}
-                            onClick={() =>
-                              goMilestones(
-                                projectData?.projectId,
-                                item?.milestonesId
-                              )
-                            }>
-                            <span style={{ flex: 4 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
-                          </li>
-                        )
-                      })}
+                  {milesWorkVoListOne?.length === 0 ? (
+                    <Empty description={false} style={{ marginTop: 20 }} />
+                  ) : active === 0 ? (
+                    milesWorkVoListOne?.map((item) => {
+                      return (
+                        <li
+                          key={item?.milestonesId}
+                          onClick={() =>
+                            goMilestones(
+                              projectListOne?.projectId,
+                              item?.milestonesId
+                            )
+                          }>
+                          <span style={{ flex: 4 }}>
+                            {item?.milestonesTitle}
+                          </span>
+                          <span style={{ flex: 3, fontSize: '12px' }}>
+                            {item?.dueTime &&
+                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                          </span>
+                          <span style={{ flex: 2 }}>{item?.rate}</span>
+                        </li>
+                      )
+                    })
+                  ) : milepost?.length === 0 ? (
+                    <Empty description={false} style={{ marginTop: 20 }} />
+                  ) : (
+                    milepost?.map((item) => {
+                      return (
+                        <li
+                          key={item?.milestonesId}
+                          onClick={() =>
+                            goMilestones(
+                              projectData?.projectId,
+                              item?.milestonesId
+                            )
+                          }>
+                          <span style={{ flex: 4 }}>
+                            {item?.milestonesTitle}
+                          </span>
+                          <span style={{ flex: 3, fontSize: '12px' }}>
+                            {item?.dueTime &&
+                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                          </span>
+                          <span style={{ flex: 2 }}>{item?.rate}</span>
+                        </li>
+                      )
+                    })
+                  )}
                 </ul>
               </div>
             </Card>

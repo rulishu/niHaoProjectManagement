@@ -26,6 +26,7 @@ export function getDelete(params) {
  */
 export function getEdit(params) {
   return request('/api/system/post/edit', {
+    method: 'POST',
     body: { ...params },
   })
 }

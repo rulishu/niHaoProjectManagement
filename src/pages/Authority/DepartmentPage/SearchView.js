@@ -64,7 +64,7 @@ function SearchView() {
                   display: 'flex',
                   flexDirection: 'row',
                 }}>
-                <Row gutter={10}>
+                <Row gutter={10} style={{ marginRight: 10 }}>
                   <Col align="middle">
                     <Button
                       disabled={!canSubmit()}
@@ -75,7 +75,7 @@ function SearchView() {
                     </Button>
                   </Col>
                 </Row>
-                <Row gutter={10} style={{ marginRight: 10 }}>
+                {/* <Row gutter={10} style={{ marginRight: 10 }}>
                   <Col align="middle">
                     <Button
                       disabled={!canSubmit()}
@@ -84,7 +84,7 @@ function SearchView() {
                       重置
                     </Button>
                   </Col>
-                </Row>
+                </Row> */}
               </div>
             </div>
           )
