@@ -95,7 +95,7 @@ const Drawer = (props) => {
         id: queryInfo?.id,
         joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
-        projectId: queryInfo?.projectId,
+        projectId: projectId,
       }
       dispatch({
         type: 'usersManagement/updateProjectMember',

@@ -92,7 +92,7 @@ const Search = () => {
             icon="usergroup-add"
             type="primary"
             onClick={() => handleEditTable('group')}>
-            邀请群组
+            邀请团队
           </Button>
         </div>
 
