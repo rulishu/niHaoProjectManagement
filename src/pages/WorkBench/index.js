@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import { Row, Col, Card, Progress, Menu, Button, Notify } from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button } from 'uiw'
 import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
@@ -43,11 +43,12 @@ export default function Demo() {
   const onClickItem = (key) => {
     setActive(key)
   }
-  console.log('active', active)
   const projectListOne = projectList?.at(0)
   const milesWorkVoListOne = projectListOne?.milesWorkVoList
   const totalWorkVoOne = projectListOne?.totalWorkVo
 
+  //判断是否可以看到所有项目列表
+  const naid = localStorage.getItem('key')
   return (
     <Container>
       <div>
@@ -126,11 +127,8 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        if (projectData?.projectId === undefined) {
-                          return Notify.warning({
-                            title: '警告通知',
-                            description: '请先点击项目名称',
-                          })
+                        if (active === 0) {
+                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
                         } else {
                           window.location.href = `#/projectOverview/${projectData?.projectId}`
                         }
@@ -270,7 +268,7 @@ export default function Demo() {
       <div style={{ marginTop: 20 }}></div>
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
-      <TableManage />
+      {naid === 'true' ? <TableManage /> : ''}
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
     </Container>

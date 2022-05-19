@@ -68,12 +68,12 @@ const projectUpdate = createModel()({
         dph.projectUpdate.selectAllUser() //获取用户列表信息
         dph.projectUpdate.updateState({
           id: params.id,
+          drawerType: 'edit',
         })
         const data = await queryProject(params) //获取项目详细信息
         if (data.code === 200) {
           dph.projectUpdate.updateState({
             seachValue: data.data,
-            drawerType: 'edit',
             drawerVisible: true,
           })
         } else {

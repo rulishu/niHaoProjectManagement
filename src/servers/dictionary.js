@@ -71,3 +71,10 @@ export function groupByDict() {
     method: 'GET',
   })
 }
+
+export function getDictDataList(params) {
+  return request('/api/system/dict/data/list', {
+    method: 'POST',
+    body: params,
+  })
+}
