@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Icon } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.less'
 import ProjectManagement from '../../components/ProjectManagement'
 
 export default function Home() {
   const {
-    projectoverview: { allDataSource, projectId, pageSize },
+    projectoverview: { allDataSource, pageSize },
   } = useSelector((state) => state)
-
+  const { projectId } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [allTab, setAllTab] = useState('5')
@@ -19,14 +19,12 @@ export default function Home() {
   const token = localStorage.getItem('token')
 
   const myTable = useTable('/api/ManagerAssignment/projectOverview', {
-    // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
         total: data?.data?.total,
         data: data?.data?.list || [],
       }
     },
-    // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex) => {
       return {
         projectId: projectId,
@@ -36,7 +34,6 @@ export default function Home() {
         pageSize: pageSize,
       }
     },
-    // swr options
     SWRConfiguration: {
       revalidateOnFocus: false,
     },
@@ -46,14 +43,12 @@ export default function Home() {
   })
 
   const table = useTable('/api/ManagerAssignment/projectOverview', {
-    // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
         total: data?.data?.total,
         data: data?.data?.list || [],
       }
     },
-    // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, searchValues) => {
       return {
         projectId: projectId,
@@ -71,12 +66,6 @@ export default function Home() {
     },
   })
 
-  function randomColor() {
-    return (
-      '#' +
-      ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
-    )
-  }
   //修改项目资料
   const reset = () => {
     dispatch({
@@ -91,7 +80,8 @@ export default function Home() {
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40%' }}
-          title={allDataSource?.projectName}
+          title={allDataSource?.projectName || ''}
+          bodyStyle={{ paddingTop: 0 }}
           bordered={false}
           extra={
             <Button
@@ -108,9 +98,12 @@ export default function Home() {
           }>
           <Col style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
             <List bordered={false} noHover={true}>
-              <List.Item>项目负责人: 王某</List.Item>
-              <List.Item>项目技术: TypeScript</List.Item>
-              <List.Item>项目描述: {allDataSource.projectDesc}</List.Item>
+              <List.Item>
+                负责人: {allDataSource.projectLeaderName || ''}
+              </List.Item>
+              <List.Item>开始时间: {allDataSource.begin || ''}</List.Item>
+              <List.Item>结束时间: {allDataSource.end || ''}</List.Item>
+              <List.Item>描述: {allDataSource.projectDesc || ''}</List.Item>
             </List>
           </Col>
         </Card>
@@ -132,7 +125,7 @@ export default function Home() {
               <Progress.Circle
                 width={100}
                 strokeWidth={10}
-                percent={allDataSource?.totalWorkVo?.projectNum}
+                percent={allDataSource?.totalWorkVo?.projectNum || ''}
                 format={(percent) => (
                   <span>
                     {`${percent}`}
@@ -197,9 +190,7 @@ export default function Home() {
                         key={item.key}
                         title={item.title}
                         style={{ width: 80 }}>
-                        <span style={{ fontSize: 36, color: randomColor() }}>
-                          {item.num}
-                        </span>
+                        <span style={{ fontSize: 36 }}>{item.num}</span>
                       </Card>
                     )
                   })}
@@ -321,6 +312,7 @@ export default function Home() {
           <Tabs.Pane label="逾期完成" key="4" />
         </Tabs>
         <ProTable
+          key="description"
           style={{ width: 900 }}
           table={table}
           onCell={(rowData) => {
