@@ -118,7 +118,6 @@ const EditTask = () => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    console.log('keyArr', keyArr)
     setLabelState(true)
     updateData({
       editFromData: {
@@ -128,7 +127,7 @@ const EditTask = () => {
       },
     })
   }
-  console.log('editFromData', editFromData)
+
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
     const useful = editFromData?.labels?.map((item) => item?.dictCode)
