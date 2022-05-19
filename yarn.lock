@@ -11350,7 +11350,7 @@
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
 
-"swr@^1.1.2":
+"swr@1.3.0":
   "integrity" "sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw=="
   "resolved" "https://registry.npmmirror.com/swr/-/swr-1.3.0.tgz"
   "version" "1.3.0"
