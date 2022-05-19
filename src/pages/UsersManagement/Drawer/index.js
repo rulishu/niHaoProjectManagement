@@ -16,6 +16,9 @@ const Drawer = (props) => {
     dispatch({
       type: 'usersManagement/queryFuzzyAllUser',
     })
+    dispatch({
+      type: 'usersManagement/fuzzyNameQuery',
+    })
   }, [dispatch])
 
   const {
@@ -26,6 +29,7 @@ const Drawer = (props) => {
       queryInfo,
       tableType,
       userIdList,
+      teamIdList,
     },
   } = useSelector((state) => state)
 
@@ -164,7 +168,7 @@ const Drawer = (props) => {
             ? items(queryInfo)
             : tableType === 'member'
             ? memberItems(queryInfo, userIdList)
-            : groupItems(queryInfo)
+            : groupItems(queryInfo, teamIdList)
         }
       />
     </ProDrawer>

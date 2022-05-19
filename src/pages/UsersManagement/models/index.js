@@ -1,10 +1,11 @@
 import { createModel } from '@rematch/core'
 import {
   inviteMember,
+  inviteTeam,
   updateProjectMember,
   deleteProjectMember,
   queryFuzzyAllUser,
-  inviteTeam,
+  fuzzyNameQuery,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -16,6 +17,7 @@ const usersManagement = createModel()({
     id: '',
     tableType: '',
     userIdList: [],
+    teamIdList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -71,6 +73,21 @@ const usersManagement = createModel()({
         }))
         dph.usersManagement.updateState({
           userIdList: userIdList,
+        })
+      }
+    },
+    // 模糊查询团队
+    async fuzzyNameQuery(payload) {
+      const dph = dispatch
+      const data = await fuzzyNameQuery(payload)
+      if (data.code === 200) {
+        console.log('data', data)
+        const teamIdList = data?.data.map((item) => ({
+          label: item.teamName,
+          value: item.id,
+        }))
+        dph.usersManagement.updateState({
+          teamIdList: teamIdList,
         })
       }
     },

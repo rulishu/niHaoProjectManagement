@@ -42,11 +42,19 @@ function queryFuzzyAllUser(params) {
     body: { ...params },
   })
 }
-
+// 模糊查询团队
+function fuzzyNameQuery(params) {
+  return request('/api/ManagerTeam/fuzzyNameQuery', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
 export {
   inviteMember,
   inviteTeam,
   updateProjectMember,
   deleteProjectMember,
   queryFuzzyAllUser,
+  fuzzyNameQuery,
 }
