@@ -221,6 +221,7 @@ export default function Home() {
         <ProTable
           style={{ width: 900 }}
           table={myTable}
+          tableBackgroundColor="#fff"
           onCell={(rowData) => {
             navigate(
               `/project/taskInfo/${rowData.projectId}/${rowData.assignmentId}`
@@ -314,6 +315,7 @@ export default function Home() {
         <ProTable
           key="description"
           style={{ width: 900 }}
+          tableBackgroundColor="#fff"
           table={table}
           onCell={(rowData) => {
             navigate(
