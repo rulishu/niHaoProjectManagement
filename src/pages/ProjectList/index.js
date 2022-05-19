@@ -207,7 +207,7 @@ const ProjectList = (props) => {
                   setProjectType('10')
                   dispatch.projectlist.selectNumber({ type: '10' })
                 }
-                // table.onSearch();
+                table.onSearch()
               }}>
               <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
               <Tabs.Pane label="我的" key="2"></Tabs.Pane>
@@ -359,7 +359,7 @@ const ProjectList = (props) => {
                       <EditDrop
                         rowData={rowData}
                         dispatch={dispatch}
-                        search={table.onSearch}
+                        search={refresh}
                       />
                       // </div>
                     )
