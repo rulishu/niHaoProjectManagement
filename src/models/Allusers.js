@@ -162,7 +162,7 @@ const allusers = createModel()({
     },
     // 上传头像
     async getUploadAvatar(params) {
-      const data = await uploadFile(params)
+      const data = await uploadFile({ file: params })
       if (data && data.code === 200) {
         await dispatch.allusers.update({ uuid: data.data })
       }
@@ -181,10 +181,11 @@ const allusers = createModel()({
     // 根据uuid下载图片
     async getNewUserAvatarFile(params) {
       const data = await downloadFilePathById(params)
-      let blob = new Blob([data], { type: 'image/png' })
-      let url = URL.createObjectURL(blob)
-      // if (data && data.code === 200) {
-      await dispatch.allusers.update({ imgUrl: url })
+      console.log('----::>>', data)
+      // let blob = new Blob([data], { type: 'image/png' })
+      // let url = URL.createObjectURL(blob)
+      // // if (data && data.code === 200) {
+      // await dispatch.allusers.update({ imgUrl: url })
       // }
     },
     // // 获取所有的项目列表

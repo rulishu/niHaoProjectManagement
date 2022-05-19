@@ -1,8 +1,8 @@
 import { request } from '@uiw-admin/utils'
-const token = localStorage.getItem('token')
 
 // 上传文件
 export const uploadFile = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/file/uploadFile', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
@@ -22,9 +22,12 @@ export const selectFilePathById = (params) => {
 
 // 根据uuid查询文件路径
 export const downloadFilePathById = (params) => {
-  return request('/api/file/download', {
-    method: 'POST',
-    body: params,
-    responseType: 'blob',
+  console.log('=====>>>', params.uuid)
+  // const token = localStorage.getItem('token')
+  return request(`/api/file/download/${params?.uuid}`, {
+    method: 'GET',
+    // headers: { Authorization: 'Bearer ' + token },
+    body: {},
+    responseType: 'arraybuffer',
   })
 }

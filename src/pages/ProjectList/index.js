@@ -35,14 +35,14 @@ const ProjectList = (props) => {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data?.list,
+        data: data?.data?.rows,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
-        page: 1,
-        pageSize: 9999,
+        page: pageIndex,
+        pageSize: 20,
         status: projectStatus,
         type: projectType,
         name: projectName,
@@ -215,7 +215,7 @@ const ProjectList = (props) => {
           </div>
           <div className={styles.projectProTable}>
             <ProTable
-              // tableHeadHidden={true}
+              tableHeadHidden={true}
               // tableBackgroundColor="#fff"
               className="proProTable"
               // onCell={() => router.navigate('/projectOverview/333')}

@@ -20,12 +20,13 @@ const workbench = createModel()({
     // 我近期参与的项目统计
     async myProject(payload) {
       const data = await myProject(payload)
+      console.log(data)
       if (data.code === 200) {
         dispatch.workbench.update({
           projectList: data?.data || [],
         })
       } else {
-        Notify.error({ title: `失败` + data.message })
+        Notify.error({ title: `失败` + data.message || '' })
       }
     },
     // 成员动态
@@ -36,7 +37,7 @@ const workbench = createModel()({
           memberList: data?.data || [],
         })
       } else {
-        Notify.error({ title: `失败` + data.message })
+        Notify.error({ title: `失败` + data.message || '' })
       }
     },
 
@@ -48,7 +49,7 @@ const workbench = createModel()({
           allList: data?.data || [],
         })
       } else {
-        Notify.error({ title: `失败` + data.message })
+        Notify.error({ title: `失败` + data.message || '' })
       }
     },
 
@@ -60,7 +61,7 @@ const workbench = createModel()({
           personList: data?.data || [],
         })
       } else {
-        Notify.error({ title: `失败` + data.message })
+        Notify.error({ title: `失败` + data.message || '' })
       }
     },
   }),
