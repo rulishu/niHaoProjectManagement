@@ -88,9 +88,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             className={styles.title}
             onClick={() => {
-              navigate('/Authority/users')
+              navigate('/home')
             }}>
-            系统管理
+            工作台
           </div>
           <div
             className={styles.title}
