@@ -16,6 +16,11 @@ npm install
 npm start
 ```
 
+## 账号
+
+账号: admin
+密码: 123456
+
 ## 目录结构
 ```
 .
