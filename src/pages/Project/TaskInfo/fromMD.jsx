@@ -15,7 +15,6 @@ let tribute = new Tribute({
 })
 
 const FromMD = (props) => {
-  console.log('FromMD-props', props)
   const { upDate, submit, editName, editData, infoData, fromValue } = props
   const dispatch = useDispatch()
   const form = useRef()

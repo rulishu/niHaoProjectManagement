@@ -11,44 +11,37 @@ import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
 import useLocationPage from '@/hooks/useLocationPage'
 
-const TaskInfo = (props) => {
+const TaskInfo = () => {
   const dispatch = useDispatch()
   const params = useParams()
 
   // 处理带id的路由
   useLocationPage()
   const {
-    home: { taskId },
     project: { issueType, editFromData, taskInfoData, commentData },
     allusers: { uuid },
     loading,
   } = useSelector((state) => state)
-  // const commentForm = useRef()
 
   const [isTitleErr, serIsTitleErr] = useState(false)
-
-  const { projectId, id, companyId } = props?.router?.params
+  const { projectId, id } = params
   const updateData = (payload) => {
     dispatch({
       type: 'project/update',
       payload,
     })
   }
-  console.log('params', params)
   useEffect(() => {
-    if (sessionStorage.getItem('id') === null) {
-      sessionStorage.setItem('id', projectId)
-    }
-    if (sessionStorage.getItem('companyId') === null) {
-      sessionStorage.setItem('companyId', companyId)
-    }
     dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
-    dispatch.projectuser.pullSelectAll({
-      userName: '',
-      projectId: projectId || taskId,
+    // dispatch.projectuser.pullSelectAll({
+    //   userName: '',
+    //   projectId: projectId || '',
+    // })
+    dispatch.milestone.getListAll({
+      projectId: projectId,
+      milestonesStatusList: [1, 2],
     })
-    dispatch.milestone.getListAll({ milestonesStatusList: [1, 2] })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -117,8 +110,9 @@ const TaskInfo = (props) => {
         assignmentStatus: e,
       },
     })
-    dispatch({
-      type: 'project/getEdit',
+    dispatch.project.getEdit({
+      fileId: uuid ? [uuid] : editFromData.fileId,
+      projectId: projectId,
     })
   }
   const steInputChange = (e) => {
@@ -148,6 +142,7 @@ const TaskInfo = (props) => {
     if (editFromData !== taskInfoData) {
       dispatch.project.getEdit({
         fileId: uuid ? [uuid] : editFromData.fileId,
+        projectId: projectId,
       })
       updateData({ issueType: '' })
     }
@@ -155,7 +150,7 @@ const TaskInfo = (props) => {
   const addComment = () => {
     dispatch.project.getAddComment()
   }
-
+  console.log('taskInfoData', taskInfoData)
   return (
     <>
       <Loader
@@ -323,12 +318,27 @@ const TaskInfo = (props) => {
                                   type="user"
                                 />
                               }
-                              title={item?.operatingRecords}
-                              description={item.text}
+                              style={{ paddingBottom: 15 }}
+                              title={item?.operatingRecords || ''}
                               key={index}
                             />
                           ) : item.type === 2 ? (
                             <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 1,
+                                  }}
+                                  type="message"
+                                />
+                              }
                               description={
                                 <div
                                   data-color-mode="light"
@@ -368,7 +378,7 @@ const TaskInfo = (props) => {
                 fromValue="operatingRecords"
               />
             </div>
-            <EditTask router={props.router} />
+            <EditTask />
           </div>
         </div>
       </Loader>
