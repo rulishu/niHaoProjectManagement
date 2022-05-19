@@ -107,8 +107,8 @@ const BasicInfo = (props) => {
         <Col span="14">
           <ProForm
             form={form1}
-            formType="card"
-            title={`成员基本信息${type === 2 ? '编辑' : ''}`}
+            formType="pure"
+            // title={`成员基本信息${type === 2 ? '编辑' : ''}`}
             // // 是否展示uiw/form提交按钮
             // showSaveButton
             // // 是否展示uiw/form重置按钮
@@ -123,17 +123,17 @@ const BasicInfo = (props) => {
               }
             }}
             formDatas={[
-              {
-                label: 'ID: ',
-                key: 'userId',
-                widget: 'input',
-                inline: true,
-                span: '24',
-                readOnly: true,
-                disabled: true,
-                hide: type === 3,
-                initialValue: baseDetail.userId,
-              },
+              // {
+              //   label: 'ID: ',
+              //   key: 'userId',
+              //   widget: 'input',
+              //   inline: true,
+              //   span: '24',
+              //   readOnly: true,
+              //   disabled: true,
+              //   hide: type === 3,
+              //   initialValue: baseDetail.userId,
+              // },
               {
                 label: '姓名: ',
                 key: 'nickName',
@@ -180,78 +180,29 @@ const BasicInfo = (props) => {
                 },
               },
               {
-                label: '角色: ', // baseDetail.roleIds 角色为null
-                key: 'roleIds',
-                widget: 'searchSelect',
-                inline: true,
-                span: '24',
-                required: true,
-                disabled: type === 1 && true,
-                initialValue:
-                  [{ label: baseDetail.roleIds, key: baseDetail?.deptName }] ||
-                  '',
-                option: dropDownBox,
-                widgetProps: {
-                  multiple: false,
-                  showSearch: true,
-                  allowClear: true,
-                },
-              },
-              {
-                label: '部门: ',
-                key: 'deptId',
-                widget: 'searchTree',
-                inline: true,
-                span: '24',
-                required: true,
-                disabled: type === 1 && true,
-                initialValue: [{ key: baseDetail.deptId, label: postName }],
-                option: arrLeverTop,
-                widgetProps: {
-                  multiple: false,
-                  // onSearch: handleSearch,
-                  showSearch: true,
-                },
-              },
-              {
                 label: '性别: ',
                 key: 'sex',
                 widget: 'radio',
                 inline: true,
                 span: '24',
                 disabled: type === 1 && true,
-                required: true,
+                // required: true,
                 initialValue: Number(baseDetail.sex),
                 option: [
                   { label: '男', value: 0 },
                   { label: '女', value: 1 },
-                  { label: '保密', value: 3 },
                 ],
                 widgetProps: {
                   disabled: true,
                 },
               },
               {
-                label: '职位: ', // baseDetail.postIds 职位为null
-                key: 'postIds',
-                widget: 'select',
-                inline: true,
-                span: '24',
-                required: true,
-                disabled: type === 1 && true,
-                initialValue: baseDetail.postIds,
-                option: dictAllData?.map((e) => ({
-                  label: e?.postName,
-                  value: e.postId,
-                })),
-              },
-              {
-                label: '手机号码: ',
+                label: '电话: ',
                 key: 'phonenumber',
                 widget: 'input',
                 inline: true,
                 span: '24',
-                required: true,
+                // required: true,
                 readOnly: type === 1 && 'readonly',
                 initialValue: baseDetail.phonenumber,
                 widgetProps: {},
@@ -266,20 +217,71 @@ const BasicInfo = (props) => {
                 ],
                 inline: true,
                 span: '24',
-                required: true,
+                // required: true,
                 readOnly: type === 1 && 'readonly',
                 initialValue: baseDetail.status,
                 widgetProps: {},
               },
               {
-                label: '电子邮箱: ',
+                label: '邮箱: ',
                 key: 'email',
                 widget: 'input',
                 inline: true,
-                required: true,
+                // required: true,
                 span: '24',
                 readOnly: type === 1 && 'readonly',
                 initialValue: baseDetail.email,
+              },
+              {
+                label: '角色: ', // baseDetail.roleIds 角色为null
+                key: 'roleIds',
+                widget: 'searchSelect',
+                inline: true,
+                span: '24',
+                // required: true,
+                disabled: type === 1 && true,
+                initialValue:
+                  [{ label: baseDetail.roleIds, key: baseDetail?.deptName }] ||
+                  '',
+                option: dropDownBox,
+                widgetProps: {
+                  multiple: false,
+                  showSearch: true,
+                  allowClear: true,
+                },
+              },
+              {
+                label: '职位: ', // baseDetail.postIds 职位为null
+                key: 'postIds',
+                widget: 'select',
+                inline: true,
+                span: '24',
+                // required: true,
+                disabled: type === 1 && true,
+                initialValue: baseDetail.postIds,
+                option: dictAllData?.map((e) => ({
+                  label: e?.postName,
+                  value: e.postId,
+                })),
+              },
+              {
+                label: '部门: ',
+                key: 'deptId',
+                widget: 'searchTree',
+                inline: true,
+                span: '24',
+                // required: true,
+                disabled: type === 1 && true,
+                initialValue: baseDetail.deptId
+                  ? [{ key: baseDetail.deptId, label: postName }]
+                  : '',
+                option: arrLeverTop,
+                widgetProps: {
+                  multiple: false,
+                  // onSearch: handleSearch,
+                  style: { width: '100%' },
+                  showSearch: true,
+                },
               },
               {
                 label: '备注: ',
