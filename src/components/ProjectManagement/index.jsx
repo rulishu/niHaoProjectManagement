@@ -88,7 +88,7 @@ const ProjectManagement = (fun) => {
             rules: [{ required: true, message: '请输入项目负责人' }],
           },
           {
-            label: '起止日期:',
+            label: '起始日期:',
             key: 'begin',
             initialValue: seachValue?.begin,
             widget: 'dateInput',
@@ -97,7 +97,7 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
-            rules: [{ required: true, message: '请输入起止日期' }],
+            rules: [{ required: true, message: '请输入起始日期' }],
           },
           {
             label: '截止日期:',
@@ -150,7 +150,7 @@ const ProjectManagement = (fun) => {
           },
         ]}>
         <Loader
-          loading={loading.effects.projectUpdate.selectAllUser}
+          loading={loading.effects.projectUpdate.selectAllUserlist}
           bgColor="rgba(0, 0, 0, 0.4)"
           style={{ width: '100%' }}
           tip="loading...">

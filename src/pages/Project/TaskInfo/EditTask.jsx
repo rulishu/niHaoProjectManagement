@@ -7,7 +7,7 @@ import styles from './index.module.less'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { Label } from '@/components'
 import { useNavigate } from 'react-router-dom'
-
+import { useParams } from 'react-router-dom'
 function useDebounce(fn, delay) {
   const refTimer = useRef()
 
@@ -21,10 +21,12 @@ function useDebounce(fn, delay) {
   }
 }
 
-const EditTask = (props) => {
+const EditTask = () => {
   const dispatch = useDispatch()
+  const params = useParams()
+  const { projectId } = params
+
   const {
-    home: { taskId },
     project: { editFromData, taskInfoData },
     projectuser: { userSelectAllList },
     dictionary: { dictAllData },
@@ -48,7 +50,7 @@ const EditTask = (props) => {
 
   const editAssign = () => {
     setAssignState(!assignState)
-    dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
+    dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
     setLabelState(false)
     setMilepostState(false)
     setDueDateState(false)
@@ -83,7 +85,7 @@ const EditTask = (props) => {
   const onChangeSearch = useDebounce((e) => {
     dispatch.projectuser.pullSelectAll({
       userName: e.toString(),
-      projectId: taskId,
+      projectId: projectId,
     })
   }, 1500)
 
@@ -93,7 +95,8 @@ const EditTask = (props) => {
     await dispatch.project.getEdit({
       assignmentId: editFromData.assignmentId,
       assigneeUserId: e,
-      assigneeUserName: newItem[0].userName,
+      assigneeUserName: newItem[0].memberName,
+      projectId: projectId || '',
     })
   }
   const milepostChange = async (v) => {
@@ -189,7 +192,9 @@ const EditTask = (props) => {
                 placeholder="请输入选择"
                 onSearch={onChangeSearch}
                 onSelect={(e) => selectSearch(e)}
-                option={selectOption(userSelectAllList) || {}}
+                option={
+                  selectOption(userSelectAllList, 'id', 'memberName') || {}
+                }
                 loading={loading.effects.projectuser.pullSelectAll}
               />
             ) : taskInfoData?.assigneeUserName ? (

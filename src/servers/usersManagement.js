@@ -10,6 +10,14 @@ function inviteMember(params) {
     body: { ...params },
   })
 }
+// 邀请团队
+function inviteTeam(params) {
+  return request('/api/member/inviteTeam', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
 // 编辑成员
 function updateProjectMember(params) {
   return request('/api/member/updateProjectMember', {
@@ -18,16 +26,35 @@ function updateProjectMember(params) {
     body: { ...params },
   })
 }
-// // 移除成员
-// function deleteProjectMember(params) {
-//   return request('/api/member/deleteProjectMember', {
-//     method: 'POST',
-//     headers: { Authorization: 'Bearer ' + token },
-//     body: { ...params },
-//   })
-// }
-
 // 移除成员
-const deleteProjectMember = '/api/member/deleteProjectMember'
-
-export { inviteMember, updateProjectMember, deleteProjectMember }
+function deleteProjectMember(params) {
+  return request('/api/member/deleteProjectMember', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+// 模糊查询成员
+function queryFuzzyAllUser(params) {
+  return request('/api/system/user/queryFuzzyAllUser', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+// 模糊查询团队
+function fuzzyNameQuery(params) {
+  return request('/api/ManagerTeam/fuzzyNameQuery', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
+export {
+  inviteMember,
+  inviteTeam,
+  updateProjectMember,
+  deleteProjectMember,
+  queryFuzzyAllUser,
+  fuzzyNameQuery,
+}

@@ -33,6 +33,8 @@ export default createModel()({
     async getInfo(payload) {
       const data = await getInfo(payload)
       if (data.code === 200) {
+        const imgs = data?.user?.admin
+        localStorage.setItem('key', imgs)
         return true
       }
     },

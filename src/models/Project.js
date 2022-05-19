@@ -192,9 +192,9 @@ export default createModel()({
       },
 
       // 任务列表查详情
-      async getSelectById(params, { project }) {
+      async getSelectById(params) {
         const data = await getManagerAssignmentSelectById({
-          projectId: sessionStorage.getItem('id'),
+          // projectId: sessionStorage.getItem('id')
           ...params,
         })
         if (data && data.code === 200) {
@@ -211,9 +211,9 @@ export default createModel()({
       },
       // 任务列表编辑
       async getEdit(params, { project }) {
+        console.log('params', params)
         const { editFromData } = project
         const data = await getManagerAssignmentUpdate({
-          projectId: Number(sessionStorage.getItem('id')),
           ...editFromData,
           ...params,
         })
@@ -226,7 +226,10 @@ export default createModel()({
             //   labels: []
             // }
           })
-          dispatch.project.getSelectById({ id: editFromData?.assignmentId })
+          dispatch.project.getSelectById({
+            projectId: params?.projectId,
+            id: editFromData?.assignmentId,
+          })
           // navigate(`/project/task/${sessionStorage.getItem('id')}`)
           NotifySuccess(data.message)
         }
@@ -244,6 +247,7 @@ export default createModel()({
         })
         if (data && data.code === 200) {
           dispatch.project.getSelectById({
+            projectId: project?.commentData?.projectId,
             id: project?.commentData?.assignmentId,
           })
           NotifySuccess(data.message)

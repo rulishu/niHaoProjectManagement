@@ -4,13 +4,33 @@ import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
 import { changeTimeFormat } from '../../../utils/timeDistance'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Drawer = (props) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
+  const { projectId } = useParams()
+
+  useEffect(() => {
+    dispatch({
+      type: 'usersManagement/queryFuzzyAllUser',
+    })
+    dispatch({
+      type: 'usersManagement/fuzzyNameQuery',
+    })
+  }, [dispatch])
 
   const {
-    usersManagement: { drawerVisible, isView, loading, queryInfo, tableType },
+    usersManagement: {
+      drawerVisible,
+      isView,
+      loading,
+      queryInfo,
+      tableType,
+      userIdList,
+      teamIdList,
+    },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -55,7 +75,7 @@ const Drawer = (props) => {
       throw err
     }
 
-    // 邀请
+    // 邀请成员
     if (tableType === 'member') {
       const payload = {
         ...current,
@@ -65,24 +85,39 @@ const Drawer = (props) => {
           'YYYY-MM-DD HH:mm:ss',
           current?.accessExpirationDate
         ),
-        // projectId: localStorage.getItem('projectId') || ''
+        projectId: projectId,
       }
       dispatch({
         type: 'usersManagement/inviteMember',
         payload,
       }).then((data) => information(data))
     }
+    // 邀请团队
+    if (tableType === 'group') {
+      const payload = {
+        ...current,
+        teamId: Number(current?.teamId),
+        memberRole: Number(current?.memberRole),
+        accessExpirationDate: formatter(
+          'YYYY-MM-DD HH:mm:ss',
+          current?.accessExpirationDate
+        ),
+        projectId: projectId,
+      }
+      dispatch({
+        type: 'usersManagement/inviteTeam',
+        payload,
+      }).then((data) => information(data))
+    }
     // 编辑
     if (tableType === 'edit') {
-      console.log('queryInfo', queryInfo)
       const payload = {
         ...current,
         id: queryInfo?.id,
         joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
-        // projectId: localStorage.getItem('projectId') || ''
+        projectId: projectId,
       }
-      console.log('payload', payload)
       dispatch({
         type: 'usersManagement/updateProjectMember',
         payload,
@@ -115,7 +150,7 @@ const Drawer = (props) => {
             ? '编辑信息'
             : tableType === 'member'
             ? '邀请成员'
-            : tableType === 'group' && '邀请群组'
+            : tableType === 'group' && '邀请团队'
         }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
@@ -132,8 +167,8 @@ const Drawer = (props) => {
           tableType === 'edit'
             ? items(queryInfo)
             : tableType === 'member'
-            ? memberItems(queryInfo)
-            : groupItems(queryInfo)
+            ? memberItems(queryInfo, userIdList)
+            : groupItems(queryInfo, teamIdList)
         }
       />
     </ProDrawer>

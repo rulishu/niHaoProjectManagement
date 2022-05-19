@@ -13,12 +13,13 @@ import {
 } from 'uiw'
 import './style.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
+import useLocationPage from '@/hooks/useLocationPage'
 
 let tribute = new Tribute({
   trigger: '@',
@@ -31,6 +32,10 @@ let tribute = new Tribute({
 const NewIssue = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  // 处理带id的路由
+  useLocationPage()
+  const params = useParams()
+  const { projectId } = params
   const {
     project: { fromData },
     dictionary: { dictAllData },
@@ -54,13 +59,11 @@ const NewIssue = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mdRefs?.current])
 
-  const taskId = sessionStorage.getItem('projectId') || '1346'
-
   useEffect(() => {
-    dispatch.projectuser.pullSelectAll({ userName: '', projectId: taskId })
+    dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
     dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
     dispatch.milestone.getListAll()
-  }, [dispatch, taskId])
+  }, [dispatch, projectId])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)
