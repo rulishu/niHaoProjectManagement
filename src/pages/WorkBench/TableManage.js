@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Row, Col, Card, Tabs, Button } from 'uiw'
-// import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 
 export default function TableManage() {
