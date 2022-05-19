@@ -156,7 +156,9 @@ const routes = [
       {
         path: '/Authority',
         name: '系统管理',
+        hideInMenu: true,
         isAuth: true,
+        side: true,
         routes: [
           {
             path: '/Authority/users',

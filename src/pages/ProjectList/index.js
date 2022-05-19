@@ -41,8 +41,8 @@ const ProjectList = (props) => {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
-        page: 1,
-        pageSize: 9999,
+        page: pageIndex,
+        pageSize: 20,
         status: projectStatus,
         type: projectType,
         name: projectName,

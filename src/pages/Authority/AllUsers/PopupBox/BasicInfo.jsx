@@ -1,4 +1,4 @@
-import { useState } from 'react' //useEffect,
+import { useState } from 'react' //,,useEffect
 import { connect } from 'react-redux'
 import { Divider, Row, Col, Button } from 'uiw'
 import styles from './index.module.less'
@@ -18,6 +18,7 @@ const BasicInfo = (props) => {
   const { dictAllData } = state.dictionary
   // 所有角色列表
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
+  console.log('uuid', uuid)
   // useEffect(() => {
   //   // 获取图片
   //   if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
@@ -55,8 +56,9 @@ const BasicInfo = (props) => {
                 formType="pure"
                 className={styles.leftForm}
                 onChange={(initial, current) => {
-                  current.upload[0] &&
-                    dispatch.getUploadAvatar(current.upload[0])
+                  console.log(current)
+                  current.avatar[0] &&
+                    dispatch.getUploadAvatar(current.avatar[0].file)
                 }}
                 onSubmit={async (initial, current) => {
                   const errorObj = {}
@@ -72,16 +74,16 @@ const BasicInfo = (props) => {
                     key: 'avatar',
                     widget: 'upload',
                     span: '24',
-                    initialValue:
-                      type !== 3
-                        ? baseDetail.uuid
-                          ? [
-                              {
-                                dataURL: `/api/file/selectFile/${baseDetail.uuid}`,
-                              },
-                            ]
-                          : null
-                        : null,
+                    // initialValue:
+                    //   type !== 3
+                    //     ? baseDetail.uuid
+                    //       ? [
+                    //           {
+                    //             dataURL: `/api/file/selectFile/${baseDetail.uuid}`,
+                    //           },
+                    //         ]
+                    //       : null
+                    //     : null,
                     widgetProps: {
                       uploadType: 'card',
                       shape: 'circle',
@@ -331,8 +333,9 @@ const BasicInfo = (props) => {
                   postIds: [Number(value1?.postIds)],
                   roleIds: [value1?.roleIds],
                   deptId: value1?.deptId[0]?.key,
-                  uuid: value?.upload?.length ? uuid : null,
+                  avatar: uuid || '',
                 }
+                console.log('params', params, value, 'value')
                 // 调用请求接口
                 // type 1 : 查看 2 : 编辑 3 :新增
                 if (props?.type === 2) {

@@ -213,10 +213,10 @@ export default createModel()({
       async getEdit(params, { project }) {
         const { labels, ...newData } = project.editFromData
         let newLabels = []
-        if (labels?.length > 0) {
+        if (labels?.length > 0 && labels[0]?.dictCode) {
           // eslint-disable-next-line array-callback-return
           labels.map((item) => {
-            newLabels.push(item.dictCode.toString())
+            newLabels.push(item?.dictCode.toString())
           })
           newData.labels = newLabels
         }

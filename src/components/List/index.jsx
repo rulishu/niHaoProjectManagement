@@ -93,8 +93,8 @@ export default function ListItem(props) {
                             <span
                               key={index2 + index}
                               className={styles.listIssueStatus}
-                              style={{ backgroundColor: list.dictColour }}>
-                              {list.dictName}
+                              style={{ backgroundColor: list?.dictColour }}>
+                              {list?.dictName}
                             </span>
                           )
                           // return issueStatus.map((num, index) => {
