@@ -26,16 +26,6 @@ export const items = (queryInfo) => {
       rules: [{ required: true, message: '请输入成员角色' }],
     },
     // {
-    //   label: '加入日期',
-    //   key: 'joinTime',
-    //   widget: 'dateInput',
-    //   initialValue: queryInfo?.joinTime,
-    //   required: true,
-    //   span: '24',
-    //   placeholder: '请输入加入日期',
-    //   rules: [{ required: true, message: '请输入加入日期' }],
-    // },
-    // {
     //   label: '受限成员',
     //   key: 'name',
     //   widget: 'select',
@@ -90,17 +80,18 @@ export const memberItems = (queryInfo, userIdList) => {
     },
   ]
 }
-export const groupItems = (queryInfo) => {
+export const groupItems = (queryInfo, teamIdList) => {
   return [
     {
-      label: '选择要邀请的群组',
-      key: 'userId',
-      widget: 'input',
-      initialValue: queryInfo?.userId,
+      label: '选择要邀请的团队',
+      key: 'teamId',
+      widget: 'searchSelect',
+      initialValue: queryInfo?.teamId,
       required: true,
-      placeholder: '选择要邀请的群组',
+      option: teamIdList,
+      placeholder: '选择要邀请的团队',
       span: '24',
-      rules: [{ required: true, message: '请选择要邀请的群组' }],
+      rules: [{ required: true, message: '请选择要邀请的团队' }],
     },
     {
       label: '选择成员角色',

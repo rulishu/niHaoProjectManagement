@@ -60,3 +60,27 @@ export const getAssignmentHistorySave = (params) => {
     body: params,
   })
 }
+
+// 查询成员不分页
+export const queryFuzzyAllProjectMember = (params) => {
+  return request('/api/member/queryFuzzyAllProjectMember', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+// 查询所有里程碑页签
+export const selectLabel = (params) => {
+  return request('/api/milestones/selectLabel', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//
+export const assignment_label = (params) => {
+  return request('/api/system/dict/data/type/assignment_label', {
+    method: 'POST',
+    body: params,
+  })
+}

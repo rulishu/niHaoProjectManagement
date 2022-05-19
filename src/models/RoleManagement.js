@@ -118,7 +118,7 @@ export default createModel()({
     async changeStatus(payload) {
       const data = await changeStatus(payload)
       if (data.code === 200) {
-        Notify.success({ description: data.msg })
+        Notify.success({ description: data?.message })
       }
     },
     async deleteRole(payload) {

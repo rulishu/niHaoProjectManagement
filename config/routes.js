@@ -125,14 +125,6 @@ const routes = [
         ],
       },
       {
-        path: '/users/:projectId',
-        name: '用户管理',
-        component: '@/pages/AllUsers',
-        isAuth: true,
-        // navigate:
-        //   "(navigate) => {navigate(`/users/:projectId/${sessionStorage.getItem('projectId')}`)}",
-      },
-      {
         path: '/team',
         name: '团队管理',
         component: '@/pages/TeamManagement',
@@ -161,9 +153,17 @@ const routes = [
       },
       {
         path: '/Authority',
-        name: '权限管理',
+        name: '系统管理',
         isAuth: true,
         routes: [
+          {
+            path: '/Authority/users',
+            name: '用户管理',
+            component: '@/pages/Authority/AllUsers',
+            isAuth: true,
+            // navigate:
+            //   "(navigate) => {navigate(`/users/:projectId/${sessionStorage.getItem('projectId')}`)}",
+          },
           {
             path: '/Authority/RoleManagement',
             name: '角色管理',

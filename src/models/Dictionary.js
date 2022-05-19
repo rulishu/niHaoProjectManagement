@@ -62,12 +62,13 @@ export default createModel()({
           })
         }
       },
-      // 分页查询所有
+      // 职位列表
       async getQueryAll(payload) {
         const data = await getQueryAll(payload)
         if (data.code === 200) {
           dispatch.dictionary.update({
-            dictAllData: data?.rows || [],
+            dictAllData:
+              data?.rows?.filter((code) => code?.status === '0') || [],
           })
         }
       },

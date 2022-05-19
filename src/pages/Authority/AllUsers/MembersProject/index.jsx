@@ -18,7 +18,7 @@ const MembersProject = (props) => {
   const listClick = async (item) => {
     await dispatch.update({ cUser: item })
     // 获取指定角色的公司与项目
-    dispatch.getUserCompanyProjects()
+    // dispatch.getUserCompanyProjects()
   }
 
   return (
