@@ -1,4 +1,4 @@
-import { Row, Col, Card, Button, Tabs } from 'uiw'
+import { Row, Col, Card, Button, Tabs, Tag } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
@@ -121,40 +121,42 @@ export default function TodoList() {
                           key: 'id',
                         },
 
-                    {
-                      title: '待办内容',
-                      key: 'doConnent',
-                    },
-                    {
-                      title: '项目名称',
-                      key: 'projectName',
-                    },
-                    {
-                      title: '时间',
-                      key: 'createTime',
-                    },
-                    {
-                      title: '操作',
-                      key: 'gender',
-                      render: (text, key, rowData) => {
-                        return (
-                          <div>
-                            <Button
-                              size="small"
-                              type="primary"
-                              onClick={handleEditTable.bind(
-                                this,
-                                'del',
-                                rowData
-                              )}>
-                              完毕
-                            </Button>
-                          </div>
-                        )
-                      },
-                    },
-                  ]}
-                />
+                        {
+                          title: '待办内容',
+                          key: 'doConnent',
+                        },
+                        {
+                          title: '项目名称',
+                          key: 'projectName',
+                        },
+                        {
+                          title: '时间',
+                          key: 'createTime',
+                        },
+                        {
+                          title: '操作',
+                          key: 'gender',
+                          render: (text, key, rowData) => {
+                            return (
+                              <div>
+                                <Button
+                                  size="small"
+                                  type="primary"
+                                  onClick={handleEditTable.bind(
+                                    this,
+                                    'del',
+                                    rowData
+                                  )}>
+                                  完毕
+                                </Button>
+                              </div>
+                            )
+                          },
+                        },
+                      ]}
+                    />
+                  </Tabs.Pane>
+                </Tabs>
               </div>
             </Card>
           </Col>
