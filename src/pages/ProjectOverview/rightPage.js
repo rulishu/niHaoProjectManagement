@@ -30,9 +30,10 @@ export default function AllTasks() {
 
   const columns = [
     {
-      title: '标题',
+      title: '里程碑名称',
       key: 'milestonesTitle',
       ellipsis: true,
+      width: 100,
     },
     {
       title: '结束时间',
@@ -40,7 +41,7 @@ export default function AllTasks() {
       ellipsis: true,
       width: 120,
       render: (text) => {
-        return <div>{text && moment(text).format('YYYY-MM-DD')}</div>
+        return <div>{text ? moment(text).format('YYYY-MM-DD') : ''}</div>
       },
     },
     {
@@ -55,6 +56,7 @@ export default function AllTasks() {
       <Card title="里程碑" bordered={false}>
         <div style={{ height: 331, overflowX: 'hidden', overflowY: 'auto' }}>
           <ProTable
+            key="dueTime"
             onCell={(rowData) => {
               navigate(
                 `/milestone/milestoneInfo/${projectId}/${rowData.milestonesId}`,
@@ -65,7 +67,9 @@ export default function AllTasks() {
             }}
             bordered={false}
             table={milepostTable}
+            tableBackgroundColor="#fff"
             columns={columns}
+            paginationProps={{ style: { display: 'none' } }}
           />
         </div>
       </Card>
@@ -96,9 +100,10 @@ export default function AllTasks() {
       </Card>
       <Card title="项目成员" bordered={false}>
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          {projectMembersList.map((e) => {
+          {projectMembersList.map((e, idx) => {
             return (
               <div
+                key={idx}
                 style={{
                   width: 50,
                   textAlign: 'center',

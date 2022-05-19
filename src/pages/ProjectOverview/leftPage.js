@@ -81,6 +81,7 @@ export default function Home() {
         <Card
           style={{ width: '40%' }}
           title={allDataSource?.projectName || ''}
+          bodyStyle={{ paddingTop: 0 }}
           bordered={false}
           extra={
             <Button
@@ -311,6 +312,7 @@ export default function Home() {
           <Tabs.Pane label="逾期完成" key="4" />
         </Tabs>
         <ProTable
+          key="description"
           style={{ width: 900 }}
           table={table}
           onCell={(rowData) => {
