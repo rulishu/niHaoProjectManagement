@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, List, Button } from 'uiw'
+import { Row, Col, Card, Tabs, List } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 // import styles from './index.module.less'
@@ -44,14 +44,7 @@ export default function SlelectLabel() {
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '75%' }}>
-            <Card
-              title="我的任务"
-              extra={
-                <Button basic type="dark" onClick={'123'}>
-                  更多
-                </Button>
-              }
-              bodyStyle={{ paddingTop: 0 }}>
+            <Card title="我的任务" bodyStyle={{ paddingTop: 0 }}>
               <Tabs
                 // type="line"
                 activeKey="1"
