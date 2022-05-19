@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Container } from '@/components'
 import styles from './index.module.less'
 import timeDistance from '@/utils/timeDistance'
+import newDebounce from '@/utils/debounce'
 import EditDrop from './EditDrop.jsx'
 import ProjectManagement from '@/components/ProjectManagement/index'
 import './index.css'
@@ -25,7 +26,7 @@ const ProjectList = (props) => {
   //所有项目“20”or我的项目“10”
   const [projectType, setProjectType] = useState('20')
   //列表排序
-  const [projectOrder, setProjectOrder] = useState('1')
+  const [projectOrder, setProjectOrder] = useState(3)
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
@@ -134,18 +135,22 @@ const ProjectList = (props) => {
     },
   })
 
-  const goSpecifyPage = (type, option = {}) => {
-    type === 1 && router.navigate(`${option?.path}`)
-    type === 2 && router.navigate(`${option?.path}`)
-    type === 3 && router.navigate(`${option?.path}/${type !== 1 && option?.id}`)
+  const goSpecifyPage = (option = {}) => {
+    router.navigate(`${option?.path}/${option?.id}`)
     // e.stopPropagation()禁止冒泡
   }
 
   const sortingList = [
-    { value: 1, title: '名称' },
+    { value: 1, title: '修改时间' },
     { value: 2, title: '创建时间' },
-    { value: 3, title: '修改时间' },
+    { value: 3, title: '名称' },
   ]
+
+  //刷新界面
+  const refresh = () => {
+    table.onSearch()
+    dispatch.projectlist.selectNumber()
+  }
 
   // 渲染下拉框
   const card = (
@@ -155,7 +160,13 @@ const ProjectList = (props) => {
           <li
             key={item.value}
             onClick={() => {
-              setProjectOrder(item.value)
+              if (item.value === 1) {
+                setProjectOrder(3)
+              } else if (item.value === 3) {
+                setProjectOrder(1)
+              } else {
+                setProjectOrder(2)
+              }
               setIsPulldown(false)
               setSorting(item.value)
               table.onSearch()
@@ -238,11 +249,9 @@ const ProjectList = (props) => {
               <div>
                 <Input
                   placeholder="按名称筛选"
-                  onBlur={(e) => {
-                    if (e.target.value !== projectName) {
-                      setProjectName(e.target.value)
-                      table.onSearch()
-                    }
+                  onChange={(e) => {
+                    setProjectName(e.target.value)
+                    newDebounce(table.onSearch, 500)
                   }}
                 />
               </div>
@@ -294,7 +303,7 @@ const ProjectList = (props) => {
                 {
                   // title: '头像',
                   key: 'avatar',
-                  width: 50,
+                  width: 45,
                   render: (text, _, rowData) => {
                     return (
                       <div className={styles.avatarContainer}>
@@ -324,9 +333,9 @@ const ProjectList = (props) => {
                             onClick={() =>
                               router.navigate(`/projectOverview/${rowData.id}`)
                             }>
-                            nihao /{text}
+                            {text}
                           </h2>
-                          <span className={styles.projectRole}>管理员</span>
+                          {/* <span className={styles.projectRole}>管理员</span> */}
                         </div>
                         <div className={styles.infoBottomBx}>
                           <span>{rowData?.descr}</span>
@@ -344,7 +353,7 @@ const ProjectList = (props) => {
                         <div
                           className={styles.projectControlsLI}
                           onClick={(e) => {
-                            goSpecifyPage(1, {
+                            goSpecifyPage({
                               path: '/project/task',
                               id: rowData.id,
                             })
@@ -363,7 +372,7 @@ const ProjectList = (props) => {
                         <div
                           className={styles.projectControlsLI}
                           onClick={(e) => {
-                            goSpecifyPage(2, { path: '/users', id: rowData.id })
+                            goSpecifyPage({ path: '/users', id: rowData.id })
                           }}>
                           <Tooltip
                             placement="top"
@@ -379,7 +388,7 @@ const ProjectList = (props) => {
                         <div
                           className={styles.projectControlsLI}
                           onClick={(e) => {
-                            goSpecifyPage(3, {
+                            goSpecifyPage({
                               path: '/milestone',
                               id: rowData.id,
                             })
@@ -435,7 +444,7 @@ const ProjectList = (props) => {
             />
           </div>
         </div>
-        <ProjectManagement fun={table.onSearch}></ProjectManagement>
+        <ProjectManagement fun={refresh}></ProjectManagement>
       </Container>
     </div>
   )
