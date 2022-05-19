@@ -66,12 +66,6 @@ export default function Home() {
     },
   })
 
-  function randomColor() {
-    return (
-      '#' +
-      ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
-    )
-  }
   //修改项目资料
   const reset = () => {
     dispatch({
@@ -195,9 +189,7 @@ export default function Home() {
                         key={item.key}
                         title={item.title}
                         style={{ width: 80 }}>
-                        <span style={{ fontSize: 36, color: randomColor() }}>
-                          {item.num}
-                        </span>
+                        <span style={{ fontSize: 36 }}>{item.num}</span>
                       </Card>
                     )
                   })}
