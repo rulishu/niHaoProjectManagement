@@ -220,9 +220,11 @@ const MilestoneInfo = () => {
                 <span>
                   任务
                   <span className={styles.num}>
-                    {listDataInfo?.unassignedSize +
-                      listDataInfo?.finishSize +
-                      listDataInfo?.conductSize || 0}
+                    {listDataInfo?.allTaskNum ||
+                      listDataInfo?.unassignedSize +
+                        listDataInfo?.finishSize +
+                        listDataInfo?.conductSize ||
+                      0}
                   </span>
                 </span>
                 <Button
