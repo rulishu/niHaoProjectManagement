@@ -15,12 +15,12 @@ let tribute = new Tribute({
 })
 
 const FromMD = (props) => {
-  const { upDate, submit, editName, editData, infoData, fromValue } = props
+  const { upDate, submit, editName, editData, infoData, fromValue, btnName } =
+    props
   const dispatch = useDispatch()
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
-  // console.log('mdRefs', mdRefs)
 
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
@@ -140,7 +140,7 @@ const FromMD = (props) => {
                       type="primary"
                       htmlType="submit"
                       disabled={infoData ? editData === infoData : false}>
-                      保存编辑
+                      {btnName || '提交'}
                     </Button>
                   </div>
                 </Col>

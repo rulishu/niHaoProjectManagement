@@ -34,10 +34,10 @@ const TaskInfo = () => {
   useEffect(() => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
-    // dispatch.projectuser.pullSelectAll({
-    //   userName: '',
-    //   projectId: projectId || '',
-    // })
+    dispatch.projectuser.pullSelectAll({
+      memberName: '',
+      projectId: projectId || '',
+    })
     dispatch.milestone.getListAll({
       projectId: projectId,
       milestonesStatusList: [1, 2],
@@ -150,7 +150,6 @@ const TaskInfo = () => {
   const addComment = () => {
     dispatch.project.getAddComment()
   }
-  console.log('taskInfoData', taskInfoData)
   return (
     <>
       <Loader
@@ -234,6 +233,7 @@ const TaskInfo = () => {
                   editData={editFromData}
                   infoData={taskInfoData}
                   fromValue={'description'}
+                  btnName="保存编辑"
                 />
               ) : (
                 // <Form
@@ -359,6 +359,7 @@ const TaskInfo = () => {
                                   submit={goSaveIssue}
                                   editData={editFromData}
                                   infoData={taskInfoData}
+                                  btnName="回复"
                                 />
                               }
                               title="回复"
@@ -376,6 +377,7 @@ const TaskInfo = () => {
                 editName="commentData"
                 editData={commentData}
                 fromValue="operatingRecords"
+                btnName="添加评论"
               />
             </div>
             <EditTask />
