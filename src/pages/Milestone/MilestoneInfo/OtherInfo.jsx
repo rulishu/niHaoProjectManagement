@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Tabs, Icon, Row, Col, Button, Empty, Loader } from 'uiw'
+import {
+  Tabs,
+  Icon,
+  Avatar,
+  Row,
+  Col,
+  Button,
+  Empty,
+  Loader,
+  Tooltip,
+} from 'uiw'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -78,12 +88,25 @@ const OtherInfo = (props) => {
               <div className={styles.taskBody}>
                 <span className={styles.taskLink}>#{item.assignmentId}</span>
                 {item?.labels?.map((tagItem) => lableBox(tagItem))}
-                {/* 等后端完成 */}
-                {/* <span className={styles.taskAssignPerson}>
-                  <Avatar size="mini" className={styles.roleAvatar}>
-                    {item.userName}
-                  </Avatar>
-                </span> */}
+                {item.assigneeUserId ? (
+                  <Tooltip
+                    placement="top"
+                    content={<>指派给{item.assigneeUserName}</>}>
+                    <span className={styles.taskAssignPerson}>
+                      <Avatar
+                        size="mini"
+                        src={
+                          item.uuid &&
+                          `/api/file/selectFile/${item?.assigneeUserAvatarUuid}`
+                        }
+                        className={styles.roleAvatar}>
+                        {item.assigneeUserName}
+                      </Avatar>
+                    </span>
+                  </Tooltip>
+                ) : (
+                  <></>
+                )}
               </div>
             </li>
           )
