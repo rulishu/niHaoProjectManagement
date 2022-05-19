@@ -1,5 +1,9 @@
 import { createModel } from '@rematch/core'
-import { getSelectPage, getStrutsSwitch } from '../servers/TodoList'
+import {
+  getSelectPage,
+  getStrutsSwitch,
+  getSelectAll,
+} from '../servers/TodoList'
 import { Notify } from 'uiw'
 
 /**
@@ -40,7 +44,7 @@ export default createModel()({
           //   todolistId: '', // useLocation
         })
         if (data && data.code === 200) {
-          if (params?.status === '1') {
+          if (params?.status === 1) {
             dispatch.todolist.update({
               dataList: data?.data.list || [],
               total: data?.data.total,
@@ -55,6 +59,9 @@ export default createModel()({
       },
       async getStrutsSwitch(payload) {
         const { page, pageSize, status } = payload
+        dispatch.todolist.update({
+          filter: { page, pageSize },
+        })
         let params = {
           ...payload,
         }
@@ -65,11 +72,29 @@ export default createModel()({
         } else {
           Notify.error({ title: data.message, description: '' })
         }
-        await dispatch.todolist.getList({
-          page: page,
-          pageSize: pageSize,
-          status: status,
+        await dispatch.todolist.getSelectAll({
+          page: 2,
+          pageSize: 10,
+          status,
         })
+        await dispatch.todolist.getList({
+          page: 1,
+          pageSize: 10,
+          status,
+        })
+      },
+      async getSelectAll(params, { todolist }) {
+        const { filter } = todolist
+        const data = await getSelectAll({
+          ...filter,
+          ...params,
+        })
+        // console.log('data------>11111', data)
+        if (data && data.code === 200) {
+          // Notify.success({ title: data.message, description: '' })
+        } else {
+          Notify.error({ title: data.message, description: '' })
+        }
       },
 
       // 翻页

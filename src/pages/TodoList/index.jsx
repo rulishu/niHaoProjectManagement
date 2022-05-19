@@ -74,7 +74,7 @@ const TodoList = () => {
   const getTaskListData = async (value, selectValue) => {
     updateData({ activeKey: selectValue })
     await dispatch.todolist.getList({
-      status: selectValue,
+      assignmentType: selectValue,
       assignmentTitle: value,
       page: 1,
     })
@@ -166,9 +166,9 @@ const TodoList = () => {
                 pageSize={10}
                 total={taskTotal}
                 alignment="center"
-                onChange={(page, _, pageSize) => {
+                onChange={(pages, _, pageSize) => {
                   dispatch.todolist.goToPage({
-                    page,
+                    pages,
                     pageSize,
                     status: num,
                     // createId: location?.state?.createId

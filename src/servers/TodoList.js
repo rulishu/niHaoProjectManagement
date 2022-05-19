@@ -18,3 +18,10 @@ export const getStrutsSwitch = (params) => {
     body: params,
   })
 }
+
+export const getSelectAll = (params) => {
+  return request('/api/ManagerTodoList/selectAll', {
+    method: 'POST',
+    body: params,
+  })
+}

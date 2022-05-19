@@ -1,7 +1,15 @@
 import { Row, Col, Card, Button } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { useDispatch } from 'react-redux'
 
 export default function TodoList() {
+  const updateData = (payload) => {
+    dispatch({
+      type: 'todolist/update',
+      payload,
+    })
+  }
+  const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
@@ -25,6 +33,23 @@ export default function TodoList() {
     },
   })
 
+  // 操作
+  async function handleEditTable(type, record) {
+    updateData({
+      isView: type === 'view',
+      tableType: type,
+    })
+    if (type === 'del') {
+      dispatch({
+        type: 'todolist/getStrutsSwitch',
+        payload: { id: record?.id },
+      })
+      // dispatch({
+      //   type: 'todolist/getSelectAll',
+      //   payload: { status: record?.status },
+      // })
+    }
+  }
   return (
     <div>
       <div>
@@ -74,8 +99,21 @@ export default function TodoList() {
                     {
                       title: '操作',
                       key: 'gender',
-                      render: (text) => {
-                        return <div>查看</div>
+                      render: (text, key, rowData) => {
+                        return (
+                          <div>
+                            <Button
+                              size="small"
+                              type="primary"
+                              onClick={handleEditTable.bind(
+                                this,
+                                'del',
+                                rowData
+                              )}>
+                              {rowData.status === 1 ? '去处理' : '完毕'}
+                            </Button>
+                          </div>
+                        )
                       },
                     },
                   ]}
