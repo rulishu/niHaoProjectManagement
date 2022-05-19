@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import { Row, Col, Card, Progress, Menu, Button, Notify, Empty } from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button } from 'uiw'
 import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
@@ -18,6 +18,7 @@ export default function Demo() {
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
   const [milepost, setMilepost] = useState([])
+  const [active, setActive] = useState(0)
 
   useEffect(() => {
     dispatch({
@@ -38,7 +39,16 @@ export default function Demo() {
       state: { projectId, milestonesId },
     })
   }
+  //默认选中第一个
+  const onClickItem = (key) => {
+    setActive(key)
+  }
+  const projectListOne = projectList?.at(0)
+  const milesWorkVoListOne = projectListOne?.milesWorkVoList
+  const totalWorkVoOne = projectListOne?.totalWorkVo
 
+  //判断是否可以看到所有项目列表
+  const naid = localStorage.getItem('key')
   return (
     <Container>
       <div>
@@ -57,11 +67,12 @@ export default function Demo() {
                         key={e.projectId}
                         onClick={() => {
                           const totalData = e.totalWorkVo
-                          // const milesWorkVoList = e.milesWorkVoList?.at(0)
+                          onClickItem(key)
                           setProject({ ...e })
                           setTotalData({ ...totalData })
                           setMilepost(e.milesWorkVoList)
                         }}
+                        active={active === key}
                       />
                     )
                   })}
@@ -71,7 +82,11 @@ export default function Demo() {
           </Col>
           <Col fixed style={{ width: '50%' }}>
             <Card
-              title={projectData?.projectName}
+              title={
+                active === 0
+                  ? projectListOne?.projectName
+                  : projectData?.projectName
+              }
               bordered={false}
               style={{ height: 400 }}>
               <Row>
@@ -83,10 +98,14 @@ export default function Demo() {
                   <Progress.Circle
                     width={100}
                     strokeWidth={10}
-                    percent={totalData?.projectNum}
+                    percent={
+                      active === 0
+                        ? totalWorkVoOne?.projectNum
+                        : totalData?.projectNum
+                    }
                     format={(percent) => (
                       <span>
-                        {`${percent}`}
+                        {active === 0 ? totalWorkVoOne?.projectNum : percent}
                         <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                           总任务
                         </div>
@@ -98,21 +117,14 @@ export default function Demo() {
                       type="primary"
                       onClick={() => {
                         window.location.href = `#/project/task/${projectData.projectId}`
-                        localStorage.setItem(
-                          'projectId',
-                          JSON.stringify(projectData?.projectId || '')
-                        )
                       }}>
                       查看全部
                     </Button>
                     <Button
                       type="primary"
                       onClick={() => {
-                        if (projectData?.projectId === undefined) {
-                          return Notify.warning({
-                            title: '警告通知',
-                            description: '请先点击项目名称',
-                          })
+                        if (active === 0) {
+                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
                         } else {
                           window.location.href = `#/projectOverview/${projectData?.projectId}`
                         }
@@ -124,61 +136,62 @@ export default function Demo() {
               </Row>
               <Row>
                 <Col>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: 20,
-                        textAlign: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                      }}>
-                      {[
-                        {
-                          title: '未开始',
-                          num: totalData?.projectWksNum
-                            ? totalData?.projectWksNum
-                            : 0,
-                          key: 1,
-                        },
-                        {
-                          title: '开发中',
-                          num: totalData?.projectKfzNum
-                            ? totalData?.projectKfzNum
-                            : 0,
-                          key: 2,
-                        },
-                        {
-                          title: '已完成',
-                          num: totalData?.projectYwcNum
-                            ? totalData?.projectYwcNum
-                            : 0,
-                          key: 3,
-                        },
-                        {
-                          title: '已逾期',
-                          num: totalData?.projectYqsNum
-                            ? totalData?.projectYqsNum
-                            : 0,
-                          key: 5,
-                        },
-                      ].map((item) => {
-                        return (
-                          <div style={{}}>
-                            <Card
-                              bordered={false}
-                              key={item.key}
-                              title={item.title}
-                              style={{ width: 80 }}>
-                              <span
-                                style={{ fontSize: 36, color: randomColor() }}>
-                                {item.num}
-                              </span>
-                            </Card>
-                          </div>
-                        )
-                      })}
-                    </div>
+                  <div
+                    style={{
+                      marginTop: 20,
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      flexDirection: 'row',
+                    }}>
+                    {[
+                      {
+                        title: '未开始',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectWksNum
+                            : totalData?.projectWksNum,
+                        key: 1,
+                      },
+                      {
+                        title: '开发中',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectKfzNum
+                            : totalData?.projectKfzNum,
+                        key: 2,
+                      },
+                      {
+                        title: '已完成',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYwcNum
+                            : totalData?.projectYwcNum,
+                        key: 3,
+                      },
+                      {
+                        title: '已逾期',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYqsNum
+                            : totalData?.projectYqsNum,
+                        key: 4,
+                      },
+                    ].map((item, key) => {
+                      return (
+                        <div key={key}>
+                          <Card
+                            bordered={false}
+                            title={item.title}
+                            style={{ width: 80 }}>
+                            <span
+                              style={{ fontSize: 36, color: randomColor() }}>
+                              {item?.num}
+                            </span>
+                          </Card>
+                        </div>
+                      )
+                    })}
                   </div>
                 </Col>
               </Row>
@@ -196,31 +209,49 @@ export default function Demo() {
                     <span style={{ flex: 3 }}>结束时间</span>
                     <span style={{ flex: 2 }}>进度</span>
                   </li>
-                  {milepost.length ? (
-                    milepost?.map((item) => {
-                      return (
-                        <li
-                          key={item?.milestonesId}
-                          onClick={() =>
-                            goMilestones(
-                              projectData?.projectId,
-                              item?.milestonesId
-                            )
-                          }>
-                          <span style={{ flex: 4 }}>
-                            {item?.milestonesTitle}
-                          </span>
-                          <span style={{ flex: 3, fontSize: '12px' }}>
-                            {item?.dueTime &&
-                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                          </span>
-                          <span style={{ flex: 2 }}>{item?.rate}</span>
-                        </li>
-                      )
-                    })
-                  ) : (
-                    <Empty />
-                  )}
+                  {active === 0
+                    ? milesWorkVoListOne?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectData?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 4 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
+                        )
+                      })
+                    : milepost?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectData?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 4 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
+                        )
+                      })}
                 </ul>
               </div>
             </Card>
@@ -230,7 +261,7 @@ export default function Demo() {
       <div style={{ marginTop: 20 }}></div>
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
-      <TableManage />
+      {naid === 'true' ? <TableManage /> : ''}
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
     </Container>

@@ -33,7 +33,8 @@ export const deleteById = (params) => {
 
 // 模糊查询所有用户
 export const pullSelectAll = (params) => {
-  return request('/api/managerUser/pullSelectAll', {
+  // return request('/api/managerUser/pullSelectAll', {
+  return request('/api/member/queryFuzzyAllProjectMember', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + token },
     body: params,
