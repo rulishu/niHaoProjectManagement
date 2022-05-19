@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
-import {
-  Row,
-  Col,
-  Card,
-  Progress,
-  Menu,
-  Button,
-  Descriptions,
-  Notify,
-} from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
+import { Row, Col, Card, Progress, Menu, Button, Notify, Empty } from 'uiw'
+import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
 import { Container } from '@/components'
+import dayjs from 'dayjs'
+
 export default function Demo() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -23,7 +17,7 @@ export default function Demo() {
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
-  const [milepost, setMilepost] = useState('')
+  const [milepost, setMilepost] = useState([])
 
   useEffect(() => {
     dispatch({
@@ -37,6 +31,14 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
+
+  // 跳转里程碑详情
+  const goMilestones = (projectId, milestonesId) => {
+    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
+      state: { projectId, milestonesId },
+    })
+  }
+
   return (
     <Container>
       <div>
@@ -55,10 +57,10 @@ export default function Demo() {
                         key={e.projectId}
                         onClick={() => {
                           const totalData = e.totalWorkVo
-                          const milesWorkVoList = e.milesWorkVoList?.at(0)
+                          // const milesWorkVoList = e.milesWorkVoList?.at(0)
                           setProject({ ...e })
                           setTotalData({ ...totalData })
-                          setMilepost({ ...milesWorkVoList })
+                          setMilepost(e.milesWorkVoList)
                         }}
                       />
                     )
@@ -183,32 +185,43 @@ export default function Demo() {
             </Card>
           </Col>
           <Col fixed style={{ width: '25%' }}>
-            <Card title="里程碑" bordered={false} style={{ height: 400 }}>
-              <div>
-                <Descriptions layout="vertical">
-                  <Descriptions.Item label="里程碑名称">
-                    <span
-                      onClick={() => {
-                        navigate(
-                          `/milestone/milestoneInfo/${projectData.projectId}/${milepost.milestonesId}`,
-                          {
-                            state: {
-                              projectId: projectData.projectId,
-                              milestonesId: milepost.milestonesId,
-                            },
-                          }
-                        )
-                      }}>
-                      {milepost?.milestonesTitle}
-                    </span>
-                  </Descriptions.Item>
-                  <Descriptions.Item label="结束时间">
-                    {milepost?.dueTime}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="结束进度">
-                    {milepost?.rate}
-                  </Descriptions.Item>
-                </Descriptions>
+            <Card
+              title="里程碑"
+              bordered={false}
+              style={{ height: 400, position: 'relative' }}>
+              <div className={styles.milestoneInfoList}>
+                <ul>
+                  <li className={styles.milInfoLiHead}>
+                    <span style={{ flex: 4 }}>里程碑名称</span>
+                    <span style={{ flex: 3 }}>结束时间</span>
+                    <span style={{ flex: 2 }}>进度</span>
+                  </li>
+                  {milepost.length ? (
+                    milepost?.map((item) => {
+                      return (
+                        <li
+                          key={item?.milestonesId}
+                          onClick={() =>
+                            goMilestones(
+                              projectData?.projectId,
+                              item?.milestonesId
+                            )
+                          }>
+                          <span style={{ flex: 4 }}>
+                            {item?.milestonesTitle}
+                          </span>
+                          <span style={{ flex: 3, fontSize: '12px' }}>
+                            {item?.dueTime &&
+                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                          </span>
+                          <span style={{ flex: 2 }}>{item?.rate}</span>
+                        </li>
+                      )
+                    })
+                  ) : (
+                    <Empty />
+                  )}
+                </ul>
               </div>
             </Card>
           </Col>

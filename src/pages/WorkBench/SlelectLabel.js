@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Row, Col, Card, Tabs, List, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
+// import styles from './index.module.less'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
