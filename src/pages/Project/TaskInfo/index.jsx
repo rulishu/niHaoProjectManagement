@@ -33,7 +33,9 @@ const TaskInfo = () => {
   }
   useEffect(() => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
-    dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
+    dispatch.dictionary.getDictDataList({
+      dictType: 'assignment_label',
+    })
     dispatch.projectuser.pullSelectAll({
       memberName: '',
       projectId: projectId || '',

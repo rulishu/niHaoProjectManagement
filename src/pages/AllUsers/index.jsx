@@ -15,7 +15,11 @@ const Users = (props) => {
 
   useEffect(() => {
     dispatch.allusers?.queryByPage()
-    dispatch.dictionary?.getQueryAll({ dictTypeCode: 'position', dictSort: 2 })
+    dispatch.dictionary.getDictDataList({
+      dictType: 'assignment_label',
+      page: 1,
+      pageSize: 999,
+    })
     dispatch.rolemanagement?.getAllRoleList()
     dispatch.rolemanagement?.getAllDepartment()
   }, [dispatch])

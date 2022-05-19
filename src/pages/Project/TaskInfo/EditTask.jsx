@@ -29,7 +29,7 @@ const EditTask = () => {
   const {
     project: { editFromData, taskInfoData },
     projectuser: { userSelectAllList },
-    dictionary: { dictAllData },
+    dictionary: { dictDataList },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
@@ -104,6 +104,7 @@ const EditTask = () => {
     await dispatch.project.getEdit({
       assignmentId: editFromData.assignmentId,
       milestonesId: v[0].value,
+      projectId: projectId || '',
     })
   }
   const dubDateChange = async (v) => {
@@ -111,32 +112,34 @@ const EditTask = () => {
     await dispatch.project.getEdit({
       assignmentId: editFromData.assignmentId,
       dueDate: dayjs(v).format('YYYY-MM-DD'),
+      projectId: projectId || '',
     })
   }
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
+    console.log('keyArr', keyArr)
     setLabelState(true)
     updateData({
       editFromData: {
         ...editFromData,
         assignmentId: editFromData.assignmentId,
-        labels: dictAllData.filter((item) => keyArr.includes(item.dictId)),
+        labels: dictDataList.filter((item) => keyArr.includes(item.dictCode)),
       },
     })
   }
-
+  console.log('editFromData', editFromData)
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
-    const useful = editFromData?.labels?.map((item) => item?.dictId)
-    return dictAllData
+    const useful = editFromData?.labels?.map((item) => item?.dictCode)
+    return dictDataList
       .map((item) => {
-        if (!item.dictName || !item?.dictId) return undefined
+        if (!item.dictLabel || !item?.dictCode) return undefined
         return {
-          key: item?.dictId,
-          color: item?.dictColour,
-          title: item?.dictName,
-          check: useful?.includes(item?.dictId),
+          key: item?.dictCode,
+          color: item?.listClass,
+          title: item?.dictLabel,
+          check: useful?.includes(item?.dictCode),
         }
       })
       .filter((s) => s)
@@ -149,14 +152,14 @@ const EditTask = () => {
       payload: {
         record: {
           ...formData,
-          dictSort: 2,
-          dictTypeCode: 'labels',
-          dictTypeName: '标签',
+          dictType: 'assignment_label',
+          dictValue: dayjs().unix(),
         },
         callback: (data) => {
           result = data
-          dispatch.dictionary.getQueryAll({
-            dictTypeCode: 'labels',
+          dispatch.dictionary.getDictDataList({
+            dictType: 'assignment_label',
+            page: 1,
             pageSize: 999,
           })
         },
@@ -306,14 +309,14 @@ const EditTask = () => {
               })
               setLabelState(false)
             }}
-            loading={loading.effects.dictionary.getQueryAll}
+            loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => {
               navigate('/dictionary', { replace: true })
             }}
             createTag={(_, current) => createTag(current)}
             // isTagClose={false}
           />
-          {!taskInfoData?.labels?.length && (
+          {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
             <div className={styles.rLabelText}>无</div>
           )}
         </div>

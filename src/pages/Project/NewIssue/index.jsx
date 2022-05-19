@@ -61,7 +61,11 @@ const NewIssue = (props) => {
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
-    dispatch.dictionary.getQueryAll({ dictTypeCode: 'labels' })
+    dispatch.dictionary.getDictDataList({
+      dictType: 'assignment_label',
+      page: 1,
+      pageSize: 999,
+    })
     dispatch.milestone.getListAll()
   }, [dispatch, projectId])
 
