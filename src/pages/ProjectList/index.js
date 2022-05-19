@@ -359,7 +359,7 @@ const ProjectList = (props) => {
                       <EditDrop
                         rowData={rowData}
                         dispatch={dispatch}
-                        search={table.onSearch}
+                        search={refresh}
                       />
                       // </div>
                     )
