@@ -41,7 +41,7 @@ const OtherInfo = (props) => {
       <span
         key={results?.dictCode}
         className={styles.taskTags}
-        style={{ backgroundColor: results?.cssClass || '#813c858c' }}>
+        style={{ backgroundColor: results?.listClass || '#813c858c' }}>
         {results?.dictLabel}
       </span>
     )
