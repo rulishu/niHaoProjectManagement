@@ -53,6 +53,15 @@ const MilestoneInfo = () => {
     })
   }
 
+  // 删除
+  const goTaskListPage = async (activeKey) => {
+    navigate(`/project/task/${projectId}`, { state: { projectId } })
+    await dispatch({
+      type: 'project/update',
+      payload: { activeKey },
+    })
+  }
+
   // 改变状态
   const changeState = async (status) => {
     await dispatch.milestone.editStatusMilestones({
@@ -150,6 +159,7 @@ const MilestoneInfo = () => {
           <div className={styles.layoutLeftFooty}>
             <OtherInfo
               projectId={projectId}
+              goTaskListPage={goTaskListPage}
               listDataInfo={listDataInfo && listDataInfo}
             />
           </div>
@@ -223,24 +233,14 @@ const MilestoneInfo = () => {
               <div className={styles.rightBelow}>
                 <span>
                   <p>打开：</p>
-                  <span
-                    onClick={() => {
-                      navigate(`/project/task/${projectId}`, {
-                        state: { projectId },
-                      })
-                    }}>
+                  <span onClick={() => goTaskListPage(1)}>
                     {listDataInfo?.unassignedSize + listDataInfo?.conductSize ||
                       0}
                   </span>
                 </span>
                 <span>
                   <p>完成：</p>
-                  <span
-                    onClick={() => {
-                      navigate(`/project/task/${projectId}`, {
-                        state: { projectId },
-                      })
-                    }}>
+                  <span onClick={() => goTaskListPage(3)}>
                     {listDataInfo?.finishSize || 0}
                   </span>
                 </span>
