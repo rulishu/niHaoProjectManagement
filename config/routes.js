@@ -125,7 +125,7 @@ const routes = [
         ],
       },
       {
-        path: '/users/:projectId',
+        path: '/users',
         name: '用户管理',
         component: '@/pages/AllUsers',
         isAuth: true,

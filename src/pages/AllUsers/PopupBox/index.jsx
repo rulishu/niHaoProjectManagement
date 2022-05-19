@@ -11,7 +11,7 @@ const PopupBox = (props) => {
   useEffect(() => {
     if (type === 2) {
       // 获取指定角色的公司与项目
-      dispatch?.getUserCompanyProjects()
+      // dispatch?.getUserCompanyProjects()
     }
   }, [dispatch, state.cUser, type])
 

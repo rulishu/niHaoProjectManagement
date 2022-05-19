@@ -53,9 +53,9 @@ export default createModel()({
         const data = await getStrutsSwitch(params)
         // console.log('data------>11111', data)
         if (data && data.code === 200) {
-          Notify.success({ title: data.msg })
+          Notify.success({ title: data?.message })
         } else {
-          Notify.error({ title: data.msg })
+          Notify.error({ title: data?.message })
         }
         await dispatch.todolist.getList({
           page: page,
