@@ -41,14 +41,16 @@ export function deleteById(params) {
  * 根据id删除字典类型
  */
 export function deleteByTypeId(params) {
-  return request('/api/dict/deleteByTypeId', {
+  return request('/api/system/dict/type/remove', {
     method: 'POST',
     body: params,
   })
 }
 
+// 新增字典类型
+export const addByDict = '/api/system/dict/type/add'
 // 新增字典
-export const addByDict = '/api/dict/add'
+export const addByDictData = '/api/system/dict/data/add'
 // 新增字典函数
 export function addByDictFn(params) {
   return request('/api/dict/add', {
@@ -57,9 +59,10 @@ export function addByDictFn(params) {
   })
 }
 
+// 修改字典类型
+export const editByDict = '/api/system/dict/type/edit'
 // 修改字典
-export const editByDict = '/api/dict/edit'
-
+export const editByDictData = '/api/system/dict/data/edit'
 /**
  * 分组出不同类型的字典
  */
