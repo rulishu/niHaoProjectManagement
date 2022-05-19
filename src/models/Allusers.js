@@ -52,6 +52,8 @@ const allusers = createModel()({
     UserCompanyList: [],
     UserProjectList: [],
     membersItemsList: {},
+    rolesDataInfo: {},
+    postsDataInfo: {},
   },
   reducers: {
     update: (state, payload) => {
@@ -131,6 +133,8 @@ const allusers = createModel()({
       const data = await queryById(params)
       if (data && data.code === 200) {
         dispatch.allusers.update({
+          rolesDataInfo: data?.roleIds[0], // data?.roles?.find(e=>e?.roleId === data?.roleIds[0]) || {},
+          postsDataInfo: data?.postIds[0], // data?.posts?.find(e=>e?.postId === ) || {},
           baseDetail: data.data,
           uuid: data.data?.uuid || '',
         })

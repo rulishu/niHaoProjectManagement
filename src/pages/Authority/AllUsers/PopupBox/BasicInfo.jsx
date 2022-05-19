@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react' //useEffect,
 import { connect } from 'react-redux'
 import { Divider, Row, Col, Button } from 'uiw'
 import styles from './index.module.less'
@@ -13,12 +13,11 @@ const BasicInfo = (props) => {
   const form1 = useForm()
 
   const { type, setIsOverlay, dispatch, state } = props
-  const { baseDetail, uuid, page, pageSize } = state.allusers
+  const { baseDetail, uuid, page, pageSize, rolesDataInfo, postsDataInfo } =
+    state.allusers
   const { dictAllData } = state.dictionary
-
   // 所有角色列表
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
-
   // useEffect(() => {
   //   // 获取图片
   //   if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
@@ -45,7 +44,6 @@ const BasicInfo = (props) => {
   // 寻找部门名称
   const postName =
     arrRole?.find((e) => e?.deptId === baseDetail?.deptId)?.deptName || ''
-  console.log('baseDetail', baseDetail, arrRole, postName)
   return (
     <div className={styles.BasicInfo}>
       <Row>
@@ -240,9 +238,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 // required: true,
                 disabled: type === 1 && true,
-                initialValue:
-                  [{ label: baseDetail.roleIds, key: baseDetail?.deptName }] ||
-                  '',
+                initialValue: rolesDataInfo || '',
                 option: dropDownBox,
                 widgetProps: {
                   multiple: false,
@@ -258,7 +254,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 // required: true,
                 disabled: type === 1 && true,
-                initialValue: baseDetail.postIds,
+                initialValue: postsDataInfo || '',
                 option: dictAllData?.map((e) => ({
                   label: e?.postName,
                   value: e.postId,
