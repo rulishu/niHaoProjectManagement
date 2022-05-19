@@ -28,8 +28,3 @@
 .proProTable table tbody tr td{
     padding: 10px 0;
 }
-
-
-.proProTable+.w-table-footer {
-    display: none;
-}
