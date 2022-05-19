@@ -5,6 +5,7 @@ import { addByDictData, editByDictData } from '@/servers/dictionary'
 import useSWR from 'swr'
 import styles from './index.module.less'
 import Block from '@uiw/react-color-block'
+import dayjs from 'dayjs'
 
 function Demo({ value, onChange }) {
   return <Block color={value?.hex || value} onChange={(e) => onChange(e)} />
@@ -31,7 +32,10 @@ const DetailModal = ({ updateData, onSearch }) => {
       {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + token },
-        body: detailInfo,
+        body:
+          modalType === 'add'
+            ? { ...detailInfo, dictCode: dayjs().unix() }
+            : detailInfo,
       },
     ],
     {
