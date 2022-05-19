@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Notify, Tooltip } from 'uiw'
+import { Button, Notify, Tooltip, Tag } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -18,13 +18,13 @@ const DetailTable = () => {
       payload,
     })
   }
-
-  const table = useTable('/api/dict/queryByPage', {
+  const token = localStorage.getItem('token')
+  const table = useTable('/api/system/dict/data/list', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data?.total,
-        data: data?.data?.list || [],
+        total: data?.total,
+        data: data?.rows || [],
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -32,15 +32,19 @@ const DetailTable = () => {
       return {
         page: pageIndex,
         pageSize,
-        dictTypeCode: queryInfo.dictTypeCode,
-        dictSort: 2,
+        dictType: queryInfo.dictType,
+        // dictSort: 2,
         ...searchValues,
       }
+    },
+    requestOptions: {
+      headers: { Authorization: 'Bearer ' + token },
     },
   })
 
   // 操作
   async function handleEditTable(type, record) {
+    console.log('record', record, queryInfo)
     updateData({
       tableType: 'detail',
       modalType: type,
@@ -54,7 +58,7 @@ const DetailTable = () => {
     if (type === 'del') {
       const result = await dispatch({
         type: 'dictionary/deleteById',
-        payload: [record?.dictId],
+        payload: { ids: [record?.dictCode] },
       })
       if (result.code === 200) {
         Notify.success({ title: result?.message })
@@ -104,23 +108,24 @@ const DetailTable = () => {
           {
             title: '字典编码',
             key: 'dictCode',
+            width: 80,
             ellipsis: true,
-            props: {
-              widget: 'input',
-              initialValue: '',
-              widgetProps: {
-                placeholder: '输入字典编码',
-              },
-            },
-            render: (text) => (
-              <Tooltip placement="topLeft" content={text}>
-                {text}
-              </Tooltip>
-            ),
+            // props: {
+            //   widget: 'input',
+            //   initialValue: '',
+            //   widgetProps: {
+            //     placeholder: '输入字典编码',
+            //   },
+            // },
+            // render: (text) => (
+            //   <Tooltip placement="topLeft" content={text}>
+            //     {text}
+            //   </Tooltip>
+            // ),
           },
           {
             title: '字典名称',
-            key: 'dictName',
+            key: 'dictLabel',
             ellipsis: true,
             props: {
               widget: 'input',
@@ -136,25 +141,52 @@ const DetailTable = () => {
             ),
           },
           {
-            title: '创建人',
-            key: 'createName',
+            title: '字典键值',
+            key: 'dictValue',
+          },
+          {
+            title: '排序',
+            key: 'dictSort',
+            width: 60,
+          },
+          {
+            title: '状态',
+            key: 'status',
+            props: {
+              widget: 'select',
+              option: [
+                { label: '正常', value: 0 },
+                { label: '停用', value: 2 },
+              ],
+            },
+            render: (text) => {
+              return (
+                <div>
+                  {text === 2 ? (
+                    <Tag light color="#dc3545">
+                      停用
+                    </Tag>
+                  ) : (
+                    <Tag light color="#28a745">
+                      正常
+                    </Tag>
+                  )}
+                </div>
+              )
+            },
+          },
+          {
+            title: '备注',
+            key: 'remark',
           },
           {
             title: '创建时间',
             key: 'createTime',
           },
-          {
-            title: '更新人',
-            key: 'updateName',
-          },
-          {
-            title: '更新时间',
-            key: 'updateTime',
-          },
-          {
-            title: '标签背景颜色',
-            key: 'dictColour',
-          },
+          // {
+          //   title: '标签背景颜色',
+          //   key: 'dictColour',
+          // },
           {
             title: '操作',
             key: 'edit',

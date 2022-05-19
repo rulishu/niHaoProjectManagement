@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
-import {
-  Row,
-  Col,
-  Card,
-  Progress,
-  Menu,
-  Button,
-  Descriptions,
-  Notify,
-} from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
+import { Row, Col, Card, Progress, Menu, Button, Notify } from 'uiw'
+import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
 import { Container } from '@/components'
+import dayjs from 'dayjs'
+
 export default function Demo() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -23,7 +17,8 @@ export default function Demo() {
   } = useSelector((state) => state)
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
-  const [milepost, setMilepost] = useState('')
+  const [milepost, setMilepost] = useState([])
+  const [active, setActive] = useState(0)
 
   useEffect(() => {
     dispatch({
@@ -37,6 +32,22 @@ export default function Demo() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
+
+  // 跳转里程碑详情
+  const goMilestones = (projectId, milestonesId) => {
+    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
+      state: { projectId, milestonesId },
+    })
+  }
+  //默认选中第一个
+  const onClickItem = (key) => {
+    setActive(key)
+  }
+  console.log('active', active)
+  const projectListOne = projectList?.at(0)
+  const milesWorkVoListOne = projectListOne?.milesWorkVoList
+  const totalWorkVoOne = projectListOne?.totalWorkVo
+
   return (
     <Container>
       <div>
@@ -55,11 +66,12 @@ export default function Demo() {
                         key={e.projectId}
                         onClick={() => {
                           const totalData = e.totalWorkVo
-                          const milesWorkVoList = e.milesWorkVoList?.at(0)
+                          onClickItem(key)
                           setProject({ ...e })
                           setTotalData({ ...totalData })
-                          setMilepost({ ...milesWorkVoList })
+                          setMilepost(e.milesWorkVoList)
                         }}
+                        active={active === key}
                       />
                     )
                   })}
@@ -69,7 +81,11 @@ export default function Demo() {
           </Col>
           <Col fixed style={{ width: '50%' }}>
             <Card
-              title={projectData?.projectName}
+              title={
+                active === 0
+                  ? projectListOne?.projectName
+                  : projectData?.projectName
+              }
               bordered={false}
               style={{ height: 400 }}>
               <Row>
@@ -81,10 +97,14 @@ export default function Demo() {
                   <Progress.Circle
                     width={100}
                     strokeWidth={10}
-                    percent={totalData?.projectNum}
+                    percent={
+                      active === 0
+                        ? totalWorkVoOne?.projectNum
+                        : totalData?.projectNum
+                    }
                     format={(percent) => (
                       <span>
-                        {`${percent}`}
+                        {active === 0 ? totalWorkVoOne?.projectNum : percent}
                         <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                           总任务
                         </div>
@@ -134,30 +154,34 @@ export default function Demo() {
                       {[
                         {
                           title: '未开始',
-                          num: totalData?.projectWksNum
-                            ? totalData?.projectWksNum
-                            : 0,
+                          num:
+                            active === 0
+                              ? totalWorkVoOne?.projectWksNum
+                              : totalData?.projectWksNum,
                           key: 1,
                         },
                         {
                           title: '开发中',
-                          num: totalData?.projectKfzNum
-                            ? totalData?.projectKfzNum
-                            : 0,
+                          num:
+                            active === 0
+                              ? totalWorkVoOne?.projectKfzNum
+                              : totalData?.projectKfzNum,
                           key: 2,
                         },
                         {
                           title: '已完成',
-                          num: totalData?.projectYwcNum
-                            ? totalData?.projectYwcNum
-                            : 0,
+                          num:
+                            active === 0
+                              ? totalWorkVoOne?.projectYwcNum
+                              : totalData?.projectYwcNum,
                           key: 3,
                         },
                         {
                           title: '已逾期',
-                          num: totalData?.projectYqsNum
-                            ? totalData?.projectYqsNum
-                            : 0,
+                          num:
+                            active === 0
+                              ? totalWorkVoOne?.projectYqsNum
+                              : totalData?.projectYqsNum,
                           key: 5,
                         },
                       ].map((item) => {
@@ -183,32 +207,61 @@ export default function Demo() {
             </Card>
           </Col>
           <Col fixed style={{ width: '25%' }}>
-            <Card title="里程碑" bordered={false} style={{ height: 400 }}>
-              <div>
-                <Descriptions layout="vertical">
-                  <Descriptions.Item label="里程碑名称">
-                    <span
-                      onClick={() => {
-                        navigate(
-                          `/milestone/milestoneInfo/${projectData.projectId}/${milepost.milestonesId}`,
-                          {
-                            state: {
-                              projectId: projectData.projectId,
-                              milestonesId: milepost.milestonesId,
-                            },
-                          }
+            <Card
+              title="里程碑"
+              bordered={false}
+              style={{ height: 400, position: 'relative' }}>
+              <div className={styles.milestoneInfoList}>
+                <ul>
+                  <li className={styles.milInfoLiHead}>
+                    <span style={{ flex: 4 }}>里程碑名称</span>
+                    <span style={{ flex: 3 }}>结束时间</span>
+                    <span style={{ flex: 2 }}>进度</span>
+                  </li>
+                  {active === 0
+                    ? milesWorkVoListOne?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectData?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 4 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
                         )
-                      }}>
-                      {milepost?.milestonesTitle}
-                    </span>
-                  </Descriptions.Item>
-                  <Descriptions.Item label="结束时间">
-                    {milepost?.dueTime}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="结束进度">
-                    {milepost?.rate}
-                  </Descriptions.Item>
-                </Descriptions>
+                      })
+                    : milepost?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectData?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 4 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
+                        )
+                      })}
+                </ul>
               </div>
             </Card>
           </Col>

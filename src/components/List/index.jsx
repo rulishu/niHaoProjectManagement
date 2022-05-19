@@ -76,7 +76,7 @@ export default function ListItem(props) {
                             dayjs(item?.dueDate)?.diff(
                               dayjs().format('YYYY-MM-DD'),
                               'hour'
-                            ) < 0 && item?.assignmentStatus === 1
+                            ) < 0 && item?.assignmentStatus === 4
                               ? 'redDate'
                               : ''
                           }`}>
