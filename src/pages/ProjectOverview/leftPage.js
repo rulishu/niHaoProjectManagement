@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Icon } from 'uiw'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.less'
+import ProjectManagement from '../../components/ProjectManagement'
 
 export default function Home() {
   const {
     projectoverview: { allDataSource, projectId, pageSize },
   } = useSelector((state) => state)
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [allTab, setAllTab] = useState('5')
   const [myTab, setMyTab] = useState('5')
 
@@ -74,7 +77,15 @@ export default function Home() {
       ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
     )
   }
-
+  //修改项目资料
+  const reset = () => {
+    dispatch({
+      type: 'projectoverview/getProjectCountById', //统计
+      payload: {
+        projectId: projectId,
+      },
+    })
+  }
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -83,15 +94,23 @@ export default function Home() {
           title={allDataSource?.projectName}
           bordered={false}
           extra={
-            <Button icon="setting-o" basic>
-              修改项目资料
+            <Button
+              icon="setting-o"
+              basic
+              onClick={() => {
+                dispatch({
+                  type: 'projectUpdate/updataProject',
+                  payload: { drawerType: 'edit', id: projectId },
+                })
+              }}>
+              编辑
             </Button>
           }>
           <Col style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
             <List bordered={false} noHover={true}>
-              <List.Item>项目描述: {allDataSource.projectDesc}</List.Item>
-              <List.Item>项目成员: 王某</List.Item>
+              <List.Item>项目负责人: 王某</List.Item>
               <List.Item>项目技术: TypeScript</List.Item>
+              <List.Item>项目描述: {allDataSource.projectDesc}</List.Item>
             </List>
           </Col>
         </Card>
@@ -253,10 +272,10 @@ export default function Home() {
                     {text === 1
                       ? '未开始'
                       : text === 2
-                      ? '#进行中'
+                      ? '进行中'
                       : text === 3
-                      ? '#已完成'
-                      : '#已逾期'}
+                      ? '已完成'
+                      : '已逾期'}
                   </Tag>
                 )
               },
@@ -346,10 +365,10 @@ export default function Home() {
                     {text === 1
                       ? '未开始'
                       : text === 2
-                      ? '#进行中'
+                      ? '进行中'
                       : text === 3
-                      ? '#已完成'
-                      : '#已逾期'}
+                      ? '已完成'
+                      : '已逾期'}
                   </Tag>
                 )
               },
@@ -369,6 +388,7 @@ export default function Home() {
           ]}
         />
       </Card>
+      <ProjectManagement fun={reset} />
     </div>
   )
 }

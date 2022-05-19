@@ -102,7 +102,7 @@ export default function AllTasks() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onClick={() => navigate('/usersManagement')}>
+                  onClick={() => navigate(`/usersManagement/${projectId}`)}>
                   <span style={{ fontSize: 24 }}>{e.userName.slice(0, 1)}</span>
                 </div>
                 <span style={{ paddingTop: 5, display: 'block' }}>
