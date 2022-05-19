@@ -5,63 +5,63 @@ const LineChart = () => {
     {
       month: 'Jan',
       city: 'Tokyo',
-      temperature: 7
+      temperature: 7,
     },
     {
       month: 'Feb',
       city: 'London',
-      temperature: 4.2
+      temperature: 4.2,
     },
     {
       month: 'May',
       city: 'Tokyo',
-      temperature: 18.4
+      temperature: 18.4,
     },
     {
       month: 'May',
       city: 'London',
-      temperature: 11.9
+      temperature: 11.9,
     },
     {
       month: 'Jun',
       city: 'Tokyo',
-      temperature: 21.5
+      temperature: 21.5,
     },
     {
       month: 'Jul',
       city: 'London',
-      temperature: 17
+      temperature: 17,
     },
     {
       month: 'Aug',
       city: 'Tokyo',
-      temperature: 26.5
+      temperature: 26.5,
     },
     {
       month: 'Sep',
       city: 'London',
-      temperature: 14.2
+      temperature: 14.2,
     },
     {
       month: 'Oct',
       city: 'Tokyo',
-      temperature: 18.3
+      temperature: 18.3,
     },
     {
       month: 'Oct',
       city: 'London',
-      temperature: 10.3
+      temperature: 10.3,
     },
     {
       month: 'Dec',
       city: 'Tokyo',
-      temperature: 9.6
+      temperature: 9.6,
     },
     {
       month: 'Dec',
       city: 'London',
-      temperature: 4.8
-    }
+      temperature: 4.8,
+    },
   ]
 
   const scale = {
@@ -70,10 +70,10 @@ const LineChart = () => {
       formatter: (v) => {
         return {
           London: '新增',
-          Tokyo: '完成'
+          Tokyo: '完成',
         }[v]
-      }
-    }
+      },
+    },
   }
 
   return (

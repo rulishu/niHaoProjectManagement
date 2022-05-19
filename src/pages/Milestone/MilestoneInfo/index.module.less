@@ -11,6 +11,7 @@
   position: relative;
   padding: 0 6px;
   color: @black;
+
   .num {
     background-color: #f0f0f0;
     border-radius: 20px;
@@ -37,6 +38,7 @@
     padding: 10px 0;
     border-bottom: 1px solid @normal-color;
     color: @black;
+
     .headLeft {
       display: flex;
       align-items: center;
@@ -120,6 +122,7 @@
             margin: 0;
             border-color: @normal-color;
             color: @black;
+
             .taskTitle,
             .taskLink {
               cursor: pointer;
@@ -133,20 +136,6 @@
               margin-top: 7px;
 
               .taskLink {
-              }
-
-              .taskTags {
-                padding: 0 @padding-xss + 2px;
-                align-items: center;
-                background-color: @white;
-                overflow: hidden;
-                display: inline-flex;
-                border-radius: 10px;
-                max-width: 100%;
-                color: @white;
-                font-size: @font-size-sm;
-                margin-left: @margin-xss;
-                cursor: pointer;
               }
 
               .taskAssignPerson {
@@ -177,6 +166,43 @@
           }
         }
       }
+
+      .lableListLi {
+        margin: 5px 0;
+
+        ul {
+          li {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin: 0;
+
+            .lableLiRight {
+              button {
+                margin-left: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 标签样式
+    .taskTags {
+      padding: 0 @padding-xss + 2px;
+      align-items: center;
+      background-color: @white;
+      overflow: hidden;
+      display: inline-flex;
+      border-radius: 10px;
+      max-width: 100%;
+      color: @white;
+      font-size: @font-size-sm;
+      margin-left: @margin-xss;
+      cursor: pointer;
     }
   }
 }
@@ -234,6 +260,13 @@
       span {
         display: flex;
         margin-right: @margin-xss;
+
+        span {
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
