@@ -1,0 +1,101 @@
+@import '../../common.less';
+
+.card {
+  width: '100%';
+  margin: 20px 10px;
+}
+
+.title {
+  font-size: @font-size-base;
+  color: @black;
+  margin: 0;
+}
+
+.colContent {
+  padding: @padding-md;
+}
+
+.colDes div {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: @margin-sm;
+}
+
+.number {
+  font-size: @font-size-lg;
+  line-height: @font-size-lg;
+  margin: @margin-sm 0;
+}
+
+.muted {
+  color: #838a9d;
+  font-size: 12px;
+  margin: 0 0 30px 30px;
+}
+
+.people {
+  display: 'flex';
+  background-color: 'red';
+  width: 50;
+  height: 50;
+  border-radius: '50%';
+  justify-content: 'center';
+  align-items: 'center';
+}
+
+// 里程碑 列表
+.milestoneInfoList {
+  position: relative;
+
+  ul {
+    display: block;
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: @margin-lg + 6px;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 2px;
+      padding: @padding-xss @padding-xs;
+
+      span {
+        flex: 1;
+        padding: 0 @padding-xss;
+        margin-bottom: @margin-xss;
+      }
+    }
+
+    // 列表头
+    .milInfoLiHead {
+      position: absolute;
+      top: -37px;
+      left: 0;
+      right: 0;
+      border-bottom: 1px solid @normal-color;
+      font-weight: @header-font-weight;
+    }
+
+    li:not(:first-child) {
+      span {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        background-color: rgba(167, 182, 194, 0.3);
+        cursor: pointer;
+      }
+    }
+  }
+}
