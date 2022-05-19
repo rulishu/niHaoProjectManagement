@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, List } from 'uiw'
+import { Row, Col, Card, Tabs, List, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
-import styles from './index.less'
+// import styles from './index.module.less'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
   const {
-    workbench: { taskId, memberList },
+    workbench: { memberList },
   } = useSelector((state) => state)
   const [tab, setTab] = useState(1)
 
@@ -15,15 +15,7 @@ export default function SlelectLabel() {
     dispatch({
       type: 'workbench/memberOperator',
     })
-    dispatch({
-      type: 'home/queryProject',
-      payload: { record: taskId },
-    })
-    dispatch({
-      type: 'home/selectOperatingRecord',
-      payload: taskId,
-    })
-  }, [taskId, dispatch])
+  }, [dispatch])
   const token = localStorage.getItem('token')
   const table = useTable('api/workbench/selectProjectPage', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
@@ -38,9 +30,8 @@ export default function SlelectLabel() {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        assignmentStatus: tab !== 5 ? tab : '',
-        createId: tab === 5 ? 1 : '',
-        ...searchValues,
+        assignmentStatus: tab !== '5' ? tab : '',
+        createId: tab === '5' ? 1 : '',
       }
     },
     requestOptions: {
@@ -48,19 +39,26 @@ export default function SlelectLabel() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   return (
     <div>
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '75%' }}>
-            <Card title="我的任务" extra={'更多'} bodyStyle={{ paddingTop: 0 }}>
+            <Card
+              title="我的任务"
+              extra={
+                <Button basic type="dark" onClick={'123'}>
+                  更多
+                </Button>
+              }
+              bodyStyle={{ paddingTop: 0 }}>
               <Tabs
                 // type="line"
                 activeKey="1"
                 style={{ marginBottom: 0 }}
                 onTabClick={(tab, key, e) => {
                   setTab(tab)
+                  table.onSearch()
                 }}>
                 <Tabs.Pane label="待处理" key="1"></Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2"></Tabs.Pane>
@@ -77,6 +75,9 @@ export default function SlelectLabel() {
                   overflowY: 'auto',
                 }}>
                 <ProTable
+                  onCell={(rowData) => {
+                    window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
+                  }}
                   table={table}
                   columns={[
                     {
@@ -116,21 +117,19 @@ export default function SlelectLabel() {
             </Card>
           </Col>
           <Col fixed style={{ width: '25%' }}>
-            <Card
-              title="成员动态"
-              bordered={false}
-              style={{
-                height: 440,
-                overflowX: 'hidden',
-                overflowY: 'auto',
-                marginBottom: 10,
-              }}>
-              <div className={styles.newDynamic}>
+            <Card title="成员动态" bordered={false}>
+              <div
+                style={{
+                  height: 355,
+                  overflowX: 'hidden',
+                  overflowY: 'auto',
+                  marginBottom: 10,
+                }}>
                 <List bordered={false}>
                   {memberList?.map((a) => {
                     return (
-                      <List.Item>
-                        {a.createTime}·{a?.operatingRecords}
+                      <List.Item href={`#/usersManagement/${a?.projectId}`}>
+                        {a?.createTime}·{a?.operatingRecords}
                       </List.Item>
                     )
                   })}
