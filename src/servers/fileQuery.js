@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+// import { request } from '@uiw-admin/utils'
 
 // 上传文件
 export const uploadFile = (params) => {
