@@ -1,0 +1,137 @@
+import { useEffect, useState } from 'react'
+import { ProForm, useForm } from '@uiw-admin/components'
+import { useDispatch } from 'react-redux'
+const LabelSelect = (props) => {
+  const { assignmentLabels, teamMembers, updateData, todolist } = props
+  const [label, setLabel] = useState(assignmentLabels)
+  const [team, setTeam] = useState(teamMembers)
+  const dispatch = useDispatch()
+  const form = useForm()
+
+  useEffect(() => {
+    setLabel(assignmentLabels)
+    setTeam(teamMembers)
+  }, [assignmentLabels, teamMembers])
+
+  const changeFun = (props) => {
+    console.log('props: ', props)
+    const value = { ...form.getFieldValues?.(), ...props }
+    console.log('value: ', value)
+    let splicingConditionsDtos = []
+
+    Object.keys(value).forEach((item) => {
+      if (value[item].length > 0) {
+        value[item].forEach((i) => {
+          splicingConditionsDtos.push({
+            condition: '=',
+            field: i.label,
+            value: i.value,
+          })
+        })
+      }
+    })
+    console.log('splicingConditionsDtos: ', splicingConditionsDtos)
+    if (todolist.activeKey !== '') {
+      splicingConditionsDtos.push({
+        condition: '=',
+        field: 'status',
+        value: todolist.activeKey,
+      })
+    }
+    updateData({ splicingConditionsDtos })
+    dispatch.todolist.getList({
+      status: todolist.activeKey,
+    })
+  }
+
+  return (
+    <div>
+      <ProForm
+        form={form}
+        formType="pure"
+        formDatas={[
+          {
+            label: '',
+            key: 'label',
+            widget: 'searchSelect',
+            option: label,
+            widgetProps: {
+              mode: 'multiple',
+              labelInValue: true,
+              placeholder: '项目',
+              onSearch: (value) => {
+                const filterOpion = assignmentLabels.filter((item) =>
+                  item.label.includes(value.trim())
+                )
+                setLabel(filterOpion)
+              },
+              onChange: (value) => {
+                changeFun({ label: value })
+              },
+              // onSelect: (value) => console.log('selectvalue', value),
+              // loading: loading,
+              allowClear: true,
+              showSearch: true,
+              style: { width: '100%' },
+            },
+            span: '6',
+          },
+          {
+            label: '',
+            key: 'author',
+            widget: 'searchSelect',
+            option: team,
+            widgetProps: {
+              mode: 'multiple',
+              labelInValue: true,
+              placeholder: '成员',
+              onSearch: (value) => {
+                const filterOpion = teamMembers.filter((item) =>
+                  item.label.includes(value.trim())
+                )
+                setTeam([...filterOpion])
+              },
+              onChange: (value) => {
+                changeFun({ author: value })
+              },
+              // onSelect: (value) => console.log('selectvalue', value),
+              // loading: loading,
+              allowClear: true,
+              showSearch: true,
+              style: { width: '100%' },
+            },
+            span: '6',
+          },
+          {
+            label: '',
+            key: 'assignee',
+            widget: 'searchSelect',
+            option: team,
+            widgetProps: {
+              mode: 'multiple',
+              labelInValue: true,
+              placeholder: '指派',
+              onSearch: (value) => {
+                const filterOpion = teamMembers.filter((item) =>
+                  item.label.includes(value.trim())
+                )
+                setTeam([...filterOpion])
+              },
+              onChange: (value) => {
+                changeFun({ assignee: value })
+              },
+              // onSelect: (value) => console.log('selectvalue', value),
+              // loading: loading,
+              allowClear: true,
+              showSearch: true,
+              style: { width: '100%' },
+            },
+            span: '6',
+          },
+        ]}
+      />
+    </div>
+  )
+}
+
+export default LabelSelect

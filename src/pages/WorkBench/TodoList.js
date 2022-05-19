@@ -1,7 +1,16 @@
-import { Row, Col, Card, Button, Tag, Tabs } from 'uiw'
+import { Row, Col, Card, Button, Tabs } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 export default function TodoList() {
+  const updateData = (payload) => {
+    dispatch({
+      type: 'todolist/update',
+      payload,
+    })
+  }
+  const dispatch = useDispatch()
+
   const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTodoList/selectAll', {
@@ -25,6 +34,19 @@ export default function TodoList() {
     },
   })
 
+  // 操作
+  async function handleEditTable(type, record) {
+    updateData({
+      isView: type === 'view',
+      tableType: type,
+    })
+    if (type === 'del') {
+      dispatch({
+        type: 'todolist/getStrutsSwitch',
+        payload: { id: record?.id },
+      })
+    }
+  }
   return (
     <div>
       <div>
@@ -99,33 +121,40 @@ export default function TodoList() {
                           key: 'id',
                         },
 
-                        {
-                          title: '待办内容',
-                          key: 'doConnent',
-                        },
-                        {
-                          title: '项目名称',
-                          key: 'projectName',
-                        },
-                        {
-                          title: '时间',
-                          key: 'createTime',
-                        },
-                        {
-                          title: '状态',
-                          key: 'status',
-                          render: (text) => {
-                            if (text === 0) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 1) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            }
-                          },
-                        },
-                      ]}
-                    />
-                  </Tabs.Pane>
-                </Tabs>
+                    {
+                      title: '待办内容',
+                      key: 'doConnent',
+                    },
+                    {
+                      title: '项目名称',
+                      key: 'projectName',
+                    },
+                    {
+                      title: '时间',
+                      key: 'createTime',
+                    },
+                    {
+                      title: '操作',
+                      key: 'gender',
+                      render: (text, key, rowData) => {
+                        return (
+                          <div>
+                            <Button
+                              size="small"
+                              type="primary"
+                              onClick={handleEditTable.bind(
+                                this,
+                                'del',
+                                rowData
+                              )}>
+                              完毕
+                            </Button>
+                          </div>
+                        )
+                      },
+                    },
+                  ]}
+                />
               </div>
             </Card>
           </Col>
