@@ -32,7 +32,7 @@ const projectUpdate = createModel()({
       let arr = []
       list.forEach((element) => {
         let value = element.userId
-        let label = element.nickName
+        let label = element.nickName + '  ' + element.email
         arr.push({
           value,
           label,
