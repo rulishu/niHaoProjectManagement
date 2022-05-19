@@ -18,16 +18,13 @@ function updateProjectMember(params) {
     body: { ...params },
   })
 }
-// // 移除成员
-// function deleteProjectMember(params) {
-//   return request('/api/member/deleteProjectMember', {
-//     method: 'POST',
-//     headers: { Authorization: 'Bearer ' + token },
-//     body: { ...params },
-//   })
-// }
-
 // 移除成员
-const deleteProjectMember = '/api/member/deleteProjectMember'
+function deleteProjectMember(params) {
+  return request('/api/member/deleteProjectMember', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: { ...params },
+  })
+}
 
 export { inviteMember, updateProjectMember, deleteProjectMember }
