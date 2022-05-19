@@ -195,7 +195,7 @@ const EditTask = () => {
                 onSearch={onChangeSearch}
                 onSelect={(e) => selectSearch(e)}
                 option={
-                  selectOption(userSelectAllList, 'id', 'memberName') || {}
+                  selectOption(userSelectAllList, 'id', 'memberName') || []
                 }
                 loading={loading.effects.projectuser.pullSelectAll}
               />

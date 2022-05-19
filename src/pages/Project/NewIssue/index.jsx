@@ -38,7 +38,7 @@ const NewIssue = (props) => {
   const { projectId } = params
   const {
     project: { fromData },
-    dictionary: { dictAllData },
+    dictionary: { dictDataList },
     milestone: { milepostaData },
     projectuser: { userSelectAllList },
     loading,
@@ -63,10 +63,11 @@ const NewIssue = (props) => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
-      page: 1,
-      pageSize: 999,
     })
-    dispatch.milestone.getListAll()
+    dispatch.milestone.getListAll({
+      projectId: projectId,
+      milestonesStatusList: [1, 2],
+    })
   }, [dispatch, projectId])
 
   useEffect(() => {
@@ -174,7 +175,7 @@ const NewIssue = (props) => {
                 dueDate: dueDate ? dayjs(dueDate).format('YYYY-MM-DD') : '',
                 labels:
                   labels.length > 0
-                    ? dictAllData.filter((item) =>
+                    ? dictDataList.filter((item) =>
                         labels.includes(item.dictCode)
                       )
                     : [],
@@ -205,8 +206,8 @@ const NewIssue = (props) => {
               initialValue: fromData.assignmentType,
               children: (
                 <Select className="fromSelect">
-                  <Select.Option value={1}>Issue</Select.Option>
-                  <Select.Option value={2}>Incident</Select.Option>
+                  <Select.Option value={1}>问题</Select.Option>
+                  <Select.Option value={2}>事件</Select.Option>
                 </Select>
               ),
             },
@@ -232,8 +233,8 @@ const NewIssue = (props) => {
                   disabled={false}
                   labelInValue={true}
                   placeholder="请输入成员姓名,可模糊查询"
-                  option={selectOption(userSelectAllList)}
-                  // loading={loading}
+                  option={selectOption(userSelectAllList, 'id', 'memberName')}
+                  loading={loading}
                 />
               ),
             },
@@ -263,7 +264,7 @@ const NewIssue = (props) => {
                       'milestonesTitle'
                     ) || []
                   }
-                  // loading={loading}
+                  loading={loading}
                 />
               ),
             },
@@ -277,8 +278,10 @@ const NewIssue = (props) => {
                   allowClear
                   disabled={false}
                   placeholder="请输入选择"
-                  option={selectOption(dictAllData, 'dictCode', 'dictName')}
-                  // loading={loading}
+                  option={
+                    selectOption(dictDataList, 'dictCode', 'dictLabel') || []
+                  }
+                  loading={loading}
                 />
               ),
             },
