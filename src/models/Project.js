@@ -177,9 +177,17 @@ export default createModel()({
 
       // 任务列表新增
       async getAdd(params, { project }) {
-        const { fromData } = project
+        const { labels, ...newData } = project.fromData
+        let newLabels = []
+        if (labels?.length > 0 && labels[0]?.dictCode) {
+          // eslint-disable-next-line array-callback-return
+          labels.map((item) => {
+            newLabels.push(item?.dictCode.toString())
+          })
+          newData.labels = newLabels
+        }
         const data = await getmMnagerAssignmentSave({
-          ...fromData,
+          ...newData,
           ...params,
         })
         if (data && data.code === 200) {
@@ -194,7 +202,6 @@ export default createModel()({
       // 任务列表查详情
       async getSelectById(params) {
         const data = await getManagerAssignmentSelectById({
-          // projectId: sessionStorage.getItem('id')
           ...params,
         })
         if (data && data.code === 200) {
@@ -211,24 +218,26 @@ export default createModel()({
       },
       // 任务列表编辑
       async getEdit(params, { project }) {
-        console.log('params', params)
-        const { editFromData } = project
+        const { labels, ...newData } = project.editFromData
+        let newLabels = []
+        if (labels?.length > 0 && labels[0]?.dictCode) {
+          // eslint-disable-next-line array-callback-return
+          labels.map((item) => {
+            newLabels.push(item?.dictCode.toString())
+          })
+          newData.labels = newLabels
+        }
         const data = await getManagerAssignmentUpdate({
-          ...editFromData,
+          ...newData,
           ...params,
         })
         if (data && data.code === 200) {
           dispatch.project.update({
             issueType: '',
-            // editFromData: {
-            //   assignmentTitle: '',
-            //   description: '',
-            //   labels: []
-            // }
           })
           dispatch.project.getSelectById({
-            projectId: params?.projectId,
-            id: editFromData?.assignmentId,
+            projectId: params?.projectId || newData?.projectId,
+            id: newData?.assignmentId,
           })
           // navigate(`/project/task/${sessionStorage.getItem('id')}`)
           NotifySuccess(data.message)

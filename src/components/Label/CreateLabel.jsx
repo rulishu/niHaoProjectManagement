@@ -18,14 +18,11 @@ const CreateLabel = (props) => {
         }}
         onSubmit={async ({ initial, current }) => {
           const errorObj = {}
-          if (current.dictCode.length < 2 || current.dictCode.length > 50) {
-            errorObj.dictCode = '请输入字典编码,长度为2-50'
+          if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
+            errorObj.dictLabel = '请输入标签名称,长度为2-50'
           }
-          if (current.dictName.length < 2 || current.dictName.length > 50) {
-            errorObj.dictName = '请输入标签名称,长度为2-50'
-          }
-          if (!current.dictColour) {
-            errorObj.dictColour = '请选择或输入标签背景颜色'
+          if (!current.listClass) {
+            errorObj.listClass = '请选择或输入标签背景颜色'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
@@ -36,32 +33,24 @@ const CreateLabel = (props) => {
           result && setLabelStatus(1)
         }}
         fields={{
-          dictCode: {
-            children: <Input size="small" placeholder="请输入字典编码" />,
-          },
-          dictName: {
+          dictLabel: {
             children: <Input size="small" placeholder="请输入标签名称" />,
           },
-          dictColour: {
+          listClass: {
             children: <Custom color={props?.color} />,
           },
         }}>
-        {({ fields, state, canSubmit, resetForm }) => {
+        {({ fields, state }) => {
           return (
             <div>
-              <div className={styles.searchBox}>{fields.dictCode}</div>
-              <div className={styles.searchBox}>{fields.dictName}</div>
-              {fields.dictColour}
+              <div className={styles.searchBox}>{fields.dictLabel}</div>
+              {fields.listClass}
               <div className={styles.butGroup}>
                 <Button
                   size="small"
                   type="success"
                   disabled={
-                    !(
-                      state.current.dictColour &&
-                      state.current.dictCode &&
-                      state.current.dictName
-                    )
+                    !(state.current.listClass && state.current.dictLabel)
                   }
                   htmlType="submit">
                   创建

@@ -42,6 +42,7 @@ export default function Index() {
         alertShow: true,
         ids: data,
         tablePro: table,
+        queryInfo: {},
       },
     })
   }
@@ -76,7 +77,7 @@ export default function Index() {
           dispatch({
             type: 'postManagement/getDelete',
             payload: {
-              id: ids,
+              ids: [ids],
             },
           })
         }}></Alert>

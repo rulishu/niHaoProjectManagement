@@ -66,8 +66,8 @@ const Label = (props) => {
     return data?.map((item) => (
       <div
         key={item?.key}
-        className={styles.tagListLi}
-        style={{ backgroundColor: item.color }}>
+        className={item.color ? styles.tagListLi : styles.noColorTag}
+        style={{ backgroundColor: item.color, borderColor: item.color }}>
         <span className={styles.tagTitle}>{item?.title}</span>
         {isTagClose && (
           <span

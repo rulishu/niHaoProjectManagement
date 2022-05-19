@@ -121,7 +121,7 @@ export default function DrawerView() {
             parentId: {
               labelClassName: 'fieldLabel',
               label: '上级部门',
-              initialValue: [topDataInfo || {}],
+              initialValue: [topDataInfo] || '',
               required: true,
               labelFor: 'username-inline',
               disabled: drawerVisibleText !== 'add',

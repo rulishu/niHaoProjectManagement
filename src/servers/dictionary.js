@@ -53,7 +53,7 @@ export const addByDict = '/api/system/dict/type/add'
 export const addByDictData = '/api/system/dict/data/add'
 // 新增字典函数
 export function addByDictFn(params) {
-  return request('/api/dict/add', {
+  return request('/api/system/dict/data/add', {
     method: 'POST',
     body: params,
   })

@@ -109,7 +109,7 @@ const routes = [
             isAuth: true,
           },
           {
-            path: '/project/newIssue',
+            path: '/project/newIssue/:projectId',
             name: '新增任务',
             hideInMenu: true,
             component: '@/pages/Project/NewIssue',
@@ -146,15 +146,19 @@ const routes = [
         ],
       },
       {
-        path: '/dictionary',
-        name: '数据字典',
-        component: '@/pages/Dictionary',
+        path: '/usersManagement/:projectId',
+        name: '成员管理',
+        component: '@/pages/UsersManagement',
         isAuth: true,
+        navigate:
+          "(navigate) => {navigate(`/usersManagement/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/Authority',
         name: '系统管理',
+        hideInMenu: true,
         isAuth: true,
+        side: true,
         routes: [
           {
             path: '/Authority/users',
@@ -172,7 +176,7 @@ const routes = [
           },
           {
             path: '/Authority/MenuManagement',
-            name: '路由管理',
+            name: '菜单管理',
             component: '@/pages/Authority/MenuManagement',
             isAuth: true,
           },
@@ -188,15 +192,13 @@ const routes = [
             component: '@/pages/Authority/PostManagement',
             isAuth: true,
           },
+          {
+            path: '/Authority/dictionary',
+            name: '数据字典',
+            component: '@/pages/Dictionary',
+            isAuth: true,
+          },
         ],
-      },
-      {
-        path: '/usersManagement/:projectId',
-        name: '成员管理',
-        component: '@/pages/UsersManagement',
-        isAuth: true,
-        navigate:
-          "(navigate) => {navigate(`/usersManagement/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/projectAuth',

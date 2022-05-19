@@ -85,15 +85,26 @@ const Milestone = () => {
 
   // 关闭里程碑
   const closingMilestone = async (projectId, milestonesId) => {
-    const dispatch = dispatch.milestone
-    await dispatch.editStatusMilestones({
-      projectId,
-      milestonesId,
-      milestonesStatus: 2,
+    await dispatch({
+      type: 'milestone/editStatusMilestones',
+      payload: {
+        projectId,
+        milestonesId,
+        milestonesStatus: 2,
+      },
     })
-    dispatch.selectPageList({ milestonesStatusList: [], projectId })
-    dispatch.selectPageList({ milestonesStatusList: [1], projectId })
-    dispatch.selectPageList({ milestonesStatusList: [2], projectId })
+    dispatch({
+      type: 'milestone/selectPageList',
+      payload: { milestonesStatusList: [], projectId },
+    })
+    dispatch({
+      type: 'milestone/selectPageList',
+      payload: { milestonesStatusList: [1], projectId },
+    })
+    dispatch({
+      type: 'milestone/selectPageList',
+      payload: { milestonesStatusList: [2], projectId },
+    })
   }
 
   // 里程碑列表
@@ -144,7 +155,13 @@ const Milestone = () => {
                           showText={false}
                         />
                         <div className={styles.progressText}>
-                          <span className={styles.num}>
+                          <span
+                            className={styles.num}
+                            onClick={() => {
+                              navigate(`/project/task/${projectId}`, {
+                                state: { projectId },
+                              })
+                            }}>
                             {item?.allTaskNum} 个任务数
                           </span>
                           <span className={styles.plan}>

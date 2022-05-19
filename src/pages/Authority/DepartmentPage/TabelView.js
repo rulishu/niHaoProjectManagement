@@ -172,7 +172,7 @@ export default function TabelView() {
           dispatch({
             type: 'department/getDelete',
             payload: {
-              id: iterm.id,
+              id: iterm.deptId,
             },
           })
         }}></Alert>

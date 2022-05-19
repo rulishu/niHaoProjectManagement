@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Row, Col, Input, DateInput, Select, Form, Button, Loader } from 'uiw'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,6 +19,7 @@ const NewMilestone = () => {
 
   const location = useLocation()
   const { projectId, milestonesId } = useParams()
+  const form = useRef()
 
   useEffect(() => {
     dispatch.milestone.update({ projectId, milestonesId })
@@ -53,6 +54,57 @@ const NewMilestone = () => {
     projectId,
   ])
 
+  useEffect(() => {
+    document.addEventListener('paste', pasteDataEvent)
+    return () => {
+      document.removeEventListener('paste', pasteDataEvent)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const pasteDataEvent = (event) => {
+    // event.preventDefault();
+    if (event.clipboardData || event.originalEvent) {
+      let clipboardData =
+        event.clipboardData || event.originalEvent.clipboardData
+      if (clipboardData.items) {
+        let items = clipboardData.items,
+          len = items.length,
+          blob = null
+        for (let i = 0; i < len; i++) {
+          let item = clipboardData.items[i]
+          if (item.kind === 'string') {
+            // item.getAsString(function (str) {
+            //   console.log('string', str);
+            // })
+          } else if (item.kind === 'file') {
+            blob = item.getAsFile()
+            addImg(blob)
+          }
+        }
+      }
+    }
+  }
+
+  const addImg = (event) => {
+    const file = event
+    if (!file) return
+    dispatch({
+      type: 'allusers/upLoadImg',
+      payload: { file: file },
+    }).then((res) => {
+      if (res && res.code === 200) {
+        const fieldValues = form.current.getFieldValues()
+        console.log(fieldValues)
+        form.current.setFieldValue(
+          'milestonesDesc',
+          fieldValues['milestonesDesc'] +
+            `![image](/api/file/selectFile/${res?.data})`
+        )
+      }
+    })
+  }
+
   // 取消回调
   const onCancel = () => {
     window.history.back(-1)
@@ -61,6 +113,7 @@ const NewMilestone = () => {
   const milestonesForm = () => {
     return (
       <Form
+        ref={form}
         onSubmit={async ({ initial, current }) => {
           const errorObj = {}
           const { milestonesTitle, startTime, milestonesDesc } = current
@@ -174,7 +227,13 @@ const NewMilestone = () => {
           milestonesDesc: {
             initialValue: listDataInfo.milestonesDesc,
             inline: true,
-            children: <NEWMDEditor rfval={(e) => console.log(e)} />,
+            children: (
+              <NEWMDEditor
+                rfval={(e) => {
+                  console.log(e)
+                }}
+              />
+            ),
           },
         }}>
         {({ fields, state, canSubmit }) => {
@@ -239,9 +298,9 @@ const NewMilestone = () => {
           }>
           {milestoneType === 1
             ? milestonesForm()
-            : milestoneType === 2 &&
-              Object.keys(listDataInfo).length &&
-              milestonesForm()}
+            : milestoneType === 2 && Object.keys(listDataInfo).length
+            ? milestonesForm()
+            : ''}
         </Loader>
       </div>
     </div>

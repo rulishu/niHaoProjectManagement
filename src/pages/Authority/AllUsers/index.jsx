@@ -15,7 +15,11 @@ const Users = (props) => {
 
   useEffect(() => {
     dispatch.allusers?.queryByPage()
-    dispatch.dictionary?.getQueryAll({ dictTypeCode: 'position', dictSort: 2 })
+    dispatch.dictionary.getDictDataList({
+      dictType: 'assignment_label',
+      page: 1,
+      pageSize: 999,
+    })
     dispatch.rolemanagement?.getAllRoleList()
     dispatch.rolemanagement?.getAllDepartment()
   }, [dispatch])
@@ -35,7 +39,7 @@ const Users = (props) => {
   const { loading } = useSelector((state) => state)
 
   const handleEdit = async (value, type) => {
-    // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.uuid })
+    await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
 
     if (type === 2) {
       setType(2)
@@ -81,6 +85,7 @@ const Users = (props) => {
           handleOnSearch={handleOnSearch}
         />
         <div className={styles.child}>
+          123
           <UsersBox
             data={userList}
             handleEdit={handleEdit}
