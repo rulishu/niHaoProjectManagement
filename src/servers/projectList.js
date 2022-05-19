@@ -107,6 +107,16 @@ export function selectAllUser(params) {
 }
 
 /**
+ * 获取所有用户
+ */
+export function selectAllUserlist(params) {
+  return request('/api/system/user/list', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+/**
  * 获取用户各状态项目总数
  */
 export function selectNumber(params) {

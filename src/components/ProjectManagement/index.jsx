@@ -150,7 +150,7 @@ const ProjectManagement = (fun) => {
           },
         ]}>
         <Loader
-          loading={loading.effects.projectUpdate.selectAllUser}
+          loading={loading.effects.projectUpdate.selectAllUserlist}
           bgColor="rgba(0, 0, 0, 0.4)"
           style={{ width: '100%' }}
           tip="loading...">

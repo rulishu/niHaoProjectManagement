@@ -48,7 +48,7 @@ const routes = [
         name: '里程碑',
         component: '@/pages/Milestone',
         navigate:
-          "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('id')}`)}",
+          "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('projectId')}`)}",
         isAuth: true,
       },
       {
@@ -64,7 +64,7 @@ const routes = [
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('id')}`)}",
+              "(navigate) => {navigate(`/milestone/newMilestone/${sessionStorage.getItem('projectId')}`)}",
           },
           {
             path: '/milestone/editMilestone/:projectId/:milestonesId',
@@ -73,7 +73,7 @@ const routes = [
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('id')}/${sessionStorage.getItem('milestonesId')}`)}",
+              "(navigate) => {navigate(`/milestone/editMilestone/${sessionStorage.getItem('projectId')}/${sessionStorage.getItem('milestonesId')}`)}",
           },
           {
             path: '/milestone/milestoneInfo/:projectId/:milestonesId',
@@ -82,7 +82,7 @@ const routes = [
             isAuth: true,
             hideInMenu: true,
             navigate:
-              "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('id')}/${sessionStorage.getItem('milestonesId')}`)}",
+              "(navigate) => {navigate(`/milestone/milestoneInfo/${sessionStorage.getItem('projectId')}/${sessionStorage.getItem('milestonesId')}`)}",
           },
         ],
       },

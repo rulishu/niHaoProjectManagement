@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import { Row, Col, Card, Progress, Menu, Button, Notify } from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button } from 'uiw'
 import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
@@ -43,11 +43,12 @@ export default function Demo() {
   const onClickItem = (key) => {
     setActive(key)
   }
-  console.log('active', active)
   const projectListOne = projectList?.at(0)
   const milesWorkVoListOne = projectListOne?.milesWorkVoList
   const totalWorkVoOne = projectListOne?.totalWorkVo
 
+  //判断是否可以看到所有项目列表
+  const naid = localStorage.getItem('key')
   return (
     <Container>
       <div>
@@ -116,21 +117,14 @@ export default function Demo() {
                       type="primary"
                       onClick={() => {
                         window.location.href = `#/project/task/${projectData.projectId}`
-                        localStorage.setItem(
-                          'projectId',
-                          JSON.stringify(projectData?.projectId || '')
-                        )
                       }}>
                       查看全部
                     </Button>
                     <Button
                       type="primary"
                       onClick={() => {
-                        if (projectData?.projectId === undefined) {
-                          return Notify.warning({
-                            title: '警告通知',
-                            description: '请先点击项目名称',
-                          })
+                        if (active === 0) {
+                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
                         } else {
                           window.location.href = `#/projectOverview/${projectData?.projectId}`
                         }
@@ -142,65 +136,62 @@ export default function Demo() {
               </Row>
               <Row>
                 <Col>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: 20,
-                        textAlign: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                      }}>
-                      {[
-                        {
-                          title: '未开始',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectWksNum
-                              : totalData?.projectWksNum,
-                          key: 1,
-                        },
-                        {
-                          title: '开发中',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectKfzNum
-                              : totalData?.projectKfzNum,
-                          key: 2,
-                        },
-                        {
-                          title: '已完成',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYwcNum
-                              : totalData?.projectYwcNum,
-                          key: 3,
-                        },
-                        {
-                          title: '已逾期',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYqsNum
-                              : totalData?.projectYqsNum,
-                          key: 5,
-                        },
-                      ].map((item) => {
-                        return (
-                          <div style={{}}>
-                            <Card
-                              bordered={false}
-                              key={item.key}
-                              title={item.title}
-                              style={{ width: 80 }}>
-                              <span
-                                style={{ fontSize: 36, color: randomColor() }}>
-                                {item.num}
-                              </span>
-                            </Card>
-                          </div>
-                        )
-                      })}
-                    </div>
+                  <div
+                    style={{
+                      marginTop: 20,
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      flexDirection: 'row',
+                    }}>
+                    {[
+                      {
+                        title: '未开始',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectWksNum
+                            : totalData?.projectWksNum,
+                        key: 1,
+                      },
+                      {
+                        title: '开发中',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectKfzNum
+                            : totalData?.projectKfzNum,
+                        key: 2,
+                      },
+                      {
+                        title: '已完成',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYwcNum
+                            : totalData?.projectYwcNum,
+                        key: 3,
+                      },
+                      {
+                        title: '已逾期',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYqsNum
+                            : totalData?.projectYqsNum,
+                        key: 4,
+                      },
+                    ].map((item, key) => {
+                      return (
+                        <div key={key}>
+                          <Card
+                            bordered={false}
+                            title={item.title}
+                            style={{ width: 80 }}>
+                            <span
+                              style={{ fontSize: 36, color: randomColor() }}>
+                              {item?.num}
+                            </span>
+                          </Card>
+                        </div>
+                      )
+                    })}
                   </div>
                 </Col>
               </Row>
@@ -270,7 +261,7 @@ export default function Demo() {
       <div style={{ marginTop: 20 }}></div>
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
-      <TableManage />
+      {naid === 'true' ? <TableManage /> : ''}
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
     </Container>
