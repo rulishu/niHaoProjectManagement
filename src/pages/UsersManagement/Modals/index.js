@@ -2,6 +2,7 @@ import { Modal } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { Notify } from 'uiw'
 import useSWR from 'swr'
+import { deleteProjectMember } from '@/servers/usersManagement'
 
 const Modals = (props) => {
   const dispatch = useDispatch()
@@ -18,14 +19,12 @@ const Modals = (props) => {
     })
   }
 
-  const token = localStorage.getItem('token')
   const { mutate } = useSWR(
     [
-      '/api/member/deleteProjectMember',
+      deleteProjectMember,
       {
         method: 'POST',
         body: { id },
-        headers: { Authorization: 'Bearer ' + token },
       },
     ],
     {
