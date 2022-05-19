@@ -62,15 +62,15 @@ const DetailModal = ({ updateData, onSearch }) => {
         buttonsContainer={{ justifyContent: 'flex-start' }}
         // 更新表单的值
         onChange={(initial, current) => {
-          const { dictColour, ...newCurrent } = current
+          const { listClass, ...newCurrent } = current
           updateData({
             detailInfo: {
               ...detailInfo,
               ...newCurrent,
-              dictSort: 2,
-              dictTypeCode: queryInfo.dictTypeCode,
-              dictTypeName: queryInfo.dictTypeName,
-              dictColour: dictColour?.hex,
+              // dictSort: 2,
+              // dictTypeCode: queryInfo.dictTypeCode,
+              // dictTypeName: queryInfo.dictTypeName,
+              listClass: listClass?.hex,
             },
           })
         }}
@@ -156,34 +156,34 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '回显样式',
             key: 'listClass',
-            widget: 'select',
-            option: [
-              {
-                value: 'default',
-                label: '默认',
-              },
-              {
-                value: 'primary',
-                label: '主要',
-              },
-              {
-                value: 'success',
-                label: '成功',
-              },
-              {
-                value: 'info',
-                label: '信息',
-              },
-              {
-                value: 'warning',
-                label: '警告',
-              },
-              {
-                value: 'danger',
-                label: '危险',
-              },
-            ],
-            initialValue: detailInfo?.listClass || 'default',
+            widget: 'color',
+            // option: [
+            //   {
+            //     value: 'default',
+            //     label: '默认',
+            //   },
+            //   {
+            //     value: 'primary',
+            //     label: '主要',
+            //   },
+            //   {
+            //     value: 'success',
+            //     label: '成功',
+            //   },
+            //   {
+            //     value: 'info',
+            //     label: '信息',
+            //   },
+            //   {
+            //     value: 'warning',
+            //     label: '警告',
+            //   },
+            //   {
+            //     value: 'danger',
+            //     label: '危险',
+            //   },
+            // ],
+            initialValue: detailInfo?.listClass,
             span: '24',
           },
           {
