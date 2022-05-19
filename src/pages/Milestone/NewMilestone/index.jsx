@@ -95,7 +95,6 @@ const NewMilestone = () => {
     }).then((res) => {
       if (res && res.code === 200) {
         const fieldValues = form.current.getFieldValues()
-        console.log(fieldValues)
         form.current.setFieldValue(
           'milestonesDesc',
           fieldValues['milestonesDesc'] +
@@ -124,8 +123,8 @@ const NewMilestone = () => {
           ) {
             errorObj.milestonesTitle = '请输入标题,长度为2~100'
           }
-          if (milestonesDesc && milestonesDesc.length > 300) {
-            errorObj.milestonesDesc = '描述内容长度为应西不大于300'
+          if (milestonesDesc && milestonesDesc.length > 3000) {
+            errorObj.milestonesDesc = '描述内容长度为应西不大于3000'
           }
           if (!startTime) {
             errorObj.startTime = '开始时间不能为空！'
@@ -227,13 +226,7 @@ const NewMilestone = () => {
           milestonesDesc: {
             initialValue: listDataInfo.milestonesDesc,
             inline: true,
-            children: (
-              <NEWMDEditor
-                rfval={(e) => {
-                  console.log(e)
-                }}
-              />
-            ),
+            children: <NEWMDEditor rfval={(e) => console.log(e)} />,
           },
         }}>
         {({ fields, state, canSubmit }) => {

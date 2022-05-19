@@ -168,7 +168,9 @@ const MilestoneInfo = () => {
           <ul>
             <li>
               <div className={styles.rightHead}>
-                <div>{listDataInfo.degreeCompletion * 100}% 进度</div>
+                <div>
+                  {(+listDataInfo?.degreeCompletion * 100).toFixed()}% 进度
+                </div>
                 <Button
                   icon={packup ? 'd-arrow-left' : 'd-arrow-right'}
                   basic
@@ -177,7 +179,7 @@ const MilestoneInfo = () => {
               </div>
               <Progress.Line
                 strokeWidth={6}
-                percent={listDataInfo.degreeCompletion * 100}
+                percent={(+listDataInfo?.degreeCompletion * 100).toFixed()}
                 showText={false}
               />
             </li>
