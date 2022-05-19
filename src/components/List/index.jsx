@@ -89,14 +89,19 @@ export default function ListItem(props) {
                     )}
                     {item?.labels
                       ? item?.labels.map((list, index2) => {
-                          return (
-                            <span
-                              key={index2 + index}
-                              className={styles.listIssueStatus}
-                              style={{ backgroundColor: list.dictColour }}>
-                              {list.dictName}
-                            </span>
-                          )
+                          if (list) {
+                            return (
+                              <span
+                                key={index2 + index}
+                                className={styles.listIssueStatus}
+                                style={{ backgroundColor: list?.dictColour }}>
+                                {list?.dictName || ''}
+                              </span>
+                            )
+                          } else {
+                            return null
+                          }
+
                           // return issueStatus.map((num, index) => {
                           //   if (list === num.statue) {
                           //     return (
