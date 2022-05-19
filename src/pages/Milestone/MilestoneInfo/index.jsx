@@ -133,7 +133,10 @@ const MilestoneInfo = () => {
             </div>
           </div>
           <div className={styles.layoutLeftFooty}>
-            <OtherInfo listDataInfo={listDataInfo && listDataInfo} />
+            <OtherInfo
+              projectId={projectId}
+              listDataInfo={listDataInfo && listDataInfo}
+            />
           </div>
         </Col>
         <Col className={styles.layoutRight}>

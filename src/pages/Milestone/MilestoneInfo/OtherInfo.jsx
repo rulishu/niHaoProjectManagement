@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import './index.css'
 
 const OtherInfo = (props) => {
-  const { listDataInfo } = props
+  const { projectId, listDataInfo } = props
   const {
     conduct,
     conductSize,
@@ -22,7 +22,7 @@ const OtherInfo = (props) => {
       type: 'project/update',
       payload: { editId: taskId },
     })
-    navigate('/project/taskInfo', {
+    navigate(`/project/taskInfo/${projectId}/${taskId}`, {
       state: { editId: taskId },
     })
   }
