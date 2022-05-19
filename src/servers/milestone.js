@@ -68,3 +68,11 @@ export function getSelectAll(params) {
     body: { ...params },
   })
 }
+
+// 查询所有里程碑页签
+export function getAllLabel(params) {
+  return request('/api/milestones/selectLabel', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
