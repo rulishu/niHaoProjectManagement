@@ -185,7 +185,7 @@ const NewIssue = (props) => {
                   assigneeUser.length > 0 ? assigneeUser[0].label : '',
               },
             })
-            dispatch.project.getAdd()
+            dispatch.project.getAdd({ projectId: projectId })
           }}
           onSubmitError={(error) => {
             if (error.filed) {
