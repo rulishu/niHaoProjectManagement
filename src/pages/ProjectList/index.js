@@ -17,7 +17,7 @@ const ProjectList = (props) => {
   const { proNum } = projectlist
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch.projectlist.selectNumber()
+    dispatch.projectlist.selectNumber({ type: '20' })
   }, [dispatch])
   //项目状态
   const [projectStatus, setProjectStatus] = useState('')
@@ -149,7 +149,7 @@ const ProjectList = (props) => {
   //刷新界面
   const refresh = () => {
     table.onSearch()
-    dispatch.projectlist.selectNumber()
+    dispatch.projectlist.selectNumber({ type: projectType })
   }
 
   // 渲染下拉框
@@ -282,10 +282,12 @@ const ProjectList = (props) => {
               onTabClick={(tab, key, e) => {
                 if (tab === '1') {
                   setProjectType('20')
+                  dispatch.projectlist.selectNumber({ type: '20' })
                 } else if (tab === '2') {
                   setProjectType('10')
+                  dispatch.projectlist.selectNumber({ type: '10' })
                 }
-                table.onSearch()
+                // table.onSearch();
               }}>
               <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
               <Tabs.Pane label="我的" key="2"></Tabs.Pane>
@@ -366,7 +368,7 @@ const ProjectList = (props) => {
                             </div>
                           </Tooltip>
                           <span className={styles.num}>
-                            {rowData?.taskNum || 1}
+                            {rowData?.task || 0}
                           </span>
                         </div>
                         <div
@@ -382,7 +384,7 @@ const ProjectList = (props) => {
                             </div>
                           </Tooltip>
                           <span className={styles.num}>
-                            {rowData?.memberNum || 1}
+                            {rowData?.teamMember || 0}
                           </span>
                         </div>
                         <div
@@ -401,7 +403,7 @@ const ProjectList = (props) => {
                             </div>
                           </Tooltip>
                           <span className={styles.num}>
-                            {rowData?.milestoneNum || 1}
+                            {rowData?.milestones || 0}
                           </span>
                         </div>
                       </div>
