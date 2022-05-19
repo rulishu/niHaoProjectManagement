@@ -3,7 +3,7 @@ import {
   queryProject,
   addProject,
   updateProject,
-  selectAllUser,
+  selectAllUserlist,
 } from '@/servers/projectList'
 import { Notify } from 'uiw'
 
@@ -25,10 +25,10 @@ const projectUpdate = createModel()({
   },
   effects: (dispatch) => ({
     //获取用户列表信息
-    async selectAllUser() {
+    async selectAllUserlist() {
       const dph = dispatch
-      const data = await selectAllUser()
-      let list = data.data
+      const data = await selectAllUserlist()
+      let list = data.rows
       let arr = []
       list.forEach((element) => {
         let value = element.userId
@@ -57,7 +57,7 @@ const projectUpdate = createModel()({
       })
       if (params.drawerType === 'add') {
         //新增
-        dph.projectUpdate.selectAllUser() //获取用户列表信息
+        dph.projectUpdate.selectAllUserlist() //获取用户列表信息
         dph.projectUpdate.updateState({
           drawerType: 'add',
           drawerVisible: true,
@@ -65,7 +65,7 @@ const projectUpdate = createModel()({
       } else {
         //编辑
         delete params.drawerType
-        dph.projectUpdate.selectAllUser() //获取用户列表信息
+        dph.projectUpdate.selectAllUserlist() //获取用户列表信息
         dph.projectUpdate.updateState({
           id: params.id,
           drawerType: 'edit',
