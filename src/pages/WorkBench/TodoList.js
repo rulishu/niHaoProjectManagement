@@ -1,7 +1,8 @@
-import { Row, Col, Card, Button } from 'uiw'
+import { Row, Col, Card, Button, Tag, Tabs } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
-
+import { useState } from 'react'
 export default function TodoList() {
+  const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
@@ -15,7 +16,7 @@ export default function TodoList() {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        ...searchValues,
+        status: Number(tab),
       }
     },
     requestOptions: {
@@ -45,6 +46,16 @@ export default function TodoList() {
                   overflowX: 'hidden',
                   overflowY: 'auto',
                 }}>
+                <Tabs
+                  // type="line"
+                  activeKey="1"
+                  onTabClick={(tab, key, e) => {
+                    setTab(tab)
+                    table.onSearch()
+                  }}>
+                  <Tabs.Pane label="待办" key="0"></Tabs.Pane>
+                  <Tabs.Pane label="已完成" key="1"></Tabs.Pane>
+                </Tabs>
                 <ProTable
                   table={table}
                   paginationProps={{ style: { display: 'none' } }}
@@ -67,10 +78,14 @@ export default function TodoList() {
                       key: 'createTime',
                     },
                     {
-                      title: '操作',
-                      key: 'gender',
+                      title: '状态',
+                      key: 'status',
                       render: (text) => {
-                        return <div>查看</div>
+                        if (text === 0) {
+                          return <Tag color="#F95C2B">未开始</Tag>
+                        } else if (text === 1) {
+                          return <Tag color="#28a745">已完成</Tag>
+                        }
                       },
                     },
                   ]}
