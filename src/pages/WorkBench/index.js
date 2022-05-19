@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
 import { Row, Col, Card, Progress, Menu, Button, Empty } from 'uiw'
 import styles from './index.module.less'
@@ -11,7 +10,6 @@ import dayjs from 'dayjs'
 
 export default function Demo() {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const {
     workbench: { projectList },
   } = useSelector((state) => state)
@@ -28,9 +26,7 @@ export default function Demo() {
 
   // 跳转里程碑详情
   const goMilestones = (projectId, milestonesId) => {
-    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
-      state: { projectId, milestonesId },
-    })
+    window.location.href = `#/project/taskInfo/${projectId}/${milestonesId}`
   }
   //默认选中第一个
   const onClickItem = (key) => {
