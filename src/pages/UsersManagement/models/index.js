@@ -1,8 +1,11 @@
 import { createModel } from '@rematch/core'
 import {
   inviteMember,
+  inviteTeam,
   updateProjectMember,
   deleteProjectMember,
+  queryFuzzyAllUser,
+  fuzzyNameQuery,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -13,6 +16,8 @@ const usersManagement = createModel()({
     delectVisible: false,
     id: '',
     tableType: '',
+    userIdList: [],
+    teamIdList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -29,6 +34,15 @@ const usersManagement = createModel()({
         tableType: 'member',
       })
       return await inviteMember(payload)
+    },
+    // 邀请团队
+    async inviteTeam(payload) {
+      const dph = dispatch
+      dph.usersManagement.updateState({
+        drawerVisible: true,
+        tableType: 'group',
+      })
+      return await inviteTeam(payload)
     },
     // 编辑成员
     async updateProjectMember(payload) {
@@ -48,7 +62,35 @@ const usersManagement = createModel()({
       })
       return await deleteProjectMember(payload)
     },
-
+    // 模糊查询成员
+    async queryFuzzyAllUser(payload) {
+      const dph = dispatch
+      const data = await queryFuzzyAllUser(payload)
+      if (data.code === 200) {
+        const userIdList = data?.rows.map((item) => ({
+          label: item.userName,
+          value: item.userId,
+        }))
+        dph.usersManagement.updateState({
+          userIdList: userIdList,
+        })
+      }
+    },
+    // 模糊查询团队
+    async fuzzyNameQuery(payload) {
+      const dph = dispatch
+      const data = await fuzzyNameQuery(payload)
+      if (data.code === 200) {
+        console.log('data', data)
+        const teamIdList = data?.data.map((item) => ({
+          label: item.teamName,
+          value: item.id,
+        }))
+        dph.usersManagement.updateState({
+          teamIdList: teamIdList,
+        })
+      }
+    },
     clean() {
       const dph = dispatch
       dph.usersManagement.updateState({

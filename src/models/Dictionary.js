@@ -8,6 +8,7 @@ import {
   groupByDict,
   deleteByTypeId,
   getQueryAll,
+  getDictDataList,
 } from '../servers/dictionary'
 import { Notify } from 'uiw'
 
@@ -39,6 +40,7 @@ export default createModel()({
     queryInfo: {},
     detailInfo: {},
     dictAllData: [],
+    dictDataList: [],
   },
   effects: (dispatch) => {
     return {
@@ -105,6 +107,14 @@ export default createModel()({
           dispatch.dictionary.update({ modalVisible: false })
         }
       },
+      // 通过字典id查询字典信息
+      async getDictDataList(payload) {
+        const data = await getDictDataList(payload)
+        if (data.code === 200) {
+          dispatch.dictionary.update({ dictDataList: data?.rows || {} })
+        }
+      },
+
       // 分组出不同类型的字典
       async groupByDict() {
         const data = await groupByDict()

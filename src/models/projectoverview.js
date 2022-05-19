@@ -3,7 +3,6 @@ import {
   getProjectCountById,
   getProjectDynamics,
   getProjectMembers,
-  getProjectOverview,
 } from '../servers/projectoverview'
 import { Notify } from 'uiw'
 
@@ -16,7 +15,9 @@ const projectoverview = createModel()({
     allDataSource: {},
     projectMembersList: [],
     projectDynamicsList: [],
-    taskId: '1594',
+    projectId: '',
+    page: 1,
+    pageSize: 10,
   },
   effects: (dispatch) => ({
     // 查询项目统计
@@ -53,20 +54,8 @@ const projectoverview = createModel()({
         NotifyError(data?.message)
       }
     },
-
-    //查询任务列表
-    async getProjectOverview(payload) {
-      const data = await getProjectOverview(payload)
-      console.log('data---查询任务列表------》〉》〉', data)
-      if (data.code === 200) {
-        dispatch.projectoverview.update({
-          projectTaskList: data?.data || [],
-        })
-      } else {
-        NotifyError(data?.message)
-      }
-    },
   }),
+
   reducers: {
     update: (state, payload) => {
       return { ...state, ...payload }
