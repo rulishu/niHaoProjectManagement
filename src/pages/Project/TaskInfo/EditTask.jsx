@@ -95,7 +95,8 @@ const EditTask = () => {
     await dispatch.project.getEdit({
       assignmentId: editFromData.assignmentId,
       assigneeUserId: e,
-      assigneeUserName: newItem[0].userName,
+      assigneeUserName: newItem[0].memberName,
+      projectId: projectId || '',
     })
   }
   const milepostChange = async (v) => {
@@ -191,7 +192,9 @@ const EditTask = () => {
                 placeholder="请输入选择"
                 onSearch={onChangeSearch}
                 onSelect={(e) => selectSearch(e)}
-                option={selectOption(userSelectAllList) || {}}
+                option={
+                  selectOption(userSelectAllList, 'id', 'memberName') || {}
+                }
                 loading={loading.effects.projectuser.pullSelectAll}
               />
             ) : taskInfoData?.assigneeUserName ? (
