@@ -130,7 +130,9 @@ const EditTask = () => {
 
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
-    const useful = editFromData?.labels?.map((item) => +item)
+    const useful = editFromData?.labels?.map((item) =>
+      item.dictCode ? +item.dictCode : +item
+    )
     return dictDataList
       .map((item) => {
         if (!item.dictLabel || !item?.dictCode) return undefined
