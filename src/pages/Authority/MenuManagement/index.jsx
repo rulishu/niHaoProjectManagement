@@ -197,7 +197,7 @@ const Demo = () => {
             render: (text) => {
               return (
                 <div>
-                  {text === 2 ? (
+                  {text === 1 ? (
                     <Tag light color="#dc3545">
                       停用
                     </Tag>
