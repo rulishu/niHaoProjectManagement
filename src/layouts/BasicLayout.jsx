@@ -88,6 +88,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             className={styles.title}
             onClick={() => {
+              navigate('/Authority/users')
+            }}>
+            系统管理
+          </div>
+          <div
+            className={styles.title}
+            onClick={() => {
               navigate('/projectList')
             }}>
             项目管理
