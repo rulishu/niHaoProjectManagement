@@ -47,8 +47,11 @@ export const editNewUser = (params) => {
 
 // 通过用户id查询用户信息
 export const queryById = (params) => {
-  return request(`/api/managerUser/queryById/${params}`, {
-    method: 'GET',
+  const token = localStorage.getItem('token')
+  return request(`/api/system/user/getInfo/${params}`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    requestType: 'urlencoded',
     body: params,
   })
 }

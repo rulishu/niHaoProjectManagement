@@ -168,13 +168,13 @@ function Dictionary() {
                 widget: 'select',
                 option: [
                   { label: '正常', value: 0 },
-                  { label: '停用', value: 2 },
+                  { label: '停用', value: 1 },
                 ],
               },
               render: (text) => {
                 return (
                   <div>
-                    {text === 2 ? (
+                    {text === 1 ? (
                       <Tag light color="#dc3545">
                         停用
                       </Tag>

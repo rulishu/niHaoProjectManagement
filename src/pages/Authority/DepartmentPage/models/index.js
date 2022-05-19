@@ -50,7 +50,7 @@ const department = createModel()({
           dataSource: data?.data || [],
         })
       } else {
-        Notify.error({ title: '失败通知', description: data?.msg })
+        Notify.error({ title: '失败通知', description: data?.message })
       }
     },
 
@@ -80,7 +80,7 @@ const department = createModel()({
         })
         dph.department.getList({})
       } else {
-        Notify.error({ title: '失败通知', description: data?.msg })
+        Notify.error({ title: '失败通知', description: data?.message })
       }
     },
 
@@ -94,7 +94,7 @@ const department = createModel()({
         })
         dph.department.getList({})
       } else {
-        Notify.error({ title: '失败通知', description: data?.msg })
+        Notify.error({ title: '失败通知', description: data?.message })
       }
     },
     // 判断是否存在下级
@@ -120,7 +120,7 @@ const department = createModel()({
         })
         dph.department.getList({})
       } else {
-        Notify.error({ title: '错误通知', description: data?.msg })
+        Notify.error({ title: '错误通知', description: data?.message })
       }
     },
   }),
