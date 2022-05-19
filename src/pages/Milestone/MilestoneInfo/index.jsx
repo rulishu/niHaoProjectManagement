@@ -144,14 +144,16 @@ const MilestoneInfo = () => {
               <>
                 <h2>{listDataInfo.milestonesTitle}</h2>
                 <div className={styles.bodyContent}>
-                  <MDEditor
-                    style={{ boxShadow: 'none' }}
-                    value={listDataInfo.milestonesDesc || null}
-                    hideToolbar={true}
-                    preview="preview"
-                    autoFocus={true}
-                    visiableDragbar={true}
-                  />
+                  <div className="milestonesBodyMDEditor">
+                    <MDEditor
+                      style={{ boxShadow: 'none' }}
+                      value={listDataInfo.milestonesDesc || null}
+                      hideToolbar={true}
+                      preview="preview"
+                      autoFocus={true}
+                      visiableDragbar={true}
+                    />
+                  </div>
                 </div>
               </>
             </Loader>
@@ -168,7 +170,9 @@ const MilestoneInfo = () => {
           <ul>
             <li>
               <div className={styles.rightHead}>
-                <div>{listDataInfo.degreeCompletion * 100}% 进度</div>
+                <div>
+                  {(+listDataInfo?.degreeCompletion * 100).toFixed()}% 进度
+                </div>
                 <Button
                   icon={packup ? 'd-arrow-left' : 'd-arrow-right'}
                   basic
@@ -177,7 +181,7 @@ const MilestoneInfo = () => {
               </div>
               <Progress.Line
                 strokeWidth={6}
-                percent={listDataInfo.degreeCompletion * 100}
+                percent={(+listDataInfo?.degreeCompletion * 100).toFixed()}
                 showText={false}
               />
             </li>

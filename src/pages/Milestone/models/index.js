@@ -51,6 +51,7 @@ export default createModel()({
         const params = {
           pageSize,
           page,
+          order: 1,
           projectId: Number(sessionStorage.getItem('id')),
           ...payload,
         }
