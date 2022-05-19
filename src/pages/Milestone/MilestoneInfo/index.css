@@ -10,6 +10,7 @@
     background: #fafafa;
 }
 
+/* 取消里程碑详情描述MD组件滚动条  */
 .milestonesBodyMDEditor .w-md-editor-show-preview,
 .milestonesBodyMDEditor .w-md-editor-show-preview .w-md-editor-content {
     height: auto !important;

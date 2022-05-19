@@ -129,7 +129,10 @@ const NewMilestone = () => {
           if (!startTime) {
             errorObj.startTime = '开始时间不能为空！'
           }
-          if (!timeDistance(current.startTime, current.dueTime).status) {
+          if (
+            current.dueTime &&
+            !timeDistance(current.startTime, current.dueTime).status
+          ) {
             errorObj.dueTime = '里程碑开始时间不能大于里程碑的截至时间！'
           }
           if (Object.keys(errorObj).length > 0) {
