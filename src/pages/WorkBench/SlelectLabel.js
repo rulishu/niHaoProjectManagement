@@ -133,10 +133,11 @@ export default function SlelectLabel() {
                 status="error"
                 current={memberList?.length}
                 style={{ padding: '20px 0' }}>
-                {memberList?.map((a) => {
+                {memberList?.map((a, key) => {
                   return (
                     <Steps.Step
                       title={a?.createTime}
+                      key={key}
                       onClick={() =>
                         (window.location.href = `#/usersManagement/${a?.projectId}`)
                       }
