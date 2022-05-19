@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Row, Col, Card, Tabs, Button } from 'uiw'
+import { Row, Col, Card, Tabs, Button, Tag } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 
 export default function TableManage() {
@@ -64,11 +64,11 @@ export default function TableManage() {
                   overflowY: 'auto',
                 }}>
                 <ProTable
-                  style={{ width: 900 }}
-                  paginationProps={{
-                    pageSizeOptions: [10, 20, 30],
-                    pageSize: 10,
+                  onCell={(rowData) => {
+                    window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
                   }}
+                  paginationProps={{ style: { display: 'none' } }}
+                  style={{ width: 900 }}
                   table={table}
                   columns={[
                     {
@@ -84,13 +84,13 @@ export default function TableManage() {
                       key: 'assignmentStatus',
                       render: (text) => {
                         if (text === 1) {
-                          return <div>未开始</div>
+                          return <Tag color="#F95C2B">未开始</Tag>
                         } else if (text === 2) {
-                          return <div>进行中</div>
+                          return <Tag color="#008EF0">进行中</Tag>
                         } else if (text === 3) {
-                          return <div>已完成</div>
+                          return <Tag color="#28a745">已完成</Tag>
                         } else if (text === 4) {
-                          return <div>已逾期</div>
+                          return <Tag color="#dc3545">已逾期</Tag>
                         }
                       },
                     },
@@ -101,10 +101,6 @@ export default function TableManage() {
                     {
                       title: '创建人',
                       key: 'createName',
-                    },
-                    {
-                      title: '任务状态',
-                      key: 'assignmentStatus',
                     },
                     {
                       title: '截止时间',
