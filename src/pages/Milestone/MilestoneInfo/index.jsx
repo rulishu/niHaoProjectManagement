@@ -53,6 +53,15 @@ const MilestoneInfo = () => {
     })
   }
 
+  // 删除
+  const goTaskListPage = async (activeKey) => {
+    navigate(`/project/task/${projectId}`, { state: { projectId } })
+    await dispatch({
+      type: 'project/update',
+      payload: { activeKey },
+    })
+  }
+
   // 改变状态
   const changeState = async (status) => {
     await dispatch.milestone.editStatusMilestones({
@@ -150,6 +159,7 @@ const MilestoneInfo = () => {
           <div className={styles.layoutLeftFooty}>
             <OtherInfo
               projectId={projectId}
+              goTaskListPage={goTaskListPage}
               listDataInfo={listDataInfo && listDataInfo}
             />
           </div>
@@ -215,32 +225,24 @@ const MilestoneInfo = () => {
                   basic
                   className={styles.rightHeadBut}
                   onClick={() => {
-                    navigate('/project/newIssue', { state: { projectId } })
+                    navigate(`/project/newIssue/${projectId}`, {
+                      state: { projectId },
+                    })
                   }}>
-                  新问题
+                  新任务
                 </Button>
               </div>
               <div className={styles.rightBelow}>
                 <span>
                   <p>打开：</p>
-                  <span
-                    onClick={() => {
-                      navigate(`/project/task/${projectId}`, {
-                        state: { projectId },
-                      })
-                    }}>
+                  <span onClick={() => goTaskListPage(1)}>
                     {listDataInfo?.unassignedSize + listDataInfo?.conductSize ||
                       0}
                   </span>
                 </span>
                 <span>
                   <p>完成：</p>
-                  <span
-                    onClick={() => {
-                      navigate(`/project/task/${projectId}`, {
-                        state: { projectId },
-                      })
-                    }}>
+                  <span onClick={() => goTaskListPage(3)}>
                     {listDataInfo?.finishSize || 0}
                   </span>
                 </span>

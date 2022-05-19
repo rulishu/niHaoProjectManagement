@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import { Row, Col, Card, Progress, Menu, Button } from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button, Empty } from 'uiw'
 import styles from './index.module.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
@@ -25,13 +25,6 @@ export default function Demo() {
       type: 'workbench/myProject',
     })
   }, [dispatch])
-
-  function randomColor() {
-    return (
-      '#' +
-      ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
-    )
-  }
 
   // 跳转里程碑详情
   const goMilestones = (projectId, milestonesId) => {
@@ -116,7 +109,11 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        window.location.href = `#/project/task/${projectData.projectId}`
+                        if (active === 0) {
+                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                        } else {
+                          window.location.href = `#/project/task/${projectData.projectId}`
+                        }
                       }}>
                       查看全部
                     </Button>
@@ -184,10 +181,7 @@ export default function Demo() {
                             bordered={false}
                             title={item.title}
                             style={{ width: 80 }}>
-                            <span
-                              style={{ fontSize: 36, color: randomColor() }}>
-                              {item?.num}
-                            </span>
+                            <span style={{ fontSize: 36 }}>{item?.num}</span>
                           </Card>
                         </div>
                       )
@@ -209,49 +203,55 @@ export default function Demo() {
                     <span style={{ flex: 3 }}>结束时间</span>
                     <span style={{ flex: 2 }}>进度</span>
                   </li>
-                  {active === 0
-                    ? milesWorkVoListOne?.map((item) => {
-                        return (
-                          <li
-                            key={item?.milestonesId}
-                            onClick={() =>
-                              goMilestones(
-                                projectData?.projectId,
-                                item?.milestonesId
-                              )
-                            }>
-                            <span style={{ flex: 4 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
-                          </li>
-                        )
-                      })
-                    : milepost?.map((item) => {
-                        return (
-                          <li
-                            key={item?.milestonesId}
-                            onClick={() =>
-                              goMilestones(
-                                projectData?.projectId,
-                                item?.milestonesId
-                              )
-                            }>
-                            <span style={{ flex: 4 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
-                          </li>
-                        )
-                      })}
+                  {milesWorkVoListOne?.length === 0 ? (
+                    <Empty description={false} style={{ marginTop: 20 }} />
+                  ) : active === 0 ? (
+                    milesWorkVoListOne?.map((item) => {
+                      return (
+                        <li
+                          key={item?.milestonesId}
+                          onClick={() =>
+                            goMilestones(
+                              projectListOne?.projectId,
+                              item?.milestonesId
+                            )
+                          }>
+                          <span style={{ flex: 4 }}>
+                            {item?.milestonesTitle}
+                          </span>
+                          <span style={{ flex: 3, fontSize: '12px' }}>
+                            {item?.dueTime &&
+                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                          </span>
+                          <span style={{ flex: 2 }}>{item?.rate}</span>
+                        </li>
+                      )
+                    })
+                  ) : milepost?.length === 0 ? (
+                    <Empty description={false} style={{ marginTop: 20 }} />
+                  ) : (
+                    milepost?.map((item) => {
+                      return (
+                        <li
+                          key={item?.milestonesId}
+                          onClick={() =>
+                            goMilestones(
+                              projectData?.projectId,
+                              item?.milestonesId
+                            )
+                          }>
+                          <span style={{ flex: 4 }}>
+                            {item?.milestonesTitle}
+                          </span>
+                          <span style={{ flex: 3, fontSize: '12px' }}>
+                            {item?.dueTime &&
+                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                          </span>
+                          <span style={{ flex: 2 }}>{item?.rate}</span>
+                        </li>
+                      )
+                    })
+                  )}
                 </ul>
               </div>
             </Card>

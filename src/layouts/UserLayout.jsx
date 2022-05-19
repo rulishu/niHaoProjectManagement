@@ -82,7 +82,7 @@ const UserLayout = () => {
           navigate('/home', { replace: true })
           // }
         } else {
-          Notify.error({ title: '错误通知', description: data?.msg })
+          Notify.error({ title: '错误通知', description: data?.message })
         }
       }}
     />

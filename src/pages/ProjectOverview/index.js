@@ -10,14 +10,7 @@ export default function Home() {
   const dispatch = useDispatch()
   useLocationPage()
   const { projectId } = useParams()
-
   useEffect(() => {
-    dispatch({
-      type: 'projectoverview/update',
-      payload: {
-        projectId: projectId,
-      },
-    })
     dispatch({
       type: 'projectoverview/getProjectDynamics', //动态
       payload: {

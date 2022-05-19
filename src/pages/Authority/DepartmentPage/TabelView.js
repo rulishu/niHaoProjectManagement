@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty, Badge } from 'uiw' // Pagination,Loader, Icon,
+import { Table, Button, Alert, Empty, Badge } from 'uiw'
 
 export default function TabelView() {
   const {
     department: {
       dataSource,
-      // Loading,
-      // pageSize,
-      // page,
       alertVisible,
-      alertDept,
+      // alertDept,
     },
   } = useSelector((state) => state)
   // 层级遍历
@@ -33,7 +30,6 @@ export default function TabelView() {
   const treeData = dataSourceTreeData?.map((e) => e.status === '1')
   const [iterm, setIterm] = useState({})
   const dispatch = useDispatch()
-  // const [childArr, setChildArr] = useState([]);
   //   新增
   const onOpen = () => {
     dispatch({
@@ -81,38 +77,11 @@ export default function TabelView() {
     //
     e.stopPropagation()
   }
-  // 翻页
-  // const PaginationChange = async (page: number, pageSize: number) => {
-  //   await dispatch({
-  //     type: "department/updateState",
-  //     payload: { page: page, pageSize: pageSize },
-  //   });
-  //   await dispatch({
-  //     type: "department/getList",
-  //   });
-  // };
   const columns = [
-    // {
-    //   title: '部门ID',
-    //   key: 'deptId',
-    // },
     {
       title: '部门名称',
       key: 'deptName',
     },
-    // {
-    //   title: '祖级列表',
-    //   key: 'ancestors',
-    //   render: (code) => {
-    //     console.log(code)
-    //     const dataSourceText = dataSource?.map(code=>)
-    //     return (
-    //       <div>
-    //         {code === '0' ? '正常' : '停用'}
-    //       </div>
-    //     )
-    //   },
-    // },
     {
       title: '排序',
       key: 'orderNum',
@@ -198,58 +167,24 @@ export default function TabelView() {
         confirmText="确认"
         onClosed={() => onClose()}
         type="danger"
-        content={
-          alertDept
-            ? '该部门存在下级部门, 请先删除下级部门'
-            : '是否确认删除该部门！'
-        }
+        content={'是否确认删除该部门！'}
         onConfirm={() => {
-          if (alertDept) {
-            onClose()
-          } else {
-            dispatch({
-              type: 'department/getDelete',
-              payload: {
-                id: iterm.id,
-              },
-            })
-          }
+          dispatch({
+            type: 'department/getDelete',
+            payload: {
+              id: iterm.deptId,
+            },
+          })
         }}></Alert>
-      {/* <Loader
-        vertical
-        color="#23252b"
-        tip="数据加载中..."
-        indicator={
-          <Icon
-            type="loading"
-            spin={true}
-            style={{ verticalAlign: "text-top" }}
-          />
-        }
-        style={{ width: "100%" }}
-        loading={Loading}
-      > */}
       <Table
         bordered
         rowKey="deptId"
         columns={columns}
         data={treeData.includes(false) ? arrSource : dataSourceTreeData}
         footer={
-          arrSource.length || dataSourceTreeData.length > 0 ? (
-            ''
-          ) : (
-            // <Pagination
-            //   current={page}
-            //   pageSize={pageSize}
-            //   total={total}
-            //   divider
-            //   onChange={(...other) => PaginationChange(other[0], other[2])} //
-            // />
-            <Empty />
-          )
+          arrSource.length || dataSourceTreeData.length > 0 ? '' : <Empty />
         }
       />
-      {/* </Loader> */}
     </div>
   )
 }

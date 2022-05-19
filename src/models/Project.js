@@ -6,6 +6,9 @@ import {
   getmMnagerAssignmentSave,
   deleteAssignment,
   getAssignmentHistorySave,
+  queryFuzzyAllProjectMember,
+  selectLabel,
+  assignment_label,
 } from '../servers/project'
 import { Notify } from 'uiw'
 
@@ -52,18 +55,24 @@ export default createModel()({
       fileId: [],
     },
     commentData: {},
+    teamMembers: [],
+    assignmentLabels: [],
+    milistones: [],
+    splicingConditionsDtos: [],
   },
   effects: (dispatch) => {
     return {
       // 分页查询
       async getList(params, { project }) {
         const { assignmentStatus, ...others } = params
-        const { filter } = project
+        const { filter, splicingConditionsDtos } = project
 
         const data = await getSelectPage({
           ...filter,
           ...others,
+          splicingConditionsDtos,
         })
+        console.log('data: ', data)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
             dispatch.project.update({
@@ -119,6 +128,53 @@ export default createModel()({
         })
       },
 
+      // 查询成员
+      async queryFuzzyAllProjectMember(params) {
+        const data = await queryFuzzyAllProjectMember({
+          ...params,
+        })
+        if (data && data.code === 200) {
+          if (data.data && data.data.length > 0) {
+            const teamMembers = data.data.map((item) => ({
+              label: item.memberName,
+              value: item.id,
+            }))
+            dispatch.project.update({ teamMembers })
+          }
+        }
+      },
+
+      // 查询所有里程碑页签
+      async selectLabel(params) {
+        const data = await selectLabel({
+          ...params,
+        })
+        if (data && data.code === 200) {
+          if (data.data && data.data.length > 0) {
+            // const milistone = data.data.map((item) => ({
+            //   label: item.memberName,
+            //   value: item.id,
+            // }))
+            // dispatch.project.update({ milistone })
+          }
+        }
+      },
+      //
+      async assignment_label(params) {
+        const data = await assignment_label({
+          ...params,
+        })
+        if (data && data.code === 200) {
+          if (data.data && data.data.length > 0) {
+            const assignmentLabels = data.data.map((item) => ({
+              label: item.dictLabel,
+              value: item.dictValue,
+            }))
+            dispatch.project.update({ assignmentLabels })
+          }
+        }
+      },
+
       // 任务列表新增
       async getAdd(params, { project }) {
         const { fromData } = project
@@ -155,24 +211,26 @@ export default createModel()({
       },
       // 任务列表编辑
       async getEdit(params, { project }) {
-        console.log('params', params)
-        const { editFromData } = project
+        const { labels, ...newData } = project.editFromData
+        let newLabels = []
+        if (labels?.length > 0) {
+          // eslint-disable-next-line array-callback-return
+          labels.map((item) => {
+            newLabels.push(item.dictCode.toString())
+          })
+          newData.labels = newLabels
+        }
         const data = await getManagerAssignmentUpdate({
-          ...editFromData,
+          ...newData,
           ...params,
         })
         if (data && data.code === 200) {
           dispatch.project.update({
             issueType: '',
-            // editFromData: {
-            //   assignmentTitle: '',
-            //   description: '',
-            //   labels: []
-            // }
           })
           dispatch.project.getSelectById({
-            projectId: params?.projectId,
-            id: editFromData?.assignmentId,
+            projectId: params?.projectId || newData?.projectId,
+            id: newData?.assignmentId,
           })
           // navigate(`/project/task/${sessionStorage.getItem('id')}`)
           NotifySuccess(data.message)

@@ -1,7 +1,7 @@
-import { Row, Col, Card, Button } from 'uiw'
+import { Row, Col, Card, Button, Tabs } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
-
+import { useState } from 'react'
 export default function TodoList() {
   const updateData = (payload) => {
     dispatch({
@@ -10,12 +10,13 @@ export default function TodoList() {
     })
   }
   const dispatch = useDispatch()
+
+  const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: 100,
         data: data?.data,
       }
     },
@@ -24,7 +25,7 @@ export default function TodoList() {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        ...searchValues,
+        status: Number(tab),
       }
     },
     requestOptions: {
@@ -67,13 +68,19 @@ export default function TodoList() {
                   overflowX: 'hidden',
                   overflowY: 'auto',
                 }}>
+                <Tabs
+                  // type="line"
+                  activeKey="1"
+                  onTabClick={(tab, key, e) => {
+                    setTab(tab)
+                    table.onSearch()
+                  }}>
+                  <Tabs.Pane label="待办" key="0"></Tabs.Pane>
+                  <Tabs.Pane label="已完成" key="1"></Tabs.Pane>
+                </Tabs>
                 <ProTable
-                  style={{ width: 900 }}
-                  paginationProps={{
-                    pageSizeOptions: [10, 20, 30],
-                    pageSize: 10,
-                  }}
                   table={table}
+                  paginationProps={{ style: { display: 'none' } }}
                   columns={[
                     {
                       title: '待办id',

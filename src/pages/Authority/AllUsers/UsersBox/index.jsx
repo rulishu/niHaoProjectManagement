@@ -11,8 +11,8 @@ const UsersBox = (props) => {
 
   // 性别图标
   const gender = (sex) => {
-    if (sex === 0) return <Icon type="woman" className={styles.woman} />
-    else if (sex === 1) return <Icon type="man" className={styles.man} />
+    if (sex === '0') return <Icon type="woman" className={styles.woman} />
+    else if (sex === '1') return <Icon type="man" className={styles.man} />
     else return
   }
 
@@ -67,8 +67,10 @@ const UsersBox = (props) => {
                   </Col>
                   <Col span="18">
                     <Row>
-                      <div className={styles.userName}>
-                        {item.userName}
+                      <div
+                        className={styles.userName}
+                        style={{ paddingBottom: 10 }}>
+                        {item.nickName}
                         <span>{gender(item.sex)}</span>
                       </div>
                     </Row>
@@ -76,7 +78,6 @@ const UsersBox = (props) => {
                       <div className={styles.userId}>
                         {item.userPosition &&
                           userPositionBox(item.userPosition)}
-                        ID:{item.userId}
                       </div>
                     </Row>
                     <Row className={styles.buttonGroup}>
@@ -115,7 +116,7 @@ const UsersBox = (props) => {
                 <Divider />
                 <Row className={styles.info}>
                   <Col span="6" className={styles.infoName}>
-                    <Icon type="user" /> 帐号:
+                    <Icon type="user" style={{ marginRight: 3 }} /> 帐号:
                   </Col>
                   <Col span="18" className={styles.infoCon}>
                     {item.userName}
@@ -123,7 +124,7 @@ const UsersBox = (props) => {
                 </Row>
                 <Row className={styles.info}>
                   <Col span="6" className={styles.infoName}>
-                    <Icon type="mobile" /> 手机:
+                    <Icon type="mobile" style={{ marginRight: 3 }} /> 手机:
                   </Col>
                   <Col span="18" className={styles.infoCon}>
                     {item.phonenumber}
@@ -131,7 +132,7 @@ const UsersBox = (props) => {
                 </Row>
                 <Row className={styles.info}>
                   <Col span="6" className={styles.infoName}>
-                    <Icon type="mail-o" /> 邮箱：
+                    <Icon type="mail-o" style={{ marginRight: 3 }} /> 邮箱：
                   </Col>
                   <Col span="18" className={styles.infoCon}>
                     {item.email}

@@ -1,14 +1,15 @@
-import { Card, List, Tooltip } from 'uiw'
+import { Card, Steps } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
+import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import moment from 'dayjs'
 
 export default function AllTasks() {
   const {
-    projectoverview: { projectMembersList, projectDynamicsList, projectId },
+    projectoverview: { projectMembersList, projectDynamicsList },
   } = useSelector((state) => state)
-
+  const { projectId } = useParams()
   const token = localStorage.getItem('token')
   const milepostTable = useTable('/api/project/projectCountById', {
     formatData: (data) => {
@@ -29,9 +30,10 @@ export default function AllTasks() {
 
   const columns = [
     {
-      title: '标题',
+      title: '里程碑名称',
       key: 'milestonesTitle',
       ellipsis: true,
+      width: 100,
     },
     {
       title: '结束时间',
@@ -39,7 +41,7 @@ export default function AllTasks() {
       ellipsis: true,
       width: 120,
       render: (text) => {
-        return <div>{text && moment(text).format('YYYY-MM-DD')}</div>
+        return <div>{text ? moment(text).format('YYYY-MM-DD') : ''}</div>
       },
     },
     {
@@ -53,7 +55,22 @@ export default function AllTasks() {
     <div style={{ width: '30%' }}>
       <Card title="里程碑" bordered={false}>
         <div style={{ height: 331, overflowX: 'hidden', overflowY: 'auto' }}>
-          <ProTable bordered={false} table={milepostTable} columns={columns} />
+          <ProTable
+            key="dueTime"
+            onCell={(rowData) => {
+              navigate(
+                `/milestone/milestoneInfo/${projectId}/${rowData.milestonesId}`,
+                {
+                  state: { projectId, milestonesId: rowData.milestonesId },
+                }
+              )
+            }}
+            bordered={false}
+            table={milepostTable}
+            tableBackgroundColor="#fff"
+            columns={columns}
+            paginationProps={{ style: { display: 'none' } }}
+          />
         </div>
       </Card>
       <Card
@@ -61,31 +78,32 @@ export default function AllTasks() {
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
         <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
-          <List
-            size="small"
-            noHover={true}
-            bordered={false}
-            dataSource={projectDynamicsList}
-            renderItem={(item) => (
-              <List.Item
-                style={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}>
-                <Tooltip placement="top" content={item.operatingRecords}>
-                  {item.operatingRecords}
-                </Tooltip>
-              </List.Item>
-            )}
-          />
+          <Steps
+            direction="vertical"
+            progressDot
+            status="error"
+            current={projectDynamicsList?.length}
+            style={{ padding: '20px 0' }}>
+            {projectDynamicsList?.map((itm, key) => {
+              return (
+                <Steps.Step
+                  title={itm?.createTime}
+                  key={key}
+                  onClick={() =>
+                    (window.location.href = `#/usersManagement/${projectId}`)
+                  }
+                  description={itm?.operatingRecords}></Steps.Step>
+              )
+            })}
+          </Steps>
         </div>
       </Card>
       <Card title="项目成员" bordered={false}>
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          {projectMembersList.map((e) => {
+          {projectMembersList.map((e, idx) => {
             return (
               <div
+                key={idx}
                 style={{
                   width: 50,
                   textAlign: 'center',
@@ -102,7 +120,7 @@ export default function AllTasks() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onClick={() => navigate('/usersManagement')}>
+                  onClick={() => navigate(`/usersManagement/${projectId}`)}>
                   <span style={{ fontSize: 24 }}>{e.userName.slice(0, 1)}</span>
                 </div>
                 <span style={{ paddingTop: 5, display: 'block' }}>

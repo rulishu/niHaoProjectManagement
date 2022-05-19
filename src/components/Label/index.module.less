@@ -7,7 +7,8 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    .tagListLi {
+    .tagListLi,
+    .noColorTag {
       margin-bottom: 5px;
       margin-right: 5px;
       overflow: hidden;
@@ -19,6 +20,8 @@
       font-size: 12px;
       color: #fff;
       line-height: 1;
+      border-style: solid;
+      border-width: 1px;
 
       .tagTitle {
         overflow: hidden;
@@ -49,6 +52,20 @@
 
         .tagIcon {
           font-size: 8px;
+        }
+      }
+    }
+
+    .noColorTag {
+      color: #333;
+      border-color: #333;
+      border-style: solid;
+      border-width: 1px;
+
+      .tagBut {
+        &:hover {
+          color: #fff;
+          background-color: #000;
         }
       }
     }

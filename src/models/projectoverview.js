@@ -15,7 +15,6 @@ const projectoverview = createModel()({
     allDataSource: {},
     projectMembersList: [],
     projectDynamicsList: [],
-    projectId: '',
     page: 1,
     pageSize: 10,
   },
@@ -28,7 +27,7 @@ const projectoverview = createModel()({
           allDataSource: data?.data || [],
         })
       } else {
-        NotifyError(data.msg)
+        NotifyError(data?.message)
       }
     },
     // 查询项目动态
@@ -39,7 +38,7 @@ const projectoverview = createModel()({
           projectDynamicsList: data?.data || [],
         })
       } else {
-        NotifyError(data.msg)
+        NotifyError(data?.message)
       }
     },
 
@@ -51,7 +50,7 @@ const projectoverview = createModel()({
           projectMembersList: data?.data || [],
         })
       } else {
-        NotifyError(data.msg)
+        NotifyError(data?.message)
       }
     },
   }),

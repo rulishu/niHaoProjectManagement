@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, Steps } from 'uiw' // List,
+import { Row, Col, Card, Tabs, Steps, Tag } from 'uiw' // List,
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 // import styles from './index.module.less'
@@ -22,7 +22,7 @@ export default function SlelectLabel() {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data?.list,
+        data: data?.data,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -39,7 +39,6 @@ export default function SlelectLabel() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   return (
     <div>
       <Row gutter={20}>
@@ -68,6 +67,7 @@ export default function SlelectLabel() {
                 overflowY: 'auto',
               }}>
               <ProTable
+                paginationProps={{ style: { display: 'none' } }}
                 onCell={(rowData) => {
                   window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
                 }}
@@ -86,13 +86,13 @@ export default function SlelectLabel() {
                     key: 'assignmentStatus',
                     render: (text) => {
                       if (text === 1) {
-                        return <div>未开始</div>
+                        return <Tag color="#F95C2B">未开始</Tag>
                       } else if (text === 2) {
-                        return <div>进行中</div>
+                        return <Tag color="#008EF0">进行中</Tag>
                       } else if (text === 3) {
-                        return <div>已完成</div>
+                        return <Tag color="#28a745">已完成</Tag>
                       } else if (text === 4) {
-                        return <div>已逾期</div>
+                        return <Tag color="#dc3545">已逾期</Tag>
                       }
                     },
                   },

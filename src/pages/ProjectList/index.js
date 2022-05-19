@@ -30,99 +30,19 @@ const ProjectList = (props) => {
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
-  let datas = [
-    {
-      id: 34,
-      name: '标题',
-      startTime: null,
-      dueTime: '2022-03-26',
-      milestonesStatus: 2,
-      degreeCompletion: 0.0,
-      milestonesDesc:
-        '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
-      projectId: 1320,
-      projectName: '项目标题',
-      createId: 46,
-      createName: '黄来平',
-      begin: '2022-03-02 17:32:20',
-      updateId: 46,
-      updateName: '黄来平',
-      end: '2022-03-15 01:07:50',
-      participateUser: null,
-      closeTaskNum: 0,
-      allTaskNum: 0,
-      overtime: 1,
-      overtimeNum: 4,
-      updateTime: '2022-05-18 17:32:20',
-    },
-    {
-      id: 34,
-      name: '标题',
-      startTime: null,
-      dueTime: '2022-03-26',
-      milestonesStatus: 2,
-      degreeCompletion: 0.0,
-      descr:
-        '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
-      milestonesDesc:
-        '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
-      projectId: 1320,
-      projectName: '项目标题',
-      createId: 46,
-      createName: '黄来平',
-      begin: '2022-03-02 17:32:20',
-      updateId: 46,
-      updateName: '黄来平',
-      end: '2022-03-15 01:07:50',
-      participateUser: null,
-      closeTaskNum: 0,
-      allTaskNum: 0,
-      overtime: 1,
-      overtimeNum: 4,
-      updateTime: '2022-05-30 00:50:00',
-    },
-    {
-      id: 34,
-      name: '标题',
-      startTime: null,
-      dueTime: '2022-03-26',
-      milestonesStatus: 2,
-      degreeCompletion: 0.0,
-      milestonesDesc:
-        '里程碑描述\n里程碑描\n里程碑\n里程\n里\n里程\n里程碑\n里程碑描\n里程碑描述',
-      projectId: 1320,
-      projectName: '项目标题',
-      createId: 46,
-      createName: '黄来平',
-      begin: '2022-03-02 17:32:20',
-      updateId: 46,
-      updateName: '黄来平',
-      end: '2022-03-15 01:07:50',
-      participateUser: null,
-      closeTaskNum: 0,
-      allTaskNum: 0,
-      overtime: 1,
-      overtimeNum: 4,
-      updateTime: '2022-02-06 17:32:20',
-    },
-  ]
 
   const table = useTable('/api/project/selectOneInfo', {
-    // const table = useTable('https://randomuser.me/api', {
     formatData: (data) => {
-      if (data?.data) {
-        return {
-          total: data?.data?.total,
-          data: data?.data?.list,
-        }
+      return {
+        total: data?.data?.total,
+        data: data?.data?.rows,
       }
-      return { data: datas }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: 1,
-        pageSize: 99999999,
+        pageSize: 9999,
         status: projectStatus,
         type: projectType,
         name: projectName,
@@ -287,7 +207,7 @@ const ProjectList = (props) => {
                   setProjectType('10')
                   dispatch.projectlist.selectNumber({ type: '10' })
                 }
-                // table.onSearch();
+                table.onSearch()
               }}>
               <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
               <Tabs.Pane label="我的" key="2"></Tabs.Pane>
@@ -295,7 +215,7 @@ const ProjectList = (props) => {
           </div>
           <div className={styles.projectProTable}>
             <ProTable
-              // tableHeadHidden={true}
+              tableHeadHidden={true}
               // tableBackgroundColor="#fff"
               className="proProTable"
               // onCell={() => router.navigate('/projectOverview/333')}
@@ -374,7 +294,10 @@ const ProjectList = (props) => {
                         <div
                           className={styles.projectControlsLI}
                           onClick={(e) => {
-                            goSpecifyPage({ path: '/users', id: rowData.id })
+                            goSpecifyPage({
+                              path: '/usersManagement',
+                              id: rowData.id,
+                            })
                           }}>
                           <Tooltip
                             placement="top"
@@ -436,7 +359,7 @@ const ProjectList = (props) => {
                       <EditDrop
                         rowData={rowData}
                         dispatch={dispatch}
-                        search={table.onSearch}
+                        search={refresh}
                       />
                       // </div>
                     )
