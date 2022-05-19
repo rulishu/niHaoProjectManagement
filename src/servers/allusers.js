@@ -115,9 +115,11 @@ export const guideUpdate = (params) => {
 
 // 获取所有的公司与项目
 export const getAllCompaniesProjects = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/managerUCP/selectCompanyDetail', {
     method: 'POST',
     body: params,
+    headers: { Authorization: 'Bearer ' + token },
   })
 }
 
