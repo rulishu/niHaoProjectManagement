@@ -43,11 +43,12 @@ export default function Demo() {
   const onClickItem = (key) => {
     setActive(key)
   }
-  console.log('active', active)
   const projectListOne = projectList?.at(0)
   const milesWorkVoListOne = projectListOne?.milesWorkVoList
   const totalWorkVoOne = projectListOne?.totalWorkVo
 
+  //判断是否可以看到所有项目列表
+  const naid = localStorage.getItem('key')
   return (
     <Container>
       <div>
@@ -267,7 +268,7 @@ export default function Demo() {
       <div style={{ marginTop: 20 }}></div>
       <SlelectLabel />
       <div style={{ marginTop: 20 }}></div>
-      <TableManage />
+      {naid === 'true' ? <TableManage /> : ''}
       <div style={{ marginTop: 20 }}></div>
       <TodoList />
     </Container>
