@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core'
 import {
   inviteMember,
   updateProjectMember,
+  deleteProjectMember,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -37,6 +38,15 @@ const usersManagement = createModel()({
         tableType: 'edit',
       })
       return await updateProjectMember(payload)
+    },
+    // 移除成员
+    async deleteProjectMember(payload) {
+      const dph = dispatch
+      dph.usersManagement.updateState({
+        delectVisible: false,
+        tableType: 'del',
+      })
+      return await deleteProjectMember(payload)
     },
 
     clean() {

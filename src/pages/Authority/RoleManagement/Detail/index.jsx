@@ -42,7 +42,7 @@ const Detail = ({ updateData, onSearch }) => {
     return (
       <TreeChecked
         data={menuOptions.map((item) => toTree(item))}
-        selectedKeys={checkedKeys}
+        selectedKeys={value || checkedKeys}
         onExpand={(key, expanded, data, node) => {
           console.log(key, expanded, data, node)
         }}
@@ -51,6 +51,7 @@ const Detail = ({ updateData, onSearch }) => {
           console.log('select:', selected)
           console.log('select:', item)
           console.log('select:', evn)
+          onChange(key)
           setMenuIds(key)
           // updateData({
           //   queryInfo: {

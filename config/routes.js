@@ -191,10 +191,12 @@ const routes = [
         ],
       },
       {
-        path: '/usersManagement',
+        path: '/usersManagement/:projectId',
         name: '成员管理',
         component: '@/pages/UsersManagement',
         isAuth: true,
+        navigate:
+          "(navigate) => {navigate(`/usersManagement/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/projectAuth',

@@ -4,11 +4,13 @@ import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
 import { changeTimeFormat } from '../../../utils/timeDistance'
+import { useParams } from 'react-router-dom'
 
 const Drawer = (props) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
 
+  const { projectId } = useParams()
   const {
     usersManagement: { drawerVisible, isView, loading, queryInfo, tableType },
   } = useSelector((state) => state)
@@ -65,7 +67,7 @@ const Drawer = (props) => {
           'YYYY-MM-DD HH:mm:ss',
           current?.accessExpirationDate
         ),
-        // projectId: localStorage.getItem('projectId') || ''
+        projectId: projectId,
       }
       dispatch({
         type: 'usersManagement/inviteMember',
@@ -80,7 +82,7 @@ const Drawer = (props) => {
         id: queryInfo?.id,
         joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
-        // projectId: localStorage.getItem('projectId') || ''
+        // projectId: projectId
       }
       console.log('payload', payload)
       dispatch({
