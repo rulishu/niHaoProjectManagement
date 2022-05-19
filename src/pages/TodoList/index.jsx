@@ -13,7 +13,7 @@ import {
 } from 'uiw'
 import { SearchBar, Container } from '@/components'
 import styles from './index.module.less'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 
@@ -32,7 +32,7 @@ const tabsLabel = (title, num) => {
 }
 
 const TodoList = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -109,28 +109,33 @@ const TodoList = () => {
                       </div>
                     }>
                     <Row gutter={10} className={styles.listRow}>
-                      <Col
-                        // span={18}
-                        className={styles.listCol}>
-                        <a href={item?.nav} className={styles.listTitle}>
-                          {item.title}
-                        </a>
-                        <div className={styles.listContent}>
-                          <Icon type="user" size="big" /> 你
-                          <span className={styles.projectName}>
-                            {item.doType === 0 ? '评论' : '任务指派给'}{' '}
-                          </span>
-                          <Icon type="user" /> {item.doUserName}
-                          <span className={styles.projectName}>
-                            #{item.issuesId}
-                          </span>
-                          ''{item.doConnent}'' 在
-                          <span className={styles.projectName}>
-                            {item.projectName}
-                          </span>
-                          由 {item.assignUserName} 创建于 {item?.createTime}
-                        </div>
-                      </Col>
+                      <div
+                        onClick={() => {
+                          navigate(`/project/taskInfo/:projectId/:id`)
+                        }}>
+                        <Col
+                          // span={18}
+                          className={styles.listCol}>
+                          <a href={item?.nav} className={styles.listTitle}>
+                            {item.title}
+                          </a>
+                          <div className={styles.listContent}>
+                            <Icon type="user" size="big" /> 你
+                            <span className={styles.projectName}>
+                              {item.doType === 0 ? '评论' : '任务指派给'}{' '}
+                            </span>
+                            <Icon type="user" /> {item.doUserName}
+                            <span className={styles.projectName}>
+                              #{item.issuesId}
+                            </span>
+                            ''{item.doConnent}'' 在
+                            <span className={styles.projectName}>
+                              {item.projectName}
+                            </span>
+                            由 {item.assignUserName} 创建于 {item?.createTime}
+                          </div>
+                        </Col>
+                      </div>
                       <Col span="8" className={styles.itemListRight}>
                         <div>
                           <Button
