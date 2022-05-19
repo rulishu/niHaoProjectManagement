@@ -8,7 +8,7 @@ import { Notify } from 'uiw'
 export default createModel()({
   name: 'todolist',
   state: {
-    activeKey: '',
+    activeKey: '0',
     filter: {
       page: 1,
       pageSize: 10,
@@ -61,7 +61,7 @@ export default createModel()({
         const data = await getStrutsSwitch(params)
         // console.log('data------>11111', data)
         if (data && data.code === 200) {
-          Notify.success({ title: data.message, description: '' })
+          // Notify.success({ title: data.message, description: '' })
         } else {
           Notify.error({ title: data.message, description: '' })
         }

@@ -11,15 +11,15 @@ import {
   Icon,
   List, // Progress,
 } from 'uiw'
-import { SearchBar, Container } from '@/components'
+import { SearchBars, Container } from '@/components'
 import styles from './index.module.less'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 
-const SearchBarOption = [
-  { value: '', text: '任务指派' },
-  { value: '1', text: '评论' },
+const assignmentType = [
+  { value: 1, text: '议题' },
+  { value: 2, text: '事件' },
 ]
 
 const tabsLabel = (title, num) => {
@@ -49,12 +49,12 @@ const TodoList = () => {
     if (location?.state) {
       dispatch({
         type: 'todolist/update',
-        payload: { activeKey: '' },
+        payload: { activeKey: '0' },
       })
     }
     if (taskId) {
       dispatch.todolist.getList(
-        location?.state ? { status: '', ...location?.state } : { status: '' }
+        location?.state ? { status: '0', ...location?.state } : { status: '0' }
       )
       dispatch.todolist.getList(
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
@@ -96,6 +96,7 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
+                console.log('item', item.status)
                 return (
                   <List.Item
                     key={index}
@@ -210,23 +211,23 @@ const TodoList = () => {
               type="line"
               activeKey={activeKey}
               onTabClick={(activeKey) => getTabList(activeKey)}>
-              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="">
+              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="0">
                 <div>
-                  <SearchBar
+                  <SearchBars
                     isDrop={true}
-                    option={SearchBarOption}
+                    option={assignmentType}
                     onSearch={(value, selectValue) =>
                       getTaskListData(value, selectValue)
                     }
                   />
                 </div>
-                {taskDataList(openTataList, openTotal, '')}
+                {taskDataList(openTataList, openTotal, '0')}
               </Tabs.Pane>
               <Tabs.Pane label={tabsLabel('已完成', total)} key="1">
                 <div>
-                  <SearchBar
+                  <SearchBars
                     isDrop={true}
-                    option={SearchBarOption}
+                    option={assignmentType}
                     onSearch={(value, selectValue) =>
                       getTaskListData(value, selectValue)
                     }
