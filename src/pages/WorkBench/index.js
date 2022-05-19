@@ -1,18 +1,8 @@
 import { useEffect, useState } from 'react'
-import {
-  Row,
-  Col,
-  Card,
-  Progress,
-  // Steps,
-  Menu,
-  Button,
-  Descriptions,
-} from 'uiw'
+import { Row, Col, Card, Progress, Menu, Button, Descriptions } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TableManage from './TableManage'
-import styles from './index.less'
 import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
 import { Container } from '@/components'
@@ -57,9 +47,6 @@ export default function Demo() {
                         onClick={() => {
                           const totalData = e.totalWorkVo
                           const milesWorkVoList = e.milesWorkVoList?.at(0)
-                          console.log('e', e)
-                          console.log('totalData', totalData)
-                          console.log('milesWorkVoList', milesWorkVoList)
                           setProject({ ...e })
                           setTotalData({ ...totalData })
                           setMilepost({ ...milesWorkVoList })
@@ -76,7 +63,7 @@ export default function Demo() {
               title={projectData?.projectName}
               bordered={false}
               style={{ height: 400 }}>
-              <Row className={styles.colContent}>
+              <Row>
                 <Col
                   style={{
                     borderRight: '1px solid #EBF2FB',
@@ -182,7 +169,7 @@ export default function Demo() {
           </Col>
           <Col fixed style={{ width: '25%' }}>
             <Card title="里程碑" bordered={false} style={{ height: 400 }}>
-              <div className={styles.newDynamic}>
+              <div>
                 <Descriptions layout="vertical">
                   <Descriptions.Item label="里程碑名称">
                     <span
