@@ -58,7 +58,7 @@ const DetailTable = () => {
     if (type === 'del') {
       const result = await dispatch({
         type: 'dictionary/deleteById',
-        payload: [record?.dictId],
+        payload: { ids: [record?.dictCode] },
       })
       if (result.code === 200) {
         Notify.success({ title: result?.message })
