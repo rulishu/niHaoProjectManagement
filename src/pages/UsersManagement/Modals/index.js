@@ -2,6 +2,7 @@ import { Modal } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { Notify } from 'uiw'
 import useSWR from 'swr'
+import { deleteProjectMember } from '@/servers/usersManagement'
 
 const Modals = (props) => {
   const dispatch = useDispatch()
@@ -18,19 +19,28 @@ const Modals = (props) => {
     })
   }
 
-  const { mutate } = useSWR(['api/delete', { method: 'POST', body: { id } }], {
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
-    onSuccess: (data) => {
-      if (data && data.code === 1) {
-        Notify.success({ title: data.message })
-        onClose()
-        props.onSearch()
-      } else {
-        Notify.error({ title: data.message })
-      }
-    },
-  })
+  const { mutate } = useSWR(
+    [
+      deleteProjectMember,
+      {
+        method: 'POST',
+        body: { id },
+      },
+    ],
+    {
+      revalidateOnMount: false,
+      revalidateOnFocus: false,
+      onSuccess: (data) => {
+        if (data && data.code === 200) {
+          Notify.success({ title: data.message })
+          onClose()
+          props.onSearch()
+        } else {
+          Notify.error({ title: data.message })
+        }
+      },
+    }
+  )
   return (
     <Modal
       title="单条删除"

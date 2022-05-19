@@ -6,14 +6,15 @@ import Drawer from './Drawer'
 import { searchFun } from '@/utils/publicFun'
 import operateFun from '@/components/Operate'
 
-const token = localStorage.getItem('token')
 export default function Index() {
+  const token = localStorage.getItem('token')
+
   const dispatch = useDispatch()
   const {
     postManagement: { alertShow, ids },
   } = useSelector((state) => state)
 
-  const table = useTable('/api/system/post/optionselect', {
+  const table = useTable('/api/system/post/list', {
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
@@ -26,7 +27,7 @@ export default function Index() {
     formatData: (data) => {
       return {
         total: data?.data?.total || 0,
-        data: data?.data || [],
+        data: data?.rows || [],
       }
     },
     requestOptions: {
@@ -75,7 +76,7 @@ export default function Index() {
           dispatch({
             type: 'postManagement/getDelete',
             payload: {
-              postIds: ids,
+              id: ids,
             },
           })
         }}></Alert>
@@ -183,7 +184,7 @@ export default function Index() {
             render: (_, record, data) =>
               operateFun({
                 onEvenEdit: () => onOpenEdit(data),
-                onEvenDelete: () => onOpenDelete(data.id),
+                onEvenDelete: () => onOpenDelete(data.postId),
               }),
           },
         ]}

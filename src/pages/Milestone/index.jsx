@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Button,
   Tabs,
@@ -14,13 +14,14 @@ import {
   Icon,
   OverlayTrigger,
 } from 'uiw'
-import { useNavigate } from 'react-router-dom'
-import dayjs from 'dayjs'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
-import data from './data'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const { Line } = Progress
 
+// Tabs标签
 const tabsLabel = (title, num) => {
   return (
     <div>
@@ -30,54 +31,70 @@ const tabsLabel = (title, num) => {
   )
 }
 
-const Milestone = (props) => {
+const Milestone = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  useLocationPage()
+  const { projectId } = useParams()
+  const {
+    milestone: {
+      filter,
+      listData,
+      total,
+      activeKey,
+      openListData,
+      openListTotal,
+      closeListData,
+      closeListTotal,
+    },
+    loading,
+  } = useSelector((state) => state)
+  const dispatch = useDispatch()
+
   useEffect(() => {
     // milestonesStatusList 1:打开2:关闭3：删除
-    props.dispatch.selectPageList({
-      milestonesStatusList: [],
-      projectId: 1320,
-    })
-    // 查询 已完成
-    props.dispatch.selectPageList({
-      milestonesStatusList: [1],
-      projectId: 1320,
-    })
-    props.dispatch.selectPageList({
-      milestonesStatusList: [2],
-      projectId: 1320,
-    })
-  }, [props.dispatch])
+    dispatch.milestone.selectPageList({ milestonesStatusList: [], projectId })
+    dispatch.milestone.selectPageList({ milestonesStatusList: [1], projectId })
+    dispatch.milestone.selectPageList({ milestonesStatusList: [2], projectId })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, dispatch.milestone])
 
+  // 赛选分类
   const [sorting, setSorting] = useState(1)
 
   const [isPulldown, setIsPulldown] = useState(false)
 
   const goNewNmilestone = () => {
-    props.dispatch.update({ milestoneType: 1, listDataInfo: {} })
-    navigate('/milestone/newMilestone')
+    dispatch.milestone.update({ milestoneType: 1, listDataInfo: {} })
+    navigate(`/milestone/newMilestone/${projectId}`, { state: { projectId } })
   }
 
   const listGo = (milestonesId) => {
-    navigate('/milestone/milestoneInfo', {
-      state: { milestonesId },
+    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
+      state: { projectId, milestonesId },
     })
   }
 
-  // const getMilestoneListData = async (value, selectValue) => {
-  //   await props.dispatch.update({ activeKey: selectValue })
-  //   await props.dispatch.selectPageList({
-  //     milestonesTitle: value,
-  //     milestonesStatusList: selectValue ? [selectValue] : [],
-  //   })
-  // }
-
+  // 下拉框数据
   const sortingList = [
     { value: 1, title: '即将到期' },
     { value: 2, title: '稍后到期' },
     { value: 3, title: '马上开始' },
     { value: 4, title: '稍后开始' },
   ]
+
+  // 关闭里程碑
+  const closingMilestone = async (projectId, milestonesId) => {
+    const dispatch = dispatch.milestone
+    await dispatch.editStatusMilestones({
+      projectId,
+      milestonesId,
+      milestonesStatus: 2,
+    })
+    dispatch.selectPageList({ milestonesStatusList: [], projectId })
+    dispatch.selectPageList({ milestonesStatusList: [1], projectId })
+    dispatch.selectPageList({ milestonesStatusList: [2], projectId })
+  }
 
   // 里程碑列表
   const milesList = (data, newTotal) => {
@@ -110,14 +127,12 @@ const Milestone = (props) => {
                           </div>
                         )}
                         <div>
-                          {dayjs(item?.dueTime)?.diff(
-                            dayjs().format('YYYY-MM-DD'),
-                            'hour'
-                          ) < 0 && item?.milestonesStatus === 1 ? (
-                            <span className={styles.overdue}>已延期</span>
-                          ) : (
-                            <span className={styles.overdue}>已延期</span>
-                          )}
+                          {item.dueTime &&
+                            item.milestonesStatus === 1 &&
+                            !timeDistance(item.createTime, item.dueTime)
+                              ?.status && (
+                              <span className={styles.overdue}>已延期</span>
+                            )}
                           <span className={styles.project}>
                             {item.createName} / {item.projectName}
                           </span>
@@ -139,7 +154,17 @@ const Milestone = (props) => {
                       </Col>
                       <Col span="4" className={styles.itemListRight}>
                         <div>
-                          <Button>关闭里程碑</Button>
+                          {item.milestonesStatus === 1 && (
+                            <Button
+                              onClick={() => {
+                                closingMilestone(
+                                  item.projectId,
+                                  item.milestonesId
+                                )
+                              }}>
+                              关闭里程碑
+                            </Button>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -154,11 +179,7 @@ const Milestone = (props) => {
                   total={newTotal}
                   alignment="center"
                   onChange={(page, _, pageSize) => {
-                    props.dispatch.selectPageList({
-                      milestonesStatusList: activeKey ? [activeKey] : [],
-                      page,
-                      pageSize,
-                    })
+                    getMilestoneByValue({ page, pageSize })
                   }}
                 />
               </div>
@@ -188,17 +209,14 @@ const Milestone = (props) => {
     </div>
   )
 
-  const {
-    filter,
-    listData,
-    total,
-    activeKey,
-    // openListData,
-    openListTotal,
-    closeListData,
-    closeListTotal,
-  } = props.milestone
-  const { loading } = props
+  // 查询里程碑列表
+  const getMilestoneByValue = (params) => {
+    dispatch.milestone.selectPageList({
+      milestonesStatusList: activeKey ? [activeKey] : [],
+      projectId,
+      ...params,
+    })
+  }
 
   return (
     <div className={styles.wrap}>
@@ -212,7 +230,9 @@ const Milestone = (props) => {
             <Tabs
               type="line"
               activeKey={activeKey}
-              onTabClick={(activeKey) => props.dispatch.update({ activeKey })}>
+              onTabClick={(activeKey) =>
+                dispatch.milestone.update({ activeKey })
+              }>
               <Tabs.Pane label={tabsLabel('打开', openListTotal)} key="1" />
               <Tabs.Pane label={tabsLabel('关闭', closeListTotal)} key="2" />
               <Tabs.Pane label={tabsLabel('所有', total)} key="" />
@@ -222,7 +242,9 @@ const Milestone = (props) => {
                 <Input
                   placeholder="请输入内容"
                   style={{ maxWidth: 200 }}
-                  onChange={(e) => console.log(e.target.value)}
+                  onBlur={(e) =>
+                    getMilestoneByValue({ milestonesTitle: e.target.value })
+                  }
                 />
               </div>
               <div className={styles.dropdown}>
@@ -249,7 +271,9 @@ const Milestone = (props) => {
               </div>
             </div>
           </div>
-          {activeKey === '1' && <div>{milesList(data, openListTotal)}</div>}
+          {activeKey === '1' && (
+            <div>{milesList(openListData, openListTotal)}</div>
+          )}
           {activeKey === '2' && (
             <div>{milesList(closeListData, closeListTotal)}</div>
           )}
@@ -260,13 +284,4 @@ const Milestone = (props) => {
   )
 }
 
-const mapStateToProps = ({ milestone, loading }) => ({
-  milestone: milestone,
-  loading: loading,
-})
-
-const mapDispatchToProps = ({ milestone }) => ({
-  dispatch: milestone,
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Milestone)
+export default Milestone

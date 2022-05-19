@@ -1,41 +1,28 @@
-import { useEffect } from 'react'
 import { Row, Col, Card, Button } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 
 export default function TodoList() {
-  const dispatch = useDispatch()
-  const {
-    home: { taskId },
-  } = useSelector((state) => state)
-
-  useEffect(() => {
-    dispatch({
-      type: 'home/queryProject',
-      payload: { record: taskId },
-    })
-    dispatch({
-      type: 'home/selectOperatingRecord',
-      payload: taskId,
-    })
-  }, [taskId, dispatch])
-  const table = useTable('https://randomuser.me/api', {
+  const token = localStorage.getItem('token')
+  const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
         total: 100,
-        data: data.results,
+        data: data?.data,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
-        results: pageSize,
+        pageSize: pageSize,
         ...searchValues,
       }
     },
-    requestOptions: { method: 'GET' },
+    requestOptions: {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
+    },
   })
 
   return (
@@ -53,51 +40,47 @@ export default function TodoList() {
                   更多
                 </Button>
               }>
-              <ProTable
-                style={{ width: 900 }}
-                paginationProps={{
-                  pageSizeOptions: [10, 20, 30],
-                  pageSize: 10,
-                }}
-                table={table}
-                columns={[
-                  {
-                    title: 'id',
-                    key: 'phone',
-                  },
+              <div
+                style={{
+                  maxHeight: 355,
+                  overflowX: 'hidden',
+                  overflowY: 'auto',
+                }}>
+                <ProTable
+                  style={{ width: 900 }}
+                  paginationProps={{
+                    pageSizeOptions: [10, 20, 30],
+                    pageSize: 10,
+                  }}
+                  table={table}
+                  columns={[
+                    {
+                      title: '待办id',
+                      key: 'id',
+                    },
 
-                  {
-                    title: '内容',
-                    key: 'registered',
-                    render: (text) => {
-                      return <div>{text.age}</div>
+                    {
+                      title: '待办内容',
+                      key: 'doConnent',
                     },
-                  },
-                  {
-                    title: '项目名称',
-                    key: 'name',
-                    render: (text) => {
-                      return (
-                        <div>
-                          {text.title}.{text.first}
-                          {text.last}
-                        </div>
-                      )
+                    {
+                      title: '项目名称',
+                      key: 'projectName',
                     },
-                  },
-                  {
-                    title: '时间',
-                    key: 'time',
-                  },
-                  {
-                    title: '操作',
-                    key: 'gender',
-                    render: (text) => {
-                      return <text>查看</text>
+                    {
+                      title: '时间',
+                      key: 'createTime',
                     },
-                  },
-                ]}
-              />
+                    {
+                      title: '操作',
+                      key: 'gender',
+                      render: (text) => {
+                        return <div>查看</div>
+                      },
+                    },
+                  ]}
+                />
+              </div>
             </Card>
           </Col>
         </Row>

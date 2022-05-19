@@ -1,29 +1,21 @@
 import { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Row, Col, Progress, Alert } from 'uiw'
-// import { AuthBtn } from '@uiw-admin/authorized'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
 import MDEditor from '@uiw/react-md-editor'
+import timeDistance from '@/utils/timeDistance'
 import './index.css'
 
-const MilestoneInfo = (props) => {
-  useEffect(() => {
-    const callback = async () => {
-      await props.dispatch.getMilestone(milestonesId)
-    }
-    callback()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  useEffect(() => {
-    setMilestonesState(listDataInfo.milestonesStatus)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.milestone.listDataInfo])
+const MilestoneInfo = () => {
   const navigate = useNavigate()
-  const { milestonesId } = 130
-  const { listDataInfo } = props?.milestone
-  const { loading } = props
+  const { projectId, milestonesId } = useParams()
+  const {
+    milestone: { listDataInfo },
+    loading,
+  } = useSelector((state) => state)
+  const dispatch = useDispatch()
 
   const [milestonesState, setMilestonesState] = useState()
   const [openAlert, setOpenAlert] = useState(false)
@@ -31,9 +23,25 @@ const MilestoneInfo = (props) => {
   // 右侧边栏收缩
   const [packup, setPackup] = useState(false)
 
+  useEffect(() => {
+    dispatch.milestone.update({ milestonesId, projectId })
+  }, [dispatch.milestone, milestonesId, projectId])
+
+  useEffect(() => {
+    const callback = async () => {
+      await dispatch.milestone.getMilestone({ projectId, milestonesId })
+    }
+    callback()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    setMilestonesState(listDataInfo?.milestonesStatus)
+  }, [listDataInfo?.milestonesStatus])
+
   // 删除
   const delMilestones = async () => {
-    await props.dispatch.delMilestones({
+    await dispatch.milestone.delMilestones({
       payload: milestonesId,
       callback: goBack,
     })
@@ -41,19 +49,19 @@ const MilestoneInfo = (props) => {
 
   // 改变状态
   const changeState = async (status) => {
-    await props.dispatch.editStatusMilestones({
+    await dispatch.milestone.editStatusMilestones({
       milestonesId,
       milestonesStatus: status,
-      projectId: 1594,
+      projectId: projectId,
     })
-    await props.dispatch.getMilestone(milestonesId)
+    await dispatch.milestone.getMilestone({ projectId, milestonesId })
   }
 
   // 编辑
   const editMilestones = () => {
-    props.dispatch.update({ milestoneType: 2 })
-    navigate('/milestone/editMilestone', {
-      state: { milestonesId },
+    dispatch.milestone.update({ milestoneType: 2, milestonesId, projectId })
+    navigate(`/milestone/editMilestone/${projectId}/${milestonesId}`, {
+      state: { milestonesId, projectId },
     })
   }
 
@@ -80,12 +88,12 @@ const MilestoneInfo = (props) => {
             <div className={styles.headLeft}>
               <span
                 className={styles.headStatus}
-                style={{ background: '#666' }}>
+                style={{ background: '#ab6100' }}>
                 {milestonesState === 1
-                  ? '逾 期'
+                  ? '打开'
                   : milestonesState === 2
                   ? '关闭'
-                  : '打开'}
+                  : '未知'}
               </span>
               <span className={styles.headTitle}>
                 <strong>里程碑</strong>
@@ -125,14 +133,14 @@ const MilestoneInfo = (props) => {
             </div>
           </div>
           <div className={styles.layoutLeftFooty}>
-            <OtherInfo listDataInfo={listDataInfo} />
+            <OtherInfo listDataInfo={listDataInfo && listDataInfo} />
           </div>
         </Col>
         <Col className={styles.layoutRight}>
           <ul>
             <li>
               <div className={styles.rightHead}>
-                <div>{listDataInfo.degreeCompletion * 100 || 30}% 进度</div>
+                <div>{listDataInfo.degreeCompletion * 100}% 进度</div>
                 <Button
                   icon={packup ? 'd-arrow-left' : 'd-arrow-right'}
                   basic
@@ -141,50 +149,70 @@ const MilestoneInfo = (props) => {
               </div>
               <Progress.Line
                 strokeWidth={6}
-                percent={listDataInfo.degreeCompletion * 100 || 30}
+                percent={listDataInfo.degreeCompletion * 100}
                 showText={false}
               />
             </li>
             <li>
               <div className={styles.rightHead}>
                 <span>开始时间</span>
-                <Button basic className={styles.rightHeadBut}>
+                <Button
+                  basic
+                  className={styles.rightHeadBut}
+                  onClick={() => editMilestones()}>
                   编辑
                 </Button>
               </div>
-              <div className={styles.rightBelow}>
-                {listDataInfo.createTime || '2022-04-30 00:00:00'}
-              </div>
+              <div className={styles.rightBelow}>{listDataInfo.createTime}</div>
             </li>
             <li>
               <div className={styles.rightHead}>
                 <span>结束时间</span>
-                <Button basic className={styles.rightHeadBut}>
+                <Button
+                  basic
+                  className={styles.rightHeadBut}
+                  onClick={() => editMilestones()}>
                   编辑
                 </Button>
               </div>
               <div className={styles.rightBelow}>
-                {listDataInfo.createTime || '2022-04-30 00:00:00'}
-                {milestonesState === 1 && <span>（逾期）</span>}
+                {listDataInfo.dueTime}
+                {listDataInfo.dueTime &&
+                  listDataInfo.milestonesStatus === 1 &&
+                  !timeDistance(listDataInfo.createTime, listDataInfo.dueTime)
+                    ?.status && <span>（逾期）</span>}
               </div>
             </li>
             <li>
               <div className={styles.rightHead}>
                 <span>
-                  任务<span className={styles.num}>2</span>
+                  任务
+                  <span className={styles.num}>
+                    {listDataInfo?.unassignedSize +
+                      listDataInfo?.finishSize +
+                      listDataInfo?.conductSize || 0}
+                  </span>
                 </span>
-                <Button basic className={styles.rightHeadBut}>
+                <Button
+                  basic
+                  className={styles.rightHeadBut}
+                  onClick={() => {
+                    navigate('/project/newIssue', { state: { projectId } })
+                  }}>
                   新问题
                 </Button>
               </div>
               <div className={styles.rightBelow}>
                 <span>
                   <p>打开：</p>
-                  <span>2</span>
+                  <span>
+                    {listDataInfo?.unassignedSize + listDataInfo?.conductSize ||
+                      0}
+                  </span>
                 </span>
                 <span>
-                  <p>关闭：</p>
-                  <span>2</span>
+                  <p>完成：</p>
+                  <span>{listDataInfo?.finishSize || 0}</span>
                 </span>
               </div>
             </li>
@@ -210,13 +238,4 @@ const MilestoneInfo = (props) => {
   )
 }
 
-const mapStateToProps = ({ milestone, loading }) => ({
-  milestone: milestone,
-  loading: loading,
-})
-
-const mapDispatchToProps = ({ milestone }) => ({
-  dispatch: milestone,
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MilestoneInfo)
+export default MilestoneInfo

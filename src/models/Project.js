@@ -5,6 +5,7 @@ import {
   getManagerAssignmentSelectById,
   getmMnagerAssignmentSave,
   deleteAssignment,
+  getAssignmentHistorySave,
 } from '../servers/project'
 import { Notify } from 'uiw'
 
@@ -23,24 +24,17 @@ export default createModel()({
       page: 1,
       pageSize: 10,
     },
-    dataList: [],
-    total: 0,
+    prepareList: [],
+    prepareTotal: 0,
+    openTataList: [],
+    openTotal: 0,
     closeDataList: [],
     closeTotal: 0,
-    openTataList: [{ companyId: 1, projectId: 1, assignmentId: 1 }],
-    openTotal: 0,
     issueType: '',
     isView: false,
     queryInfo: {},
-    taskInfoData: {
-      operatingRecords: [
-        { title: '用户cccc', text: '姓名', type: 1 },
-        { title: '2022-05-17', text: '事件', type: 2 },
-        { title: '3333', text: 'ccccc', type: 3 },
-        { title: '4444', text: 'ddddd', type: 4 },
-      ],
-    },
-    activeKey: '1',
+    taskInfoData: {},
+    activeKey: '2',
     fromData: {
       createId: userData?.id,
       createName: userData?.userName,
@@ -53,31 +47,43 @@ export default createModel()({
     editFromData: {
       assignmentTitle: '',
       description: '',
-      commentDescription: '### 33333',
+      commentDescription: '',
       labels: [],
       fileId: [],
     },
+    commentData: {},
   },
   effects: (dispatch) => {
     return {
       // 分页查询
       async getList(params, { project }) {
+        const { assignmentStatus, ...others } = params
         const { filter } = project
+
         const data = await getSelectPage({
           ...filter,
-          ...params,
-          projectId: '', // useLocation
+          ...others,
         })
         if (data && data.code === 200) {
-          if (params?.assignmentStatus === '3') {
+          if (assignmentStatus === '1') {
+            dispatch.project.update({
+              prepareList: data?.data.list || [],
+              prepareTotal: data?.data.total,
+            })
+          } else if (assignmentStatus === '2') {
+            dispatch.project.update({
+              openTataList: data?.data.list || [],
+              openTotal: data?.data.total,
+            })
+          } else if (assignmentStatus === '3') {
             dispatch.project.update({
               closeDataList: data?.data.list || [],
               closeTotal: data?.data.total,
             })
-          } else if (params?.assignmentStatus === '1') {
+          } else if (assignmentStatus === '4') {
             dispatch.project.update({
-              openTataList: data?.data.list || [],
-              openTotal: data?.data.total,
+              overtimeList: data?.data.list || [],
+              overtimeTotal: data?.data.total,
             })
           } else {
             dispatch.project.update({
@@ -89,13 +95,27 @@ export default createModel()({
       },
       // 翻页
       async goToPage(payload) {
-        const { page, pageSize, assignmentStatus, createId } = payload
-        await dispatch.project.update({
+        const { page, pageSize, assignmentStatus, projectId } = payload
+        dispatch.project.update({
           filter: { page, pageSize },
         })
+        let splicingConditionsDtos = []
+        if (assignmentStatus !== '') {
+          splicingConditionsDtos = [
+            {
+              condition: '=',
+              field: 'assignmentStatus',
+              value: assignmentStatus,
+            },
+          ]
+        }
+
         await dispatch.project.getList({
-          assignmentStatus: assignmentStatus,
-          createId,
+          page,
+          pageSize,
+          assignmentStatus,
+          splicingConditionsDtos,
+          projectId,
         })
       },
 
@@ -125,6 +145,11 @@ export default createModel()({
           dispatch.project.update({
             taskInfoData: data?.data || {},
             editFromData: data?.data || {},
+            commentData: {
+              type: 2,
+              assignmentId: data?.data?.assignmentId,
+              projectId: data?.data?.projectId,
+            },
           })
         }
       },
@@ -154,6 +179,19 @@ export default createModel()({
       async deleteAssignment(params) {
         const data = await deleteAssignment(params)
         return data
+      },
+      // 添加评论
+      async getAddComment(params, { project }) {
+        const data = await getAssignmentHistorySave({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            id: project?.commentData?.assignmentId,
+          })
+          NotifySuccess(data.message)
+        }
       },
       clean() {
         const dph = dispatch

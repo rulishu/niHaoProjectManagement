@@ -1,9 +1,12 @@
 import { Notify } from 'uiw'
 import { createModel } from '@rematch/core'
 import {
-  queryByPage,
+  getList,
   deleteById,
   upDateStatusMenu,
+  getAdd,
+  getDelete,
+  getEdit,
 } from '@/servers/menumanagement'
 
 export default createModel()({
@@ -14,16 +17,53 @@ export default createModel()({
     tableType: '',
     queryInfo: {},
     isView: false,
+    dataSourceList: [],
   },
   effects: (dispatch) => ({
-    async queryByPage(payload) {
+    // 获取菜单列表
+    async getList(payload) {
       const dph = dispatch
-      const data = await queryByPage(payload)
+      const data = await getList(payload)
       if (data.code === 200) {
         dph.menumanagement.update({
-          drawerVisible: true,
-          queryInfo: data.data || {},
+          dataSourceList: data.data || [],
         })
+      }
+    },
+    // 新增
+    async getAdd(payload, menumanagement) {
+      const dph = dispatch
+      const data = await getAdd(payload)
+      if (data.code === 200) {
+        dph.menumanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        menumanagement.menumanagement.tablePro.onSearch()
+      }
+    },
+    // 删除
+    async getDelete(payload, menumanagement) {
+      const dph = dispatch
+      const data = await getDelete(payload)
+      if (data.code === 200) {
+        dph.menumanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        menumanagement.menumanagement.tablePro.onSearch()
+      }
+    },
+    // 编辑
+    async getEdit(payload, menumanagement) {
+      const dph = dispatch
+      const data = await getEdit(payload)
+      if (data.code === 200) {
+        dph.menumanagement.update({
+          drawerVisible: false,
+          drawerVisiText: '',
+        })
+        menumanagement.menumanagement.tablePro.onSearch()
       }
     },
     async deleteById(payload) {

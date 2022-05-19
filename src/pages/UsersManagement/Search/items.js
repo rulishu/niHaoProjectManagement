@@ -3,24 +3,41 @@ import { Button } from 'uiw'
 export const columnsSearch = (handleEditTable) => [
   {
     title: '成员姓名',
-    key: 'code',
+    key: 'memberName',
     align: 'center',
+    props: {
+      widget: 'input',
+      widgetProps: {
+        placeholder: '输入成员姓名',
+      },
+    },
   },
   {
     title: '成员角色',
-    key: 'code',
+    key: 'memberRole',
     align: 'center',
+    render: (memberRole) => (
+      <div style={{ textAlign: 'center' }}>
+        {memberRole === 1
+          ? '开发'
+          : memberRole === 2
+          ? '测试'
+          : memberRole === 3
+          ? '项目管理者'
+          : ''}
+      </div>
+    ),
   },
   {
     title: '加入日期',
-    key: 'code',
+    key: 'joinTime',
     align: 'center',
   },
-  {
-    title: '受限用户',
-    key: 'code',
-    align: 'center',
-  },
+  // {
+  //   title: '受限用户',
+  //   key: 'code',
+  //   align: 'center',
+  // },
   {
     title: '操作',
     key: 'edit',

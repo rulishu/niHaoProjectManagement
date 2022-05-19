@@ -1,5 +1,7 @@
 import { request } from '@uiw-admin/utils'
 
+const token = localStorage.getItem('token')
+
 /**
  * 根据项目查询成员列表
  * @page
@@ -33,6 +35,7 @@ export const deleteById = (params) => {
 export const pullSelectAll = (params) => {
   return request('/api/managerUser/pullSelectAll', {
     method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }

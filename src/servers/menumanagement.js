@@ -1,5 +1,46 @@
-import { request } from '@uiw-admin/utils'
-const token = localStorage.getItem('token')
+import request from '@/utils/request'
+
+/**
+ * 获取菜单列表
+ * @param {Object} params
+ */
+export const getList = (params) => {
+  return request('/api/system/menu/list', {
+    method: 'POST',
+    body: params,
+  })
+}
+/**
+ * 菜单新增
+ * @param {Object} params
+ */
+export function getAdd(params) {
+  return request('/api/system/menu/add', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 菜单删除
+ * @param {Object} params
+ */
+export function getDelete(params) {
+  return request(`/api/system/menu/remove/${params}`, {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 菜单修改
+ * @param {Object} params
+ */
+export function getEdit(params) {
+  return request('/api/system/menu/edit', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
 /**
  * 分页查询菜单目录
  * @page
@@ -9,7 +50,6 @@ const token = localStorage.getItem('token')
 export const queryByPage = (params) => {
   return request('/api/system/menu/list', {
     method: 'GET',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
@@ -54,14 +94,12 @@ export const editMenu = (params) => {
 // 获取用户信息
 export const getInfo = () => {
   return request('/api/getInfo', {
-    headers: { Authorization: 'Bearer ' + token },
     method: 'GET',
   })
 }
 // 获取用户信息
 export const getRouters = () => {
   return request('/api/getRouters', {
-    headers: { Authorization: 'Bearer ' + token },
     method: 'GET',
   })
 }

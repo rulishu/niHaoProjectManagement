@@ -1,6 +1,6 @@
-import { request } from '@uiw-admin/utils'
+// import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
-const token = localStorage.getItem('token')
 /**
  * 角色新增
  * @param {Object} params
@@ -8,7 +8,6 @@ const token = localStorage.getItem('token')
 export function getAdd(params) {
   return request('/api/system/role/add', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -19,7 +18,6 @@ export function getAdd(params) {
 export function getDelete(params) {
   return request('/api/system/role/remove', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -30,11 +28,59 @@ export function getDelete(params) {
 export function getEdit(params) {
   return request('/api/system/role/edit', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
-
+/**
+ * 获取部门
+ * @param {Object} params
+ */
+export function getAllDepartment(params) {
+  return request('/api/system/dept/list', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 根据角色编号获取详细信息
+ * @param {Object} params
+ */
+export function getInfo(params) {
+  return request('/api/system/role/getInfo', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 获取菜单下拉树列表
+ * @param {Object} params
+ */
+export function getTreeSelect(params) {
+  return request('/api/system/menu/treeselect', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 加载对应角色菜单列表树
+ * @param {Object} params
+ */
+export function roleMenuTreeselect(params) {
+  return request(`/api/system/menu/roleMenuTreeselect/${params}`, {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+/**
+ * 角色状态修改
+ * @param {Object} params
+ */
+export const changeStatus = (params) => {
+  return request('/api/system/role/changeStatus', {
+    method: 'POST',
+    body: params,
+  })
+}
 /**
  * 查询角色
  * @page
@@ -72,7 +118,7 @@ export const upDateStatusRole = (params) => {
 
 // 获取所有的角色列表
 export const getAllRoleList = (params) => {
-  return request('/api/managerRole/selectRoleList', {
+  return request('/api/system/role/list', {
     method: 'POST',
     body: params,
   })

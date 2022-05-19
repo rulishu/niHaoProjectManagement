@@ -4,6 +4,7 @@ import {
   getDelete,
   getEdit,
   judge,
+  getInfoData,
 } from '@/servers/department' //
 import { Notify } from 'uiw'
 import { createModel } from '@rematch/core'
@@ -22,6 +23,7 @@ const department = createModel()({
     allEditData: {},
     alertVisible: false,
     alertDept: false,
+    topData: {},
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -34,7 +36,7 @@ const department = createModel()({
     async getList(payload, department) {
       const dph = dispatch
       const data = await getList({
-        deptName: payload?.deptName || '',
+        ...payload,
         page: department?.department?.page,
         pageSize: department?.department?.pageSize,
       })
@@ -45,14 +47,27 @@ const department = createModel()({
           drawerVisible: false,
           Loading: false,
           drawerVisibleText: '',
-          dataSource: data?.data?.rows || [],
-          total: data?.data?.total || [],
+          dataSource: data?.data || [],
         })
       } else {
-        Notify.error({ title: '失败通知' })
+        Notify.error({ title: '失败通知', description: data?.msg })
       }
     },
 
+    // 根据ID获取信息
+    async getInfoData(payload) {
+      const dph = dispatch
+      const data = await getInfoData({ id: payload?.editData?.deptId })
+      if (data.code === 200) {
+        const dataParent = data?.data.find(
+          (code) => code.deptId === payload?.editData?.parentId
+        )
+        dph.department.updateState({
+          topData: dataParent,
+        })
+        // dph.department.getList({})
+      }
+    },
     // 新增
     async getAdd(payload) {
       const dph = dispatch
@@ -64,6 +79,8 @@ const department = createModel()({
           drawerVisibleText: '',
         })
         dph.department.getList({})
+      } else {
+        Notify.error({ title: '失败通知', description: data?.msg })
       }
     },
 
@@ -77,7 +94,7 @@ const department = createModel()({
         })
         dph.department.getList({})
       } else {
-        Notify.error({ title: '失败通知', description: data?.message })
+        Notify.error({ title: '失败通知', description: data?.msg })
       }
     },
     // 判断是否存在下级
@@ -102,6 +119,8 @@ const department = createModel()({
           drawerVisibleText: '',
         })
         dph.department.getList({})
+      } else {
+        Notify.error({ title: '错误通知', description: data?.msg })
       }
     },
   }),

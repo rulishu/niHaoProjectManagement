@@ -1,14 +1,12 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 
-const token = localStorage.getItem('token')
 /**
  * 岗位列表-新增
  * @param {Object} params
  */
 export function getAdd(params) {
-  return request('/api/system/post', {
+  return request('/api/system/post/add', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -17,9 +15,8 @@ export function getAdd(params) {
  * @param {Object} params
  */
 export function getDelete(params) {
-  return request('/api/userDevice/delete', {
+  return request('/api/system/post/remove', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
@@ -28,9 +25,17 @@ export function getDelete(params) {
  * @param {Object} params
  */
 export function getEdit(params) {
-  return request('/api/userDevice/edit', {
+  return request('/api/system/post/edit', {
+    body: { ...params },
+  })
+}
+/**
+ * 岗位列表-修改
+ * @param {Object} params
+ */
+export function getList(params) {
+  return request('/api/system/post/list', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }

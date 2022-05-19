@@ -1,5 +1,8 @@
 import { createModel } from '@rematch/core'
-import { selectById } from '../../../servers/usersManagement'
+import {
+  inviteMember,
+  updateProjectMember,
+} from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
   name: 'usersManagement',
@@ -17,15 +20,23 @@ const usersManagement = createModel()({
     }),
   },
   effects: (dispatch) => ({
-    async selectById(payload) {
+    // 邀请成员
+    async inviteMember(payload) {
       const dph = dispatch
-      const data = await selectById(payload)
-      if (data.code === 200) {
-        dph.usersManagement.updateState({
-          drawerVisible: true,
-          queryInfo: data.data || {},
-        })
-      }
+      dph.usersManagement.updateState({
+        drawerVisible: true,
+        tableType: 'member',
+      })
+      return await inviteMember(payload)
+    },
+    // 编辑成员
+    async updateProjectMember(payload) {
+      const dph = dispatch
+      dph.usersManagement.updateState({
+        drawerVisible: true,
+        tableType: 'edit',
+      })
+      return await updateProjectMember(payload)
     },
 
     clean() {

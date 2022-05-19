@@ -2,6 +2,8 @@ import { ProDrawer, useForm, ProForm } from '@uiw-admin/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
+import formatter from '@uiw/formatter'
+import { changeTimeFormat } from '../../../utils/timeDistance'
 
 const Drawer = (props) => {
   const baseRef = useForm()
@@ -22,7 +24,7 @@ const Drawer = (props) => {
   }
   // 执行成功返回的信息
   const information = (data) => {
-    if (data.code === 1) {
+    if (data.code === 200) {
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })
@@ -36,7 +38,6 @@ const Drawer = (props) => {
   }
 
   const onSubmit = (current) => {
-    console.log('current', current)
     // 校验
     const errorObj = {}
     const arr = Object.keys(current)
@@ -54,13 +55,36 @@ const Drawer = (props) => {
       throw err
     }
 
-    // 编辑
-    if (tableType === 'edit') {
+    // 邀请
+    if (tableType === 'member') {
       const payload = {
         ...current,
+        userId: Number(current?.userId),
+        memberRole: Number(current?.memberRole),
+        accessExpirationDate: formatter(
+          'YYYY-MM-DD HH:mm:ss',
+          current?.accessExpirationDate
+        ),
+        // projectId: localStorage.getItem('projectId') || ''
       }
       dispatch({
-        type: 'usersManagement/edit',
+        type: 'usersManagement/inviteMember',
+        payload,
+      }).then((data) => information(data))
+    }
+    // 编辑
+    if (tableType === 'edit') {
+      console.log('queryInfo', queryInfo)
+      const payload = {
+        ...current,
+        id: queryInfo?.id,
+        joinTime: changeTimeFormat(current?.joinTime),
+        memberRole: Number(current?.memberRole),
+        // projectId: localStorage.getItem('projectId') || ''
+      }
+      console.log('payload', payload)
+      dispatch({
+        type: 'usersManagement/updateProjectMember',
         payload,
       }).then((data) => information(data))
     }
@@ -87,13 +111,11 @@ const Drawer = (props) => {
       ]}>
       <ProForm
         title={
-          tableType === 'add'
-            ? '新增信息'
-            : tableType === 'edit'
+          tableType === 'edit'
             ? '编辑信息'
             : tableType === 'member'
             ? '邀请成员'
-            : '邀请群组'
+            : tableType === 'group' && '邀请群组'
         }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
@@ -107,7 +129,7 @@ const Drawer = (props) => {
           })
         }
         formDatas={
-          tableType === 'add' || tableType === 'edit'
+          tableType === 'edit'
             ? items(queryInfo)
             : tableType === 'member'
             ? memberItems(queryInfo)

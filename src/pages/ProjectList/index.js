@@ -1,53 +1,34 @@
-import { useState } from 'react'
-import {
-  Tabs,
-  Button,
-  Input,
-  Icon,
-  OverlayTrigger,
-  Avatar,
-  Menu,
-  Dropdown,
-  Tooltip,
-} from 'uiw'
+import { useState, useEffect } from 'react'
+import { Tabs, Button, Input, Icon, OverlayTrigger, Avatar, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container } from '@/components'
 import styles from './index.module.less'
 import timeDistance from '@/utils/timeDistance'
+import EditDrop from './EditDrop.jsx'
+import ProjectManagement from '@/components/ProjectManagement/index'
 import './index.css'
 
 const ProjectList = (props) => {
   const { router } = props
+  const token = localStorage.getItem('token')
   const { projectlist } = useSelector((state) => state)
+  const { proNum } = projectlist
   const dispatch = useDispatch()
-  console.log(projectlist)
+  useEffect(() => {
+    dispatch.projectlist.selectNumber()
+  }, [dispatch])
+  //项目状态
   const [projectStatus, setProjectStatus] = useState('')
+  //项目名称搜索框的值
+  const [projectName, setProjectName] = useState('')
+  //所有项目“20”or我的项目“10”
   const [projectType, setProjectType] = useState('20')
-
+  //列表排序
+  const [projectOrder, setProjectOrder] = useState('1')
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
-  const menu = (id) => (
-    <div>
-      <Menu bordered style={{ width: '200px' }}>
-        <Menu.Item
-          onClick={() => {
-            dispatch.global.updataProject({ drawerType: 'edit', id: id })
-          }}
-          icon="edit"
-          text="编辑项目"
-        />
-        <Menu.Item
-          onClick={() => {
-            dispatch.projectlist.deleteProject(id)
-          }}
-          icon="delete"
-          text="删除项目"
-        />
-      </Menu>
-    </div>
-  )
   let datas = [
     {
       id: 34,
@@ -125,8 +106,8 @@ const ProjectList = (props) => {
     },
   ]
 
-  // const table = useTable('/api/project/selectPageList', {
-  const table = useTable('https://randomuser.me/api', {
+  const table = useTable('/api/project/selectOneInfo', {
+    // const table = useTable('https://randomuser.me/api', {
     formatData: (data) => {
       if (data?.data) {
         return {
@@ -143,9 +124,14 @@ const ProjectList = (props) => {
         pageSize: 99999999,
         status: projectStatus,
         type: projectType,
+        name: projectName,
+        order: projectOrder,
       }
     },
-    requestOptions: { method: 'POST' },
+    requestOptions: {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
+    },
   })
 
   const goSpecifyPage = (type, option = {}) => {
@@ -169,8 +155,10 @@ const ProjectList = (props) => {
           <li
             key={item.value}
             onClick={() => {
+              setProjectOrder(item.value)
               setIsPulldown(false)
               setSorting(item.value)
+              table.onSearch()
             }}>
             {item.title}
           </li>
@@ -199,7 +187,7 @@ const ProjectList = (props) => {
               type="primary"
               size="large"
               onClick={() => {
-                dispatch.global.updataProject({ drawerType: 'add' })
+                dispatch.projectUpdate.updataProject({ drawerType: 'add' })
               }}>
               新建项目
             </Button>
@@ -223,21 +211,40 @@ const ProjectList = (props) => {
                   }
                   table.onSearch()
                 }}>
-                <Tabs.Pane label={tabsPaneLabel('全部', 1)} key="1"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel('进行中', 1)}
+                  label={tabsPaneLabel('全部', proNum.all ? proNum.all : 0)}
+                  key="1"></Tabs.Pane>
+                <Tabs.Pane
+                  label={tabsPaneLabel(
+                    '进行中',
+                    proNum.ongoing ? proNum.ongoing : 0
+                  )}
                   key="2"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel('已完成', 1)}
+                  label={tabsPaneLabel(
+                    '已关闭',
+                    proNum.closed ? proNum.closed : 0
+                  )}
                   key="3"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel('已挂起', 1)}
+                  label={tabsPaneLabel(
+                    '已挂起',
+                    proNum.hangUp ? proNum.hangUp : 0
+                  )}
                   key="4"></Tabs.Pane>
               </Tabs>
             </div>
             <div className={styles.areaRight}>
               <div>
-                <Input placeholder="按名称筛选" />
+                <Input
+                  placeholder="按名称筛选"
+                  onBlur={(e) => {
+                    if (e.target.value !== projectName) {
+                      setProjectName(e.target.value)
+                      table.onSearch()
+                    }
+                  }}
+                />
               </div>
               <div className={styles.dropdown}>
                 <OverlayTrigger
@@ -264,7 +271,6 @@ const ProjectList = (props) => {
               activeKey="1"
               className="projectListTabs"
               onTabClick={(tab, key, e) => {
-                console.log(tab)
                 if (tab === '1') {
                   setProjectType('20')
                 } else if (tab === '2') {
@@ -316,9 +322,9 @@ const ProjectList = (props) => {
                           <h2
                             className={styles.projectName}
                             onClick={() =>
-                              router.navigate('/projectOverview/333')
+                              router.navigate(`/projectOverview/${rowData.id}`)
                             }>
-                            nihao / 尼好程序开发测试项目管理软件 /{text}
+                            nihao /{text}
                           </h2>
                           <span className={styles.projectRole}>管理员</span>
                         </div>
@@ -416,14 +422,11 @@ const ProjectList = (props) => {
                       //   onClick={(e) => {
                       //     e.stopPropagation()禁止冒泡
                       //   }}>
-                      <Dropdown
-                        placement="bottom"
-                        trigger="click"
-                        menu={menu(rowData.id)}>
-                        <div>
-                          <Icon type="more" />
-                        </div>
-                      </Dropdown>
+                      <EditDrop
+                        rowData={rowData}
+                        dispatch={dispatch}
+                        search={table.onSearch}
+                      />
                       // </div>
                     )
                   },
@@ -432,6 +435,7 @@ const ProjectList = (props) => {
             />
           </div>
         </div>
+        <ProjectManagement fun={table.onSearch}></ProjectManagement>
       </Container>
     </div>
   )

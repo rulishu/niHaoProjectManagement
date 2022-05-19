@@ -1,30 +1,40 @@
-import { useState, useEffect, useRef } from 'react'
-import { Button, Input, Steps, Loader, Form, Row, Col, Icon } from 'uiw'
+import { useState, useEffect } from 'react'
+import { Button, Input, Steps, Loader, Icon } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
-import FileInputList from './FileInputList'
 import EditTask from './EditTask'
-import { NEWMDEditor } from '@/components'
+import { useParams } from 'react-router-dom'
+// import { NEWMDEditor } from '@/components'
+import FromMD from './fromMD'
+import useLocationPage from '@/hooks/useLocationPage'
 
 const TaskInfo = (props) => {
   const dispatch = useDispatch()
+  const params = useParams()
+
+  // 处理带id的路由
+  useLocationPage()
   const {
     home: { taskId },
-    project: { issueType, editFromData, taskInfoData },
+    project: { issueType, editFromData, taskInfoData, commentData },
     allusers: { uuid },
     loading,
   } = useSelector((state) => state)
-  const form = useRef()
-  const commentForm = useRef()
+  // const commentForm = useRef()
 
   const [isTitleErr, serIsTitleErr] = useState(false)
-  const [imgUrl, setImgUrl] = useState()
 
   const { projectId, id, companyId } = props?.router?.params
-  const isFileId = !!editFromData?.fileId?.filter((item) => item)?.length
+  const updateData = (payload) => {
+    dispatch({
+      type: 'project/update',
+      payload,
+    })
+  }
+  console.log('params', params)
   useEffect(() => {
     if (sessionStorage.getItem('id') === null) {
       sessionStorage.setItem('id', projectId)
@@ -39,71 +49,61 @@ const TaskInfo = (props) => {
       projectId: projectId || taskId,
     })
     dispatch.milestone.getListAll({ milestonesStatusList: [1, 2] })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setImgUrl(isFileId && `/api/file/selectFile/${editFromData?.fileId[0]}`)
-  }, [isFileId, editFromData?.fileId])
+  // useEffect(() => {
+  //   document.addEventListener('paste', pasteDataEvent)
+  //   return () => {
+  //     document.removeEventListener('paste', pasteDataEvent)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-  const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
+  // const pasteDataEvent = (event) => {
+  //   // event.preventDefault();
+  //   if (event.clipboardData || event.originalEvent) {
+  //     let clipboardData =
+  //       event.clipboardData || event.originalEvent.clipboardData
+  //     if (clipboardData.items) {
+  //       let items = clipboardData.items,
+  //         len = items.length,
+  //         blob = null
+  //       for (let i = 0; i < len; i++) {
+  //         let item = clipboardData.items[i]
+  //         if (item.kind === 'string') {
+  //           // item.getAsString(function (str) {
+  //           //   console.log('string', str);
+  //           // })
+  //         } else if (item.kind === 'file') {
+  //           blob = item.getAsFile()
+  //           addImg(blob)
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
-  useEffect(() => {
-    document.addEventListener('paste', pasteDataEvent)
-    return () => {
-      document.removeEventListener('paste', pasteDataEvent)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const pasteDataEvent = (event) => {
-    // event.preventDefault();
-    if (event.clipboardData || event.originalEvent) {
-      let clipboardData =
-        event.clipboardData || event.originalEvent.clipboardData
-      if (clipboardData.items) {
-        let items = clipboardData.items,
-          len = items.length,
-          blob = null
-        for (let i = 0; i < len; i++) {
-          let item = clipboardData.items[i]
-          if (item.kind === 'string') {
-            // item.getAsString(function (str) {
-            //   console.log('string', str);
-            // })
-          } else if (item.kind === 'file') {
-            blob = item.getAsFile()
-            addImg(blob)
-          }
-        }
-      }
-    }
-  }
-
-  const addImg = (event) => {
-    const file = event
-    if (!file) return
-    dispatch({
-      type: 'allusers/upLoadImg',
-      payload: {
-        file: file,
-      },
-    }).then((res) => {
-      if (res && res.code === 200) {
-        const fieldValues = form.current.getFieldValues()
-        form.current.setFieldValue(
-          'description',
-          fieldValues.description +
-            `![image](/api/file/selectFile/${res?.data})`
-        )
-      }
-    })
-  }
+  // const addImg = (event) => {
+  //   const file = event
+  //   if (!file) return
+  //   dispatch({
+  //     type: 'allusers/upLoadImg',
+  //     payload: {
+  //       file: file,
+  //     },
+  //   }).then((res) => {
+  //     if (res && res.code === 200) {
+  //       const fieldValues = form.current.getFieldValues()
+  //       form.current.setFieldValue(
+  //         'description',
+  //         fieldValues.description +
+  //         `![image](/api/file/selectFile/${res?.data})`
+  //       )
+  //     }
+  //   })
+  // }
   const goEditIssue = (type) => {
     updateData({ issueType: type })
   }
@@ -152,6 +152,10 @@ const TaskInfo = (props) => {
       updateData({ issueType: '' })
     }
   }
+  const addComment = () => {
+    dispatch.project.getAddComment()
+  }
+
   return (
     <>
       <Loader
@@ -228,247 +232,141 @@ const TaskInfo = (props) => {
                 </div>
               </div>
               {issueType === 'edit' ? (
-                <Form
-                  ref={form}
-                  onChange={({ current }) => {
-                    updateData({
-                      editFromData: {
-                        ...editFromData,
-                        ...current,
-                      },
-                    })
-                  }}
-                  onSubmit={(item) => {
-                    updateData({
-                      editFromData: {
-                        ...editFromData,
-                        ...item,
-                      },
-                    })
-                    goSaveIssue()
-                  }}
-                  onSubmitError={(error) => {
-                    if (error.filed) {
-                      return { ...error.filed }
-                    }
-                    return null
-                  }}
-                  fields={{
-                    description: {
-                      inline: true,
-                      initialValue: editFromData.description,
-                      children: <NEWMDEditor />,
-                    },
-                  }}>
-                  {({ fields }) => {
-                    return (
-                      <div>
-                        <div className="from">
-                          <Row align="top" className="fromItem">
-                            <Col>{fields.description}</Col>
-                          </Row>
-                        </div>
-                        <Row align="middle" className="fromButton">
-                          <Col>
-                            {!imgUrl && <FileInputList imgUrl={imgUrl} />}
-                            {imgUrl && <FileInputList imgUrl={imgUrl} />}
-                            <div className={styles.btnWrap}>
-                              {!issueType ||
-                              editFromData === taskInfoData ? null : (
-                                <Button type="primary" htmlType="submit">
-                                  保存编辑
-                                </Button>
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
-                      </div>
-                    )
-                  }}
-                </Form>
+                <FromMD
+                  upDate={updateData}
+                  submit={goSaveIssue}
+                  editName={'editFromData'}
+                  editData={editFromData}
+                  infoData={taskInfoData}
+                  fromValue={'description'}
+                />
               ) : (
-                <div>
+                // <Form
+                //   ref={form}
+                //   onChange={({ current }) => {
+                //     updateData({
+                //       editFromData: {
+                //         ...editFromData,
+                //         ...current,
+                //       },
+                //     })
+                //   }}
+                //   onSubmit={(item) => {
+                //     updateData({
+                //       editFromData: {
+                //         ...editFromData,
+                //         ...item,
+                //       },
+                //     })
+                //     goSaveIssue()
+                //   }}
+                //   onSubmitError={(error) => {
+                //     if (error.filed) {
+                //       return { ...error.filed }
+                //     }
+                //     return null
+                //   }}
+                //   fields={{
+                //     description: {
+                //       inline: true,
+                //       initialValue: editFromData.description,
+                //       children: <NEWMDEditor />,
+                //     },
+                //   }}>
+                //   {({ fields }) => {
+                //     return (
+                //       <div>
+                //         <div className="from">
+                //           <Row align="top" className="fromItem">
+                //             <Col>{fields.description}</Col>
+                //           </Row>
+                //         </div>
+                //         <Row align="middle" className="fromButton">
+                //           <Col>
+                //             <div className={styles.btnWrap}>
+                //               {!issueType ||
+                //                 editFromData === taskInfoData ? null : (
+                //                 <Button type="primary" htmlType="submit">
+                //                   保存编辑
+                //                 </Button>
+                //               )}
+                //             </div>
+                //           </Col>
+                //         </Row>
+                //       </div>
+                //     )
+                //   }}
+                // </Form>
+                <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
               <div className={styles.stepsWrap}>
                 <Steps direction="vertical" style={{ padding: '20px 0' }}>
-                  {taskInfoData?.operatingRecords?.length > 0
-                    ? taskInfoData?.operatingRecords.map((item, index) => {
-                        return item.type === 1 ? (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingTop: 0,
-                                }}
-                                type="user"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        ) : // item.type === 2 ? <Steps.Step icon={<Icon style={{ width: 30, height: 30, borderWidth: 1, borderStyle: "solid", borderColor: '#ccc', borderRadius: 15, padding: 5, paddingTop: 1 }} type="date" />} title={item.title} description={item.text} key={index} /> :
-                        item.type === 3 ? (
-                          <Steps.Step
-                            description=""
-                            title={
-                              <Form
-                                style={{ flex: 1 }}
-                                ref={commentForm}
-                                onChange={({ current }) => {
-                                  updateData({
-                                    editFromData: {
-                                      ...editFromData,
-                                      ...current,
-                                    },
-                                  })
-                                }}
-                                onSubmit={(item) => {
-                                  updateData({
-                                    editFromData: {
-                                      ...editFromData,
-                                      ...item,
-                                    },
-                                  })
-                                  goSaveIssue()
-                                }}
-                                onSubmitError={(error) => {
-                                  if (error.filed) {
-                                    return { ...error.filed }
-                                  }
-                                  return null
-                                }}
-                                fields={{
-                                  commentDescription: {
-                                    inline: true,
-                                    initialValue:
-                                      editFromData.commentDescription,
-                                    children: <NEWMDEditor preview="preview" />,
-                                  },
-                                }}>
-                                {({ fields }) => {
-                                  return (
-                                    <div>
-                                      <div className="from">
-                                        <Row align="top" className="fromItem">
-                                          <Col>{fields.commentDescription}</Col>
-                                        </Row>
-                                      </div>
-                                      <Row
-                                        align="middle"
-                                        className="fromButton">
-                                        <Col>
-                                          <div className={styles.btnWrap}>
-                                            {editFromData ===
-                                            taskInfoData ? null : (
-                                              <Button
-                                                type="primary"
-                                                htmlType="submit">
-                                                保存编辑
-                                              </Button>
-                                            )}
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </div>
-                                  )
-                                }}
-                              </Form>
-                            }
-                            key={index}
-                          />
-                        ) : (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingLeft: 6,
-                                  paddingTop: 2,
-                                }}
-                                type="tag-o"
-                              />
-                            }
-                            title={item.title}
-                            description={item.text}
-                            key={index}
-                          />
-                        )
-                      })
+                  {taskInfoData?.managerAssignmentHistories?.length > 0
+                    ? taskInfoData?.managerAssignmentHistories.map(
+                        (item, index) => {
+                          return item.type === 1 ? (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 0,
+                                  }}
+                                  type="user"
+                                />
+                              }
+                              title={item?.operatingRecords}
+                              description={item.text}
+                              key={index}
+                            />
+                          ) : item.type === 2 ? (
+                            <Steps.Step
+                              description={
+                                <div
+                                  data-color-mode="light"
+                                  style={{ flex: 1 }}>
+                                  <MarkdownPreview
+                                    source={item?.operatingRecords || ''}
+                                  />
+                                </div>
+                              }
+                              title={`${item.createName}评论`}
+                              key={index}
+                            />
+                          ) : item.type === 3 ? (
+                            <Steps.Step
+                              description={
+                                <FromMD
+                                  upDate={updateData}
+                                  submit={goSaveIssue}
+                                  editData={editFromData}
+                                  infoData={taskInfoData}
+                                />
+                              }
+                              title="回复"
+                              key={index}
+                            />
+                          ) : null
+                        }
+                      )
                     : null}
                 </Steps>
               </div>
-              <Form
-                style={{ flex: 1 }}
-                ref={commentForm}
-                onChange={({ current }) => {
-                  updateData({
-                    editFromData: {
-                      ...editFromData,
-                      ...current,
-                    },
-                  })
-                }}
-                onSubmit={(item) => {
-                  updateData({
-                    editFromData: {
-                      ...editFromData,
-                      ...item,
-                    },
-                  })
-                  goSaveIssue()
-                }}
-                onSubmitError={(error) => {
-                  if (error.filed) {
-                    return { ...error.filed }
-                  }
-                  return null
-                }}
-                fields={{
-                  commentDescription: {
-                    inline: true,
-                    initialValue: editFromData.commentDescription,
-                    children: <NEWMDEditor />,
-                  },
-                }}>
-                {({ fields }) => {
-                  return (
-                    <div>
-                      <div className="from">
-                        <Row align="top" className="fromItem">
-                          <Col>{fields.commentDescription}</Col>
-                        </Row>
-                      </div>
-                      <Row align="middle" className="fromButton">
-                        <Col>
-                          <div className={styles.btnWrap}>
-                            {editFromData === taskInfoData ? null : (
-                              <Button type="primary" htmlType="submit">
-                                保存编辑
-                              </Button>
-                            )}
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  )
-                }}
-              </Form>
+              <FromMD
+                upDate={updateData}
+                submit={addComment}
+                editName="commentData"
+                editData={commentData}
+                fromValue="operatingRecords"
+              />
             </div>
             <EditTask router={props.router} />
           </div>

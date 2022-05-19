@@ -7,7 +7,6 @@ import AuthPage from '@uiw-admin/authorized'
 // import Bread from './Breadcrumb'
 // import { BreadcrumbMap } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
-import ProjectManagement from '../components/ProjectManagement'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
@@ -43,6 +42,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
+    // logo: require('./logo.png'),
     // 刷新权限
     onReloadAuth: async () => {
       await dispatch({ type: 'users/getUserPermis' })
@@ -58,6 +58,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
         onClick: () => {
           passwordRef?.current?.open()
           layouts.closeMenu()
+        },
+      },
+      {
+        title: '团队管理',
+        icon: 'usergroup-add',
+        onClick: () => {
+          navigate('/projectAuth', { replace: true })
         },
       },
       {
@@ -132,7 +139,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
         </div> */}
         <Outlet />
         <PassWordChange refs={passwordRef} />
-        <ProjectManagement></ProjectManagement>
         {/* 新增项目弹出框 */}
       </BasicLayout>
     </AuthPage>
