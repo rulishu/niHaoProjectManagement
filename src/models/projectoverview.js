@@ -15,7 +15,6 @@ const projectoverview = createModel()({
     allDataSource: {},
     projectMembersList: [],
     projectDynamicsList: [],
-    projectId: '',
     page: 1,
     pageSize: 10,
   },

@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Icon } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.less'
 import ProjectManagement from '../../components/ProjectManagement'
 
 export default function Home() {
   const {
-    projectoverview: { allDataSource, projectId, pageSize },
+    projectoverview: { allDataSource, pageSize },
   } = useSelector((state) => state)
-
+  const { projectId } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [allTab, setAllTab] = useState('5')
