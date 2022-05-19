@@ -54,7 +54,7 @@ const Demo = () => {
     if (type === 'addChild') {
       updateData({
         drawerVisible: true,
-        queryInfo: { parentId: record?.parentId },
+        queryInfo: { parentId: record?.menuId },
       })
     }
     if (type === 'edit' || type === 'view') {

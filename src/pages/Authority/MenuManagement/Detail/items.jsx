@@ -13,7 +13,7 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
       //   console.log('onChange',selectedAll, selectd, isChecked)
       // }
     },
-    initialValue: [topDataMenu || { key: 0, label: '主类目', children: [] }],
+    initialValue: [topDataMenu],
     multiple: false,
     option: datsSource,
   },

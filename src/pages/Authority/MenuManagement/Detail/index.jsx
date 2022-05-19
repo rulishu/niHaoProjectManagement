@@ -46,15 +46,23 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
       }
     }
   }
-  const datsSource = (handleTree(dataSourceList || [], 'menuId') || []).map(
-    (item) => toTree(item)
-  )
+  /** 菜单下拉树结构 */
+  const datsSource = [
+    {
+      key: '0',
+      label: '主类目',
+      children: (handleTree(dataSourceList || [], 'menuId') || []).map((item) =>
+        toTree(item)
+      ),
+    },
+  ]
+  /** 转换菜单数据结构 */
   const dataParent = dataSourceList.find(
     (code) => code.menuId === queryInfo?.parentId
   )
   const topDataMenu = {
-    label: dataParent?.menuName,
-    key: queryInfo.parentId,
+    key: queryInfo.parentId || '0',
+    label: dataParent?.menuName || '主类目',
   }
 
   return (
