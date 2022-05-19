@@ -43,20 +43,23 @@ export default createModel()({
           ...params,
           //   todolistId: '', // useLocation
         })
+        console.log(typeof params?.status)
+        console.log('params?.status', params?.status)
         if (data && data.code === 200) {
-          if (params?.status === 1) {
-            dispatch.todolist.update({
-              dataList: data?.data.list || [],
-              total: data?.data.total,
-            })
-          } else {
+          if (Number(params?.status) === 0) {
             dispatch.todolist.update({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
             })
+          } else {
+            dispatch.todolist.update({
+              dataList: data?.data.list || [],
+              total: data?.data.total,
+            })
           }
         }
       },
+
       async getStrutsSwitch(payload) {
         const { page, pageSize, status } = payload
         dispatch.todolist.update({
@@ -72,11 +75,11 @@ export default createModel()({
         } else {
           Notify.error({ title: data.message, description: '' })
         }
-        await dispatch.todolist.getSelectAll({
-          page: 2,
-          pageSize: 10,
-          status,
-        })
+        // await dispatch.todolist.getSelectAll({
+        //   page: 1,
+        //   pageSize: 10,
+        //   status,
+        // })
         await dispatch.todolist.getList({
           page: 1,
           pageSize: 10,

@@ -44,10 +44,6 @@ export default function TodoList() {
         type: 'todolist/getStrutsSwitch',
         payload: { id: record?.id },
       })
-      // dispatch({
-      //   type: 'todolist/getSelectAll',
-      //   payload: { status: record?.status },
-      // })
     }
   }
   return (
@@ -110,7 +106,7 @@ export default function TodoList() {
                                 'del',
                                 rowData
                               )}>
-                              {rowData.status === 1 ? '去处理' : '完毕'}
+                              完毕
                             </Button>
                           </div>
                         )
