@@ -132,7 +132,7 @@ const NewIssue = (props) => {
   }
 
   const onCancel = () => {
-    navigate('/project/task')
+    navigate(`/project/task/${projectId}`)
   }
   console.log('fromData', fromData)
   return (
