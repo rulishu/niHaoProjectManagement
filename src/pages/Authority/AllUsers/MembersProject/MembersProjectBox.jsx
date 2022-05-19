@@ -135,7 +135,8 @@ const MembersProjectBox = (props) => {
               tip="公司列表加载中..."
               vertical
               style={{ width: '100%' }}
-              loading={loading.effects.allusers.getUserCompanyProjects}>
+              // loading={loading.effects.allusers.getUserCompanyProjects}
+            >
               <List
                 header={<div>选择公司</div>}
                 dataSource={allCompaniesProjects}

@@ -7,7 +7,6 @@ export default function TodoList() {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: 100,
         data: data?.data,
       }
     },
@@ -47,12 +46,8 @@ export default function TodoList() {
                   overflowY: 'auto',
                 }}>
                 <ProTable
-                  style={{ width: 900 }}
-                  paginationProps={{
-                    pageSizeOptions: [10, 20, 30],
-                    pageSize: 10,
-                  }}
                   table={table}
+                  paginationProps={{ style: { display: 'none' } }}
                   columns={[
                     {
                       title: '待办id',

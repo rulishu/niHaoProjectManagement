@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { Icon, Loader, Overlay, Tabs } from 'uiw'
+import { Icon, Loader, Overlay } from 'uiw'
 import Head from './Head'
-import MembersProject from './MembersProject'
+// import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
 import PopupBox from './PopupBox' // 操作弹窗
 import styles from './index.module.less'
@@ -29,7 +29,6 @@ const Users = (props) => {
   }, [dataList, page])
 
   useEffect(() => {
-    getItemList()
     if (userList.length < (page - 1) * pageSize + userList.length) {
       const allUserList = sessionStorage.getItem('allUserList')
       setUserList(allUserList)
@@ -38,11 +37,6 @@ const Users = (props) => {
   }, [])
 
   const { loading } = useSelector((state) => state)
-
-  // 初始化所有公司与项目列表
-  const getItemList = async () => {
-    await dispatch.allusers.getAllCompanyProjects()
-  }
 
   const handleEdit = async (value, type) => {
     // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.uuid })
@@ -84,52 +78,35 @@ const Users = (props) => {
 
   return (
     <div className={styles.userWrap}>
-      <Tabs type="line" activeKey="1">
-        <Tabs.Pane label="用户信息" key="1">
-          <div>
-            <Head
-              setVisible={setIsOverlay}
-              setType={setType}
-              handleOnSearch={handleOnSearch}
-            />
-            <div className={styles.child}>
-              <UsersBox
-                data={userList}
-                handleEdit={handleEdit}
-                memberAvatarArr={memberAvatarArr}
-              />
-              <div className={styles.loadInfo}>
-                <Loader
-                  tip="加载中..."
-                  vertical
-                  loading={loading.effects.allusers.queryByPage}
-                  className={styles.forMore}
-                  size="large"
-                  indicator={
-                    <Icon
-                      type="loading"
-                      spin={true}
-                      style={{ verticalAlign: 'text-top', fontSize: '16px' }}
-                    />
-                  }>
-                  {/* <>
-                    {pages > page ? (
-                      <Button onClick={() => forMoreUsers()}>
-                        ↓↓↓ 加载更多...↓↓↓
-                      </Button>
-                    ) : (
-                      <span className={styles.prompt}>没有更多了！！！</span>
-                    )}
-                  </> */}
-                </Loader>
-              </div>
-            </div>
+      <div>
+        <Head
+          setVisible={setIsOverlay}
+          setType={setType}
+          handleOnSearch={handleOnSearch}
+        />
+        <div className={styles.child}>
+          <UsersBox
+            data={userList}
+            handleEdit={handleEdit}
+            memberAvatarArr={memberAvatarArr}
+          />
+          <div className={styles.loadInfo}>
+            <Loader
+              tip="加载中..."
+              vertical
+              loading={loading.effects.allusers.queryByPage}
+              className={styles.forMore}
+              size="large"
+              indicator={
+                <Icon
+                  type="loading"
+                  spin={true}
+                  style={{ verticalAlign: 'text-top', fontSize: '16px' }}
+                />
+              }></Loader>
           </div>
-        </Tabs.Pane>
-        <Tabs.Pane label="公司&项目" key="2">
-          <MembersProject />
-        </Tabs.Pane>
-      </Tabs>
+        </div>
+      </div>
       <Overlay
         hasBackdrop={true}
         isOpen={isOverlay}

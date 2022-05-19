@@ -125,14 +125,6 @@ const routes = [
         ],
       },
       {
-        path: '/users/:projectId',
-        name: '用户管理',
-        component: '@/pages/AllUsers',
-        isAuth: true,
-        // navigate:
-        //   "(navigate) => {navigate(`/users/:projectId/${sessionStorage.getItem('projectId')}`)}",
-      },
-      {
         path: '/team',
         name: '团队管理',
         component: '@/pages/TeamManagement',
@@ -154,16 +146,26 @@ const routes = [
         ],
       },
       {
-        path: '/dictionary',
-        name: '数据字典',
-        component: '@/pages/Dictionary',
+        path: '/usersManagement/:projectId',
+        name: '成员管理',
+        component: '@/pages/UsersManagement',
         isAuth: true,
+        navigate:
+          "(navigate) => {navigate(`/usersManagement/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/Authority',
-        name: '权限管理',
+        name: '系统管理',
         isAuth: true,
         routes: [
+          {
+            path: '/Authority/users',
+            name: '用户管理',
+            component: '@/pages/Authority/AllUsers',
+            isAuth: true,
+            // navigate:
+            //   "(navigate) => {navigate(`/users/:projectId/${sessionStorage.getItem('projectId')}`)}",
+          },
           {
             path: '/Authority/RoleManagement',
             name: '角色管理',
@@ -172,7 +174,7 @@ const routes = [
           },
           {
             path: '/Authority/MenuManagement',
-            name: '路由管理',
+            name: '菜单管理',
             component: '@/pages/Authority/MenuManagement',
             isAuth: true,
           },
@@ -188,15 +190,13 @@ const routes = [
             component: '@/pages/Authority/PostManagement',
             isAuth: true,
           },
+          {
+            path: '/Authority/dictionary',
+            name: '数据字典',
+            component: '@/pages/Dictionary',
+            isAuth: true,
+          },
         ],
-      },
-      {
-        path: '/usersManagement/:projectId',
-        name: '成员管理',
-        component: '@/pages/UsersManagement',
-        isAuth: true,
-        navigate:
-          "(navigate) => {navigate(`/usersManagement/${sessionStorage.getItem('projectId')}`)}",
       },
       {
         path: '/projectAuth',

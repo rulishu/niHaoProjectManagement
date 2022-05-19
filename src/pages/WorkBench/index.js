@@ -26,13 +26,6 @@ export default function Demo() {
     })
   }, [dispatch])
 
-  function randomColor() {
-    return (
-      '#' +
-      ('00000' + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6)
-    )
-  }
-
   // 跳转里程碑详情
   const goMilestones = (projectId, milestonesId) => {
     navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
@@ -116,7 +109,11 @@ export default function Demo() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        window.location.href = `#/project/task/${projectData.projectId}`
+                        if (active === 0) {
+                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                        } else {
+                          window.location.href = `#/project/task/${projectData.projectId}`
+                        }
                       }}>
                       查看全部
                     </Button>
@@ -136,65 +133,59 @@ export default function Demo() {
               </Row>
               <Row>
                 <Col>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: 20,
-                        textAlign: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                      }}>
-                      {[
-                        {
-                          title: '未开始',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectWksNum
-                              : totalData?.projectWksNum,
-                          key: 1,
-                        },
-                        {
-                          title: '开发中',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectKfzNum
-                              : totalData?.projectKfzNum,
-                          key: 2,
-                        },
-                        {
-                          title: '已完成',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYwcNum
-                              : totalData?.projectYwcNum,
-                          key: 3,
-                        },
-                        {
-                          title: '已逾期',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYqsNum
-                              : totalData?.projectYqsNum,
-                          key: 5,
-                        },
-                      ].map((item) => {
-                        return (
-                          <div style={{}}>
-                            <Card
-                              bordered={false}
-                              key={item.key}
-                              title={item.title}
-                              style={{ width: 80 }}>
-                              <span
-                                style={{ fontSize: 36, color: randomColor() }}>
-                                {item.num}
-                              </span>
-                            </Card>
-                          </div>
-                        )
-                      })}
-                    </div>
+                  <div
+                    style={{
+                      marginTop: 20,
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      flexDirection: 'row',
+                    }}>
+                    {[
+                      {
+                        title: '未开始',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectWksNum
+                            : totalData?.projectWksNum,
+                        key: 1,
+                      },
+                      {
+                        title: '开发中',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectKfzNum
+                            : totalData?.projectKfzNum,
+                        key: 2,
+                      },
+                      {
+                        title: '已完成',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYwcNum
+                            : totalData?.projectYwcNum,
+                        key: 3,
+                      },
+                      {
+                        title: '已逾期',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYqsNum
+                            : totalData?.projectYqsNum,
+                        key: 4,
+                      },
+                    ].map((item, key) => {
+                      return (
+                        <div key={key}>
+                          <Card
+                            bordered={false}
+                            title={item.title}
+                            style={{ width: 80 }}>
+                            <span style={{ fontSize: 36 }}>{item?.num}</span>
+                          </Card>
+                        </div>
+                      )
+                    })}
                   </div>
                 </Col>
               </Row>
@@ -219,7 +210,7 @@ export default function Demo() {
                             key={item?.milestonesId}
                             onClick={() =>
                               goMilestones(
-                                projectData?.projectId,
+                                projectListOne?.projectId,
                                 item?.milestonesId
                               )
                             }>

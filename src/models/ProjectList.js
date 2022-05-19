@@ -62,12 +62,13 @@ const projectlist = createModel()({
 
     //删除单条项目
     async deleteProject(payload) {
-      const { setDropOpen, id, search } = payload
+      const { setDeleteOpen, id, search } = payload
       const data = await deleteProject(id)
       if (data && data.code === 200) {
         Notify.success({ title: data.data })
-        setDropOpen(false)
+        setDeleteOpen(false)
         search()
+        dispatch.projectlist.selectNumber()
       } else {
         Notify.error({ title: data.data })
       }

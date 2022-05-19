@@ -1,14 +1,15 @@
 import { Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
-import { List, SearchBar } from '@/components'
+import { List } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import 'tributejs/tribute.css'
 import useLocationPage from '@/hooks/useLocationPage'
 
 // import LabelSelect from './LabelSelect'
+import AllSelect from './AllSelect'
 
 const listField = {
   title: 'assignmentTitle',
@@ -19,13 +20,13 @@ const listField = {
   updateName: 'updateName',
 }
 
-const SearchBarOption = [
-  { value: '1', text: '未开始' },
-  { value: '2', text: '已打开' },
-  { value: '3', text: '已完成' },
-  { value: '4', text: '已逾期' },
-  { value: '', text: '所有' },
-]
+// const SearchBarOption = [
+//   { value: '1', text: '未开始' },
+//   { value: '2', text: '已打开' },
+//   { value: '3', text: '已完成' },
+//   { value: '4', text: '已逾期' },
+//   { value: '', text: '所有' },
+// ]
 
 const tabsLabel = (title, num) => {
   return (
@@ -39,29 +40,30 @@ const tabsLabel = (title, num) => {
 const Task = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const location = useLocation()
+  // const location = useLocation()
   const params = useParams()
 
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
+  const { project, loading } = useSelector((state) => state)
   const {
-    project: {
-      dataList,
-      total,
-      filter,
-      closeDataList,
-      closeTotal,
-      openTataList,
-      openTotal,
-      prepareList,
-      prepareTotal,
-      overtimeList,
-      overtimeTotal,
-      activeKey,
-    },
-    loading,
-  } = useSelector((state) => state)
+    dataList,
+    total,
+    filter,
+    closeDataList,
+    closeTotal,
+    openTataList,
+    openTotal,
+    prepareList,
+    prepareTotal,
+    overtimeList,
+    overtimeTotal,
+    activeKey,
+    teamMembers,
+    assignmentLabels,
+    milistones,
+  } = project
 
   const pageS = (payload) => {
     dispatch.project.getList({ ...payload, projectId: taskId })
@@ -69,6 +71,11 @@ const Task = (props) => {
 
   useEffect(() => {
     console.log('params', params)
+    dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId })
+    dispatch.project.selectLabel({ projectId: taskId })
+    dispatch.project.assignment_label()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
   // 进页面先查询一次，获取任务数量角标
@@ -126,7 +133,7 @@ const Task = (props) => {
       Notify.success({ description: '查无此项' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname])
+  }, [params])
 
   const updateData = (payload) => {
     dispatch({
@@ -159,31 +166,31 @@ const Task = (props) => {
     navigate(`/project/taskInfo/${item.projectId}/${item.assignmentId}`)
   }
 
-  // 搜索按钮事件
-  const getTaskListData = async (value, selectValue) => {
-    updateData({ activeKey: selectValue })
-    // await dispatch.project.getList({
-    //   assignmentStatus: selectValue,
-    //   assignmentTitle: value,
-    //   page: 1,
-    // })
+  // // 搜索按钮事件
+  // const getTaskListData = async (value, selectValue) => {
+  //   updateData({ activeKey: selectValue })
+  //   // await dispatch.project.getList({
+  //   //   assignmentStatus: selectValue,
+  //   //   assignmentTitle: value,
+  //   //   page: 1,
+  //   // })
 
-    pageS({
-      assignmentStatus: activeKey,
-      splicingConditionsDtos: [
-        {
-          condition: '=',
-          field: 'assignmentStatus',
-          value: selectValue,
-        },
-        {
-          condition: '=',
-          field: 'assignmentTitle',
-          value: value,
-        },
-      ],
-    })
-  }
+  //   pageS({
+  //     assignmentStatus: activeKey,
+  //     splicingConditionsDtos: [
+  //       {
+  //         condition: '=',
+  //         field: 'assignmentStatus',
+  //         value: selectValue,
+  //       },
+  //       {
+  //         condition: '=',
+  //         field: 'assignmentTitle',
+  //         value: value,
+  //       },
+  //     ],
+  //   })
+  // }
 
   const delAssignment = async (item) => {
     Modal.show({
@@ -309,9 +316,17 @@ const Task = (props) => {
             </Button>
             {/* </AuthBtn> */}
           </div>
+          <AllSelect
+            teamMembers={teamMembers}
+            assignmentLabels={assignmentLabels}
+            milistones={milistones}
+            updateData={updateData}
+            pageS={pageS}
+            project={project}
+          />
           {/* <div>
             <LabelSelect />
-          </div> */}
+          </div>
           <div>
             <SearchBar
               isDrop={true}
@@ -320,7 +335,7 @@ const Task = (props) => {
                 getTaskListData(value, selectValue)
               }
             />
-          </div>
+          </div> */}
           <Tabs
             type="line"
             activeKey={activeKey}

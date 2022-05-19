@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, Steps } from 'uiw' // List,
+import { Row, Col, Card, Tabs, Steps, Tag } from 'uiw' // List,
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 // import styles from './index.module.less'
@@ -68,6 +68,7 @@ export default function SlelectLabel() {
                 overflowY: 'auto',
               }}>
               <ProTable
+                paginationProps={{ style: { display: 'none' } }}
                 onCell={(rowData) => {
                   window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
                 }}
@@ -86,13 +87,13 @@ export default function SlelectLabel() {
                     key: 'assignmentStatus',
                     render: (text) => {
                       if (text === 1) {
-                        return <div>未开始</div>
+                        return <Tag color="#F95C2B">未开始</Tag>
                       } else if (text === 2) {
-                        return <div>进行中</div>
+                        return <Tag color="#008EF0">进行中</Tag>
                       } else if (text === 3) {
-                        return <div>已完成</div>
+                        return <Tag color="#28a745">已完成</Tag>
                       } else if (text === 4) {
-                        return <div>已逾期</div>
+                        return <Tag color="#dc3545">已逾期</Tag>
                       }
                     },
                   },
@@ -133,10 +134,11 @@ export default function SlelectLabel() {
                 status="error"
                 current={memberList?.length}
                 style={{ padding: '20px 0' }}>
-                {memberList?.map((a) => {
+                {memberList?.map((a, key) => {
                   return (
                     <Steps.Step
                       title={a?.createTime}
+                      key={key}
                       onClick={() =>
                         (window.location.href = `#/usersManagement/${a?.projectId}`)
                       }

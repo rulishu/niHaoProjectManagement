@@ -47,8 +47,11 @@ export const editNewUser = (params) => {
 
 // 通过用户id查询用户信息
 export const queryById = (params) => {
-  return request(`/api/managerUser/queryById/${params}`, {
-    method: 'GET',
+  const token = localStorage.getItem('token')
+  return request(`/api/system/user/getInfo/${params}`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    requestType: 'urlencoded',
     body: params,
   })
 }
@@ -112,9 +115,11 @@ export const guideUpdate = (params) => {
 
 // 获取所有的公司与项目
 export const getAllCompaniesProjects = (params) => {
+  const token = localStorage.getItem('token')
   return request('/api/managerUCP/selectCompanyDetail', {
     method: 'POST',
     body: params,
+    headers: { Authorization: 'Bearer ' + token },
   })
 }
 
