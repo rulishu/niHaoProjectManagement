@@ -202,7 +202,7 @@ export default function Home() {
       </div>
       <Card
         title="我的任务"
-        extra={'更多'}
+        // extra={'更多'}
         bodyStyle={{ paddingTop: 0 }}
         style={{ margin: '15px 15px 15px 0px' }}>
         <Tabs
@@ -293,7 +293,9 @@ export default function Home() {
           <Button
             basic
             type="dark"
-            onClick={() => (window.location.href = '#/projectList')}>
+            onClick={() =>
+              (window.location.href = `#/project/task/${projectId}`)
+            }>
             更多
           </Button>
         }
