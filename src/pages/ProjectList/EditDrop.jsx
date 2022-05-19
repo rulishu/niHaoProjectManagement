@@ -14,6 +14,7 @@ const EditDrop = (props) => {
       <Menu bordered style={{ width: '200px' }}>
         <Menu.Item
           onClick={() => {
+            setDropOpen(false)
             dispatch.projectUpdate.updataProject({
               drawerType: 'edit',
               id: rowData.id,

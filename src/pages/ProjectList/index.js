@@ -215,7 +215,7 @@ const ProjectList = (props) => {
           </div>
           <div className={styles.projectProTable}>
             <ProTable
-              // tableHeadHidden={true}
+              tableHeadHidden={true}
               // tableBackgroundColor="#fff"
               className="proProTable"
               // onCell={() => router.navigate('/projectOverview/333')}
