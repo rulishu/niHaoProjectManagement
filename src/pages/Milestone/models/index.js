@@ -7,6 +7,7 @@ import {
   updateMilestones,
   editStatusMilestones,
   getSelectAll,
+  getAllLabel,
 } from '@/servers/milestone'
 import { Notify } from 'uiw'
 
@@ -36,6 +37,7 @@ export default createModel()({
     closeListTotal: 0,
     listDataInfo: {},
     milepostaData: [],
+    allLabelData: [], // 所有标签数据
     total: 0,
     activeKey: '1',
   },
@@ -138,6 +140,15 @@ export default createModel()({
         const data = await editStatusMilestones(payload)
         if (data.code === 200) {
           NotifySuccess(data.message)
+        }
+      },
+      // 根据id查询里程碑详情
+      async getAllLabel(payload, { milestone }) {
+        const data = await getAllLabel(payload)
+        if (data.code === 200) {
+          dispatch.milestone.update({
+            allLabelData: data?.data,
+          })
         }
       },
     }

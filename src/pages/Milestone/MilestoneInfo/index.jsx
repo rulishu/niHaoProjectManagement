@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Row, Col, Progress, Alert } from 'uiw'
+import { Button, Row, Col, Progress, Alert, Loader } from 'uiw'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
@@ -30,6 +30,12 @@ const MilestoneInfo = () => {
   useEffect(() => {
     const callback = async () => {
       await dispatch.milestone.getMilestone({ projectId, milestonesId })
+      await dispatch.dictionary.getDictDataList({
+        dictType: 'assignment_label',
+        page: 1,
+        pageSize: 99999,
+      })
+      await dispatch.milestone.getAllLabel({ id: milestonesId })
     }
     callback()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,20 +126,32 @@ const MilestoneInfo = () => {
             </div>
           </div>
           <div className={styles.layoutLeftBody}>
-            <h2>{listDataInfo.milestonesTitle || '测试'}</h2>
-            <div className={styles.bodyContent}>
-              <MDEditor
-                style={{ boxShadow: 'none' }}
-                value={listDataInfo.milestonesDesc || null}
-                hideToolbar={true}
-                preview="preview"
-                autoFocus={true}
-                visiableDragbar={true}
-              />
-            </div>
+            <Loader
+              tip="加载中..."
+              vertical
+              style={{ width: '100%' }}
+              bgColor="rgba(0, 0, 0, 0.1)"
+              loading={loading.effects.milestone.getMilestone}>
+              <>
+                <h2>{listDataInfo.milestonesTitle}</h2>
+                <div className={styles.bodyContent}>
+                  <MDEditor
+                    style={{ boxShadow: 'none' }}
+                    value={listDataInfo.milestonesDesc || null}
+                    hideToolbar={true}
+                    preview="preview"
+                    autoFocus={true}
+                    visiableDragbar={true}
+                  />
+                </div>
+              </>
+            </Loader>
           </div>
           <div className={styles.layoutLeftFooty}>
-            <OtherInfo listDataInfo={listDataInfo && listDataInfo} />
+            <OtherInfo
+              projectId={projectId}
+              listDataInfo={listDataInfo && listDataInfo}
+            />
           </div>
         </Col>
         <Col className={styles.layoutRight}>
@@ -205,14 +223,26 @@ const MilestoneInfo = () => {
               <div className={styles.rightBelow}>
                 <span>
                   <p>打开：</p>
-                  <span>
+                  <span
+                    onClick={() => {
+                      navigate(`/project/task/${projectId}`, {
+                        state: { projectId },
+                      })
+                    }}>
                     {listDataInfo?.unassignedSize + listDataInfo?.conductSize ||
                       0}
                   </span>
                 </span>
                 <span>
                   <p>完成：</p>
-                  <span>{listDataInfo?.finishSize || 0}</span>
+                  <span
+                    onClick={() => {
+                      navigate(`/project/task/${projectId}`, {
+                        state: { projectId },
+                      })
+                    }}>
+                    {listDataInfo?.finishSize || 0}
+                  </span>
                 </span>
               </div>
             </li>
