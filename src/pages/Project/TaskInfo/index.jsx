@@ -233,6 +233,7 @@ const TaskInfo = () => {
                   editData={editFromData}
                   infoData={taskInfoData}
                   fromValue={'description'}
+                  btnName="保存编辑"
                 />
               ) : (
                 // <Form
@@ -358,6 +359,7 @@ const TaskInfo = () => {
                                   submit={goSaveIssue}
                                   editData={editFromData}
                                   infoData={taskInfoData}
+                                  btnName="回复"
                                 />
                               }
                               title="回复"
@@ -375,6 +377,7 @@ const TaskInfo = () => {
                 editName="commentData"
                 editData={commentData}
                 fromValue="operatingRecords"
+                btnName="添加评论"
               />
             </div>
             <EditTask />
