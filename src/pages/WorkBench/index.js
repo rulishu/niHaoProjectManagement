@@ -136,65 +136,62 @@ export default function Demo() {
               </Row>
               <Row>
                 <Col>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: 20,
-                        textAlign: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                      }}>
-                      {[
-                        {
-                          title: '未开始',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectWksNum
-                              : totalData?.projectWksNum,
-                          key: 1,
-                        },
-                        {
-                          title: '开发中',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectKfzNum
-                              : totalData?.projectKfzNum,
-                          key: 2,
-                        },
-                        {
-                          title: '已完成',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYwcNum
-                              : totalData?.projectYwcNum,
-                          key: 3,
-                        },
-                        {
-                          title: '已逾期',
-                          num:
-                            active === 0
-                              ? totalWorkVoOne?.projectYqsNum
-                              : totalData?.projectYqsNum,
-                          key: 5,
-                        },
-                      ].map((item) => {
-                        return (
-                          <div style={{}}>
-                            <Card
-                              bordered={false}
-                              key={item.key}
-                              title={item.title}
-                              style={{ width: 80 }}>
-                              <span
-                                style={{ fontSize: 36, color: randomColor() }}>
-                                {item.num}
-                              </span>
-                            </Card>
-                          </div>
-                        )
-                      })}
-                    </div>
+                  <div
+                    style={{
+                      marginTop: 20,
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      flexDirection: 'row',
+                    }}>
+                    {[
+                      {
+                        title: '未开始',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectWksNum
+                            : totalData?.projectWksNum,
+                        key: 1,
+                      },
+                      {
+                        title: '开发中',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectKfzNum
+                            : totalData?.projectKfzNum,
+                        key: 2,
+                      },
+                      {
+                        title: '已完成',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYwcNum
+                            : totalData?.projectYwcNum,
+                        key: 3,
+                      },
+                      {
+                        title: '已逾期',
+                        num:
+                          active === 0
+                            ? totalWorkVoOne?.projectYqsNum
+                            : totalData?.projectYqsNum,
+                        key: 4,
+                      },
+                    ].map((item, key) => {
+                      return (
+                        <div key={key}>
+                          <Card
+                            bordered={false}
+                            title={item.title}
+                            style={{ width: 80 }}>
+                            <span
+                              style={{ fontSize: 36, color: randomColor() }}>
+                              {item?.num}
+                            </span>
+                          </Card>
+                        </div>
+                      )
+                    })}
                   </div>
                 </Col>
               </Row>
