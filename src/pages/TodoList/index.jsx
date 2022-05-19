@@ -17,15 +17,9 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 
-// const milestoneStatus = {
-//   1: { title: 'addtodo', className: 'blue' },
-//   2: { title: '关闭', className: 'brown' },
-//   3: { title: '删除', className: 'red' },
-// }
-
 const SearchBarOption = [
-  { value: '0', text: '待处理' },
-  { value: '1', text: '已完成' },
+  { value: '', text: '任务指派' },
+  { value: '1', text: '评论' },
 ]
 
 const tabsLabel = (title, num) => {
@@ -55,12 +49,12 @@ const TodoList = () => {
     if (location?.state) {
       dispatch({
         type: 'todolist/update',
-        payload: { activeKey: '0' },
+        payload: { activeKey: '' },
       })
     }
     if (taskId) {
       dispatch.todolist.getList(
-        location?.state ? { status: '0', ...location?.state } : { status: '0' }
+        location?.state ? { status: '', ...location?.state } : { status: '' }
       )
       dispatch.todolist.getList(
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
@@ -145,7 +139,10 @@ const TodoList = () => {
                             onClick={() =>
                               dispatch({
                                 type: 'todolist/getStrutsSwitch',
-                                payload: { id: item.id, status: item.status },
+                                payload: {
+                                  id: item.id,
+                                  status: item.status,
+                                },
                               })
                             }>
                             {item.status === 1 ? '去处理' : '完毕'}
@@ -208,7 +205,7 @@ const TodoList = () => {
               type="line"
               activeKey={activeKey}
               onTabClick={(activeKey) => getTabList(activeKey)}>
-              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="0">
+              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="">
                 <div>
                   <SearchBar
                     isDrop={true}
@@ -218,7 +215,7 @@ const TodoList = () => {
                     }
                   />
                 </div>
-                {taskDataList(openTataList, openTotal, '0')}
+                {taskDataList(openTataList, openTotal, '')}
               </Tabs.Pane>
               <Tabs.Pane label={tabsLabel('已完成', total)} key="1">
                 <div>
