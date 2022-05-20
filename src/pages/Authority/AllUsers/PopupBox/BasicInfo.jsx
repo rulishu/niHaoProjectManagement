@@ -1,4 +1,4 @@
-import { useState } from 'react' //,,useEffect
+import { useState, useEffect } from 'react' //,,useEffect
 import { connect } from 'react-redux'
 import { Divider, Row, Col, Button } from 'uiw'
 import styles from './index.module.less'
@@ -18,11 +18,10 @@ const BasicInfo = (props) => {
   const { dictAllData } = state.dictionary
   // 所有角色列表
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
-  console.log('uuid', uuid)
-  // useEffect(() => {
-  //   // 获取图片
-  //   if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
-  // }, [baseDetail.path, dispatch, uuid])
+  useEffect(() => {
+    // 获取图片
+    if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
+  }, [baseDetail.path, dispatch, uuid])
   // 搜索角色变化回调
   // const handleSearch = (value) => {
   //   const initialValue = allRoleList.map((item) => {
@@ -45,6 +44,7 @@ const BasicInfo = (props) => {
   // 寻找部门名称
   const postName =
     arrRole?.find((e) => e?.deptId === baseDetail?.deptId)?.deptName || ''
+
   return (
     <div className={styles.BasicInfo}>
       <Row>
@@ -74,16 +74,16 @@ const BasicInfo = (props) => {
                     key: 'avatar',
                     widget: 'upload',
                     span: '24',
-                    // initialValue:
-                    //   type !== 3
-                    //     ? baseDetail.uuid
-                    //       ? [
-                    //           {
-                    //             dataURL: `/api/file/selectFile/${baseDetail.uuid}`,
-                    //           },
-                    //         ]
-                    //       : null
-                    //     : null,
+                    initialValue:
+                      type !== 3
+                        ? baseDetail.avatar
+                          ? [
+                              {
+                                dataURL: `/api/file/selectFile/${baseDetail.avatar}`,
+                              },
+                            ]
+                          : null
+                        : null,
                     widgetProps: {
                       uploadType: 'card',
                       shape: 'circle',
