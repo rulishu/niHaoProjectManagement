@@ -64,6 +64,8 @@ const TodoList = () => {
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
       )
     }
+    getTabList('1')
+    getTabList('0')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
