@@ -60,7 +60,8 @@ const EditDrop = (props) => {
         <Card active style={{ width: '400px' }}>
           <strong style={{ padding: '5px' }}>删除 {rowData.name}？</strong>
           <div style={{ padding: '8px 15px' }}>
-            您将删除 <strong>{rowData.name} </strong>,并且无法后续复原。
+            您将删除 <strong>{rowData.name} </strong>
+            ,并且会删除项目中存在的任务，无法后续复原。
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="light" onClick={() => setDeleteOpen(false)}>
