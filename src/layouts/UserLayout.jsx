@@ -60,6 +60,7 @@ const UserLayout = () => {
         if (data && data.code === 200) {
           Notify.success({ title: '登录成功' })
           const userDataAccount = localStorage.getItem('userData')
+          localStorage.setItem('token', data?.token || '')
           if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
             sessionStorage.clear()
           }
@@ -76,7 +77,7 @@ const UserLayout = () => {
             'userData',
             JSON.stringify(data?.data?.user || {})
           )
-          localStorage.setItem('token', data?.token || '')
+
           // localStorage.setItem('routes', JSON.stringify(data?.data?.menus || {}))
           let roleAuth = []
           data?.data?.menus.forEach((item) => {
