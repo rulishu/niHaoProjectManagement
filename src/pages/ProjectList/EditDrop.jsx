@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Icon, OverlayTrigger, Menu, Overlay, Card, Button, Notify } from 'uiw'
+import { Icon, OverlayTrigger, Menu, Overlay, Card, Button } from 'uiw'
 import styles from './index.module.less'
 import './index.css'
 
@@ -10,15 +10,15 @@ const EditDrop = (props) => {
   //删除弹窗
   const [deleteOpen, setDeleteOpen] = useState(false)
   const deletePro = () => {
-    if (rowData.task === 0) {
-      dispatch.projectlist.deleteProject({
-        id: rowData.id,
-        setDeleteOpen,
-        search,
-      })
-    } else {
-      Notify.error({ title: '该项目下存在任务，无法删除！' })
-    }
+    // if (rowData.task === 0) {
+    dispatch.projectlist.deleteProject({
+      id: rowData.id,
+      setDeleteOpen,
+      search,
+    })
+    // } else {
+    // Notify.error({ title: '该项目下存在任务，无法删除！' })
+    // }
   }
   const menu = () => (
     <div>
@@ -60,7 +60,8 @@ const EditDrop = (props) => {
         <Card active style={{ width: '400px' }}>
           <strong style={{ padding: '5px' }}>删除 {rowData.name}？</strong>
           <div style={{ padding: '8px 15px' }}>
-            您将删除 <strong>{rowData.name} </strong>,并且无法后续复原。
+            您将删除 <strong>{rowData.name} </strong>
+            ,并且会删除项目中存在的任务，无法后续复原。
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="light" onClick={() => setDeleteOpen(false)}>

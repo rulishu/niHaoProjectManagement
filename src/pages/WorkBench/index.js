@@ -7,6 +7,7 @@ import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
 import { Container } from '@/components'
 import dayjs from 'dayjs'
+import { NumColor, NumFilter } from '../../utils/utils'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -91,12 +92,26 @@ export default function Demo() {
                     strokeWidth={10}
                     percent={
                       active === 0
-                        ? totalWorkVoOne?.projectNum
-                        : totalData?.projectNum
+                        ? NumColor(
+                            totalWorkVoOne?.projectYwcNum,
+                            totalWorkVoOne?.projectNum
+                          )
+                        : NumColor(
+                            totalData?.projectYwcNum,
+                            totalData?.projectNum
+                          )
                     }
                     format={(percent) => (
                       <span>
-                        {active === 0 ? totalWorkVoOne?.projectNum : percent}
+                        {active === 0
+                          ? NumFilter(
+                              totalWorkVoOne?.projectYwcNum,
+                              totalWorkVoOne?.projectNum
+                            )
+                          : NumFilter(
+                              totalData?.projectYwcNum,
+                              totalData?.projectNum
+                            )}
                         <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                           总任务
                         </div>
@@ -105,12 +120,12 @@ export default function Demo() {
                   />
                   <div>
                     {projectList.length ? (
-                      <div>
+                      <div style={{ margin: 10 }}>
                         <Button
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                              window.location.href = `#/project/task/${projectListOne?.projectId}`
                             } else {
                               window.location.href = `#/project/task/${projectData.projectId}`
                             }

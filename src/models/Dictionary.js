@@ -3,12 +3,15 @@ import {
   queryByPage,
   queryById,
   deleteById,
-  editByDict,
   addByDictFn,
   groupByDict,
   deleteByTypeId,
   getQueryAll,
   getDictDataList,
+  addByDict,
+  addByDictData,
+  editByDict,
+  editByDictData,
 } from '../servers/dictionary'
 import { Notify } from 'uiw'
 
@@ -60,6 +63,54 @@ export default createModel()({
             page: data?.data.pageNum || page,
             pageSize: data?.data.pageSize || pageSize,
           })
+        }
+      },
+      // 新增字典类型
+      async addByDict(payload, dictionary) {
+        const dph = dispatch
+        const data = await addByDict(payload)
+        if (data.code === 200) {
+          dph.dictionary.update({
+            drawerVisible: false,
+            drawerVisiText: '',
+          })
+          dictionary.dictionary.tablePro.onSearch()
+        }
+      },
+      // 新增字典
+      async addByDictData(payload, dictionary) {
+        const dph = dispatch
+        const data = await addByDictData(payload)
+        if (data.code === 200) {
+          dph.dictionary.update({
+            modalVisible: false,
+            drawerVisiText: '',
+          })
+          dictionary.dictionary.tablePro.onSearch()
+        }
+      },
+      // 修改字典类型
+      async editByDict(payload, dictionary) {
+        const dph = dispatch
+        const data = await editByDict(payload)
+        if (data.code === 200) {
+          dph.dictionary.update({
+            drawerVisible: false,
+            drawerVisiText: '',
+          })
+          dictionary.dictionary.tablePro.onSearch()
+        }
+      },
+      // 修改字典
+      async editByDictData(payload, dictionary) {
+        const dph = dispatch
+        const data = await editByDictData(payload)
+        if (data.code === 200) {
+          dph.dictionary.update({
+            modalVisible: false,
+            drawerVisiText: '',
+          })
+          dictionary.dictionary.tablePro.onSearch()
         }
       },
       // 职位列表

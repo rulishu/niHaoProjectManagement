@@ -1,15 +1,7 @@
-uiw-admin Example 
+尼好程序开发测试项目管理软件
 ===
 
-## Open in CodeSandbox
-
-[![Edit uiw-admin Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/uiwjs/uiw-admin/tree/master/examples/base)
-
-## Quick Start
-
-**development**
-
-Runs the project in development mode.  
+## 快速开始
 
 ```bash
 npm install

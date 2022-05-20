@@ -64,7 +64,7 @@ const UserLayout = () => {
           if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
             sessionStorage.clear()
           }
-          dispatch({ type: 'routeManagement/getInfo' })
+
           dispatch({
             type: 'routeManagement/getRouters',
             payload: {

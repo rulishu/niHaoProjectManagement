@@ -1,11 +1,11 @@
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Notify, Loader } from 'uiw'
+import { Loader } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { itemsDetail } from './items'
-import { addByDict, editByDict } from '@/servers/dictionary'
+// import { addByDict, editByDict } from '@/servers/dictionary'
 import DetailTable from './DetailTable'
-import useSWR from 'swr'
-const token = localStorage.getItem('token')
+// import useSWR from 'swr'
+// const token = localStorage.getItem('token')
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
   const {
@@ -16,28 +16,28 @@ const Detail = ({ updateData, onSearch }) => {
   const form = useForm()
   const onClose = () => dispatch({ type: 'dictionary/clean' })
 
-  const { mutate } = useSWR(
-    [
-      (tableType === 'add' && addByDict) ||
-        (tableType === 'edit' && editByDict),
-      {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + token },
-        body: { ...queryInfo },
-      },
-    ],
-    {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (data && data.code === 200) {
-          Notify.success({ title: data?.message })
-          onClose()
-          onSearch?.()
-        }
-      },
-    }
-  )
+  // const { mutate } = useSWR(
+  //   [
+  //     (tableType === 'add' && addByDict) ||
+  //       (tableType === 'edit' && editByDict),
+  //     {
+  //       method: 'POST',
+  //       headers: { Authorization: 'Bearer ' + token },
+  //       body: { ...queryInfo },
+  //     },
+  //   ],
+  //   {
+  //     revalidateOnMount: false,
+  //     revalidateOnFocus: false,
+  //     onSuccess: (data) => {
+  //       if (data && data.code === 200) {
+  //         Notify.success({ title: data?.message })
+  //         onClose()
+  //         onSearch?.()
+  //       }
+  //     },
+  //   }
+  // )
 
   return (
     <Loader
@@ -79,7 +79,14 @@ const Detail = ({ updateData, onSearch }) => {
                     await form?.submitvalidate?.()
                     const errors = form.getError()
                     if (errors && Object.keys(errors).length > 0) return
-                    mutate()
+                    dispatch({
+                      type: `dictionary/${
+                        tableType === 'add' ? 'addByDict' : 'editByDict'
+                      }`,
+                      payload: {
+                        ...queryInfo,
+                      },
+                    })
                   },
                 },
               ]
