@@ -22,6 +22,7 @@ const Users = (props) => {
     })
     dispatch.rolemanagement?.getAllRoleList()
     dispatch.rolemanagement?.getAllDepartment()
+    dispatch.dictionary?.getQueryAll()
   }, [dispatch])
 
   useEffect(() => {
@@ -40,7 +41,6 @@ const Users = (props) => {
 
   const handleEdit = async (value, type) => {
     // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
-
     if (type === 2) {
       setType(2)
       setIsOverlay(true)
