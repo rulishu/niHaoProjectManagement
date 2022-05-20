@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Row, Col, Card, Tabs, Button, Tag } from 'uiw'
+import { Row, Col, Card, Tabs, Button, Tag, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 
 export default function TableManage() {
@@ -66,9 +66,20 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
+                          width: 200,
+                          ellipsis: true,
+                          render: (address) => (
+                            <Tooltip placement="topLeft" content={address}>
+                              {address}
+                            </Tooltip>
+                          ),
                         },
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',
@@ -120,9 +131,20 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
+                          width: 200,
+                          ellipsis: true,
+                          render: (address) => (
+                            <Tooltip placement="topLeft" content={address}>
+                              {address}
+                            </Tooltip>
+                          ),
                         },
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',
@@ -174,9 +196,21 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
+                          width: 200,
+                          ellipsis: true,
+                          render: (address) => (
+                            <Tooltip placement="topLeft" content={address}>
+                              {address}
+                            </Tooltip>
+                          ),
                         },
+
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',

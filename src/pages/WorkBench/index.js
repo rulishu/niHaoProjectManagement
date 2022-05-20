@@ -26,7 +26,7 @@ export default function Demo() {
 
   // 跳转里程碑详情
   const goMilestones = (projectId, milestonesId) => {
-    window.location.href = `#/project/taskInfo/${projectId}/${milestonesId}`
+    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
   }
   //默认选中第一个
   const onClickItem = (key) => {
