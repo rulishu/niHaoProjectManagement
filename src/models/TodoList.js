@@ -111,6 +111,7 @@ export default createModel()({
               value: item.assignUserId,
             }))
             dispatch.project.update({ teamMembers })
+            dispatch.todolist.update({ teamMembers })
           }
         }
       },
@@ -127,6 +128,7 @@ export default createModel()({
               value: item.id,
             }))
             dispatch.project.update({ assignmentLabels })
+            dispatch.todolist.update({ assignmentLabels })
           }
         }
       },
