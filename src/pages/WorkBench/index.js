@@ -110,7 +110,7 @@ export default function Demo() {
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                              window.location.href = `#/project/task/${projectListOne?.projectId}`
                             } else {
                               window.location.href = `#/project/task/${projectData.projectId}`
                             }
