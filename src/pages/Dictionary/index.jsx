@@ -43,6 +43,7 @@ function Dictionary() {
     updateData({
       isView: type === 'view',
       tableType: type,
+      tablePro: table,
     })
     if (type === 'add') {
       updateData({ drawerVisible: true })
@@ -167,14 +168,14 @@ function Dictionary() {
               props: {
                 widget: 'select',
                 option: [
-                  { label: '正常', value: 0 },
-                  { label: '停用', value: 1 },
+                  { label: '正常', value: '0' },
+                  { label: '停用', value: '1' },
                 ],
               },
               render: (text) => {
                 return (
                   <div>
-                    {text === 1 ? (
+                    {text === '1' ? (
                       <Tag light color="#dc3545">
                         停用
                       </Tag>
