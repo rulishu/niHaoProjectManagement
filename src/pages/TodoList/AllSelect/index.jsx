@@ -19,7 +19,6 @@ const LabelSelect = (props) => {
       if (value[item].length > 0) {
         value[item].forEach((i) => {
           splicingConditionsDtos.push({
-            condition: '=',
             field: i.label,
             value: i.value,
           })
@@ -28,7 +27,6 @@ const LabelSelect = (props) => {
     })
     if (todolist.activeKey !== '') {
       splicingConditionsDtos.push({
-        condition: '=',
         field: 'status',
         value: todolist.activeKey,
       })
