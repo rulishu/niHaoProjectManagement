@@ -10,9 +10,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
-  // const {
-  //   todolist: { openTotal },
-  // } = useSelector((state) => state)
+  const {
+    todolist: { openTotal, status },
+  } = useSelector((state) => state)
   const {
     workbench: { todoNotice },
   } = useSelector((state) => state)
@@ -122,9 +122,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
             系统管理
           </div>
           <div className={styles.title} onClick={() => navigate('/todoList')}>
-            <Badge count={todoNotice}>
-              <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
-            </Badge>
+            {status === 0 ? (
+              <Badge count={todoNotice}>
+                <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
+              </Badge>
+            ) : (
+              <Badge count={openTotal}>
+                <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
+              </Badge>
+            )}
           </div>
 
           {/* <div
