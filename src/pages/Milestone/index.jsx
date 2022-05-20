@@ -134,7 +134,7 @@ const Milestone = () => {
                         {item.startTime && (
                           <div className={styles.date}>
                             {item.startTime}
-                            {item.dueTime && '-' + item.dueTime}
+                            {item.dueTime && '~' + item.dueTime}
                           </div>
                         )}
                         <div>

@@ -21,7 +21,7 @@ const MilestoneInfo = () => {
   const [openAlert, setOpenAlert] = useState(false)
 
   // 右侧边栏收缩
-  const [packup, setPackup] = useState(false)
+  // const [packup, setPackup] = useState(false)
 
   useEffect(() => {
     dispatch.milestone.update({ milestonesId, projectId })
@@ -173,11 +173,11 @@ const MilestoneInfo = () => {
                 <div>
                   {(+listDataInfo?.degreeCompletion * 100).toFixed()}% 进度
                 </div>
-                <Button
+                {/* <Button
                   icon={packup ? 'd-arrow-left' : 'd-arrow-right'}
                   basic
                   onClick={() => setPackup(!packup)}
-                />
+                /> */}
               </div>
               <Progress.Line
                 strokeWidth={6}
@@ -235,7 +235,7 @@ const MilestoneInfo = () => {
                       state: { projectId },
                     })
                   }}>
-                  新任务
+                  新建任务
                 </Button>
               </div>
               <div className={styles.rightBelow}>

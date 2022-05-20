@@ -45,8 +45,6 @@ const TodoList = () => {
       assignmentLabels,
     },
   } = useSelector((state) => state)
-  // console.log('openTataList', openTataList)
-  // console.log('dataList', dataList)
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     if (location?.state) {
@@ -65,6 +63,8 @@ const TodoList = () => {
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
       )
     }
+    getTabList('1')
+    getTabList('0')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -77,8 +77,6 @@ const TodoList = () => {
 
   // 列表
   const taskDataList = (data, taskTotal, num) => {
-    // console.log('listField', listField)
-
     return (
       <div>
         {data.length > 0 ? (
@@ -89,7 +87,6 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
-                // console.log('item', item.status)
                 return (
                   <List.Item
                     key={index}
@@ -190,7 +187,6 @@ const TodoList = () => {
         : { status: activeKey }
     )
   }
-
   return (
     <Container theme="white">
       <div className={styles.wrap}>
