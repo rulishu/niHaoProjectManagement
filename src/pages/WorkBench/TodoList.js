@@ -59,7 +59,7 @@ export default function TodoList() {
                       paginationProps={{ style: { display: 'none' } }}
                       columns={[
                         {
-                          title: '待办id',
+                          title: '待办ID',
                           key: 'id',
                         },
 
@@ -95,7 +95,7 @@ export default function TodoList() {
                       paginationProps={{ style: { display: 'none' } }}
                       columns={[
                         {
-                          title: '待办id',
+                          title: '待办ID',
                           key: 'id',
                         },
 

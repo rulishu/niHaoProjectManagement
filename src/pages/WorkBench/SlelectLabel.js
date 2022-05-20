@@ -75,6 +75,10 @@ export default function SlelectLabel() {
                         key: 'name',
                       },
                       {
+                        title: '任务标题',
+                        key: 'assignmentTitle',
+                      },
+                      {
                         title: '任务状态',
                         key: 'assignmentStatus',
                         render: (text) => {
@@ -122,6 +126,10 @@ export default function SlelectLabel() {
                       {
                         title: '项目',
                         key: 'name',
+                      },
+                      {
+                        title: '任务标题',
+                        key: 'assignmentTitle',
                       },
                       {
                         title: '任务状态',
@@ -173,6 +181,10 @@ export default function SlelectLabel() {
                         key: 'name',
                       },
                       {
+                        title: '任务标题',
+                        key: 'assignmentTitle',
+                      },
+                      {
                         title: '任务状态',
                         key: 'assignmentStatus',
                         render: (text) => {
@@ -222,6 +234,10 @@ export default function SlelectLabel() {
                         key: 'name',
                       },
                       {
+                        title: '任务标题',
+                        key: 'assignmentTitle',
+                      },
+                      {
                         title: '任务状态',
                         key: 'assignmentStatus',
                         render: (text) => {
@@ -269,6 +285,7 @@ export default function SlelectLabel() {
                   )
                 })}
               </List> */}
+              {/* /project/taskInfo/:projectId/:idassignmentId */}
               <Steps
                 direction="vertical"
                 progressDot
@@ -276,12 +293,13 @@ export default function SlelectLabel() {
                 current={memberList?.length}
                 style={{ padding: '20px 0' }}>
                 {memberList?.map((a, key) => {
+                  console.log('a', a)
                   return (
                     <Steps.Step
                       title={a?.createTime}
                       key={key}
                       onClick={() =>
-                        (window.location.href = `#/usersManagement/${a?.projectId}`)
+                        (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
                       }
                       description={a?.operatingRecords}></Steps.Step>
                   )
