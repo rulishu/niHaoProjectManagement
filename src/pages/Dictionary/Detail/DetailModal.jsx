@@ -1,8 +1,8 @@
-import { Button, Modal, Notify } from 'uiw'
+import { Button, Modal } from 'uiw'
 import { ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
-import { addByDictData, editByDictData } from '@/servers/dictionary'
-import useSWR from 'swr'
+// import { addByDictData, editByDictData } from '@/servers/dictionary'
+// import useSWR from 'swr'
 import styles from './index.module.less'
 import Block from '@uiw/react-color-block'
 import dayjs from 'dayjs'
@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 function Demo({ value, onChange }) {
   return <Block color={value?.hex || value} onChange={(e) => onChange(e)} />
 }
-const token = localStorage.getItem('token')
+// const token = localStorage.getItem('token')
 const DetailModal = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
   const {
@@ -25,31 +25,31 @@ const DetailModal = ({ updateData, onSearch }) => {
       payload: { modalVisible: false },
     })
 
-  const { mutate } = useSWR(
-    [
-      (modalType === 'add' && addByDictData) ||
-        (modalType === 'edit' && editByDictData),
-      {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + token },
-        body:
-          modalType === 'add'
-            ? { ...detailInfo, dictCode: dayjs().unix() }
-            : detailInfo,
-      },
-    ],
-    {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (data && data.code === 200) {
-          Notify.success({ title: data?.message })
-          onClose()
-          onSearch?.()
-        }
-      },
-    }
-  )
+  // const { mutate } = useSWR(
+  //   [
+  //     (modalType === 'add' && addByDictData) ||
+  //       (modalType === 'edit' && editByDictData),
+  //     {
+  //       method: 'POST',
+  //       headers: { Authorization: 'Bearer ' + token },
+  //       body:
+  //         modalType === 'add'
+  //           ? { ...detailInfo, dictCode: dayjs().unix() }
+  //           : detailInfo,
+  //     },
+  //   ],
+  //   {
+  //     revalidateOnMount: false,
+  //     revalidateOnFocus: false,
+  //     onSuccess: (data) => {
+  //       if (data && data.code === 200) {
+  //         Notify.success({ title: data?.message })
+  //         onClose()
+  //         onSearch?.()
+  //       }
+  //     },
+  //   }
+  // )
 
   return (
     <Modal
@@ -235,7 +235,15 @@ const DetailModal = ({ updateData, onSearch }) => {
             const errors = form.getError()
             if (errors && Object.keys(errors).length > 0) return
             // 调用请求接口
-            mutate()
+            dispatch({
+              type: `dictionary/${
+                modalType === 'add' ? 'addByDictData' : 'editByDictData'
+              }`,
+              payload:
+                modalType === 'add'
+                  ? { ...detailInfo, dictCode: dayjs().unix() }
+                  : detailInfo,
+            })
           }}>
           保存
         </Button>

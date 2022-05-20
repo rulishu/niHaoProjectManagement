@@ -44,10 +44,10 @@ const DetailTable = () => {
 
   // 操作
   async function handleEditTable(type, record) {
-    console.log('record', record, queryInfo)
     updateData({
       tableType: 'detail',
       modalType: type,
+      tablePro: table,
     })
     if (type === 'add') {
       updateData({ modalVisible: true, detailInfo: {} })
@@ -155,14 +155,14 @@ const DetailTable = () => {
             props: {
               widget: 'select',
               option: [
-                { label: '正常', value: 0 },
-                { label: '停用', value: 2 },
+                { label: '正常', value: '0' },
+                { label: '停用', value: '1' },
               ],
             },
             render: (text) => {
               return (
                 <div>
-                  {text === 2 ? (
+                  {text === '1' ? (
                     <Tag light color="#dc3545">
                       停用
                     </Tag>
