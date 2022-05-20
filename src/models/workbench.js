@@ -20,7 +20,6 @@ const workbench = createModel()({
     // 我近期参与的项目统计
     async myProject(payload) {
       const data = await myProject(payload)
-      console.log(data)
       if (data.code === 200) {
         dispatch.workbench.update({
           projectList: data?.data || [],

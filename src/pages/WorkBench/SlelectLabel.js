@@ -267,23 +267,26 @@ export default function SlelectLabel() {
                         title: '项目',
                         key: 'name',
                       },
-                      // {
-                      //   title: '任务状态',
-                      //   key: 'assignmentStatus',
-                      //   render: (text) => {
-                      //     if (text === 0) {
-                      //         return
-                      //     }else if (text === 1) {
-                      //       return <Tag color="#F95C2B">未开始</Tag>
-                      //     } else if (text === 2) {
-                      //       return <Tag color="#008EF0">进行中</Tag>
-                      //     } else if (text === 3) {
-                      //       return <Tag color="#28a745">已完成</Tag>
-                      //     } else if (text === 4) {
-                      //       return <Tag color="#dc3545">已逾期</Tag>
-                      //     }
-                      //   },
-                      // },
+                      {
+                        title: '任务状态',
+                        key: 'assignmentStatus',
+                        align: 'center',
+                        render: (text, key, rowData) => (
+                          <div>
+                            {text === 1 ? (
+                              <Tag color="#F95C2B">未开始</Tag>
+                            ) : text === 2 ? (
+                              <Tag color="#008EF0">进行中</Tag>
+                            ) : text === 3 ? (
+                              <Tag color="#28a745">已完成</Tag>
+                            ) : text === 4 ? (
+                              <Tag color="#dc3545">已逾期</Tag>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        ),
+                      },
                       {
                         title: '创建人',
                         key: 'createName',
