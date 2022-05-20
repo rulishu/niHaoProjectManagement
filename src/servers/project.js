@@ -69,15 +69,15 @@ export const queryFuzzyAllProjectMember = (params) => {
   })
 }
 
-// 查询所有里程碑页签
+// 查询所有里程碑
 export const selectLabel = (params) => {
-  return request('/api/milestones/selectLabel', {
+  return request('/api/milestones/selectAll', {
     method: 'POST',
     body: params,
   })
 }
 
-//
+// 查询所有标签
 export const assignment_label = (params) => {
   return request('/api/system/dict/data/type/assignment_label', {
     method: 'POST',

@@ -61,6 +61,8 @@ export default createModel()({
     assignmentLabels: [],
     milistones: [],
     splicingConditionsDtos: [],
+    selectDtos: [], // 上方搜索条件
+    tabDtos: [], // tab搜索条件
   },
   effects: (dispatch) => {
     return {
@@ -82,19 +84,16 @@ export default createModel()({
       },
       // 分页查询
       async getList(params, { project }) {
-        const {
-          assignmentStatus,
-          splicingConditionsDtos: asra,
-          ...others
-        } = params
-        const { filter, splicingConditionsDtos } = project
+        const { assignmentStatus, ...others } = params
+        const { filter, selectDtos, tabDtos } = project
         let obj = {
           ...filter,
+          splicingConditionsDtos: [...selectDtos, ...tabDtos],
           ...others,
         }
-        if (splicingConditionsDtos.length > 0) {
-          obj = { ...obj, splicingConditionsDtos }
-        }
+        // if (splicingConditionsDtos.length > 0) {
+        //   obj = { ...obj, splicingConditionsDtos }
+        // }
         const data = await getSelectPage(obj)
         console.log('data: ', data)
         if (data && data.code === 200) {
@@ -130,19 +129,18 @@ export default createModel()({
       async goToPage(payload) {
         const { page, pageSize, assignmentStatus, projectId } = payload
 
-        let splicingConditionsDtos = []
-        if (assignmentStatus !== '') {
-          splicingConditionsDtos = [
-            {
-              condition: '=',
-              field: 'assignmentStatus',
-              value: assignmentStatus,
-            },
-          ]
-        }
+        // let tabDtos = []
+        // if (assignmentStatus !== '') {
+        //   tabDtos = [
+        //     {
+        //       condition: '=',
+        //       field: 'assignmentStatus',
+        //       value: assignmentStatus,
+        //     },
+        //   ]
+        // }
         dispatch.project.update({
           filter: { page, pageSize },
-          splicingConditionsDtos,
         })
         await dispatch.project.getList({
           page,
@@ -168,22 +166,22 @@ export default createModel()({
         }
       },
 
-      // 查询所有里程碑页签
+      // 查询所有里程碑
       async selectLabel(params) {
         const data = await selectLabel({
           ...params,
         })
         if (data && data.code === 200) {
           if (data.data && data.data.length > 0) {
-            // const milistone = data.data.map((item) => ({
-            //   label: item.memberName,
-            //   value: item.id,
-            // }))
-            // dispatch.project.update({ milistone })
+            const milistones = data.data.map((item) => ({
+              label: item.milestonesTitle,
+              value: item.milestonesId,
+            }))
+            dispatch.project.update({ milistones })
           }
         }
       },
-      //
+      //查询所有标签
       async assignment_label(params) {
         const data = await assignment_label({
           ...params,
