@@ -119,6 +119,20 @@ const ProjectManagement = (fun) => {
             widgetProps: {},
             span: '24',
           },
+          {
+            label: '项目状态:',
+            key: 'status',
+            widget: 'select',
+            option: [
+              { value: 1, label: '进行中' },
+              { value: 2, label: '已关闭' },
+              { value: 3, label: '已挂起' },
+            ],
+            initialValue: seachValue?.status,
+            widgetProps: {},
+            span: '24',
+            hide: drawerType === 'add',
+          },
         ]}
         onChange={(initial, current) => {
           updateData({ seachValue: { ...current } })

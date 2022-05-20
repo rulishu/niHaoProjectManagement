@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange } from '@/components'
@@ -10,16 +10,28 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
+  // const {
+  //   todolist: { openTotal },
+  // } = useSelector((state) => state)
   const {
-    todolist: { openTotal },
+    workbench: { todoNotice },
   } = useSelector((state) => state)
   const layouts = useLayouts()
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
-  const userData = JSON.parse(localStorage.getItem('userData'))
+  const [userInfo, setUserInfo] = useState({})
+  // const userData = JSON.parse(localStorage.getItem('userData'))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function refresh(type) {
+  async function refresh(type) {
+    dispatch({
+      type: 'routeManagement/getInfo',
+      payload: {
+        callback: (data) => {
+          setUserInfo(data)
+        },
+      },
+    })
     type && window.location.reload()
   }
 
@@ -82,10 +94,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
       },
     ],
     profile: {
-      avatar: userData?.uuid
-        ? `/api/file/selectFile/${userData?.uuid}`
-        : userData?.path || require('../assets/head.png'),
-      userName: userData?.userAccount,
+      avatar: userInfo?.avatar
+        ? `/api/file/selectFile/${userInfo?.avatar}`
+        : userInfo?.path || require('../assets/head.png'),
+      userName: userInfo?.userName,
       menuLeft: (
         <>
           <div
@@ -110,7 +122,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             系统管理
           </div>
           <div className={styles.title} onClick={() => navigate('/todoList')}>
-            <Badge count={openTotal}>
+            <Badge count={todoNotice}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
             </Badge>
           </div>

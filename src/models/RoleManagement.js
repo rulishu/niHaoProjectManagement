@@ -10,7 +10,7 @@ import {
   getAdd,
   getDelete,
   getEdit,
-  getInfo,
+  // getInfo,
   getTreeSelect,
   roleMenuTreeselect,
   changeStatus,
@@ -83,16 +83,16 @@ export default createModel()({
       }
     },
     // 根据角色编号获取详细信息
-    async getInfo(payload) {
-      const dph = dispatch
-      const data = await getInfo(payload)
-      if (data.code === 200) {
-        dph.rolemanagement.update({
-          drawerVisible: true,
-          queryInfo: data.data || {},
-        })
-      }
-    },
+    // async getInfo(payload) {
+    //   const dph = dispatch
+    //   const data = await getInfo(payload)
+    //   if (data.code === 200) {
+    //     dph.rolemanagement.update({
+    //       drawerVisible: true,
+    //       queryInfo: data.data || {},
+    //     })
+    //   }
+    // },
     // 获取菜单下拉树列表
     async getTreeSelect(payload) {
       const dph = dispatch

@@ -20,6 +20,9 @@ export default function Demo() {
 
   useEffect(() => {
     dispatch({
+      type: 'workbench/gettodoList',
+    })
+    dispatch({
       type: 'workbench/myProject',
     })
   }, [dispatch])
@@ -35,7 +38,6 @@ export default function Demo() {
   const projectListOne = projectList?.at(0)
   const milesWorkVoListOne = projectListOne?.milesWorkVoList
   const totalWorkVoOne = projectListOne?.totalWorkVo
-
   //判断是否可以看到所有项目列表
   const naid = localStorage.getItem('key')
   return (
@@ -102,28 +104,34 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        if (active === 0) {
-                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
-                        } else {
-                          window.location.href = `#/project/task/${projectData.projectId}`
-                        }
-                      }}>
-                      查看全部
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        if (active === 0) {
-                          window.location.href = `#/projectOverview/${projectListOne?.projectId}`
-                        } else {
-                          window.location.href = `#/projectOverview/${projectData?.projectId}`
-                        }
-                      }}>
-                      项目概览
-                    </Button>
+                    {projectList.length ? (
+                      <div>
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            if (active === 0) {
+                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                            } else {
+                              window.location.href = `#/project/task/${projectData.projectId}`
+                            }
+                          }}>
+                          查看全部
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            if (active === 0) {
+                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                            } else {
+                              window.location.href = `#/projectOverview/${projectData?.projectId}`
+                            }
+                          }}>
+                          项目概览
+                        </Button>
+                      </div>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </Col>
               </Row>
