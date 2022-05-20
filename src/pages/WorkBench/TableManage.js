@@ -66,9 +66,13 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
                         },
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',
@@ -120,9 +124,13 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
                         },
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',
@@ -174,9 +182,14 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务ID',
-                          key: 'assignmentId',
+                          title: '任务标题',
+                          key: 'assignmentTitle',
                         },
+
+                        // {
+                        //   title: '任务ID',
+                        //   key: 'assignmentId',
+                        // },
                         {
                           title: '项目名',
                           key: 'name',
