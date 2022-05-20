@@ -29,6 +29,7 @@ export default createModel()({
     teamMembers: [],
     assignmentLabels: [],
     projectId: '',
+    status: 0,
   },
   reducers: {
     update: (state, payload) => {
@@ -56,6 +57,7 @@ export default createModel()({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
               projectId: data?.data?.projectId,
+              status: data?.data?.status,
             })
           } else {
             dispatch.todolist.update({

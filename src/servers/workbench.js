@@ -47,7 +47,7 @@ export function selectProjectPage(params) {
  *
  */
 export const getSelectPage = (params) => {
-  return request('/api/ManagerTodoList/selectPage', {
+  return request('/api/ManagerTodoList/selectUserTodoPage', {
     method: 'POST',
     body: params,
   })
