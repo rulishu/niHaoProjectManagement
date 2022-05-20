@@ -81,7 +81,6 @@ export default createModel()({
         if (data && data.code === 200) {
           dispatch.todolist.getList({ status: '1' })
           dispatch.todolist.getList({ status: '0' })
-          // Notify.success({ title: data.message, description: '' })
         } else {
           Notify.error({ title: data.message, description: '' })
         }
