@@ -25,12 +25,10 @@ const projectStatus = {
 }
 
 const issueStatus = [
-  { status: 1, name: '已打开', type: 'primary' },
-  { status: 2, name: '已完成', type: 'success' },
-  { status: 3, name: '已关闭', type: 'light' },
-  { status: 4, name: '已取消', type: 'danger' },
-  { status: 5, name: '进行中', type: 'dark' },
-  { status: 6, name: '已暂停', type: 'warning' },
+  { status: 1, name: '未开始', type: 'primary' },
+  { status: 2, name: '进行中', type: 'success' },
+  { status: 3, name: '已完成', type: 'light' },
+  { status: 4, name: '已逾期', type: 'danger' },
 ]
 
 // 用户模糊查询数据
