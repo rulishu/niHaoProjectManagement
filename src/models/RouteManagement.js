@@ -34,6 +34,7 @@ export default createModel()({
       const data = await getInfo(payload)
       if (data.code === 200) {
         const imgs = data?.user?.admin
+        payload.callback && payload.callback(data.user)
         localStorage.setItem('key', imgs)
         return true
       }
