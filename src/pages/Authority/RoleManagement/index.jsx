@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
-import Authorization from './Authorization/index'
+// import Authorization from './Authorization/index'
 import DeletePopover from '@/components/DeletePopover'
 
 const Demo = (props) => {
@@ -259,7 +259,7 @@ const Demo = (props) => {
         />
       </Card>
       <Detail updateData={updateData} onSearch={table.onSearch} />
-      <Authorization updateData={updateData} />
+      {/* <Authorization updateData={updateData} /> */}
     </Fragment>
   )
 }

@@ -86,7 +86,11 @@ const OtherInfo = (props) => {
                 {item?.assignmentTitle}
               </span>
               <div className={styles.taskBody}>
-                <span className={styles.taskLink}>#{item.assignmentId}</span>
+                <span
+                  className={styles.taskLink}
+                  onClick={() => goProject(item?.assignmentId)}>
+                  #{item.assignmentId}
+                </span>
                 {item?.labels?.map((tagItem) => lableBox(tagItem))}
                 {item.assigneeUserId ? (
                   <Tooltip

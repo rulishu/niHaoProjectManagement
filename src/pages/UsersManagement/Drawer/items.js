@@ -19,40 +19,36 @@ export const items = (queryInfo) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请输入成员角色',
       rules: [{ required: true, message: '请输入成员角色' }],
     },
-    // {
-    //   label: '受限成员',
-    //   key: 'name',
-    //   widget: 'select',
-    //   initialValue: queryInfo?.name,
-    //   required: true,
-    //   option: [
-    //     { label: '是', value: '是' },
-    //     { label: '否', value: '管理者' },
-    //   ],
-    //   span: '24',
-    //   placeholder: '请输入受限用户',
-    //   rules: [{ required: true, message: '请输入受限用户' }],
-    // },
+    {
+      label: '访问到期日期',
+      key: 'accessExpirationTime',
+      widget: 'dateInput',
+      initialValue: queryInfo?.accessExpirationTime,
+      span: '24',
+      required: true,
+      placeholder: '请输入访问到期日期',
+      rules: [{ required: true, message: '请输入访问到期日期' }],
+    },
   ]
 }
 export const memberItems = (queryInfo, userIdList) => {
   return [
     {
-      label: '选择账户地址',
+      label: '选择账户姓名邮箱',
       key: 'userId',
       widget: 'searchSelect',
       initialValue: queryInfo?.userId,
       required: true,
-      placeholder: '请输入账户地址',
+      placeholder: '请选择账户姓名邮箱',
       option: userIdList,
       span: '24',
-      rules: [{ required: true, message: '请输入账户地址' }],
+      rules: [{ required: true, message: '请选择账户姓名邮箱' }],
     },
     {
       label: '选择成员角色',
@@ -63,7 +59,7 @@ export const memberItems = (queryInfo, userIdList) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请选择成员角色',
@@ -75,6 +71,7 @@ export const memberItems = (queryInfo, userIdList) => {
       widget: 'dateInput',
       initialValue: queryInfo?.accessExpirationTime,
       span: '24',
+      required: true,
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },
@@ -102,7 +99,7 @@ export const groupItems = (queryInfo, teamIdList) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请输入选择成员角色',
@@ -114,6 +111,7 @@ export const groupItems = (queryInfo, teamIdList) => {
       widget: 'dateInput',
       initialValue: queryInfo?.accessExpirationTime,
       span: '24',
+      required: true,
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },

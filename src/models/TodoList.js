@@ -28,6 +28,7 @@ export default createModel()({
     queryInfo: {},
     teamMembers: [],
     assignmentLabels: [],
+    projectId: '',
   },
   reducers: {
     update: (state, payload) => {
@@ -54,6 +55,7 @@ export default createModel()({
             dispatch.todolist.update({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
+              projectId: data?.data?.projectId,
             })
           } else {
             dispatch.todolist.update({
@@ -111,6 +113,7 @@ export default createModel()({
               value: item.assignUserId,
             }))
             dispatch.project.update({ teamMembers })
+            dispatch.todolist.update({ teamMembers })
           }
         }
       },
@@ -127,19 +130,20 @@ export default createModel()({
               value: item.id,
             }))
             dispatch.project.update({ assignmentLabels })
+            dispatch.todolist.update({ assignmentLabels })
           }
         }
       },
       // 翻页
 
       async goToPage(payload) {
-        const { page, pageSize, status, createId } = payload
+        const { page, pageSize, status, projectId } = payload
         await dispatch.todolist.update({
           filter: { page, pageSize },
         })
         await dispatch.todolist.getList({
           status: status,
-          createId,
+          projectId,
         })
       },
       clean() {

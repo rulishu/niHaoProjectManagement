@@ -26,7 +26,6 @@ const tabsLabel = (title, num) => {
     </div>
   )
 }
-
 const TodoList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -46,8 +45,6 @@ const TodoList = () => {
       assignmentLabels,
     },
   } = useSelector((state) => state)
-  // console.log('openTataList', openTataList)
-  // console.log('dataList', dataList)
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     if (location?.state) {
@@ -66,6 +63,8 @@ const TodoList = () => {
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
       )
     }
+    getTabList('1')
+    getTabList('0')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -78,8 +77,6 @@ const TodoList = () => {
 
   // 列表
   const taskDataList = (data, taskTotal, num) => {
-    // console.log('listField', listField)
-
     return (
       <div>
         {data.length > 0 ? (
@@ -90,7 +87,6 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
-                // console.log('item', item.status)
                 return (
                   <List.Item
                     key={index}
@@ -106,7 +102,9 @@ const TodoList = () => {
                     <Row gutter={10} className={styles.listRow}>
                       <div
                         onClick={() => {
-                          navigate(`/project/taskInfo/:projectId/:id`)
+                          navigate(
+                            `/project/taskInfo/${item.projectId}/${item.id}`
+                          )
                         }}>
                         <Col
                           // span={18}
@@ -189,7 +187,6 @@ const TodoList = () => {
         : { status: activeKey }
     )
   }
-
   return (
     <Container theme="white">
       <div className={styles.wrap}>
@@ -200,13 +197,12 @@ const TodoList = () => {
           loading={loading.effects.todolist.getList}>
           <div>
             <div className={styles.nav}>待办事项列表</div>
-
             <Tabs
               type="line"
               activeKey={activeKey}
               onTabClick={(activeKey) => getTabList(activeKey)}>
               <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="0">
-                <div>
+                <div className={styles.AllSelect}>
                   <AllSelect
                     teamMembers={teamMembers}
                     assignmentLabels={assignmentLabels}
@@ -217,7 +213,7 @@ const TodoList = () => {
                 {taskDataList(openTataList, openTotal, '0')}
               </Tabs.Pane>
               <Tabs.Pane label={tabsLabel('已完成', total)} key="1">
-                <div>
+                <div className={styles.AllSelect}>
                   <AllSelect
                     teamMembers={teamMembers}
                     assignmentLabels={assignmentLabels}
@@ -225,6 +221,7 @@ const TodoList = () => {
                     todolist={todolist}
                   />
                 </div>
+
                 {taskDataList(dataList, total, '1')}
               </Tabs.Pane>
             </Tabs>

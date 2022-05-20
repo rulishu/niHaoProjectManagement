@@ -1,8 +1,8 @@
 import { ProDrawer, useForm } from '@uiw-admin/components'
-import { TreeChecked, Notify } from 'uiw'
+import { TreeChecked } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-import { addMenu } from '@/servers/rolemanagement'
-import useSWR from 'swr'
+// import { addMenu } from '@/servers/rolemanagement'
+// import useSWR from 'swr'
 
 const Detail = ({ updateData }) => {
   const dispatch = useDispatch()
@@ -63,31 +63,31 @@ const Detail = ({ updateData }) => {
     dataRoleMenuIds.push(item.menuId)
   })
 
-  const { mutate } = useSWR(
-    [
-      addMenu,
-      {
-        method: 'POST',
-        body: {
-          roleId: queryInfo?.id,
-          menuIds: queryInfo?.menuIds || dataRoleMenuIds,
-        },
-      },
-    ],
-    {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (data && data.code === 200) {
-          Notify.success({
-            title: data.message,
-            description: '请刷新权限或重新登录',
-          })
-          onClose()
-        }
-      },
-    }
-  )
+  // const { mutate } = useSWR(
+  //   [
+  //     addMenu,
+  //     {
+  //       method: 'POST',
+  //       body: {
+  //         roleId: queryInfo?.id,
+  //         menuIds: queryInfo?.menuIds || dataRoleMenuIds,
+  //       },
+  //     },
+  //   ],
+  //   {
+  //     revalidateOnMount: false,
+  //     revalidateOnFocus: false,
+  //     onSuccess: (data) => {
+  //       if (data && data.code === 200) {
+  //         Notify.success({
+  //           title: data.message,
+  //           description: '请刷新权限或重新登录',
+  //         })
+  //         onClose()
+  //       }
+  //     },
+  //   }
+  // )
 
   //修改树结构
   function toTree(data) {
@@ -127,7 +127,7 @@ const Detail = ({ updateData }) => {
             await form?.submitvalidate?.()
             const errors = form.getError()
             if (errors && Object.keys(errors).length > 0) return
-            mutate()
+            // mutate()
           },
         },
       ]}>
