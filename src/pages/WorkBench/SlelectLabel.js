@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, Steps, Tag } from 'uiw' // List,
+import { Row, Col, Card, Tabs, Steps, Tag, Tooltip } from 'uiw' // List,
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 // import styles from './index.module.less'
@@ -69,6 +69,13 @@ export default function SlelectLabel() {
                       {
                         title: '任务标题',
                         key: 'assignmentTitle',
+                        width: 200,
+                        ellipsis: true,
+                        render: (address) => (
+                          <Tooltip placement="topLeft" content={address}>
+                            {address}
+                          </Tooltip>
+                        ),
                       },
                       // {
                       //   title: '任务ID',
@@ -122,6 +129,13 @@ export default function SlelectLabel() {
                       {
                         title: '任务标题',
                         key: 'assignmentTitle',
+                        width: 200,
+                        ellipsis: true,
+                        render: (address) => (
+                          <Tooltip placement="topLeft" content={address}>
+                            {address}
+                          </Tooltip>
+                        ),
                       },
                       // {
                       //   title: '任务ID',
@@ -176,6 +190,13 @@ export default function SlelectLabel() {
                       {
                         title: '任务标题',
                         key: 'assignmentTitle',
+                        width: 200,
+                        ellipsis: true,
+                        render: (address) => (
+                          <Tooltip placement="topLeft" content={address}>
+                            {address}
+                          </Tooltip>
+                        ),
                       },
                       // {
                       //   title: '任务ID',
@@ -230,6 +251,13 @@ export default function SlelectLabel() {
                       {
                         title: '任务标题',
                         key: 'assignmentTitle',
+                        width: 200,
+                        ellipsis: true,
+                        render: (address) => (
+                          <Tooltip placement="topLeft" content={address}>
+                            {address}
+                          </Tooltip>
+                        ),
                       },
                       // {
                       //   title: '任务ID',
