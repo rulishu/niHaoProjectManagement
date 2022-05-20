@@ -19,7 +19,7 @@ export const items = (queryInfo) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请输入成员角色',
@@ -59,7 +59,7 @@ export const memberItems = (queryInfo, userIdList) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请选择成员角色',
@@ -99,7 +99,7 @@ export const groupItems = (queryInfo, teamIdList) => {
       option: [
         { label: '开发', value: 1 },
         { label: '测试', value: 2 },
-        { label: '项目经理', value: 3 },
+        { label: '项目管理者', value: 3 },
       ],
       span: '24',
       placeholder: '请输入选择成员角色',
