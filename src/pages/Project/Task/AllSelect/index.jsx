@@ -19,34 +19,36 @@ const LabelSelect = (props) => {
   useEffect(() => {
     setLabel(assignmentLabels)
     setTeam(teamMembers)
-  }, [assignmentLabels, teamMembers])
+    setMilistone(milistones)
+  }, [assignmentLabels, teamMembers, milistones])
 
   const changeFun = (props) => {
     console.log('props: ', props)
     const value = { ...form.getFieldValues?.(), ...props }
     console.log('value: ', value)
-    let splicingConditionsDtos = []
+    let selectDtos = []
 
     Object.keys(value).forEach((item) => {
+      console.log('item: ', item)
       if (value[item].length > 0) {
         value[item].forEach((i) => {
-          splicingConditionsDtos.push({
+          selectDtos.push({
             condition: '=',
-            field: i.label,
+            field: item,
             value: i.value,
           })
         })
       }
     })
-    console.log('splicingConditionsDtos: ', splicingConditionsDtos)
-    if (project.activeKey !== '') {
-      splicingConditionsDtos.push({
-        condition: '=',
-        field: 'assignmentStatus',
-        value: project.activeKey,
-      })
-    }
-    updateData({ splicingConditionsDtos })
+    console.log('selectDtos: ', selectDtos)
+    // if (project.activeKey !== '') {
+    //   splicingConditionsDtos.push({
+    //     condition: '=',
+    //     field: 'assignmentStatus',
+    //     value: project.activeKey,
+    //   })
+    // }
+    updateData({ selectDtos: [...selectDtos] })
     pageS({
       assignmentStatus: project.activeKey,
     })
@@ -60,7 +62,7 @@ const LabelSelect = (props) => {
         formDatas={[
           {
             label: '',
-            key: 'author',
+            key: 'createId',
             widget: 'searchSelect',
             option: team,
             widgetProps: {
@@ -74,7 +76,7 @@ const LabelSelect = (props) => {
                 setTeam([...filterOpion])
               },
               onChange: (value) => {
-                changeFun({ author: value })
+                changeFun({ createId: value })
               },
               // onSelect: (value) => console.log('selectvalue', value),
               // loading: loading,
@@ -86,7 +88,7 @@ const LabelSelect = (props) => {
           },
           {
             label: '',
-            key: 'assignee',
+            key: 'assignmentId',
             widget: 'searchSelect',
             option: team,
             widgetProps: {
@@ -100,7 +102,7 @@ const LabelSelect = (props) => {
                 setTeam([...filterOpion])
               },
               onChange: (value) => {
-                changeFun({ assignee: value })
+                changeFun({ assignmentId: value })
               },
               // onSelect: (value) => console.log('selectvalue', value),
               // loading: loading,
@@ -112,7 +114,7 @@ const LabelSelect = (props) => {
           },
           {
             label: '',
-            key: 'milistone',
+            key: 'milestonesId',
             widget: 'searchSelect',
             option: milistone,
             widgetProps: {
@@ -127,7 +129,7 @@ const LabelSelect = (props) => {
                 setMilistone([])
               },
               onChange: (value) => {
-                changeFun({ milistone: value })
+                changeFun({ milestonesId: value })
               },
               // onSelect: (value) => console.log('selectvalue', value),
               // loading: loading,
@@ -158,7 +160,7 @@ const LabelSelect = (props) => {
           // },
           {
             label: '',
-            key: 'label',
+            key: 'labels',
             widget: 'searchSelect',
             option: label,
             widgetProps: {
@@ -172,7 +174,7 @@ const LabelSelect = (props) => {
                 setLabel(filterOpion)
               },
               onChange: (value) => {
-                changeFun({ label: value })
+                changeFun({ labels: value })
               },
               // onSelect: (value) => console.log('selectvalue', value),
               // loading: loading,
