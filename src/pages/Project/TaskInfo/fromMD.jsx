@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Form, Row, Col } from 'uiw'
 import styles from './index.module.less'
@@ -23,35 +23,31 @@ const FromMD = (props) => {
     fromValue,
     btnName,
     tributeList,
+    isComment,
   } = props
   const dispatch = useDispatch()
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
-  const [newtribute, setnewtribute] = useState()
-  console.log('tributeList', tributeList)
 
-  useEffect(() => {
-    let tribute = new Tribute({
+  const newTribute = useMemo(() => {
+    return new Tribute({
       trigger: '@',
       values: tributeList,
-      // lookup: 'memberName',
-      // fillAttr: 'id'
+      lookup: 'memberName',
+      fillAttr: 'id',
     })
-    setnewtribute(tribute)
   }, [tributeList])
 
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
-      // tribute.attach(mdRefs.current.textarea)
-      newtribute.attach(mdRefs.current.textarea)
+      newTribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
         form.current.setFieldValue(fromValue, e.target.value)
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mdRefs?.current, editData[fromValue]])
+  }, [fromValue, mdRefs, newTribute])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)
@@ -155,7 +151,13 @@ const FromMD = (props) => {
                           form?.current?.setFieldValue(fromValue, '')
                         }
                       }}
-                      disabled={infoData ? editData === infoData : false}>
+                      disabled={
+                        isComment
+                          ? editData[fromValue] === ''
+                          : infoData
+                          ? editData === infoData
+                          : false
+                      }>
                       {btnName || '提交'}
                     </Button>
                   </div>
