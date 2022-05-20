@@ -281,6 +281,9 @@ export default createModel()({
             projectId: project?.commentData?.projectId,
             id: project?.commentData?.assignmentId,
           })
+          dispatch.project.update({
+            commentData: {},
+          })
           NotifySuccess(data.message)
         }
       },

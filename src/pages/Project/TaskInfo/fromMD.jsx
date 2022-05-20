@@ -6,26 +6,46 @@ import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 
-let tribute = new Tribute({
-  trigger: '@',
-  values: [
-    { key: '展示的第一个key', value: '放上去的第一个值' },
-    { key: '展示的第二个key', value: '放上去的第二个值' },
-  ],
-})
+// let tribute = new Tribute({
+//   trigger: '@',
+//   values: [{aa:'1111',bb:'ccccc'}],
+//   lookup: 'aa',
+//   fillAttr: 'bb'
+// })
 
 const FromMD = (props) => {
-  const { upDate, submit, editName, editData, infoData, fromValue, btnName } =
-    props
+  const {
+    upDate,
+    submit,
+    editName,
+    editData,
+    infoData,
+    fromValue,
+    btnName,
+    tributeList,
+  } = props
   const dispatch = useDispatch()
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
+  const [newtribute, setnewtribute] = useState()
+  console.log('tributeList', tributeList)
+
+  useEffect(() => {
+    let tribute = new Tribute({
+      trigger: '@',
+      values: tributeList,
+      // lookup: 'memberName',
+      // fillAttr: 'id'
+    })
+    setnewtribute(tribute)
+  }, [tributeList])
 
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
-      tribute.attach(mdRefs.current.textarea)
+      // tribute.attach(mdRefs.current.textarea)
+      newtribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
         form.current.setFieldValue(fromValue, e.target.value)
       })
@@ -89,22 +109,12 @@ const FromMD = (props) => {
         style={{ flex: 1, marginBottom: 10 }}
         ref={form}
         onChange={({ current }) => {
-          console.log('current', current)
           upDate({
             [editName]: {
               ...editData,
               ...current,
             },
           })
-        }}
-        onSubmit={(item) => {
-          upDate({
-            [editName]: {
-              ...editData,
-              ...item.current,
-            },
-          })
-          submit()
         }}
         onSubmitError={(error) => {
           if (error.filed) {
@@ -138,7 +148,13 @@ const FromMD = (props) => {
                   <div className={styles.btnWrap}>
                     <Button
                       type="primary"
-                      htmlType="submit"
+                      // htmlType="submit"
+                      onClick={() => {
+                        submit()
+                        if (form.current) {
+                          form?.current?.setFieldValue(fromValue, '')
+                        }
+                      }}
                       disabled={infoData ? editData === infoData : false}>
                       {btnName || '提交'}
                     </Button>
