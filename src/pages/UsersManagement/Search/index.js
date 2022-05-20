@@ -2,8 +2,7 @@ import { Fragment } from 'react'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
 import { columnsSearch } from './items'
-import { Button, Card } from 'uiw'
-// import { SearchBar } from '@/components'
+import { Card } from 'uiw'
 import Drawer from '../Drawer/index'
 import Modal from '../Modals/index'
 import { useParams } from 'react-router-dom'
@@ -66,15 +65,10 @@ const Search = () => {
       })
     }
   }
-  // const SearchBarOption = [
-  //   { value: 1, text: '已打开' },
-  //   { value: 3, text: '已关闭' },
-  //   { value: '', text: '所有' },
-  // ]
   return (
     <Fragment>
       <Card>
-        <div
+        {/* <div
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
@@ -87,29 +81,34 @@ const Search = () => {
             onClick={() => handleEditTable('member')}>
             邀请成员
           </Button>
-          {/* <Button
+          <Button
             size="big"
             icon="usergroup-add"
             type="primary"
             onClick={() => handleEditTable('group')}>
             邀请团队
-          </Button> */}
-        </div>
-
-        {/* <div>
-        <SearchBar
-          isDrop={true}
-          option={SearchBarOption}
-          onSearch={(value, selectValue) => console.log(value, selectValue)}
-        />
-      </div> */}
-
+          </Button>
+        </div> */}
         <ProTable
           formCol={2}
           searchBtns={[
             {
+              label: '邀请成员',
+              htmlType: 'submit',
+              type: 'primary',
+              onClick: () => handleEditTable('member'),
+              icon: 'user-add',
+            },
+            {
+              label: '邀请团队',
+              htmlType: 'submit',
+              type: 'primary',
+              onClick: () => handleEditTable('group'),
+              icon: 'usergroup-add',
+            },
+            {
               label: '查询',
-              // type: 'primary',
+              type: 'primary',
               htmlType: 'submit',
               onClick: () => search.onSearch(),
               icon: 'search',
