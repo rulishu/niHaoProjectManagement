@@ -4,6 +4,7 @@ import {
   memberOperator,
   selectAllProjectPage,
   selectProjectPage,
+  getSelectPage,
 } from '../servers/workbench'
 import { Notify } from 'uiw'
 
@@ -15,6 +16,7 @@ const workbench = createModel()({
     memberList: [],
     allList: [],
     personList: [],
+    todoNotice: 0,
   },
   effects: (dispatch) => ({
     // 我近期参与的项目统计
@@ -61,6 +63,20 @@ const workbench = createModel()({
         })
       } else {
         Notify.error({ title: `失败` + data.message || '' })
+      }
+    },
+
+    // 待办事项
+    async gettodoList(params, { workbench }) {
+      const { filter } = workbench
+      const data = await getSelectPage({
+        ...filter,
+        ...params,
+      })
+      if (data && data.code === 200) {
+        dispatch.workbench.update({
+          todoNotice: data?.data?.total,
+        })
       }
     },
   }),
