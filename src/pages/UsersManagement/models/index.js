@@ -68,7 +68,7 @@ const usersManagement = createModel()({
       const data = await queryFuzzyAllUser(payload)
       if (data.code === 200) {
         const userIdList = data?.rows.map((item) => ({
-          label: item.userName,
+          label: `${item.nickName} ${item.email}`,
           value: item.userId,
         }))
         dph.usersManagement.updateState({
@@ -81,7 +81,6 @@ const usersManagement = createModel()({
       const dph = dispatch
       const data = await fuzzyNameQuery(payload)
       if (data.code === 200) {
-        console.log('data', data)
         const teamIdList = data?.data.map((item) => ({
           label: item.teamName,
           value: item.id,

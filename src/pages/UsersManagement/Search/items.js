@@ -33,11 +33,11 @@ export const columnsSearch = (handleEditTable) => [
     key: 'joinTime',
     align: 'center',
   },
-  // {
-  //   title: '受限用户',
-  //   key: 'code',
-  //   align: 'center',
-  // },
+  {
+    title: '访问到期日期',
+    key: 'accessExpirationTime',
+    align: 'center',
+  },
   {
     title: '操作',
     key: 'edit',

@@ -87,13 +87,13 @@ const Search = () => {
             onClick={() => handleEditTable('member')}>
             邀请成员
           </Button>
-          <Button
+          {/* <Button
             size="big"
             icon="usergroup-add"
             type="primary"
             onClick={() => handleEditTable('group')}>
             邀请团队
-          </Button>
+          </Button> */}
         </div>
 
         {/* <div>
