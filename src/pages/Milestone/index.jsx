@@ -16,6 +16,7 @@ import {
 } from 'uiw'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
+import newDebounce from '@/utils/debounce'
 import styles from './index.module.less'
 import useLocationPage from '@/hooks/useLocationPage'
 
@@ -77,10 +78,9 @@ const Milestone = () => {
 
   // 下拉框数据
   const sortingList = [
-    { value: 1, title: '即将到期' },
-    { value: 2, title: '稍后到期' },
-    { value: 3, title: '马上开始' },
-    { value: 4, title: '稍后开始' },
+    { value: 1, title: '里程碑标题' },
+    { value: 2, title: '创建时间' },
+    { value: 3, title: '更新时间' },
   ]
 
   // 关闭里程碑
@@ -95,15 +95,15 @@ const Milestone = () => {
     })
     dispatch({
       type: 'milestone/selectPageList',
-      payload: { milestonesStatusList: [], projectId },
+      payload: { milestonesStatusList: [], projectId, order: sorting },
     })
     dispatch({
       type: 'milestone/selectPageList',
-      payload: { milestonesStatusList: [1], projectId },
+      payload: { milestonesStatusList: [1], projectId, order: sorting },
     })
     dispatch({
       type: 'milestone/selectPageList',
-      payload: { milestonesStatusList: [2], projectId },
+      payload: { milestonesStatusList: [2], projectId, order: sorting },
     })
   }
 
@@ -218,6 +218,7 @@ const Milestone = () => {
             onClick={() => {
               setIsPulldown(false)
               setSorting(item.value)
+              getMilestoneByValue({ order: item.value })
             }}>
             {item.title}
           </li>
@@ -259,9 +260,14 @@ const Milestone = () => {
                 <Input
                   placeholder="请输入内容"
                   style={{ maxWidth: 200 }}
-                  onBlur={(e) =>
-                    getMilestoneByValue({ milestonesTitle: e.target.value })
-                  }
+                  // onBlur={(e) =>
+                  //   getMilestoneByValue({ milestonesTitle: e.target.value })
+                  // }
+                  onChange={(e) => {
+                    newDebounce(getMilestoneByValue, 500, {
+                      milestonesTitle: e.target.value,
+                    })
+                  }}
                 />
               </div>
               <div className={styles.dropdown}>

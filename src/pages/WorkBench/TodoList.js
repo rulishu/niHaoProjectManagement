@@ -1,8 +1,6 @@
-import { Row, Col, Card, Button, Tag, Tabs } from 'uiw'
+import { Row, Col, Card, Button, Tag } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { useState } from 'react'
 export default function TodoList() {
-  const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
@@ -16,7 +14,7 @@ export default function TodoList() {
       return {
         page: pageIndex,
         pageSize: pageSize,
-        status: Number(tab),
+        status: 0,
       }
     },
     requestOptions: {
@@ -24,7 +22,6 @@ export default function TodoList() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   return (
     <div>
       <div>
@@ -36,7 +33,7 @@ export default function TodoList() {
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/TodoList')}>
+                  onClick={() => (window.location.href = '#/todoList')}>
                   更多
                 </Button>
               }>
@@ -46,86 +43,39 @@ export default function TodoList() {
                   overflowX: 'hidden',
                   overflowY: 'auto',
                 }}>
-                <Tabs
-                  // type="line"
-                  activeKey="1"
-                  onTabClick={(tab, key, e) => {
-                    setTab(tab)
-                    table.onSearch()
-                  }}>
-                  <Tabs.Pane label="待办" key="0">
-                    <ProTable
-                      table={table}
-                      paginationProps={{ style: { display: 'none' } }}
-                      columns={[
-                        {
-                          title: '待办id',
-                          key: 'id',
-                        },
-
-                        {
-                          title: '待办内容',
-                          key: 'doConnent',
-                        },
-                        {
-                          title: '项目名称',
-                          key: 'projectName',
-                        },
-                        {
-                          title: '时间',
-                          key: 'createTime',
-                        },
-                        {
-                          title: '状态',
-                          key: 'status',
-                          render: (text) => {
-                            if (text === 0) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 1) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            }
-                          },
-                        },
-                      ]}
-                    />
-                  </Tabs.Pane>
-                  <Tabs.Pane label="已完成" key="1">
-                    <ProTable
-                      table={table}
-                      paginationProps={{ style: { display: 'none' } }}
-                      columns={[
-                        {
-                          title: '待办id',
-                          key: 'id',
-                        },
-
-                        {
-                          title: '待办内容',
-                          key: 'doConnent',
-                        },
-                        {
-                          title: '项目名称',
-                          key: 'projectName',
-                        },
-                        {
-                          title: '时间',
-                          key: 'createTime',
-                        },
-                        {
-                          title: '状态',
-                          key: 'status',
-                          render: (text) => {
-                            if (text === 0) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 1) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            }
-                          },
-                        },
-                      ]}
-                    />
-                  </Tabs.Pane>
-                </Tabs>
+                <ProTable
+                  table={table}
+                  paginationProps={{ style: { display: 'none' } }}
+                  columns={[
+                    {
+                      title: '待办ID',
+                      key: 'id',
+                    },
+                    {
+                      title: '待办内容',
+                      key: 'doConnent',
+                    },
+                    {
+                      title: '项目名称',
+                      key: 'projectName',
+                    },
+                    {
+                      title: '时间',
+                      key: 'createTime',
+                    },
+                    {
+                      title: '状态',
+                      key: 'status',
+                      render: (text) => {
+                        if (text === 0) {
+                          return <Tag color="#F95C2B">未开始</Tag>
+                        } else if (text === 1) {
+                          return <Tag color="#28a745">已完成</Tag>
+                        }
+                      },
+                    },
+                  ]}
+                />
               </div>
             </Card>
           </Col>

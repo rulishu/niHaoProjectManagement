@@ -39,7 +39,7 @@ const Users = (props) => {
   const { loading } = useSelector((state) => state)
 
   const handleEdit = async (value, type) => {
-    await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
+    // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
 
     if (type === 2) {
       setType(2)
@@ -85,7 +85,6 @@ const Users = (props) => {
           handleOnSearch={handleOnSearch}
         />
         <div className={styles.child}>
-          123
           <UsersBox
             data={userList}
             handleEdit={handleEdit}

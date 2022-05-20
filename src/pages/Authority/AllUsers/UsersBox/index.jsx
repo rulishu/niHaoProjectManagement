@@ -39,7 +39,6 @@ const UsersBox = (props) => {
   //   const result = memberAvatarArr.filter((item) => item.id === userId.id)
   //   return result?.length && result[0].url
   // }
-
   return (
     <div className={styles.content}>
       {data.map((item) => {
@@ -58,8 +57,8 @@ const UsersBox = (props) => {
                       }> */}
                     <Avatar
                       src={
-                        item.uuid
-                          ? `/api/file/selectFile/${item.uuid}`
+                        item.avatar
+                          ? `/api/file/selectFile/${item.avatar}`
                           : item.path
                       }>
                       {item.userName}

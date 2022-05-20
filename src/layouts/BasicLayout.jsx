@@ -22,18 +22,19 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
 
   useEffect(() => {
-    dispatch({
-      type: 'routeManagement/getInfo',
-    })
-    dispatch({
-      type: 'routeManagement/getRouters',
-    })
+    // dispatch({
+    //   type: 'routeManagement/getInfo',
+    // })
+    // dispatch({
+    //   type: 'routeManagement/getRouters',
+    // })
     refresh(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
+
   let routes = props.routes
 
   if (currUserRoute) {
