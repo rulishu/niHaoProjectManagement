@@ -108,8 +108,6 @@ const allusers = createModel()({
       if (data && data.code === 200) {
         await callback()
         NotifySuccess(data.message)
-      } else {
-        Notify.error({ title: '错误通知', description: data?.message || '' })
       }
     },
     async deleteById(params, { allusers }) {
