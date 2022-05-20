@@ -103,3 +103,28 @@ export {
   routesArr,
   checkArrayObjectValueRepeat,
 }
+
+//百分比(不带%)（已完成/总数）*100
+export function NumColor(value, inx) {
+  if (value === 0 || inx === 0) {
+    return 0
+  }
+  if (value === inx) {
+    return 100
+  }
+  let division = value / inx
+  let realVal = parseFloat(division).toFixed(2) * 100
+  return realVal
+}
+//百分比(带%)（已完成/总数）*100
+export function NumFilter(value, inx) {
+  if (value === 0 || inx === 0) {
+    return 0
+  }
+  if (value === inx) {
+    return `${100}%`
+  }
+  let division = value / inx
+  let realVal = parseFloat(division).toFixed(2) * 100
+  return `${realVal}%`
+}
