@@ -99,7 +99,9 @@ export default function Home() {
           <Col style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
             <List bordered={false} noHover={true}>
               <List.Item>
-                负责人: {allDataSource.nickName + allDataSource.email || ''}
+                负责人:
+                {allDataSource.projectLeader?.nickName +
+                  allDataSource.projectLeader?.email || ''}
               </List.Item>
               <List.Item>开始时间: {allDataSource.begin || ''}</List.Item>
               <List.Item>结束时间: {allDataSource.end || ''}</List.Item>
