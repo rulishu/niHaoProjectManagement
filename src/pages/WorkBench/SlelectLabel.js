@@ -67,16 +67,16 @@ export default function SlelectLabel() {
                     table={table}
                     columns={[
                       {
-                        title: '任务ID',
-                        key: 'assignmentId',
+                        title: '任务标题',
+                        key: 'assignmentTitle',
                       },
+                      // {
+                      //   title: '任务ID',
+                      //   key: 'assignmentId',
+                      // },
                       {
                         title: '项目',
                         key: 'name',
-                      },
-                      {
-                        title: '任务标题',
-                        key: 'assignmentTitle',
                       },
                       {
                         title: '任务状态',
@@ -120,17 +120,18 @@ export default function SlelectLabel() {
                     table={table}
                     columns={[
                       {
-                        title: '任务ID',
-                        key: 'assignmentId',
+                        title: '任务标题',
+                        key: 'assignmentTitle',
                       },
+                      // {
+                      //   title: '任务ID',
+                      //   key: 'assignmentId',
+                      // },
                       {
                         title: '项目',
                         key: 'name',
                       },
-                      {
-                        title: '任务标题',
-                        key: 'assignmentTitle',
-                      },
+
                       {
                         title: '任务状态',
                         key: 'assignmentStatus',
@@ -158,7 +159,7 @@ export default function SlelectLabel() {
                   />
                 </div>
               </Tabs.Pane>
-              <Tabs.Pane sequence="fadeIn up" label="已逾期" key="4">
+              <Tabs.Pane label="已逾期" key="4">
                 <div
                   style={{
                     height: 355,
@@ -173,17 +174,18 @@ export default function SlelectLabel() {
                     table={table}
                     columns={[
                       {
-                        title: '任务ID',
-                        key: 'assignmentId',
+                        title: '任务标题',
+                        key: 'assignmentTitle',
                       },
+                      // {
+                      //   title: '任务ID',
+                      //   key: 'assignmentId',
+                      // },
                       {
                         title: '项目',
                         key: 'name',
                       },
-                      {
-                        title: '任务标题',
-                        key: 'assignmentTitle',
-                      },
+
                       {
                         title: '任务状态',
                         key: 'assignmentStatus',
@@ -226,32 +228,34 @@ export default function SlelectLabel() {
                     table={table}
                     columns={[
                       {
-                        title: '任务ID',
-                        key: 'assignmentId',
+                        title: '任务标题',
+                        key: 'assignmentTitle',
                       },
+                      // {
+                      //   title: '任务ID',
+                      //   key: 'assignmentId',
+                      // },
                       {
                         title: '项目',
                         key: 'name',
                       },
-                      {
-                        title: '任务标题',
-                        key: 'assignmentTitle',
-                      },
-                      {
-                        title: '任务状态',
-                        key: 'assignmentStatus',
-                        render: (text) => {
-                          if (text === 1) {
-                            return <Tag color="#F95C2B">未开始</Tag>
-                          } else if (text === 2) {
-                            return <Tag color="#008EF0">进行中</Tag>
-                          } else if (text === 3) {
-                            return <Tag color="#28a745">已完成</Tag>
-                          } else if (text === 4) {
-                            return <Tag color="#dc3545">已逾期</Tag>
-                          }
-                        },
-                      },
+                      // {
+                      //   title: '任务状态',
+                      //   key: 'assignmentStatus',
+                      //   render: (text) => {
+                      //     if (text === 0) {
+                      //         return
+                      //     }else if (text === 1) {
+                      //       return <Tag color="#F95C2B">未开始</Tag>
+                      //     } else if (text === 2) {
+                      //       return <Tag color="#008EF0">进行中</Tag>
+                      //     } else if (text === 3) {
+                      //       return <Tag color="#28a745">已完成</Tag>
+                      //     } else if (text === 4) {
+                      //       return <Tag color="#dc3545">已逾期</Tag>
+                      //     }
+                      //   },
+                      // },
                       {
                         title: '创建人',
                         key: 'createName',
@@ -293,7 +297,6 @@ export default function SlelectLabel() {
                 current={memberList?.length}
                 style={{ padding: '20px 0' }}>
                 {memberList?.map((a, key) => {
-                  console.log('a', a)
                   return (
                     <Steps.Step
                       title={a?.createTime}
