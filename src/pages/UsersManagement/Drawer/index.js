@@ -114,6 +114,7 @@ const Drawer = (props) => {
       const payload = {
         ...current,
         id: queryInfo?.id,
+        accessExpirationTime: changeTimeFormat(current?.accessExpirationTime),
         joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,
