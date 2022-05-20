@@ -7,16 +7,12 @@ const LabelSelect = (props) => {
   const [team, setTeam] = useState(teamMembers)
   const dispatch = useDispatch()
   const form = useForm()
-
   useEffect(() => {
     setLabel(assignmentLabels)
     setTeam(teamMembers)
   }, [assignmentLabels, teamMembers])
-
   const changeFun = (props) => {
-    console.log('props: ', props)
     const value = { ...form.getFieldValues?.(), ...props }
-    console.log('value: ', value)
     let splicingConditionsDtos = []
 
     Object.keys(value).forEach((item) => {
@@ -29,7 +25,6 @@ const LabelSelect = (props) => {
         })
       }
     })
-    console.log('splicingConditionsDtos: ', splicingConditionsDtos)
     if (todolist.activeKey !== '') {
       splicingConditionsDtos.push({
         field: 'status',
@@ -39,6 +34,8 @@ const LabelSelect = (props) => {
     updateData({ splicingConditionsDtos })
     dispatch.todolist.getList({
       status: todolist.activeKey,
+      projectId: value?.label[0]?.value,
+      assignUserId: value?.author[0]?.value,
     })
   }
 
@@ -54,7 +51,7 @@ const LabelSelect = (props) => {
             widget: 'searchSelect',
             option: label,
             widgetProps: {
-              mode: 'multiple',
+              mode: 'single',
               labelInValue: true,
               placeholder: '项目',
               onSearch: (value) => {
@@ -80,9 +77,9 @@ const LabelSelect = (props) => {
             widget: 'searchSelect',
             option: team,
             widgetProps: {
-              mode: 'multiple',
+              mode: 'single',
               labelInValue: true,
-              placeholder: '成员',
+              placeholder: '指派人',
               onSearch: (value) => {
                 const filterOpion = teamMembers.filter((item) =>
                   item.label.includes(value.trim())
@@ -100,32 +97,32 @@ const LabelSelect = (props) => {
             },
             span: '6',
           },
-          {
-            label: '',
-            key: 'assignee',
-            widget: 'searchSelect',
-            option: team,
-            widgetProps: {
-              mode: 'multiple',
-              labelInValue: true,
-              placeholder: '指派',
-              onSearch: (value) => {
-                const filterOpion = teamMembers.filter((item) =>
-                  item.label.includes(value.trim())
-                )
-                setTeam([...filterOpion])
-              },
-              onChange: (value) => {
-                changeFun({ assignee: value })
-              },
-              // onSelect: (value) => console.log('selectvalue', value),
-              // loading: loading,
-              allowClear: true,
-              showSearch: true,
-              style: { width: '100%' },
-            },
-            span: '6',
-          },
+          // {
+          //   label: '',
+          //   key: 'assignee',
+          //   widget: 'searchSelect',
+          //   option: team,
+          //   widgetProps: {
+          //     mode: 'single',
+          //     labelInValue: true,
+          //     placeholder: '指派',
+          //     onSearch: (value) => {
+          //       const filterOpion = teamMembers.filter((item) =>
+          //         item.label.includes(value.trim())
+          //       )
+          //       setTeam([...filterOpion])
+          //     },
+          //     onChange: (value) => {
+          //       changeFun({ assignee: value })
+          //     },
+          //     // onSelect: (value) => console.log('selectvalue', value),
+          //     // loading: loading,
+          //     allowClear: true,
+          //     showSearch: true,
+          //     style: { width: '100%' },
+          //   },
+          //   span: '6',
+          // },
         ]}
       />
     </div>

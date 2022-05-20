@@ -25,15 +25,15 @@ export default function ListItem(props) {
               extra={
                 <div>
                   <div className={styles.listIssueIcon}>
-                    <Tooltip placement="top" content="Assignees">
+                    <Tooltip placement="top" content="指派人">
                       <span className={styles.taskUserName}>
-                        {item.assigneeUserName && <Icon type="user" />}{' '}
+                        {item.assigneeUserName && <Icon type="user" />}
                         {item.assigneeUserName}
                       </span>
                     </Tooltip>
                     <Icon type="message" />
                     <span className={styles.listIconSpan}>0</span>
-                    <Tooltip placement="top" content="Move">
+                    <Tooltip placement="top" content="删除">
                       <span
                         className={styles.listIconSpan}
                         onClick={() => delAssignment(item)}>
@@ -70,7 +70,7 @@ export default function ListItem(props) {
                       ? item[listField.createName]
                       : item?.createName}{' '}
                     {item?.dueDate && (
-                      <Tooltip placement="top" content="Due date">
+                      <Tooltip placement="top" content="计划日期">
                         <span
                           className={`dueDate ${
                             dayjs(item?.dueDate)?.diff(

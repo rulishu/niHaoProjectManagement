@@ -123,7 +123,7 @@ const EditTask = () => {
       editFromData: {
         ...editFromData,
         assignmentId: editFromData.assignmentId,
-        labels: dictDataList.filter((item) => keyArr.includes(item.dictCode)),
+        labels: dictDataList.filter((item) => keyArr.includes(item?.dictCode)),
       },
     })
   }
@@ -131,7 +131,7 @@ const EditTask = () => {
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
     const useful = editFromData?.labels?.map((item) =>
-      item.dictCode ? +item.dictCode : +item
+      item?.dictCode ? +item?.dictCode : +item
     )
     return dictDataList
       .map((item) => {
