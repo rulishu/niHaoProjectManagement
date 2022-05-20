@@ -66,7 +66,7 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务id',
+                          title: '任务ID',
                           key: 'assignmentId',
                         },
                         {
@@ -120,7 +120,7 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务id',
+                          title: '任务ID',
                           key: 'assignmentId',
                         },
                         {
@@ -174,7 +174,7 @@ export default function TableManage() {
                       table={table}
                       columns={[
                         {
-                          title: '任务id',
+                          title: '任务ID',
                           key: 'assignmentId',
                         },
                         {
