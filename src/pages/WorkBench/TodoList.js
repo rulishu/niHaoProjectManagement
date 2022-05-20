@@ -58,7 +58,7 @@ export default function TodoList() {
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/TodoList')}>
+                  onClick={() => (window.location.href = '#/todoList')}>
                   更多
                 </Button>
               }>
