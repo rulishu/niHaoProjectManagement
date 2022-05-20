@@ -41,7 +41,6 @@ const BasicInfo = (props) => {
         })
     }
   }, [type, baseDetail, form1, rolesDataInfo, postsDataInfo, postName])
-  console.log(baseDetail?.sex)
   // 搜索角色变化回调
   // const handleSearch = (value) => {
   //   const initialValue = allRoleList.map((item) => {
@@ -334,7 +333,10 @@ const BasicInfo = (props) => {
                 const value1 = await form1.getFieldValues?.()
                 const params = {
                   ...value1,
-                  postIds: value1?.postIds ? [Number(value1?.postIds)] : [],
+                  postIds:
+                    JSON.stringify(value1?.postIds) !== '{}'
+                      ? [Number(value1?.postIds)]
+                      : [],
                   roleIds: value1?.roleIds ? [value1?.roleIds] : [],
                   deptId: value1?.deptId[0]?.key || '',
                   avatar: uuid || '',
