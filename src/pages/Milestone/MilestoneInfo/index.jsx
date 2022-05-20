@@ -152,7 +152,7 @@ const MilestoneInfo = () => {
                       hideToolbar={true}
                       preview="preview"
                       autoFocus={true}
-                      visiableDragbar={true}
+                      visiableDragbar={false}
                     />
                   </div>
                 </div>
