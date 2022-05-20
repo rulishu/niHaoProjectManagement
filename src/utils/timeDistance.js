@@ -46,3 +46,20 @@ export function changeTimeFormat(str) {
     d.getDate() < 10 ? '0' + d.getDate() + '' : d.getDate() + ''
   return newDateYear + '-' + newDateMonth + '-' + newDateDay + ' ' + clock
 }
+
+// 获取当前时间
+export function ThisTime() {
+  let date = new Date()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
+  let day = date.getDate()
+  let mytime = date.toLocaleTimeString()
+  if (month >= 1 && month <= 9) {
+    month = '0' + month
+  }
+  if (day >= 0 && day <= 9) {
+    day = '0' + day
+  }
+  let time = year + '-' + month + '-' + day + ' ' + mytime
+  return time
+}

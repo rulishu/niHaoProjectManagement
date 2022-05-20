@@ -6,6 +6,7 @@ import formatter from '@uiw/formatter'
 import { changeTimeFormat } from '../../../utils/timeDistance'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
+import { ThisTime } from '../../../utils/timeDistance'
 
 const Drawer = (props) => {
   const baseRef = useForm()
@@ -68,6 +69,9 @@ const Drawer = (props) => {
       ) {
         errorObj[element] = '此项不能为空'
       }
+      if (changeTimeFormat(current?.accessExpirationTime) < ThisTime()) {
+        errorObj.accessExpirationTime = '到期访问时间需要大于当前时间'
+      }
     })
     if (Object.keys(errorObj).length > 0) {
       const err = new Error()
@@ -115,7 +119,7 @@ const Drawer = (props) => {
         ...current,
         id: queryInfo?.id,
         accessExpirationTime: changeTimeFormat(current?.accessExpirationTime),
-        joinTime: changeTimeFormat(current?.joinTime),
+        // joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,
       }
@@ -166,7 +170,7 @@ const Drawer = (props) => {
         }
         formDatas={
           tableType === 'edit'
-            ? items(queryInfo)
+            ? items(queryInfo, tableType)
             : tableType === 'member'
             ? memberItems(queryInfo, userIdList)
             : groupItems(queryInfo, teamIdList)
