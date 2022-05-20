@@ -22,7 +22,6 @@ export default function TodoList() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   return (
     <div>
       <div>
@@ -34,7 +33,7 @@ export default function TodoList() {
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/TodoList')}>
+                  onClick={() => (window.location.href = '#/todoList')}>
                   更多
                 </Button>
               }>
@@ -52,7 +51,6 @@ export default function TodoList() {
                       title: '待办ID',
                       key: 'id',
                     },
-
                     {
                       title: '待办内容',
                       key: 'doConnent',

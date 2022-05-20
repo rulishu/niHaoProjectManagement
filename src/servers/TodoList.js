@@ -18,3 +18,26 @@ export const getStrutsSwitch = (params) => {
     body: params,
   })
 }
+
+export const getSelectAll = (params) => {
+  return request('/api/ManagerTodoList/selectAll', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//指派人查询
+export const getselectAssignUser = (params) => {
+  return request('/api/ManagerTodoList/selectAssignUser', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//获取所有用户项目
+export const getselectAllUserProject = (params) => {
+  return request('/api/project/selectAllUserProject', {
+    method: 'POST',
+    body: params,
+  })
+}

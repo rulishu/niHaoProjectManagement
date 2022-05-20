@@ -1,11 +1,13 @@
 import UserLogin from '@uiw-admin/user-login'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { Notify } from 'uiw'
 
 export let navigate
 
 const UserLayout = () => {
   navigate = useNavigate()
+  const dispatch = useDispatch()
   let authList = [
     '/todoList',
     '/tableList',
@@ -61,15 +63,21 @@ const UserLayout = () => {
           if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
             sessionStorage.clear()
           }
+          dispatch({ type: 'routeManagement/getInfo' })
+          dispatch({
+            type: 'routeManagement/getRouters',
+            payload: {
+              callback: (data) =>
+                localStorage.setItem('routes', JSON.stringify(data)),
+            },
+          })
+
           localStorage.setItem(
             'userData',
             JSON.stringify(data?.data?.user || {})
           )
           localStorage.setItem('token', data?.token || '')
-          localStorage.setItem(
-            'routes',
-            JSON.stringify(data?.data?.menus || {})
-          )
+          // localStorage.setItem('routes', JSON.stringify(data?.data?.menus || {}))
           let roleAuth = []
           data?.data?.menus.forEach((item) => {
             roleAuth.push(item.path)

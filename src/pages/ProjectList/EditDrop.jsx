@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Icon, OverlayTrigger, Menu, Overlay, Card, Button } from 'uiw'
+import { Icon, OverlayTrigger, Menu, Overlay, Card, Button, Notify } from 'uiw'
 import styles from './index.module.less'
 import './index.css'
 
@@ -9,6 +9,17 @@ const EditDrop = (props) => {
   const [dropOpen, setDropOpen] = useState(false)
   //删除弹窗
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const deletePro = () => {
+    if (rowData.task === 0) {
+      dispatch.projectlist.deleteProject({
+        id: rowData.id,
+        setDeleteOpen,
+        search,
+      })
+    } else {
+      Notify.error({ title: '该项目下存在任务，无法删除！' })
+    }
+  }
   const menu = () => (
     <div>
       <Menu bordered style={{ width: '200px' }}>
@@ -55,15 +66,7 @@ const EditDrop = (props) => {
             <Button type="light" onClick={() => setDeleteOpen(false)}>
               取消
             </Button>
-            <Button
-              type="danger"
-              onClick={() =>
-                dispatch.projectlist.deleteProject({
-                  id: rowData.id,
-                  setDeleteOpen,
-                  search,
-                })
-              }>
+            <Button type="danger" onClick={() => deletePro()}>
               删除项目
             </Button>
           </div>

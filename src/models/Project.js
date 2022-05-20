@@ -10,6 +10,7 @@ import {
   selectLabel,
   assignment_label,
 } from '../servers/project'
+import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
 
 const NotifySuccess = (message) => {
@@ -27,6 +28,7 @@ export default createModel()({
       page: 1,
       pageSize: 10,
     },
+    dataList: [],
     prepareList: [],
     prepareTotal: 0,
     openTataList: [],
@@ -62,16 +64,38 @@ export default createModel()({
   },
   effects: (dispatch) => {
     return {
+      // 查询项目统计
+      async getProjectCountById(payload) {
+        const data = await getProjectCountById(payload)
+        console.log('data: ', data)
+        if (data.code === 200) {
+          dispatch.project.update({
+            prepareTotal: data.data?.totalWorkVo?.projectWksNum || 0,
+            openTotal: data.data?.totalWorkVo?.projectKfzNum || 0,
+            closeTotal: data.data?.totalWorkVo?.projectYwcNum || 0,
+            overtimeTotal: data.data?.totalWorkVo?.projectYqsNum || 0,
+            total: data.data?.totalWorkVo?.projectNum || 0,
+          })
+        } else {
+          Notify.error({ description: data?.message })
+        }
+      },
       // 分页查询
       async getList(params, { project }) {
-        const { assignmentStatus, ...others } = params
+        const {
+          assignmentStatus,
+          splicingConditionsDtos: asra,
+          ...others
+        } = params
         const { filter, splicingConditionsDtos } = project
-
-        const data = await getSelectPage({
+        let obj = {
           ...filter,
           ...others,
-          splicingConditionsDtos,
-        })
+        }
+        if (splicingConditionsDtos.length > 0) {
+          obj = { ...obj, splicingConditionsDtos }
+        }
+        const data = await getSelectPage(obj)
         console.log('data: ', data)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
@@ -105,9 +129,7 @@ export default createModel()({
       // 翻页
       async goToPage(payload) {
         const { page, pageSize, assignmentStatus, projectId } = payload
-        dispatch.project.update({
-          filter: { page, pageSize },
-        })
+
         let splicingConditionsDtos = []
         if (assignmentStatus !== '') {
           splicingConditionsDtos = [
@@ -118,12 +140,14 @@ export default createModel()({
             },
           ]
         }
-
+        dispatch.project.update({
+          filter: { page, pageSize },
+          splicingConditionsDtos,
+        })
         await dispatch.project.getList({
           page,
           pageSize,
           assignmentStatus,
-          splicingConditionsDtos,
           projectId,
         })
       },
@@ -177,9 +201,17 @@ export default createModel()({
 
       // 任务列表新增
       async getAdd(params, { project }) {
-        const { fromData } = project
+        const { labels, ...newData } = project.fromData
+        let newLabels = []
+        if (labels?.length > 0 && labels[0]?.dictCode) {
+          // eslint-disable-next-line array-callback-return
+          labels.map((item) => {
+            newLabels.push(item?.dictCode.toString())
+          })
+          newData.labels = newLabels
+        }
         const data = await getmMnagerAssignmentSave({
-          ...fromData,
+          ...newData,
           ...params,
         })
         if (data && data.code === 200) {
@@ -194,7 +226,6 @@ export default createModel()({
       // 任务列表查详情
       async getSelectById(params) {
         const data = await getManagerAssignmentSelectById({
-          // projectId: sessionStorage.getItem('id')
           ...params,
         })
         if (data && data.code === 200) {

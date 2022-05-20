@@ -82,53 +82,30 @@ const Task = (props) => {
   useEffect(() => {
     dispatch({
       type: 'project/update',
-      payload: { activeKey: '2' },
+      payload: {
+        activeKey: '2',
+        splicingConditionsDtos: [
+          {
+            condition: '=',
+            field: 'assignmentStatus',
+            value: '2',
+          },
+        ],
+      },
     })
 
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      // pageS({
-      //   assignmentStatus: '2',
-      //   splicingConditionsDtos: [
-      //     {
-      //       condition: '=',
-      //       field: 'assignmentStatus',
-      //       value: '2',
-      //     },
-      //   ],
-      // })
-      // pageS({
-      //   assignmentStatus: '3',
-      //   splicingConditionsDtos: [
-      //     {
-      //       condition: '=',
-      //       field: 'assignmentStatus',
-      //       value: '3',
-      //     },
-      //   ],
-      // })
-
-      ;['1', '2', '3', '4'].forEach((item) => {
-        pageS({
-          assignmentStatus: item,
-          splicingConditionsDtos: [
-            {
-              condition: '=',
-              field: 'assignmentStatus',
-              value: item,
-            },
-          ],
-        })
-      })
-
       pageS({
-        assignmentStatus: '',
-        splicingConditionsDtos: [],
+        assignmentStatus: '2',
       })
 
-      // dispatch.project.getList({ assignmentStatus: 1 })
-      // dispatch.project.getList({ assignmentStatus: 2 })
-      // dispatch.project.getList({ assignmentStatus: 3 })
+      dispatch({
+        type: 'project/getProjectCountById', //统计
+        payload: {
+          projectId: taskId,
+        },
+      })
     } else {
       Notify.success({ description: '查无此项' })
     }
@@ -228,16 +205,23 @@ const Task = (props) => {
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
+
+              dispatch({
+                type: 'project/update',
+                payload: {
+                  splicingConditionsDtos: [
+                    {
+                      condition: '=',
+                      field: 'assignmentStatus',
+                      value: activeKey,
+                    },
+                  ],
+                },
+              })
+
               pageS({
                 page: newPage,
                 assignmentStatus: activeKey,
-                splicingConditionsDtos: [
-                  {
-                    condition: '=',
-                    field: 'assignmentStatus',
-                    value: activeKey,
-                  },
-                ],
               })
             }
           })
@@ -287,16 +271,23 @@ const Task = (props) => {
 
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
-    updateData({ activeKey, filter: { ...filter, page: 1 } })
+    let splicingConditionsDtos = [
+      {
+        condition: '=',
+        field: 'assignmentStatus',
+        value: activeKey,
+      },
+    ]
+    if (activeKey === '') {
+      splicingConditionsDtos = []
+    }
+    updateData({
+      activeKey,
+      filter: { ...filter, page: 1 },
+      splicingConditionsDtos,
+    })
     await pageS({
       assignmentStatus: activeKey,
-      splicingConditionsDtos: [
-        {
-          condition: '=',
-          field: 'assignmentStatus',
-          value: activeKey,
-        },
-      ],
     })
   }
   console.log('activeKey', activeKey)

@@ -11,16 +11,12 @@ import {
   Icon,
   List, // Progress,
 } from 'uiw'
-import { SearchBar, Container } from '@/components'
+import { Container } from '@/components'
 import styles from './index.module.less'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
-
-const SearchBarOption = [
-  { value: '', text: '任务指派' },
-  { value: '1', text: '评论' },
-]
+import AllSelect from './AllSelect'
 
 const tabsLabel = (title, num) => {
   return (
@@ -37,10 +33,18 @@ const TodoList = () => {
   const location = useLocation()
 
   const taskId = sessionStorage.getItem('id')
-
+  const { todolist, loading } = useSelector((state) => state)
   const {
-    todolist: { dataList, total, filter, openTataList, openTotal, activeKey },
-    loading,
+    todolist: {
+      dataList,
+      total,
+      filter,
+      openTataList,
+      openTotal,
+      activeKey,
+      teamMembers,
+      assignmentLabels,
+    },
   } = useSelector((state) => state)
   // console.log('openTataList', openTataList)
   // console.log('dataList', dataList)
@@ -49,12 +53,14 @@ const TodoList = () => {
     if (location?.state) {
       dispatch({
         type: 'todolist/update',
-        payload: { activeKey: '' },
+        payload: { activeKey: '0' },
       })
     }
+    dispatch.todolist.getselectAssignUser()
+    dispatch.todolist.getselectAllUserProject()
     if (taskId) {
       dispatch.todolist.getList(
-        location?.state ? { status: '', ...location?.state } : { status: '' }
+        location?.state ? { status: '0', ...location?.state } : { status: '0' }
       )
       dispatch.todolist.getList(
         location?.state ? { status: '1', ...location?.state } : { status: '1' }
@@ -70,18 +76,6 @@ const TodoList = () => {
     })
   }
 
-  // 搜索按钮事件
-  const getTaskListData = async (value, selectValue) => {
-    updateData({ activeKey: selectValue })
-    await dispatch.todolist.getList({
-      status: selectValue,
-      assignmentTitle: value,
-      page: 1,
-    })
-  }
-
-  // console.log('arr--->', arr)
-
   // 列表
   const taskDataList = (data, taskTotal, num) => {
     // console.log('listField', listField)
@@ -96,6 +90,7 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
+                // console.log('item', item.status)
                 return (
                   <List.Item
                     key={index}
@@ -165,9 +160,9 @@ const TodoList = () => {
                 pageSize={10}
                 total={taskTotal}
                 alignment="center"
-                onChange={(page, _, pageSize) => {
+                onChange={(pages, _, pageSize) => {
                   dispatch.todolist.goToPage({
-                    page,
+                    pages,
                     pageSize,
                     status: num,
                     // createId: location?.state?.createId
@@ -210,26 +205,24 @@ const TodoList = () => {
               type="line"
               activeKey={activeKey}
               onTabClick={(activeKey) => getTabList(activeKey)}>
-              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="">
+              <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="0">
                 <div>
-                  <SearchBar
-                    isDrop={true}
-                    option={SearchBarOption}
-                    onSearch={(value, selectValue) =>
-                      getTaskListData(value, selectValue)
-                    }
+                  <AllSelect
+                    teamMembers={teamMembers}
+                    assignmentLabels={assignmentLabels}
+                    updateData={updateData}
+                    todolist={todolist}
                   />
                 </div>
-                {taskDataList(openTataList, openTotal, '')}
+                {taskDataList(openTataList, openTotal, '0')}
               </Tabs.Pane>
               <Tabs.Pane label={tabsLabel('已完成', total)} key="1">
                 <div>
-                  <SearchBar
-                    isDrop={true}
-                    option={SearchBarOption}
-                    onSearch={(value, selectValue) =>
-                      getTaskListData(value, selectValue)
-                    }
+                  <AllSelect
+                    teamMembers={teamMembers}
+                    assignmentLabels={assignmentLabels}
+                    updateData={updateData}
+                    todolist={todolist}
                   />
                 </div>
                 {taskDataList(dataList, total, '1')}

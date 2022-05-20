@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Input,
-  Select,
   SearchSelect,
   Form,
   Button,
@@ -185,7 +184,7 @@ const NewIssue = (props) => {
                   assigneeUser.length > 0 ? assigneeUser[0].label : '',
               },
             })
-            dispatch.project.getAdd()
+            dispatch.project.getAdd({ projectId: projectId })
           }}
           onSubmitError={(error) => {
             if (error.filed) {
@@ -200,17 +199,17 @@ const NewIssue = (props) => {
               initialValue: fromData.assignmentTitle,
               children: <Input placeholder="请输入标题" />,
             },
-            assignmentType: {
-              required: true,
-              inline: true,
-              initialValue: fromData.assignmentType,
-              children: (
-                <Select className="fromSelect">
-                  <Select.Option value={1}>问题</Select.Option>
-                  <Select.Option value={2}>事件</Select.Option>
-                </Select>
-              ),
-            },
+            // assignmentType: {
+            //   required: true,
+            //   inline: true,
+            //   initialValue: fromData.assignmentType,
+            //   children: (
+            //     <Select className="fromSelect">
+            //       <Select.Option value={1}>问题</Select.Option>
+            //       <Select.Option value={2}>事件</Select.Option>
+            //     </Select>
+            //   ),
+            // },
             description: {
               inline: true,
               initialValue: fromData.description,
@@ -296,12 +295,12 @@ const NewIssue = (props) => {
                     </Col>
                     <Col span="19">{fields.assignmentTitle}</Col>
                   </Row>
-                  <Row align="baseline" className="fromItem">
+                  {/* <Row align="baseline" className="fromItem">
                     <Col span="4" className="titleInput">
                       类型
                     </Col>
                     <Col span="19">{fields.assignmentType}</Col>
-                  </Row>
+                  </Row> */}
                   <Row align="top" className="fromItem">
                     <Col span="4" className="titleInput" style={{}}>
                       描述
