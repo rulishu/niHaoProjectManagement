@@ -84,7 +84,7 @@ const Task = (props) => {
       type: 'project/update',
       payload: {
         activeKey: '2',
-        splicingConditionsDtos: [
+        tabDtos: [
           {
             condition: '=',
             field: 'assignmentStatus',
@@ -154,18 +154,6 @@ const Task = (props) => {
 
   //   pageS({
   //     assignmentStatus: activeKey,
-  //     splicingConditionsDtos: [
-  //       {
-  //         condition: '=',
-  //         field: 'assignmentStatus',
-  //         value: selectValue,
-  //       },
-  //       {
-  //         condition: '=',
-  //         field: 'assignmentTitle',
-  //         value: value,
-  //       },
-  //     ],
   //   })
   // }
 
@@ -205,19 +193,6 @@ const Task = (props) => {
               if (newListDate.length === 1 && filter.page !== 1) {
                 newPage = filter.page - 1
               }
-
-              dispatch({
-                type: 'project/update',
-                payload: {
-                  splicingConditionsDtos: [
-                    {
-                      condition: '=',
-                      field: 'assignmentStatus',
-                      value: activeKey,
-                    },
-                  ],
-                },
-              })
 
               pageS({
                 page: newPage,
@@ -271,7 +246,7 @@ const Task = (props) => {
 
   // 切换tab，查询分页
   const getTabList = async (activeKey) => {
-    let splicingConditionsDtos = [
+    let tabDtos = [
       {
         condition: '=',
         field: 'assignmentStatus',
@@ -279,12 +254,12 @@ const Task = (props) => {
       },
     ]
     if (activeKey === '') {
-      splicingConditionsDtos = []
+      tabDtos = []
     }
     updateData({
       activeKey,
       filter: { ...filter, page: 1 },
-      splicingConditionsDtos,
+      tabDtos,
     })
     await pageS({
       assignmentStatus: activeKey,
