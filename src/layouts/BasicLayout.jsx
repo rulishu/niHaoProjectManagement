@@ -4,18 +4,20 @@ import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange } from '@/components'
 import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
+import { useSelector, useDispatch } from 'react-redux'
 // import Bread from './Breadcrumb'
 // import { BreadcrumbMap } from '@/utils/utils'
-import { useDispatch } from 'react-redux'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
+  const {
+    todolist: { openTotal },
+  } = useSelector((state) => state)
   const layouts = useLayouts()
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
   const userData = JSON.parse(localStorage.getItem('userData'))
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function refresh(type) {
     type && window.location.reload()
@@ -108,7 +110,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             系统管理
           </div>
           <div className={styles.title} onClick={() => navigate('/todoList')}>
-            <Badge count={66}>
+            <Badge count={openTotal}>
               <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
             </Badge>
           </div>

@@ -26,7 +26,6 @@ const tabsLabel = (title, num) => {
     </div>
   )
 }
-
 const TodoList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -106,7 +105,9 @@ const TodoList = () => {
                     <Row gutter={10} className={styles.listRow}>
                       <div
                         onClick={() => {
-                          navigate(`/project/taskInfo/:projectId/:id`)
+                          navigate(
+                            `/project/taskInfo/${item.projectId}/${item.id}`
+                          )
                         }}>
                         <Col
                           // span={18}
@@ -200,13 +201,12 @@ const TodoList = () => {
           loading={loading.effects.todolist.getList}>
           <div>
             <div className={styles.nav}>待办事项列表</div>
-
             <Tabs
               type="line"
               activeKey={activeKey}
               onTabClick={(activeKey) => getTabList(activeKey)}>
               <Tabs.Pane label={tabsLabel('待处理', openTotal)} key="0">
-                <div>
+                <div className={styles.AllSelect}>
                   <AllSelect
                     teamMembers={teamMembers}
                     assignmentLabels={assignmentLabels}
@@ -217,7 +217,7 @@ const TodoList = () => {
                 {taskDataList(openTataList, openTotal, '0')}
               </Tabs.Pane>
               <Tabs.Pane label={tabsLabel('已完成', total)} key="1">
-                <div>
+                <div className={styles.AllSelect}>
                   <AllSelect
                     teamMembers={teamMembers}
                     assignmentLabels={assignmentLabels}
@@ -225,6 +225,7 @@ const TodoList = () => {
                     todolist={todolist}
                   />
                 </div>
+
                 {taskDataList(dataList, total, '1')}
               </Tabs.Pane>
             </Tabs>
