@@ -16,12 +16,31 @@ const BasicInfo = (props) => {
   const { baseDetail, uuid, page, pageSize, rolesDataInfo, postsDataInfo } =
     state.allusers
   const { dictAllData } = state.dictionary
+  // console.log('dictAllData',dictAllData,type);
   // 所有角色列表
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
+  // useEffect(() => {
+  // 获取图片
+  // if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
+  // }, [baseDetail.path, dispatch, uuid])
+  // 寻找部门名称
+  const postName =
+    arrRole?.find((e) => e?.deptId === baseDetail?.deptId)?.deptName || ''
   useEffect(() => {
     // 获取图片
-    if (!baseDetail.path) uuid && dispatch.getNewUserAvatarFile({ uuid })
-  }, [baseDetail.path, dispatch, uuid])
+    if (type === 2) {
+      form1?.setFields &&
+        form1.setFields({
+          ...baseDetail,
+          sex: Number(baseDetail?.sex),
+          deptId: baseDetail.deptId
+            ? [{ key: baseDetail.deptId, label: postName }]
+            : '',
+          roleIds: rolesDataInfo,
+          postIds: postsDataInfo,
+        })
+    }
+  }, [type, baseDetail, form1, rolesDataInfo, postsDataInfo, postName])
   // 搜索角色变化回调
   // const handleSearch = (value) => {
   //   const initialValue = allRoleList.map((item) => {
@@ -34,17 +53,14 @@ const BasicInfo = (props) => {
   // }
 
   const [btnIcon, setBtnIcon] = useState('lock')
-
   // 下拉框值
   const [dropDownBox] = useState(
-    allRoleList.map((item) => {
-      return { value: item.roleId, label: item.roleName }
-    })
+    allRoleList
+      .filter((item) => item?.roleId !== 1)
+      ?.map((item) => {
+        return { value: item.roleId, label: item.roleName }
+      })
   )
-  // 寻找部门名称
-  const postName =
-    arrRole?.find((e) => e?.deptId === baseDetail?.deptId)?.deptName || ''
-
   return (
     <div className={styles.BasicInfo}>
       <Row>
@@ -187,7 +203,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 disabled: type === 1 && true,
                 // required: true,
-                initialValue: Number(baseDetail.sex),
+                initialValue: baseDetail.sex || 0,
                 option: [
                   { label: '男', value: 0 },
                   { label: '女', value: 1 },
@@ -219,7 +235,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 // required: true,
                 readOnly: type === 1 && 'readonly',
-                initialValue: baseDetail.status,
+                initialValue: baseDetail.status || 0,
                 widgetProps: {},
               },
               {
@@ -240,7 +256,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 // required: true,
                 disabled: type === 1 && true,
-                initialValue: rolesDataInfo || '',
+                // initialValue: rolesDataInfo,
                 option: dropDownBox,
                 widgetProps: {
                   multiple: false,
@@ -256,7 +272,7 @@ const BasicInfo = (props) => {
                 span: '24',
                 // required: true,
                 disabled: type === 1 && true,
-                initialValue: postsDataInfo || '',
+                initialValue: postsDataInfo,
                 option: dictAllData?.map((e) => ({
                   label: e?.postName,
                   value: e.postId,
@@ -291,20 +307,6 @@ const BasicInfo = (props) => {
                 initialValue: baseDetail.remark,
                 widgetProps: {},
               },
-              // {
-              //   label: '创建时间: ',
-              //   key: 'createTime',
-              //   widget: 'dateInput',
-              //   inline: true,
-              //   span: '24',
-              //   disabled: true,
-              //   hide: type === 3,
-              //   initialValue: baseDetail.createTime,
-              //   widgetProps: {
-              //     allowClear: false,
-              //     format: 'YYYY-MM-DD HH:mm:ss',
-              //   },
-              // },
             ]}
           />
         </Col>
@@ -327,22 +329,24 @@ const BasicInfo = (props) => {
                 // 获取表单值
 
                 const value = await form.getFieldValues?.()
+                console.log(value)
                 const value1 = await form1.getFieldValues?.()
                 const params = {
                   ...value1,
-                  postIds: [Number(value1?.postIds)],
-                  roleIds: [value1?.roleIds],
-                  deptId: value1?.deptId[0]?.key,
+                  postIds:
+                    JSON.stringify(value1?.postIds) !== '{}'
+                      ? [Number(value1?.postIds)]
+                      : [],
+                  roleIds: value1?.roleIds ? [value1?.roleIds] : [],
+                  deptId: value1?.deptId[0]?.key || '',
                   avatar: uuid || '',
                 }
-                console.log('params', params, value, 'value')
                 // 调用请求接口
                 // type 1 : 查看 2 : 编辑 3 :新增
                 if (props?.type === 2) {
                   const param = {
                     ...params,
                     userId: baseDetail?.userId,
-                    postIds: params?.postIds || ' ',
                   }
                   await dispatch.editNewUser({
                     param,

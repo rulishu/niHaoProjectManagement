@@ -20,9 +20,9 @@ const TaskInfo = () => {
   const {
     project: { issueType, editFromData, taskInfoData, commentData },
     allusers: { uuid },
+    projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
-
   const [isTitleErr, serIsTitleErr] = useState(false)
   const { projectId, id } = params
   const updateData = (payload) => {
@@ -380,6 +380,8 @@ const TaskInfo = () => {
                 editData={commentData}
                 fromValue="operatingRecords"
                 btnName="添加评论"
+                tributeList={userSelectAllList}
+                isComment={true}
               />
             </div>
             <EditTask />

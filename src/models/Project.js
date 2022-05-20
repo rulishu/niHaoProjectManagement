@@ -56,7 +56,9 @@ export default createModel()({
       labels: [],
       fileId: [],
     },
-    commentData: {},
+    commentData: {
+      operatingRecords: '',
+    },
     teamMembers: [],
     assignmentLabels: [],
     milistones: [],
@@ -234,6 +236,7 @@ export default createModel()({
               type: 2,
               assignmentId: data?.data?.assignmentId,
               projectId: data?.data?.projectId,
+              operatingRecords: '',
             },
           })
         }
@@ -282,7 +285,9 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.update({
-            commentData: {},
+            commentData: {
+              operatingRecords: '',
+            },
           })
           NotifySuccess(data.message)
         }

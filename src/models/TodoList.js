@@ -29,6 +29,7 @@ export default createModel()({
     teamMembers: [],
     assignmentLabels: [],
     projectId: '',
+    status: 0,
   },
   reducers: {
     update: (state, payload) => {
@@ -56,6 +57,7 @@ export default createModel()({
               openTataList: data?.data.list || [],
               openTotal: data?.data.total,
               projectId: data?.data?.projectId,
+              status: data?.data?.status,
             })
           } else {
             dispatch.todolist.update({
@@ -77,6 +79,8 @@ export default createModel()({
         const data = await getStrutsSwitch(params)
         // console.log('data------>11111', data)
         if (data && data.code === 200) {
+          dispatch.todolist.getList({ status: '1' })
+          dispatch.todolist.getList({ status: '0' })
           // Notify.success({ title: data.message, description: '' })
         } else {
           Notify.error({ title: data.message, description: '' })
