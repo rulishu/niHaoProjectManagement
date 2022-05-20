@@ -9,6 +9,7 @@ export default function AllTasks() {
   const {
     projectoverview: { projectMembersList, projectDynamicsList },
   } = useSelector((state) => state)
+
   const { projectId } = useParams()
   const token = localStorage.getItem('token')
   const milepostTable = useTable('/api/project/projectCountById', {
@@ -90,7 +91,7 @@ export default function AllTasks() {
                   title={itm?.createTime}
                   key={key}
                   onClick={() =>
-                    (window.location.href = `#/usersManagement/${projectId}`)
+                    (window.location.href = `#/project/taskInfo/${projectId}/${itm.assignmentId}`)
                   }
                   description={itm?.operatingRecords}></Steps.Step>
               )
@@ -121,10 +122,10 @@ export default function AllTasks() {
                     alignItems: 'center',
                   }}
                   onClick={() => navigate(`/usersManagement/${projectId}`)}>
-                  <span style={{ fontSize: 24 }}>{e.userName.slice(0, 1)}</span>
+                  <span style={{ fontSize: 24 }}>{e.nickName.slice(0, 1)}</span>
                 </div>
                 <span style={{ paddingTop: 5, display: 'block' }}>
-                  {e.userName}
+                  {e.nickName}
                 </span>
               </div>
             )
