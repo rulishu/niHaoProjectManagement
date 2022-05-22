@@ -4,6 +4,8 @@ import styles from './index.module.less'
 
 const LabelBox = (props) => {
   const {
+    labelHeader,
+    isRadio,
     listData,
     setLabelStatus,
     options,
@@ -11,6 +13,7 @@ const LabelBox = (props) => {
     searchLabel,
     runLabel,
     loading,
+    title,
   } = props
 
   const [newListData, setNewListData] = useState(listData)
@@ -24,21 +27,28 @@ const LabelBox = (props) => {
     if (!data?.length) {
       return <Empty />
     }
-    return data?.map((item) => {
+    return data?.map((item, index) => {
       return (
         <li
-          key={item.key}
+          key={item.key || index}
           className={styles.labelListLi}
           onClick={() => optionEvent(item?.key)}>
-          <div className={styles.liLeft}>
-            {options?.includes(item?.key) && <Icon type="check" />}
-          </div>
+          {!isRadio && (
+            <div className={styles.liLeft}>
+              {options?.includes(item?.key) && <Icon type="check" />}
+            </div>
+          )}
           <div className={styles.liRight}>
             <p>
-              <span
-                className={styles.piece}
-                style={{ backgroundColor: item?.color }}></span>
-              <span className={styles.title}>{item?.title}</span>
+              {labelHeader.map((headItem) => (
+                <div style={{ width: headItem?.width }} width={headItem.width}>
+                  {headItem?.component ? (
+                    headItem?.component(item, headItem, index)
+                  ) : (
+                    <div>{item[headItem.dataIndex]}</div>
+                  )}
+                </div>
+              ))}
             </p>
           </div>
         </li>
@@ -54,8 +64,21 @@ const LabelBox = (props) => {
           placeholder="search"
           size="small"
           onInput={(e) => {
+            const searchArr = labelHeader
+              .map((item) => {
+                if (item.isSearch) return item.dataIndex
+                return undefined
+              })
+              .filter((s) => s)
             const newData = listData?.filter(
-              (item) => item?.title?.search(`${e.target.value}`) !== -1
+              (item) =>
+                searchArr
+                  .map((searchArritem) => {
+                    if (item[searchArritem].search(`${e.target.value}`) !== -1)
+                      return item
+                    return undefined
+                  })
+                  .filter((s) => s).length
             )
             setNewListData(newData)
             searchLabel && searchLabel(e.target.value, newData)
@@ -77,10 +100,10 @@ const LabelBox = (props) => {
           onClick={() => {
             setLabelStatus(2)
           }}>
-          创建标签
+          创建{title}
         </div>
-        <div className={styles.footBut} onClick={() => runLabel()}>
-          管理标签
+        <div className={styles.footBut} onClick={() => runLabel && runLabel()}>
+          管理{title}
         </div>
       </div>
     </div>
