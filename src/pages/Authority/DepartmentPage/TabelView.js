@@ -177,7 +177,7 @@ export default function TabelView() {
           })
         }}></Alert>
       <Table
-        bordered
+        // bordered
         rowKey="deptId"
         columns={columns}
         data={treeData.includes(false) ? arrSource : dataSourceTreeData}
