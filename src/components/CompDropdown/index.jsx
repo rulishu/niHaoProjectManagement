@@ -3,7 +3,7 @@ import { Card, Button, Icon } from 'uiw'
 import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
-import columns from './columns.js'
+import columns from './columns'
 
 /**
  * This is a label
