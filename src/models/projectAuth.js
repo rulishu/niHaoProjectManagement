@@ -1,5 +1,10 @@
 import { createModel } from '@rematch/core'
-import { getSelectPage } from '../servers/projectAuth'
+import {
+  getSelectPage,
+  getinset,
+  getupdate,
+  getdelete,
+} from '../servers/projectAuth'
 
 /**
  * 任务Project
@@ -24,6 +29,23 @@ export default createModel()({
             total: data?.data.total,
           })
         }
+      },
+      // 新增团队
+      async getinset(payload) {
+        const { params } = payload
+        const data = await getinset(params)
+        console.log('新增团队', data)
+      },
+      // 根据团队 ID 删除团队
+      async getdelete(params) {
+        const data = await getdelete(params)
+        console.log('删除团队', data)
+      },
+      // 修改团队
+      async getupdate(payload) {
+        const { params } = payload
+        const data = await getupdate(params)
+        console.log('修改团队', data)
       },
     }
   },
