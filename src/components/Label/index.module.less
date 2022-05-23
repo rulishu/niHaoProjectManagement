@@ -2,11 +2,48 @@
 .label {
   position: relative;
 
+  // input 样式
+  .inputShape {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 0 rgb(19 124 189 / 0%), 0 0 0 0 rgb(19 124 189 / 0%),
+      inset 0 0 0 1px rgb(16 22 26 / 15%), inset 0 1px 1px rgb(16 22 26 / 20%);
+    box-sizing: border-box;
+    background: #fff;
+    margin: 0 !important;
+    padding: 1px 1px;
+    vertical-align: middle;
+    line-height: 30px;
+    align-items: center;
+    color: #393e48;
+    font-weight: 400;
+    font-size: inherit;
+    transition: box-shadow 0.3s cubic-bezier(0.4, 1, 0.75, 0.9);
+    appearance: none;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 30px;
+    padding: 0 9px;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 0 1px #6e6e6e, 0 0 0 3px rgb(57 62 72 / 0%),
+        inset 0 1px 1px rgb(16 22 26 / 20%);
+    }
+  }
+
+  // 表亲列表样式
   .tagList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
+    // 表亲列表项
     .tagListLi,
     .noColorTag {
       margin-bottom: 5px;
@@ -156,12 +193,9 @@
               white-space: normal;
               max-height: 27px;
 
-              .piece {
-                margin-right: 5px;
-                display: inline-block;
-                width: 15px;
-                height: 15px;
-                border-radius: 0.25rem;
+              & > div {
+                display: flex;
+                align-items: center;
               }
             }
           }

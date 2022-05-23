@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Row, Col, Progress, Alert, Loader } from 'uiw'
+import formatter from '@uiw/formatter'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
@@ -151,7 +152,7 @@ const MilestoneInfo = () => {
                       hideToolbar={true}
                       preview="preview"
                       autoFocus={true}
-                      visiableDragbar={true}
+                      visiableDragbar={false}
                     />
                   </div>
                 </div>
@@ -195,7 +196,9 @@ const MilestoneInfo = () => {
                   编辑
                 </Button>
               </div>
-              <div className={styles.rightBelow}>{listDataInfo.createTime}</div>
+              <div className={styles.rightBelow}>
+                {formatter('YYYY-MM-DD', new Date(listDataInfo.createTime))}
+              </div>
             </li>
             <li>
               <div className={styles.rightHead}>
@@ -220,10 +223,10 @@ const MilestoneInfo = () => {
                 <span>
                   任务
                   <span className={styles.num}>
-                    {listDataInfo?.allTaskNum ||
-                      listDataInfo?.unassignedSize +
-                        listDataInfo?.finishSize +
-                        listDataInfo?.conductSize ||
+                    {listDataInfo?.unassignedSize +
+                      listDataInfo?.finishSize +
+                      listDataInfo?.conductSize ||
+                      listDataInfo?.allTaskNum ||
                       0}
                   </span>
                 </span>
