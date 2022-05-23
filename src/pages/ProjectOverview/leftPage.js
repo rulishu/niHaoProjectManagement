@@ -76,20 +76,6 @@ export default function Home() {
       },
     })
   }
-  console.log(
-    '==>',
-    NumColor(
-      allDataSource?.totalWorkVo?.projectYwcNum,
-      allDataSource?.totalWorkVo?.projectNum
-    )
-  )
-  console.log(
-    '==>',
-    NumFilter(
-      allDataSource?.totalWorkVo?.projectYwcNum,
-      allDataSource?.totalWorkVo?.projectNum
-    )
-  )
 
   return (
     <div>
