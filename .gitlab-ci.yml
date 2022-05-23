@@ -18,7 +18,7 @@ Build Static:
   before_script: 
     - pwd
     - ls -al
-    - npm install
+    - yarn install
   script:
     - npm run build
   artifacts: 
