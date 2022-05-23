@@ -5,6 +5,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.less'
 import ProjectManagement from '../../components/ProjectManagement'
+import { NumColor, NumFilter } from '../../utils/utils'
 
 export default function Home() {
   const {
@@ -75,6 +76,21 @@ export default function Home() {
       },
     })
   }
+  console.log(
+    '==>',
+    NumColor(
+      allDataSource?.totalWorkVo?.projectYwcNum,
+      allDataSource?.totalWorkVo?.projectNum
+    )
+  )
+  console.log(
+    '==>',
+    NumFilter(
+      allDataSource?.totalWorkVo?.projectYwcNum,
+      allDataSource?.totalWorkVo?.projectNum
+    )
+  )
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -127,10 +143,18 @@ export default function Home() {
               <Progress.Circle
                 width={100}
                 strokeWidth={10}
-                percent={allDataSource?.totalWorkVo?.projectNum || 0}
+                percent={
+                  NumColor(
+                    allDataSource?.totalWorkVo?.projectYwcNum,
+                    allDataSource?.totalWorkVo?.projectNum
+                  ) || 0
+                }
                 format={(percent) => (
                   <span>
-                    {`${percent}`}
+                    {`${NumFilter(
+                      allDataSource?.totalWorkVo?.projectYwcNum,
+                      allDataSource?.totalWorkVo?.projectNum
+                    )}`}
                     <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                       总任务
                     </div>
