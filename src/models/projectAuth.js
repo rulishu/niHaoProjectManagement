@@ -4,6 +4,7 @@ import {
   getinset,
   getupdate,
   getdelete,
+  getall,
 } from '../servers/projectAuth'
 
 /**
@@ -46,6 +47,16 @@ export default createModel()({
         const { params } = payload
         const data = await getupdate(params)
         console.log('修改团队', data)
+      },
+      // 分页查找团队
+      async getall(params, { team }) {
+        const param = { page: 1, pageSize: 10, ...params }
+        const data = await getall(param)
+        if (data && data.code === 200) {
+          dispatch.team.update({
+            dataList: data?.data?.list,
+          })
+        }
       },
     }
   },
