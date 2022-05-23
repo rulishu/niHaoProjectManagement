@@ -38,6 +38,7 @@ const routes = [
       {
         path: '/projectOverview/:projectId',
         name: '项目概览',
+        icon: 'appstore-o',
         component: '@/pages/ProjectOverview',
         isAuth: true,
         navigate:
@@ -46,6 +47,7 @@ const routes = [
       {
         path: '/milestone/:projectId',
         name: '里程碑',
+        icon: 'circle-o',
         component: '@/pages/Milestone',
         navigate:
           "(navigate) => {navigate(`/milestone/${sessionStorage.getItem('projectId')}`)}",
@@ -89,6 +91,7 @@ const routes = [
       {
         path: '/project/task/:projectId',
         name: '任务列表',
+        icon: 'down-circle-o',
         component: '@/pages/Project/Task',
         navigate: (navigate, location) => {
           const id = sessionStorage.getItem('projectId')
@@ -148,6 +151,7 @@ const routes = [
       {
         path: '/usersManagement/:projectId',
         name: '成员管理',
+        icon: 'user',
         component: '@/pages/UsersManagement',
         isAuth: true,
         navigate:
@@ -163,6 +167,7 @@ const routes = [
           {
             path: '/Authority/users',
             name: '用户管理',
+            icon: 'user',
             component: '@/pages/Authority/AllUsers',
             isAuth: true,
             // navigate:
@@ -171,30 +176,35 @@ const routes = [
           {
             path: '/Authority/RoleManagement',
             name: '角色管理',
+            icon: 'smile-o',
             component: '@/pages/Authority/RoleManagement',
             isAuth: true,
           },
           {
             path: '/Authority/MenuManagement',
             name: '菜单管理',
+            icon: 'menu',
             component: '@/pages/Authority/MenuManagement',
             isAuth: true,
           },
           {
             path: '/Authority/DepartmentPage',
             name: '部门管理',
+            icon: 'appstore-o',
             component: '@/pages/Authority/DepartmentPage',
             isAuth: true,
           },
           {
             path: '/Authority/PostManagement',
             name: '岗位管理',
+            icon: 'square-o',
             component: '@/pages/Authority/PostManagement',
             isAuth: true,
           },
           {
             path: '/Authority/dictionary',
             name: '数据字典',
+            icon: 'date',
             component: '@/pages/Dictionary',
             isAuth: true,
           },
