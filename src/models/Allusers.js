@@ -99,7 +99,7 @@ const allusers = createModel()({
     async getUserList() {
       const data = await queryByPage({ pageSize: 99, page: 1 })
       if (data && data.code === 200) {
-        dispatch.allusers.update({ UserList: data?.data.list || [] })
+        dispatch.allusers.update({ UserList: data?.data.rows || [] })
       }
     },
     async addNewUser(payload) {
@@ -191,7 +191,7 @@ const allusers = createModel()({
     //   const params = { page: 1, pageSize: 999 }
     //   const data = await selectPageList(params)
     //   if (data && data.code === 200) {
-    //     await dispatch.allusers.update({ allProjectList: data.data.list })
+    //     await dispatch.allusers.update({ allProjectList: data.data.rows })
     //   }
     // },
     // 获取角色公司列表
