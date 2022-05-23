@@ -5,6 +5,7 @@ import request from '@/utils/request'
  * @pageSize
  *
  */
+// 待办分页查询
 export const getSelectPage = (params) => {
   return request('/api/ManagerTodoList/selectPage', {
     method: 'POST',
@@ -12,13 +13,14 @@ export const getSelectPage = (params) => {
   })
 }
 
+//待办事项转换
 export const getStrutsSwitch = (params) => {
   return request('/api/ManagerTodoList/strutsSwitch', {
     method: 'POST',
     body: params,
   })
 }
-
+//查询所有待办
 export const getSelectAll = (params) => {
   return request('/api/ManagerTodoList/selectAll', {
     method: 'POST',
