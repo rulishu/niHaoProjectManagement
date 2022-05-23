@@ -54,14 +54,14 @@ export default createModel()({
         if (data && data.code === 200) {
           if (Number(params?.status) === 0) {
             dispatch.todolist.update({
-              openTataList: data?.data.list || [],
+              openTataList: data?.data.rows || [],
               openTotal: data?.data.total,
               projectId: data?.data?.projectId,
               status: data?.data?.status,
             })
           } else {
             dispatch.todolist.update({
-              dataList: data?.data.list || [],
+              dataList: data?.data.rows || [],
               total: data?.data.total,
             })
           }
