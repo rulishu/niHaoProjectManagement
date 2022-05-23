@@ -3,7 +3,7 @@ import { Card, Button, Icon } from 'uiw'
 import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
-import columns from './columns.js'
+import columns from './columns'
 
 /**
  * This is a label
@@ -19,7 +19,7 @@ import columns from './columns.js'
  * @param {closeLabel?} function 点击关闭 label 触发回调
  * @return JSX.Element
  */
-const Label = (props) => {
+const CompDropdown = (props) => {
   const {
     form,
     title,
@@ -194,4 +194,4 @@ const Label = (props) => {
   )
 }
 
-export default Label
+export default CompDropdown
