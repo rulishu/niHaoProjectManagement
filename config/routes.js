@@ -212,7 +212,7 @@ const routes = [
       },
       {
         path: '/projectAuth',
-        name: '项目权限',
+        name: '团队管理权限',
         component: '@/pages/ProjectAuth',
         hideInMenu: true,
       },

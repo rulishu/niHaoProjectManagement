@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Row, Col, Card, List, Tabs, Tag, Button, Progress } from 'uiw'
+import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Tooltip } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -245,6 +245,11 @@ export default function Home() {
               key: 'assignmentTitle',
               ellipsis: true,
               width: 100,
+              render: (address) => (
+                <Tooltip placement="topLeft" content={address}>
+                  {address}
+                </Tooltip>
+              ),
             },
             {
               title: '任务描述',
@@ -342,6 +347,11 @@ export default function Home() {
               key: 'assignmentTitle',
               ellipsis: true,
               width: 100,
+              render: (address) => (
+                <Tooltip placement="topLeft" content={address}>
+                  {address}
+                </Tooltip>
+              ),
             },
             {
               title: '任务描述',
