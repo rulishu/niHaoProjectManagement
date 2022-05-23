@@ -41,10 +41,7 @@ export default function ListItem(props) {
                       </span>
                     </Tooltip>
                   </div>
-                  {listField?.updateName
-                    ? item[listField.updateName]
-                    : item?.updateName}{' '}
-                  更新于{' '}
+                  更新于
                   {listField?.updateTime
                     ? item[listField.updateTime]
                     : item?.updateTime}
@@ -65,10 +62,6 @@ export default function ListItem(props) {
                     {listField?.createTime
                       ? item[listField.createTime]
                       : item?.createTime}{' '}
-                    由{' '}
-                    {listField?.createName
-                      ? item[listField.createName]
-                      : item?.createName}{' '}
                     {item?.dueDate && (
                       <Tooltip placement="top" content="计划日期">
                         <span

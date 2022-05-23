@@ -300,6 +300,8 @@ const EditTask = () => {
           <Label
             listData={initListData()}
             isOpen={labelState}
+            template="label"
+            shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
               updateData({

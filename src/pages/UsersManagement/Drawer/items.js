@@ -32,6 +32,9 @@ export const items = (queryInfo) => {
       initialValue: queryInfo?.accessExpirationTime,
       span: '24',
       required: true,
+      widgetProps: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+      },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },
@@ -72,6 +75,9 @@ export const memberItems = (queryInfo, userIdList) => {
       initialValue: queryInfo?.accessExpirationTime,
       span: '24',
       required: true,
+      widgetProps: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+      },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },
@@ -112,6 +118,9 @@ export const groupItems = (queryInfo, teamIdList) => {
       initialValue: queryInfo?.accessExpirationTime,
       span: '24',
       required: true,
+      widgetProps: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+      },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Icon } from 'uiw'
+import { Row, Col, Card, List, Tabs, Tag, Button, Progress } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -127,7 +127,7 @@ export default function Home() {
               <Progress.Circle
                 width={100}
                 strokeWidth={10}
-                percent={allDataSource?.totalWorkVo?.projectNum || ''}
+                percent={allDataSource?.totalWorkVo?.projectNum || 0}
                 format={(percent) => (
                   <span>
                     {`${percent}`}
@@ -137,7 +137,7 @@ export default function Home() {
                   </span>
                 )}
               />
-              <div>
+              {/* <div>
                 <Button
                   type="primary"
                   onClick={() => {
@@ -145,7 +145,7 @@ export default function Home() {
                   }}>
                   查看全部<Icon type="right" size={12}></Icon>
                 </Button>
-              </div>
+              </div> */}
             </Col>
           </Row>
           <Row>

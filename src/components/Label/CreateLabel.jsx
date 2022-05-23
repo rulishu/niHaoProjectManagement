@@ -1,10 +1,9 @@
-import { Input, Button, Form } from 'uiw'
+import { Button, Form } from 'uiw'
 import styles from './index.module.less'
-import Custom from './Custom'
 
 // 创建标签
 const CreateLabel = (props) => {
-  const { setLabelStatus, createTag, createTagChange } = props
+  const { setLabelStatus, createTag, createTagChange, form } = props
 
   return (
     <div className={styles.createLabel}>
@@ -17,34 +16,25 @@ const CreateLabel = (props) => {
           createTagChange && createTagChange(initial, current)
         }}
         onSubmit={async ({ initial, current }) => {
-          const errorObj = {}
-          if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
-            errorObj.dictLabel = '请输入标签名称,长度为2-50'
-          }
-          if (!current.listClass) {
-            errorObj.listClass = '请选择或输入标签背景颜色'
-          }
+          // 表单校验
+          const errorObj = form ? form?.verify(initial, current) : {}
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
             err.filed = errorObj
             throw err
           }
+          // 返回结果
           const result = createTag && (await createTag(initial, current))
           result && setLabelStatus(1)
         }}
-        fields={{
-          dictLabel: {
-            children: <Input size="small" placeholder="请输入标签名称" />,
-          },
-          listClass: {
-            children: <Custom color={props?.color} />,
-          },
-        }}>
-        {({ fields, state }) => {
+        fields={form && { ...form.fields(props) }}>
+        {({ fields, state, canSubmit, resetForm }) => {
           return (
             <div>
-              <div className={styles.searchBox}>{fields.dictLabel}</div>
-              {fields.listClass}
+              <div>
+                {form &&
+                  form?.fieldsShow({ fields, state, canSubmit, resetForm })}
+              </div>
               <div className={styles.butGroup}>
                 <Button
                   size="small"
@@ -55,11 +45,7 @@ const CreateLabel = (props) => {
                   htmlType="submit">
                   创建
                 </Button>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    setLabelStatus(1)
-                  }}>
+                <Button size="small" onClick={() => setLabelStatus(1)}>
                   取消
                 </Button>
               </div>
