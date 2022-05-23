@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag } from 'uiw'
+import { Button, Tag, Card } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
@@ -122,138 +122,140 @@ const Demo = () => {
   }
   return (
     <Fragment>
-      <ProTable
-        // 操作栏按钮
-        operateButtons={[
-          {
-            label: '新增',
-            type: 'primary',
-            onClick: () => {
-              handleEditTable('add', {})
-            },
-          },
-        ]}
-        // 搜索栏按钮
-        searchBtns={[
-          {
-            label: '查询',
-            type: 'primary',
-            onClick: () => {
-              table.onSearch()
-            },
-          },
-          {
-            label: '重置',
-            onClick: () => {
-              table.onReset()
-            },
-          },
-        ]}
-        className="menuTable"
-        table={table}
-        columns={[
-          {
-            title: '菜单名称',
-            key: 'menuName',
-            width: 220,
-            props: {
-              widget: 'input',
-              widgetProps: {
-                placeholder: '请输入菜单名称',
+      <Card>
+        <ProTable
+          // 操作栏按钮
+          operateButtons={[
+            {
+              label: '新增',
+              type: 'primary',
+              onClick: () => {
+                handleEditTable('add', {})
               },
             },
-          },
-          {
-            title: '菜单图标',
-            key: 'icon',
-            ellipsis: true,
-          },
-          {
-            title: '排序',
-            key: 'orderNum',
-            ellipsis: true,
-          },
-          {
-            title: '权限标识',
-            key: 'perms',
-            ellipsis: true,
-          },
-          {
-            title: '组件路径',
-            key: 'component',
-            ellipsis: true,
-          },
-          {
-            title: '状态',
-            key: 'status',
-            ellipsis: true,
-            props: {
-              widget: 'select',
-              option: [
-                { label: '停用', value: '1' },
-                { label: '正常', value: '0' },
-              ],
+          ]}
+          // 搜索栏按钮
+          searchBtns={[
+            {
+              label: '查询',
+              type: 'primary',
+              onClick: () => {
+                table.onSearch()
+              },
             },
-            render: (text) => {
-              return (
-                <div>
-                  {text === 1 ? (
-                    <Tag light color="#dc3545">
-                      停用
-                    </Tag>
-                  ) : (
-                    <Tag light color="#28a745">
-                      正常
-                    </Tag>
-                  )}
-                </div>
-              )
+            {
+              label: '重置',
+              onClick: () => {
+                table.onReset()
+              },
             },
-          },
-          {
-            title: '创建时间',
-            key: 'createTime',
-            ellipsis: true,
-          },
-          {
-            title: '操作',
-            key: 'edit',
-            width: 200,
-            render: (text, key, rowData) => {
-              return (
-                <div>
-                  <Button
-                    size="small"
-                    type="primary"
-                    onClick={handleEditTable.bind(this, 'addChild', rowData)}>
-                    新增
-                  </Button>
-                  <Button
-                    size="small"
-                    type="primary"
-                    onClick={handleEditTable.bind(this, 'edit', rowData)}>
-                    编辑
-                  </Button>
-                  {/* <Button
-                    size="small"
-                    type="success"
-                    onClick={handleEditTable.bind(this, 'view', rowData)}>
-                    查看
-                  </Button> */}
-                  <DeletePopover
-                    handleEditTable={() => handleEditTable('del', rowData)}
-                  />
-                </div>
-              )
+          ]}
+          className="menuTable"
+          table={table}
+          columns={[
+            {
+              title: '菜单名称',
+              key: 'menuName',
+              width: 220,
+              props: {
+                widget: 'input',
+                widgetProps: {
+                  placeholder: '请输入菜单名称',
+                },
+              },
             },
-          },
-        ]}
-      />
-      <Detail
-        updateData={updateData}
-        handleTree={handleTree}
-        onSearch={table.onSearch}
-      />
+            {
+              title: '菜单图标',
+              key: 'icon',
+              ellipsis: true,
+            },
+            {
+              title: '排序',
+              key: 'orderNum',
+              ellipsis: true,
+            },
+            {
+              title: '权限标识',
+              key: 'perms',
+              ellipsis: true,
+            },
+            {
+              title: '组件路径',
+              key: 'component',
+              ellipsis: true,
+            },
+            {
+              title: '状态',
+              key: 'status',
+              ellipsis: true,
+              props: {
+                widget: 'select',
+                option: [
+                  { label: '停用', value: '1' },
+                  { label: '正常', value: '0' },
+                ],
+              },
+              render: (text) => {
+                return (
+                  <div>
+                    {text === 1 ? (
+                      <Tag light color="#dc3545">
+                        停用
+                      </Tag>
+                    ) : (
+                      <Tag light color="#28a745">
+                        正常
+                      </Tag>
+                    )}
+                  </div>
+                )
+              },
+            },
+            {
+              title: '创建时间',
+              key: 'createTime',
+              ellipsis: true,
+            },
+            {
+              title: '操作',
+              key: 'edit',
+              width: 200,
+              render: (text, key, rowData) => {
+                return (
+                  <div>
+                    <Button
+                      size="small"
+                      type="primary"
+                      onClick={handleEditTable.bind(this, 'addChild', rowData)}>
+                      新增
+                    </Button>
+                    <Button
+                      size="small"
+                      type="primary"
+                      onClick={handleEditTable.bind(this, 'edit', rowData)}>
+                      编辑
+                    </Button>
+                    {/* <Button
+                  size="small"
+                  type="success"
+                  onClick={handleEditTable.bind(this, 'view', rowData)}>
+                  查看
+                </Button> */}
+                    <DeletePopover
+                      handleEditTable={() => handleEditTable('del', rowData)}
+                    />
+                  </div>
+                )
+              },
+            },
+          ]}
+        />
+        <Detail
+          updateData={updateData}
+          handleTree={handleTree}
+          onSearch={table.onSearch}
+        />
+      </Card>
     </Fragment>
   )
 }
