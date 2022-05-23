@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty, Badge } from 'uiw'
+import { Table, Button, Alert, Empty, Tag } from 'uiw'
 
 export default function TabelView() {
   const {
@@ -113,9 +113,20 @@ export default function TabelView() {
       },
       render: (code) => {
         return (
+          // <div>
+          //   <Badge color={code === '0' ? '#28a745' : '#c2c2c2'} />
+          //   {code === '0' ? '正常' : '停用'}
+          // </div>
           <div>
-            <Badge color={code === '0' ? '#28a745' : '#c2c2c2'} />
-            {code === '0' ? '正常' : '停用'}
+            {code === '1' ? (
+              <Tag light color="#dc3545">
+                停用
+              </Tag>
+            ) : (
+              <Tag light color="#28a745">
+                正常
+              </Tag>
+            )}
           </div>
         )
       },
