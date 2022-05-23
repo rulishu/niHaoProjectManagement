@@ -64,12 +64,12 @@ const label = {
   },
 }
 
-// 配置 label 的模板
+// 配置 personnel 的模板
 const personnel = {
   // 数据渲染头部
   header: [
     {
-      title: '标题',
+      title: '人员名称',
       dataIndex: 'memberName',
       resultsShow: true,
       isSearch: true,
