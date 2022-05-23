@@ -25,7 +25,14 @@ const ProjectManagement = (fun) => {
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
-    projectUpdate: { drawerVisible, drawerType, seachValue, userList, id },
+    projectUpdate: {
+      drawerVisible,
+      drawerType,
+      seachValue,
+      userList,
+      id,
+      isHangup,
+    },
     loading,
   } = useSelector((state) => state)
 
@@ -120,17 +127,11 @@ const ProjectManagement = (fun) => {
             span: '24',
           },
           {
-            label: '项目状态:',
+            label: '是否挂起:',
             key: 'status',
-            widget: 'select',
-            option: [
-              { value: 1, label: '进行中' },
-              { value: 2, label: '已关闭' },
-              { value: 3, label: '已挂起' },
-            ],
-            initialValue: seachValue?.status,
+            widget: 'switch',
+            initialValue: isHangup,
             widgetProps: {},
-            span: '24',
             hide: drawerType === 'add',
           },
         ]}
