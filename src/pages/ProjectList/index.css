@@ -28,3 +28,13 @@
 .proProTable table tbody tr td{
     padding: 10px 0;
 }
+
+.proProTable table tbody tr .w-table-tr-children-left:first-child {
+    width: 50px;
+}
+
+.proProTable table tbody tr .w-table-tr-children-left:first-child>span{
+    display: block;
+    width: 50px;
+    overflow: hidden;
+}

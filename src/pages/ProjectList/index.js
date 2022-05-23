@@ -225,7 +225,7 @@ const ProjectList = (props) => {
                 {
                   // title: '头像',
                   key: 'avatar',
-                  width: 45,
+                  width: 30,
                   render: (text, _, rowData) => {
                     return (
                       <div className={styles.avatarContainer}>
