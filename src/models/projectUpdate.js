@@ -16,6 +16,7 @@ const projectUpdate = createModel()({
     id: '', //需要编辑项目的id
     userList: [], //新增项目或编辑项目的项目负责人列表
     fun: {},
+    isHangup: false, //项目是否挂起
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -68,7 +69,10 @@ const projectUpdate = createModel()({
         })
         const data = await queryProject(params) //获取项目详细信息
         if (data.code === 200) {
+          let isrigiht
+          data.data.status === 3 ? (isrigiht = true) : (isrigiht = false)
           dph.projectUpdate.updateState({
+            isHangup: isrigiht,
             seachValue: data.data,
             drawerVisible: true,
           })
@@ -94,9 +98,19 @@ const projectUpdate = createModel()({
     },
 
     //编辑项目
-    async updateProject(params) {
-      const { seachValue, callback } = params
+    async updateProject(params, state) {
+      let { seachValue, callback } = params
       const dph = dispatch
+
+      if (
+        seachValue.status === false &&
+        state.projectUpdate.isHangup === true
+      ) {
+        seachValue.status = 1
+      } else if (seachValue.status === true) {
+        seachValue.status = 3
+      }
+
       const data = await updateProject(seachValue)
       if (data.code === 200) {
         dph.projectUpdate.updateState({
