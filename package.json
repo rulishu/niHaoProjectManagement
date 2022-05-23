@@ -44,6 +44,7 @@
     "uiw": "^4.15.0"
   },
   "devDependencies": {
+    "nth-check": "1.0.2",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
     "@uiw-admin/config": "^5.3.15",
