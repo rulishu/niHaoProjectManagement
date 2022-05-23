@@ -39,17 +39,18 @@ const LabelBox = (props) => {
             </div>
           )}
           <div className={styles.liRight}>
-            <p>
-              {labelHeader.map((headItem) => (
-                <div style={{ width: headItem?.width }} width={headItem.width}>
-                  {headItem?.component ? (
-                    headItem?.component(item, headItem, index)
-                  ) : (
-                    <div>{item[headItem.dataIndex]}</div>
-                  )}
-                </div>
-              ))}
-            </p>
+            {labelHeader.map((headItem, index) => (
+              <div
+                style={{ width: headItem?.width }}
+                width={headItem.width}
+                key={index}>
+                {headItem?.component ? (
+                  headItem?.component(item, headItem, index)
+                ) : (
+                  <div>{item[headItem.dataIndex]}</div>
+                )}
+              </div>
+            ))}
           </div>
         </li>
       )

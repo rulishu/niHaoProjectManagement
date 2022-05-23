@@ -3,7 +3,7 @@ import { Card, Button, Icon } from 'uiw'
 import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
-import columns from './columns.js'
+import columns from './columns'
 
 /**
  * This is a label
@@ -19,7 +19,7 @@ import columns from './columns.js'
  * @param {closeLabel?} function 点击关闭 label 触发回调
  * @return JSX.Element
  */
-const Label = (props) => {
+const CompDropdown = (props) => {
   const {
     form,
     title,
@@ -96,14 +96,15 @@ const Label = (props) => {
         }
         onClick={() => shape === 'input' && setOpen(!open)}>
         {/* 多选与单选 */}
+
         {!isRadio ? (
           data?.map((item) => (
             <div
               key={item?.key}
               className={item.color ? styles.tagListLi : styles.noColorTag}
               style={{ backgroundColor: item.color, borderColor: item?.color }}>
-              {newHeader()?.map((headItem) => (
-                <span className={styles.tagTitle}>
+              {newHeader()?.map((headItem, index) => (
+                <span className={styles.tagTitle} key={index}>
                   {headItem.resultsShow && headItem?.component(item, headItem)}
                 </span>
               ))}
@@ -194,4 +195,4 @@ const Label = (props) => {
   )
 }
 
-export default Label
+export default CompDropdown

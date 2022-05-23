@@ -5,7 +5,7 @@ import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { AuthBtn } from '@uiw-admin/authorized'
-import { Label } from '@/components'
+import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 function useDebounce(fn, delay) {
@@ -297,7 +297,7 @@ const EditTask = () => {
               )}
             </AuthBtn>
           </div>
-          <Label
+          <CompDropdown
             listData={initListData()}
             isOpen={labelState}
             template="label"

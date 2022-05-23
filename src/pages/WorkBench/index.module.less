@@ -68,24 +68,6 @@
       padding: @padding-xss @padding-xs;
 
       span {
-        flex: 1;
-        padding: 0 @padding-xss;
-        margin-bottom: @margin-xss;
-      }
-    }
-
-    // 列表头
-    .milInfoLiHead {
-      position: absolute;
-      top: -37px;
-      left: 0;
-      right: 0;
-      border-bottom: 1px solid @normal-color;
-      font-weight: @header-font-weight;
-    }
-
-    li:not(:first-child) {
-      span {
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
@@ -96,6 +78,24 @@
         background-color: rgba(167, 182, 194, 0.3);
         cursor: pointer;
       }
+    }
+  }
+
+  // 列表头
+  .milInfoLiHead {
+    position: absolute;
+    top: -37px;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid @normal-color;
+    font-weight: @header-font-weight;
+  }
+
+  li:first-child {
+    span {
+      flex: 1;
+      padding: 0 @padding-xss;
+      margin-bottom: @margin-xss;
     }
   }
 }

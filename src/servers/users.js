@@ -1,6 +1,4 @@
-import { request } from '@uiw-admin/utils'
-
-const token = localStorage.getItem('token')
+import request from '@/utils/request'
 
 /**
  * 根据项目查询成员列表
@@ -36,7 +34,6 @@ export const pullSelectAll = (params) => {
   // return request('/api/managerUser/pullSelectAll', {
   return request('/api/member/queryFuzzyAllProjectMember', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
