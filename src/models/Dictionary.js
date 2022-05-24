@@ -162,7 +162,7 @@ export default createModel()({
       async getDictDataList(payload) {
         const data = await getDictDataList(payload)
         if (data.code === 200) {
-          dispatch.dictionary.update({ dictDataList: data?.rows || {} })
+          dispatch.dictionary.update({ dictDataList: data?.data || {} })
         }
       },
 

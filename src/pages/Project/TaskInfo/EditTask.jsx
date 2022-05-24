@@ -123,7 +123,9 @@ const EditTask = () => {
       editFromData: {
         ...editFromData,
         assignmentId: editFromData.assignmentId,
-        labels: dictDataList.filter((item) => keyArr.includes(item?.dictCode)),
+        labels: dictDataList?.filter((item) =>
+          keyArr?.includes(item?.dictCode)
+        ),
       },
     })
   }
@@ -134,7 +136,7 @@ const EditTask = () => {
       item?.dictCode ? +item?.dictCode : +item
     )
     return dictDataList
-      .map((item) => {
+      ?.map((item) => {
         if (!item.dictLabel || !item?.dictCode) return undefined
         return {
           key: item?.dictCode,
