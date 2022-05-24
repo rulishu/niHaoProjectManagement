@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { Alert, Badge, Card } from 'uiw'
+import { Alert, Tag, Card } from 'uiw'
 import { useDispatch, useSelector } from 'react-redux'
 import Drawer from './Drawer'
 import { searchFun } from '@/utils/publicFun'
@@ -158,8 +158,15 @@ export default function Index() {
               render: (code) => {
                 return (
                   <div>
-                    <Badge color={code === '0' ? '#28a745' : '#c2c2c2'} />
-                    {code === '0' ? '正常' : '停用'}
+                    {code === '1' ? (
+                      <Tag light color="#dc3545">
+                        停用
+                      </Tag>
+                    ) : (
+                      <Tag light color="#28a745">
+                        正常
+                      </Tag>
+                    )}
                   </div>
                 )
               },
