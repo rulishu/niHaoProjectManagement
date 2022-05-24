@@ -101,7 +101,7 @@ export function groupByDict() {
 }
 
 export function getDictDataList(params) {
-  return request('/api/system/dict/data/list', {
+  return request('/api/system/dict/data/listToken', {
     method: 'POST',
     body: params,
   })
