@@ -57,23 +57,24 @@ export default createModel()({
         }
         const data = await queryPaging(params)
         if (data.code === 200) {
+          console.log(data)
           const newData = {}
           if (
             payload?.milestonesStatusList?.length === 1 &&
             +payload.milestonesStatusList[0] === 1
           ) {
-            newData.openListData = data?.data.list
+            newData.openListData = data?.data.rows
             newData.openListTotal = data?.data.total
           }
           if (
             payload?.milestonesStatusList?.length === 1 &&
             +payload.milestonesStatusList[0] === 2
           ) {
-            newData.closeListData = data?.data.list
+            newData.closeListData = data?.data.rows
             newData.closeListTotal = data?.data.total
           }
           if (payload?.milestonesStatusList?.length !== 1) {
-            newData.listData = data?.data.list
+            newData.listData = data?.data.rows
             newData.total = data?.data.total
           }
           dispatch.milestone.update({ ...newData })

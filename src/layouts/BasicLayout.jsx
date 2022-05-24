@@ -121,13 +121,17 @@ function BasicLayoutScreen(props = { routes: [] }) {
             }}>
             项目管理
           </div>
-          <div
-            className={styles.title}
-            onClick={() => {
-              navigate('/Authority/users')
-            }}>
-            系统管理
-          </div>
+          {userInfo?.admin === true ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate('/Authority/users')
+              }}>
+              系统管理
+            </div>
+          ) : (
+            ''
+          )}
           <div className={styles.title} onClick={() => navigate('/todoList')}>
             {status === 0 ? (
               <Badge count={todoNotice}>

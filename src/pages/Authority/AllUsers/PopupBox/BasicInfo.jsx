@@ -219,6 +219,7 @@ const BasicInfo = (props) => {
                   key: 'email',
                   widget: 'input',
                   inline: false,
+                  required: true,
                   span: '12',
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.email,

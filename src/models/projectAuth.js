@@ -26,7 +26,7 @@ export default createModel()({
         const data = await getSelectPage({ ...params })
         if (data && data.code === 200) {
           dispatch.projectAuth.update({
-            dataList: data?.data.list || [],
+            dataList: data?.data.rows || [],
             total: data?.data.total,
           })
         }
