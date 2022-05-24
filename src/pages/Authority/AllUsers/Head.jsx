@@ -82,7 +82,7 @@ const Head = (props) => {
                     icon="search"
                     className="icon-btn"
                     style={{ marginLeft: 10, height: 30 }}
-                    type="dark"
+                    type="primary"
                     disabled={!canSubmit()}
                     onClick={async () => {
                       const whether =
@@ -93,7 +93,7 @@ const Head = (props) => {
                     查询
                   </Button>
                   <Button
-                    type="dark"
+                    type="light"
                     icon="reload"
                     className="icon-btn"
                     style={{ marginLeft: 10, height: 30 }}

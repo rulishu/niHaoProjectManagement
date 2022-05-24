@@ -125,3 +125,17 @@ export const getUserCompanyProjects = (params) => {
     method: 'GET',
   })
 }
+
+// 获取是否开启注册功能
+export const getRegisterSwitch = () => {
+  return request('/api/system/config/getRegisterSwitch', {
+    method: 'GET',
+  })
+}
+
+// 设置开启注册功能
+export const registerSwitch = () => {
+  return request('/api/system/config/registerSwitch', {
+    method: 'GET',
+  })
+}
