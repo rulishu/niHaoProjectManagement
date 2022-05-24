@@ -1,4 +1,4 @@
-import { Input } from 'uiw'
+import { Input, DateInput } from 'uiw'
 import Custom from './Custom'
 import styles from './template.module.less'
 
@@ -135,57 +135,59 @@ const milepost = {
   // 数据渲染头部
   header: [
     {
-      title: '色块',
-      dataIndex: 'color',
-      width: 30,
-      component: (item, record) => (
-        <span
-          className={styles.piece}
-          style={{ backgroundColor: item?.color }}></span>
-      ),
-    },
-    {
       title: '标题',
       dataIndex: 'title',
       resultsShow: true,
       isSearch: true,
-      width: 100,
-      component: (item, record) => (
-        <span className={styles.title}>{item?.title}</span>
-      ),
+      component: (item) => <span className={styles.title}>{item?.title}</span>,
     },
   ],
   // 配置参数
   params: {
-    title: '标签',
+    title: '里程碑',
   },
   // 船舰标签的表单
   form: {
     fields: (props) => {
       return {
-        dictLabel: {
-          children: <Input size="small" placeholder="请输入标签" />,
+        milestonesTitle: {
+          inline: true,
+          required: true,
+          children: <Input placeholder="请输入标题" />,
         },
-        listClass: {
-          children: <Custom color={props?.color} />,
+        startTime: {
+          inline: true,
+          required: true,
+          labelFor: 'date-inline',
+          children: (
+            <DateInput
+              format="YYYY-MM-DD"
+              datePickerProps={{ todayButton: '今天' }}
+            />
+          ),
         },
       }
     },
     fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
       return (
         <>
-          <div className={styles.searchBox}>{fields.dictLabel}</div>
-          {fields.listClass}
+          <div className={styles.searchBox}>{fields.milestonesTitle}</div>
+          <div className={styles.searchBox}>{fields.startTime}</div>
         </>
       )
     },
     verify: (initial, current) => {
       const errorObj = {}
-      if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
-        errorObj.dictLabel = '请输入标签名称,长度为2-50'
+      const { milestonesTitle, startTime } = current
+      if (
+        !milestonesTitle ||
+        milestonesTitle.length < 2 ||
+        milestonesTitle.length > 100
+      ) {
+        errorObj.milestonesTitle = '请输入标题,长度为2~100'
       }
-      if (!current.listClass) {
-        errorObj.listClass = '请选择或输入标签背景颜色'
+      if (!startTime) {
+        errorObj.startTime = '开始时间不能为空！'
       }
       return errorObj
     },

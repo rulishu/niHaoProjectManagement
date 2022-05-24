@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Button, SearchSelect, DateInput, Tooltip } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectOption, milepostOption } from '@/utils/utils'
+import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { AuthBtn } from '@uiw-admin/authorized'
@@ -107,14 +107,6 @@ const EditTask = () => {
       projectId: projectId || '',
     })
   }
-  // const milepostChange = async (v) => {
-  //   setMilepostState(false)
-  //   await dispatch.project.getEdit({
-  //     assignmentId: editFromData.assignmentId,
-  //     milestonesId: v[0].value,
-  //     projectId: projectId || '',
-  //   })
-  // }
   const dubDateChange = async (v) => {
     setDueDateState(false)
     await dispatch.project.getEdit({
@@ -136,23 +128,6 @@ const EditTask = () => {
     })
   }
 
-  // 里程碑组件 变化回调函数
-  const selectmilepostLabel = (keyArr) => {
-    setLabelState(true)
-    // await dispatch.project.getEdit({
-    //   assignmentId: editFromData.assignmentId,
-    //   milestonesId: milepostaData.milestonesId,
-    //   projectId: projectId || '',
-    // })
-    updateData({
-      editFromData: {
-        ...editFromData,
-        assignmentId: editFromData.assignmentId,
-        milestonesId: milepostaData.milestonesId,
-        projectId: projectId || '',
-      },
-    })
-  }
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
     const useful = editFromData?.labels?.map((item) =>
@@ -171,6 +146,34 @@ const EditTask = () => {
       .filter((s) => s)
   }
 
+  // 初始化 里程碑 组件数据
+  const initMilestoneData = () => {
+    return milepostaData
+      .map((item) => {
+        if (!item.milestonesId) return undefined
+        return {
+          key: item?.milestonesId,
+          title: item?.milestonesTitle,
+          check: editFromData.milestonesId === item.milestonesId,
+        }
+      })
+      .filter((s) => s)
+  }
+
+  // 新建 里程碑
+  const createMilestone = async (formData) => {
+    let result = false
+    await dispatch({
+      type: 'milestone/addMilestone',
+      payload: {
+        payload: { projectId, ...formData },
+        callback: (data) => (result = data),
+      },
+    })
+    return result
+  }
+
+  // 新建标签
   const createTag = async (formData) => {
     let result = false
     await dispatch({
@@ -237,52 +240,6 @@ const EditTask = () => {
             )}
           </div>
         </div>
-        {/* <div className={styles.rLabel}>
-          <div className={styles.rLabelTitle}>
-            <span>里程碑</span>
-            <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              {milepostState ? (
-                <Button basic type="primary" onClick={() => editMilepost()}>
-                  完成
-                </Button>
-              ) : (
-                <Button basic type="primary" onClick={() => editMilepost()}>
-                  编辑
-                </Button>
-              )}
-            </AuthBtn>
-          </div>
-          <div className={styles.rLabelText}>
-            {milepostState ? (
-              <SearchSelect
-                showSearch={true}
-                allowClear
-                disabled={false}
-                labelInValue={true}
-                placeholder="请输入选择"
-                onChange={(v) => {
-                  milepostChange(v)
-                }}
-                option={
-                  selectOption(
-                    milepostaData,
-                    'milestonesId',
-                    'milestonesTitle'
-                  ) || []
-                }
-                loading={loading.effects.milestone.selectPageList}
-              />
-            ) : taskInfoData?.milestonesTitle ? (
-              <Tooltip
-                placement="top"
-                content={<strong>{taskInfoData?.milestonesTitle}</strong>}>
-                <div>{taskInfoData?.milestonesTitle || '无'}</div>
-              </Tooltip>
-            ) : (
-              <div>无</div>
-            )}
-          </div>
-        </div> */}
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
             <span>里程碑</span>
@@ -299,36 +256,22 @@ const EditTask = () => {
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={
-              milepostOption(
-                milepostaData,
-                'milestonesId',
-                'milestonesTitle'
-              ) || []
-            }
+            listData={initMilestoneData() || []}
             isOpen={milepostState}
-            // isTagClose={false}
             template="milepost"
             shape="label"
             isRadio={true}
-            selectLabel={(_, selKey) => {
-              selectmilepostLabel(selKey)
-            }}
-            closeLabel={() => {
+            selectLabel={(key) => {
               updateData({
-                editFromData: {
-                  ...editFromData,
-                  labels: [...taskInfoData?.labels],
-                },
+                editFromData: { ...editFromData, milestonesId: key },
               })
-              setLabelState(false)
             }}
+            closeLabel={() => setLabelState(false)}
             loading={loading.effects.milestone.selectPageList}
             runLabel={() => {
-              navigate('/dictionary', { replace: true })
+              navigate('/Authority/dictionary', { replace: true })
             }}
-            createTag={(_, current) => createTag(current)}
-            // isTagClose={false}
+            createTag={(_, current) => createMilestone(current)}
           />
           {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
             <div className={styles.rLabelText}>无</div>
@@ -395,7 +338,6 @@ const EditTask = () => {
               navigate('/Authority/dictionary', { replace: true })
             }}
             createTag={(_, current) => createTag(current)}
-            // isTagClose={false}
           />
           {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
             <div className={styles.rLabelText}>无</div>
