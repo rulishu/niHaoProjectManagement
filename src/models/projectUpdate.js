@@ -26,7 +26,7 @@ const projectUpdate = createModel()({
   },
   effects: (dispatch) => ({
     //获取用户列表信息
-    async selectAllUserlist() {
+    async selectAllUserlist(params) {
       const dph = dispatch
       const data = await selectAllUserlist()
       let list = data.rows
@@ -42,6 +42,8 @@ const projectUpdate = createModel()({
       if (data.code === 200) {
         dph.projectUpdate.updateState({
           userList: arr,
+          drawerType: params.drawerType,
+          drawerVisible: true,
         })
       }
     },
@@ -49,23 +51,15 @@ const projectUpdate = createModel()({
     //打开关闭新增或编辑项目的弹出框
     async updataProject(params) {
       const dph = dispatch
-      dph.projectUpdate.updateState({
-        drawerVisible: true,
-      })
       if (params.drawerType === 'add') {
         //新增
-        dph.projectUpdate.selectAllUserlist() //获取用户列表信息
-        dph.projectUpdate.updateState({
-          drawerType: 'add',
-          drawerVisible: true,
-        })
+        dph.projectUpdate.selectAllUserlist({ drawerType: 'add' }) //获取用户列表信息
       } else {
         //编辑
         delete params.drawerType
-        dph.projectUpdate.selectAllUserlist() //获取用户列表信息
+        dph.projectUpdate.selectAllUserlist({ drawerType: 'edit' }) //获取用户列表信息
         dph.projectUpdate.updateState({
           id: params.id,
-          drawerType: 'edit',
         })
         const data = await queryProject(params) //获取项目详细信息
         if (data.code === 200) {
