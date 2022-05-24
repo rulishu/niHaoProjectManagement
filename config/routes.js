@@ -134,13 +134,13 @@ const routes = [
         hideInMenu: true,
         isAuth: true,
         routes: [
-          {
-            path: '/team/teamItem/:id',
-            name: '团队详情',
-            component: '@/pages/TeamManagement/TeamItem',
-            hideInMenu: true,
-            isAuth: true,
-          },
+          // {
+          //   path: '/team/teamItem/:id',
+          //   name: '团队详情',
+          //   component: '@/pages/TeamManagement/TeamItem',
+          //   hideInMenu: true,
+          //   isAuth: true,
+          // },
         ],
       },
       {
@@ -188,6 +188,13 @@ const routes = [
             icon: 'appstore-o',
             component: '@/pages/Authority/DepartmentPage',
             isAuth: true,
+          },
+          {
+            path: '/Authority/DepartmentPageRefactor',
+            name: '部门管理2',
+            icon: 'appstore-o',
+            component: '@/pages/Authority/DepartmentPageRefactor',
+            isAuth: false,
           },
           {
             path: '/Authority/PostManagement',

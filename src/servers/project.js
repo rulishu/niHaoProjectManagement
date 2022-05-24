@@ -32,7 +32,7 @@ export const getManagerAssignmentUpdate = (params) => {
 
 // 任务列表编辑
 export const getManagerAssignmentSelectById = (params) => {
-  return request('/api/ManagerAssignment/selectById', {
+  return request('/api/ManagerAssignment/selectByProjectId', {
     method: 'POST',
     body: params,
   })

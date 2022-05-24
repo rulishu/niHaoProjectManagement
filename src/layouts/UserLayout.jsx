@@ -1,14 +1,19 @@
 import UserLogin from '@uiw-admin/user-login'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Notify } from 'uiw'
+import Register from './Register'
 
 export let navigate
 
 const UserLayout = () => {
   navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const {
+    login: { isLogin },
+  } = useSelector((state) => state)
 
   useEffect(() => {
     const search = window.location.search
@@ -19,7 +24,7 @@ const UserLayout = () => {
         this.props.history.push('/')
       }
     }
-  })
+  }, [dispatch])
 
   let authList = [
     '/todoList',
@@ -51,71 +56,86 @@ const UserLayout = () => {
   const thirdLogin = () => {
     dispatch({ type: 'login/getThirdLoginToken' })
   }
-  return (
-    <UserLogin
-      projectName={'尼好程序开发测试项目管理软件'}
-      buttons={[
-        {
-          title: '登录',
-          htmlType: 'submit',
-          type: 'primary',
-          // onClick: goHome,
-        },
-        // {
-        //   title: '第2方登录',
-        // },
-        {
-          title: '第三方登录',
-          type: 'pure',
-          onClick: thirdLogin,
-        },
-      ]}
-      api="/api/login"
-      btnProps={{ type: 'primary' }}
-      saveField={{
-        username: 'userAccount',
-        password: 'userPassword',
-      }}
-      onBefore={(store) => ({ ...store })}
-      onSuccess={(data) => {
-        if (data && data.code === 200) {
-          Notify.success({ title: '登录成功' })
-          const userDataAccount = localStorage.getItem('userData')
-          localStorage.setItem('token', data?.token || '')
-          if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
-            sessionStorage.clear()
+
+  const returnLogin = () => {
+    dispatch({
+      type: 'login/updateState',
+      payload: { isLogin: !isLogin },
+    })
+  }
+
+  const Login = () => {
+    return (
+      <UserLogin
+        projectName={'尼好程序开发测试项目管理软件'}
+        buttons={[
+          {
+            title: '登录',
+            htmlType: 'submit',
+            type: 'primary',
+          },
+          {
+            title: '注册',
+            type: 'danger',
+            onClick: returnLogin,
+          },
+          {
+            title: 'GitLab第三方登录',
+            type: 'pure',
+            onClick: thirdLogin,
+          },
+        ]}
+        api="/api/login"
+        btnProps={{ type: 'primary' }}
+        saveField={{
+          username: 'userAccount',
+          password: 'userPassword',
+        }}
+        onBefore={(store) => ({ ...store })}
+        onSuccess={(data) => {
+          if (data && data.code === 200) {
+            Notify.success({ title: '登录成功' })
+            const userDataAccount = localStorage.getItem('userData')
+            localStorage.setItem('token', data?.token || '')
+            if (
+              data?.data?.user?.userAccount !== userDataAccount?.userAccount
+            ) {
+              sessionStorage.clear()
+            }
+
+            dispatch({
+              type: 'routeManagement/getRouters',
+              payload: {
+                callback: (data) =>
+                  localStorage.setItem('routes', JSON.stringify(data)),
+              },
+            })
+
+            localStorage.setItem(
+              'userData',
+              JSON.stringify(data?.data?.user || {})
+            )
+
+            // localStorage.setItem('routes', JSON.stringify(data?.data?.menus || {}))
+            let roleAuth = []
+            data?.data?.menus.forEach((item) => {
+              roleAuth.push(item.path)
+            })
+            localStorage.setItem('auth', JSON.stringify(authList || []))
+            // localStorage.setItem('auth', JSON.stringify(roleAuth || []))
+            // if (data?.data?.user?.isGuide) {
+            //   navigate('/company', { replace: true })
+            // } else {
+            navigate('/home', { replace: true })
+            // }
+          } else {
+            Notify.error({ title: '错误通知', description: data?.message })
           }
+        }}
+      />
+    )
+  }
 
-          dispatch({
-            type: 'routeManagement/getRouters',
-            payload: {
-              callback: (data) =>
-                localStorage.setItem('routes', JSON.stringify(data)),
-            },
-          })
-
-          localStorage.setItem(
-            'userData',
-            JSON.stringify(data?.data?.user || {})
-          )
-
-          // localStorage.setItem('routes', JSON.stringify(data?.data?.menus || {}))
-          let roleAuth = []
-          data?.data?.menus.forEach((item) => {
-            roleAuth.push(item.path)
-          })
-          localStorage.setItem('auth', JSON.stringify(authList || []))
-          // localStorage.setItem('auth', JSON.stringify(roleAuth || []))
-          // if (data?.data?.user?.isGuide) {
-          //   navigate('/company', { replace: true })
-          // } else {
-          navigate('/home', { replace: true })
-          // }
-        } else {
-          Notify.error({ title: '错误通知', description: data?.message })
-        }
-      }}
-    />
-  )
+  return isLogin ? <Login /> : <Register />
 }
 export default UserLayout

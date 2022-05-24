@@ -27,6 +27,8 @@ export default createModel()({
     fromData: {
       milestonesId: 0,
     },
+    taskMilestonesId: '',
+    taskMilestonesTitle: '',
     milestoneType: 0,
     milestonesId: 0,
     projectId: 0,
@@ -57,7 +59,6 @@ export default createModel()({
         }
         const data = await queryPaging(params)
         if (data.code === 200) {
-          console.log(data)
           const newData = {}
           if (
             payload?.milestonesStatusList?.length === 1 &&

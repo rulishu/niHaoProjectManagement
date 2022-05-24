@@ -237,6 +237,18 @@ const MilestoneInfo = () => {
                     navigate(`/project/newIssue/${projectId}`, {
                       state: { projectId },
                     })
+                    dispatch.milestone.update({
+                      taskMilestonesId: listDataInfo?.milestonesId,
+                      taskMilestonesTitle: listDataInfo?.milestonesTitle,
+                    })
+                    dispatch.project.update({
+                      fromData: {
+                        assignmentTitle: '',
+                        assignmentType: 1,
+                        description: '',
+                        labels: [],
+                      },
+                    })
                   }}>
                   新建任务
                 </Button>
