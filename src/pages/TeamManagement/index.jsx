@@ -1,71 +1,208 @@
-import { useEffect } from 'react'
-import { List, Row, Col, Button } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import styles from './index.module.less'
+import { Fragment } from 'react'
+import { Button } from 'uiw'
+import { useDispatch, useSelector } from 'react-redux'
+import { ProTable, useTable } from '@uiw-admin/components'
+import { deleteTeamById, getPageTeam } from '@/servers/team'
+import Drawer from './Drawer'
+import DelectModals from '@/components/DelectModals'
 
-const TeamManagement = () => {
+export default function Search() {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const {
-    team: { dataList },
-    // loading,
+    team: { systemId, delectVisible },
   } = useSelector((state) => state)
 
-  useEffect(() => {
-    dispatch({ type: 'team/getPageTeam', payload: {} })
-  }, [dispatch])
-
-  const goTeamItem = (item) => {
-    dispatch({ type: 'team/update', payload: { teamData: item } })
-    navigate(`/team/teamItem/${item.id}`, { state: {} })
+  const updateData = (payload) => {
+    dispatch({
+      type: 'team/updateState',
+      payload,
+    })
   }
 
-  const ListHeader = (
-    <Row style={{ width: '100%', fontWeight: 'bold' }}>
-      <Col span="2">ID</Col>
-      <Col span="4">项目ID</Col>
-      <Col span="10">团队名称</Col>
-      <Col span="4">创建时间</Col>
-      <Col span="4">操作</Col>
-    </Row>
-  )
+  const table = useTable(getPageTeam, {
+    // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
+    formatData: (data) => {
+      return {
+        total: data?.data?.total,
+        data: data?.data?.rows || [],
+      }
+    },
+    // 格式化查询参数 会接收到pageIndex 当前页  pageSize 页码
+    query: (pageIndex, pageSize, searchValues) => {
+      return {
+        page: pageIndex,
+        pageSize,
+        equipmentName: searchValues.equipmentName,
+        team: searchValues.team,
+        operate: searchValues.operate,
+      }
+    },
+  })
+  // 操作
+  function handleEditTable(type, obj) {
+    updateData({
+      isView: type === 'view',
+      tableType: type,
+    })
+    if (type === 'add') {
+      updateData({ drawerVisible: true, queryInfo: {} })
+    }
+    if (type === 'edit' || type === 'view') {
+      updateData({ drawerVisible: true, queryInfo: obj })
+    }
+    if (type === 'del') {
+      updateData({ delectVisible: true, systemId: obj?.id })
+    }
+  }
 
   return (
-    <div className={styles.teamManagement}>
-      <div>
-        <Button type="primary">新增团队</Button>
-      </div>
-      <List
-        dataSource={dataList}
-        header={ListHeader}
-        renderItem={(item) => {
-          return (
-            <List.Item>
-              <div className={styles.teamItem}>
-                <Row style={{ width: '100%' }}>
-                  <Col span="2">{item?.id}</Col>
-                  <Col span="4">{item?.projectId}</Col>
-                  <Col span="10" onClick={() => goTeamItem(item)}>
-                    {item?.teamName}
-                  </Col>
-                  <Col span="4">{item?.createTime}</Col>
-                  <Col span="4" className={styles.handle}>
-                    <Button icon="edit" basic size="small" type="primary">
-                      编辑
-                    </Button>
-                    <Button icon="delete" basic size="small" type="danger">
-                      删除
-                    </Button>
-                  </Col>
-                </Row>
+    <Fragment>
+      <ProTable
+        bordered
+        operateButtons={[
+          {
+            label: '新增',
+            type: 'primary',
+            onClick: () => {
+              handleEditTable('add', {})
+            },
+          },
+        ]}
+        searchBtns={[
+          {
+            label: '查询',
+            type: 'primary',
+            htmlType: 'submit',
+            onClick: () => {
+              table.onSearch()
+            },
+          },
+          {
+            label: '重置',
+            onClick: () => {
+              updateData({ queryInfo: {} })
+              table.onReset()
+            },
+          },
+        ]}
+        columns={[
+          {
+            title: '设备名称',
+            key: 'equipmentName',
+            props: {
+              widget: 'input',
+              // 组件属性
+              widgetProps: {
+                placeholder: '输入设备名称',
+              },
+            },
+            align: 'center',
+          },
+          {
+            title: '设备类型',
+            key: 'equipmentType',
+            props: {
+              widget: 'input',
+              // 组件属性
+              widgetProps: {
+                placeholder: '输入设备类型',
+              },
+            },
+            align: 'center',
+          },
+          {
+            title: '更新人',
+            key: 'operate',
+            props: {
+              widget: 'input',
+              // 组件属性
+              widgetProps: {
+                placeholder: '输入更新人',
+              },
+            },
+            align: 'center',
+          },
+          {
+            title: '创建时间',
+            key: 'createTime',
+            props: [
+              {
+                label: '创建开始时间',
+                widget: 'dateInput',
+                key: 'beginTime',
+                // 组件属性
+                widgetProps: {
+                  format: 'YYYY-MM-DD HH:mm:ss',
+                  datePickerProps: {
+                    showTime: true,
+                    todayButton: '今天',
+                  },
+                  placeholder: '选择创建开始时间',
+                },
+              },
+              {
+                label: '创建结束时间',
+                widget: 'dateInput',
+                key: 'endTime',
+                // 组件属性
+                widgetProps: {
+                  format: 'YYYY-MM-DD HH:mm:ss',
+                  datePickerProps: {
+                    showTime: true,
+                    todayButton: '今天',
+                  },
+                  placeholder: '选择创建结束时间',
+                },
+              },
+            ],
+            align: 'center',
+          },
+          {
+            title: '更新时间',
+            key: 'updateTime',
+            align: 'center',
+          },
+          {
+            title: '操作',
+            key: 'edit',
+            align: 'center',
+            width: 200,
+            render: (text, key, rowData) => (
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  size="small"
+                  icon="edit"
+                  onClick={() => handleEditTable('edit', rowData)}>
+                  编辑
+                </Button>
+                <Button
+                  size="small"
+                  icon="eye-o"
+                  onClick={() => handleEditTable('view', rowData)}>
+                  查看
+                </Button>
+                <Button
+                  size="small"
+                  icon="delete"
+                  onClick={() => handleEditTable('del', rowData)}>
+                  删除
+                </Button>
               </div>
-            </List.Item>
-          )
-        }}
+            ),
+          },
+        ]}
+        table={table}
       />
-    </div>
+      <Drawer updateData={updateData} onSearch={table.onSearch} />
+      {/* <Modals onSearch={table.onSearch} /> */}
+      <DelectModals
+        deleteById={deleteTeamById}
+        delectVisible={delectVisible}
+        modelsType="team/updateState"
+        parameter={{ id: systemId }}
+        onSearch={table.onSearch}
+      />
+    </Fragment>
   )
 }
-
-export default TeamManagement
