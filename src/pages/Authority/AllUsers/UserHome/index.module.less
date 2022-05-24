@@ -17,42 +17,75 @@
       align-content: center;
 
       span {
-        font-size: 160px;
+        font-size: 100px;
         width: 160px;
         height: 160px;
+        box-shadow: 0 0 6px 2px #ccc;
       }
     }
 
     .name {
-      padding: 5px;
-      line-height: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
+      h2 {
+        padding: @padding-xss;
+        line-height: 30px;
+        font-size: @font-size-base + 2px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
+    // 备注
+    .note {
+      overflow: hidden;
+      margin: 10px 0;
     }
 
     .editBut {
       width: 100%;
     }
+
+    .userBasicInfo {
+      ul {
+        li {
+          padding: 4px 6px 0;
+          font-size: 14px;
+          display: inline-block;
+          width: 100%;
+          max-width: 100%;
+
+          display: flex;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          span {
+            display: flex;
+            margin-right: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
   }
 
   .userProject {
-    padding-left: 10px;
+    padding-left: @padding-sm;
     width: calc(100% - 316px);
 
     // 概括
     .summary {
-      margin: 14px 0;
+      margin: @margin-sm 0;
 
       .block {
-        padding: 5px;
+        padding: @padding-xss;
 
         .head {
           display: flex;
           align-items: center;
           flex-direction: row;
           justify-content: space-between;
-          margin-bottom: 8px;
+          margin-bottom: @margin-xs;
         }
       }
 
@@ -63,31 +96,175 @@
           flex-wrap: wrap;
 
           li {
-            padding: 0 8px;
-            margin-bottom: 16px;
+            padding: 0 @padding-xs;
+            margin-bottom: @margin-md;
             display: flex;
             width: 50%;
+          }
+        }
+      }
+    }
+  }
 
-            .projectItem {
-              padding: 16px;
-              width: 100%;
-              border-color: #ccc;
-              border-style: solid;
-              border-width: 1px;
-              border-radius: 6px;
+  .userAllDynamicList,
+  .dynamic {
+    ul {
+      // 动态列表项
+      li {
+        font-size: 12px;
+        padding: 16px 0 16px 40px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #666;
+        position: relative;
+        line-height: 1.25rem;
+        position: relative;
 
-              p {
-                display: flex;
-                font-size: 12px;
-                margin-top: 8px;
+        .avatar {
+          position: absolute;
+          left: 0;
+        }
 
-                & > span {
-                  margin-right: 10px;
-                  display: flex;
-                  align-items: center;
-                }
-              }
+        .dynamicTop {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .name {
+            color: #333;
+            font-size: 14px;
+            font-size: 500;
+            line-height: 1.25rem;
+          }
+        }
+
+        .dynamicCon {
+          line-height: 16px;
+        }
+
+        .dynamicBot {
+          display: inline;
+          color: #008ef0;
+
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .projectLiLeft,
+  .projectItem {
+    padding: @padding-md;
+    width: 100%;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 6px;
+
+    // 项目标题
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      h2 {
+        font-weight: 600;
+
+        &:first-child:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+
+      // 项目角色
+      .role {
+        display: inline-block;
+        font-size: @font-size-sm;
+        font-weight: 500;
+        line-height: 18px;
+        white-space: nowrap;
+        border: 1px solid #ccc;
+        border-radius: 24px;
+        padding: @padding-xss - 2px @padding-xss + 2px;
+        font-size: @font-size-sm;
+      }
+    }
+
+    .text {
+      min-height: 18px;
+    }
+
+    p {
+      display: flex;
+      font-size: @font-size-sm;
+      margin-top: @margin-xs;
+
+      span {
+        margin-right: @margin-xss - 2px;
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+
+      & > span {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  // 用户所有项目列表
+  .userAllProjectList {
+    .projectListHead {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: @padding-md 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    ul {
+      li {
+        display: flex;
+        padding: 0 6px;
+
+        &:hover {
+          background-color: #efefef9d;
+        }
+
+        .projectLiLeft {
+          padding: @padding-lg 0;
+          border: none;
+          border-color: #ccc;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0;
+
+          .title {
+            justify-content: flex-start;
+
+            h2 {
+              font-size: 20px;
             }
+
+            .role {
+              margin-left: 5px;
+            }
+          }
+
+          .text {
+            font-size: @font-size-sm;
           }
         }
       }
