@@ -1,6 +1,7 @@
 import { Empty, Icon, Button, Loader } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
+import { ProjectManagement } from '@/components'
 import styles from './index.module.less'
 
 const ProjectList = (props) => {
@@ -18,7 +19,7 @@ const ProjectList = (props) => {
         <div></div>
         <Button
           type="success"
-          size="large"
+          size="small"
           onClick={() => {
             dispatch({
               type: 'projectUpdate/updataProject',
@@ -78,6 +79,7 @@ const ProjectList = (props) => {
           )}
         </ul>
       </Loader>
+      <ProjectManagement />
     </div>
   )
 }
