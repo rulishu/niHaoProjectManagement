@@ -38,7 +38,7 @@ const NewIssue = (props) => {
   const {
     project: { fromData },
     dictionary: { dictDataList },
-    milestone: { milepostaData },
+    milestone: { milepostaData, taskMilestonesTitle, taskMilestonesId },
     projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
@@ -133,7 +133,6 @@ const NewIssue = (props) => {
   const onCancel = () => {
     navigate(`/project/task/${projectId}`)
   }
-  console.log('fromData', fromData)
   return (
     <div className="main">
       <div className="title">新建任务</div>
@@ -249,11 +248,14 @@ const NewIssue = (props) => {
             },
             milestonesId: {
               inline: true,
-              initialValue: fromData.milestonesId,
+              initialValue: taskMilestonesTitle
+                ? taskMilestonesId
+                : fromData.milestonesId,
               children: (
                 <SearchSelect
                   showSearch={true}
                   allowClear
+                  value={taskMilestonesTitle}
                   disabled={false}
                   placeholder="请输入选择"
                   option={
