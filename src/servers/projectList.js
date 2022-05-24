@@ -110,7 +110,7 @@ export function selectAllUser(params) {
  * 获取所有用户
  */
 export function selectAllUserlist(params) {
-  return request('/api/system/user/list', {
+  return request('/api/system/user/listToken', {
     method: 'POST',
     body: params,
   })

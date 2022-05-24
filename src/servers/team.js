@@ -1,5 +1,4 @@
 import { request } from '@uiw-admin/utils'
-
 /**
  * 团队 API
  */
