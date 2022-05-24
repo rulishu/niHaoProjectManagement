@@ -35,7 +35,7 @@ const FromMD = (props) => {
       trigger: '@',
       values: tributeList || [],
       lookup: 'memberName',
-      fillAttr: 'id',
+      fillAttr: 'userId',
     })
   }, [tributeList])
 

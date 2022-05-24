@@ -29,9 +29,9 @@ const projectUpdate = createModel()({
     async selectAllUserlist(params) {
       const dph = dispatch
       const data = await selectAllUserlist()
-      let list = data.rows
+      let list = data?.data
       let arr = []
-      list.forEach((element) => {
+      list?.forEach((element) => {
         let value = element.userId
         let label = element.nickName + '  ' + element.email
         arr.push({

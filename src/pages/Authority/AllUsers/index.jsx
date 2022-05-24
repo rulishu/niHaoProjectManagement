@@ -72,8 +72,8 @@ const Users = (props) => {
 
   // 获取更多按钮的回调
   const forMoreUsers = async () => {
-    setNewPage(page + 1)
-    await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
+    setNewPage(() => page + 1)
+    await dispatch.allusers.queryByPage({ page: newPage + 1 }, queryCallback)
   }
 
   // 加载更多成员回调函数
