@@ -314,7 +314,7 @@ const EditTask = () => {
             }}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => {
-              navigate('/dictionary', { replace: true })
+              navigate('/Authority/dictionary', { replace: true })
             }}
             createTag={(_, current) => createTag(current)}
             // isTagClose={false}
