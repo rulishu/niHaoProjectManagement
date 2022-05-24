@@ -85,7 +85,7 @@ const ProjectManagement = (fun) => {
           },
           {
             label: '项目负责人:',
-            key: 'userId',
+            key: 'projectLeaderId',
             widget: 'select',
             option: userList,
             initialValue: seachValue?.updateId,

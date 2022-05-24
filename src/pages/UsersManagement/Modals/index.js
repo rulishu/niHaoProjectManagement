@@ -5,7 +5,7 @@ import { Notify } from 'uiw'
 const Modals = (props) => {
   const dispatch = useDispatch()
   const {
-    usersManagement: { delectVisible, id },
+    usersManagement: { delectVisible, userId, projectId },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -59,7 +59,8 @@ const Modals = (props) => {
     dispatch({
       type: 'usersManagement/deleteProjectMember',
       payload: {
-        id: id,
+        userId: userId,
+        projectId: projectId,
       },
     }).then((data) => information(data))
   }

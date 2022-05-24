@@ -1,6 +1,7 @@
 import UserLogin from '@uiw-admin/user-login'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { Notify } from 'uiw'
 
 export let navigate
@@ -8,6 +9,18 @@ export let navigate
 const UserLayout = () => {
   navigate = useNavigate()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const search = window.location.search
+    if (search) {
+      const code = search.split('code=')[1]
+      dispatch({ type: 'login/thirdLogin', payload: { code } })
+      if (localStorage.getItem('token')) {
+        this.props.history.push('/')
+      }
+    }
+  })
+
   let authList = [
     '/todoList',
     '/tableList',
@@ -35,6 +48,9 @@ const UserLayout = () => {
   //   localStorage.setItem('token', 'cccccc')
   //   localStorage.setItem('auth', JSON.stringify(authList || []))
   // }
+  const thirdLogin = () => {
+    dispatch({ type: 'login/getThirdLoginToken' })
+  }
   return (
     <UserLogin
       projectName={'尼好程序开发测试项目管理软件'}
@@ -46,8 +62,13 @@ const UserLayout = () => {
           // onClick: goHome,
         },
         // {
-        //   title: '注册'
-        // }
+        //   title: '第2方登录',
+        // },
+        {
+          title: '第三方登录',
+          type: 'pure',
+          onClick: thirdLogin,
+        },
       ]}
       api="/api/login"
       btnProps={{ type: 'primary' }}
