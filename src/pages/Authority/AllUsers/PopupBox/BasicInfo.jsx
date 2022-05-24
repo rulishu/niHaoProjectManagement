@@ -192,6 +192,7 @@ const BasicInfo = (props) => {
                   widget: 'input',
                   inline: false,
                   span: '12',
+                  required: true,
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.phonenumber,
                   widgetProps: {
@@ -202,11 +203,11 @@ const BasicInfo = (props) => {
                   label: '状态: ',
                   key: 'status',
                   widget: 'select',
+                  inline: false,
                   option: [
                     { label: '正常', value: 0 },
                     { label: '停用', value: 1 },
                   ],
-                  inline: false,
                   span: '12',
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.status || 0,
