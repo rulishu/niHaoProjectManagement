@@ -190,6 +190,13 @@ const routes = [
             isAuth: true,
           },
           {
+            path: '/Authority/DepartmentPageRefactor',
+            name: '部门管理2',
+            icon: 'appstore-o',
+            component: '@/pages/Authority/DepartmentPageRefactor',
+            isAuth: false,
+          },
+          {
             path: '/Authority/PostManagement',
             name: '岗位管理',
             icon: 'square-o',
