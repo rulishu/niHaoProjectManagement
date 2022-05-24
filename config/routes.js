@@ -134,13 +134,13 @@ const routes = [
         hideInMenu: true,
         isAuth: true,
         routes: [
-          {
-            path: '/team/teamItem/:id',
-            name: '团队详情',
-            component: '@/pages/TeamManagement/TeamItem',
-            hideInMenu: true,
-            isAuth: true,
-          },
+          // {
+          //   path: '/team/teamItem/:id',
+          //   name: '团队详情',
+          //   component: '@/pages/TeamManagement/TeamItem',
+          //   hideInMenu: true,
+          //   isAuth: true,
+          // },
         ],
       },
       {
