@@ -18,4 +18,16 @@ function authorAndLogin(params) {
   })
 }
 
-export { getThirdLoginToken, authorAndLogin }
+/** 注册
+ * @param code
+ */
+function register(params) {
+  return request('/api/register', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  })
+}
+
+export { getThirdLoginToken, authorAndLogin, register }
