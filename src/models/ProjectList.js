@@ -4,6 +4,7 @@ import {
   selectOneInfo,
   deleteProject,
   selectNumber,
+  queryProject,
 } from '../servers/projectList'
 
 /**
@@ -18,6 +19,7 @@ const projectlist = createModel()({
     type: '10',
     dataList: [], // 数据列表源
     proNum: {}, //各类型项目数量
+    proName: '', //项目名称
   },
   reducers: {
     update: (state, payload) => {
@@ -68,6 +70,18 @@ const projectlist = createModel()({
         Notify.success({ title: data.data })
         setDeleteOpen(false)
         search()
+      } else {
+        // Notify.error({ title: data.data })
+      }
+    },
+
+    //查询项目信息
+    async queryProject(payload) {
+      const data = await queryProject(payload)
+      if (data && data.code === 200) {
+        dispatch.projectlist.update({
+          proName: data.data.name,
+        })
       } else {
         // Notify.error({ title: data.data })
       }
