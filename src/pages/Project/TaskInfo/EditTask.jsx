@@ -99,9 +99,9 @@ const EditTask = () => {
 
   const selectSearch = async (e) => {
     setAssignState(false)
-    const newItem = userSelectAllList.filter((item) => e === item.id)
+    const newItem = userSelectAllList.filter((item) => e === item?.userId)
     await dispatch.project.getEdit({
-      assignmentId: editFromData.assignmentId,
+      assignmentId: editFromData?.assignmentId,
       assigneeUserId: e,
       assigneeUserName: newItem[0].memberName,
       projectId: projectId || '',
@@ -225,7 +225,7 @@ const EditTask = () => {
                 onSearch={onChangeSearch}
                 onSelect={(e) => selectSearch(e)}
                 option={
-                  selectOption(userSelectAllList, 'id', 'memberName') || []
+                  selectOption(userSelectAllList, 'userId', 'memberName') || []
                 }
                 loading={loading.effects.projectuser.pullSelectAll}
               />
