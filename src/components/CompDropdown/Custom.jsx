@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Input } from 'uiw'
 import Github from '@uiw/react-color-github'
-import styles from './index.module.less'
+import styles from './template.module.less'
 
 // 自定义颜色受控组件
 const Custom = (props) => {

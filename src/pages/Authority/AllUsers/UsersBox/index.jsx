@@ -41,7 +41,7 @@ const UsersBox = (props) => {
   // }
   return (
     <div className={styles.content}>
-      {data.map((item) => {
+      {data?.map((item) => {
         return (
           <div className={styles.userBoxFather} key={item.userId}>
             <Card className={styles.userBox}>
@@ -143,7 +143,7 @@ const UsersBox = (props) => {
         )
       })}
       {/* 👇辅助布局使用👇 */}
-      {data.map((_, index) => {
+      {data?.map((_, index) => {
         if (index !== 0)
           return <i key={index} className={styles.auxiliaryLayout}></i>
         return null

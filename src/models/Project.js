@@ -53,6 +53,7 @@ export default createModel()({
       assignmentTitle: '',
       description: '',
       commentDescription: '',
+      milestonesId: 0,
       labels: [],
       fileId: [],
     },
