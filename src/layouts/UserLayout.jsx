@@ -15,6 +15,7 @@ const UserLayout = () => {
     login: { isLogin },
   } = useSelector((state) => state)
 
+  //第三方登录
   useEffect(() => {
     const search = window.location.search
     if (search) {
@@ -24,6 +25,11 @@ const UserLayout = () => {
         this.props.history.push('/')
       }
     }
+  }, [dispatch])
+
+  //注册功能开启设置
+  useEffect(() => {
+    dispatch({ type: 'login/getRegisterSwitch' })
   }, [dispatch])
 
   let authList = [
