@@ -1,50 +1,149 @@
-import { Icon, Button } from 'uiw'
+import { Icon, Button, Avatar, Loader } from 'uiw'
+import { useSelector } from 'react-redux'
+import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 
-const Summary = (props) => {
+// 用户首页概括
+const DynamicsList = (props) => {
+  const {
+    userHome: { user, userDynamics, userProjectList },
+    loading,
+  } = useSelector((state) => state)
+  const { goSpecifyPage, setActiveKey } = props
+  const goPage = (projectId, assignmentId) => {
+    const path = assignmentId
+      ? `/project/taskInfo/${projectId}`
+      : `/projectOverview}`
+    const id = assignmentId || projectId
+    goSpecifyPage({ path, id })
+  }
+
   return (
     <div className={styles.summary}>
       <div className={`${styles.block} ${styles.project}`}>
         <div className={styles.head}>
-          <div className={styles.title}>最进项目</div>
+          <div className={styles.title}>最近项目</div>
           <div>
-            <Button size="small" basic>
-              所有的
+            <Button size="small" onClick={() => setActiveKey('2')} basic>
+              所有项目
             </Button>
           </div>
         </div>
-        <ul>
-          {[1, 2, 3, 4].map((_) => {
-            return (
-              <li>
-                <div className={styles.projectItem}>
-                  <div className={styles.title}>
-                    这是一个神奇的项目
-                    <span className={styles.role}>角色</span>
-                  </div>
-                  <p className={styles.text}>这里是详情是</p>
-                  <p className={styles.text}>
-                    <span>
-                      <Icon type="time-o" />
-                      状态
-                    </span>
-                    <span>
-                      <Icon type="tags-o" />
-                      任务数
-                    </span>
-                    <span>
-                      <Icon type="user" />
-                      角色数
-                    </span>
-                  </p>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+        <Loader
+          tip="最新项目加载中..."
+          vertical
+          style={{ width: '100%' }}
+          loading={loading.effects.userHome.getUserInfo}>
+          <ul>
+            {userProjectList?.map((item, index) => {
+              if (index < 4) {
+                return (
+                  <li key={item.id}>
+                    <div className={styles.projectItem}>
+                      <div className={styles.title}>
+                        <h2
+                          onClick={() => {
+                            goSpecifyPage({
+                              path: '/projectOverview',
+                              id: item.id,
+                            })
+                          }}>
+                          {item?.name}
+                        </h2>
+                        {item?.userRole && (
+                          <span className={styles.role}>{item?.userRole}</span>
+                        )}
+                      </div>
+                      <p className={styles.text}>{item?.descr || <i></i>}</p>
+                      <p>
+                        <span
+                          onClick={() => {
+                            goSpecifyPage({
+                              path: '/project/task',
+                              id: item.id,
+                            })
+                          }}>
+                          <Icon type="tags-o" />
+                          {item?.task}
+                        </span>
+                        <span
+                          onClick={() => {
+                            goSpecifyPage({
+                              path: '/usersManagement',
+                              id: item.id,
+                            })
+                          }}>
+                          <Icon type="user" />
+                          {item?.teamMember}
+                        </span>
+                      </p>
+                    </div>
+                  </li>
+                )
+              }
+              return null
+            })}
+          </ul>
+        </Loader>
+      </div>
+      <div className={`${styles.block} ${styles.dynamic}`}>
+        <div className={styles.head}>
+          <div className={styles.title}>最新动态</div>
+          <div>
+            <Button size="small" onClick={() => setActiveKey('3')} basic>
+              所有动态
+            </Button>
+          </div>
+        </div>
+        <Loader
+          tip="最新动态加载中..."
+          vertical
+          style={{ width: '100%' }}
+          loading={loading.effects.userHome.getUserInfo}>
+          <ul>
+            {userDynamics?.map((item, index) => {
+              if (index < 10) {
+                return (
+                  <li className={styles.eventItem} key={index}>
+                    <div className={styles.avatar}>
+                      <Avatar
+                        src={
+                          user?.avatar
+                            ? `/api/file/selectFile/${user?.avatar}`
+                            : ''
+                        }>
+                        {user?.nickName && user?.nickName[0]}
+                      </Avatar>
+                    </div>
+                    <div className={styles.dynamicTop}>
+                      <span className={styles.name}>{item?.createName}</span>
+                      <span>
+                        {
+                          timeDistance(item?.updateTime || item?.createTime)
+                            ?.time
+                        }
+                        前
+                      </span>
+                    </div>
+                    <div className={styles.dynamicCon}>
+                      {item?.operatingRecords}
+                    </div>
+                    <div
+                      className={styles.dynamicBot}
+                      onClick={() => goPage(item.projectId, item.assignmentId)}>
+                      {item?.projectName}
+                      {item.assignmentTitle && '/' + item.assignmentTitle}
+                    </div>
+                  </li>
+                )
+              }
+              return null
+            })}
+          </ul>
+        </Loader>
       </div>
     </div>
   )
 }
 
-export default Summary
+export default DynamicsList

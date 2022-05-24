@@ -1,4 +1,5 @@
 import { Divider, Icon, Card, Row, Col, Button, Tooltip, Avatar } from 'uiw'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
@@ -6,7 +7,7 @@ import DeletePopover from './DeletePopover'
 
 const UsersBox = (props) => {
   const { data, handleEdit } = props
-
+  const navigate = useNavigate()
   const { dictionary } = useSelector((state) => state)
 
   // 性别图标
@@ -100,7 +101,12 @@ const UsersBox = (props) => {
                               type="light"
                               size="small"
                               // type 1 : 查看 2 : 编辑 3 :新增
-                              onClick={() => handleEdit(item, 1)}></Button>
+                              onClick={() => {
+                                navigate(`/userHome/${item.userId}`, {
+                                  state: { userId: item?.userId },
+                                })
+                                // handleEdit(item, 1)
+                              }}></Button>
                           </Tooltip>
                         </AuthBtn>
                       </Col>
