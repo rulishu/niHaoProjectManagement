@@ -1,6 +1,11 @@
 import { history } from '@uiw-admin/router-control'
 import { createModel } from '@rematch/core'
-import { getThirdLoginToken, authorAndLogin, register } from '../servers/login'
+import {
+  getThirdLoginToken,
+  authorAndLogin,
+  register,
+  getRegisterSwitch,
+} from '../servers/login'
 import { Notify } from 'uiw'
 
 const login = createModel()({
@@ -9,6 +14,7 @@ const login = createModel()({
     userData: null,
     token: null,
     isLogin: true,
+    isRegister: false,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -45,6 +51,7 @@ const login = createModel()({
       }
     },
 
+    //注册新用户
     async register(param) {
       const data = await register(param)
       if (data && data.code === 200) {
@@ -54,6 +61,16 @@ const login = createModel()({
         })
         dispatch.login.updateState({
           isLogin: true,
+        })
+      }
+    },
+
+    //注册功能开启设置
+    async getRegisterSwitch() {
+      const data = await getRegisterSwitch()
+      if (data && data.code === 200) {
+        dispatch.login.updateState({
+          isRegister: data.data,
         })
       }
     },

@@ -11,6 +11,8 @@ import {
   saveBatchUser,
   getUserCompanyProjects,
   guideUpdate,
+  getRegisterSwitch,
+  registerSwitch,
 } from '../servers/allusers'
 import {
   uploadFile,
@@ -54,6 +56,7 @@ const allusers = createModel()({
     membersItemsList: {},
     rolesDataInfo: {},
     postsDataInfo: {},
+    isRegister: false, //是否开启注册功能
   },
   reducers: {
     update: (state, payload) => {
@@ -201,6 +204,20 @@ const allusers = createModel()({
     // 保存用户的公司与项目
     async saveBatchUser(params, { allusers }) {
       const data = await saveBatchUser(params)
+      if (data && data.code === 200) {
+        NotifySuccess(data.message)
+      }
+    },
+    // 获取是否开启注册功能
+    async getRegisterSwitch() {
+      const data = await getRegisterSwitch()
+      if (data && data.code === 200) {
+        dispatch.allusers.update({ isRegister: data.data })
+      }
+    },
+    // 设置注册功能
+    async registerSwitch() {
+      const data = await registerSwitch()
       if (data && data.code === 200) {
         NotifySuccess(data.message)
       }

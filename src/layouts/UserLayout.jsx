@@ -12,9 +12,10 @@ const UserLayout = () => {
   const dispatch = useDispatch()
 
   const {
-    login: { isLogin },
+    login: { isLogin, isRegister },
   } = useSelector((state) => state)
 
+  //第三方登录
   useEffect(() => {
     const search = window.location.search
     if (search) {
@@ -24,6 +25,11 @@ const UserLayout = () => {
         this.props.history.push('/')
       }
     }
+  }, [dispatch])
+
+  //注册功能开启设置
+  useEffect(() => {
+    dispatch({ type: 'login/getRegisterSwitch' })
   }, [dispatch])
 
   let authList = [
@@ -53,9 +59,10 @@ const UserLayout = () => {
   //   localStorage.setItem('token', 'cccccc')
   //   localStorage.setItem('auth', JSON.stringify(authList || []))
   // }
-  const thirdLogin = () => {
-    dispatch({ type: 'login/getThirdLoginToken' })
-  }
+
+  // const thirdLogin = () => {
+  //   dispatch({ type: 'login/getThirdLoginToken' })
+  // }
 
   const returnLogin = () => {
     dispatch({
@@ -64,27 +71,41 @@ const UserLayout = () => {
     })
   }
 
+  const btngroup1 = [
+    {
+      title: '登录',
+      htmlType: 'submit',
+      type: 'primary',
+    },
+    {
+      title: '注册',
+      type: 'danger',
+      onClick: returnLogin,
+    },
+    // {
+    //   title: 'GitLab 第三方登录',
+    //   type: 'light',
+    //   onClick: thirdLogin,
+    // }
+  ]
+  const btngroup2 = [
+    {
+      title: '登录',
+      htmlType: 'submit',
+      type: 'primary',
+    },
+    // {
+    //   title: 'GitLab 第三方登录',
+    //   type: 'light',
+    //   onClick: thirdLogin,
+    // }
+  ]
+
   const Login = () => {
     return (
       <UserLogin
         projectName={'尼好程序开发测试项目管理软件'}
-        buttons={[
-          {
-            title: '登录',
-            htmlType: 'submit',
-            type: 'primary',
-          },
-          {
-            title: '注册',
-            type: 'danger',
-            onClick: returnLogin,
-          },
-          {
-            title: 'GitLab第三方登录',
-            type: 'pure',
-            onClick: thirdLogin,
-          },
-        ]}
+        buttons={isRegister ? btngroup1 : btngroup2}
         api="/api/login"
         btnProps={{ type: 'primary' }}
         saveField={{
@@ -128,8 +149,6 @@ const UserLayout = () => {
             // } else {
             navigate('/home', { replace: true })
             // }
-          } else {
-            Notify.error({ title: '错误通知', description: data?.message })
           }
         }}
       />

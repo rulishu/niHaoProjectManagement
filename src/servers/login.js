@@ -30,4 +30,13 @@ function register(params) {
   })
 }
 
-export { getThirdLoginToken, authorAndLogin, register }
+/** 注册功能开启设置
+ * @param code
+ */
+function getRegisterSwitch() {
+  return request('/api/getRegisterSwitch', {
+    method: 'GET',
+  })
+}
+
+export { getThirdLoginToken, authorAndLogin, register, getRegisterSwitch }
