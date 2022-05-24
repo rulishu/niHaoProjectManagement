@@ -42,9 +42,8 @@ export const columnsSearch = (handleEditTable) => [
         placeholder: '输入部门状态',
       },
       option: [
-        { label: '全部', value: 1 },
-        { label: '正常', value: 2 },
-        { label: '停用', value: 3 },
+        { label: '正常', value: 1 },
+        { label: '停用', value: 2 },
       ],
     },
     render: (code) => {

@@ -3,7 +3,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
 import { columnsSearch } from './items'
 import { Card } from 'uiw'
-// import Drawer from '../Drawer/index'
+import Drawer from '../Drawer/index'
 // import Modal from '../Modals/index'
 import { useParams } from 'react-router-dom'
 
@@ -11,13 +11,23 @@ const Search = () => {
   const dispatch = useDispatch()
   const updateData = (payload) => {
     dispatch({
-      type: 'usersManagement/updateState',
+      type: 'departmentRefactor/updateState',
       payload,
     })
   }
+  // 层级遍历
+  const getChildrenDepart = function (data, root) {
+    let children = []
+    for (let i = 0; i < data.length; i++) {
+      if (root === data[i].parentId) {
+        data[i].children = getChildrenDepart(data, data[i].deptId)
+        children.push(data[i])
+      }
+    }
+    return children
+  }
   const { projectId } = useParams()
   const token = localStorage.getItem('token')
-
   const search = useTable('/api/system/dept/list', {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
@@ -30,9 +40,23 @@ const Search = () => {
     },
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
+      const dataSource = data?.data
+      const dataSourceTreeData = dataSource?.map((code) => ({
+        ...code,
+        label: code.deptName,
+        key: code.parentId,
+      }))
+      const arrSource = getChildrenDepart(dataSourceTreeData, 0) || []
+      const treeData = dataSourceTreeData?.map((e) => e.status === '1')
+
+      updateData({
+        dataSource: data?.data,
+        arrSource: arrSource,
+        dataSourceTreeData: dataSourceTreeData,
+      })
       return {
         total: data?.data?.total,
-        data: data?.data?.rows || [],
+        data: treeData.includes(false) ? arrSource : dataSourceTreeData,
       }
     },
     requestOptions: {
@@ -100,9 +124,9 @@ const Search = () => {
           columns={columnsSearch(handleEditTable)}
         />
       </Card>
-      {/* 
+
       <Drawer updateData={updateData} onSearch={search.onSearch} />
-      <Modal onSearch={search.onSearch} /> */}
+      {/* <Modal onSearch={search.onSearch} />  */}
     </Fragment>
   )
 }
