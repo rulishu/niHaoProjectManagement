@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Row, Col, Card, List, Tabs, Tag, Button, Progress } from 'uiw'
+import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Tooltip } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.less'
 import ProjectManagement from '../../components/ProjectManagement'
+import { NumColor, NumFilter } from '../../utils/utils'
 
 export default function Home() {
   const {
@@ -75,6 +76,7 @@ export default function Home() {
       },
     })
   }
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -127,10 +129,18 @@ export default function Home() {
               <Progress.Circle
                 width={100}
                 strokeWidth={10}
-                percent={allDataSource?.totalWorkVo?.projectNum || 0}
+                percent={
+                  NumColor(
+                    allDataSource?.totalWorkVo?.projectYwcNum,
+                    allDataSource?.totalWorkVo?.projectNum
+                  ) || 0
+                }
                 format={(percent) => (
                   <span>
-                    {`${percent}`}
+                    {`${NumFilter(
+                      allDataSource?.totalWorkVo?.projectYwcNum,
+                      allDataSource?.totalWorkVo?.projectNum
+                    )}`}
                     <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                       总任务
                     </div>
@@ -235,6 +245,11 @@ export default function Home() {
               key: 'assignmentTitle',
               ellipsis: true,
               width: 100,
+              render: (address) => (
+                <Tooltip placement="topLeft" content={address}>
+                  {address}
+                </Tooltip>
+              ),
             },
             {
               title: '任务描述',
@@ -332,6 +347,11 @@ export default function Home() {
               key: 'assignmentTitle',
               ellipsis: true,
               width: 100,
+              render: (address) => (
+                <Tooltip placement="topLeft" content={address}>
+                  {address}
+                </Tooltip>
+              ),
             },
             {
               title: '任务描述',

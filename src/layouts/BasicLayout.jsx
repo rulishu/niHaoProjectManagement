@@ -82,6 +82,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
           navigate('/projectAuth', { replace: true })
         },
       },
+      // {
+      //   title: '团队管理',
+      //   icon: 'usergroup-add',
+      //   onClick: () => {
+      //     navigate('/team', { replace: true })
+      //   },
+      // },
       {
         title: '退出登录',
         icon: 'logout',
@@ -114,13 +121,17 @@ function BasicLayoutScreen(props = { routes: [] }) {
             }}>
             项目管理
           </div>
-          <div
-            className={styles.title}
-            onClick={() => {
-              navigate('/Authority/users')
-            }}>
-            系统管理
-          </div>
+          {userInfo?.admin === true ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate('/Authority/users')
+              }}>
+              系统管理
+            </div>
+          ) : (
+            ''
+          )}
           <div className={styles.title} onClick={() => navigate('/todoList')}>
             {status === 0 ? (
               <Badge count={todoNotice}>

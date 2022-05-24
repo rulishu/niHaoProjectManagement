@@ -163,9 +163,6 @@ const TodoList = () => {
                     pages,
                     pageSize,
                     status: num,
-                    // createId: location?.state?.createId
-                    //   ? location?.state.createId
-                    //   : '',
                   })
                 }}
               />

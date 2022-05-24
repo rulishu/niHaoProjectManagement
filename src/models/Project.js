@@ -101,27 +101,27 @@ export default createModel()({
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
             dispatch.project.update({
-              prepareList: data?.data.list || [],
+              prepareList: data?.data.rows || [],
               prepareTotal: data?.data.total,
             })
           } else if (assignmentStatus === '2') {
             dispatch.project.update({
-              openTataList: data?.data.list || [],
+              openTataList: data?.data.rows || [],
               openTotal: data?.data.total,
             })
           } else if (assignmentStatus === '3') {
             dispatch.project.update({
-              closeDataList: data?.data.list || [],
+              closeDataList: data?.data.rows || [],
               closeTotal: data?.data.total,
             })
           } else if (assignmentStatus === '4') {
             dispatch.project.update({
-              overtimeList: data?.data.list || [],
+              overtimeList: data?.data.rows || [],
               overtimeTotal: data?.data.total,
             })
           } else {
             dispatch.project.update({
-              dataList: data?.data.list || [],
+              dataList: data?.data.rows || [],
               total: data?.data.total,
             })
           }

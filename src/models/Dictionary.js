@@ -58,7 +58,7 @@ export default createModel()({
         const data = await queryByPage(params)
         if (data.code === 200) {
           dispatch.dictionary.update({
-            listData: data?.data.list || [],
+            listData: data?.data.rows || [],
             total: data?.data.total,
             page: data?.data.pageNum || page,
             pageSize: data?.data.pageSize || pageSize,
