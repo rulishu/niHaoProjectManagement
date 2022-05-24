@@ -1,0 +1,96 @@
+@import '../../../../common.less';
+
+.userHomeWrap {
+  max-width: 1280px;
+  display: flex;
+  margin: auto;
+
+  .userInfo {
+    width: 296px;
+    max-width: 296px;
+
+    .avatar {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+
+      span {
+        font-size: 160px;
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    .name {
+      padding: 5px;
+      line-height: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .editBut {
+      width: 100%;
+    }
+  }
+
+  .userProject {
+    padding-left: 10px;
+    width: calc(100% - 316px);
+
+    // 概括
+    .summary {
+      margin: 14px 0;
+
+      .block {
+        padding: 5px;
+
+        .head {
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: 8px;
+        }
+      }
+
+      .project {
+        ul {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          li {
+            padding: 0 8px;
+            margin-bottom: 16px;
+            display: flex;
+            width: 50%;
+
+            .projectItem {
+              padding: 16px;
+              width: 100%;
+              border-color: #ccc;
+              border-style: solid;
+              border-width: 1px;
+              border-radius: 6px;
+
+              p {
+                display: flex;
+                font-size: 12px;
+                margin-top: 8px;
+
+                & > span {
+                  margin-right: 10px;
+                  display: flex;
+                  align-items: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

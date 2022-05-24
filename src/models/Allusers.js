@@ -91,8 +91,8 @@ const allusers = createModel()({
         await dispatch.allusers.update({
           dataList: data?.rows || [],
           total: data?.total,
-          pageSize,
-          page,
+          pageSize: params.pageSize || pageSize,
+          params: params.page || page,
         })
         callback && callback(data?.rows)
       }

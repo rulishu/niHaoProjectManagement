@@ -59,6 +59,7 @@ const Users = (props) => {
     } else {
       setType('delete')
       await dispatch.allusers.deleteById(value)
+      setNewPage(1)
     }
   }
   // 头部组件的回调
