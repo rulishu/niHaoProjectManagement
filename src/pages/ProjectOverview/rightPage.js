@@ -100,7 +100,12 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card title="项目成员" bordered={false}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap-reverse',
+          }}>
           {projectMembersList.map((e, idx) => {
             return (
               <div

@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Switch, Tooltip, Card, Modal } from 'uiw'
+import { Button, Tag, Tooltip, Card } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -81,27 +81,27 @@ const Demo = (props) => {
     // }
   }
 
-  const updateState = (state, rowData) => {
-    Modal.show({
-      title: '提示',
-      confirmText: '确定',
-      cancelText: '取消',
-      children: `确认要${state ? '"启用"' : '"停用"'}"${
-        rowData.roleName
-      }"角色吗?`,
-      onConfirm: async () => {
-        await props.dispatch.changeStatus({
-          status: state ? 0 : 1,
-          roleId: rowData.roleId,
-        })
-      },
-      onCancel: () => table.onSearch(),
-    })
-    // await props.dispatch.upDateStatusRole({
-    //   status: state ? 0 : 1,
-    //   id: listData.id,
-    // })
-  }
+  // const updateState = (state, rowData) => {
+  //   Modal.show({
+  //     title: '提示',
+  //     confirmText: '确定',
+  //     cancelText: '取消',
+  //     children: `确认要${state ? '"启用"' : '"停用"'}"${
+  //       rowData.roleName
+  //     }"角色吗?`,
+  //     onConfirm: async () => {
+  //       await props.dispatch.changeStatus({
+  //         status: state ? 0 : 1,
+  //         roleId: rowData.roleId,
+  //       })
+  //     },
+  //     onCancel: () => table.onSearch(),
+  //   })
+  //   // await props.dispatch.upDateStatusRole({
+  //   //   status: state ? 0 : 1,
+  //   //   id: listData.id,
+  //   // })
+  // }
 
   return (
     <Fragment>
@@ -181,15 +181,26 @@ const Demo = (props) => {
                   { label: '正常', value: '0' },
                 ],
               },
-              render: (text, key, rowData) => (
-                <Switch
-                  disabled={rowData.hasUser}
-                  checked={rowData.status === '0'}
-                  onChange={(even) => {
-                    updateState(even.target.checked, rowData)
-                  }}
-                  data-checked="停用"
-                  data-unchecked="正常"></Switch>
+              render: (text) => (
+                // <Switch
+                //   disabled={rowData.hasUser}
+                //   checked={rowData.status === '0'}
+                //   onChange={(even) => {
+                //     updateState(even.target.checked, rowData)
+                //   }}
+                //   data-checked="停用"
+                //   data-unchecked="正常"></Switch>
+                <div>
+                  {text === '1' ? (
+                    <Tag light color="#dc3545">
+                      停用
+                    </Tag>
+                  ) : (
+                    <Tag light color="#28a745">
+                      正常
+                    </Tag>
+                  )}
+                </div>
               ),
             },
             {

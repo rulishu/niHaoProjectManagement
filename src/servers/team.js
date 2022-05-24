@@ -3,32 +3,23 @@ import { request } from '@uiw-admin/utils'
 /**
  * 团队 API
  */
-// 新增团队
-export const addTeam = (params) => {
-  return request('/api/managerTeam/addTeam', {
-    method: 'POST',
-    body: params,
-  })
-}
-
-// 根据团队 ID 删除团队
-export const deleteTeamById = (params) => {
-  return request('/api/managerTeam/deleteTeamById', {
-    method: 'POST',
-    body: params,
-  })
-}
-
-// 修改团队
-export const editTeam = (params) => {
-  return request('/api/managerTeam/editTeam', {
-    method: 'POST',
-    body: params,
-  })
-}
-// 分页查找团队
 export const getPageTeam = (params) => {
-  return request('/api/managerTeam/queryByPage', {
+  return request('/api/ManagerTeam/selectPage', {
+    method: 'POST',
+    body: params,
+  })
+}
+// 分页查询用户列表数据
+export const getTeamMemberList = (params) => {
+  return request('/api/ManagerTeam/selectPage', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+// 获取团队下成员信息--可根据部门筛选
+export const getMemberByTeamId = (params) => {
+  return request('/api/ManagerTeam/getMembers', {
     method: 'POST',
     body: params,
   })
@@ -36,58 +27,55 @@ export const getPageTeam = (params) => {
 
 // 通过团队id查询团队信息
 export const getTeamInfoById = (params) => {
-  return request('/api/managerTeam/queryTeamById', {
+  return request('/api/ManagerTeam/selectById', {
     method: 'POST',
     body: params,
   })
 }
 
-/**
- * 团队成员操作相关API
- */
-
-// 新增团队成员
-export const addTeamMember = (params) => {
-  return request('/api/managerTeamMember/addTeamMember', {
+//不分页 - 条件查询查询团队列表数据
+export const getall = (params) => {
+  return request('/api/ManagerTeam/all', {
     method: 'POST',
     body: params,
   })
 }
 
-// 根据id删除团队成员
-export const deleteTeamMemberById = (params) => {
-  return request('/api/managerTeamMember/deleteById', {
+//根据主键删除团队，支持批量
+export const deleteTeamById = (params) => {
+  return request('/api/ManagerTeam/delete', {
     method: 'POST',
     body: params,
   })
 }
 
-// 获取登录用户所参与的项目和任务
-export const getCurrentUserAllItem = () => {
-  return request('/api/managerTeamMember/getAllProjectAndAssigment', {
-    method: 'GET',
-  })
-}
-
-// 通过团队id查询团队成员信息
-export const getMemberByTeamId = (params) => {
-  return request('/api/managerTeamMember/queryMemberByTeamId', {
+// 获取团队下成员信息--可根据部门筛选
+export const getMembers = (params) => {
+  return request('/api/ManagerTeam/getMembers', {
     method: 'POST',
     body: params,
   })
 }
 
-// 分页查询用户列表数据
-export const getTeamMemberList = (params) => {
-  return request('/api/managerTeamMember/queryByPage', {
+//获取未加入团队用户列表--可根据部门筛选
+export const getNotTeamUsers = (params) => {
+  return request('/api/ManagerTeam/getNotTeamUsers', {
     method: 'POST',
     body: params,
   })
 }
 
-// 修改团队成员信息
-export const editTeamMemberInfo = (params) => {
-  return request('/api/managerTeamMember/updateTeamMember', {
+//新增团队
+export const addTeam = (params) => {
+  return request('/api/ManagerTeam/inset', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//更新团队
+export const editTeam = (params) => {
+  return request('/api/ManagerTeam/update', {
     method: 'POST',
     body: params,
   })

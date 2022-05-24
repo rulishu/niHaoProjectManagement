@@ -7,7 +7,7 @@ import SlelectLabel from './SlelectLabel'
 import TodoList from './TodoList'
 import { Container } from '@/components'
 import dayjs from 'dayjs'
-import { NumColor, NumFilter } from '../../utils/utils'
+import { NumColor } from '../../utils/utils'
 
 export default function Demo() {
   const dispatch = useDispatch()
@@ -104,14 +104,8 @@ export default function Demo() {
                     format={(percent) => (
                       <span>
                         {active === 0
-                          ? NumFilter(
-                              totalWorkVoOne?.projectYwcNum,
-                              totalWorkVoOne?.projectNum
-                            )
-                          : NumFilter(
-                              totalData?.projectYwcNum,
-                              totalData?.projectNum
-                            )}
+                          ? totalWorkVoOne?.projectNum
+                          : totalData?.projectNum}
                         <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                           总任务
                         </div>

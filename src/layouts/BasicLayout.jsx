@@ -5,8 +5,8 @@ import { PassWordChange } from '@/components'
 import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
-// import Bread from './Breadcrumb'
-// import { BreadcrumbMap } from '@/utils/utils'
+import Bread from './Breadcrumb'
+import { BreadcrumbMap } from '@/utils/utils'
 import styles from './index.module.less'
 
 function BasicLayoutScreen(props = { routes: [] }) {
@@ -75,20 +75,20 @@ function BasicLayoutScreen(props = { routes: [] }) {
           layouts.closeMenu()
         },
       },
-      {
-        title: '团队管理',
-        icon: 'usergroup-add',
-        onClick: () => {
-          navigate('/projectAuth', { replace: true })
-        },
-      },
       // {
       //   title: '团队管理',
       //   icon: 'usergroup-add',
       //   onClick: () => {
-      //     navigate('/team', { replace: true })
+      //     navigate('/projectAuth', { replace: true })
       //   },
       // },
+      {
+        title: '团队管理',
+        icon: 'usergroup-add',
+        onClick: () => {
+          navigate('/team', { replace: true })
+        },
+      },
       {
         title: '退出登录',
         icon: 'logout',
@@ -169,9 +169,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
         menuHide={isNoMenu}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
-        {/* <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+        <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
           <Bread routeMap={new BreadcrumbMap(props.routes)} />
-        </div> */}
+        </div>
         <Outlet />
         <PassWordChange refs={passwordRef} />
         {/* 新增项目弹出框 */}

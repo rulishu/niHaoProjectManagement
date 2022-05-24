@@ -131,11 +131,6 @@ const routes = [
         path: '/team',
         name: '团队管理',
         component: '@/pages/TeamManagement',
-        isAuth: false,
-      },
-      {
-        path: '/team',
-        name: '团队管理',
         hideInMenu: true,
         isAuth: true,
         routes: [

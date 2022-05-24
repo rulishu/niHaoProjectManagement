@@ -20,6 +20,7 @@ export const getStrutsSwitch = (params) => {
     body: params,
   })
 }
+
 //查询所有待办
 export const getSelectAll = (params) => {
   return request('/api/ManagerTodoList/selectAll', {

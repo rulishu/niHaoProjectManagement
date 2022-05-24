@@ -8,6 +8,7 @@ export const items = (queryInfo) => {
       required: true,
       placeholder: '请输入成员姓名',
       span: '24',
+      disabled: true,
       rules: [{ required: true, message: '请输入成员姓名' }],
     },
     {
