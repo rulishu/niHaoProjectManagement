@@ -130,6 +130,68 @@ const personnel = {
   },
 }
 
-const columns = { label, personnel }
+// 配置 milepost 的模板
+const milepost = {
+  // 数据渲染头部
+  header: [
+    {
+      title: '色块',
+      dataIndex: 'color',
+      width: 30,
+      component: (item, record) => (
+        <span
+          className={styles.piece}
+          style={{ backgroundColor: item?.color }}></span>
+      ),
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+      resultsShow: true,
+      isSearch: true,
+      width: 100,
+      component: (item, record) => (
+        <span className={styles.title}>{item?.title}</span>
+      ),
+    },
+  ],
+  // 配置参数
+  params: {
+    title: '标签',
+  },
+  // 船舰标签的表单
+  form: {
+    fields: (props) => {
+      return {
+        dictLabel: {
+          children: <Input size="small" placeholder="请输入标签" />,
+        },
+        listClass: {
+          children: <Custom color={props?.color} />,
+        },
+      }
+    },
+    fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
+      return (
+        <>
+          <div className={styles.searchBox}>{fields.dictLabel}</div>
+          {fields.listClass}
+        </>
+      )
+    },
+    verify: (initial, current) => {
+      const errorObj = {}
+      if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
+        errorObj.dictLabel = '请输入标签名称,长度为2-50'
+      }
+      if (!current.listClass) {
+        errorObj.listClass = '请选择或输入标签背景颜色'
+      }
+      return errorObj
+    },
+  },
+}
+
+const columns = { label, personnel, milepost }
 
 export default columns
