@@ -33,7 +33,7 @@ const FromMD = (props) => {
   const newTribute = useMemo(() => {
     return new Tribute({
       trigger: '@',
-      values: tributeList,
+      values: tributeList || [],
       lookup: 'memberName',
       fillAttr: 'id',
     })

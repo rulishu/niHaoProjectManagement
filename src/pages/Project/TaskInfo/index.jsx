@@ -188,18 +188,18 @@ const TaskInfo = () => {
                   <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
                     {taskInfoData?.assignmentStatus === 1 ? (
                       <Button type="primary" onClick={() => goStateIssue(3)}>
-                        关闭问题
+                        关闭任务
                       </Button>
                     ) : (
                       <Button type="success" onClick={() => goStateIssue(1)}>
-                        打开问题
+                        打开任务
                       </Button>
                     )}
                     {issueType === 'edit' ? (
                       <Button onClick={() => goEditIssue('')}>取消编辑</Button>
                     ) : (
                       <Button onClick={() => goEditIssue('edit')}>
-                        编辑问题
+                        编辑任务
                       </Button>
                     )}
                   </AuthBtn>
