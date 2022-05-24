@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { Icon, Loader, Overlay } from 'uiw'
+import { Icon, Loader, Overlay, Button } from 'uiw'
 import Head from './Head'
 // import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
@@ -8,13 +8,14 @@ import PopupBox from './PopupBox' // 操作弹窗
 import styles from './index.module.less'
 const Users = (props) => {
   const { dispatch, state, update } = props
-  const { dataList, page, pageSize, memberAvatarArr } = state.allusers
+  const { dataList, page, pageSize, total, memberAvatarArr } = state.allusers
   const [type, setType] = useState()
   const [isOverlay, setIsOverlay] = useState(false)
+  const [newPage, setNewPage] = useState(1)
   const [userList, setUserList] = useState(dataList)
 
   useEffect(() => {
-    dispatch.allusers?.queryByPage()
+    dispatch.allusers?.queryByPage({ page: 1 })
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
       page: 1,
@@ -26,12 +27,16 @@ const Users = (props) => {
   }, [dispatch])
 
   useEffect(() => {
-    page === 1 && setUserList(dataList)
-  }, [dataList, page])
+    setNewPage(page)
+  }, [page])
 
   useEffect(() => {
+    newPage === 1 && setUserList(dataList)
+  }, [dataList, newPage])
+
+  useEffect(() => {
+    const allUserList = JSON.parse(sessionStorage.getItem('allUserList'))
     if (userList.length < (page - 1) * pageSize + userList.length) {
-      const allUserList = sessionStorage.getItem('allUserList')
       setUserList(allUserList)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,27 +59,30 @@ const Users = (props) => {
     } else {
       setType('delete')
       await dispatch.allusers.deleteById(value)
+      setNewPage(1)
     }
   }
   // 头部组件的回调
   const handleOnSearch = async (value, is) => {
     let callback = is ? (data) => setUserList([...data]) : null
+    setNewPage(1)
     dispatch.allusers.queryByPage({ page: 1, ...value }, callback)
   }
 
   // 获取更多按钮的回调
-  // const forMoreUsers = async () => {
-  //   await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
-  // }
+  const forMoreUsers = async () => {
+    setNewPage(page + 1)
+    await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
+  }
 
   // 加载更多成员回调函数
-  // const queryCallback = (data) => {
-  //   sessionStorage.setItem(
-  //     'allUserList',
-  //     JSON.stringify([...userList, ...data])
-  //   )
-  //   setUserList([...userList, ...data])
-  // }
+  const queryCallback = (data) => {
+    sessionStorage.setItem(
+      'allUserList',
+      JSON.stringify([...userList, ...data])
+    )
+    setUserList([...userList, ...data])
+  }
 
   return (
     <div className={styles.userWrap}>
@@ -103,7 +111,17 @@ const Users = (props) => {
                   spin={true}
                   style={{ verticalAlign: 'text-top', fontSize: '16px' }}
                 />
-              }></Loader>
+              }>
+              <>
+                {total > userList?.length ? (
+                  <Button onClick={() => forMoreUsers()}>
+                    ↓↓↓ 加载更多...↓↓↓
+                  </Button>
+                ) : (
+                  <span className={styles.prompt}>没有更多了！！！</span>
+                )}
+              </>
+            </Loader>
           </div>
         </div>
       </div>

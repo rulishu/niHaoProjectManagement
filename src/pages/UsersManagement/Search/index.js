@@ -61,7 +61,8 @@ const Search = () => {
     if (type === 'del') {
       updateData({
         delectVisible: true,
-        id: obj?.id,
+        userId: obj?.userId,
+        projectId: obj?.projectId,
       })
     }
   }

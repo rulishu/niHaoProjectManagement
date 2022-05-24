@@ -131,11 +131,6 @@ const routes = [
         path: '/team',
         name: '团队管理',
         component: '@/pages/TeamManagement',
-        isAuth: false,
-      },
-      {
-        path: '/team',
-        name: '团队管理',
         hideInMenu: true,
         isAuth: true,
         routes: [
@@ -215,6 +210,14 @@ const routes = [
         name: '团队管理权限',
         component: '@/pages/ProjectAuth',
         hideInMenu: true,
+      },
+      {
+        path: '/userHome/:userId',
+        name: '用户主页',
+        component: '@/pages/Authority/AllUsers/UserHome',
+        hideInMenu: true,
+        navigate:
+          "(navigate) => {navigate(`/userHome/${sessionStorage.getItem('userId')}`)}",
       },
       {
         path: '/403',

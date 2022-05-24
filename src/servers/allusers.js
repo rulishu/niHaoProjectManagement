@@ -1,4 +1,4 @@
-import { request } from '@uiw-admin/utils'
+import request from '../utils/request'
 
 /**
  * 查询用户列表数据
@@ -7,50 +7,40 @@ import { request } from '@uiw-admin/utils'
  *
  */
 export const queryByPage = (params) => {
-  const token = localStorage.getItem('token')
   return request('/api/system/user/list', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
 
 // 新增用户列表数据
 export const addNewUser = (params) => {
-  const token = localStorage.getItem('token')
   return request('/api/system/user/add', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
 
 // 根据id删除用户
 export const deleteById = (params) => {
-  const token = localStorage.getItem('token')
   return request('/api/system/user/remove', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
 
 // 修改用户
 export const editNewUser = (params) => {
-  const token = localStorage.getItem('token')
   return request('/api/system/user/edit', {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     body: params,
   })
 }
 //
 // 通过用户id查询用户信息
 export const queryById = (params) => {
-  const token = localStorage.getItem('token')
   return request(`/api/system/user/getInfo/${params}`, {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + token },
     requestType: 'urlencoded',
     body: params,
   })
@@ -115,11 +105,9 @@ export const guideUpdate = (params) => {
 
 // 获取所有的公司与项目
 export const getAllCompaniesProjects = (params) => {
-  const token = localStorage.getItem('token')
   return request('/api/managerUCP/selectCompanyDetail', {
     method: 'POST',
     body: params,
-    headers: { Authorization: 'Bearer ' + token },
   })
 }
 

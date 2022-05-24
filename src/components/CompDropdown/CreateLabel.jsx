@@ -1,5 +1,5 @@
 import { Button, Form } from 'uiw'
-import styles from './index.module.less'
+import styles from './template.module.less'
 
 // 创建标签
 const CreateLabel = (props) => {
@@ -39,9 +39,7 @@ const CreateLabel = (props) => {
                 <Button
                   size="small"
                   type="success"
-                  disabled={
-                    !(state.current.listClass && state.current.dictLabel)
-                  }
+                  disabled={!Object.keys(state?.current)?.length}
                   htmlType="submit">
                   创建
                 </Button>

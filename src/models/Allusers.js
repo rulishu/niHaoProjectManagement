@@ -91,17 +91,20 @@ const allusers = createModel()({
         await dispatch.allusers.update({
           dataList: data?.rows || [],
           total: data?.total,
+          pageSize: params.pageSize || pageSize,
+          params: params.page || page,
         })
-        ;(await callback) && callback(data?.rows)
+        callback && callback(data?.rows)
       }
     },
     // 获取多个
     async getUserList() {
       const data = await queryByPage({ pageSize: 99, page: 1 })
       if (data && data.code === 200) {
-        dispatch.allusers.update({ UserList: data?.data.rows || [] })
+        dispatch.allusers.update({ UserList: data?.rows || [] })
       }
     },
+    // 新增成员
     async addNewUser(payload) {
       const { params, callback } = payload
       const data = await addNewUser(params)
@@ -146,12 +149,6 @@ const allusers = createModel()({
         // NotifySuccess(data.message)
       }
     },
-    // async getSelectCompany(params, { allusers }) {
-    //   const data = await getSelectCompany(params)
-    //   if (data && data.code === 200) {
-    //     await dispatch.allusers.update({ allCompanyList: data.data })
-    //   }
-    // },
     async updatePassword({ params, callback }) {
       const data = await updatePassword(params)
       if (callback) {
@@ -179,57 +176,13 @@ const allusers = createModel()({
     // 根据uuid下载图片
     async getNewUserAvatarFile(params) {
       const data = await downloadFilePathById(params)
-      console.log('----::>>', data)
+      console.log('根据uuid下载图片---->', data)
       // let blob = new Blob([data], { type: 'image/png' })
       // let url = URL.createObjectURL(blob)
       // // if (data && data.code === 200) {
       // await dispatch.allusers.update({ imgUrl: url })
       // }
     },
-    // // 获取所有的项目列表
-    // async getSelectProject(_, { allusers }) {
-    //   const params = { page: 1, pageSize: 999 }
-    //   const data = await selectPageList(params)
-    //   if (data && data.code === 200) {
-    //     await dispatch.allusers.update({ allProjectList: data.data.rows })
-    //   }
-    // },
-    // 获取角色公司列表
-    // async getUserCompanyList(params, { allusers }) {
-    //   const { cUser } = allusers
-    //   // console.log(params, cUser.id, params || cUser.id)
-    //   const data = await getUserCompanyList(params || cUser.id)
-    //   if (data && data.code === 200) {
-    //     await dispatch.allusers.update({ UserCompanyList: data.data })
-    //   }
-    // },
-    // 获取角色项目列表
-    // async getUserProjectList(params, { allusers }) {
-    //   const { cUser } = allusers
-    //   const data = await getUserProjectList(params || cUser.id)
-    //   if (data && data.code === 200) {
-    //     await dispatch.allusers.update({ UserProjectList: data.data })
-    //   }
-    // },
-    // // 编辑角色公司
-    // async editUserCompany(payload, { allusers }) {
-    //   const { cUser } = allusers
-    //   const params = {
-    //     userId: cUser.id,
-    //     companyIds: payload,
-    //   }
-    //   const data = await editUserCompany(params)
-    //   if (data && data.code === 200) {
-    //     NotifySuccess(data.message)
-    //   }
-    // },
-    // // 编辑角色项目
-    // async editUserProject(params, { allusers }) {
-    //   const data = await editUserProject(params)
-    //   if (data && data.code === 200) {
-    //     NotifySuccess(data.message)
-    //   }
-    // },
     // 获取所有的公司以及项目列表
     async getAllCompanyProjects() {
       const data = await getAllCompaniesProjects()

@@ -17,7 +17,7 @@ const ProjectList = (props) => {
   const { proNum } = projectlist
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch.projectlist.selectNumber({ type: '20' })
+    dispatch.projectlist.selectNumber({ type: '20', name: '' })
   }, [dispatch])
   //项目状态
   const [projectStatus, setProjectStatus] = useState('')
@@ -69,7 +69,7 @@ const ProjectList = (props) => {
   //刷新界面
   const refresh = () => {
     table.onSearch()
-    dispatch.projectlist.selectNumber({ type: projectType })
+    dispatch.projectlist.selectNumber({ type: projectType, name: projectName })
   }
 
   // 渲染下拉框
@@ -171,7 +171,14 @@ const ProjectList = (props) => {
                   placeholder="按名称筛选"
                   onChange={(e) => {
                     setProjectName(e.target.value)
-                    newDebounce(table.onSearch, 500)
+                    const nameSearch = () => {
+                      table.onSearch()
+                      dispatch.projectlist.selectNumber({
+                        type: projectType,
+                        name: e.target.value,
+                      })
+                    }
+                    newDebounce(nameSearch, 500)
                   }}
                 />
               </div>
@@ -202,10 +209,16 @@ const ProjectList = (props) => {
               onTabClick={(tab, key, e) => {
                 if (tab === '1') {
                   setProjectType('20')
-                  dispatch.projectlist.selectNumber({ type: '20' })
+                  dispatch.projectlist.selectNumber({
+                    type: '20',
+                    name: projectName,
+                  })
                 } else if (tab === '2') {
                   setProjectType('10')
-                  dispatch.projectlist.selectNumber({ type: '10' })
+                  dispatch.projectlist.selectNumber({
+                    type: '10',
+                    name: projectName,
+                  })
                 }
                 table.onSearch()
               }}>
