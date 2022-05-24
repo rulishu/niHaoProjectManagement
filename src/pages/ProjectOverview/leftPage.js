@@ -5,7 +5,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.less'
 import ProjectManagement from '../../components/ProjectManagement'
-import { NumColor, NumFilter } from '../../utils/utils'
+import { NumColor } from '../../utils/utils'
 
 export default function Home() {
   const {
@@ -137,10 +137,7 @@ export default function Home() {
                 }
                 format={(percent) => (
                   <span>
-                    {`${NumFilter(
-                      allDataSource?.totalWorkVo?.projectYwcNum,
-                      allDataSource?.totalWorkVo?.projectNum
-                    )}`}
+                    {`${allDataSource?.totalWorkVo?.projectNum}`}
                     <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                       总任务
                     </div>
@@ -183,11 +180,6 @@ export default function Home() {
                       title: '已完成',
                       num: allDataSource?.totalWorkVo?.projectYwcNum || 0,
                       key: 3,
-                    },
-                    {
-                      title: '已关闭',
-                      num: allDataSource?.totalWorkVo?.projectYwcNum || 0,
-                      key: 4,
                     },
                     {
                       title: '已逾期',
