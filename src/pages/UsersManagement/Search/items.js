@@ -30,7 +30,7 @@ export const columnsSearch = (handleEditTable) => [
   },
   {
     title: '加入日期',
-    key: 'joinTime',
+    key: 'createTime',
     align: 'center',
   },
   {

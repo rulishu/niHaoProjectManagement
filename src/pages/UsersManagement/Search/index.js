@@ -33,7 +33,7 @@ const Search = () => {
       // console.log('data',data);
       return {
         total: data?.data?.total,
-        data: data?.data?.list || [],
+        data: data?.data?.rows || [],
       }
     },
     requestOptions: {
