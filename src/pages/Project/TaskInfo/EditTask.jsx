@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Button, SearchSelect, DateInput, Tooltip } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectOption } from '@/utils/utils'
+import { selectOption, milepostOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { AuthBtn } from '@uiw-admin/authorized'
@@ -33,7 +33,6 @@ const EditTask = () => {
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
-
   const navigate = useNavigate()
 
   const [assignState, setAssignState] = useState(false)
@@ -75,6 +74,15 @@ const EditTask = () => {
       await dispatch.project.getEdit()
     }
   }
+  const editMilepostOk = async () => {
+    setMilepostState(!milepostState)
+    if (editFromData === taskInfoData) {
+      return false
+    } else {
+      await dispatch.project.getEdit()
+    }
+  }
+
   const editDubTime = () => {
     setMilepostState(false)
     setAssignState(false)
@@ -99,14 +107,14 @@ const EditTask = () => {
       projectId: projectId || '',
     })
   }
-  const milepostChange = async (v) => {
-    setMilepostState(false)
-    await dispatch.project.getEdit({
-      assignmentId: editFromData.assignmentId,
-      milestonesId: v[0].value,
-      projectId: projectId || '',
-    })
-  }
+  // const milepostChange = async (v) => {
+  //   setMilepostState(false)
+  //   await dispatch.project.getEdit({
+  //     assignmentId: editFromData.assignmentId,
+  //     milestonesId: v[0].value,
+  //     projectId: projectId || '',
+  //   })
+  // }
   const dubDateChange = async (v) => {
     setDueDateState(false)
     await dispatch.project.getEdit({
@@ -128,6 +136,23 @@ const EditTask = () => {
     })
   }
 
+  // 里程碑组件 变化回调函数
+  const selectmilepostLabel = (keyArr) => {
+    setLabelState(true)
+    // await dispatch.project.getEdit({
+    //   assignmentId: editFromData.assignmentId,
+    //   milestonesId: milepostaData.milestonesId,
+    //   projectId: projectId || '',
+    // })
+    updateData({
+      editFromData: {
+        ...editFromData,
+        assignmentId: editFromData.assignmentId,
+        milestonesId: milepostaData.milestonesId,
+        projectId: projectId || '',
+      },
+    })
+  }
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
     const useful = editFromData?.labels?.map((item) =>
@@ -212,7 +237,7 @@ const EditTask = () => {
             )}
           </div>
         </div>
-        <div className={styles.rLabel}>
+        {/* <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
             <span>里程碑</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
@@ -235,7 +260,9 @@ const EditTask = () => {
                 disabled={false}
                 labelInValue={true}
                 placeholder="请输入选择"
-                onChange={(v) => milepostChange(v)}
+                onChange={(v) => {
+                  milepostChange(v)
+                }}
                 option={
                   selectOption(
                     milepostaData,
@@ -255,6 +282,57 @@ const EditTask = () => {
               <div>无</div>
             )}
           </div>
+        </div> */}
+        <div className={styles.rLabel}>
+          <div className={styles.rLabelTitle}>
+            <span>里程碑</span>
+            <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
+              {milepostState ? (
+                <Button basic type="primary" onClick={() => editMilepostOk()}>
+                  完成
+                </Button>
+              ) : (
+                <Button basic type="primary" onClick={() => editMilepost()}>
+                  编辑
+                </Button>
+              )}
+            </AuthBtn>
+          </div>
+          <CompDropdown
+            listData={
+              milepostOption(
+                milepostaData,
+                'milestonesId',
+                'milestonesTitle'
+              ) || []
+            }
+            isOpen={milepostState}
+            // isTagClose={false}
+            template="milepost"
+            shape="label"
+            isRadio={true}
+            selectLabel={(_, selKey) => {
+              selectmilepostLabel(selKey)
+            }}
+            closeLabel={() => {
+              updateData({
+                editFromData: {
+                  ...editFromData,
+                  labels: [...taskInfoData?.labels],
+                },
+              })
+              setLabelState(false)
+            }}
+            loading={loading.effects.milestone.selectPageList}
+            runLabel={() => {
+              navigate('/dictionary', { replace: true })
+            }}
+            createTag={(_, current) => createTag(current)}
+            // isTagClose={false}
+          />
+          {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
+            <div className={styles.rLabelText}>无</div>
+          )}
         </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>

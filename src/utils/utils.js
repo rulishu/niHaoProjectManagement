@@ -128,3 +128,22 @@ export function NumFilter(value, inx) {
   let realVal = parseFloat(division).toFixed(2) * 100
   return `${realVal}%`
 }
+
+// 里程碑模糊查询数据
+export const milepostOption = (data, value, name) => {
+  if (data && data.length > 0) {
+    if (value && name) {
+      return data.map((item) => ({
+        key: item[value],
+        title: item[name],
+      }))
+    } else {
+      return data.map((item) => ({
+        key: item.id,
+        title: item.userName,
+      }))
+    }
+  } else {
+    return []
+  }
+}
