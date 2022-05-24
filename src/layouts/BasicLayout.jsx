@@ -90,6 +90,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
         },
       },
       {
+        title: '用户中心',
+        icon: 'user',
+        onClick: () => {
+          navigate(`/userHome/${userInfo?.userId}`, { replace: true })
+        },
+      },
+      {
         title: '退出登录',
         icon: 'logout',
         onClick: async () => {
@@ -162,11 +169,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const isNoMenu = ['/projectList', '/home', '/todoList'].includes(
     props.router.location.pathname
   )
+
+  const isNoMenuN =
+    props.router.location.pathname.search('/userHome') !== -1 && true
+
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        menuHide={isNoMenu}
+        menuHide={isNoMenu || isNoMenuN}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
         <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
