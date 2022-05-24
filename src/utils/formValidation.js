@@ -14,14 +14,15 @@ export const memberForm = (props) => {
   if (!current.userName) errorObj.userName = '姓名不能为空！'
   if (!current.nickName) errorObj.nickName = '帐号不能为空！'
   if (!current.password) errorObj.password = '密码不能为空！'
+  if (!current.email) errorObj.email = 'Email不能为空！'
+  if (!current.phonenumber) errorObj.phonenumber = '电话号码不能为空！'
   // if (!current.roleIds) errorObj.roleIds = '角色不能为空！'
   // if (!current.deptId) errorObj.deptId = '部门不能为空！'
   // if (current.sex === '') errorObj.sex = '性别不能为空！'
   // if (!current.postIds) errorObj.postIds = '职位不能为空！'
-  if (current.phonenumber !== '' && !pattern.test(current.phonenumber))
+  if (!pattern.test(current.phonenumber))
     errorObj.phonenumber = '请输入正确的电话号码格式！'
   // if (current.status === '') errorObj.status = '状态不能为空！'
-  if (current.email !== '' && !reg.test(current.email))
-    errorObj.email = '请输入正确的Email格式!'
+  if (!reg.test(current.email)) errorObj.email = '请输入正确的Email格式!'
   return errorObj
 }
