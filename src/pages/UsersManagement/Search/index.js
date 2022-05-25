@@ -121,7 +121,7 @@ const Search = () => {
             },
           ]}
           paginationProps={{
-            pageSizeOptions: [10, 20, 30],
+            // pageSizeOptions: [10, 20, 30],
             pageSize: 10,
           }}
           table={search}
