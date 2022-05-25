@@ -4,9 +4,11 @@
   background-color: #fff;
   border-radius: 2px;
 }
+
 .AllSelect {
   padding-top: 15px;
 }
+
 .nav {
   font-size: 20px;
   display: flex;
@@ -24,10 +26,12 @@
     color: #303030;
   }
 }
+
 .itemListRight {
   display: flex;
   justify-content: flex-end;
 }
+
 .tabsLabelTitle {
   font-size: 14px;
   line-height: 28px;
@@ -62,7 +66,6 @@
 
 .list {
   margin: 15px 0 15px 0;
-  cursor: pointer;
 
   .listStatus {
     padding-left: 0.5rem;
@@ -97,6 +100,7 @@
     white-space: nowrap;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 
     .listCol {
       overflow: hidden;
@@ -111,10 +115,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 600;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .listContent {
@@ -152,10 +152,17 @@
     //   text-decoration: underline;
     // }
   }
+
   .projectName {
     padding: 0 5px;
     color: blue;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
+
   .listIconSpan {
     margin: 0 5px;
   }
