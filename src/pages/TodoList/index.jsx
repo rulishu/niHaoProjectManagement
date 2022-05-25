@@ -87,6 +87,7 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
+                console.log(item)
                 return (
                   <List.Item
                     key={index}
@@ -100,12 +101,7 @@ const TodoList = () => {
                       </div>
                     }>
                     <Row gutter={10} className={styles.listRow}>
-                      <div
-                        onClick={() => {
-                          navigate(
-                            `/project/taskInfo/${item.projectId}/${item.id}`
-                          )
-                        }}>
+                      <div>
                         <Col
                           // span={18}
                           className={styles.listCol}>
@@ -114,22 +110,48 @@ const TodoList = () => {
                           </a>
                           <div className={styles.listContent}>
                             <Icon type="user" size="big" /> 你
-                            <span className={styles.projectName}>
+                            <span>
                               {item.doType === 0 ? '评论' : '任务指派给'}{' '}
                             </span>
-                            <Icon type="user" /> {item.doUserName}
-                            <span className={styles.projectName}>
-                              #{item.issuesId}
+                            <span
+                              className={styles.projectName}
+                              onClick={() => {
+                                navigate(`/userHome/${item.doUserId}`)
+                              }}>
+                              <Icon type="user" /> {item.doUserName}
                             </span>
-                            ''{item.doConnent}'' 在
-                            <span className={styles.projectName}>
+                            <span
+                              className={styles.projectName}
+                              onClick={() => {
+                                navigate(
+                                  `/project/taskInfo/${item.projectId}/${item.issuesId}`
+                                )
+                              }}>
+                              #{item.issuesId}''{item.doConnent}''
+                            </span>
+                            在
+                            <span
+                              className={styles.projectName}
+                              onClick={() => {
+                                navigate(
+                                  `/project/taskInfo/${item.projectId}/${item.issuesId}`
+                                )
+                              }}>
                               {item.projectName}
                             </span>
-                            由 {item.assignUserName} 创建于 {item?.createTime}
+                            由
+                            <span
+                              className={styles.projectName}
+                              onClick={() => {
+                                navigate(`/userHome/${item.assignUserId}`)
+                              }}>
+                              {item.assignUserName}
+                            </span>
+                            创建于 {item?.createTime}
                           </div>
                         </Col>
                       </div>
-                      <Col span="8" className={styles.itemListRight}>
+                      <Col className={styles.itemListRight}>
                         <div>
                           <Button
                             type="primary"
@@ -218,7 +240,6 @@ const TodoList = () => {
                     todolist={todolist}
                   />
                 </div>
-
                 {taskDataList(dataList, total, '1')}
               </Tabs.Pane>
             </Tabs>

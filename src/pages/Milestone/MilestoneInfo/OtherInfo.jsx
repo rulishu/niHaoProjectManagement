@@ -46,7 +46,7 @@ const OtherInfo = (props) => {
 
   // 标签块
   const lableBox = (value) => {
-    const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
+    const results = dictDataList?.filter((s) => +s.dictCode === +value)[0]
     return (
       <span
         key={results?.dictCode}
@@ -100,8 +100,8 @@ const OtherInfo = (props) => {
                       <Avatar
                         size="mini"
                         src={
-                          item.uuid &&
-                          `/api/file/selectFile/${item?.assigneeUserAvatarUuid}`
+                          item?.assigneeUserAvatar &&
+                          `/api/file/selectFile/${item?.assigneeUserAvatar}`
                         }
                         className={styles.roleAvatar}>
                         {item.assigneeUserName}

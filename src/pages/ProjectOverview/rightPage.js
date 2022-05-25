@@ -1,9 +1,10 @@
-import { Card, Steps } from 'uiw'
+import { Card, Steps, Avatar } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import moment from 'dayjs'
+import styles from './index.module.less'
 
 export default function AllTasks() {
   const {
@@ -100,38 +101,22 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card title="项目成员" bordered={false}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            flexWrap: 'wrap-reverse',
-          }}>
-          {projectMembersList.map((e, idx) => {
+        <div className={styles.memberBox}>
+          {projectMembersList.map((item, idx) => {
             return (
-              <div
-                key={idx}
-                style={{
-                  width: 50,
-                  textAlign: 'center',
-                  marginRight: 10,
-                  cursor: 'pointer',
-                }}>
+              <div key={idx} className={styles.memberItem}>
                 <div
-                  style={{
-                    display: 'flex',
-                    backgroundColor: 'pink',
-                    width: 50,
-                    height: 50,
-                    borderRadius: '50%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  onClick={() => navigate(`/usersManagement/${projectId}`)}>
-                  <span style={{ fontSize: 24 }}>{e.nickName.slice(0, 1)}</span>
+                  className={styles.memberItemLi}
+                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  <Avatar
+                    size="large"
+                    src={
+                      item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''
+                    }>
+                    {item?.nickName && item?.nickName[0]}
+                  </Avatar>
                 </div>
-                <span style={{ paddingTop: 5, display: 'block' }}>
-                  {e.nickName}
-                </span>
+                <span className={styles.memberName}>{item?.nickName}</span>
               </div>
             )
           })}

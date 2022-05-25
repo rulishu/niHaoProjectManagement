@@ -3,7 +3,7 @@ import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Tooltip } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
-import styles from './index.less'
+import styles from './index.module.less'
 import ProjectManagement from '../../components/ProjectManagement'
 import { NumColor } from '../../utils/utils'
 
