@@ -69,6 +69,7 @@ const allusers = createModel()({
   effects: (dispatch) => ({
     async queryByPage(params, { allusers }, callback) {
       const { pageSize, page, filter } = allusers
+      console.log(params.pageSize || pageSize, params.page || page)
       const data = await queryByPage({
         pageSize,
         page,
@@ -76,26 +77,11 @@ const allusers = createModel()({
         ...params,
       })
       if (data && data.code === 200) {
-        // let txArr = []
-        // await data?.data.list
-        //   .map(async (item) => {
-        //     if (item.uuid) {
-        //       const avatarData = await downloadFilePathById({ uuid: item.uuid })
-        //       let blob = new Blob([avatarData], { type: 'image/png' })
-        //       let url = URL.createObjectURL(blob)
-        //       txArr.push({ id: item.id, url })
-        //       await dispatch.allusers.update({
-        //         memberAvatarArr: txArr,
-        //       })
-        //     }
-        //     return undefined
-        //   })
-        //   .filter((s) => s)
         await dispatch.allusers.update({
           dataList: data?.rows || [],
           total: data?.total,
           pageSize: params.pageSize || pageSize,
-          params: params.page || page,
+          page: params.page || page,
         })
         callback && callback(data?.rows)
       }
