@@ -4,9 +4,11 @@
   background-color: #fff;
   border-radius: 2px;
 }
+
 .AllSelect {
   padding-top: 15px;
 }
+
 .nav {
   font-size: 20px;
   display: flex;
@@ -23,6 +25,11 @@
     font-weight: 600;
     color: #303030;
   }
+}
+
+.itemListRight {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .tabsLabelTitle {
@@ -51,9 +58,36 @@
 .list {
   margin: 15px 0 15px 0;
 
+  .listStatus {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+    color: #666;
+    font-size: 12px;
+    line-height: 20px;
+    border: 1px solid #dbdbdb;
+    border-radius: 100px;
+    font-weight: 400;
+  }
+
+  .listIssueStatus {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+    color: #666;
+    font-size: 12px;
+    line-height: 20px;
+    border-radius: 100px;
+    font-weight: 400;
+    color: #fff;
+  }
+
   .listRow {
     font-size: 15px;
     justify-content: space-between;
+    align-items: center;
 
     .listCol {
       overflow: hidden;
@@ -61,18 +95,57 @@
       white-space: nowrap;
     }
   }
+
+  .listTitle {
+    color: #303030;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
   .listContent {
     color: #666;
     overflow: hidden;
   }
 
+  .listInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .listIcon {
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+  }
+
+  .listIssueIcon {
+    display: flex;
+    justify-content: right;
+  }
+
+  .taskUserName {
+    padding: 0 10px;
+    // text-shadow: 0 0 10px #008ef0;
+
+    // &:hover {
+    //   text-decoration: underline;
+    // }
+  }
+
   .projectName {
     padding: 0 5px;
     color: blue;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
-  .itemListRight {
-    margin-left: 20px;
-    display: flex;
-    justify-content: flex-end;
+
+  .listIconSpan {
+    margin: 0 5px;
   }
 }

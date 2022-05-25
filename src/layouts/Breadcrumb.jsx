@@ -24,6 +24,11 @@ const Bread = (props) => {
   }, [projectId, dispatch])
   return (
     <Breadcrumb>
+      {projectId ? (
+        <div style={{ marginRight: '5px' }}>{proName} /</div>
+      ) : (
+        <div></div>
+      )}
       {domList?.map((item, index) => {
         if (
           item.path !== '/projectList' &&
@@ -35,11 +40,6 @@ const Bread = (props) => {
         }
         return <div key={index}></div>
       })}
-      {projectId ? (
-        <div style={{ marginLeft: '5px' }}>/ {proName}</div>
-      ) : (
-        <div></div>
-      )}
     </Breadcrumb>
   )
 }

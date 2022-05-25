@@ -88,7 +88,7 @@ const ProjectManagement = (fun) => {
             key: 'projectLeaderId',
             widget: 'select',
             option: userList,
-            initialValue: seachValue?.updateId,
+            initialValue: seachValue?.projectLeaderId,
             widgetProps: {},
             span: '24',
             required: true,

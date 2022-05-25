@@ -5,6 +5,7 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
 import DeletePopover from '@/components/DeletePopover'
 import DetailModal from './DetailModal'
+import styles from './index.module.less'
 
 const DetailTable = () => {
   const dispatch = useDispatch()
@@ -143,6 +144,15 @@ const DetailTable = () => {
           {
             title: '字典键值',
             key: 'dictValue',
+            render: (text) => {
+              return (
+                <div>
+                  <Tooltip placement="top" content={`${text}`}>
+                    <span className={styles.proTableDictValue}>{text}</span>
+                  </Tooltip>
+                </div>
+              )
+            },
           },
           {
             title: '排序',
@@ -182,6 +192,7 @@ const DetailTable = () => {
           {
             title: '创建时间',
             key: 'createTime',
+            width: 150,
           },
           // {
           //   title: '标签背景颜色',

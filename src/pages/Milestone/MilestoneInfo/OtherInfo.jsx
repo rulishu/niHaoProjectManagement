@@ -49,7 +49,7 @@ const OtherInfo = (props) => {
     const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
     return (
       <span
-        key={results?.dictCode}
+        key={results?.dictValue}
         className={styles.taskTags}
         style={{ backgroundColor: results?.listClass || '#813c858c' }}>
         {results?.dictLabel}
@@ -100,8 +100,8 @@ const OtherInfo = (props) => {
                       <Avatar
                         size="mini"
                         src={
-                          item.uuid &&
-                          `/api/file/selectFile/${item?.assigneeUserAvatarUuid}`
+                          item?.assigneeUserAvatar &&
+                          `/api/file/selectFile/${item?.assigneeUserAvatar}`
                         }
                         className={styles.roleAvatar}>
                         {item.assigneeUserName}
