@@ -1,6 +1,6 @@
 import { Divider, Icon, Card, Row, Col, Button, Tooltip, Avatar } from 'uiw'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
 import DeletePopover from './DeletePopover'
@@ -8,7 +8,7 @@ import DeletePopover from './DeletePopover'
 const UsersBox = (props) => {
   const { data, handleEdit } = props
   const navigate = useNavigate()
-  const { dictionary } = useSelector((state) => state)
+  // const { dictionary } = useSelector((state) => state)
 
   // 性别图标
   const gender = (sex) => {
@@ -17,24 +17,24 @@ const UsersBox = (props) => {
     else return
   }
 
-  // 处理职位标签
-  const userPositionBox = (num) => {
-    let arr = {}
-    for (let index = 0; index < dictionary.dictAllData.length; index++) {
-      const item = dictionary.dictAllData[index]
-      arr[item.dictCode] = { value: item.dictName, color: item.dictColour }
-    }
-    return (
-      <span
-        style={{
-          background: arr[num]?.color,
-          boxShadow: `0 0 2px 1px ${arr[num]?.color}`,
-        }}
-        className={`${styles.position}`}>
-        {arr[num]?.value}
-      </span>
-    )
-  }
+  // // 处理职位标签
+  // const userPositionBox = (num) => {
+  //   let arr = {}
+  //   for (let index = 0; index < dictionary.dictAllData.length; index++) {
+  //     const item = dictionary.dictAllData[index]
+  //     arr[item.dictCode] = { value: item.dictName, color: item.dictColour }
+  //   }
+  //   return (
+  //     <span
+  //       style={{
+  //         background: arr[num]?.color,
+  //         boxShadow: `0 0 2px 1px ${arr[num]?.color}`,
+  //       }}
+  //       className={`${styles.position}`}>
+  //       {arr[num]?.value}
+  //     </span>
+  //   )
+  // }
 
   // const convertUrls = (userId) => {
   //   const result = memberAvatarArr.filter((item) => item.id === userId.id)
@@ -43,43 +43,42 @@ const UsersBox = (props) => {
   return (
     <div className={styles.content}>
       {data?.map((item) => {
+        console.log(item)
         return (
           <div className={styles.userBoxFather} key={item.userId}>
             <Card className={styles.userBox}>
               <div className={styles.userBoxChild}>
                 <Row>
                   <Col span="6" className={styles.userHead}>
-                    {/* <Avatar src={item.path || null}>{item.userName}</Avatar> */}
-                    {/* <Avatar
-                      src={
-                        memberAvatarArr?.length &&
-                        item.path &&
-                        convertUrls(item)
-                      }> */}
                     <Avatar
                       src={
                         item.avatar
                           ? `/api/file/selectFile/${item.avatar}`
                           : item.path
                       }>
-                      {item.userName}
+                      {item?.nickName[0]}
                     </Avatar>
                   </Col>
                   <Col span="18">
                     <Row>
                       <div
                         className={styles.userName}
-                        style={{ paddingBottom: 10 }}>
+                        style={{ paddingBottom: 10 }}
+                        onClick={() => {
+                          navigate(`/userHome/${item.userId}`, {
+                            state: { userId: item?.userId },
+                          })
+                        }}>
                         {item.nickName}
                         <span>{gender(item.sex)}</span>
                       </div>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <div className={styles.userId}>
-                        {item.userPosition &&
-                          userPositionBox(item.userPosition)}
+                        {item.roleIds &&
+                          userPositionBox(item.roleIds)}
                       </div>
-                    </Row>
+                    </Row> */}
                     <Row className={styles.buttonGroup}>
                       <Col span="6">
                         <AuthBtn path="/api/system/user/edit">
