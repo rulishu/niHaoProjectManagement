@@ -46,7 +46,11 @@ const Task = (props) => {
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
-  const { project, loading } = useSelector((state) => state)
+  const {
+    project,
+    dictionary: { dictDataList },
+    loading,
+  } = useSelector((state) => state)
   const {
     dataList,
     total,
@@ -74,7 +78,7 @@ const Task = (props) => {
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId })
     dispatch.project.selectLabel({ projectId: taskId })
     dispatch.project.assignment_label()
-
+    dispatch.dictionary.getDictDataList({ dictType: 'assignment_label' })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
@@ -215,6 +219,7 @@ const Task = (props) => {
               listField={listField}
               listNavigate={listGo}
               delAssignment={delAssignment}
+              labelsData={dictDataList}
             />
             {taskTotal > 0 && (
               <Pagination
