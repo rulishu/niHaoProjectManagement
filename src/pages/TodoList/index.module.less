@@ -24,10 +24,7 @@
     color: #303030;
   }
 }
-.itemListRight {
-  display: flex;
-  justify-content: flex-end;
-}
+
 .tabsLabelTitle {
   font-size: 14px;
   line-height: 28px;
@@ -51,51 +48,11 @@
   vertical-align: baseline;
 }
 
-.contentBlock {
-  display: flex;
-  background-color: #fafafa;
-  padding: 16px;
-  border-top: 1px solid #eaeaea;
-  border-bottom: 1px solid #eaeaea;
-  color: #303030;
-}
-
 .list {
   margin: 15px 0 15px 0;
-  cursor: pointer;
-
-  .listStatus {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    margin-left: 0.5rem;
-    display: inline-block;
-    color: #666;
-    font-size: 12px;
-    line-height: 20px;
-    border: 1px solid #dbdbdb;
-    border-radius: 100px;
-    font-weight: 400;
-  }
-
-  .listIssueStatus {
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-    margin-left: 0.5rem;
-    display: inline-block;
-    color: #666;
-    font-size: 12px;
-    line-height: 20px;
-    border-radius: 100px;
-    font-weight: 400;
-    color: #fff;
-  }
 
   .listRow {
     font-size: 15px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    flex-direction: row;
     justify-content: space-between;
 
     .listCol {
@@ -104,59 +61,18 @@
       white-space: nowrap;
     }
   }
-
-  .listTitle {
-    color: #303030;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-weight: 600;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   .listContent {
     color: #666;
     overflow: hidden;
-    // font-size: 12px;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
   }
 
-  .listInfo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .listIcon {
-    display: flex;
-    justify-content: center;
-    margin-right: 10px;
-  }
-
-  .listIssueIcon {
-    display: flex;
-    justify-content: right;
-  }
-
-  .taskUserName {
-    padding: 0 10px;
-    // text-shadow: 0 0 10px #008ef0;
-
-    // &:hover {
-    //   text-decoration: underline;
-    // }
-  }
   .projectName {
     padding: 0 5px;
     color: blue;
   }
-  .listIconSpan {
-    margin: 0 5px;
+  .itemListRight {
+    margin-left: 20px;
+    display: flex;
+    justify-content: flex-end;
   }
 }

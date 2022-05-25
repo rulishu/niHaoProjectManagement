@@ -4,7 +4,7 @@ import {
   Tabs,
   Pagination,
   Loader,
-  Tooltip,
+  // Tooltip,
   Empty,
   Row,
   Col,
@@ -90,15 +90,16 @@ const TodoList = () => {
                 return (
                   <List.Item
                     key={index}
-                    extra={
-                      <div>
-                        <div className={styles.listIssueIcon}>
-                          <Tooltip
-                            placement="top"
-                            content="Assignees"></Tooltip>
-                        </div>
-                      </div>
-                    }>
+                    // extra={
+                    //   // <div>
+                    //   //   <div className={styles.listIssueIcon}>
+                    //   //     <Tooltip
+                    //   //       placement="top"
+                    //   //       content="Assignees"></Tooltip>
+                    //   //   </div>
+                    //   // </div>
+                    // }
+                  >
                     <Row gutter={10} className={styles.listRow}>
                       <div
                         onClick={() => {
@@ -109,9 +110,7 @@ const TodoList = () => {
                         <Col
                           // span={18}
                           className={styles.listCol}>
-                          <a href={item?.nav} className={styles.listTitle}>
-                            {item.title}
-                          </a>
+                          {item.title}
                           <div className={styles.listContent}>
                             <Icon type="user" size="big" /> 你
                             <span className={styles.projectName}>
@@ -129,7 +128,7 @@ const TodoList = () => {
                           </div>
                         </Col>
                       </div>
-                      <Col span="8" className={styles.itemListRight}>
+                      <Col className={styles.itemListRight}>
                         <div>
                           <Button
                             type="primary"
