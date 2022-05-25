@@ -17,6 +17,7 @@ export default createModel()({
     menuItemData: {}, // 当前菜单的数据
     fromData: {},
     fromType: 1, // 1:增加，2，编辑
+    userInfo: '', //当前登陆人信息
   },
   effects: (dispatch) => ({
     // 获取路由列表数据
@@ -31,8 +32,12 @@ export default createModel()({
       }
     },
     async getInfo(payload) {
+      const dph = dispatch
       const data = await getInfo(payload)
       if (data.code === 200) {
+        dph.routeManagement.update({
+          userInfo: data?.user?.nickName,
+        })
         const imgs = data?.user?.admin
         payload.callback && payload.callback(data.user)
         localStorage.setItem('key', imgs)
