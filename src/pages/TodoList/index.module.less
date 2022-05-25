@@ -55,6 +55,15 @@
   vertical-align: baseline;
 }
 
+.contentBlock {
+  display: flex;
+  background-color: #fafafa;
+  padding: 16px;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+  color: #303030;
+}
+
 .list {
   margin: 15px 0 15px 0;
 
@@ -86,6 +95,10 @@
 
   .listRow {
     font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
@@ -107,6 +120,11 @@
   .listContent {
     color: #666;
     overflow: hidden;
+    // font-size: 12px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .listInfo {
