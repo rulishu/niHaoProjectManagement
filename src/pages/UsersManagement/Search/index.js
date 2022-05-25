@@ -1,14 +1,26 @@
 import { Fragment } from 'react'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { columnsSearch } from './items'
 import { Card } from 'uiw'
 import Drawer from '../Drawer/index'
 import Modal from '../Modals/index'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 const Search = () => {
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({
+      type: 'routeManagement/getInfo',
+      payload: {
+        callback: '',
+      },
+    })
+  }, [dispatch])
+  const {
+    routeManagement: { userInfo },
+  } = useSelector((state) => state)
   const updateData = (payload) => {
     dispatch({
       type: 'usersManagement/updateState',
@@ -30,7 +42,6 @@ const Search = () => {
     },
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
-      // console.log('data',data);
       return {
         total: data?.data?.total,
         data: data?.data?.rows || [],
@@ -125,7 +136,7 @@ const Search = () => {
             pageSize: 10,
           }}
           table={search}
-          columns={columnsSearch(handleEditTable)}
+          columns={columnsSearch(handleEditTable, userInfo)}
         />
       </Card>
 
