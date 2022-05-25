@@ -239,7 +239,7 @@ export default function Home() {
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40%' }}
-          title={allDataSource?.projectName || ''}
+          title="项目说明" //{allDataSource?.projectName || ''}
           bodyStyle={{ padding: 0 }}
           bordered={false}
           extra={
