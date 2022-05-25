@@ -10,7 +10,7 @@ const Detail = (props) => {
   const dispatch = useDispatch()
   const {
     team: { drawerVisible, tableType, queryInfo, isView },
-  } = useSelector((team) => team)
+  } = useSelector((state) => state)
 
   const onClose = () => dispatch({ type: 'team/clean' })
 
