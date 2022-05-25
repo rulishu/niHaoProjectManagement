@@ -99,3 +99,22 @@
     }
   }
 }
+
+// 成员动态
+.dynamicList {
+  height: 355px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 10px;
+
+  .dynamicListLi {
+    padding: 4px;
+
+    & > div:last-child > div {
+      &:hover {
+        background-color: #f6f9fb;
+        cursor: pointer;
+      }
+    }
+  }
+}
