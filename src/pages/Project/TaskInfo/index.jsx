@@ -186,13 +186,13 @@ const TaskInfo = () => {
                 </div>
                 <div>
                   <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-                    {taskInfoData?.assignmentStatus === 1 ? (
-                      <Button type="primary" onClick={() => goStateIssue(3)}>
-                        关闭任务
-                      </Button>
-                    ) : (
+                    {taskInfoData?.assignmentStatus === 3 ? (
                       <Button type="success" onClick={() => goStateIssue(1)}>
                         打开任务
+                      </Button>
+                    ) : (
+                      <Button type="primary" onClick={() => goStateIssue(3)}>
+                        关闭任务
                       </Button>
                     )}
                     {issueType === 'edit' ? (
