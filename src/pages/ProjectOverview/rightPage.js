@@ -1,78 +1,53 @@
-import { Card, Steps, Avatar } from 'uiw'
+import { Card, Steps, Avatar, Empty } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 import { useParams } from 'react-router-dom'
-import { ProTable, useTable } from '@uiw-admin/components'
-import moment from 'dayjs'
 import styles from './index.module.less'
+import dayjs from 'dayjs'
 
 export default function AllTasks() {
   const {
-    projectoverview: { projectMembersList, projectDynamicsList },
+    projectoverview: { projectMembersList, projectDynamicsList, allDataSource },
   } = useSelector((state) => state)
 
   const { projectId } = useParams()
-  const token = localStorage.getItem('token')
-  const milepostTable = useTable('/api/project/projectCountById', {
-    formatData: (data) => {
-      return {
-        data: data?.data?.milesWorkVoList || [],
-      }
-    },
-    query: () => {
-      return { projectId: projectId }
-    },
-    SWRConfiguration: {
-      revalidateOnFocus: false,
-    },
-    requestOptions: {
-      headers: { Authorization: 'Bearer ' + token },
-    },
-  })
+  const allDataSources = allDataSource?.milesWorkVoList
 
-  const columns = [
-    {
-      title: '里程碑名称',
-      key: 'milestonesTitle',
-      ellipsis: true,
-      width: 100,
-    },
-    {
-      title: '结束时间',
-      key: 'dueTime',
-      ellipsis: true,
-      width: 120,
-      render: (text) => {
-        return <div>{text ? moment(text).format('YYYY-MM-DD') : ''}</div>
-      },
-    },
-    {
-      title: '进度',
-      key: 'rate',
-      width: 80,
-    },
-  ]
-
+  // 跳转里程碑详情
+  const goMilestones = (_, milestonesId) => {
+    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
+  }
   return (
     <div style={{ width: '30%' }}>
-      <Card title="里程碑" bordered={false}>
-        <div style={{ height: 331, overflowX: 'hidden', overflowY: 'auto' }}>
-          <ProTable
-            key="dueTime"
-            onCell={(rowData) => {
-              navigate(
-                `/milestone/milestoneInfo/${projectId}/${rowData.milestonesId}`,
-                {
-                  state: { projectId, milestonesId: rowData.milestonesId },
-                }
-              )
-            }}
-            bordered={false}
-            table={milepostTable}
-            tableBackgroundColor="#fff"
-            columns={columns}
-            paginationProps={{ style: { display: 'none' } }}
-          />
+      <Card title="里程碑" bordered={false} style={{ width: 300 }}>
+        <div className={styles.milestoneInfoList}>
+          <ul>
+            <p className={styles.milInfoLiHead}>
+              <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
+              <samp style={{ flex: 3, marginLeft: 32 }}>结束时间</samp>
+              <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
+            </p>
+            {allDataSources?.length === 0 ? (
+              <Empty description={false} style={{ marginTop: 20 }} />
+            ) : (
+              allDataSources?.map((item) => {
+                return (
+                  <li
+                    key={item?.milestonesId}
+                    onClick={() =>
+                      goMilestones(item?.projectId, item?.milestonesId)
+                    }>
+                    <span style={{ flex: 3 }}>{item?.milestonesTitle}</span>
+                    <span style={{ flex: 4, fontSize: '12px' }}>
+                      {item?.dueTime &&
+                        dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                    </span>
+                    <span style={{ flex: 2 }}>{item?.rate}</span>
+                  </li>
+                )
+              })
+            )}
+          </ul>
         </div>
       </Card>
       <Card
