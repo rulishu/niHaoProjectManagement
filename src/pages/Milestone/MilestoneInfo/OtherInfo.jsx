@@ -96,7 +96,13 @@ const OtherInfo = (props) => {
                   <Tooltip
                     placement="top"
                     content={<>指派给{item.assigneeUserName}</>}>
-                    <span className={styles.taskAssignPerson}>
+                    <span
+                      className={styles.taskAssignPerson}
+                      onClick={() => {
+                        navigate(`/userHome/${item?.assigneeUserId}`, {
+                          state: { assigneeUserId: item?.assigneeUserId },
+                        })
+                      }}>
                       <Avatar
                         size="mini"
                         src={
