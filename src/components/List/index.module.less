@@ -15,17 +15,25 @@
     font-weight: 400;
   }
 
+  .nolistIssueTag,
   .listIssueStatus {
     padding-left: 0.3rem;
     padding-right: 0.3rem;
     margin-left: 0.5rem;
     display: inline-block;
-    color: #666;
     font-size: 12px;
     line-height: 20px;
     border-radius: 100px;
     font-weight: 400;
     color: #fff;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  .nolistIssueTag {
+    background-color: #fff;
+    color: #666;
+    border-color: #666;
   }
 
   .listRow {
@@ -54,12 +62,18 @@
 
   .listContent {
     color: #666;
+    display: flex;
     overflow: hidden;
-    // font-size: 12px;
     text-overflow: ellipsis;
-    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+
+    .listLabels {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
   }
 
   .listInfo {

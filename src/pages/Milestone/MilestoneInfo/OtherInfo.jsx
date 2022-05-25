@@ -91,7 +91,9 @@ const OtherInfo = (props) => {
                   onClick={() => goProject(item?.assignmentId)}>
                   #{item.assignmentId}
                 </span>
-                {item?.labels?.map((tagItem) => lableBox(tagItem))}
+                {item?.labels?.map((tagLi) => (
+                  <span key={tagLi}>{lableBox(tagLi)}</span>
+                ))}
                 {item.assigneeUserId ? (
                   <Tooltip
                     placement="top"
@@ -130,7 +132,7 @@ const OtherInfo = (props) => {
     return (
       <ul>
         {lableListData?.map((item) => (
-          <li className={styles.lableLiLe}>
+          <li className={styles.lableLiLe} key={item?.dictValue}>
             <div className={styles.lableLiLeft}>
               {lableBox(item?.dictValue)}
             </div>

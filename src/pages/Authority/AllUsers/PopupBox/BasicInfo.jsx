@@ -285,7 +285,7 @@ const BasicInfo = (props) => {
                   inline: false,
                   span: '24',
                   readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.remark,
+                  initialValue: baseDetail.remark || '',
                   widgetProps: {
                     placeholder: '请输入备注',
                   },
