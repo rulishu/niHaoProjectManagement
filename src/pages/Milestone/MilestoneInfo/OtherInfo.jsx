@@ -100,8 +100,8 @@ const OtherInfo = (props) => {
                       <Avatar
                         size="mini"
                         src={
-                          item.uuid &&
-                          `/api/file/selectFile/${item?.assigneeUserAvatarUuid}`
+                          item?.assigneeUserAvatar &&
+                          `/api/file/selectFile/${item?.assigneeUserAvatar}`
                         }
                         className={styles.roleAvatar}>
                         {item.assigneeUserName}
