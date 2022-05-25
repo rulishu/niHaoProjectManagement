@@ -97,10 +97,10 @@ const projectUpdate = createModel()({
       const dph = dispatch
 
       if (
-        seachValue.status === false &&
+        seachValue?.status === false ||
         state.projectUpdate.isHangup === true
       ) {
-        seachValue.status = 1
+        seachValue.status = 0
       } else if (seachValue.status === true) {
         seachValue.status = 3
       }
