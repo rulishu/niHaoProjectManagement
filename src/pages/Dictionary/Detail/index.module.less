@@ -3,18 +3,23 @@
   display: flex;
   flex-direction: column;
   white-space: nowrap;
+
   .listItem {
     width: 100%;
     cursor: pointer;
+
     .id {
     }
+
     .name {
       color: #1890ff;
     }
+
     .descr {
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .listStatus {
       padding-left: 0.5rem;
       padding-right: 0.5rem;
@@ -27,6 +32,7 @@
       border-radius: 100px;
       font-weight: 400;
     }
+
     .num {
       vertical-align: middle;
       margin-right: 2px;
@@ -38,10 +44,12 @@
 .btnFoot {
   text-align: right;
 }
+
 .btn {
   margin-top: 20px;
   width: 80px;
 }
+
 .listFoot {
   display: flex;
   justify-content: flex-end;
@@ -53,4 +61,11 @@
 .tipCon {
   display: flex;
   justify-content: space-around;
+}
+
+.proTableDictValue {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
