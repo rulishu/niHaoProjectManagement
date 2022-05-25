@@ -270,12 +270,12 @@ const AddUser = () => {
                     return 'file-text'
                   }
                 }}
-                onExpand={(key, expanded, data) => {
-                  console.log(key, expanded, data)
-                }}
-                onSelected={(key, selected, item, evn) => {
-                  console.log(key, selected, item, evn)
-                }}
+                // onExpand={(key, expanded, data) => {
+                //   console.log(key, expanded, data)
+                // }}
+                // onSelected={(key, selected, item, evn) => {
+                //   console.log(key, selected, item, evn)
+                // }}
               />
             </Card>
           </Col>

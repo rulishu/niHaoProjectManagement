@@ -55,7 +55,6 @@ const BasicInfo = (props) => {
             formType="pure"
             className={styles.leftForm}
             onChange={(initial, current) => {
-              console.log(current)
               current.avatar[0] &&
                 dispatch.getUploadAvatar(current.avatar[0].file)
             }}
@@ -311,8 +310,7 @@ const BasicInfo = (props) => {
                   if (errors && Object.keys(errors).length > 0) return
                   if (errors1 && Object.keys(errors1).length > 0) return
                   // 获取表单值
-                  const value = await form.getFieldValues?.()
-                  console.log(value)
+
                   const value1 = await form1.getFieldValues?.()
                   const params = {
                     ...value1,

@@ -347,7 +347,6 @@ export default function Home() {
                     return (
                       <Card
                         bordered={false}
-                        onClick={() => console.log('123')}
                         key={item.key}
                         title={item.title}
                         style={{ width: 80 }}>

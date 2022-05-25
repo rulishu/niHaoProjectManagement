@@ -69,7 +69,6 @@ const allusers = createModel()({
   effects: (dispatch) => ({
     async queryByPage(params, { allusers }, callback) {
       const { pageSize, page, filter } = allusers
-      console.log(params.pageSize || pageSize, params.page || page)
       const data = await queryByPage({
         pageSize,
         page,

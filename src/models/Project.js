@@ -72,7 +72,6 @@ export default createModel()({
       // 查询项目统计
       async getProjectCountById(payload) {
         const data = await getProjectCountById(payload)
-        console.log('data: ', data)
         if (data.code === 200) {
           dispatch.project.update({
             prepareTotal: data.data?.totalWorkVo?.projectWksNum || 0,
@@ -98,7 +97,6 @@ export default createModel()({
         //   obj = { ...obj, splicingConditionsDtos }
         // }
         const data = await getSelectPage(obj)
-        console.log('data: ', data)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
             dispatch.project.update({

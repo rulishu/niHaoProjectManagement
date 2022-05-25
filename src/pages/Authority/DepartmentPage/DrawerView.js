@@ -74,7 +74,7 @@ export default function DrawerView() {
           onSubmit={({ ...allFormItem }) => {
             const { current } = allFormItem
             const errorObj = {}
-            console.log('current', current)
+            // console.log('current', current)
             if (current?.parentId.length === 0) {
               errorObj.parentId = '上级部门不能为空！'
             } else if (!current?.deptName) {
@@ -132,17 +132,17 @@ export default function DrawerView() {
                   multiple={false}
                   style={{ width: '100%' }}
                   allowClear={true}
-                  onSearch={(searchValue) =>
-                    console.log('SearchTree-> SearchTreeOption', searchValue)
-                  }
-                  onChange={(selectd, selectedAll, isChecked) =>
-                    console.log(
-                      'SearchTree-> onChange',
-                      selectd,
-                      selectedAll,
-                      isChecked
-                    )
-                  }
+                  // onSearch={(searchValue) =>
+                  //   console.log('SearchTree-> SearchTreeOption', searchValue)
+                  // }
+                  // onChange={(selectd, selectedAll, isChecked) =>
+                  //   console.log(
+                  //     'SearchTree-> onChange',
+                  //     selectd,
+                  //     selectedAll,
+                  //     isChecked
+                  //   )
+                  // }
                   placeholder="请选择选项"
                 />
               ),

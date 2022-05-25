@@ -1,5 +1,5 @@
 import { Empty, Avatar, Loader } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 
@@ -8,8 +8,6 @@ const ProjectList = (props) => {
     userHome: { user, userDynamics },
     loading,
   } = useSelector((state) => state)
-  const dispatch = useDispatch()
-  console.log(dispatch)
   const { goSpecifyPage } = props
   const goPage = (projectId, assignmentId) => {
     const path = assignmentId

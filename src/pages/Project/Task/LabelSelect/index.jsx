@@ -44,7 +44,7 @@ const LabelSelect = (props) => {
   const equals = [{ label: '=', value: '=' }, , { label: '!=', value: '!=' }]
 
   const inputRef = useRef(null)
-  console.log('inputRef: ', inputRef)
+  // console.log('inputRef: ', inputRef)
 
   const tags = useMemo(() => {
     if (tagList.length > 0) {
@@ -58,7 +58,7 @@ const LabelSelect = (props) => {
       ))
     }
   }, [tagList])
-  console.log('tagList: ', tagList)
+  // console.log('tagList: ', tagList)
 
   return (
     <div
@@ -89,7 +89,7 @@ const LabelSelect = (props) => {
                     //   active={active}
                     text={item.label}
                     onClick={(e) => {
-                      console.log('e: ', e)
+                      // console.log('e: ', e)
                       // // 如果已经选了，就让他取消选中
                       // if (active) {
                       //   tagList.splice(
@@ -139,18 +139,18 @@ const LabelSelect = (props) => {
             if (parseInt(String(tagList.length % 3)) === 2) {
               // tagList.slice(-2,-1)
               const str = tagList[tagList.length - 2].label
-              console.log('str: ', str)
+              // console.log('str: ', str)
               let arr = []
               data.forEach((item) => {
-                console.log('88', Object.keys(item))
+                // console.log('88', Object.keys(item))
 
                 // 判断是否存在该属性
                 if (Object.keys(item).findIndex((i) => i === str) > -1) {
                   arr.push({ label: item[str], value: item[str] })
-                  console.log('item[str]: ', item[str])
+                  // console.log('item[str]: ', item[str])
                 }
               })
-              console.log('arr: ', arr)
+              // console.log('arr: ', arr)
 
               setOptions(arr)
             }
@@ -158,7 +158,7 @@ const LabelSelect = (props) => {
             setOpen(true)
           }}
           onKeyDown={(e) => {
-            console.log('KeyDown: ', e.key)
+            // console.log('KeyDown: ', e.key)
             if (e.key === 'Backspace') {
               setTagList(tagList.splice(-1, 1))
             }
@@ -166,7 +166,7 @@ const LabelSelect = (props) => {
           placeholder="请输入内容"
           value={value}
           onChange={(e) => {
-            console.log()
+            // console.log()
             setValue(e.target.value)
           }}
         />
