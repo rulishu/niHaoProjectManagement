@@ -46,10 +46,10 @@ const OtherInfo = (props) => {
 
   // 标签块
   const lableBox = (value) => {
-    const results = dictDataList?.filter((s) => +s.dictCode === +value)[0]
+    const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
     return (
       <span
-        key={results?.dictCode}
+        key={results?.dictValue}
         className={styles.taskTags}
         style={{ backgroundColor: results?.listClass || '#813c858c' }}>
         {results?.dictLabel}
