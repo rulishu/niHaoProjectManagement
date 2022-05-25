@@ -90,19 +90,22 @@ const login = createModel()({
     //第三方登录
     async getThirdLoginToken() {
       const data = await getThirdLoginToken()
-      // console.log(data.data)
-      // debugger
       if (data && data.data) {
         window.location.href = data.data.gitLabUrl
       }
     },
 
     //第三方登录
-    async thirdLogin(param) {
+    async authorAndLogin(param) {
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
-        // dispatch.login.updateState({ token: data.data.token });
+        let url = window.location.href
+        url = url.replace(/(\?|#)[^'"]*/, '')
+        window.location.href = url
+        // if (localStorage.getItem('token')) {
+        //   history.push('/home')
+        // }
       }
     },
 

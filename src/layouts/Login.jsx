@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Form, Row, Col, Button } from 'uiw'
+import ThridLogin from './ThridLogin'
 
 export let navigate
 const Login = () => {
@@ -17,10 +18,6 @@ const Login = () => {
   useEffect(() => {
     dispatch({ type: 'login/getRegisterSwitch' })
   }, [dispatch])
-
-  // const thirdLogin = () => {
-  //     dispatch({ type: 'login/getThirdLoginToken' })
-  // }
 
   const returnLogin = () => {
     dispatch({
@@ -97,6 +94,7 @@ const Login = () => {
                   type="primary">
                   登录
                 </Button>
+                {/* 注册功能是否开启 */}
                 {isRegister ? (
                   <Button className="btns" type="danger" onClick={returnLogin}>
                     注册
@@ -104,6 +102,11 @@ const Login = () => {
                 ) : (
                   ''
                 )}
+              </Row>
+              <Row>
+                <Col style={{ textAlign: 'center' }}>
+                  <ThridLogin />
+                </Col>
               </Row>
             </div>
           )

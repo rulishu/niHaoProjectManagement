@@ -95,8 +95,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
         icon: 'logout',
         onClick: async () => {
           await dispatch({ type: 'users/loginOut' })
-          // sessionStorage.clear()
-          // localStorage.clear()
+          sessionStorage.clear()
+          localStorage.clear()
           navigate('/login', { replace: true })
         },
       },
