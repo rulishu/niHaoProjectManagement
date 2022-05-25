@@ -166,6 +166,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const isNoMenuN =
     props.router.location.pathname.search('/userHome') !== -1 && true
+
+  const userHome = props.router.location.pathname
+  console.log(userHome.slice(1, 9))
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
@@ -175,7 +178,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
       >
         {props.router.location.pathname !== '/projectList' &&
         props.router.location.pathname !== '/home' &&
-        props.router.location.pathname !== '/todoList' ? (
+        props.router.location.pathname !== '/todoList' &&
+        props.router.location.pathname.slice(1, 9) !== 'userHome' ? (
           <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
             <Bread routeMap={new BreadcrumbMap(props.routes)} />
           </div>
