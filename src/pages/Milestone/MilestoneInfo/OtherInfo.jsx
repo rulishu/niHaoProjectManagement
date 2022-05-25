@@ -46,7 +46,7 @@ const OtherInfo = (props) => {
 
   // 标签块
   const lableBox = (value) => {
-    const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
+    const results = dictDataList?.filter((s) => +s.dictCode === +value)[0]
     return (
       <span
         key={results?.dictCode}
