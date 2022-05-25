@@ -71,7 +71,8 @@ const MemberBox = (props) => {
           <Button
             size="small"
             type="danger"
-            onClick={() => console.log('rowData===?', rowData)}>
+            // onClick={() => console.log('rowData===?', rowData)}
+          >
             移出
           </Button>
         </div>

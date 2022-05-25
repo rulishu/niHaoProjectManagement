@@ -239,7 +239,7 @@ export default function Home() {
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40%' }}
-          title={allDataSource?.projectName || ''}
+          title="项目说明" //{allDataSource?.projectName || ''}
           bodyStyle={{ padding: 0 }}
           bordered={false}
           extra={
@@ -347,7 +347,6 @@ export default function Home() {
                     return (
                       <Card
                         bordered={false}
-                        onClick={() => console.log('123')}
                         key={item.key}
                         title={item.title}
                         style={{ width: 80 }}>

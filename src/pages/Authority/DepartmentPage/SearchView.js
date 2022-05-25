@@ -1,10 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, Form, Input, Row, Col, Select } from 'uiw'
 function SearchView() {
-  const {
-    department: { Loading },
-  } = useSelector((state) => state)
-  console.log('Loading', Loading)
   const dispatch = useDispatch()
   return (
     <div>

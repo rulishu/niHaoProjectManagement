@@ -43,14 +43,14 @@ const Detail = ({ updateData, onSearch }) => {
       <TreeChecked
         data={menuOptions.map((item) => toTree(item))}
         selectedKeys={value || checkedKeys}
-        onExpand={(key, expanded, data, node) => {
-          console.log(key, expanded, data, node)
-        }}
+        // onExpand={(key, expanded, data, node) => {
+        //   console.log(key, expanded, data, node)
+        // }}
         onSelected={(key, selected, item, evn) => {
-          console.log('select:', key)
-          console.log('select:', selected)
-          console.log('select:', item)
-          console.log('select:', evn)
+          // console.log('select:', key)
+          // console.log('select:', selected)
+          // console.log('select:', item)
+          // console.log('select:', evn)
           onChange(key)
           setMenuIds(key)
           // updateData({

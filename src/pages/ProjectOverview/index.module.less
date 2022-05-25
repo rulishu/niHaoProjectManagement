@@ -1,3 +1,4 @@
+@import '../../common.less';
 .card {
   width: '100%';
   margin: 20px 10px;
@@ -86,6 +87,56 @@
       .memberName {
         text-decoration: underline;
       }
+    }
+  }
+}
+
+// 里程碑 列表
+.milestoneInfoList {
+  position: relative;
+
+  ul {
+    display: block;
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: @margin-lg + 6px;
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 2px;
+      padding: @padding-xss @padding-xs;
+
+      span {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      &:hover {
+        background-color: rgba(167, 182, 194, 0.3);
+        cursor: pointer;
+      }
+    }
+  }
+
+  // 列表头
+  .milInfoLiHead {
+    position: absolute;
+    top: -37px;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid @normal-color;
+    font-weight: @header-font-weight;
+  }
+
+  li:first-child {
+    span {
+      flex: 1;
+      padding: 0 @padding-xss;
+      margin-bottom: @margin-xss;
     }
   }
 }

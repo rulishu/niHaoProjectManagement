@@ -132,7 +132,6 @@ const EditTask = () => {
 
   // 初始化 Label 组件数据 [{key,color,title,check}]
   const initListData = () => {
-    console.log(dictDataList)
     const useful = editFromData?.labels?.map((item) =>
       item?.dictValue ? +item?.dictValue : +item
     )

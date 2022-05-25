@@ -231,7 +231,11 @@ const NewIssue = (props) => {
                   disabled={false}
                   labelInValue={true}
                   placeholder="请输入成员姓名,可模糊查询"
-                  option={selectOption(userSelectAllList, 'id', 'memberName')}
+                  option={selectOption(
+                    userSelectAllList,
+                    'userId',
+                    'memberName'
+                  )}
                   loading={loading}
                 />
               ),

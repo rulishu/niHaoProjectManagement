@@ -211,11 +211,11 @@ export default function Demo() {
               style={{ height: 400, position: 'relative' }}>
               <div className={styles.milestoneInfoList}>
                 <ul>
-                  <li className={styles.milInfoLiHead}>
-                    <span style={{ flex: 4 }}>里程碑名称</span>
-                    <span style={{ flex: 3 }}>结束时间</span>
-                    <span style={{ flex: 2 }}>进度</span>
-                  </li>
+                  <p className={styles.milInfoLiHead}>
+                    <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
+                    <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
+                    <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
+                  </p>
                   {milesWorkVoListOne?.length === 0 ? (
                     <Empty description={false} style={{ marginTop: 20 }} />
                   ) : active === 0 ? (
@@ -229,10 +229,10 @@ export default function Demo() {
                               item?.milestonesId
                             )
                           }>
-                          <span style={{ flex: 4 }}>
+                          <span style={{ flex: 3 }}>
                             {item?.milestonesTitle}
                           </span>
-                          <span style={{ flex: 3, fontSize: '12px' }}>
+                          <span style={{ flex: 4, fontSize: '12px' }}>
                             {item?.dueTime &&
                               dayjs(item?.dueTime).format('YYYY-MM-DD')}
                           </span>
@@ -253,10 +253,10 @@ export default function Demo() {
                               item?.milestonesId
                             )
                           }>
-                          <span style={{ flex: 4 }}>
+                          <span style={{ flex: 3 }}>
                             {item?.milestonesTitle}
                           </span>
-                          <span style={{ flex: 3, fontSize: '12px' }}>
+                          <span style={{ flex: 4, fontSize: '12px' }}>
                             {item?.dueTime &&
                               dayjs(item?.dueTime).format('YYYY-MM-DD')}
                           </span>
