@@ -116,7 +116,11 @@ export default function AllTasks() {
                     {item?.nickName && item?.nickName[0]}
                   </Avatar>
                 </div>
-                <span className={styles.memberName}>{item?.nickName}</span>
+                <span
+                  className={styles.memberName}
+                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  {item?.nickName}
+                </span>
               </div>
             )
           })}
