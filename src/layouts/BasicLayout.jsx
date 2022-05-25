@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
 import { BreadcrumbMap } from '@/utils/utils'
 import styles from './index.module.less'
+import './index.css'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
@@ -165,7 +166,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const isNoMenuN =
     props.router.location.pathname.search('/userHome') !== -1 && true
-
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
@@ -173,9 +173,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
         menuHide={isNoMenu || isNoMenuN}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
-        <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
-          <Bread routeMap={new BreadcrumbMap(props.routes)} />
-        </div>
+        {props.router.location.pathname !== '/projectList' &&
+        props.router.location.pathname !== '/home' &&
+        props.router.location.pathname !== '/todoList' ? (
+          <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+            <Bread routeMap={new BreadcrumbMap(props.routes)} />
+          </div>
+        ) : null}
         <Outlet />
         <PassWordChange refs={passwordRef} />
         {/* 新增项目弹出框 */}
