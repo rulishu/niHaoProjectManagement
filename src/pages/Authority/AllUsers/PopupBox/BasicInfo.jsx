@@ -110,7 +110,7 @@ const BasicInfo = (props) => {
               form={form1}
               formType="pure"
               onSubmit={(initial, current) => {
-                const errorObj = memberForm({ initial, current })
+                const errorObj = memberForm({ initial, current, type })
                 if (Object.keys(errorObj).length > 0) {
                   const err = new Error()
                   err.filed = errorObj
@@ -154,6 +154,7 @@ const BasicInfo = (props) => {
                   required: true,
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.password,
+                  hide: type === 2,
                   widgetProps: {
                     placeholder: '请输入密码',
                     type: btnIcon === 'lock' ? 'password' : 'text',

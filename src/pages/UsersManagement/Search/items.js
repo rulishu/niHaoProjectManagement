@@ -1,6 +1,6 @@
 import { Button } from 'uiw'
 
-export const columnsSearch = (handleEditTable) => [
+export const columnsSearch = (handleEditTable, userInfo) => [
   {
     title: '成员姓名',
     key: 'memberName',
@@ -51,12 +51,16 @@ export const columnsSearch = (handleEditTable) => [
           onClick={() => handleEditTable('edit', rowData)}>
           编辑
         </Button>
-        <Button
-          size="small"
-          icon="user-delete"
-          onClick={() => handleEditTable('del', rowData)}>
-          删除
-        </Button>
+        {rowData?.memberName === userInfo ? (
+          ''
+        ) : (
+          <Button
+            size="small"
+            icon="user-delete"
+            onClick={() => handleEditTable('del', rowData)}>
+            删除
+          </Button>
+        )}
       </div>
     ),
   },
