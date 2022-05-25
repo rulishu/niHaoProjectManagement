@@ -65,9 +65,9 @@ const AddUser = () => {
           // 获取错误信息
           const errors = form.getError()
           if (errors && Object.keys(errors).length > 0) return
-          const value = form.getFieldValues?.()
+          // const value = form.getFieldValues?.()
           // 调用请求接口
-          console.log('value: ', value)
+          // console.log('value: ', value)
         }}>
         保存
       </Button>

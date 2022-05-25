@@ -166,7 +166,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const isNoMenuN =
     props.router.location.pathname.search('/userHome') !== -1 && true
+
   const pathName = props.router.location.pathname
+
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Row, Col, Card, Tabs, Steps, Tag, Tooltip } from 'uiw' // List,
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
-// import styles from './index.module.less'
+import styles from './index.module.less'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
@@ -304,13 +304,7 @@ export default function SlelectLabel() {
         </Col>
         <Col fixed style={{ width: '25%' }}>
           <Card title="成员动态" bordered={false}>
-            <div
-              style={{
-                height: 355,
-                overflowX: 'hidden',
-                overflowY: 'auto',
-                marginBottom: 10,
-              }}>
+            <div className={styles.dynamicList}>
               {/* <List bordered={false}>
                 {memberList?.map((a) => {
                   return (
@@ -332,10 +326,15 @@ export default function SlelectLabel() {
                     <Steps.Step
                       title={a?.createTime}
                       key={key}
+                      className={styles.dynamicListLi}
                       onClick={() =>
                         (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
                       }
-                      description={a?.operatingRecords}></Steps.Step>
+                      description={
+                        <div className={styles.dynamicListLi}>
+                          {a?.operatingRecords}
+                        </div>
+                      }></Steps.Step>
                   )
                 })}
               </Steps>

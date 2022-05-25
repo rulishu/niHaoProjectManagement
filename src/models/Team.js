@@ -70,7 +70,6 @@ const team = createModel()({
     },
     // 分页查询用户列表数据
     async getTeamMemberList(payload) {
-      console.log(payload)
       const params = { page: 1, pageSize: 10, ...payload }
       const data = await getTeamMemberList(params)
       if (data && data.code === 200) {
