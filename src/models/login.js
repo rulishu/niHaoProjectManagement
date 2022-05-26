@@ -7,6 +7,8 @@ import {
   register,
   getRegisterSwitch,
 } from '../servers/login'
+import { getInfo } from '../servers/menumanagement'
+
 import { Notify } from 'uiw'
 
 const login = createModel()({
@@ -54,6 +56,12 @@ const login = createModel()({
               localStorage.setItem('routes', JSON.stringify(data)),
           },
         })
+
+        const userData = await getInfo()
+        sessionStorage.setItem(
+          'userName',
+          JSON.stringify(userData?.user.userName)
+        )
         localStorage.setItem('userData', JSON.stringify(data?.data?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {
@@ -83,7 +91,9 @@ const login = createModel()({
         ]
         localStorage.setItem('auth', JSON.stringify(authList || []))
         let navigate = param.navigate
-        navigate('/home', { replace: true })
+        await navigate(`/${userData?.user?.userName}/dashboard`, {
+          replace: true,
+        })
       }
     },
 
