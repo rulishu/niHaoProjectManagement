@@ -105,6 +105,13 @@ const Search = () => {
           formCol={2}
           searchBtns={[
             {
+              label: '查询',
+              type: 'primary',
+              htmlType: 'submit',
+              onClick: () => search.onSearch(),
+              icon: 'search',
+            },
+            {
               label: '邀请成员',
               htmlType: 'submit',
               type: 'primary',
@@ -117,13 +124,6 @@ const Search = () => {
               type: 'primary',
               onClick: () => handleEditTable('group'),
               icon: 'usergroup-add',
-            },
-            {
-              label: '查询',
-              type: 'primary',
-              htmlType: 'submit',
-              onClick: () => search.onSearch(),
-              icon: 'search',
             },
             {
               label: '重置',
