@@ -1,6 +1,7 @@
 import { Form, Input, Row, Col, Notify, Button } from 'uiw' //, Select
 import { connect } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
+import RegisterControl from './RegisterControl' //是否开启注册功能
 // import { selectOption } from '@/utils/utils'
 import styles from './index.module.less'
 
@@ -18,7 +19,10 @@ const Head = (props) => {
   }
   return (
     <div className={styles.userHead}>
-      <div className={styles.title}></div>
+      <div className={styles.title}>
+        {/*用户注册功能*/}
+        <RegisterControl />
+      </div>
       <div className={styles.right}>
         <Form
           onSubmit={({ initial, current }) => {
