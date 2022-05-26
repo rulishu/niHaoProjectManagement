@@ -160,14 +160,12 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const token = localStorage.getItem('token')
   // 是否是没有左侧菜单的界面
-  const isNoMenu = ['/projectList', '/home', '/todoList'].includes(
-    props.router.location.pathname
-  )
-
-  const isNoMenuN =
-    props.router.location.pathname.search('/userHome') !== -1 && true
-
   const pathName = props.router.location.pathname
+  const isNoMenu = ['/projectList', '/home', '/todoList'].includes(pathName)
+
+  const isNoMenuN = !!['/userHome'].filter(
+    (item) => pathName.search(item) !== -1
+  ).length
 
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
