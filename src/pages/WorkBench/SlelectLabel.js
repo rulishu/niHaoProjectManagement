@@ -146,7 +146,6 @@ export default function SlelectLabel() {
                     <Steps.Step
                       title={a?.createTime}
                       key={key}
-                      className={styles.dynamicListLi}
                       onClick={() =>
                         (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
                       }
