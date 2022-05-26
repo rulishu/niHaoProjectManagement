@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Row, Col, Card, Tabs, Button, Tag, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
+import styles from './index.module.less'
 
 export default function TableManage() {
   const [tab, setTab] = useState(1)
@@ -26,6 +27,74 @@ export default function TableManage() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
+  const TableListUser = () => {
+    return (
+      <div
+        style={{
+          height: 355,
+          overflowX: 'hidden',
+          overflowY: 'auto',
+        }}>
+        <ProTable
+          className={styles.mouseList}
+          onCell={(rowData) => {
+            window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
+          }}
+          paginationProps={{ style: { display: 'none' } }}
+          style={{ width: 900 }}
+          table={table}
+          columns={[
+            {
+              title: '任务标题',
+              key: 'assignmentTitle',
+              width: 200,
+              ellipsis: true,
+              render: (address) => (
+                <Tooltip placement="topLeft" content={address}>
+                  {address}
+                </Tooltip>
+              ),
+            },
+            // {
+            //   title: '任务ID',
+            //   key: 'assignmentId',
+            // },
+            {
+              title: '项目名',
+              key: 'name',
+            },
+            {
+              title: '任务状态',
+              key: 'assignmentStatus',
+              render: (text) => {
+                if (text === 1) {
+                  return <Tag color="#F95C2B">未开始</Tag>
+                } else if (text === 2) {
+                  return <Tag color="#008EF0">进行中</Tag>
+                } else if (text === 3) {
+                  return <Tag color="#28a745">已完成</Tag>
+                } else if (text === 4) {
+                  return <Tag color="#dc3545">已逾期</Tag>
+                }
+              },
+            },
+            {
+              title: '指派人',
+              key: 'assigneeUserName',
+            },
+            {
+              title: '创建人',
+              key: 'createName',
+            },
+            {
+              title: '截止时间',
+              key: 'dueDate',
+            },
+          ]}
+        />
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -51,200 +120,13 @@ export default function TableManage() {
                   table.onSearch()
                 }}>
                 <Tabs.Pane label="待处理" key="1">
-                  <div
-                    style={{
-                      height: 355,
-                      overflowX: 'hidden',
-                      overflowY: 'auto',
-                    }}>
-                    <ProTable
-                      onCell={(rowData) => {
-                        window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
-                      }}
-                      paginationProps={{ style: { display: 'none' } }}
-                      style={{ width: 900 }}
-                      table={table}
-                      columns={[
-                        {
-                          title: '任务标题',
-                          key: 'assignmentTitle',
-                          width: 200,
-                          ellipsis: true,
-                          render: (address) => (
-                            <Tooltip placement="topLeft" content={address}>
-                              {address}
-                            </Tooltip>
-                          ),
-                        },
-                        // {
-                        //   title: '任务ID',
-                        //   key: 'assignmentId',
-                        // },
-                        {
-                          title: '项目名',
-                          key: 'name',
-                        },
-                        {
-                          title: '任务状态',
-                          key: 'assignmentStatus',
-                          render: (text) => {
-                            if (text === 1) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 2) {
-                              return <Tag color="#008EF0">进行中</Tag>
-                            } else if (text === 3) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            } else if (text === 4) {
-                              return <Tag color="#dc3545">已逾期</Tag>
-                            }
-                          },
-                        },
-                        {
-                          title: '指派人',
-                          key: 'assigneeUserName',
-                        },
-                        {
-                          title: '创建人',
-                          key: 'createName',
-                        },
-                        {
-                          title: '截止时间',
-                          key: 'dueDate',
-                        },
-                      ]}
-                    />
-                  </div>
+                  {TableListUser()}
                 </Tabs.Pane>
                 <Tabs.Pane label="进行中" key="2">
-                  <div
-                    style={{
-                      height: 355,
-                      overflowX: 'hidden',
-                      overflowY: 'auto',
-                    }}>
-                    <ProTable
-                      onCell={(rowData) => {
-                        window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
-                      }}
-                      paginationProps={{ style: { display: 'none' } }}
-                      style={{ width: 900 }}
-                      table={table}
-                      columns={[
-                        {
-                          title: '任务标题',
-                          key: 'assignmentTitle',
-                          width: 200,
-                          ellipsis: true,
-                          render: (address) => (
-                            <Tooltip placement="topLeft" content={address}>
-                              {address}
-                            </Tooltip>
-                          ),
-                        },
-                        // {
-                        //   title: '任务ID',
-                        //   key: 'assignmentId',
-                        // },
-                        {
-                          title: '项目名',
-                          key: 'name',
-                        },
-                        {
-                          title: '任务状态',
-                          key: 'assignmentStatus',
-                          render: (text) => {
-                            if (text === 1) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 2) {
-                              return <Tag color="#008EF0">进行中</Tag>
-                            } else if (text === 3) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            } else if (text === 4) {
-                              return <Tag color="#dc3545">已逾期</Tag>
-                            }
-                          },
-                        },
-                        {
-                          title: '指派人',
-                          key: 'assigneeUserName',
-                        },
-                        {
-                          title: '创建人',
-                          key: 'createName',
-                        },
-                        {
-                          title: '截止时间',
-                          key: 'dueDate',
-                        },
-                      ]}
-                    />
-                  </div>
+                  {TableListUser()}
                 </Tabs.Pane>
                 <Tabs.Pane sequence="fadeIn up" label="已逾期" key="4">
-                  <div
-                    style={{
-                      height: 355,
-                      overflowX: 'hidden',
-                      overflowY: 'auto',
-                    }}>
-                    <ProTable
-                      onCell={(rowData) => {
-                        window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
-                      }}
-                      paginationProps={{ style: { display: 'none' } }}
-                      style={{ width: 900 }}
-                      table={table}
-                      columns={[
-                        {
-                          title: '任务标题',
-                          key: 'assignmentTitle',
-                          width: 200,
-                          ellipsis: true,
-                          render: (address) => (
-                            <Tooltip placement="topLeft" content={address}>
-                              {address}
-                            </Tooltip>
-                          ),
-                        },
-
-                        // {
-                        //   title: '任务ID',
-                        //   key: 'assignmentId',
-                        // },
-                        {
-                          title: '项目名',
-                          key: 'name',
-                        },
-                        {
-                          title: '任务状态',
-                          key: 'assignmentStatus',
-                          render: (text) => {
-                            if (text === 1) {
-                              return <Tag color="#F95C2B">未开始</Tag>
-                            } else if (text === 2) {
-                              return <Tag color="#008EF0">进行中</Tag>
-                            } else if (text === 3) {
-                              return <Tag color="#28a745">已完成</Tag>
-                            } else if (text === 4) {
-                              return <Tag color="#dc3545">已逾期</Tag>
-                            }
-                          },
-                        },
-                        {
-                          title: '指派人',
-                          key: 'assigneeUserName',
-                        },
-                        {
-                          title: '创建人',
-                          key: 'createName',
-                        },
-                        {
-                          title: '截止时间',
-                          key: 'dueDate',
-                        },
-                      ]}
-                    />
-                  </div>
+                  {TableListUser()}
                 </Tabs.Pane>
               </Tabs>
             </Card>
