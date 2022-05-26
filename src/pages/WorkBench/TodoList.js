@@ -1,6 +1,8 @@
 import { Row, Col, Card, Button, Tag } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
+import styles from './index.module.less'
+
 export default function TodoList() {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
@@ -55,6 +57,7 @@ export default function TodoList() {
                   overflowY: 'auto',
                 }}>
                 <ProTable
+                  className={styles.mouseList}
                   table={table}
                   paginationProps={{ style: { display: 'none' } }}
                   columns={[
@@ -88,7 +91,7 @@ export default function TodoList() {
                     {
                       title: '操作',
                       key: 'edit',
-                      width: 200,
+                      width: 100,
                       align: 'center',
                       render: (text, key, rowData) => (
                         <div>
