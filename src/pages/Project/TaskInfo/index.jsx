@@ -33,6 +33,7 @@ const TaskInfo = () => {
   }
   useEffect(() => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
+    dispatch.project.queryFuzzyAllProjectMember()
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
     })
