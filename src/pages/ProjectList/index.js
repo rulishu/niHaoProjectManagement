@@ -280,6 +280,21 @@ const ProjectList = (props) => {
                   },
                 },
                 {
+                  // title: '项目角色',
+                  key: 'userRole',
+                  render: (text, keyName, rowData) => {
+                    return (
+                      <div className={styles.projectInfo}>
+                        <div className={styles.infoTopBox}>
+                          <div className={styles.projectRole}>
+                            <span>{rowData?.userRole}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  },
+                },
+                {
                   // title: '控制',
                   key: 'controls',
                   render: (text, _, rowData) => {
