@@ -57,6 +57,7 @@ const allusers = createModel()({
     rolesDataInfo: {},
     postsDataInfo: {},
     isRegister: false, //是否开启注册功能
+    types: '', //2:编辑用户
   },
   reducers: {
     update: (state, payload) => {

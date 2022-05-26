@@ -43,7 +43,6 @@ const UsersBox = (props) => {
   return (
     <div className={styles.content}>
       {data?.map((item) => {
-        console.log(item)
         return (
           <div className={styles.userBoxFather} key={item.userId}>
             <Card className={styles.userBox}>
