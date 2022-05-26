@@ -160,8 +160,9 @@ export default createModel()({
           if (data.data && data.data.length > 0) {
             const teamMembers = data.data.map((item) => ({
               label: item.memberName,
-              value: item.id,
+              value: item.userId,
             }))
+            console.log('teamMembers--->', teamMembers)
             dispatch.project.update({ teamMembers })
           }
         }
@@ -235,6 +236,7 @@ export default createModel()({
               type: 2,
               assignmentId: data?.data?.assignmentId,
               projectId: data?.data?.projectId,
+              userId: data?.data?.userId,
               operatingRecords: '',
             },
           })
@@ -282,6 +284,7 @@ export default createModel()({
           dispatch.project.getSelectById({
             projectId: project?.commentData?.projectId,
             id: project?.commentData?.assignmentId,
+            userId: project?.commentData?.userId,
           })
           dispatch.project.update({
             commentData: {

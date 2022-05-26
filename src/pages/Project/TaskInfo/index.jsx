@@ -151,6 +151,7 @@ const TaskInfo = () => {
   }
   const addComment = () => {
     dispatch.project.getAddComment()
+    dispatch.project.queryFuzzyAllProjectMember()
   }
   return (
     <>
