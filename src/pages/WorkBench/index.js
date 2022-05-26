@@ -84,7 +84,6 @@ export default function Demo() {
               <Row>
                 <Col
                   style={{
-                    borderRight: '1px solid #EBF2FB',
                     textAlign: 'center',
                   }}>
                   <Progress.Circle
