@@ -300,7 +300,7 @@ const BasicInfo = (props) => {
         </Row>
         {type !== 1 && (
           <Row>
-            <Col span="12" style={{ textAlign: 'right' }}>
+            <Col span="12" style={{ textAlign: 'right', marginLeft: '5.5%' }}>
               <Button
                 style={{ marginTop: 10, width: 80 }}
                 type="primary"
