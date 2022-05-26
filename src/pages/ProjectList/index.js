@@ -270,25 +270,12 @@ const ProjectList = (props) => {
                             }>
                             {text}
                           </h2>
-                          {/* <span className={styles.projectRole}>管理员</span> */}
+                          <span className={styles.projectRole}>
+                            {rowData?.userRole}
+                          </span>
                         </div>
                         <div className={styles.infoBottomBx}>
                           <span>{rowData?.descr}</span>
-                        </div>
-                      </div>
-                    )
-                  },
-                },
-                {
-                  // title: '项目角色',
-                  key: 'userRole',
-                  render: (text, keyName, rowData) => {
-                    return (
-                      <div className={styles.projectInfo}>
-                        <div className={styles.infoTopBox}>
-                          <div className={styles.projectRole}>
-                            <span>{rowData?.userRole}</span>
-                          </div>
                         </div>
                       </div>
                     )
