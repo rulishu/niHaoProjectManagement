@@ -118,6 +118,7 @@ const allusers = createModel()({
         await callback()
         NotifySuccess(data.message)
       }
+      await dispatch.userHome.getUserInfo({ id: param.userId })
     },
     async queryById(params) {
       const data = await queryById(params)

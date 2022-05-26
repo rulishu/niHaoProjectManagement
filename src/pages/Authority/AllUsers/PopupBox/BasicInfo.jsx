@@ -333,7 +333,6 @@ const BasicInfo = (props) => {
                       ...params,
                       userId: baseDetail?.userId,
                     }
-                    console.log('param', param)
                     await dispatch.editNewUser({
                       param,
                       callback: () => setIsOverlay(false),
