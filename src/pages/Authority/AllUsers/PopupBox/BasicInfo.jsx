@@ -238,6 +238,7 @@ const BasicInfo = (props) => {
                   widget: 'searchSelect',
                   inline: false,
                   span: '12',
+                  required: true,
                   disabled: type === 1 && true,
                   // initialValue: rolesDataInfo,
                   option: dropDownBox,
