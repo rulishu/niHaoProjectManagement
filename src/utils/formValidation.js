@@ -13,7 +13,9 @@ export const memberForm = (props) => {
     /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
   if (!current.userName) errorObj.userName = '姓名不能为空！'
   if (!current.nickName) errorObj.nickName = '帐号不能为空！'
-  if (!current.password) errorObj.password = '密码不能为空！'
+  if (props.type === 3) {
+    if (!current.password) errorObj.password = '密码不能为空！'
+  }
   if (!current.email) errorObj.email = 'Email不能为空！'
   if (!current.phonenumber) errorObj.phonenumber = '电话号码不能为空！'
   // if (!current.roleIds) errorObj.roleIds = '角色不能为空！'

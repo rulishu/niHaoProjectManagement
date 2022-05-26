@@ -58,7 +58,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     margin-top: @margin-lg + 6px;
-
     li {
       display: flex;
       flex-direction: row;
@@ -66,14 +65,12 @@
       justify-content: space-between;
       border-radius: 2px;
       padding: @padding-xss @padding-xs;
-
       span {
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-
       &:hover {
         background-color: rgba(167, 182, 194, 0.3);
         cursor: pointer;
@@ -97,5 +94,32 @@
       padding: 0 @padding-xss;
       margin-bottom: @margin-xss;
     }
+  }
+}
+
+// 成员动态
+.dynamicList {
+  height: 355px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 10px;
+
+  .dynamicListLi {
+    padding: 4px;
+
+    & > div:last-child > div {
+      &:hover {
+        background-color: #f6f9fb;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//我的任务&&所有项目-表格行鼠标经过时样式修改
+.mouseList {
+  &:hover {
+    background-color: rgba(167, 182, 194, 0.3);
+    cursor: pointer;
   }
 }

@@ -46,10 +46,10 @@ const OtherInfo = (props) => {
 
   // 标签块
   const lableBox = (value) => {
-    const results = dictDataList?.filter((s) => +s.dictCode === +value)[0]
+    const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
     return (
       <span
-        key={results?.dictCode}
+        key={results?.dictValue}
         className={styles.taskTags}
         style={{ backgroundColor: results?.listClass || '#813c858c' }}>
         {results?.dictLabel}
@@ -91,12 +91,20 @@ const OtherInfo = (props) => {
                   onClick={() => goProject(item?.assignmentId)}>
                   #{item.assignmentId}
                 </span>
-                {item?.labels?.map((tagItem) => lableBox(tagItem))}
+                {item?.labels?.map((tagLi) => (
+                  <span key={tagLi}>{lableBox(tagLi)}</span>
+                ))}
                 {item.assigneeUserId ? (
                   <Tooltip
                     placement="top"
                     content={<>指派给{item.assigneeUserName}</>}>
-                    <span className={styles.taskAssignPerson}>
+                    <span
+                      className={styles.taskAssignPerson}
+                      onClick={() => {
+                        navigate(`/userHome/${item?.assigneeUserId}`, {
+                          state: { assigneeUserId: item?.assigneeUserId },
+                        })
+                      }}>
                       <Avatar
                         size="mini"
                         src={
@@ -124,7 +132,7 @@ const OtherInfo = (props) => {
     return (
       <ul>
         {lableListData?.map((item) => (
-          <li className={styles.lableLiLe}>
+          <li className={styles.lableLiLe} key={item?.dictValue}>
             <div className={styles.lableLiLeft}>
               {lableBox(item?.dictValue)}
             </div>

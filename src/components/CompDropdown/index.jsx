@@ -119,9 +119,10 @@ const CompDropdown = (props) => {
           ))
         ) : (
           <div>
-            {newHeader()?.map((headItem) => (
-              <span>
-                {headItem.resultsShow && headItem?.component(data[0], headItem)}
+            {newHeader()?.map((headItem, index) => (
+              <span key={index}>
+                {headItem?.resultsShow &&
+                  headItem?.component(data[0], headItem)}
               </span>
             ))}
           </div>

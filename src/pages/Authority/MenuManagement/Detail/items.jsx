@@ -7,7 +7,7 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     readSpan: 3,
     widgetProps: {
       allowClear: true,
-      onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
+      // onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
       onChange: handleSearch.bind(this, 'searchTree'),
       // (selectedAll, selectd, isChecked)=>{
       //   console.log('onChange',selectedAll, selectd, isChecked)

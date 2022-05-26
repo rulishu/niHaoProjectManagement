@@ -5,7 +5,8 @@ import { projectStatus } from '../../utils/utils'
 import './style.css'
 
 export default function ListItem(props) {
-  const { data, isIssue, listField, listNavigate, delAssignment } = props
+  const { data, isIssue, listField, listNavigate, delAssignment, labelsData } =
+    props
 
   const listGoTo = (val) => {
     listNavigate(val)
@@ -31,8 +32,14 @@ export default function ListItem(props) {
                         {item.assigneeUserName}
                       </span>
                     </Tooltip>
-                    <Icon type="message" />
-                    <span className={styles.listIconSpan}>0</span>
+                    <Tooltip placement="top" content="评论">
+                      <span className={styles.taskUserName}>
+                        <Icon type="message" />
+                        <span className={styles.listIconSpan}>
+                          {item?.commentNum}
+                        </span>
+                      </span>
+                    </Tooltip>
                     <Tooltip placement="top" content="删除">
                       <span
                         className={styles.listIconSpan}
@@ -48,10 +55,7 @@ export default function ListItem(props) {
                 </div>
               }>
               <Row gutter={10} className={styles.listRow}>
-                <Col
-                  // span={18}
-                  onClick={() => listGoTo(item)}
-                  className={styles.listCol}>
+                <Col onClick={() => listGoTo(item)} className={styles.listCol}>
                   <a href={item?.nav} className={styles.listTitle}>
                     {listField?.title ? item[listField.title] : item.title}
                   </a>
@@ -80,31 +84,28 @@ export default function ListItem(props) {
                         </span>
                       </Tooltip>
                     )}
-                    {item?.labels
-                      ? item?.labels.map((list, index2) => {
+                    <div className={styles.listLabels}>
+                      {labelsData?.map((list, index2) => {
+                        if (item?.labels?.includes(list.dictValue)) {
                           return (
                             <span
                               key={index2 + index}
-                              className={styles.listIssueStatus}
-                              style={{ backgroundColor: list?.dictColour }}>
-                              {list?.dictName}
+                              className={
+                                list.listClass
+                                  ? styles.listIssueStatus
+                                  : styles.nolistIssueTag
+                              }
+                              style={{
+                                backgroundColor: list.listClass,
+                                borderColor: list?.listClass,
+                              }}>
+                              {list?.dictLabel}
                             </span>
                           )
-                          // return issueStatus.map((num, index) => {
-                          //   if (list === num.statue) {
-                          //     return (
-                          //         <span
-                          //           key={index2 + index}
-                          //           className={styles.listIssueStatus}
-                          //           style={{ backgroundColor: num.color }}>
-                          //           {num.text}
-                          //         </span>
-                          //     )
-                          //   }
-                          //   return <Fragment key={index2 + index} />
-                          // })
-                        })
-                      : null}
+                        }
+                        return null
+                      })}
+                    </div>
                   </div>
                 </Col>
               </Row>

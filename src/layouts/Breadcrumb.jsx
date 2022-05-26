@@ -30,13 +30,14 @@ const Bread = (props) => {
         <div></div>
       )}
       {domList?.map((item, index) => {
+        const { path, name } = item
         if (
-          item.path !== '/projectList' &&
-          item.path !== '/home' &&
-          item.path !== '/todoList' &&
-          item.path !== '/userHome/:userId'
+          path !== '/projectList' &&
+          path !== '/home' &&
+          path !== '/todoList' &&
+          path !== '/userHome/:userId'
         ) {
-          return <Breadcrumb.Item key={index}>{item.name}</Breadcrumb.Item>
+          return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>
         }
         return <div key={index}></div>
       })}

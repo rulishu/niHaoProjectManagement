@@ -72,7 +72,6 @@ export default createModel()({
       // 查询项目统计
       async getProjectCountById(payload) {
         const data = await getProjectCountById(payload)
-        console.log('data: ', data)
         if (data.code === 200) {
           dispatch.project.update({
             prepareTotal: data.data?.totalWorkVo?.projectWksNum || 0,
@@ -98,7 +97,6 @@ export default createModel()({
         //   obj = { ...obj, splicingConditionsDtos }
         // }
         const data = await getSelectPage(obj)
-        console.log('data: ', data)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
             dispatch.project.update({
@@ -204,10 +202,10 @@ export default createModel()({
       async getAdd(params, { project }) {
         const { labels, ...newData } = project.fromData
         let newLabels = []
-        if (labels?.length > 0 && labels[0]?.dictCode) {
+        if (labels?.length > 0 && labels[0]?.dictValue) {
           // eslint-disable-next-line array-callback-return
           labels.map((item) => {
-            newLabels.push(item?.dictCode.toString())
+            newLabels.push(item?.dictValue.toString())
           })
           newData.labels = newLabels
         }
@@ -246,10 +244,10 @@ export default createModel()({
       async getEdit(params, { project }) {
         const { labels, ...newData } = project.editFromData
         let newLabels = []
-        if (labels?.length > 0 && labels[0]?.dictCode) {
+        if (labels?.length > 0 && labels[0]?.dictValue) {
           // eslint-disable-next-line array-callback-return
           labels.map((item) => {
-            newLabels.push(item?.dictCode.toString())
+            newLabels.push(item?.dictValue.toString())
           })
           newData.labels = newLabels
         }

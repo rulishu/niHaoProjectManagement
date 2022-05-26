@@ -72,9 +72,9 @@ export const items = (queryInfo, arrSource, topDataInfo) => {
       readSpan: 3,
       widgetProps: {
         allowClear: true,
-        onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
-        onChange: (selectd, selectedAll, isChecked) =>
-          console.log('SearchTree-> onChange', selectd, selectedAll, isChecked),
+        // onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
+        // onChange: (selectd, selectedAll, isChecked) =>
+        //   console.log('SearchTree-> onChange', selectd, selectedAll, isChecked),
       },
       initialValue: [topDataInfo],
       multiple: false,

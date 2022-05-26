@@ -1,4 +1,4 @@
-import { Form, FormItem, Switch, Divider } from 'uiw'
+import { Form, FormItem, Switch } from 'uiw'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
@@ -17,9 +17,8 @@ const RegisterControl = () => {
 
   return (
     <div>
-      <Form>
+      <Form style={{ width: 300 }}>
         <FormItem
-          style={{ marginTop: 15 }}
           inline={true}
           label="是否允许用户自行注册账号:"
           labelFor="basic-input-inline">
@@ -34,7 +33,6 @@ const RegisterControl = () => {
           />
         </FormItem>
       </Form>
-      <Divider style={{ marginTop: 2 }}></Divider>
     </div>
   )
 }

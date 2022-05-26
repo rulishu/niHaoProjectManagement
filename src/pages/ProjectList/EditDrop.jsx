@@ -52,7 +52,9 @@ const EditDrop = (props) => {
         trigger="click"
         isOpen={dropOpen}
         overlay={menu()}>
-        <div onClick={() => setDropOpen(!dropOpen)}>
+        <div
+          className={styles.editDropTrigger}
+          onClick={() => setDropOpen(!dropOpen)}>
           <Icon type="more" />
         </div>
       </OverlayTrigger>

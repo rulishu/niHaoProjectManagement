@@ -87,7 +87,6 @@ const TodoList = () => {
               bordered={false}
               noHover={true}
               renderItem={(item, index) => {
-                console.log(item)
                 return (
                   <List.Item
                     key={index}

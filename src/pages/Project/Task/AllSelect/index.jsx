@@ -23,13 +23,13 @@ const LabelSelect = (props) => {
   }, [assignmentLabels, teamMembers, milistones])
 
   const changeFun = (props) => {
-    console.log('props: ', props)
+    // console.log('props: ', props)
     const value = { ...form.getFieldValues?.(), ...props }
-    console.log('value: ', value)
+    // console.log('value: ', value)
     let selectDtos = []
 
     Object.keys(value).forEach((item) => {
-      console.log('item: ', item)
+      // console.log('item: ', item)
       if (value[item].length > 0) {
         value[item].forEach((i) => {
           selectDtos.push({
@@ -40,7 +40,7 @@ const LabelSelect = (props) => {
         })
       }
     })
-    console.log('selectDtos: ', selectDtos)
+    // console.log('selectDtos: ', selectDtos)
     // if (project.activeKey !== '') {
     //   splicingConditionsDtos.push({
     //     condition: '=',
@@ -122,10 +122,10 @@ const LabelSelect = (props) => {
               labelInValue: true,
               placeholder: '里程碑',
               onSearch: (value) => {
-                const filterOpion = milistones.filter((item) =>
-                  item.label.includes(value.trim())
-                )
-                console.log('filterOpion: ', filterOpion)
+                // const filterOpion = milistones.filter((item) =>
+                //   item.label.includes(value.trim())
+                // )
+                // console.log('filterOpion: ', filterOpion)
                 setMilistone([])
               },
               onChange: (value) => {

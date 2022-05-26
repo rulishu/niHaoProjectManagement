@@ -5,7 +5,6 @@ import Head from './Head'
 // import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
 import PopupBox from './PopupBox' // 操作弹窗
-import RegisterControl from './RegisterControl' //是否开启注册功能
 import styles from './index.module.less'
 const Users = (props) => {
   const { dispatch, state, update } = props
@@ -73,7 +72,7 @@ const Users = (props) => {
   // 获取更多按钮的回调
   const forMoreUsers = async () => {
     setNewPage(() => page + 1)
-    await dispatch.allusers.queryByPage({ page: newPage + 1 }, queryCallback)
+    await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
   }
 
   // 加载更多成员回调函数
@@ -93,8 +92,6 @@ const Users = (props) => {
           setType={setType}
           handleOnSearch={handleOnSearch}
         />
-        <RegisterControl />
-        {/*用户注册功能*/}
         <div className={styles.child}>
           <UsersBox
             data={userList}

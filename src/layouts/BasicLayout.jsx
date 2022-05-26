@@ -95,8 +95,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
         icon: 'logout',
         onClick: async () => {
           await dispatch({ type: 'users/loginOut' })
-          // sessionStorage.clear()
-          // localStorage.clear()
+          sessionStorage.clear()
+          localStorage.clear()
           navigate('/login', { replace: true })
         },
       },
@@ -166,6 +166,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const isNoMenuN =
     props.router.location.pathname.search('/userHome') !== -1 && true
+
+  const pathName = props.router.location.pathname
+
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
@@ -173,9 +176,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
         menuHide={isNoMenu || isNoMenuN}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
-        {props.router.location.pathname !== '/projectList' &&
-        props.router.location.pathname !== '/home' &&
-        props.router.location.pathname !== '/todoList' ? (
+        {pathName !== '/projectList' &&
+        pathName !== '/home' &&
+        pathName !== '/todoList' &&
+        pathName.slice(1, 9) !== 'userHome' ? (
           <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
             <Bread routeMap={new BreadcrumbMap(props.routes)} />
           </div>

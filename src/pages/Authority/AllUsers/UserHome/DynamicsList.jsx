@@ -1,5 +1,5 @@
 import { Empty, Avatar, Loader } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 
@@ -8,13 +8,11 @@ const ProjectList = (props) => {
     userHome: { user, userDynamics },
     loading,
   } = useSelector((state) => state)
-  const dispatch = useDispatch()
-  console.log(dispatch)
   const { goSpecifyPage } = props
   const goPage = (projectId, assignmentId) => {
     const path = assignmentId
       ? `/project/taskInfo/${projectId}`
-      : `/projectOverview}`
+      : `/projectOverview`
     const id = assignmentId || projectId
     goSpecifyPage({ path, id })
   }
@@ -51,11 +49,18 @@ const ProjectList = (props) => {
                   <div className={styles.dynamicCon}>
                     {item?.operatingRecords}
                   </div>
-                  <div
-                    className={styles.dynamicBot}
-                    onClick={() => goPage(item.projectId, item.assignmentId)}>
-                    {item?.projectName}
-                    {item.assignmentTitle && '/' + item.assignmentTitle}
+                  <div className={styles.dynamicBot}>
+                    <span onClick={() => goPage(item.projectId)}>
+                      {item?.projectName}
+                    </span>
+                    {item?.assignmentTitle && (
+                      <span
+                        onClick={() =>
+                          goPage(item?.projectId, item?.assignmentId)
+                        }>
+                        {'/' + item?.assignmentTitle}
+                      </span>
+                    )}
                   </div>
                 </li>
               )

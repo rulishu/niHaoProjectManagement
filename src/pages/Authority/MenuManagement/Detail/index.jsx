@@ -20,7 +20,7 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
   // 下拉
   const handleSearch = (type = '', value = '') => {
     if (type === 'searchTree') {
-      console.log('value', value.key)
+      // console.log('value', value.key)
       updateData({
         queryInfo: {
           ...queryInfo,

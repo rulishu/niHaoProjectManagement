@@ -1,5 +1,17 @@
 import { request } from '@uiw-admin/utils'
 
+/** 登录
+ * @param code
+ */
+function submitLogin(params) {
+  return request('/api/login', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  })
+}
+
 /** 第三方登录
  * @param code
  */
@@ -39,4 +51,10 @@ function getRegisterSwitch() {
   })
 }
 
-export { getThirdLoginToken, authorAndLogin, register, getRegisterSwitch }
+export {
+  submitLogin,
+  getThirdLoginToken,
+  authorAndLogin,
+  register,
+  getRegisterSwitch,
+}

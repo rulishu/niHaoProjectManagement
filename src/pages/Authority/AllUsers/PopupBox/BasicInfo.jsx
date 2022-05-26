@@ -55,7 +55,6 @@ const BasicInfo = (props) => {
             formType="pure"
             className={styles.leftForm}
             onChange={(initial, current) => {
-              console.log(current)
               current.avatar[0] &&
                 dispatch.getUploadAvatar(current.avatar[0].file)
             }}
@@ -110,7 +109,7 @@ const BasicInfo = (props) => {
               form={form1}
               formType="pure"
               onSubmit={(initial, current) => {
-                const errorObj = memberForm({ initial, current })
+                const errorObj = memberForm({ initial, current, type })
                 if (Object.keys(errorObj).length > 0) {
                   const err = new Error()
                   err.filed = errorObj
@@ -154,6 +153,7 @@ const BasicInfo = (props) => {
                   required: true,
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.password,
+                  hide: type === 2,
                   widgetProps: {
                     placeholder: '请输入密码',
                     type: btnIcon === 'lock' ? 'password' : 'text',
@@ -285,7 +285,7 @@ const BasicInfo = (props) => {
                   inline: false,
                   span: '24',
                   readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.remark,
+                  initialValue: baseDetail.remark || '',
                   widgetProps: {
                     placeholder: '请输入备注',
                   },
@@ -310,8 +310,7 @@ const BasicInfo = (props) => {
                   if (errors && Object.keys(errors).length > 0) return
                   if (errors1 && Object.keys(errors1).length > 0) return
                   // 获取表单值
-                  const value = await form.getFieldValues?.()
-                  console.log(value)
+
                   const value1 = await form1.getFieldValues?.()
                   const params = {
                     ...value1,
