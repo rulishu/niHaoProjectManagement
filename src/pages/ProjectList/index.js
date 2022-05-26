@@ -270,7 +270,9 @@ const ProjectList = (props) => {
                             }>
                             {text}
                           </h2>
-                          {/* <span className={styles.projectRole}>管理员</span> */}
+                          <span className={styles.projectRole}>
+                            {rowData?.userRole}
+                          </span>
                         </div>
                         <div className={styles.infoBottomBx}>
                           <span>{rowData?.descr}</span>
