@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react' //,,useEffect
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Row, Col, Button, Card } from 'uiw'
 import styles from './index.module.less'
 import { ProForm, useForm } from '@uiw-admin/components'
@@ -44,6 +44,10 @@ const BasicInfo = (props) => {
         return { value: item.roleId, label: item.roleName }
       })
   )
+  const {
+    allusers: { types },
+  } = useSelector((state) => state)
+
   return (
     <div className={styles.BasicInfo}>
       <Card title="公共头像">
@@ -323,8 +327,17 @@ const BasicInfo = (props) => {
                     avatar: uuid || '',
                   }
                   // 调用请求接口
-                  // type 1 : 查看 2 : 编辑 3 :新增
-                  if (props?.type === 2) {
+                  // type 1 : 查看 2 : 编辑 3 :新增 types === 2:编辑用户
+                  if (types === 2) {
+                    const param = {
+                      ...params,
+                      userId: baseDetail?.userId,
+                    }
+                    await dispatch.editNewUser({
+                      param,
+                      callback: () => setIsOverlay(false),
+                    })
+                  } else if (props?.type === 2) {
                     const param = {
                       ...params,
                       userId: baseDetail?.userId,

@@ -57,6 +57,7 @@ const allusers = createModel()({
     rolesDataInfo: {},
     postsDataInfo: {},
     isRegister: false, //是否开启注册功能
+    types: '', //2:编辑用户
   },
   reducers: {
     update: (state, payload) => {
@@ -117,6 +118,7 @@ const allusers = createModel()({
         await callback()
         NotifySuccess(data.message)
       }
+      await dispatch.userHome.getUserInfo({ id: param.userId })
     },
     async queryById(params) {
       const data = await queryById(params)
