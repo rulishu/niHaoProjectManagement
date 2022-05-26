@@ -157,6 +157,7 @@ export default createModel()({
           ...params,
         })
         if (data && data.code === 200) {
+          console.log('data--->', data)
           if (data.data && data.data.length > 0) {
             const teamMembers = data.data.map((item) => ({
               label: item.memberName,
@@ -284,8 +285,11 @@ export default createModel()({
           dispatch.project.getSelectById({
             projectId: project?.commentData?.projectId,
             id: project?.commentData?.assignmentId,
-            userId: project?.commentData?.userId,
           })
+          dispatch.project.queryFuzzyAllProjectMember({
+            userId: project?.teamMembers?.userId,
+          })
+          console.log('teamMembers--->1111', project.teamMembers.userId)
           dispatch.project.update({
             commentData: {
               operatingRecords: '',

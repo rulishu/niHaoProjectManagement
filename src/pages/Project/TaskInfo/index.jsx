@@ -33,6 +33,7 @@ const TaskInfo = () => {
   }
   useEffect(() => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
+    dispatch.project.queryFuzzyAllProjectMember()
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
     })
@@ -151,7 +152,6 @@ const TaskInfo = () => {
   }
   const addComment = () => {
     dispatch.project.getAddComment()
-    dispatch.project.queryFuzzyAllProjectMember()
   }
   return (
     <>
