@@ -51,10 +51,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
     const getPageTeam = async () =>
       await dispatch({
         type: 'url/getPageTeam',
-        payload: { params: { url: url } },
+        payload: { params: { url } },
       })
     setIsError(!isRouteExist(pathName, userAccount))
-    pathArr[0] !== 'Authority' && getPageTeam()
+    pathArr?.length && pathArr[0] !== 'Authority' && getPageTeam()
   }, [dispatch, pathName, userAccount])
 
   useEffect(() => {
@@ -202,7 +202,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       '/tissue',
     ].filter((item) => pathName.search(item) !== -1).length ||
     pathName.split('/').length <= 2
-  console.log(linkedType, isError)
+
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
