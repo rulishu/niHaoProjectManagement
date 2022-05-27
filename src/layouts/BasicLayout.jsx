@@ -14,7 +14,7 @@ import './index.css'
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
     todolist: { openTotal, status },
-    url: { linkedType },
+    url: { linkedType, url: breadUrl },
   } = useSelector((state) => state)
   const {
     workbench: { todoNotice },
@@ -203,7 +203,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       '/tissue',
     ].filter((item) => pathName.search(item) !== -1).length ||
     pathName.split('/').length <= 2
-
+  const pageName = pathName.split('/')[pathName.split('/').length - 1]
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
@@ -213,10 +213,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
       >
         {linkedType !== -1 && !isError ? (
           <>
-            {pathName !== '/projectList' &&
-            pathName !== '/home' &&
-            pathName !== '/todoList' &&
-            pathName.slice(1, 9) !== 'userHome' ? (
+            {pageName !== 'projectList' &&
+            `/${pageName}` !== breadUrl &&
+            pageName !== 'dashboard' &&
+            pageName !== 'todoList' ? (
               <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
                 <Bread routeMap={new BreadcrumbMap(props.routes)} />
               </div>
