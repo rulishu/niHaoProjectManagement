@@ -50,25 +50,29 @@ export default function Demo() {
               <Col
                 fixed
                 style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
-                <Menu>
-                  {projectList.map((e, key) => {
-                    return (
-                      <Menu.Item
-                        icon={e.icon}
-                        text={e.projectName}
-                        key={e.projectId}
-                        onClick={() => {
-                          const totalData = e.totalWorkVo
-                          onClickItem(key)
-                          setProject({ ...e })
-                          setTotalData({ ...totalData })
-                          setMilepost(e.milesWorkVoList)
-                        }}
-                        active={active === key}
-                      />
-                    )
-                  })}
-                </Menu>
+                {projectList.length === 0 ? (
+                  <Empty style={{ marginTop: 20 }} />
+                ) : (
+                  <Menu>
+                    {projectList?.map((e, key) => {
+                      return (
+                        <Menu.Item
+                          icon={e.icon}
+                          text={e.projectName}
+                          key={e.projectId}
+                          onClick={() => {
+                            const totalData = e.totalWorkVo
+                            onClickItem(key)
+                            setProject({ ...e })
+                            setTotalData({ ...totalData })
+                            setMilepost(e.milesWorkVoList)
+                          }}
+                          active={active === key}
+                        />
+                      )
+                    })}
+                  </Menu>
+                )}
               </Col>
             </Card>
           </Col>
@@ -90,7 +94,9 @@ export default function Demo() {
                     width={100}
                     strokeWidth={10}
                     percent={
-                      active === 0
+                      projectList.length === 0
+                        ? 0
+                        : active === 0
                         ? NumColor(
                             totalWorkVoOne?.projectYwcNum,
                             totalWorkVoOne?.projectNum
@@ -102,7 +108,9 @@ export default function Demo() {
                     }
                     format={(percent) => (
                       <span>
-                        {active === 0
+                        {projectList.length === 0
+                          ? 0
+                          : active === 0
                           ? totalWorkVoOne?.projectNum
                           : totalData?.projectNum}
                         <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
@@ -157,7 +165,9 @@ export default function Demo() {
                       {
                         title: '未开始',
                         num:
-                          active === 0
+                          projectList.length === 0
+                            ? 0
+                            : active === 0
                             ? totalWorkVoOne?.projectWksNum
                             : totalData?.projectWksNum,
                         key: 1,
@@ -165,7 +175,9 @@ export default function Demo() {
                       {
                         title: '开发中',
                         num:
-                          active === 0
+                          projectList.length === 0
+                            ? 0
+                            : active === 0
                             ? totalWorkVoOne?.projectKfzNum
                             : totalData?.projectKfzNum,
                         key: 2,
@@ -173,7 +185,9 @@ export default function Demo() {
                       {
                         title: '已完成',
                         num:
-                          active === 0
+                          projectList.length === 0
+                            ? 0
+                            : active === 0
                             ? totalWorkVoOne?.projectYwcNum
                             : totalData?.projectYwcNum,
                         key: 3,
@@ -181,7 +195,9 @@ export default function Demo() {
                       {
                         title: '已逾期',
                         num:
-                          active === 0
+                          projectList.length === 0
+                            ? 0
+                            : active === 0
                             ? totalWorkVoOne?.projectYqsNum
                             : totalData?.projectYqsNum,
                         key: 4,
@@ -209,62 +225,66 @@ export default function Demo() {
               bordered={false}
               style={{ height: 400, position: 'relative' }}>
               <div className={styles.milestoneInfoList}>
-                <ul>
-                  <p className={styles.milInfoLiHead}>
-                    <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
-                    <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
-                    <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
-                  </p>
-                  {active === 0 &&
-                  milesWorkVoListOne?.length === 0 &&
-                  milepost?.length === 0 ? (
-                    <Empty description={false} style={{ marginTop: 20 }} />
-                  ) : milesWorkVoListOne?.length !== 0 ? (
-                    milesWorkVoListOne?.map((item) => {
-                      return (
-                        <li
-                          key={item?.milestonesId}
-                          onClick={() =>
-                            goMilestones(
-                              projectListOne?.projectId,
-                              item?.milestonesId
-                            )
-                          }>
-                          <span style={{ flex: 3 }}>
-                            {item?.milestonesTitle}
-                          </span>
-                          <span style={{ flex: 4, fontSize: '12px' }}>
-                            {item?.dueTime &&
-                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                          </span>
-                          <span style={{ flex: 2 }}>{item?.rate}</span>
-                        </li>
-                      )
-                    })
-                  ) : (
-                    milepost?.map((item) => {
-                      return (
-                        <li
-                          key={item?.milestonesId}
-                          onClick={() =>
-                            goMilestones(
-                              projectData?.projectId,
-                              item?.milestonesId
-                            )
-                          }>
-                          <span style={{ flex: 3 }}>
-                            {item?.milestonesTitle}
-                          </span>
-                          <span style={{ flex: 4, fontSize: '12px' }}>
-                            {item?.dueTime &&
-                              dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                          </span>
-                          <span style={{ flex: 2 }}>{item?.rate}</span>
-                        </li>
-                      )
-                    })
-                  )}
-                </ul>
+                {projectList.length === 0 ? (
+                  <Empty style={{ marginTop: 20 }} />
+                ) : (
+                  <ul>
+                    <p className={styles.milInfoLiHead}>
+                      <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
+                      <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
+                      <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
+                    </p>
+                    {active === 0 &&
+                    milesWorkVoListOne?.length === 0 &&
+                    milepost?.length === 0 ? (
+                      <Empty style={{ marginTop: 20 }} />
+                    ) : milesWorkVoListOne?.length !== 0 ? (
+                      milesWorkVoListOne?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectListOne?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 4, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
+                        )
+                      })
+                    ) : (
+                      milepost?.map((item) => {
+                        return (
+                          <li
+                            key={item?.milestonesId}
+                            onClick={() =>
+                              goMilestones(
+                                projectData?.projectId,
+                                item?.milestonesId
+                              )
+                            }>
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 4, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                          </li>
+                        )
+                      })
+                    )}
+                  </ul>
+                )}
               </div>
             </Card>
           </Col>
