@@ -31,7 +31,7 @@ const projectUpdate = createModel()({
     async selectAllUserlist(params) {
       const dph = dispatch
       const data = await selectAllUserlist()
-      let list = data?.data
+      let list = data?.rows
       let arr = []
       list?.forEach((element) => {
         let value = element.userId
