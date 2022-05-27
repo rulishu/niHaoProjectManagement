@@ -55,8 +55,9 @@ const ProjectList = (props) => {
     },
   })
 
-  const goSpecifyPage = (option = {}) => {
-    router.navigate(`${option?.path}/${option?.id}`)
+  const goSpecifyPage = (option = { path: String, projectUrl: String }) => {
+    console.log(option)
+    router.navigate(`${option?.projectUrl}${option?.path}`)
     // e.stopPropagation()禁止冒泡
   }
 
@@ -286,9 +287,10 @@ const ProjectList = (props) => {
                         <div
                           className={styles.projectControlsLI}
                           onClick={(e) => {
+                            console.log(rowData)
                             goSpecifyPage({
-                              path: '/project/task',
-                              id: rowData.id,
+                              path: '/task',
+                              projectUrl: rowData.projectUrl,
                             })
                           }}>
                           <Tooltip
@@ -307,7 +309,7 @@ const ProjectList = (props) => {
                           onClick={(e) => {
                             goSpecifyPage({
                               path: '/usersManagement',
-                              id: rowData.id,
+                              projectUrl: rowData.projectUrl,
                             })
                           }}>
                           <Tooltip
@@ -326,7 +328,7 @@ const ProjectList = (props) => {
                           onClick={(e) => {
                             goSpecifyPage({
                               path: '/milestone',
-                              id: rowData.id,
+                              projectUrl: rowData.projectUrl,
                             })
                           }}>
                           <Tooltip

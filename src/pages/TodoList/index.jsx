@@ -13,7 +13,7 @@ import {
 } from 'uiw'
 import { Container } from '@/components'
 import styles from './index.module.less'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 import AllSelect from './AllSelect'
@@ -30,6 +30,7 @@ const TodoList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+  const { userAccount } = useParams()
 
   const taskId = sessionStorage.getItem('id')
   const { todolist, loading } = useSelector((state) => state)
@@ -115,7 +116,8 @@ const TodoList = () => {
                             <span
                               className={styles.projectName}
                               onClick={() => {
-                                navigate(`/userHome/${item.doUserId}`)
+                                console.log(item)
+                                navigate(`/${item.doUserId}`)
                               }}>
                               <Icon type="user" /> {item.doUserName}
                             </span>
@@ -123,7 +125,7 @@ const TodoList = () => {
                               className={styles.projectName}
                               onClick={() => {
                                 navigate(
-                                  `/project/taskInfo/${item.projectId}/${item.issuesId}`
+                                  `/${userAccount}/${item?.projectId}/task/taskInfo/${item?.issuesId}`
                                 )
                               }}>
                               #{item.issuesId}''{item.doConnent}''
@@ -132,9 +134,7 @@ const TodoList = () => {
                             <span
                               className={styles.projectName}
                               onClick={() => {
-                                navigate(
-                                  `/project/taskInfo/${item.projectId}/${item.issuesId}`
-                                )
+                                navigate(`/${userAccount}/${item?.projectId}`)
                               }}>
                               {item.projectName}
                             </span>
@@ -142,7 +142,7 @@ const TodoList = () => {
                             <span
                               className={styles.projectName}
                               onClick={() => {
-                                navigate(`/userHome/${item.assignUserId}`)
+                                navigate(`/${item?.assignUserAccount}`)
                               }}>
                               {item.assignUserName}
                             </span>
