@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange, ErrorPage } from '@/components'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
@@ -25,10 +25,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const dispatch = useDispatch()
   const [userInfo, setUserInfo] = useState({})
   const [isError, setIsError] = useState(false)
-  const { userAccount } = useParams()
+
   const pathName = props.router.location.pathname
   const userName = JSON.parse(sessionStorage.getItem('userName'))
-  // const userAccountLocal = localStorage.getItem('userAccount')
+  const userAccount = sessionStorage.getItem('userAccount')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -128,13 +128,14 @@ function BasicLayoutScreen(props = { routes: [] }) {
       avatar:
         userInfo?.avatar?.substring(0, 4) === 'http'
           ? userInfo?.avatar
-          : userInfo?.avatar
+          : userInfo?.avatar?.substring(0, 4) !== 'http' &&
+            userInfo?.avatar !== ''
           ? `/api/file/selectFile/${userInfo?.avatar}`
           : userInfo?.path || require('../assets/head.png'),
       userName: userInfo?.userName,
       menuLeft: (
         <>
-          {(linkedType === 1 || linkedType === 0) && (
+          {linkedType === 1 && (
             <div
               className={styles.title}
               onClick={() => {
@@ -202,7 +203,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       '/tissue',
     ].filter((item) => pathName.search(item) !== -1).length ||
     pathName.split('/').length <= 2
-  console.log(linkedType, isError)
+
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
