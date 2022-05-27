@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, Avatar, Tabs, Button, Loader, Icon } from 'uiw'
+import { Card, Avatar, Tabs, Button, Loader, Icon, Overlay } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 // import { useParams } from 'react-router-dom'
 import { Container } from '@/components'
@@ -7,6 +7,7 @@ import Summary from './Summary'
 import ProjectList from './ProjectList'
 import DynamicsList from './DynamicsList'
 import styles from './index.module.less'
+import PopupBox from '../PopupBox'
 
 const UserHome = (props) => {
   const {
@@ -18,6 +19,9 @@ const UserHome = (props) => {
   // const { userId } = useParams()
   const { navigate } = props.router
 
+  const [activeKey, setActiveKey] = useState('1')
+  const [isOverlay, setIsOverlay] = useState(false)
+
   useEffect(() => {
     const callback = async () => {
       await dispatch({
@@ -28,11 +32,25 @@ const UserHome = (props) => {
     callback()
   }, [dispatch, linkedId])
 
-  const [activeKey, setActiveKey] = useState('1')
-
   // 跳转页面方法
   const goSpecifyPage = (option) => {
     navigate(`${option?.path}/${option?.id}`)
+  }
+
+  //编辑用户
+  const handleEdit = async (value, type) => {
+    setIsOverlay(true)
+    await dispatch.allusers.update({
+      baseDetail: { ...value },
+      cUser: value,
+    })
+    await dispatch.allusers.queryById(value.userId)
+    dispatch({
+      type: 'allusers/update',
+      payload: {
+        types: type,
+      },
+    })
   }
 
   return (
@@ -62,7 +80,10 @@ const UserHome = (props) => {
                   </>
                 </Loader>
                 <div className={styles.editBut}>
-                  <Button block type="light">
+                  <Button
+                    block
+                    type="light"
+                    onClick={() => handleEdit(user, 2)}>
                     编辑用户
                   </Button>
                 </div>
@@ -138,9 +159,16 @@ const UserHome = (props) => {
             </Card>
           </div>
         </div>
+        <Overlay
+          hasBackdrop={true}
+          isOpen={isOverlay}
+          onClose={() => setIsOverlay(false)}>
+          <div>
+            <PopupBox setIsOverlay={setIsOverlay} />
+          </div>
+        </Overlay>
       </Container>
     </div>
   )
 }
-
 export default UserHome

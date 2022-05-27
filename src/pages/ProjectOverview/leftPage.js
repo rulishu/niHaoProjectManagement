@@ -294,7 +294,6 @@ export default function Home() {
           <Row className={styles.colContent}>
             <Col
               style={{
-                borderRight: '1px solid #EBF2FB',
                 textAlign: 'center',
               }}>
               <Progress.Circle

@@ -71,7 +71,7 @@ const LabelSelect = (props) => {
               placeholder: '作者',
               onSearch: (value) => {
                 const filterOpion = teamMembers.filter((item) =>
-                  item.label.includes(value.trim())
+                  item?.label?.includes(value.trim())
                 )
                 setTeam([...filterOpion])
               },
@@ -97,7 +97,7 @@ const LabelSelect = (props) => {
               placeholder: '指派',
               onSearch: (value) => {
                 const filterOpion = teamMembers.filter((item) =>
-                  item.label.includes(value.trim())
+                  item?.label?.includes(value.trim())
                 )
                 setTeam([...filterOpion])
               },
@@ -169,7 +169,7 @@ const LabelSelect = (props) => {
               placeholder: '标签',
               onSearch: (value) => {
                 const filterOpion = assignmentLabels.filter((item) =>
-                  item.label.includes(value.trim())
+                  item?.label?.includes(value.trim())
                 )
                 setLabel(filterOpion)
               },

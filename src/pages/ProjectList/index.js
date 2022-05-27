@@ -109,8 +109,8 @@ const ProjectList = (props) => {
   }
 
   return (
-    <div className={styles.warp}>
-      <Container>
+    <Container>
+      <div className={styles.warp}>
         <div className={styles.container}>
           <div className={styles.projectHead}>
             <h1>项目</h1>
@@ -270,7 +270,9 @@ const ProjectList = (props) => {
                             }>
                             {text}
                           </h2>
-                          {/* <span className={styles.projectRole}>管理员</span> */}
+                          <span className={styles.projectRole}>
+                            {rowData?.userRole}
+                          </span>
                         </div>
                         <div className={styles.infoBottomBx}>
                           <span>{rowData?.descr}</span>
@@ -383,8 +385,8 @@ const ProjectList = (props) => {
           </div>
         </div>
         <ProjectManagement fun={refresh}></ProjectManagement>
-      </Container>
-    </div>
+      </div>
+    </Container>
   )
 }
 

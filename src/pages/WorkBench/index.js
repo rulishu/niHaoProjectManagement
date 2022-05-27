@@ -215,9 +215,11 @@ export default function Demo() {
                     <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
                     <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
                   </p>
-                  {milesWorkVoListOne?.length === 0 ? (
+                  {active === 0 &&
+                  milesWorkVoListOne?.length === 0 &&
+                  milepost?.length === 0 ? (
                     <Empty description={false} style={{ marginTop: 20 }} />
-                  ) : active === 0 ? (
+                  ) : milesWorkVoListOne?.length !== 0 ? (
                     milesWorkVoListOne?.map((item) => {
                       return (
                         <li
@@ -239,8 +241,6 @@ export default function Demo() {
                         </li>
                       )
                     })
-                  ) : milepost?.length === 0 ? (
-                    <Empty description={false} style={{ marginTop: 20 }} />
                   ) : (
                     milepost?.map((item) => {
                       return (
