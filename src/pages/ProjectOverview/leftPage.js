@@ -11,7 +11,7 @@ export default function Home() {
   const {
     projectoverview: { allDataSource, pageSize },
   } = useSelector((state) => state)
-  const { projectId } = useParams()
+  const { projectId, userAccount } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [allTab, setAllTab] = useState('5')
@@ -407,7 +407,7 @@ export default function Home() {
             basic
             type="dark"
             onClick={() =>
-              (window.location.href = `#/project/task/${projectId}`)
+              (window.location.href = `#/${userAccount}/${projectId}/task`)
             }>
             更多
           </Button>
