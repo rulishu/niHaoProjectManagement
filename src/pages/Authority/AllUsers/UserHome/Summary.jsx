@@ -114,7 +114,7 @@ const DynamicsList = (props) => {
                       </div>
                       <div className={styles.dynamicTop}>
                         <span className={styles.name}>{item?.createName}</span>
-                        <span>
+                        <span className={styles.time}>
                           {
                             timeDistance(item?.updateTime || item?.createTime)
                               ?.time
@@ -127,6 +127,7 @@ const DynamicsList = (props) => {
                       </div>
                       <div className={styles.dynamicBot}>
                         <span
+                          className={item.projectUrl ? styles.clickOn : ''}
                           onClick={() =>
                             item.projectUrl &&
                             goSpecifyPage({ path: `${item.projectUrl}` })
@@ -135,6 +136,11 @@ const DynamicsList = (props) => {
                         </span>
                         {item?.assignmentTitle && (
                           <span
+                            className={
+                              item.projectUrl && item?.assignmentId
+                                ? styles.clickOn
+                                : ''
+                            }
                             onClick={() =>
                               item.projectUrl &&
                               item?.assignmentId &&
