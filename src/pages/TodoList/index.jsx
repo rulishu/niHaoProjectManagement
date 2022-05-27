@@ -116,8 +116,7 @@ const TodoList = () => {
                             <span
                               className={styles.projectName}
                               onClick={() => {
-                                console.log(item)
-                                navigate(`/${item.doUserId}`)
+                                navigate(`/${item.doUserAccount}`)
                               }}>
                               <Icon type="user" /> {item.doUserName}
                             </span>
