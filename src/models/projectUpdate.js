@@ -5,6 +5,7 @@ import {
   updateProject,
   selectAllUserlist,
 } from '@/servers/projectList'
+import { uploadFile } from '../servers/fileQuery'
 import { Notify } from 'uiw'
 
 const projectUpdate = createModel()({
@@ -17,6 +18,7 @@ const projectUpdate = createModel()({
     userList: [], //新增项目或编辑项目的项目负责人列表
     fun: {},
     isHangup: false, //项目是否挂起
+    fileIds: '', //Logo文件的id
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -53,11 +55,15 @@ const projectUpdate = createModel()({
       const dph = dispatch
       if (params.drawerType === 'add') {
         //新增
-        dph.projectUpdate.selectAllUserlist({ drawerType: 'add' }) //获取用户列表信息
+        dph.projectUpdate.selectAllUserlist({
+          drawerType: 'add',
+        }) //获取用户列表信息
       } else {
         //编辑
         delete params.drawerType
-        dph.projectUpdate.selectAllUserlist({ drawerType: 'edit' }) //获取用户列表信息
+        dph.projectUpdate.selectAllUserlist({
+          drawerType: 'edit',
+        }) //获取用户列表信息
         dph.projectUpdate.updateState({
           id: params.id,
         })
@@ -113,6 +119,20 @@ const projectUpdate = createModel()({
           id: '',
         })
         callback && callback()
+        Notify.success({
+          description: data.message,
+        })
+      }
+    },
+
+    // 上传项目Logo
+    async uploadFile(params) {
+      const dph = dispatch
+      const data = await uploadFile(params)
+      if (data && data.code === 200) {
+        dph.projectUpdate.updateState({
+          fileIds: data.data,
+        })
         Notify.success({
           description: data.message,
         })
