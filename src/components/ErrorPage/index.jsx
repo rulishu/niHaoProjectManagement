@@ -1,4 +1,4 @@
-// import styles from './index.module.less'
+import styles from './index.module.less'
 import { Button, Empty, Divider } from 'uiw' // Input,
 // import { Exceptions404 } from '@uiw-admin/exceptions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,24 +9,22 @@ const ErrorPage = () => {
   useEffect(() => {
     dispatch({
       type: 'routeManagement/getInfo',
-      payload: {
-        callback: '',
-      },
+      payload: { callback: '' },
     })
   }, [dispatch])
 
   const {
     routeManagement: { userInfoName },
   } = useSelector((state) => state)
-  console.log('userInfoName', userInfoName)
+
   return (
-    <div>
+    <div className={styles.errorBox}>
       <Empty
-        style={{ margin: '4%' }}
-        size={200}
+        className={styles.errorImage}
+        size={150}
         description={
           <>
-            <p style={{ fontSize: 40, color: '#000', marginBottom: 8 }}>404</p>
+            <p style={{ fontSize: 60, color: '#000', marginBottom: 8 }}>404</p>
             <p style={{ color: '#000', marginBottom: 5 }}>页面未找到</p>
             <p style={{ color: '#8E8E8E', marginBottom: 5 }}>
               请确认您访问的地址是否正确并且页面未被移动
@@ -48,35 +46,26 @@ const ErrorPage = () => {
           }
         /> */}
       </Empty>
-      <div style={{ marginTop: 250, textAlign: 'center' }}>
+      <div className={styles.errorBase}>
         <Divider />
-        <Button
-          basic
-          style={{ margin: 10 }}
-          type="primary"
-          onClick={() => {
-            window.location.href = `#/${userInfoName}/dashboard`
-          }}>
-          返回工作台
-        </Button>
-        <Button
-          basic
-          style={{ margin: 10 }}
-          type="primary"
-          onClick={() => {
-            window.location.href = `#/login`
-          }}>
-          退出并登陆其他账号
-        </Button>
-        {/* <Button
-          basic
-          style={{ margin: 10 }}
-          type="primary"
-          onClick={() => {
-            console.log('123')
-          }}>
-          帮助
-        </Button> */}
+        <div className={styles.buttonGroup}>
+          <Button
+            basic
+            style={{ margin: 10 }}
+            type="primary"
+            onClick={() =>
+              (window.location.href = `#/${userInfoName}/dashboard`)
+            }>
+            返回工作台
+          </Button>
+          <Button
+            basic
+            style={{ margin: 10 }}
+            type="primary"
+            onClick={() => (window.location.href = `#/login`)}>
+            退出并登陆其他账号
+          </Button>
+        </div>
       </div>
     </div>
   )

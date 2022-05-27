@@ -43,10 +43,7 @@ const ProjectList = (props) => {
                     <div className={styles.title}>
                       <h2
                         onClick={() =>
-                          goSpecifyPage({
-                            path: '/projectOverview',
-                            id: item?.id,
-                          })
+                          goSpecifyPage({ path: item.projectUrl })
                         }>
                         {item?.name}
                       </h2>
@@ -56,19 +53,27 @@ const ProjectList = (props) => {
                     </div>
                     <div className={styles.text}>{item?.descr || <i></i>}</div>
                     <p>
-                      <span>
-                        <Icon type="time-o" />
-                        {item?.status}
-                      </span>
-                      <span>
+                      <span
+                        onClick={() => {
+                          goSpecifyPage({
+                            path: `${item.projectUrl}/task`,
+                          })
+                        }}>
                         <Icon type="tags-o" />
                         {item?.task}
                       </span>
-                      <span>
+                      <span
+                        onClick={() => {
+                          goSpecifyPage({
+                            path: `${item.projectUrl}/usersManagement`,
+                          })
+                        }}>
                         <Icon type="user" />
                         {item?.teamMember}
                       </span>
-                      <span>更新于{timeDistance(item?.updateTime).time}前</span>
+                      <span className={styles.updateTime}>
+                        更新于{timeDistance(item?.updateTime).time}前
+                      </span>
                     </p>
                   </div>
                 </li>
