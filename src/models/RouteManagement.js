@@ -18,6 +18,7 @@ export default createModel()({
     fromData: {},
     fromType: 1, // 1:增加，2，编辑
     userInfo: '', //当前登陆人信息
+    userInfoName: '', //账号
   },
   effects: (dispatch) => ({
     // 获取路由列表数据
@@ -37,6 +38,7 @@ export default createModel()({
       if (data.code === 200) {
         dph.routeManagement.update({
           userInfo: data?.user?.nickName,
+          userInfoName: data?.user?.userName,
         })
         const imgs = data?.user?.admin
         payload.callback && payload.callback(data.user)
