@@ -150,7 +150,7 @@ export default function SlelectLabel() {
                         (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
                       }
                       description={
-                        <div className={styles.dynamicListLi}>
+                        <div className={styles.mouseList}>
                           {a?.operatingRecords}
                         </div>
                       }></Steps.Step>
