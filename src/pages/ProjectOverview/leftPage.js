@@ -92,7 +92,7 @@ export default function Home() {
           table={myTable}
           onCell={(rowData) => {
             navigate(
-              `/project/taskInfo/${rowData.projectId}/${rowData.assignmentId}`
+              `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
             )
           }}
           columns={[
@@ -177,7 +177,7 @@ export default function Home() {
           table={table}
           onCell={(rowData) => {
             navigate(
-              `/project/taskInfo/${rowData.projectId}/${rowData.assignmentId}`
+              `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
             )
           }}
           columns={[

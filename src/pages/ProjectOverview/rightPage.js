@@ -9,12 +9,15 @@ export default function AllTasks() {
   const {
     projectoverview: { projectMembersList, projectDynamicsList, allDataSource },
   } = useSelector((state) => state)
-  const { projectId, userAccount } = useParams()
+  const { userAccount } = useParams()
   const allDataSources = allDataSource?.milesWorkVoList
 
   // 跳转里程碑详情
-  const goMilestones = (_, milestonesId) => {
-    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
+  const goMilestones = (milestonesId) => {
+    allDataSource?.projectUrl &&
+      navigate(
+        `${allDataSource?.projectUrl}/milestone/milestoneInfo/${milestonesId}`
+      )
   }
   return (
     <div style={{ width: '30%' }}>
@@ -33,9 +36,7 @@ export default function AllTasks() {
                 return (
                   <li
                     key={item?.milestonesId}
-                    onClick={() =>
-                      goMilestones(item?.projectId, item?.milestonesId)
-                    }>
+                    onClick={() => goMilestones(item?.milestonesId)}>
                     <span style={{ flex: 3 }}>{item?.milestonesTitle}</span>
                     <span style={{ flex: 4, fontSize: '12px' }}>
                       {item?.dueTime &&
@@ -61,14 +62,10 @@ export default function AllTasks() {
             current={projectDynamicsList?.length}
             style={{ padding: '20px 0' }}>
             {projectDynamicsList?.map((itm, key) => {
-              console.log('itm', itm)
               return (
                 <Steps.Step
                   title={itm?.createTime}
                   key={key}
-                  onClick={() =>
-                    (window.location.href = `#/${userAccount}/${projectId}/taskInfo/${itm.assignmentId}`)
-                  }
                   description={
                     <div className={styles.mouseList}>
                       {itm?.operatingRecords}
@@ -79,14 +76,14 @@ export default function AllTasks() {
           </Steps>
         </div>
       </Card>
-      <Card title="项目成" bordered={false}>
+      <Card title="项目成员" bordered={false}>
         <div className={styles.memberBox}>
           {projectMembersList.map((item, idx) => {
             return (
               <div key={idx} className={styles.memberItem}>
                 <div
                   className={styles.memberItemLi}
-                  onClick={() => navigate(`/${userAccount}`)}>
+                  onClick={() => navigate(`/${item?.userName}`)}>
                   <Avatar
                     size="large"
                     src={
