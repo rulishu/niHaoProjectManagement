@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Card, Tabs, Steps, Tag, Tooltip } from 'uiw'
+import { Row, Col, Card, Tabs, Steps, Tag, Tooltip, Empty } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import styles from './index.module.less'
@@ -135,28 +135,32 @@ export default function SlelectLabel() {
         <Col fixed style={{ width: '25%' }}>
           <Card title="成员动态" bordered={false}>
             <div className={styles.dynamicList}>
-              <Steps
-                direction="vertical"
-                progressDot
-                status="error"
-                current={memberList?.length}
-                style={{ padding: '20px 0' }}>
-                {memberList?.map((a, key) => {
-                  return (
-                    <Steps.Step
-                      title={a?.createTime}
-                      key={key}
-                      onClick={() =>
-                        (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
-                      }
-                      description={
-                        <div className={styles.mouseList}>
-                          {a?.operatingRecords}
-                        </div>
-                      }></Steps.Step>
-                  )
-                })}
-              </Steps>
+              {memberList.length === 0 ? (
+                <Empty style={{ marginTop: 20 }} />
+              ) : (
+                <Steps
+                  direction="vertical"
+                  progressDot
+                  status="error"
+                  current={memberList?.length}
+                  style={{ padding: '20px 0' }}>
+                  {memberList?.map((a, key) => {
+                    return (
+                      <Steps.Step
+                        title={a?.createTime}
+                        key={key}
+                        onClick={() =>
+                          (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
+                        }
+                        description={
+                          <div className={styles.mouseList}>
+                            {a?.operatingRecords}
+                          </div>
+                        }></Steps.Step>
+                    )
+                  })}
+                </Steps>
+              )}
             </div>
           </Card>
         </Col>

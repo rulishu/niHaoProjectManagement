@@ -51,16 +51,13 @@ export const columnsSearch = (handleEditTable, userInfo) => [
           onClick={() => handleEditTable('edit', rowData)}>
           编辑
         </Button>
-        {rowData?.memberName === userInfo ? (
-          ''
-        ) : (
-          <Button
-            size="small"
-            icon="user-delete"
-            onClick={() => handleEditTable('del', rowData)}>
-            删除
-          </Button>
-        )}
+        <Button
+          size="small"
+          icon="user-delete"
+          disabled={rowData?.memberName === userInfo ? true : false}
+          onClick={() => handleEditTable('del', rowData)}>
+          删除
+        </Button>
       </div>
     ),
   },
