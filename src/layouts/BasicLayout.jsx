@@ -76,20 +76,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
           layouts.closeMenu()
         },
       },
-      // {
-      //   title: '团队管理',
-      //   icon: 'usergroup-add',
-      //   onClick: () => {
-      //     navigate('/team', { replace: true })
-      //   },
-      // },
-      // {
-      //   title: '团队管理',
-      //   icon: 'usergroup-add',
-      //   onClick: () => {
-      //     navigate('/projectAuth', { replace: true })
-      //   },
-      // },
+      {
+        title: '团队管理',
+        icon: 'usergroup-add',
+        onClick: () => {
+          navigate('/team', { replace: true })
+        },
+      },
       {
         title: '用户中心',
         icon: 'user',
