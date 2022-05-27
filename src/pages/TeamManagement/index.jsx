@@ -39,7 +39,7 @@ export default function Search() {
   })
   const setCloseDrawerVisible = () => {
     dispatch({
-      type: 'postManagement/updateState',
+      type: 'team/updateState',
       payload: {
         alertShow: false,
       },
@@ -47,7 +47,7 @@ export default function Search() {
   }
   const onOpenDelete = (data) => {
     dispatch({
-      type: 'postManagement/updateState',
+      type: 'team/updateState',
       payload: {
         alertShow: true,
         ids: data,
@@ -58,7 +58,7 @@ export default function Search() {
   }
   const onOpenEdit = (data) => {
     dispatch({
-      type: 'postManagement/updateState',
+      type: 'team/updateState',
       payload: {
         drawerType: 'edit',
         drawerVisible: true,
