@@ -32,6 +32,7 @@ const ProjectManagement = (fun) => {
       userList,
       id,
       isHangup,
+      fileIds, //Logo文件的id
     },
     loading,
   } = useSelector((state) => state)
@@ -48,17 +49,20 @@ const ProjectManagement = (fun) => {
       drawerVisible: false,
       seachValue: {},
       drawerType: '',
+      fileIds: '',
     })
   }
 
   function saveData() {
     if (drawerType === 'add') {
+      seachValue.projectAvatar = fileIds
       dispatch({
         type: 'projectUpdate/addProject',
         payload: { seachValue, callback: fun.fun },
       })
     } else if (drawerType === 'edit') {
       seachValue.id = id
+      seachValue.projectAvatar = fileIds
       dispatch({
         type: 'projectUpdate/updateProject',
         payload: { seachValue, callback: fun.fun },
@@ -125,6 +129,39 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.descr,
             widgetProps: {},
             span: '24',
+          },
+          {
+            label: '项目Logo:',
+            key: 'projectAvatar',
+            widget: 'upload',
+            span: '24',
+            initialValue: seachValue.projectAvatar
+              ? [
+                  {
+                    dataURL: `/api/file/selectFile/${seachValue.projectAvatar}`,
+                  },
+                ]
+              : null,
+            widgetProps: {
+              uploadType: 'card',
+              maxNumber: 1,
+              showFileIcon: {
+                showPreviewIcon: true,
+                showRemoveIcon: true,
+              },
+              onChange: async (e) => {
+                if (e.length > 0) {
+                  await dispatch({
+                    type: 'projectUpdate/uploadFile',
+                    payload: { file: e[0]?.file },
+                  })
+                } else {
+                  await updateData({
+                    fileIds: '',
+                  })
+                }
+              },
+            },
           },
           {
             label: '是否挂起:',
