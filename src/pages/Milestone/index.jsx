@@ -36,7 +36,7 @@ const Milestone = () => {
   const navigate = useNavigate()
   const location = useLocation()
   useLocationPage()
-  const { projectId } = useParams()
+  const { userAccount, projectId } = useParams()
   const {
     milestone: {
       filter,
@@ -67,13 +67,18 @@ const Milestone = () => {
 
   const goNewNmilestone = () => {
     dispatch.milestone.update({ milestoneType: 1, listDataInfo: {} })
-    navigate(`/milestone/newMilestone/${projectId}`, { state: { projectId } })
+    navigate(`/${userAccount}/${projectId}/milestone/newMilestone`, {
+      state: { userAccount, projectId },
+    })
   }
 
   const listGo = (milestonesId) => {
-    navigate(`/milestone/milestoneInfo/${projectId}/${milestonesId}`, {
-      state: { projectId, milestonesId },
-    })
+    navigate(
+      `/${userAccount}/${projectId}/milestone/milestoneInfo/${milestonesId}`,
+      {
+        state: { projectId, milestonesId },
+      }
+    )
   }
 
   // 下拉框数据

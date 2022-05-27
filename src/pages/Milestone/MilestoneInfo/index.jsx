@@ -11,7 +11,7 @@ import './index.css'
 
 const MilestoneInfo = () => {
   const navigate = useNavigate()
-  const { projectId, milestonesId } = useParams()
+  const { projectId, milestonesId, userAccount } = useParams()
   const {
     milestone: { listDataInfo },
     loading,
@@ -54,9 +54,9 @@ const MilestoneInfo = () => {
     })
   }
 
-  // 删除
+  //
   const goTaskListPage = async (activeKey) => {
-    navigate(`/project/task/${projectId}`, { state: { projectId } })
+    navigate(`/${userAccount}/${projectId}/task`, { state: { projectId } })
     await dispatch({
       type: 'project/update',
       payload: { activeKey },
@@ -76,9 +76,12 @@ const MilestoneInfo = () => {
   // 编辑
   const editMilestones = () => {
     dispatch.milestone.update({ milestoneType: 2, milestonesId, projectId })
-    navigate(`/milestone/editMilestone/${projectId}/${milestonesId}`, {
-      state: { milestonesId, projectId },
-    })
+    navigate(
+      `/${userAccount}/${projectId}/milestone/editMilestone/${milestonesId}`,
+      {
+        state: { milestonesId, projectId },
+      }
+    )
   }
 
   // 返回
@@ -234,7 +237,7 @@ const MilestoneInfo = () => {
                   basic
                   className={styles.rightHeadBut}
                   onClick={() => {
-                    navigate(`/project/newIssue/${projectId}`, {
+                    navigate(`/${userAccount}/${projectId}/task/newIssue`, {
                       state: { projectId },
                     })
                     dispatch.milestone.update({
