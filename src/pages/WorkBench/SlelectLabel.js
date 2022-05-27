@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Row, Col, Card, Tabs, Steps, Tag, Tooltip, Empty } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 export default function SlelectLabel() {
@@ -9,6 +10,7 @@ export default function SlelectLabel() {
   const {
     workbench: { memberList },
   } = useSelector((state) => state)
+  const navigate = useNavigate()
   const [tab, setTab] = useState(1)
 
   useEffect(() => {
@@ -52,7 +54,9 @@ export default function SlelectLabel() {
           className={styles.mouseList}
           paginationProps={{ style: { display: 'none' } }}
           onCell={(rowData) => {
-            window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
+            navigate(
+              `${rowData?.projectUrl}/task/taskInfo/${rowData?.assignmentId}`
+            )
           }}
           table={table}
           columns={[
@@ -149,9 +153,6 @@ export default function SlelectLabel() {
                       <Steps.Step
                         title={a?.createTime}
                         key={key}
-                        onClick={() =>
-                          (window.location.href = `#/project/taskInfo/${a?.projectId}/${a?.assignmentId}`)
-                        }
                         description={
                           <div className={styles.mouseList}>
                             {a?.operatingRecords}
