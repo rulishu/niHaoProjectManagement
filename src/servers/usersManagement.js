@@ -1,12 +1,10 @@
 import request from '@/utils/request'
 // import { request } from '@uiw-admin/utils'
 
-// const token = localStorage.getItem('token')
 // 邀请成员
 function inviteMember(params) {
   return request('/api/member/inviteMember', {
     method: 'POST',
-    // headers: { Authorization: 'Bearer ' + token },
     body: { ...params },
   })
 }
