@@ -47,14 +47,12 @@ const Detail = () => {
         onSubmit={(_, current) => {
           const errorObj = {}
           // 报警事件
-          if (!current?.postName) {
-            errorObj.postName = '岗位名称不能为空'
-          } else if (!current?.postCode) {
-            errorObj.postCode = '岗位顺序不能为空'
-          } else if (!current?.postSort) {
-            errorObj.postSort = '岗位顺序不能为空'
-          } else if (!current?.status) {
-            errorObj.status = '岗位状态不能为空'
+          if (!current?.teamName) {
+            errorObj.teamName = '团队名不能为空'
+          } else if (!current?.teamUserList) {
+            errorObj.teamUserList = '团队用户列表不能为空'
+          } else if (!current?.teamUserNameSplice) {
+            errorObj.teamUserNameSplice = '团队描述不能为空'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
