@@ -21,7 +21,8 @@ const url = createModel()({
       const { params, callback } = payload
       const data = await getUrlType(params)
       if (data && data.code === 200) {
-        localStorage.setItem('linkedData', JSON.stringify(data?.data))
+        sessionStorage.setItem('linkedData', JSON.stringify(data?.data))
+        sessionStorage.setItem('userId', JSON.stringify(data?.data.url))
         callback && callback(data?.data)
         dispatch?.url.updateState({
           url: data?.data?.url,

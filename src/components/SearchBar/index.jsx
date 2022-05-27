@@ -33,9 +33,9 @@ const SearchBar = (props) => {
     if (ref.current && !isBundle.current) {
       isBundle.current = true
       tribute.attach(ref.current)
-      ref.current.addEventListener('tribute-replaced', (e) => {
-        console.log('ref', ref.current, ref.current.Input)
-      })
+      // ref.current.addEventListener('tribute-replaced', (e) => {
+      //   console.log('ref', ref.current, ref.current.Input)
+      // })
     }
   }, [ref.current?.value])
 

@@ -1,18 +1,20 @@
 import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
-import { PassWordChange } from '@/components'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { PassWordChange, ErrorPage } from '@/components'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
 import { BreadcrumbMap } from '@/utils/utils'
+import { isNeedRouteRequest, isRouteExist } from '@/utils/routeRequest'
 import styles from './index.module.less'
 import './index.css'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
     todolist: { openTotal, status },
+    url: { linkedType },
   } = useSelector((state) => state)
   const {
     workbench: { todoNotice },
@@ -21,11 +23,17 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
+  const { userId } = useParams()
   const [userInfo, setUserInfo] = useState({})
+  const [isError, setIsError] = useState(false)
   // const userData = JSON.parse(localStorage.getItem('userData'))
+  console.log(userId)
+  const pathName = props.router.location.pathname
+  const userName = JSON.parse(sessionStorage.getItem('userName'))
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
-    dispatch({
+    await dispatch({
       type: 'routeManagement/getInfo',
       payload: {
         callback: (data) => {
@@ -35,6 +43,19 @@ function BasicLayoutScreen(props = { routes: [] }) {
     })
     type && window.location.reload()
   }
+
+  //
+  useEffect(() => {
+    // 查询路由权限接口
+    const getPageTeam = async () =>
+      await dispatch({
+        type: 'url/getPageTeam',
+        payload: { params: { url: pathName } },
+      })
+    console.log(userName)
+    setIsError(!isRouteExist(pathName, userName))
+    isNeedRouteRequest(pathName) && getPageTeam()
+  }, [dispatch, pathName, userName])
 
   useEffect(() => {
     // dispatch({
@@ -87,7 +108,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
         title: '用户中心',
         icon: 'user',
         onClick: () => {
-          navigate(`/userHome/${userInfo?.userId}`, { replace: true })
+          navigate(`/${userInfo?.userName}`, { replace: true })
         },
       },
       {
@@ -108,17 +129,19 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userInfo?.userName,
       menuLeft: (
         <>
+          {linkedType === 1 && (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/${userName}/dashboard`)
+              }}>
+              工作台
+            </div>
+          )}
           <div
             className={styles.title}
             onClick={() => {
-              navigate('/home')
-            }}>
-            工作台
-          </div>
-          <div
-            className={styles.title}
-            onClick={() => {
-              navigate('/projectList')
+              navigate(`/${userName}/projectList`)
             }}>
             项目管理
           </div>
@@ -133,7 +156,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
           ) : (
             ''
           )}
-          <div className={styles.title} onClick={() => navigate('/todoList')}>
+          <div
+            className={styles.title}
+            onClick={() => navigate(`/${userName}/todoList`)}>
             {status === 0 ? (
               <Badge count={todoNotice}>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
@@ -160,12 +185,18 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   const token = localStorage.getItem('token')
   // 是否是没有左侧菜单的界面
-  const pathName = props.router.location.pathname
   const isNoMenu = ['/projectList', '/home', '/todoList'].includes(pathName)
 
-  const isNoMenuN = !!['/userHome'].filter(
-    (item) => pathName.search(item) !== -1
-  ).length
+  const isNoMenuN =
+    !![
+      '/userHome',
+      '/:userId',
+      'todoList',
+      '/projectList',
+      '/dashboard',
+      '/tissue',
+    ].filter((item) => pathName.search(item) !== -1).length ||
+    pathName.split('/').length <= 2
 
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
@@ -174,16 +205,22 @@ function BasicLayoutScreen(props = { routes: [] }) {
         menuHide={isNoMenu || isNoMenuN}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
-        {pathName !== '/projectList' &&
-        pathName !== '/home' &&
-        pathName !== '/todoList' &&
-        pathName.slice(1, 9) !== 'userHome' ? (
-          <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
-            <Bread routeMap={new BreadcrumbMap(props.routes)} />
-          </div>
-        ) : null}
-        <Outlet />
-        <PassWordChange refs={passwordRef} />
+        {linkedType !== -1 && !isError ? (
+          <>
+            {pathName !== '/projectList' &&
+            pathName !== '/home' &&
+            pathName !== '/todoList' &&
+            pathName.slice(1, 9) !== 'userHome' ? (
+              <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+                <Bread routeMap={new BreadcrumbMap(props.routes)} />
+              </div>
+            ) : null}
+            <Outlet />
+            <PassWordChange refs={passwordRef} />
+          </>
+        ) : (
+          <ErrorPage />
+        )}
         {/* 新增项目弹出框 */}
       </BasicLayout>
     </AuthPage>
