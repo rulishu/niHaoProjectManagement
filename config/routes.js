@@ -146,6 +146,17 @@ const routes = [
         navigate:
           "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}",
       },
+      // {
+      //   path: '/project/taskBoard/:projectId',
+      //   name: '任务看板',
+      //   icon: 'down-circle-o',
+      //   component: '@/pages/TaskBoard',
+      //   navigate: (navigate, location) => {
+      //     const id = sessionStorage.getItem('projectId')
+      //     navigate(`/project/TaskBoard/${id}`)
+      //   },
+      //   isAuth: true,
+      // },
       {
         path: '/:userAccount',
         name: '用户主页',
