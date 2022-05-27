@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card, Avatar, Tabs, Button, Loader, Icon, Overlay } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Container } from '@/components'
 import Summary from './Summary'
 import ProjectList from './ProjectList'
@@ -12,12 +12,12 @@ import PopupBox from '../PopupBox'
 const UserHome = (props) => {
   const {
     userHome: { user },
-    url: { linkedId },
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
-  // const { userId } = useParams()
+
   const { navigate } = props.router
+  const { userAccount } = useParams()
 
   const [activeKey, setActiveKey] = useState('1')
   const [isOverlay, setIsOverlay] = useState(false)
@@ -25,12 +25,12 @@ const UserHome = (props) => {
   useEffect(() => {
     const callback = async () => {
       await dispatch({
-        type: 'userHome/getUserInfo',
-        payload: { id: linkedId },
+        type: 'userHome/getUserInfoByAccount',
+        payload: userAccount,
       })
     }
     callback()
-  }, [dispatch, linkedId])
+  }, [dispatch, userAccount])
 
   // 跳转页面方法
   const goSpecifyPage = (option) => {

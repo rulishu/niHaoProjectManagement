@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core'
-import { getUserInfo } from '@/servers/userHome'
+import { getUserInfo, getUserInfoByAccount } from '@/servers/userHome'
 
 /**
  * 待办事项
@@ -24,6 +24,16 @@ export default createModel()({
     return {
       async getUserInfo(params, { userHome }) {
         const data = await getUserInfo(params)
+        if (data && data.code === 200) {
+          const { user, userDynamics, userProjectList, userTask } = data.data
+          dispatch({
+            type: 'userHome/update',
+            payload: { user, userDynamics, userProjectList, userTask },
+          })
+        }
+      },
+      async getUserInfoByAccount(params, { userHome }) {
+        const data = await getUserInfoByAccount(params)
         if (data && data.code === 200) {
           const { user, userDynamics, userProjectList, userTask } = data.data
           dispatch({
