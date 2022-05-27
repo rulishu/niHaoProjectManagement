@@ -266,7 +266,7 @@ const ProjectList = (props) => {
                           <h2
                             className={styles.projectName}
                             onClick={() =>
-                              router.navigate(`/projectOverview/${rowData.id}`)
+                              router.navigate(rowData?.projectUrl)
                             }>
                             {text}
                           </h2>

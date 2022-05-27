@@ -2,12 +2,12 @@ import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange, ErrorPage } from '@/components'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
 import { BreadcrumbMap } from '@/utils/utils'
-import { isNeedRouteRequest, isRouteExist } from '@/utils/routeRequest'
+import { isRouteExist } from '@/utils/routeRequest'
 import styles from './index.module.less'
 import './index.css'
 
@@ -23,13 +23,12 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
-  const { userId } = useParams()
   const [userInfo, setUserInfo] = useState({})
   const [isError, setIsError] = useState(false)
-  // const userData = JSON.parse(localStorage.getItem('userData'))
-  console.log(userId)
+
   const pathName = props.router.location.pathname
   const userName = JSON.parse(sessionStorage.getItem('userName'))
+  const userAccount = sessionStorage.getItem('userAccount')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -43,19 +42,20 @@ function BasicLayoutScreen(props = { routes: [] }) {
     })
     type && window.location.reload()
   }
-
   //
   useEffect(() => {
+    const pathArr = pathName.split('/').filter((s) => s)
+    const url =
+      pathArr.length === 1 ? `/${pathArr[0]}` : `/${pathArr[0]}/${pathArr[1]}`
     // 查询路由权限接口
     const getPageTeam = async () =>
       await dispatch({
         type: 'url/getPageTeam',
-        payload: { params: { url: pathName } },
+        payload: { params: { url: url } },
       })
-    console.log(userName)
-    setIsError(!isRouteExist(pathName, userName))
-    isNeedRouteRequest(pathName) && getPageTeam()
-  }, [dispatch, pathName, userName])
+    setIsError(!isRouteExist(pathName, userAccount))
+    pathArr[0] !== 'Authority' && getPageTeam()
+  }, [dispatch, pathName, userAccount])
 
   useEffect(() => {
     // dispatch({
@@ -76,9 +76,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
   if (currUserRoute) {
     routes = props.routes
   }
-
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
+    // onLogoClick: () => {
+    //   navigate(`/${userName}`)
+    // },
     // logo: require('./logo.png'),
     // 刷新权限
     onReloadAuth: async () => {

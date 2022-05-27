@@ -6,7 +6,7 @@ const url = createModel()({
   name: 'url',
   state: {
     linkedId: 1, // 用户/组织 ID
-    linkedType: 1, // 1 : 用户 2 : 组织
+    linkedType: 1, // 0 : 特殊 1 : 用户 2 : 组织
     url: '',
   },
   reducers: {
@@ -21,8 +21,6 @@ const url = createModel()({
       const { params, callback } = payload
       const data = await getUrlType(params)
       if (data && data.code === 200) {
-        sessionStorage.setItem('linkedData', JSON.stringify(data?.data))
-        sessionStorage.setItem('userId', JSON.stringify(data?.data.url))
         callback && callback(data?.data)
         dispatch?.url.updateState({
           url: data?.data?.url,
