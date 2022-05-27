@@ -102,9 +102,12 @@ function BasicLayoutScreen(props = { routes: [] }) {
       },
     ],
     profile: {
-      avatar: userInfo?.avatar
-        ? `/api/file/selectFile/${userInfo?.avatar}`
-        : userInfo?.path || require('../assets/head.png'),
+      avatar:
+        userInfo?.avatar?.substring(0, 4) === 'http'
+          ? userInfo?.avatar
+          : userInfo?.avatar
+          ? `/api/file/selectFile/${userInfo?.avatar}`
+          : userInfo?.path || require('../assets/head.png'),
       userName: userInfo?.userName,
       menuLeft: (
         <>
