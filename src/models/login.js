@@ -63,6 +63,7 @@ const login = createModel()({
           JSON.stringify(userData?.user.userName)
         )
         sessionStorage.setItem('userAccount', userData?.user.userName)
+        localStorage.setItem('userAccount', userData?.user.userName)
         localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {

@@ -13,7 +13,7 @@ const routes = [
     routes: [
       {
         index: true,
-        redirect: `/${sessionStorage.getItem('userAccount')}`,
+        redirect: `/${localStorage.getItem('userAccount')}`,
       },
       {
         path: '/tissue',
