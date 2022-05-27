@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange, ErrorPage } from '@/components'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
@@ -23,12 +23,12 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
+  const { userAccount } = useParams()
   const [userInfo, setUserInfo] = useState({})
   const [isError, setIsError] = useState(false)
-
   const pathName = props.router.location.pathname
   const userName = JSON.parse(sessionStorage.getItem('userName'))
-  const userAccount = sessionStorage.getItem('userAccount')
+  // const userAccount = sessionStorage.getItem('userAccount')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {

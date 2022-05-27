@@ -99,7 +99,6 @@ const DynamicsList = (props) => {
             loading={loading.effects.userHome.getUserInfo}>
             <ul>
               {userDynamics?.map((item, index) => {
-                console.log(item)
                 if (index < 10) {
                   return (
                     <li className={styles.eventItem} key={index}>
