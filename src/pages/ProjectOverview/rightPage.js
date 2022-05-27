@@ -9,8 +9,7 @@ export default function AllTasks() {
   const {
     projectoverview: { projectMembersList, projectDynamicsList, allDataSource },
   } = useSelector((state) => state)
-
-  const { projectId } = useParams()
+  const { projectId, userAccount } = useParams()
   const allDataSources = allDataSource?.milesWorkVoList
 
   // 跳转里程碑详情
@@ -51,7 +50,7 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card
-        title="最新动态"
+        title="最新动"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
         <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -62,12 +61,13 @@ export default function AllTasks() {
             current={projectDynamicsList?.length}
             style={{ padding: '20px 0' }}>
             {projectDynamicsList?.map((itm, key) => {
+              console.log('itm', itm)
               return (
                 <Steps.Step
                   title={itm?.createTime}
                   key={key}
                   onClick={() =>
-                    (window.location.href = `#/project/taskInfo/${projectId}/${itm.assignmentId}`)
+                    (window.location.href = `#/${userAccount}/${projectId}/taskInfo/${itm.assignmentId}`)
                   }
                   description={
                     <div className={styles.mouseList}>
@@ -79,14 +79,14 @@ export default function AllTasks() {
           </Steps>
         </div>
       </Card>
-      <Card title="项目成员" bordered={false}>
+      <Card title="项目成" bordered={false}>
         <div className={styles.memberBox}>
           {projectMembersList.map((item, idx) => {
             return (
               <div key={idx} className={styles.memberItem}>
                 <div
                   className={styles.memberItemLi}
-                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  onClick={() => navigate(`/${userAccount}`)}>
                   <Avatar
                     size="large"
                     src={
@@ -97,7 +97,7 @@ export default function AllTasks() {
                 </div>
                 <span
                   className={styles.memberName}
-                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  onClick={() => navigate(`/${userAccount}`)}>
                   {item?.nickName}
                 </span>
               </div>

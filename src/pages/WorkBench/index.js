@@ -8,9 +8,11 @@ import TodoList from './TodoList'
 import { Container } from '@/components'
 import dayjs from 'dayjs'
 import { NumColor } from '../../utils/utils'
+import { useParams } from 'react-router-dom'
 
 export default function Demo() {
   const dispatch = useDispatch()
+  const { userAccount } = useParams()
   const {
     workbench: { projectList },
   } = useSelector((state) => state)
@@ -30,7 +32,7 @@ export default function Demo() {
 
   // 跳转里程碑详情
   const goMilestones = (projectId, milestonesId) => {
-    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
+    window.location.href = `#/${userAccount}/${projectId}/milestone/milestoneInfo/${milestonesId}`
   }
   //默认选中第一个
   const onClickItem = (key) => {
@@ -126,9 +128,9 @@ export default function Demo() {
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/project/task/${projectListOne?.projectId}`
+                              window.location.href = `#/${userAccount}/project/task`
                             } else {
-                              window.location.href = `#/project/task/${projectData.projectId}`
+                              window.location.href = `#/${userAccount}/project/task`
                             }
                           }}>
                           查看全部
@@ -137,9 +139,9 @@ export default function Demo() {
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                              window.location.href = `#/${userAccount}/${projectListOne?.projectId}`
                             } else {
-                              window.location.href = `#/projectOverview/${projectData?.projectId}`
+                              window.location.href = `#/${userAccount}/${projectData?.projectId}`
                             }
                           }}>
                           项目概览

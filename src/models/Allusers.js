@@ -5,6 +5,7 @@ import {
   addNewUser,
   deleteById,
   editNewUser,
+  editGetInfo,
   queryById,
   updatePassword,
   getAllCompaniesProjects,
@@ -113,6 +114,7 @@ const allusers = createModel()({
     },
     async editNewUser(payload) {
       const { param, callback } = payload
+      await editGetInfo(param.userId)
       const data = await editNewUser(param)
       if (data && data.code === 200) {
         await callback()

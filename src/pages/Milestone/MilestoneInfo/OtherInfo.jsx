@@ -11,12 +11,13 @@ import {
   Tooltip,
 } from 'uiw'
 import styles from './index.module.less'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import './index.css'
 
 const OtherInfo = (props) => {
   const { projectId, goTaskListPage } = props
+  const { userAccount } = useParams()
   const {
     milestone: { listDataInfo, allLabelData },
     dictionary: { dictDataList },
@@ -37,7 +38,7 @@ const OtherInfo = (props) => {
       type: 'project/update',
       payload: { editId: taskId },
     })
-    navigate(`/project/taskInfo/${projectId}/${taskId}`, {
+    navigate(`/${userAccount}/${projectId}/taskInfo/${taskId}`, {
       state: { editId: taskId },
     })
   }
@@ -101,7 +102,7 @@ const OtherInfo = (props) => {
                     <span
                       className={styles.taskAssignPerson}
                       onClick={() => {
-                        navigate(`/userHome/${item?.assigneeUserId}`, {
+                        navigate(`/${userAccount}`, {
                           state: { assigneeUserId: item?.assigneeUserId },
                         })
                       }}>
