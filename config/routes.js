@@ -13,7 +13,7 @@ const routes = [
     routes: [
       {
         index: true,
-        redirect: `/${JSON.parse(sessionStorage.getItem('userName'))}`,
+        redirect: `/${sessionStorage.getItem('userAccount')}`,
       },
       {
         path: '/tissue',
@@ -139,132 +139,132 @@ const routes = [
         ],
       },
       {
-        path: '/:userId',
+        path: '/:userAccount',
         name: '用户主页',
         component: '@/pages/Authority/AllUsers/UserHome',
         hideInMenu: true,
         navigate:
-          "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}`)}",
+          "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}",
       },
       {
-        path: '/:userId',
+        path: '/:userAccount',
         name: '用户主页',
         isAuth: true,
         hideInMenu: true,
         side: true,
         routes: [
           {
-            path: '/:userId/dashboard',
+            path: '/:userAccount/dashboard',
             name: '工作台',
             hideInMenu: true,
             component: '@/pages/WorkBench',
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}`)}/dashboard",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}/dashboard",
           },
           {
-            path: '/:userId/projectList',
+            path: '/:userAccount/projectList',
             name: '项目列表',
             component: '@/pages/ProjectList',
             hideInMenu: true,
             isAuth: false,
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/projectList`)}",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/projectList`)}",
           },
           {
-            path: '/:userId/todoList',
+            path: '/:userAccount/todoList',
             name: '待办事项列表',
             component: '@/pages/TodoList',
             hideInMenu: true,
             isAuth: false,
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/todoList`)}",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/todoList`)}",
           },
           {
-            path: '/:userId/:projectId',
+            path: '/:userAccount/:projectId',
             name: '项目概览',
             icon: 'appstore-o',
             component: '@/pages/ProjectOverview',
             isAuth: true,
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}`)}",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}`)}",
           },
           {
-            path: '/:userId/:projectId/milestone',
+            path: '/:userAccount/:projectId/milestone',
             name: '里程碑',
             icon: 'circle-o',
             component: '@/pages/Milestone',
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}/milestone`)}",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/milestone`)}",
             isAuth: true,
           },
           {
-            path: '/:userId/:projectId/milestone',
+            path: '/:userAccount/:projectId/milestone',
             name: '里程碑',
             hideInMenu: true,
             isAuth: true,
             routes: [
               {
-                path: '/:userId/:projectId/milestone/newMilestone',
+                path: '/:userAccount/:projectId/milestone/newMilestone',
                 name: '新增里程碑',
                 component: '@/pages/Milestone/NewMilestone',
                 isAuth: true,
                 hideInMenu: true,
                 navigate:
-                  "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}/milestone/newMilestone`)}",
+                  "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/milestone/newMilestone`)}",
               },
               {
-                path: '/:userId/:projectId/milestone/editMilestone/:milestonesId',
+                path: '/:userAccount/:projectId/milestone/editMilestone/:milestonesId',
                 name: '编辑里程碑',
                 component: '@/pages/Milestone/NewMilestone',
                 isAuth: true,
                 hideInMenu: true,
                 navigate:
-                  "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}/milestone/editMilestone/${sessionStorage.getItem('milestonesId')}`)}",
+                  "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/milestone/editMilestone/${sessionStorage.getItem('milestonesId')}`)}",
               },
               {
-                path: '/:userId/:projectId/milestone/milestoneInfo/:milestonesId',
+                path: '/:userAccount/:projectId/milestone/milestoneInfo/:milestonesId',
                 name: '里程碑详情',
                 component: '@/pages/Milestone/MilestoneInfo',
                 isAuth: true,
                 hideInMenu: true,
                 navigate:
-                  "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}/milestone/milestoneInfo/${sessionStorage.getItem('milestonesId')}`)}",
+                  "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/milestone/milestoneInfo/${sessionStorage.getItem('milestonesId')}`)}",
               },
             ],
           },
           {
-            path: '/:userId/:projectId/task',
+            path: '/:userAccount/:projectId/task',
             name: '任务列表',
             icon: 'down-circle-o',
             component: '@/pages/Project/Task',
             navigate: (navigate, location) => {
-              const userId = sessionStorage.getItem('userId')
+              const userId = sessionStorage.getItem('userAccount')
               const id = sessionStorage.getItem('projectId')
               navigate(`/${userId}/${id}/task`)
             },
             isAuth: true,
           },
           {
-            path: '/:userId/:projectId/task',
+            path: '/:userAccount/:projectId/task',
             name: '任务管理',
             isAuth: true,
             hideInMenu: true,
             routes: [
               {
-                path: '/:userId/:projectId/task',
+                path: '/:userAccount/:projectId/task',
                 name: '任务列表',
                 component: '@/pages/Project/Task',
                 isAuth: true,
               },
               {
-                path: '/:userId/:projectId/task/newIssue',
+                path: '/:userAccount/:projectId/task/newIssue',
                 name: '新增任务',
                 hideInMenu: true,
                 component: '@/pages/Project/NewIssue',
                 isAuth: true,
               },
               {
-                path: '/:userId/:projectId/taskInfo/:id',
+                path: '/:userAccount/:projectId/taskInfo/:id',
                 name: '任务详情',
                 component: '@/pages/Project/TaskInfo',
                 hideInMenu: true,
@@ -273,13 +273,13 @@ const routes = [
             ],
           },
           {
-            path: '/:userId/:projectId/usersManagement',
+            path: '/:userAccount/:projectId/usersManagement',
             name: '成员管理',
             icon: 'user',
             component: '@/pages/UsersManagement',
             isAuth: true,
             navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userId')}/${sessionStorage.getItem('projectId')}/usersManagement`)}",
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/usersManagement`)}",
           },
         ],
       },

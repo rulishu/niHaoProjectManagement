@@ -6,6 +6,7 @@ export default function useLocationPage() {
   useEffect(() => {
     if (params && params.projectId) {
       sessionStorage.setItem('projectId', params.projectId)
+      sessionStorage.setItem('userAccount', params.userAccount)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(params)])
