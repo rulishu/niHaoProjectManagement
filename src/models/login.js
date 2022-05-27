@@ -44,11 +44,11 @@ const login = createModel()({
 
       if (data && data.code === 200) {
         Notify.success({ title: '登录成功' })
-        const userDataAccount = localStorage.getItem('userData')
+        // const userDataAccount = localStorage.getItem('userData')
         localStorage.setItem('token', data?.token || '')
-        if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
-          sessionStorage.clear()
-        }
+        // if (data?.data?.user?.userAccount !== userDataAccount?.userAccount) {
+        //   sessionStorage.clear()
+        // }
         dispatch({
           type: 'routeManagement/getRouters',
           payload: {
@@ -62,7 +62,8 @@ const login = createModel()({
           'userName',
           JSON.stringify(userData?.user.userName)
         )
-        localStorage.setItem('userData', JSON.stringify(data?.data?.user || {}))
+        sessionStorage.setItem('userAccount', userData?.user.userName)
+        localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {
           roleAuth.push(item.path)
