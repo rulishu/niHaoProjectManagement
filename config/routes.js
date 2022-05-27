@@ -99,6 +99,17 @@ const routes = [
         },
         isAuth: true,
       },
+      // {
+      //   path: '/project/taskBoard/:projectId',
+      //   name: '任务看板',
+      //   icon: 'down-circle-o',
+      //   component: '@/pages/TaskBoard',
+      //   navigate: (navigate, location) => {
+      //     const id = sessionStorage.getItem('projectId')
+      //     navigate(`/project/TaskBoard/${id}`)
+      //   },
+      //   isAuth: true,
+      // },
       {
         path: '/project',
         name: '任务管理',
