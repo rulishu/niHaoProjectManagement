@@ -69,7 +69,11 @@ export default function AllTasks() {
                   onClick={() =>
                     (window.location.href = `#/project/taskInfo/${projectId}/${itm.assignmentId}`)
                   }
-                  description={itm?.operatingRecords}></Steps.Step>
+                  description={
+                    <div className={styles.mouseList}>
+                      {itm?.operatingRecords}
+                    </div>
+                  }></Steps.Step>
               )
             })}
           </Steps>

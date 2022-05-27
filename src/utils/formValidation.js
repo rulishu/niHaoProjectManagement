@@ -18,6 +18,7 @@ export const memberForm = (props) => {
   }
   if (!current.email) errorObj.email = 'Email不能为空！'
   if (!current.phonenumber) errorObj.phonenumber = '电话号码不能为空！'
+  if (!current.roleIds) errorObj.roleIds = '角色不能为空！'
   // if (!current.roleIds) errorObj.roleIds = '角色不能为空！'
   // if (!current.deptId) errorObj.deptId = '部门不能为空！'
   // if (current.sex === '') errorObj.sex = '性别不能为空！'

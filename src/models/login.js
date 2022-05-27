@@ -106,6 +106,13 @@ const login = createModel()({
         // if (localStorage.getItem('token')) {
         //   history.push('/home')
         // }
+        dispatch({
+          type: 'routeManagement/getRouters',
+          payload: {
+            callback: (data) =>
+              localStorage.setItem('routes', JSON.stringify(data)),
+          },
+        })
       }
     },
 
