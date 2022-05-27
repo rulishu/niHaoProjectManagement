@@ -157,13 +157,11 @@ export default createModel()({
           ...params,
         })
         if (data && data.code === 200) {
-          // console.log('data--->', data)
           if (data.data && data.data.length > 0) {
             const teamMembers = data.data.map((item) => ({
               label: item.memberName,
               value: item.userId,
             }))
-            // console.log('teamMembers--->', teamMembers)
             dispatch.project.update({ teamMembers })
           }
         }

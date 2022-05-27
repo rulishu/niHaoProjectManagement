@@ -50,8 +50,10 @@ const PassWordChange = (props) => {
     open: () => setVisible(true),
   }))
 
-  useEffect(() => setUserData(JSON.parse(localStorage.getItem('userData'))), [])
-
+  useEffect(
+    () => setUserData(() => JSON.parse(localStorage.getItem('userData'))),
+    []
+  )
   return (
     <Modal
       title="修改密码"
@@ -70,10 +72,10 @@ const PassWordChange = (props) => {
           return null
         }}
         fields={{
-          userAccount: {
+          userName: {
             labelClassName: 'fieldLabel',
             label: '账号',
-            initialValue: userData?.userAccount,
+            initialValue: userData?.userName,
             disabled: true,
             children: <Input />,
           },
@@ -100,7 +102,7 @@ const PassWordChange = (props) => {
           return (
             <div>
               <Row gutter={10}>
-                <Col>{fields.userAccount}</Col>
+                <Col>{fields.userName}</Col>
               </Row>
               <Row gutter={10}>
                 <Col>{fields.oldUserPassword}</Col>
