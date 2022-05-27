@@ -34,7 +34,7 @@ const UserHome = (props) => {
 
   // 跳转页面方法
   const goSpecifyPage = (option) => {
-    navigate(`${option?.path}/${option?.id}`)
+    navigate(option?.id ? `${option?.path}/${option?.id}` : `${option?.path}`)
   }
 
   //编辑用户

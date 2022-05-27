@@ -135,7 +135,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userInfo?.userName,
       menuLeft: (
         <>
-          {linkedType === 1 && (
+          {(linkedType === 1 || linkedType === 0) && (
             <div
               className={styles.title}
               onClick={() => {

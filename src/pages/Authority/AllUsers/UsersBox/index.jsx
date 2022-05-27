@@ -63,11 +63,7 @@ const UsersBox = (props) => {
                       <div
                         className={styles.userName}
                         style={{ paddingBottom: 10 }}
-                        onClick={() => {
-                          navigate(`/userHome/${item.userId}`, {
-                            state: { userId: item?.userId },
-                          })
-                        }}>
+                        onClick={() => navigate(`/${item.userName}`)}>
                         {item.nickName}
                         <span>{gender(item.sex)}</span>
                       </div>
@@ -99,12 +95,9 @@ const UsersBox = (props) => {
                               type="light"
                               size="small"
                               // type 1 : 查看 2 : 编辑 3 :新增
-                              onClick={() => {
-                                navigate(`/userHome/${item.userId}`, {
-                                  state: { userId: item?.userId },
-                                })
-                                // handleEdit(item, 1)
-                              }}></Button>
+                              onClick={() =>
+                                navigate(`/${item.userName}`)
+                              }></Button>
                           </Tooltip>
                         </AuthBtn>
                       </Col>
