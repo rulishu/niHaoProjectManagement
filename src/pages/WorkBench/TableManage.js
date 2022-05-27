@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Row, Col, Card, Tabs, Button, Tag, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 export default function TableManage() {
   const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
+  const userName = JSON.parse(sessionStorage.getItem('userName'))
+  const navigate = useNavigate()
   const table = useTable('/api/workbench/selectAllProjectPage', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
@@ -38,7 +41,9 @@ export default function TableManage() {
         <ProTable
           className={styles.mouseList}
           onCell={(rowData) => {
-            window.location.href = `#/project/taskInfo/${rowData?.projectId}/${rowData?.assignmentId}`
+            navigate(
+              `${rowData?.projectUrl}/task/taskInfo/${rowData?.assignmentId}`
+            )
           }}
           paginationProps={{ style: { display: 'none' } }}
           style={{ width: 900 }}
@@ -107,7 +112,9 @@ export default function TableManage() {
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/projectList')}>
+                  onClick={() => {
+                    navigate(`/${userName}/projectList`)
+                  }}>
                   更多
                 </Button>
               }

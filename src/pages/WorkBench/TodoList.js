@@ -1,11 +1,14 @@
 import { Row, Col, Card, Button, Tag } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 export default function TodoList() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const token = localStorage.getItem('token')
+  const userName = JSON.parse(sessionStorage.getItem('userName'))
   const table = useTable('/api/ManagerTodoList/selectAll', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
@@ -46,7 +49,7 @@ export default function TodoList() {
                 <Button
                   basic
                   type="dark"
-                  onClick={() => (window.location.href = '#/todoList')}>
+                  onClick={() => navigate(`/${userName}/todoList`)}>
                   更多
                 </Button>
               }>
