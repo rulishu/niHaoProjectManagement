@@ -274,14 +274,14 @@ const EditTask = () => {
                 editFromData: { ...editFromData, milestonesId: key },
               })
             }}
-            closeLabel={() => setLabelState(false)}
+            closeLabel={() => setMilepostState(false)}
             loading={loading.effects.milestone.selectPageList}
             runLabel={() => {
               navigate('/Authority/dictionary', { replace: true })
             }}
             createTag={(_, current) => createMilestone(current)}
           />
-          {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
+          {!editFromData?.milestonesId && !taskInfoData?.milestonesTitle && (
             <div className={styles.rLabelText}>无</div>
           )}
         </div>

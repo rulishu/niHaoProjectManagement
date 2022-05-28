@@ -30,7 +30,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
     props.router.location.pathname.split('/')[1] || ''
   )}`
   const userName = JSON.parse(sessionStorage.getItem('userName'))
-  // const userAccount = sessionStorage.getItem('userAccount')
+  const todoNotices = sessionStorage.getItem('todoNotice')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -166,11 +166,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
             className={styles.title}
             onClick={() => navigate(`/${userName}/todoList`)}>
             {status === 0 ? (
-              <Badge count={todoNotice}>
+              <Badge count={todoNotice || todoNotices}>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             ) : (
-              <Badge count={openTotal}>
+              <Badge count={openTotal || todoNotices}>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             )}
