@@ -48,7 +48,7 @@ const StepsBox = () => {
                 widget: 'searchSelect',
                 option: selectOption(dataSourceList, 'id', 'companyName') || [],
                 required: true,
-                rules: [{ required: true, message: '请输入' }],
+                rules: [{ required: true, message: '请输入公司名称' }],
                 span: '24',
                 widgetProps: {
                   onChange: () => handleSearch('searchSelect'),
@@ -89,7 +89,7 @@ const StepsBox = () => {
               rules: [
                 {
                   validator: (value = '') => !!value,
-                  message: '请输入',
+                  message: '请输入项目名称',
                 },
               ],
             },

@@ -144,6 +144,7 @@ const DetailTable = () => {
           {
             title: '字典键值',
             key: 'dictValue',
+            ellipsis: true,
             render: (text) => {
               return (
                 <div>
@@ -193,6 +194,16 @@ const DetailTable = () => {
             title: '创建时间',
             key: 'createTime',
             width: 150,
+            ellipsis: true,
+            render: (text) => {
+              return (
+                <div>
+                  <Tooltip placement="top" content={`${text}`}>
+                    <span className={styles.proTableDictValue}>{text}</span>
+                  </Tooltip>
+                </div>
+              )
+            },
           },
           // {
           //   title: '标签背景颜色',
