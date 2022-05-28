@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Row, Col, Progress, Alert, Loader } from 'uiw'
 import formatter from '@uiw/formatter'
@@ -20,6 +20,15 @@ const MilestoneInfo = () => {
 
   const [milestonesState, setMilestonesState] = useState()
   const [openAlert, setOpenAlert] = useState(false)
+
+  //自适应方法
+  const ref = useRef()
+  const tHeader = ref?.current?.getElementsByClassName('ant-table-thead')[0]
+  //表头距离顶部的距离 + 表头高度
+  let tHeaderTop = tHeader
+    ? tHeader.getBoundingClientRect().top +
+      tHeader.getBoundingClientRect().height
+    : 0
 
   // 右侧边栏收缩
   // const [packup, setPackup] = useState(false)
@@ -100,7 +109,14 @@ const MilestoneInfo = () => {
   }
 
   return (
-    <div className={styles.contentWrapper}>
+    <div
+      ref={ref}
+      style={{
+        height: window.innerHeight - tHeaderTop - 100,
+        overflowX: 'hidden',
+        overflowY: 'auto',
+      }}
+      className={styles.contentWrapper}>
       <Row>
         <Col className={styles.layoutLeft}>
           <div className={styles.layoutLeftHead}>
