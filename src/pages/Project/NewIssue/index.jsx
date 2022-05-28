@@ -35,7 +35,7 @@ const NewIssue = (props) => {
   // 处理带id的路由
   useLocationPage()
   const params = useParams()
-  const { projectId } = params
+  const { projectId, userAccount } = params
   const {
     project: { fromData },
     dictionary: { dictDataList },
@@ -132,7 +132,7 @@ const NewIssue = (props) => {
   }
 
   const onCancel = () => {
-    navigate(`/project/task/${projectId}`)
+    navigate(`/${userAccount}/${projectId}/task`)
   }
   return (
     <Container>
