@@ -2,7 +2,7 @@ import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
 
-const Detail = () => {
+export default function Index() {
   const form = useForm()
   const dispatch = useDispatch()
 
@@ -50,10 +50,8 @@ const Detail = () => {
           // 报警事件
           if (!current?.teamName) {
             errorObj.teamName = '团队名不能为空'
-          } else if (!current?.teamUserList) {
-            errorObj.teamUserList = '团队用户列表不能为空'
-          } else if (!current?.teamUserNameSplice) {
-            errorObj.teamUserNameSplice = '团队描述不能为空'
+          } else if (!current?.teamDes) {
+            errorObj.teamDes = '团队描述不能为空'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
@@ -77,5 +75,3 @@ const Detail = () => {
     </ProDrawer>
   )
 }
-
-export default Detail

@@ -6,14 +6,14 @@ import { searchFun } from '@/utils/publicFun'
 import Drawer from './Drawer'
 import operateFun from '@/components/Operate'
 
-export default function Search() {
-  const token = localStorage.getItem('token')
+export default function Index() {
   const dispatch = useDispatch()
 
   const {
     team: { alertShow, ids },
   } = useSelector((state) => state)
 
+  const token = localStorage.getItem('token')
   const table = useTable('/api/ManagerTeam/selectPage', {
     formatData: (data) => {
       return {

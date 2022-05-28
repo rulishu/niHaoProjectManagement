@@ -13,7 +13,7 @@ import {
   getMemberByTeamId,
   getTeamMemberList,
   // editTeamMemberInfo,
-} from '../servers/team'
+} from '../../../servers/team'
 
 const team = createModel()({
   name: 'team',
@@ -48,11 +48,9 @@ const team = createModel()({
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
-          drawerVisiText: '',
         })
         team.team.tablePro.onSearch()
       }
-      console.log('新增团队', data)
     },
     // 根据团队 ID 删除团队
     async deleteTeamById(payload, team) {
@@ -61,11 +59,9 @@ const team = createModel()({
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
-          drawerVisiText: '',
         })
         team.team.tablePro.onSearch()
       }
-      console.log('删除团队', data)
     },
     // 修改团队
     async editTeam(payload, team) {
@@ -74,11 +70,9 @@ const team = createModel()({
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
-          drawerVisiText: '',
         })
         team.team.tablePro.onSearch()
       }
-      console.log('修改团队', data)
     },
     // 分页查找团队
     async getPageTeam(params, { team }) {
