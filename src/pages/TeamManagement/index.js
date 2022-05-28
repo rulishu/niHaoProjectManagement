@@ -14,6 +14,7 @@ export default function Index() {
   } = useSelector((state) => state)
 
   const token = localStorage.getItem('token')
+  console.log('token--->', token)
   const table = useTable('/api/ManagerTeam/selectPage', {
     formatData: (data) => {
       return {
@@ -43,7 +44,6 @@ export default function Index() {
         queryInfo: {},
       },
     })
-    // console.log('data--------->1111', data)
   }
 
   const setCloseDrawerVisible = () => {
@@ -56,7 +56,6 @@ export default function Index() {
   }
 
   const onOpenEdit = (data) => {
-    // console.log('data--------->222', data)
     dispatch({
       type: 'team/updateState',
       payload: {
