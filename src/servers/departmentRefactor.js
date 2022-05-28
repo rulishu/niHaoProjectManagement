@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 //查询
 // function getList(params) {
-//   return request('/api/system/dept/list', {
+//   return request('/api/system/dept/listToken', {
 //     method: 'POST',
 //     // requestType: "urlencoded",
 //     body: { ...params },
@@ -33,7 +33,7 @@ function judge(params) {
 
 // 根据ID获取部门详情
 function getInfoData(params) {
-  return request('/api/system/dept/list/exclude', {
+  return request('/api/system/dept/listToken/exclude', {
     method: 'POST',
     body: { ...params },
   })
