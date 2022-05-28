@@ -7,29 +7,25 @@ import Drawer from './Drawer'
 import operateFun from '@/components/Operate'
 
 export default function Search() {
+  const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
   const {
     team: { alertShow, ids },
   } = useSelector((state) => state)
 
-  const token = localStorage.getItem('token')
-  const table = useTable('/api/ManagerTeam/fuzzyNameQuery', {
-    // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
+  const table = useTable('/api/ManagerTeam/selectPage', {
     formatData: (data) => {
       return {
         total: data?.data?.total,
-        data: data?.data || [],
+        data: data?.data.rows || [],
       }
     },
-    // 格式化查询参数 会接收到pageIndex 当前页  pageSize 页码
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
         pageSize,
-        teamName: searchValues.teamName,
-        createName: searchValues.createName,
-        updateName: searchValues.updateName,
+        ...searchValues,
       }
     },
     requestOptions: {
@@ -37,14 +33,6 @@ export default function Search() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-  const setCloseDrawerVisible = () => {
-    dispatch({
-      type: 'team/updateState',
-      payload: {
-        alertShow: false,
-      },
-    })
-  }
   const onOpenDelete = (data) => {
     dispatch({
       type: 'team/updateState',
@@ -55,8 +43,20 @@ export default function Search() {
         queryInfo: {},
       },
     })
+    console.log('data--------->1111', data)
   }
+
+  const setCloseDrawerVisible = () => {
+    dispatch({
+      type: 'team/updateState',
+      payload: {
+        alertShow: false,
+      },
+    })
+  }
+
   const onOpenEdit = (data) => {
+    console.log('data--------->222', data)
     dispatch({
       type: 'team/updateState',
       payload: {
@@ -80,11 +80,13 @@ export default function Search() {
             dispatch({
               type: 'team/deleteTeamById',
               payload: {
-                ids: [ids],
+                id: [ids],
               },
             })
           }}></Alert>
         <ProTable
+          table={table}
+          searchBtns={searchFun(table)}
           operateButtons={[
             {
               label: '新增',
@@ -102,7 +104,6 @@ export default function Search() {
               },
             },
           ]}
-          searchBtns={searchFun(table)}
           columns={[
             {
               title: '团队名',
@@ -119,25 +120,11 @@ export default function Search() {
             {
               title: '创建人',
               key: 'createName',
-              // props: {
-              //   widget: 'input',
-              //   // 组件属性
-              //   widgetProps: {
-              //     placeholder: '输入创建人',
-              //   },
-              // },
               align: 'center',
             },
             {
               title: '更新人',
               key: 'updateName',
-              // props: {
-              //   widget: 'input',
-              //   // 组件属性
-              //   widgetProps: {
-              //     placeholder: '输入更新人',
-              //   },
-              // },
               align: 'center',
             },
             {
@@ -168,11 +155,10 @@ export default function Search() {
               render: (_, record, data) =>
                 operateFun({
                   onEvenEdit: () => onOpenEdit(data),
-                  onEvenDelete: () => onOpenDelete(data.postId),
+                  onEvenDelete: () => onOpenDelete(data.id),
                 }),
             },
           ]}
-          table={table}
         />
         <Drawer />
       </Card>

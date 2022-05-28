@@ -1,4 +1,4 @@
-export const items = (queryInfo, tableType) => [
+export const items = (queryInfo, drawerType) => [
   {
     label: '团队名',
     key: 'teamName',
@@ -40,7 +40,7 @@ export const items = (queryInfo, tableType) => [
     widgetProps: {},
     required: true,
     placeholder: '选择创建时间',
-    hide: tableType !== 'view',
+    hide: drawerType !== 'view',
     readSpan: 1,
   },
   {
@@ -51,7 +51,7 @@ export const items = (queryInfo, tableType) => [
     widgetProps: {},
     required: true,
     placeholder: '选择更新时间',
-    hide: tableType !== 'view',
+    hide: drawerType !== 'view',
     readSpan: 1,
   },
 ]

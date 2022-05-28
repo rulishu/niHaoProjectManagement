@@ -7,7 +7,7 @@ const Detail = () => {
   const dispatch = useDispatch()
 
   const {
-    team: { drawerVisible, queryInfo, tableType },
+    team: { drawerVisible, queryInfo, drawerType },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
@@ -16,15 +16,16 @@ const Detail = () => {
       payload,
     })
   }
+
   const onClose = () => dispatch({ type: 'team/clean' })
 
   return (
     <ProDrawer
       width={800}
       title={
-        tableType === 'add'
+        drawerType === 'add'
           ? '添加团队'
-          : tableType === 'edit'
+          : drawerType === 'edit'
           ? '编辑团队'
           : ''
       }
@@ -61,7 +62,7 @@ const Detail = () => {
             throw err
           }
           dispatch({
-            type: `team/${tableType === 'add' ? 'addTeam' : 'editTeam'}`,
+            type: `team/${drawerType === 'add' ? 'addTeam' : 'editTeam'}`,
             payload: {
               ...current,
             },
@@ -71,7 +72,7 @@ const Detail = () => {
         onChange={(_, current) => {
           return updateData({ queryInfo: { ...queryInfo, ...current } })
         }}
-        formDatas={items(queryInfo)}
+        formDatas={items(queryInfo, drawerType)}
       />
     </ProDrawer>
   )
