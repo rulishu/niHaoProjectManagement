@@ -12,6 +12,7 @@ import PopupBox from '../PopupBox'
 const UserHome = (props) => {
   const {
     userHome: { user },
+    routeManagement: { userInfoName },
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
@@ -79,14 +80,16 @@ const UserHome = (props) => {
                     </div>
                   </>
                 </Loader>
-                <div className={styles.editBut}>
-                  <Button
-                    block
-                    type="light"
-                    onClick={() => handleEdit(user, 2)}>
-                    编辑用户
-                  </Button>
-                </div>
+                {userInfoName === user?.userName ? (
+                  <div className={styles.editBut}>
+                    <Button
+                      block
+                      type="light"
+                      onClick={() => handleEdit(user, 2)}>
+                      编辑用户
+                    </Button>
+                  </div>
+                ) : null}
                 <div className={styles.note}>
                   <p>{user?.remark}</p>
                 </div>
