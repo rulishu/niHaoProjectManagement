@@ -262,7 +262,7 @@ const NewIssue = (props) => {
                   <SearchSelect
                     showSearch={true}
                     allowClear
-                    value={taskMilestonesTitle}
+                    // value={taskMilestonesTitle}
                     disabled={false}
                     placeholder="请输入选择"
                     option={

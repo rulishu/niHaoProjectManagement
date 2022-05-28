@@ -38,7 +38,7 @@ const OtherInfo = (props) => {
       type: 'project/update',
       payload: { editId: taskId },
     })
-    navigate(`/${userAccount}/${projectId}/taskInfo/${taskId}`, {
+    navigate(`/${userAccount}/${projectId}/task/taskInfo/${taskId}`, {
       state: { editId: taskId },
     })
   }
