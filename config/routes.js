@@ -361,6 +361,12 @@ const routes = [
         hideInMenu: true,
       },
       {
+        path: '/team',
+        name: '团队管理',
+        component: '@/pages/TeamManagement',
+        isAuth: false,
+      },
+      {
         path: '/403',
         name: '403',
         hideInMenu: true,
