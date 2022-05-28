@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Card, Avatar, Tabs, Button, Loader, Icon, Overlay } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Container } from '@/components'
 import Summary from './Summary'
@@ -23,6 +23,9 @@ const UserHome = (props) => {
   const [isOverlay, setIsOverlay] = useState(false)
 
   useEffect(() => {
+    dispatch.rolemanagement?.getAllRoleList()
+    dispatch.rolemanagement?.getAllDepartment()
+    dispatch.dictionary?.getQueryAll()
     const callback = async () => {
       await dispatch({
         type: 'userHome/getUserInfoByAccount',
@@ -171,4 +174,14 @@ const UserHome = (props) => {
     </div>
   )
 }
-export default UserHome
+// export default UserHome
+const mapStateToProps = ({ allusers, rolemanagement, dictionary }) => ({
+  state: { allusers, rolemanagement, dictionary },
+})
+
+const mapDispatchToProps = ({ allusers, rolemanagement }) => ({
+  dispatch: allusers,
+  roleDispatch: rolemanagement,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserHome)

@@ -8,7 +8,8 @@ import PopupBox from './PopupBox' // 操作弹窗
 import styles from './index.module.less'
 const Users = (props) => {
   const { dispatch, state, update } = props
-  const { dataList, page, pageSize, total, memberAvatarArr } = state.allusers
+  const { dataList, page, pageSize, total, types, memberAvatarArr } =
+    state.allusers
   const [type, setType] = useState()
   const [isOverlay, setIsOverlay] = useState(false)
   const [newPage, setNewPage] = useState(1)
@@ -46,7 +47,7 @@ const Users = (props) => {
 
   const handleEdit = async (value, type) => {
     // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
-    if (type === 2) {
+    if (type === 2 || types === 2) {
       setType(2)
       setIsOverlay(true)
       await update({ baseDetail: { ...value }, cUser: value })
