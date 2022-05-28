@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react' //,,useEffect
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux' //useSelector
 import { Row, Col, Button, Card } from 'uiw'
 import styles from './index.module.less'
 import { ProForm, useForm } from '@uiw-admin/components'
@@ -13,15 +13,22 @@ const BasicInfo = (props) => {
   const form1 = useForm()
 
   const { type, setIsOverlay, dispatch, state } = props
-  const { baseDetail, uuid, page, pageSize, rolesDataInfo, postsDataInfo } =
-    state.allusers
+  const {
+    baseDetail,
+    types,
+    uuid,
+    page,
+    pageSize,
+    rolesDataInfo,
+    postsDataInfo,
+  } = state.allusers
   const { dictAllData } = state.dictionary
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
   const postName =
     arrRole?.find((e) => e?.deptId === baseDetail?.deptId)?.deptName || ''
   useEffect(() => {
     // 获取图片
-    if (type === 2) {
+    if (type === 2 || types === 2) {
       form1?.setFields &&
         form1.setFields({
           ...baseDetail,
@@ -33,7 +40,7 @@ const BasicInfo = (props) => {
           postIds: postsDataInfo,
         })
     }
-  }, [type, baseDetail, form1, rolesDataInfo, postsDataInfo, postName])
+  }, [type, types, baseDetail, form1, rolesDataInfo, postsDataInfo, postName])
 
   const [btnIcon, setBtnIcon] = useState('lock')
   // 下拉框值
@@ -44,9 +51,6 @@ const BasicInfo = (props) => {
         return { value: item.roleId, label: item.roleName }
       })
   )
-  const {
-    allusers: { types },
-  } = useSelector((state) => state)
 
   return (
     <div className={styles.BasicInfo}>
@@ -157,7 +161,7 @@ const BasicInfo = (props) => {
                   required: true,
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.password,
-                  hide: type === 2,
+                  hide: type === 2 || types === 2,
                   widgetProps: {
                     placeholder: '请输入密码',
                     type: btnIcon === 'lock' ? 'password' : 'text',
@@ -254,6 +258,7 @@ const BasicInfo = (props) => {
                   key: 'postIds',
                   widget: 'select',
                   inline: false,
+                  required: true,
                   span: '12',
                   disabled: type === 1 && true,
                   initialValue: postsDataInfo,
@@ -289,8 +294,9 @@ const BasicInfo = (props) => {
                   widget: 'textarea',
                   inline: false,
                   span: '24',
-                  readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.remark || '',
+                  // readOnly: type === 1 && 'readonly',
+                  initialValue:
+                    baseDetail.remark === null ? undefined : baseDetail.remark,
                   widgetProps: {
                     placeholder: '请输入备注',
                   },
@@ -334,6 +340,7 @@ const BasicInfo = (props) => {
                       ...params,
                       userId: baseDetail?.userId,
                     }
+                    console.log('param', param)
                     await dispatch.editNewUser({
                       param,
                       callback: () => setIsOverlay(false),

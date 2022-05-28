@@ -1,7 +1,7 @@
 import { Card, Steps, Avatar, Empty } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import dayjs from 'dayjs'
 
@@ -9,7 +9,7 @@ export default function AllTasks() {
   const {
     projectoverview: { projectMembersList, projectDynamicsList, allDataSource },
   } = useSelector((state) => state)
-  const { userAccount } = useParams()
+  // const { userAccount } = useParams()
   const allDataSources = allDataSource?.milesWorkVoList
 
   // 跳转里程碑详情
@@ -51,7 +51,7 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card
-        title="最新动"
+        title="最新动态"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
         <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -94,7 +94,7 @@ export default function AllTasks() {
                 </div>
                 <span
                   className={styles.memberName}
-                  onClick={() => navigate(`/${userAccount}`)}>
+                  onClick={() => navigate(`/${item?.userName}`)}>
                   {item?.nickName}
                 </span>
               </div>
