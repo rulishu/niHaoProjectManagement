@@ -307,7 +307,7 @@ export default function Home() {
                 }
                 format={(percent) => (
                   <span>
-                    {`${allDataSource?.totalWorkVo?.projectNum}`}
+                    {`${allDataSource?.totalWorkVo?.projectNum || 0}`}
                     <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
                       总任务
                     </div>

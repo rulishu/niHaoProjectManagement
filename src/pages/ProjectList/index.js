@@ -246,7 +246,11 @@ const ProjectList = (props) => {
                         <Avatar
                           size="small"
                           className={styles.listImg}
-                          src={`/api/file/selectFile/${rowData.projectAvatar}`}>
+                          src={
+                            rowData.projectAvatar !== ''
+                              ? `/api/file/selectFile/${rowData.projectAvatar}`
+                              : ''
+                          }>
                           {rowData?.name[0]}
                         </Avatar>
                       </div>
