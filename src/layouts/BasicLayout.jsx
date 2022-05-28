@@ -26,7 +26,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const { userAccount } = useParams()
   const [userInfo, setUserInfo] = useState({})
   const [isError, setIsError] = useState(false)
-  const pathName = props.router.location.pathname
+  const pathName = `/${decodeURI(
+    props.router.location.pathname.split('/')[1] || ''
+  )}`
   const userName = JSON.parse(sessionStorage.getItem('userName'))
   // const userAccount = sessionStorage.getItem('userAccount')
 
@@ -199,7 +201,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       '/projectList',
       '/dashboard',
       '/tissue',
-    ].filter((item) => pathName.search(item) !== -1).length ||
+    ].filter((item) => pathName?.search(item) !== -1).length ||
     pathName.split('/').length <= 2
   const pageName = pathName.split('/')[pathName.split('/').length - 1]
   return (
