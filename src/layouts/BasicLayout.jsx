@@ -103,7 +103,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
         title: '团队管理',
         icon: 'usergroup-add',
         onClick: () => {
-          navigate('/team', { replace: true })
+          navigate(`/${userAccount}/team`, { replace: true })
         },
       },
       {
