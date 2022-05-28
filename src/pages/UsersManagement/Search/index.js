@@ -116,6 +116,8 @@ const Search = () => {
               onClick: () => search?.onReset(),
               icon: 'reload',
             },
+          ]}
+          operateButtons={[
             {
               label: '邀请成员',
               htmlType: 'submit',
