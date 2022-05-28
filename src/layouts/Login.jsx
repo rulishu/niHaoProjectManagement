@@ -96,7 +96,7 @@ const Login = () => {
                 </Button>
                 {/* 注册功能是否开启 */}
                 {isRegister ? (
-                  <Button className="btns" type="danger" onClick={returnLogin}>
+                  <Button className="btns" type="link" onClick={returnLogin}>
                     注册
                   </Button>
                 ) : (
