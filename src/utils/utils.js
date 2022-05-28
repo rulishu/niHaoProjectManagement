@@ -106,7 +106,7 @@ export {
 
 //百分比(不带%)（已完成/总数）*100
 export function NumColor(value, inx) {
-  if (value === 0 || inx === 0) {
+  if (value === 0 || inx === 0 || value === undefined || inx === undefined) {
     return 0
   }
   if (value === inx) {

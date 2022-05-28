@@ -119,7 +119,7 @@ const Head = (props) => {
             style={{ marginLeft: 10 }}
             type="light"
             onClick={handleAdd}>
-            添加成员
+            新建用户
           </Button>
         </AuthBtn>
       </div>

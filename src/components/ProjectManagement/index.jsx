@@ -35,6 +35,7 @@ const ProjectManagement = (fun) => {
       isHangup,
       fileIds, //Logo文件的id
     },
+    userHome: { user },
     loading,
   } = useSelector((state) => state)
 
@@ -59,7 +60,7 @@ const ProjectManagement = (fun) => {
       seachValue.projectAvatar = fileIds
       dispatch({
         type: 'projectUpdate/addProject',
-        payload: { seachValue, callback: fun.fun },
+        payload: { seachValue, callback: fun.fun, userName: user.userName },
       })
     } else if (drawerType === 'edit') {
       seachValue.id = id

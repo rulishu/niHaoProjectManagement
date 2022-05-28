@@ -1,6 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
+const CuserAccount = localStorage.getItem('userAccount')
 
 const routes = [
   {
@@ -13,7 +14,8 @@ const routes = [
     routes: [
       {
         index: true,
-        redirect: `/${localStorage.getItem('userAccount')}`,
+        redirect: `/${CuserAccount}/dashboard`,
+        // redirect: `/${localStorage.getItem('userAccount')}`,
       },
       {
         path: '/tissue',
