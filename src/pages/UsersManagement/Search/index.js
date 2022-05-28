@@ -112,6 +112,13 @@ const Search = () => {
               icon: 'search',
             },
             {
+              label: '重置',
+              onClick: () => search?.onReset(),
+              icon: 'reload',
+            },
+          ]}
+          operateButtons={[
+            {
               label: '邀请成员',
               htmlType: 'submit',
               type: 'primary',
@@ -124,11 +131,6 @@ const Search = () => {
               type: 'primary',
               onClick: () => handleEditTable('group'),
               icon: 'usergroup-add',
-            },
-            {
-              label: '重置',
-              onClick: () => search?.onReset(),
-              icon: 'reload',
             },
           ]}
           paginationProps={{

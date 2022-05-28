@@ -290,6 +290,7 @@ export default function Home() {
             width: '100%',
             marginLeft: 15,
             marginRight: 15,
+            textAlign: 'center',
           }}>
           <Row className={styles.colContent}>
             <Col
@@ -362,7 +363,8 @@ export default function Home() {
                         bordered={false}
                         key={item.key}
                         title={item.title}
-                        style={{ width: 80 }}>
+                        // style={{ width: 80 }}
+                      >
                         <span style={{ fontSize: 36 }}>{item.num}</span>
                       </Card>
                     )
