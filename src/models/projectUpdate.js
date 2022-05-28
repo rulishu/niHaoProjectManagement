@@ -83,7 +83,7 @@ const projectUpdate = createModel()({
     //新增项目
     async addProject(params) {
       const dph = dispatch
-      const { seachValue, callback } = params
+      const { seachValue, callback, userName } = params
       const data = await addProject(seachValue)
       if (data.code === 200) {
         Notify.success({
@@ -95,6 +95,7 @@ const projectUpdate = createModel()({
         })
         callback && callback()
       }
+      await dispatch.userHome.getUserInfoByAccount(userName)
     },
 
     //编辑项目
