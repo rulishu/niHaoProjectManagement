@@ -20,8 +20,7 @@ const LabelBox = (props) => {
 
   useEffect(() => {
     if (listData !== newListData) setNewListData(listData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listData])
+  }, [listData, newListData])
 
   const labelList = (data) => {
     if (!data?.length) {
