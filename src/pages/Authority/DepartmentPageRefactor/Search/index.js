@@ -28,7 +28,7 @@ const Search = () => {
   }
   const { projectId } = useParams()
   const token = localStorage.getItem('token')
-  const search = useTable('/api/system/dept/list', {
+  const search = useTable('/api/system/dept/listToken', {
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (pageIndex, pageSize, searchValues) => {
       return {

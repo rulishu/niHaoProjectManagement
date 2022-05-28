@@ -23,7 +23,7 @@ const Demo = (props) => {
     })
   }
   const token = localStorage.getItem('token')
-  const table = useTable('/api/system/role/list', {
+  const table = useTable('/api/system/role/listToken', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {

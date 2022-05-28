@@ -46,7 +46,7 @@ export const editGetInfo = (params) => {
 //
 // 通过用户id查询用户信息
 export const queryById = (params) => {
-  return request(`/api/system/user/getInfo/${params}`, {
+  return request(`/api/system/user/getInfoToken/${params}`, {
     method: 'POST',
     requestType: 'urlencoded',
     body: params,
