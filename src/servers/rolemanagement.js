@@ -36,7 +36,7 @@ export function getEdit(params) {
  * @param {Object} params
  */
 export function getAllDepartment(params) {
-  return request('/api/system/dept/list', {
+  return request('/api/system/dept/listToken', {
     method: 'POST',
     body: { ...params },
   })
@@ -118,7 +118,7 @@ export const upDateStatusRole = (params) => {
 
 // 获取所有的角色列表
 export const getAllRoleList = (params) => {
-  return request('/api/system/role/list', {
+  return request('/api/system/role/listToken', {
     method: 'POST',
     body: params,
   })

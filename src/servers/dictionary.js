@@ -13,7 +13,7 @@ export function queryByPage(params) {
  * 分页查询字典列表数据
  */
 export function getQueryAll(params) {
-  return request('/api/system/post/list', {
+  return request('/api/system/post/listToken', {
     method: 'POST',
     body: { ...params },
   })
