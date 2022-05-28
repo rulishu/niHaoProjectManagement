@@ -122,11 +122,10 @@ const LabelSelect = (props) => {
               labelInValue: true,
               placeholder: '里程碑',
               onSearch: (value) => {
-                // const filterOpion = milistones.filter((item) =>
-                //   item.label.includes(value.trim())
-                // )
-                // console.log('filterOpion: ', filterOpion)
-                setMilistone([])
+                const filterOpion = milistones.filter((item) =>
+                  item.label.includes(value.trim())
+                )
+                setMilistone([...filterOpion])
               },
               onChange: (value) => {
                 changeFun({ milestonesId: value })
