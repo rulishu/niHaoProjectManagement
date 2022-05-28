@@ -74,6 +74,7 @@ const workbench = createModel()({
         ...params,
       })
       if (data && data.code === 200) {
+        sessionStorage.setItem('todoNotice', data?.data?.total)
         dispatch.workbench.update({
           todoNotice: data?.data?.total,
         })

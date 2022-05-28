@@ -26,12 +26,17 @@ export default function ListItem(props) {
               extra={
                 <div>
                   <div className={styles.listIssueIcon}>
-                    <Tooltip placement="top" content="指派人">
-                      <span className={styles.taskUserName}>
-                        {item.assigneeUserName && <Icon type="user" />}
-                        {item.assigneeUserName}
-                      </span>
-                    </Tooltip>
+                    {item.assigneeUserName && (
+                      <Tooltip placement="top" content="指派人">
+                        <span className={styles.taskUserName}>
+                          <Icon type="user" />
+                          <span className={styles.listIconSpan}>
+                            {item.assigneeUserName}
+                          </span>
+                        </span>
+                      </Tooltip>
+                    )}
+
                     <Tooltip placement="top" content="评论">
                       <span className={styles.taskUserName}>
                         <Icon type="message" />
