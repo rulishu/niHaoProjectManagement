@@ -35,7 +35,7 @@ export function getEdit(params) {
  * @param {Object} params
  */
 export function getList(params) {
-  return request('/api/system/post/list', {
+  return request('/api/system/post/listToken', {
     method: 'POST',
     body: { ...params },
   })

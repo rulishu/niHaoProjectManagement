@@ -14,7 +14,7 @@ export default function Index() {
     postManagement: { alertShow, ids },
   } = useSelector((state) => state)
 
-  const table = useTable('/api/system/post/list', {
+  const table = useTable('/api/system/post/listToken', {
     query: (pageIndex, pageSize, searchValues) => {
       return {
         page: pageIndex,
