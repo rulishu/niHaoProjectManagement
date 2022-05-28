@@ -169,7 +169,13 @@ const EditTask = () => {
       type: 'milestone/addMilestone',
       payload: {
         payload: { projectId, ...formData },
-        callback: (data) => (result = data),
+        callback: (data) => {
+          result = data
+          dispatch.milestone.getListAll({
+            projectId: projectId,
+            milestonesStatusList: [1, 2],
+          })
+        },
       },
     })
     return result
