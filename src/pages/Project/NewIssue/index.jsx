@@ -239,7 +239,7 @@ const NewIssue = (props) => {
                       'userId',
                       'memberName'
                     )}
-                    loading={loading}
+                    //  loading={loading}
                   />
                 ),
               },
@@ -289,7 +289,7 @@ const NewIssue = (props) => {
                     option={
                       selectOption(dictDataList, 'dictCode', 'dictLabel') || []
                     }
-                    loading={loading}
+                    //loading={loading}
                   />
                 ),
               },
