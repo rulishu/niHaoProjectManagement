@@ -42,6 +42,7 @@ const Task = (props) => {
   const dispatch = useDispatch()
   // const location = useLocation()
   const params = useParams()
+  const { userAccount } = useParams()
 
   // 处理带id的路由
   useLocationPage()
@@ -134,7 +135,7 @@ const Task = (props) => {
         labels: [],
       },
     })
-    navigate(`/project/newIssue/${params.projectId}`)
+    navigate(`/${userAccount}/${params.projectId}/task/newIssue`)
   }
 
   const listGo = (item) => {
@@ -144,7 +145,9 @@ const Task = (props) => {
     // })
     // console.log('item', item)
 
-    navigate(`/project/taskInfo/${item.projectId}/${item.assignmentId}`)
+    navigate(
+      `/${userAccount}/${item.projectId}/task/taskInfo/${item.assignmentId}`
+    )
   }
 
   // // 搜索按钮事件
