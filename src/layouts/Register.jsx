@@ -34,7 +34,6 @@ const Register = () => {
             err.filed = errorObj
             throw err
           } else {
-            delete current.secondPassword
             dispatch({
               type: 'login/register',
               payload: { ...current },
@@ -99,9 +98,7 @@ const Register = () => {
               </Row>
               <Row>
                 <Button
-                  disabled={!canSubmit()}
                   className="btns"
-                  block
                   style={{ marginTop: 20 }}
                   htmlType="submit"
                   type="primary">
