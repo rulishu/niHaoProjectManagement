@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Loader, Notify } from 'uiw'
+import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
 
 /**
@@ -122,7 +122,15 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
-            rules: [{ required: true, message: '请输入截止日期' }],
+            rules: [
+              {
+                validator: (value) => {
+                  const obj = baseRef?.getFieldValues()
+                  if (value > obj.begin) return true
+                },
+                message: '结束时间必须大于开始时间且不能为空',
+              },
+            ],
           },
           {
             label: '项目描述:',
@@ -179,14 +187,7 @@ const ProjectManagement = (fun) => {
           let end = formatter(current.end)
           current.begin = begin
           current.end = end
-          if (end !== '' && begin !== '' && end <= begin) {
-            Notify.warning({
-              title: '警告',
-              description: '结束时间必须大于开始时间',
-            })
-          } else {
-            updateData({ seachValue: { ...current } })
-          }
+          updateData({ seachValue: { ...current } })
         }}
       />
     )
