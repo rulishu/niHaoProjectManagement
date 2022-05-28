@@ -112,12 +112,13 @@ const login = createModel()({
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
-        let url = window.location.href
-        url = url.replace(/(\?|#)[^'"]*/, '')
-        window.location.href = url
-        // if (localStorage.getItem('token')) {
-        //   history.push('/home')
-        // }
+        // let url = window.location.host
+        // url = url.replace(/(\?|#)[^'"]*/, '')
+        const userData = await getInfo()
+        window.location.href = `/#/${userData?.user?.userName}/dashboard`
+        if (localStorage.getItem('token')) {
+          history.push(`/${userData?.user?.userName}/dashboard`)
+        }
         dispatch({
           type: 'routeManagement/getRouters',
           payload: {
