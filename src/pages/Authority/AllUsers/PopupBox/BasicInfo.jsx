@@ -254,6 +254,7 @@ const BasicInfo = (props) => {
                   key: 'postIds',
                   widget: 'select',
                   inline: false,
+                  required: true,
                   span: '12',
                   disabled: type === 1 && true,
                   initialValue: postsDataInfo,
@@ -334,6 +335,7 @@ const BasicInfo = (props) => {
                       ...params,
                       userId: baseDetail?.userId,
                     }
+                    console.log('param', param)
                     await dispatch.editNewUser({
                       param,
                       callback: () => setIsOverlay(false),
