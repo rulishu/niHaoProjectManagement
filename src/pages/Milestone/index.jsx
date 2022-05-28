@@ -65,6 +65,8 @@ const Milestone = () => {
 
   const [isPulldown, setIsPulldown] = useState(false)
 
+  const [milestoneValue, setMilestoneValue] = useState('')
+
   const goNewNmilestone = () => {
     dispatch.milestone.update({ milestoneType: 1, listDataInfo: {} })
     navigate(`/${userAccount}/${projectId}/milestone/newMilestone`, {
@@ -237,6 +239,7 @@ const Milestone = () => {
     dispatch.milestone.selectPageList({
       milestonesStatusList: activeKey ? [activeKey] : [],
       projectId,
+      milestonesTitle: milestoneValue,
       ...params,
     })
   }
@@ -269,6 +272,7 @@ const Milestone = () => {
                   //   getMilestoneByValue({ milestonesTitle: e.target.value })
                   // }
                   onChange={(e) => {
+                    setMilestoneValue(e.target.value)
                     newDebounce(getMilestoneByValue, 500, {
                       milestonesTitle: e.target.value,
                     })
