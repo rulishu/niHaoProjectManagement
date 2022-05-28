@@ -7,7 +7,7 @@ export default function Index() {
   const dispatch = useDispatch()
 
   const {
-    team: { drawerVisible, queryInfo, drawerType },
+    team: { drawerVisible, queryInfo, drawerType, isView },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
@@ -33,44 +33,38 @@ export default function Index() {
       onClose={onClose}
       buttons={[
         {
+          label: '取消',
+          onClick: onClose,
+          show: !isView,
+        },
+        {
           label: '保存',
           type: 'primary',
-          style: { width: 80 },
-          onClick: () => {
-            form?.submitvalidate()
+          show: !isView,
+          onClick: async () => {
+            await form?.submitvalidate?.()
+            const errors = form.getError()
+            if (errors && Object.keys(errors).length > 0) return
+            dispatch({
+              type: `team/${drawerType === 'add' ? 'addTeam' : 'editTeam'}`,
+              payload: {
+                ...queryInfo,
+              },
+            })
           },
         },
       ]}>
       <ProForm
-        formType="pure"
         form={form}
+        title="基础信息"
+        formType={isView ? 'pure' : 'card'}
+        readOnly={isView}
+        onChange={(initial, current) =>
+          updateData({ queryInfo: { ...queryInfo, ...current } })
+        }
         buttonsContainer={{ justifyContent: 'flex-start' }}
-        onSubmit={(_, current) => {
-          const errorObj = {}
-          // 报警事件
-          if (!current?.teamName) {
-            errorObj.teamName = '团队名不能为空'
-          } else if (!current?.teamDes) {
-            errorObj.teamDes = '团队描述不能为空'
-          }
-          if (Object.keys(errorObj).length > 0) {
-            const err = new Error()
-            err.filed = errorObj
-            // Notify.error({ title: '提交失败！' });
-            throw err
-          }
-          dispatch({
-            type: `team/${drawerType === 'add' ? 'addTeam' : 'editTeam'}`,
-            payload: {
-              ...current,
-            },
-          })
-        }}
-        // 更新表单的值
-        onChange={(_, current) => {
-          return updateData({ queryInfo: { ...queryInfo, ...current } })
-        }}
         formDatas={items(queryInfo, drawerType)}
+        readOnlyProps={{ column: 1 }}
       />
     </ProDrawer>
   )

@@ -118,6 +118,7 @@ const team = createModel()({
         drawerVisible: false,
         drawerType: '',
         queryInfo: {},
+        isView: false,
       })
     },
   }),
