@@ -9,13 +9,15 @@ export default function AllTasks() {
   const {
     projectoverview: { projectMembersList, projectDynamicsList, allDataSource },
   } = useSelector((state) => state)
-
-  const { projectId } = useParams()
+  const { userAccount } = useParams()
   const allDataSources = allDataSource?.milesWorkVoList
 
   // 跳转里程碑详情
-  const goMilestones = (_, milestonesId) => {
-    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
+  const goMilestones = (milestonesId) => {
+    allDataSource?.projectUrl &&
+      navigate(
+        `${allDataSource?.projectUrl}/milestone/milestoneInfo/${milestonesId}`
+      )
   }
   return (
     <div style={{ width: '30%' }}>
@@ -34,9 +36,7 @@ export default function AllTasks() {
                 return (
                   <li
                     key={item?.milestonesId}
-                    onClick={() =>
-                      goMilestones(item?.projectId, item?.milestonesId)
-                    }>
+                    onClick={() => goMilestones(item?.milestonesId)}>
                     <span style={{ flex: 3 }}>{item?.milestonesTitle}</span>
                     <span style={{ flex: 4, fontSize: '12px' }}>
                       {item?.dueTime &&
@@ -51,7 +51,7 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card
-        title="最新动态"
+        title="最新动"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
         <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -66,9 +66,6 @@ export default function AllTasks() {
                 <Steps.Step
                   title={itm?.createTime}
                   key={key}
-                  onClick={() =>
-                    (window.location.href = `#/project/taskInfo/${projectId}/${itm.assignmentId}`)
-                  }
                   description={
                     <div className={styles.mouseList}>
                       {itm?.operatingRecords}
@@ -86,7 +83,7 @@ export default function AllTasks() {
               <div key={idx} className={styles.memberItem}>
                 <div
                   className={styles.memberItemLi}
-                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  onClick={() => navigate(`/${item?.userName}`)}>
                   <Avatar
                     size="large"
                     src={
@@ -97,7 +94,7 @@ export default function AllTasks() {
                 </div>
                 <span
                   className={styles.memberName}
-                  onClick={() => navigate(`/userHome/${item?.userId}`)}>
+                  onClick={() => navigate(`/${userAccount}`)}>
                   {item?.nickName}
                 </span>
               </div>

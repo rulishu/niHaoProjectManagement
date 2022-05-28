@@ -19,7 +19,7 @@ const NewMilestone = () => {
     loading.effects.milestone
 
   const location = useLocation()
-  const { projectId, milestonesId } = useParams()
+  const { userAccount, projectId, milestonesId } = useParams()
   const form = useRef()
 
   useEffect(() => {
@@ -157,9 +157,9 @@ const NewMilestone = () => {
             delete param.milestonesId
             const listGo = (projectId, milestonesId) => {
               navigate(
-                `/milestone/milestoneInfo/${projectId}/${milestonesId}`,
+                `/${userAccount}/${projectId}/milestone/milestoneInfo/${milestonesId}`,
                 {
-                  state: { projectId, milestonesId },
+                  state: { userAccount, projectId, milestonesId },
                 }
               )
             }

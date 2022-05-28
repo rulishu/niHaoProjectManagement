@@ -10,13 +10,6 @@ const DynamicsList = (props) => {
     loading,
   } = useSelector((state) => state)
   const { goSpecifyPage, setActiveKey } = props
-  const goPage = (projectId, assignmentId) => {
-    const path = assignmentId
-      ? `/project/taskInfo/${projectId}`
-      : `/projectOverview`
-    const id = assignmentId || projectId
-    goSpecifyPage({ path, id })
-  }
 
   return (
     <div className={styles.summary}>
@@ -45,8 +38,7 @@ const DynamicsList = (props) => {
                           <h2
                             onClick={() => {
                               goSpecifyPage({
-                                path: '/projectOverview',
-                                id: item.id,
+                                path: item.projectUrl,
                               })
                             }}>
                             {item?.name}
@@ -62,8 +54,7 @@ const DynamicsList = (props) => {
                           <span
                             onClick={() => {
                               goSpecifyPage({
-                                path: '/project/task',
-                                id: item.id,
+                                path: `${item.projectUrl}/task`,
                               })
                             }}>
                             <Icon type="tags-o" />
@@ -72,8 +63,7 @@ const DynamicsList = (props) => {
                           <span
                             onClick={() => {
                               goSpecifyPage({
-                                path: '/usersManagement',
-                                id: item.id,
+                                path: `${item.projectUrl}/usersManagement`,
                               })
                             }}>
                             <Icon type="user" />
@@ -124,7 +114,7 @@ const DynamicsList = (props) => {
                       </div>
                       <div className={styles.dynamicTop}>
                         <span className={styles.name}>{item?.createName}</span>
-                        <span>
+                        <span className={styles.time}>
                           {
                             timeDistance(item?.updateTime || item?.createTime)
                               ?.time
@@ -136,13 +126,27 @@ const DynamicsList = (props) => {
                         {item?.operatingRecords}
                       </div>
                       <div className={styles.dynamicBot}>
-                        <span onClick={() => goPage(item.projectId)}>
+                        <span
+                          className={item.projectUrl ? styles.clickOn : ''}
+                          onClick={() =>
+                            item.projectUrl &&
+                            goSpecifyPage({ path: `${item.projectUrl}` })
+                          }>
                           {item?.projectName}
                         </span>
                         {item?.assignmentTitle && (
                           <span
+                            className={
+                              item.projectUrl && item?.assignmentId
+                                ? styles.clickOn
+                                : ''
+                            }
                             onClick={() =>
-                              goPage(item?.projectId, item?.assignmentId)
+                              item.projectUrl &&
+                              item?.assignmentId &&
+                              goSpecifyPage({
+                                path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
+                              })
                             }>
                             {'/' + item?.assignmentTitle}
                           </span>

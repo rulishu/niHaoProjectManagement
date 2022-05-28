@@ -8,12 +8,14 @@ import TodoList from './TodoList'
 import { Container } from '@/components'
 import dayjs from 'dayjs'
 import { NumColor } from '../../utils/utils'
+import { useNavigate } from 'react-router-dom'
 
 export default function Demo() {
   const dispatch = useDispatch()
   const {
     workbench: { projectList },
   } = useSelector((state) => state)
+  const navigate = useNavigate()
   const [projectData, setProject] = useState({})
   const [totalData, setTotalData] = useState({})
   const [milepost, setMilepost] = useState([])
@@ -29,8 +31,8 @@ export default function Demo() {
   }, [dispatch])
 
   // 跳转里程碑详情
-  const goMilestones = (projectId, milestonesId) => {
-    window.location.href = `#/milestone/milestoneInfo/${projectId}/${milestonesId}`
+  const goMilestones = (projectUrl, milestonesId) => {
+    navigate(`${projectUrl}/milestone/milestoneInfo/${milestonesId}`)
   }
   //默认选中第一个
   const onClickItem = (key) => {
@@ -126,9 +128,9 @@ export default function Demo() {
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/project/task/${projectListOne?.projectId}`
+                              navigate(`${projectListOne.projectUrl}/task`)
                             } else {
-                              window.location.href = `#/project/task/${projectData.projectId}`
+                              navigate(`${projectData.projectUrl}/task`)
                             }
                           }}>
                           查看全部
@@ -137,9 +139,9 @@ export default function Demo() {
                           type="primary"
                           onClick={() => {
                             if (active === 0) {
-                              window.location.href = `#/projectOverview/${projectListOne?.projectId}`
+                              navigate(`${projectListOne.projectUrl}`)
                             } else {
-                              window.location.href = `#/projectOverview/${projectData?.projectId}`
+                              navigate(`${projectData.projectUrl}`)
                             }
                           }}>
                           项目概览
@@ -245,7 +247,7 @@ export default function Demo() {
                             key={item?.milestonesId}
                             onClick={() =>
                               goMilestones(
-                                projectListOne?.projectId,
+                                projectListOne?.projectUrl,
                                 item?.milestonesId
                               )
                             }>
@@ -267,7 +269,7 @@ export default function Demo() {
                             key={item?.milestonesId}
                             onClick={() =>
                               goMilestones(
-                                projectData?.projectId,
+                                projectData?.projectUrl,
                                 item?.milestonesId
                               )
                             }>

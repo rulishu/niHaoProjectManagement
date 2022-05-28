@@ -130,10 +130,14 @@
           justify-content: space-between;
 
           .name {
-            color: #333;
-            font-size: 14px;
-            font-size: 500;
+            color: @black;
+            font-size: @font-size-base;
+            font-weight: @header-font-weight;
             line-height: 1.25rem;
+          }
+
+          .time {
+            color: #ccc;
           }
         }
 
@@ -143,10 +147,14 @@
 
         .dynamicBot {
           display: inline;
-          color: #008ef0;
-          & > span:hover {
-            text-decoration: underline;
-            cursor: pointer;
+
+          .clickOn {
+            color: #008ef0;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
           }
         }
       }
@@ -212,6 +220,13 @@
         &:hover {
           text-decoration: underline;
           cursor: pointer;
+        }
+      }
+
+      .updateTime {
+        &:hover {
+          text-decoration: none;
+          cursor: default;
         }
       }
 

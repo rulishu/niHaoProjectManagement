@@ -13,7 +13,7 @@ import {
 } from 'uiw'
 import { Container } from '@/components'
 import styles from './index.module.less'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 import AllSelect from './AllSelect'
@@ -30,8 +30,6 @@ const TodoList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-  const { userAccount } = useParams()
-
   const taskId = sessionStorage.getItem('id')
   const { todolist, loading } = useSelector((state) => state)
   const {
@@ -108,45 +106,53 @@ const TodoList = () => {
                           <a href={item?.nav} className={styles.listTitle}>
                             {item.title}
                           </a>
-                          <div className={styles.listContent}>
-                            <Icon type="user" size="big" /> 你
-                            <span>
-                              {item.doType === 0 ? '评论' : '任务指派给'}{' '}
-                            </span>
-                            <span
-                              className={styles.projectName}
-                              onClick={() => {
-                                navigate(`/${item.doUserAccount}`)
-                              }}>
-                              <Icon type="user" /> {item.doUserName}
-                            </span>
-                            <span
-                              className={styles.projectName}
-                              onClick={() => {
-                                navigate(
-                                  `/${userAccount}/${item?.projectId}/task/taskInfo/${item?.issuesId}`
-                                )
-                              }}>
-                              #{item.issuesId}''{item.doConnent}''
-                            </span>
-                            在
-                            <span
-                              className={styles.projectName}
-                              onClick={() => {
-                                navigate(`/${userAccount}/${item?.projectId}`)
-                              }}>
-                              {item.projectName}
-                            </span>
-                            由
-                            <span
-                              className={styles.projectName}
-                              onClick={() => {
-                                navigate(`/${item?.assignUserAccount}`)
-                              }}>
-                              {item.assignUserName}
-                            </span>
-                            创建于 {item?.createTime}
-                          </div>
+                          <span>
+                            <div className={styles.listContent}>
+                              <Icon type="user" size="big" /> 你
+                              <span>
+                                {item.doType === 0 ? '评论' : '任务指派给'}{' '}
+                              </span>
+                              <span
+                                className={styles.projectName}
+                                onClick={() =>
+                                  navigate(`/${item.doUserAccount}`)
+                                }>
+                                <Icon type="user" /> {item.doUserName}
+                              </span>
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(
+                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                    )
+                                }}>
+                                #{item.issuesId}''{item.doConnent}''
+                              </span>
+                              在
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(`${item?.projectUrl}`)
+                                }}>
+                                {item.projectName}
+                              </span>
+                              由
+                              <span
+                                className={styles.projectName}
+                                onClick={() => {
+                                  navigate(`/${item?.assignUserAccount}`)
+                                }}>
+                                {item.assignUserName}
+                              </span>
+                              创建于 {item?.createTime}
+                            </div>
+                          </span>
                         </Col>
                       </div>
                       <Col className={styles.itemListRight}>

@@ -36,6 +36,13 @@ export const editNewUser = (params) => {
     body: params,
   })
 }
+// 编辑用户权限
+export const editGetInfo = (params) => {
+  return request(`/api/system/user/getInfoToken/${params}`, {
+    method: 'POST',
+    body: params,
+  })
+}
 //
 // 通过用户id查询用户信息
 export const queryById = (params) => {

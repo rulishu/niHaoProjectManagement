@@ -9,13 +9,6 @@ const ProjectList = (props) => {
     loading,
   } = useSelector((state) => state)
   const { goSpecifyPage } = props
-  const goPage = (projectId, assignmentId) => {
-    const path = assignmentId
-      ? `/project/taskInfo/${projectId}`
-      : `/projectOverview`
-    const id = assignmentId || projectId
-    goSpecifyPage({ path, id })
-  }
 
   return (
     <div className={styles.userAllDynamicList}>
@@ -41,7 +34,7 @@ const ProjectList = (props) => {
                   </div>
                   <div className={styles.dynamicTop}>
                     <span className={styles.name}>{item?.createName}</span>
-                    <span>
+                    <span className={styles.time}>
                       {timeDistance(item?.updateTime || item?.createTime)?.time}
                       前
                     </span>
@@ -50,13 +43,27 @@ const ProjectList = (props) => {
                     {item?.operatingRecords}
                   </div>
                   <div className={styles.dynamicBot}>
-                    <span onClick={() => goPage(item.projectId)}>
+                    <span
+                      className={item.projectUrl ? styles.clickOn : ''}
+                      onClick={() =>
+                        item.projectUrl &&
+                        goSpecifyPage({ path: `${item.projectUrl}` })
+                      }>
                       {item?.projectName}
                     </span>
                     {item?.assignmentTitle && (
                       <span
+                        className={
+                          item.projectUrl && item?.assignmentId
+                            ? styles.clickOn
+                            : ''
+                        }
                         onClick={() =>
-                          goPage(item?.projectId, item?.assignmentId)
+                          item.projectUrl &&
+                          item?.assignmentId &&
+                          goSpecifyPage({
+                            path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
+                          })
                         }>
                         {'/' + item?.assignmentTitle}
                       </span>
