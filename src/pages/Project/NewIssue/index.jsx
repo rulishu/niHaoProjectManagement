@@ -272,7 +272,7 @@ const NewIssue = (props) => {
                         'milestonesTitle'
                       ) || []
                     }
-                    loading={loading}
+                    //loading={loading}
                   />
                 ),
               },
