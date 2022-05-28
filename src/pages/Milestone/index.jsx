@@ -163,7 +163,7 @@ const Milestone = () => {
                           <span
                             className={styles.num}
                             onClick={() => {
-                              navigate(`/project/task/${projectId}`, {
+                              navigate(`/${userAccount}/${projectId}/task`, {
                                 state: { projectId },
                               })
                             }}>
