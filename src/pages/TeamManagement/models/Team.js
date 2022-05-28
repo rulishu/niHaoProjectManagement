@@ -13,7 +13,7 @@ import {
   getMemberByTeamId,
   getTeamMemberList,
   // editTeamMemberInfo,
-} from '../servers/team'
+} from '../../../servers/team'
 
 const team = createModel()({
   name: 'team',
@@ -26,12 +26,13 @@ const team = createModel()({
     teamData: {}, // 当前团队数据
     teamMemberList: [], // 团队成员数据
     drawerVisible: false,
-    tableType: '',
+    drawerType: '',
     queryInfo: {},
     isView: false,
     alertShow: false,
     loading: false,
     tablePro: {},
+    ids: null,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -43,27 +44,35 @@ const team = createModel()({
     // 新增团队
     async addTeam(payload, team) {
       const dph = dispatch
-      const { params } = payload
-      const data = await addTeam(params)
+      const data = await addTeam(payload)
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
-          drawerVisiText: '',
         })
         team.team.tablePro.onSearch()
       }
-      console.log('新增团队', data)
     },
     // 根据团队 ID 删除团队
-    async deleteTeamById(params, team) {
-      const data = await deleteTeamById(params)
-      console.log('删除团队', data)
+    async deleteTeamById(payload, team) {
+      const dph = dispatch
+      const data = await deleteTeamById(payload)
+      if (data.code === 200) {
+        dph.team.updateState({
+          drawerVisible: false,
+        })
+        team.team.tablePro.onSearch()
+      }
     },
     // 修改团队
     async editTeam(payload, team) {
-      const { param } = payload
-      const data = await editTeam(param)
-      console.log('修改团队', data)
+      const dph = dispatch
+      const data = await editTeam(payload)
+      if (data.code === 200) {
+        dph.team.updateState({
+          drawerVisible: false,
+        })
+        team.team.tablePro.onSearch()
+      }
     },
     // 分页查找团队
     async getPageTeam(params, { team }) {
@@ -107,8 +116,7 @@ const team = createModel()({
       const dph = dispatch
       dph.team.updateState({
         drawerVisible: false,
-        loading: false,
-        tableType: '',
+        drawerType: '',
         queryInfo: {},
         isView: false,
       })
