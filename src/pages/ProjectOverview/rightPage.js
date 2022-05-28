@@ -51,7 +51,7 @@ export default function AllTasks() {
         </div>
       </Card>
       <Card
-        title="最新动"
+        title="最新动态"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
         <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
