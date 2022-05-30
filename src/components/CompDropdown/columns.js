@@ -1,4 +1,4 @@
-import { Input, DateInput } from 'uiw'
+import { Input, DateInput, Avatar } from 'uiw'
 import Custom from './Custom'
 import styles from './template.module.less'
 
@@ -10,7 +10,7 @@ const label = {
       title: '色块',
       dataIndex: 'color',
       width: 30,
-      component: (item, record) => (
+      component: (item) => (
         <span
           className={styles.piece}
           style={{ backgroundColor: item?.color }}></span>
@@ -22,9 +22,12 @@ const label = {
       resultsShow: true,
       isSearch: true,
       width: 100,
-      component: (item, record) => (
-        <span className={styles.title}>{item?.title}</span>
-      ),
+      component: (item) =>
+        item ? (
+          <span className={styles.title}>{item?.title}</span>
+        ) : (
+          <span>无里程碑</span>
+        ),
     },
   ],
   // 配置参数
@@ -73,59 +76,36 @@ const personnel = {
       dataIndex: 'memberName',
       resultsShow: true,
       isSearch: true,
-      component: (item, record) => <span>{item?.memberName}</span>,
-    },
-    {
-      title: '角色',
-      dataIndex: 'memberRole',
-      resultsShow: true,
-      // isSearch: true,
-      component: (item, record) => (
-        <span>{item?.projectId && '/角色' + item?.memberRole}</span>
-      ),
-    },
-    {
-      title: '项目',
-      dataIndex: 'projectId',
-      resultsShow: true,
-      component: (item, record) => (
-        <span>{item?.projectId && '/项目' + item?.projectId}</span>
-      ),
+      width: '100%',
+      component: (item) => {
+        return item ? (
+          <div className={styles.personnelLi}>
+            <div className={styles.userLiAvatar}>
+              <Avatar
+                size="small"
+                src={
+                  item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''
+                }>
+                {item?.memberName && item?.memberName[0]}
+              </Avatar>
+            </div>
+            <div className={styles.userLiInfo}>
+              <div className={styles.userName}>{item?.memberName}</div>
+              <div className={styles.userAcount}>{item?.userAcount}</div>
+            </div>
+          </div>
+        ) : (
+          <div>无人员</div>
+        )
+      },
     },
   ],
   // 配置参数
   params: {
     title: '人员',
-  },
-  // 船舰标签的表单
-  form: {
-    fields: (props) => {
-      return {
-        dictLabel: {
-          children: <Input size="small" placeholder="请输入人员" />,
-        },
-        listClass: {
-          children: <Custom color={props?.color} />,
-        },
-      }
-    },
-    fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
-      return (
-        <>
-          <div className={styles.searchBox}>{fields.dictLabel}</div>
-          {fields.listClass}
-        </>
-      )
-    },
-    verify: (initial, current) => {
-      const errorObj = {}
-      if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
-        errorObj.dictLabel = '请输入标签名称,长度为2-50'
-      }
-      if (!current.listClass) {
-        errorObj.listClass = '请选择或输入标签背景颜色'
-      }
-      return errorObj
+    actionButtons: {
+      create: { isHide: true },
+      manage: { title: '邀请成员' },
     },
   },
 }
@@ -139,7 +119,12 @@ const milepost = {
       dataIndex: 'title',
       resultsShow: true,
       isSearch: true,
-      component: (item) => <span className={styles.title}>{item?.title}</span>,
+      component: (item) =>
+        item ? (
+          <span className={styles.title}>{item?.title}</span>
+        ) : (
+          <span>无里程碑</span>
+        ),
     },
   ],
   // 配置参数

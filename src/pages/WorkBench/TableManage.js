@@ -7,7 +7,6 @@ import styles from './index.module.less'
 export default function TableManage() {
   const [tab, setTab] = useState(1)
   const token = localStorage.getItem('token')
-  const userName = JSON.parse(sessionStorage.getItem('userName'))
   const navigate = useNavigate()
   const table = useTable('/api/workbench/selectAllProjectPage', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
@@ -113,7 +112,7 @@ export default function TableManage() {
                   basic
                   type="dark"
                   onClick={() => {
-                    navigate(`/${userName}/projectList`)
+                    navigate(`/projectList`)
                   }}>
                   更多
                 </Button>

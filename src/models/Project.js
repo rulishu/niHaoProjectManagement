@@ -250,8 +250,8 @@ export default createModel()({
           labels.map((item) => {
             newLabels.push(item?.dictValue.toString())
           })
-          newData.labels = newLabels
         }
+        newData.labels = newLabels
         const data = await getManagerAssignmentUpdate({
           ...newData,
           ...params,
