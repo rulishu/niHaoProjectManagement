@@ -19,6 +19,7 @@ module.exports.authList = [
   '/Authority/DepartmentPage',
   '/Authority/DepartmentPageRefactor',
   '/Authority/PostManagement',
+  '/Authority/team',
   '/*',
   '/project',
   '/project/*',
