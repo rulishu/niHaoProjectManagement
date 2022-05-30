@@ -5,6 +5,7 @@ import {
   deleteProject,
   selectNumber,
   queryProject,
+  updateStatus,
 } from '../servers/projectList'
 
 /**
@@ -68,6 +69,25 @@ const projectlist = createModel()({
       const data = await deleteProject(id)
       if (data && data.code === 200) {
         Notify.success({ title: data.data })
+        setDeleteOpen(false)
+        search()
+      } else {
+        // Notify.error({ title: data.data })
+      }
+    },
+
+    //修改项目状态
+    async updateStatus(payload) {
+      const { setDeleteOpen, search, ...other } = payload
+      let title = ''
+      if (other.status === 2) {
+        title = '关闭项目成功'
+      } else {
+        title = '开启项目成功'
+      }
+      const data = await updateStatus(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: title })
         setDeleteOpen(false)
         search()
       } else {

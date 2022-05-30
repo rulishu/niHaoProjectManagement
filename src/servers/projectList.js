@@ -125,3 +125,13 @@ export function selectNumber(params) {
     body: params,
   })
 }
+
+/**
+ * 修改项目状态
+ */
+export function updateStatus(params) {
+  return request('/api/project/updateStatus', {
+    method: 'POST',
+    body: params,
+  })
+}
