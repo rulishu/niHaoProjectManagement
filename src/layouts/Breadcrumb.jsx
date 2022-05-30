@@ -7,10 +7,21 @@ const Bread = (props) => {
   const { projectId } = useParams()
   const { routeMap } = props
   const location = useLocation()
-  const paths = [...routeMap.breadcrumb.keys()].find((item) =>
-    matchPath(item, location.pathname)
-  )
-  const domList = routeMap.breadcrumb.get(paths) || []
+  const searchStr = location.pathname.indexOf('/Authority/') !== -1
+  const searchPath = () => {
+    if (searchStr) {
+      const paths = [...routeMap.breadcrumb.keys()].find((item) => {
+        return item === location.pathname
+      })
+      return paths
+    } else {
+      const paths = [...routeMap.breadcrumb.keys()].find((item) =>
+        matchPath(item, location.pathname)
+      )
+      return paths
+    }
+  }
+  const domList = routeMap.breadcrumb.get(searchPath()) || []
   const dispatch = useDispatch()
   const { projectlist } = useSelector((state) => state)
   const { proName } = projectlist
