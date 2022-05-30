@@ -11,7 +11,6 @@ import {
   // deleteTeamMemberById,
   // getCurrentUserAllItem,
   getMemberByTeamId,
-  getTeamMemberList,
   // editTeamMemberInfo,
 } from '../../../servers/team'
 
@@ -33,6 +32,7 @@ const team = createModel()({
     loading: false,
     tablePro: {},
     ids: null,
+    projectIds: null,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -90,16 +90,6 @@ const team = createModel()({
       if (data && data.code === 200) {
         dispatch.team.update({
           teamData: data.data,
-        })
-      }
-    },
-    // 分页查询用户列表数据
-    async getTeamMemberList(payload) {
-      const params = { page: 1, pageSize: 10, ...payload }
-      const data = await getTeamMemberList(params)
-      if (data && data.code === 200) {
-        dispatch.team.update({
-          teamMemberList: data?.data?.list,
         })
       }
     },
