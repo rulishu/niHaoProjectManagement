@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Tooltip, Card } from 'uiw'
+import { Button, Tag, Tooltip, Card, Notify } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -45,6 +45,13 @@ const Demo = (props) => {
   })
   // 操作
   async function handleEditTable(type, record) {
+    if (record.roleKey === 'admin') {
+      Notify.warning({
+        title: '警告通知',
+        description: '超级管理员角色不允许操作',
+      })
+      return
+    }
     updateData({
       isView: type === 'view',
       tableType: type,
