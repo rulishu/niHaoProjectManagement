@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Alert, Card } from 'uiw'
+import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
 import Drawer from './Drawer'
@@ -8,13 +9,12 @@ import operateFun from '@/components/Operate'
 
 export default function Index() {
   const dispatch = useDispatch()
-
   const {
-    team: { alertShow, ids },
+    team: { alertShow, id },
   } = useSelector((state) => state)
 
   const token = localStorage.getItem('token')
-  console.log('token--->', token)
+  const { projectId } = useParams()
   const table = useTable('/api/ManagerTeam/selectPage', {
     formatData: (data) => {
       return {
@@ -26,6 +26,7 @@ export default function Index() {
       return {
         page: pageIndex,
         pageSize,
+        projectId: projectId,
         ...searchValues,
       }
     },
@@ -39,7 +40,7 @@ export default function Index() {
       type: 'team/updateState',
       payload: {
         alertShow: true,
-        ids: data,
+        id: data,
         tablePro: table,
         queryInfo: {},
       },
@@ -78,9 +79,11 @@ export default function Index() {
           onConfirm={() => {
             dispatch({
               type: 'team/deleteTeamById',
-              payload: {
-                id: [ids],
-              },
+              payload: [
+                {
+                  id: id,
+                },
+              ],
             })
           }}></Alert>
         <ProTable
@@ -127,8 +130,8 @@ export default function Index() {
               align: 'center',
             },
             {
-              title: '团队用户列表',
-              key: 'teamUserList',
+              title: '团队描述',
+              key: 'teamDes',
               align: 'center',
             },
             {
