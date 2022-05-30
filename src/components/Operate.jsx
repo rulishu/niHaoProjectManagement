@@ -1,9 +1,26 @@
 import { Fragment } from 'react'
 import { Button, Divider, Icon } from 'uiw'
 
-export default function operateFun({ onEvenEdit, onEvenDelete, onAuthorize }) {
+export default function operateFun({
+  onEvenEdit,
+  onEvenDelete,
+  onAuthorize,
+  onUser,
+}) {
   return (
     <Fragment>
+      {onUser && (
+        <Button
+          type="success"
+          icon={<Icon type="usergroup-add" style={{ fontSize: 14 }} />}
+          size="small"
+          onClick={() => {
+            onUser()
+          }}>
+          添加成员
+        </Button>
+      )}
+      <Divider type="vertical" />
       {onEvenEdit && (
         <Button
           type="primary"
