@@ -17,29 +17,6 @@ const Modals = (props) => {
     })
   }
 
-  // const { mutate } = useSWR(
-  //   [
-  //     deleteProjectMember,
-  //     {
-  //       method: 'POST',
-  //       body: { id },
-  //     },
-  //   ],
-  //   {
-  //     revalidateOnMount: false,
-  //     revalidateOnFocus: false,
-  //     onSuccess: (data) => {
-  //       if (data && data.code === 200) {
-  //         Notify.success({ title: data.message })
-  //         onClose()
-  //         props.onSearch()
-  //       } else {
-  //         Notify.error({ title: data.message })
-  //       }
-  //     },
-  //   }
-  // )
-
   // 执行成功返回的信息
   const information = (data) => {
     if (data.code === 200) {
