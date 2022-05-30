@@ -154,7 +154,6 @@ const BasicInfo = (props) => {
                     placeholder: '请输入帐号',
                   },
                 },
-                //
                 {
                   label: '密码: ',
                   key: 'password',

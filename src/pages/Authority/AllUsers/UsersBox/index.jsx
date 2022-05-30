@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
 import DeletePopover from './DeletePopover'
+import { useSelector } from 'react-redux'
 
 const UsersBox = (props) => {
+  const {
+    routeManagement: { userInfoName },
+  } = useSelector((state) => state)
   const { data, handleEdit } = props
   const navigate = useNavigate()
   // const { dictionary } = useSelector((state) => state)
@@ -78,12 +82,16 @@ const UsersBox = (props) => {
                       <Col span="6">
                         <AuthBtn path="/api/system/user/edit">
                           <Tooltip placement="top" content="编辑">
-                            <Button
-                              icon="edit"
-                              type="light"
-                              size="small"
-                              // type 1 : 查看 2 : 编辑 3 :新增
-                              onClick={() => handleEdit(item, 2)}></Button>
+                            {userInfoName !== item.userName ? (
+                              <Button
+                                icon="edit"
+                                type="light"
+                                size="small"
+                                // type 1 : 查看 2 : 编辑 3 :新增
+                                onClick={() => handleEdit(item, 2)}></Button>
+                            ) : (
+                              ''
+                            )}
                           </Tooltip>
                         </AuthBtn>
                       </Col>

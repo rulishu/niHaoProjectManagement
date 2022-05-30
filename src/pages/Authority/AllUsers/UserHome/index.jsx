@@ -84,14 +84,16 @@ const UserHome = (props) => {
                   </>
                 </Loader>
                 {userInfoName === user?.userName ? (
-                  <div className={styles.editBut}>
-                    <Button
-                      block
-                      type="light"
-                      onClick={() => handleEdit(user, 2)}>
-                      编辑用户
-                    </Button>
-                  </div>
+                  userInfoName === 'admin' ? null : (
+                    <div className={styles.editBut}>
+                      <Button
+                        block
+                        type="light"
+                        onClick={() => handleEdit(user, 2)}>
+                        编辑用户
+                      </Button>
+                    </div>
+                  )
                 ) : null}
                 <div className={styles.note}>
                   <p>{user?.remark}</p>
