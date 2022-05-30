@@ -18,6 +18,7 @@ const login = createModel()({
     token: null,
     isLogin: true,
     isRegister: false,
+    submitLoading: false, //登录按钮loading样式
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -41,6 +42,10 @@ const login = createModel()({
     async submitLogin(param) {
       let logindata = { username: param.username, password: param.password }
       const data = await submitLogin(logindata)
+
+      dispatch.login.updateState({
+        submitLoading: false,
+      })
 
       if (data && data.code === 200) {
         Notify.success({ title: '登录成功' })
