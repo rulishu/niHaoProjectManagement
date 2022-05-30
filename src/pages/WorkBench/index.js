@@ -236,8 +236,7 @@ export default function Demo() {
                       <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
                       <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
                     </p>
-                    {active === 0 &&
-                    milesWorkVoListOne?.length === 0 &&
+                    {milesWorkVoListOne?.length === 0 &&
                     milepost?.length === 0 ? (
                       <Empty style={{ marginTop: 20 }} />
                     ) : milesWorkVoListOne?.length !== 0 ? (
