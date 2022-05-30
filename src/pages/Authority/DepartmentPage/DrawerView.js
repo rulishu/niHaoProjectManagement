@@ -69,7 +69,7 @@ export default function DrawerView() {
         onClose={() => {
           onClose()
         }}
-        size={700}>
+        size={500}>
         <Form
           onSubmit={({ ...allFormItem }) => {
             const { current } = allFormItem
@@ -211,14 +211,20 @@ export default function DrawerView() {
               <div>
                 <Row gutter={10}>
                   <Col>{fields.deptName}</Col>
+                </Row>
+                <Row gutter={10}>
                   <Col>{fields.orderNum}</Col>
                 </Row>
                 <Row gutter={10} style={{ marginBottom: 10 }}>
                   <Col>{fields.leader}</Col>
+                </Row>
+                <Row gutter={10} style={{ marginBottom: 10 }}>
                   <Col>{fields.phone}</Col>
                 </Row>
                 <Row gutter={10}>
                   <Col>{fields.email}</Col>
+                </Row>
+                <Row gutter={10}>
                   <Col>{fields.status}</Col>
                 </Row>
                 <Row gutter={10}>

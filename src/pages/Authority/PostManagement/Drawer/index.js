@@ -20,7 +20,7 @@ export default function Index() {
   const onClose = () => dispatch({ type: 'postManagement/clean' })
   return (
     <ProDrawer
-      width={800}
+      width={500}
       title={
         drawerType === 'add'
           ? '添加岗位'
@@ -42,7 +42,7 @@ export default function Index() {
       ]}>
       <ProForm
         form={form}
-        formType="pure"
+        formType="card"
         onSubmit={(_, current) => {
           const errorObj = {}
           // 报警事件
