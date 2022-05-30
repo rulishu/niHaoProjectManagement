@@ -32,6 +32,7 @@ const team = createModel()({
     loading: false,
     tablePro: {},
     id: null,
+    isUsers: false,
   },
   reducers: {
     updateState: (state, payload) => ({

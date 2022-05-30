@@ -4,7 +4,9 @@ import { Alert, Card } from 'uiw'
 import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
+import MaintainGroup from './Drawer/maintainGroup'
 import Drawer from './Drawer'
+
 import operateFun from '@/components/Operate'
 
 export default function Index() {
@@ -46,7 +48,15 @@ export default function Index() {
       },
     })
   }
-
+  const onOpenUser = (data) => {
+    dispatch({
+      type: 'team/updateState',
+      payload: {
+        isUsers: true,
+        queryInfo: data,
+      },
+    })
+  }
   const setCloseDrawerVisible = () => {
     dispatch({
       type: 'team/updateState',
@@ -69,6 +79,7 @@ export default function Index() {
   }
   return (
     <Fragment>
+      <MaintainGroup />
       <Card>
         <Alert
           isOpen={alertShow}
@@ -153,9 +164,10 @@ export default function Index() {
               title: '操作',
               key: 'edit',
               align: 'center',
-              width: 200,
+              // width: 300,
               render: (_, record, data) =>
                 operateFun({
+                  onUser: () => onOpenUser(data),
                   onEvenEdit: () => onOpenEdit(data),
                   onEvenDelete: () => onOpenDelete(data.id),
                 }),
