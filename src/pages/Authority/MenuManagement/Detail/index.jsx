@@ -100,7 +100,7 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
       ]}>
       <ProForm
         form={form}
-        title="基础信息"
+        // title="基础信息"
         formType={isView ? 'pure' : 'card'}
         readOnly={isView}
         onChange={(initial, current) =>

@@ -5,7 +5,7 @@ export const items = (queryInfo) => [
     key: 'postName',
     widget: 'input',
     initialValue: queryInfo?.postName,
-    span: '12',
+    span: '24',
     required: true,
   },
   {
@@ -13,7 +13,7 @@ export const items = (queryInfo) => [
     key: 'postCode',
     widget: 'input',
     initialValue: queryInfo?.postCode,
-    span: '12',
+    span: '24',
     required: true,
   },
   {
@@ -21,7 +21,7 @@ export const items = (queryInfo) => [
     key: 'postSort',
     widget: 'input',
     initialValue: queryInfo?.postSort,
-    span: '12',
+    span: '24',
     required: true,
   },
   {
@@ -33,7 +33,7 @@ export const items = (queryInfo) => [
       { label: '停用', value: '1' },
     ],
     initialValue: queryInfo?.status,
-    span: '12',
+    span: '24',
     required: true,
   },
   {
@@ -41,6 +41,6 @@ export const items = (queryInfo) => [
     key: 'remark',
     widget: 'textarea',
     initialValue: queryInfo?.remark,
-    span: '12',
+    span: '24',
   },
 ]

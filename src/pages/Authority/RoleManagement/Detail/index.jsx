@@ -101,7 +101,7 @@ const Detail = ({ updateData, onSearch }) => {
       ]}>
       <ProForm
         form={form}
-        title="基础信息"
+        // title="基础信息"
         // 自定义组件
         customWidgetsList={{
           TreeData: TreeData,
