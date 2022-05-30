@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const {
-    login: { isLogin, isRegister },
+    login: { isLogin, isRegister, submitLoading },
   } = useSelector((state) => state)
 
   //注册功能开启设置
@@ -38,6 +38,10 @@ const Login = () => {
             err.filed = errorObj
             throw err
           } else {
+            dispatch({
+              type: 'login/updateState',
+              payload: { submitLoading: !submitLoading },
+            })
             dispatch({
               type: 'login/submitLogin',
               payload: { ...current, navigate },
@@ -91,6 +95,7 @@ const Login = () => {
                   className="btns"
                   block
                   htmlType="submit"
+                  loading={submitLoading}
                   type="primary">
                   登录
                 </Button>
