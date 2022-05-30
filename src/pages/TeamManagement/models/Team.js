@@ -31,8 +31,7 @@ const team = createModel()({
     alertShow: false,
     loading: false,
     tablePro: {},
-    ids: null,
-    projectIds: null,
+    id: null,
   },
   reducers: {
     updateState: (state, payload) => ({
