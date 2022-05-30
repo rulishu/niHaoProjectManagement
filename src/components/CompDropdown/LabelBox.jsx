@@ -14,13 +14,14 @@ const LabelBox = (props) => {
     runLabel,
     loading,
     title,
+    actionButtons,
   } = props
-
   const [newListData, setNewListData] = useState(listData)
 
   useEffect(() => {
     if (listData !== newListData) setNewListData(listData)
-  }, [listData, newListData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listData])
 
   const labelList = (data) => {
     if (!data?.length) {
@@ -70,16 +71,15 @@ const LabelBox = (props) => {
                 return undefined
               })
               .filter((s) => s)
-            const newData = listData?.filter(
-              (item) =>
-                searchArr
-                  .map((searchArritem) => {
-                    if (item[searchArritem].search(`${e.target.value}`) !== -1)
-                      return item
-                    return undefined
-                  })
-                  .filter((s) => s).length
-            )
+            const newData = listData?.filter((item) => {
+              return searchArr
+                .map((searchArritem) => {
+                  if (item[searchArritem].search(`${e.target.value}`) !== -1)
+                    return item
+                  return undefined
+                })
+                .filter((s) => s).length
+            })
             setNewListData(newData)
             searchLabel && searchLabel(e.target.value, newData)
           }}
@@ -95,16 +95,22 @@ const LabelBox = (props) => {
         </Loader>
       </ul>
       <div className={styles.labelFoot}>
-        <div
-          className={styles.footBut}
-          onClick={() => {
-            setLabelStatus(2)
-          }}>
-          创建{title}
-        </div>
-        <div className={styles.footBut} onClick={() => runLabel && runLabel()}>
-          管理{title}
-        </div>
+        {!actionButtons?.create?.isHide && (
+          <div
+            className={styles.footBut}
+            onClick={() => {
+              setLabelStatus(2)
+            }}>
+            {actionButtons?.create?.title || `创建${title}`}
+          </div>
+        )}
+        {!actionButtons?.manage?.isHide && (
+          <div
+            className={styles.footBut}
+            onClick={() => runLabel && runLabel()}>
+            {actionButtons?.manage?.title || `管理${title}`}
+          </div>
+        )}
       </div>
     </div>
   )

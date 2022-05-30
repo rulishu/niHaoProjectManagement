@@ -37,10 +37,13 @@ const CompDropdown = (props) => {
     createTagChange,
     isTagClose = true,
     closeLabel,
+    actionButtons,
   } = props
 
   // 模板解构一些参数
   const { title: tempTitle } = template && columns[template]?.params
+  const { actionButtons: tempActionButtons } =
+    template && columns[template]?.params
   const { form: tempForm } = template && columns[template]
 
   // labelStatus 1: 选择标签页, 2: 创建标签页
@@ -103,11 +106,15 @@ const CompDropdown = (props) => {
               key={item?.key}
               className={item.color ? styles.tagListLi : styles.noColorTag}
               style={{ backgroundColor: item.color, borderColor: item?.color }}>
-              {newHeader()?.map((headItem, index) => (
-                <span className={styles.tagTitle} key={index}>
-                  {headItem.resultsShow && headItem?.component(item, headItem)}
-                </span>
-              ))}
+              {newHeader()?.map((headItem, index) => {
+                console.log(item)
+                return (
+                  <span className={styles.tagTitle} key={index}>
+                    {headItem.resultsShow &&
+                      headItem?.component(item, headItem)}
+                  </span>
+                )
+              })}
               {isTagClose && (
                 <span
                   className={styles.tagBut}
@@ -180,6 +187,7 @@ const CompDropdown = (props) => {
               runLabel={runLabel}
               loading={loading || false}
               title={title || tempTitle}
+              actionButtons={actionButtons || tempActionButtons}
             />
           )}
           {labelStatus === 2 && (
