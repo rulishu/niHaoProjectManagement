@@ -26,7 +26,7 @@ export default function Index() {
 
     formatData: (data) => {
       return {
-        total: data?.data?.total || 0,
+        total: data?.total || 0,
         data: data?.rows || [],
       }
     },

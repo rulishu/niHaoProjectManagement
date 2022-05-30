@@ -80,27 +80,6 @@ const Search = () => {
   return (
     <Fragment>
       <Card>
-        {/* <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginBottom: 20,
-          }}>
-          <Button
-            size="big"
-            type="primary"
-            icon="user-add"
-            onClick={() => handleEditTable('member')}>
-            邀请成员
-          </Button>
-          <Button
-            size="big"
-            icon="usergroup-add"
-            type="primary"
-            onClick={() => handleEditTable('group')}>
-            邀请团队
-          </Button>
-        </div> */}
         <ProTable
           formCol={2}
           searchBtns={[

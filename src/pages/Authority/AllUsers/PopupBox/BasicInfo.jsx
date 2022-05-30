@@ -51,6 +51,8 @@ const BasicInfo = (props) => {
         return { value: item.roleId, label: item.roleName }
       })
   )
+  //判断是否可以看到所有项目列表
+  const naid = localStorage.getItem('key')
 
   return (
     <div className={styles.BasicInfo}>
@@ -142,6 +144,7 @@ const BasicInfo = (props) => {
                   label: '帐号: ',
                   key: 'userName',
                   widget: 'input',
+                  disabled: type !== 3 ? true : false,
                   inline: false,
                   span: '12',
                   required: true,
@@ -151,7 +154,6 @@ const BasicInfo = (props) => {
                     placeholder: '请输入帐号',
                   },
                 },
-                //
                 {
                   label: '密码: ',
                   key: 'password',
@@ -211,6 +213,7 @@ const BasicInfo = (props) => {
                   label: '状态: ',
                   key: 'status',
                   widget: 'select',
+                  disabled: naid === 'false' ? true : false,
                   inline: false,
                   option: [
                     { label: '正常', value: 0 },
@@ -240,10 +243,11 @@ const BasicInfo = (props) => {
                   label: '角色: ', // baseDetail.roleIds 角色为null
                   key: 'roleIds',
                   widget: 'searchSelect',
+                  disabled: naid === 'false' ? true : false,
                   inline: false,
                   span: '12',
                   required: true,
-                  disabled: type === 1 && true,
+                  // disabled: type === 1 && true,
                   // initialValue: rolesDataInfo,
                   option: dropDownBox,
                   widgetProps: {
@@ -258,9 +262,10 @@ const BasicInfo = (props) => {
                   key: 'postIds',
                   widget: 'select',
                   inline: false,
+                  disabled: naid === 'false' ? true : false,
                   required: true,
                   span: '12',
-                  disabled: type === 1 && true,
+                  // disabled: type === 1 && true,
                   initialValue: postsDataInfo,
                   option: dictAllData?.map((e) => ({
                     label: e?.postName,
@@ -274,9 +279,10 @@ const BasicInfo = (props) => {
                   label: '部门: ',
                   key: 'deptId',
                   widget: 'searchTree',
+                  disabled: naid === 'false' ? true : false,
                   inline: false,
                   span: '12',
-                  disabled: type === 1 && true,
+                  // disabled: type === 1 && true,
                   initialValue: baseDetail.deptId
                     ? [{ key: baseDetail.deptId, label: postName }]
                     : '',
