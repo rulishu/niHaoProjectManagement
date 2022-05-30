@@ -18,6 +18,7 @@ const login = createModel()({
     token: null,
     isLogin: true,
     isRegister: false,
+    submitLoading: false, //登录按钮loading样式
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -41,6 +42,10 @@ const login = createModel()({
     async submitLogin(param) {
       let logindata = { username: param.username, password: param.password }
       const data = await submitLogin(logindata)
+
+      dispatch.login.updateState({
+        submitLoading: false,
+      })
 
       if (data && data.code === 200) {
         Notify.success({ title: '登录成功' })
@@ -93,7 +98,7 @@ const login = createModel()({
         ]
         localStorage.setItem('auth', JSON.stringify(authList || []))
         let navigate = param.navigate
-        await navigate(`/${userData?.user?.userName}/dashboard`, {
+        await navigate(`/dashboard`, {
           replace: true,
         })
       }
@@ -114,10 +119,9 @@ const login = createModel()({
         localStorage.setItem('token', data.data.token)
         // let url = window.location.host
         // url = url.replace(/(\?|#)[^'"]*/, '')
-        const userData = await getInfo()
-        window.location.href = `/#/${userData?.user?.userName}/dashboard`
+        window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
-          history.push(`/${userData?.user?.userName}/dashboard`)
+          history.push(`/dashboard`)
         }
         dispatch({
           type: 'routeManagement/getRouters',
