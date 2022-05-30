@@ -342,6 +342,13 @@ const routes = [
             component: '@/pages/Dictionary',
             isAuth: true,
           },
+          {
+            path: '/Authority/team',
+            name: '团队管理',
+            icon: 'date',
+            component: '@/pages/TeamManagement',
+            isAuth: false,
+          },
         ],
       },
       {
@@ -349,12 +356,6 @@ const routes = [
         name: '团队管理权限',
         component: '@/pages/ProjectAuth',
         hideInMenu: true,
-      },
-      {
-        path: '/:userAccount/team',
-        name: '团队管理',
-        component: '@/pages/TeamManagement',
-        isAuth: false,
       },
       {
         path: '/403',
