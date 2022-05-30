@@ -112,7 +112,7 @@ const MilestoneInfo = () => {
     <div
       ref={ref}
       style={{
-        height: window.innerHeight - tHeaderTop - 100,
+        height: window.innerHeight - tHeaderTop - 120,
         overflowX: 'hidden',
         overflowY: 'auto',
       }}

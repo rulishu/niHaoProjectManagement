@@ -1,4 +1,4 @@
-import { request } from '@uiw-admin/utils'
+import request from '@/utils/request'
 /**
  * 团队 API
  */
@@ -8,13 +8,13 @@ export const getPageTeam = (params) => {
     body: params,
   })
 }
-// 分页查询用户列表数据
-export const getTeamMemberList = (params) => {
-  return request('/api/ManagerTeam/selectPage', {
-    method: 'POST',
-    body: params,
-  })
-}
+// // 分页查询用户列表数据
+// export const getTeamMemberList = (params) => {
+//   return request('/api/ManagerTeam/selectPage', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
 
 // 获取团队下成员信息--可根据部门筛选
 export const getMemberByTeamId = (params) => {
