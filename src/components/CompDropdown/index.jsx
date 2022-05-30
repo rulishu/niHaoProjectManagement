@@ -74,12 +74,12 @@ const CompDropdown = (props) => {
   }, [isOpen])
 
   const optionEvent = (key) => {
+    const exists = options?.includes(key)
     if (isRadio) {
-      setOptions([key])
-      selectLabel && selectLabel(key, key)
+      setOptions(exists ? [] : [key])
+      selectLabel && selectLabel(exists ? null : key)
       return
     }
-    const exists = options?.includes(key)
     const newArr = exists
       ? options?.filter((i) => i !== key)
       : [...options, key]
@@ -107,11 +107,13 @@ const CompDropdown = (props) => {
               className={item.color ? styles.tagListLi : styles.noColorTag}
               style={{ backgroundColor: item.color, borderColor: item?.color }}>
               {newHeader()?.map((headItem, index) => {
-                console.log(item)
                 return (
                   <span className={styles.tagTitle} key={index}>
-                    {headItem.resultsShow &&
-                      headItem?.component(item, headItem)}
+                    {headItem.resultsShow && headItem?.component ? (
+                      headItem?.component(item, headItem)
+                    ) : (
+                      <span></span>
+                    )}
                   </span>
                 )
               })}

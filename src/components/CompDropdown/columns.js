@@ -10,11 +10,14 @@ const label = {
       title: '色块',
       dataIndex: 'color',
       width: 30,
-      component: (item, record) => (
-        <span
-          className={styles.piece}
-          style={{ backgroundColor: item?.color }}></span>
-      ),
+      component: (item) => {
+        console.log(console.log('色块', item))
+        return (
+          <span
+            className={styles.piece}
+            style={{ backgroundColor: item?.color }}></span>
+        )
+      },
     },
     {
       title: '标题',
@@ -22,9 +25,14 @@ const label = {
       resultsShow: true,
       isSearch: true,
       width: 100,
-      component: (item, record) => (
-        <span className={styles.title}>{item?.title}</span>
-      ),
+      component: (item, a, b, c) => {
+        console.log(item, a, b, c)
+        return item ? (
+          <span className={styles.title}>{item?.title}</span>
+        ) : (
+          <span>无里程碑</span>
+        )
+      },
     },
   ],
   // 配置参数
@@ -74,8 +82,9 @@ const personnel = {
       resultsShow: true,
       isSearch: true,
       width: '100%',
-      component: (item, record) => {
-        return (
+      component: (item) => {
+        console.log(console.log('人员名称', item))
+        return item ? (
           <div className={styles.personnelLi}>
             <div className={styles.userLiAvatar}>
               <Avatar
@@ -91,6 +100,8 @@ const personnel = {
               <div className={styles.userAcount}>{item?.userAcount}</div>
             </div>
           </div>
+        ) : (
+          <div>无人员</div>
         )
       },
     },
@@ -114,7 +125,12 @@ const milepost = {
       dataIndex: 'title',
       resultsShow: true,
       isSearch: true,
-      component: (item) => <span className={styles.title}>{item?.title}</span>,
+      component: (item) =>
+        item ? (
+          <span className={styles.title}>{item?.title}</span>
+        ) : (
+          <span>无里程碑</span>
+        ),
     },
   ],
   // 配置参数

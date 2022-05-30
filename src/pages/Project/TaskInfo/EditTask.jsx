@@ -1,31 +1,17 @@
-import { useRef, useState } from 'react'
-import { Button, SearchSelect, DateInput, Tooltip } from 'uiw'
+import { useState } from 'react'
+import { Button, DateInput } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectOption } from '@/utils/utils'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-function useDebounce(fn, delay) {
-  const refTimer = useRef()
-
-  return function f(...args) {
-    if (refTimer.current) {
-      clearTimeout(refTimer.current)
-    }
-    refTimer.current = setTimeout(() => {
-      fn(args)
-    }, delay)
-  }
-}
 
 const EditTask = () => {
   const dispatch = useDispatch()
   const params = useParams()
-  const { projectId } = params
-
+  const { userAccount, projectId } = params
   const {
     project: { editFromData, taskInfoData },
     projectuser: { userSelectAllList },
@@ -66,6 +52,16 @@ const EditTask = () => {
     setLabelState(false)
     setDueDateState(false)
   }
+  // 完成人员编辑
+  const editAssignOk = async () => {
+    setLabelState(false)
+    if (editFromData === taskInfoData) {
+      return false
+    } else {
+      await dispatch.project.getEdit()
+    }
+  }
+
   const editLabelOk = async () => {
     setLabelState(false)
     if (editFromData === taskInfoData) {
@@ -90,23 +86,6 @@ const EditTask = () => {
     setDueDateState(!dueDateState)
   }
 
-  const onChangeSearch = useDebounce((e) => {
-    dispatch.projectuser.pullSelectAll({
-      userName: e.toString(),
-      projectId: projectId,
-    })
-  }, 1500)
-
-  const selectSearch = async (e) => {
-    setAssignState(false)
-    const newItem = userSelectAllList.filter((item) => e === item?.userId)
-    await dispatch.project.getEdit({
-      assignmentId: editFromData?.assignmentId,
-      assigneeUserId: e,
-      assigneeUserName: newItem[0].memberName,
-      projectId: projectId || '',
-    })
-  }
   const dubDateChange = async (v) => {
     setDueDateState(false)
     await dispatch.project.getEdit({
@@ -119,15 +98,32 @@ const EditTask = () => {
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
     setLabelState(true)
+    const labels = dictDataList?.filter((item) =>
+      keyArr?.includes(item?.dictValue)
+    )
     updateData({
       editFromData: {
         ...editFromData,
         assignmentId: editFromData.assignmentId,
-        labels: dictDataList?.filter((item) =>
-          keyArr?.includes(item?.dictValue)
-        ),
+        labels: labels.length ? labels : [],
       },
     })
+  }
+
+  // 初始化 人员数据
+  const initAssignData = () => {
+    return userSelectAllList
+      ?.map((item) => {
+        if (!item.userId || !item?.memberName) return undefined
+        return {
+          key: item?.userId,
+          memberName: item?.memberName,
+          avatar: item?.avatar,
+          userAcount: item?.userAcount,
+          check: editFromData.assigneeUserId === item.userId,
+        }
+      })
+      .filter((s) => s)
   }
 
   // 初始化 Label 组件数据 [{key,color,title,check}]
@@ -213,7 +209,7 @@ const EditTask = () => {
             <span>指派人</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
               {assignState ? (
-                <Button basic type="primary" onClick={() => editAssign()}>
+                <Button basic type="primary" onClick={() => editAssignOk()}>
                   完成
                 </Button>
               ) : (
@@ -223,30 +219,43 @@ const EditTask = () => {
               )}
             </AuthBtn>
           </div>
-          <div className={styles.rLabelText}>
-            {assignState ? (
-              <SearchSelect
-                showSearch={true}
-                allowClear
-                disabled={false}
-                placeholder="请输入选择"
-                onSearch={onChangeSearch}
-                onSelect={(e) => selectSearch(e)}
-                option={
-                  selectOption(userSelectAllList, 'userId', 'memberName') || []
-                }
-                loading={loading.effects.projectuser.pullSelectAll}
-              />
-            ) : taskInfoData?.assigneeUserName ? (
-              <Tooltip
-                placement="top"
-                content={<strong>{taskInfoData?.assigneeUserName}</strong>}>
-                <div>{taskInfoData?.assigneeUserName || '无'}</div>
-              </Tooltip>
-            ) : (
-              <div>无</div>
-            )}
-          </div>
+          <CompDropdown
+            listData={initAssignData() || []}
+            isOpen={assignState}
+            template="personnel"
+            shape="label"
+            isRadio={true}
+            selectLabel={(key) => {
+              const userName = userSelectAllList
+                ?.map((item) =>
+                  item.userId === key ? item.memberName : undefined
+                )
+                ?.filter((s) => s)[0]
+              updateData({
+                editFromData: {
+                  ...editFromData,
+                  assigneeUserId: key || 0,
+                  assigneeUserName: userName || null,
+                },
+              })
+            }}
+            closeLabel={() => {
+              updateData({
+                editFromData: {
+                  ...editFromData,
+                  assigneeUserId: taskInfoData.assigneeUserId,
+                  assigneeUserName: taskInfoData.assigneeUserName,
+                },
+              })
+              setAssignState(false)
+            }}
+            loading={loading.effects.milestone.selectPageList}
+            runLabel={() => {
+              navigate(`/${userAccount}/${projectId}/usersManagement`, {
+                replace: true,
+              })
+            }}
+          />
         </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
@@ -274,16 +283,23 @@ const EditTask = () => {
                 editFromData: { ...editFromData, milestonesId: key },
               })
             }}
-            closeLabel={() => setMilepostState(false)}
+            closeLabel={() => {
+              updateData({
+                editFromData: {
+                  ...editFromData,
+                  milestonesId: taskInfoData?.milestonesId,
+                },
+              })
+              setMilepostState(false)
+            }}
             loading={loading.effects.milestone.selectPageList}
             runLabel={() => {
-              navigate('/Authority/dictionary', { replace: true })
+              navigate(`/${userAccount}/${projectId}/milestone`, {
+                replace: true,
+              })
             }}
             createTag={(_, current) => createMilestone(current)}
           />
-          {!editFromData?.milestonesId && !taskInfoData?.milestonesTitle && (
-            <div className={styles.rLabelText}>无</div>
-          )}
         </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
