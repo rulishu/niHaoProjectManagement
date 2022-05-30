@@ -347,7 +347,7 @@ const routes = [
             name: '团队管理',
             icon: 'date',
             component: '@/pages/TeamManagement',
-            isAuth: false,
+            isAuth: true,
           },
         ],
       },
