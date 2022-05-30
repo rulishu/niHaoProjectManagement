@@ -26,11 +26,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const { userAccount } = useParams()
   const [userInfo, setUserInfo] = useState({})
   const [isError, setIsError] = useState(false)
-  const pathName = `/${decodeURI(
-    props.router.location.pathname.split('/')[1] || ''
-  )}`
-  const userName = JSON.parse(sessionStorage.getItem('userName'))
+  const fullPathName = props.router.location.pathname
+  const pathName = `/${decodeURI(fullPathName.split('/')[1] || '')}`
   const todoNotices = sessionStorage.getItem('todoNotice')
+  // 是否处于没用左侧菜单的页面
+  const isNoMenu = ['/projectList', '/dashboard', '/todoList'].includes(
+    pathName
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -46,7 +48,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
   //
   useEffect(() => {
-    const pathArr = pathName.split('/').filter((s) => s)
+    const pathArr = fullPathName.split('/').filter((s) => s)
     const url =
       pathArr.length === 1 ? `/${pathArr[0]}` : `/${pathArr[0]}/${pathArr[1]}`
     // 查询路由权限接口
@@ -55,9 +57,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
         type: 'url/getPageTeam',
         payload: { params: { url } },
       })
-    setIsError(!isRouteExist(pathName, userAccount))
-    pathArr?.length && pathArr[0] !== 'Authority' && getPageTeam()
-  }, [dispatch, pathName, userAccount])
+    !isNoMenu && setIsError(!isRouteExist(pathName, userAccount))
+    pathArr?.length && pathArr[0] !== 'Authority' && !isNoMenu && getPageTeam()
+  }, [dispatch, isNoMenu, pathName, fullPathName, userAccount])
 
   useEffect(() => {
     // dispatch({
@@ -140,14 +142,14 @@ function BasicLayoutScreen(props = { routes: [] }) {
           <div
             className={styles.title}
             onClick={() => {
-              navigate(`/${userName}/dashboard`)
+              navigate(`/dashboard`)
             }}>
             工作台
           </div>
           <div
             className={styles.title}
             onClick={() => {
-              navigate(`/${userName}/projectList`)
+              navigate(`/projectList`)
             }}>
             项目管理
           </div>
@@ -162,9 +164,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
           ) : (
             ''
           )}
-          <div
-            className={styles.title}
-            onClick={() => navigate(`/${userName}/todoList`)}>
+          <div className={styles.title} onClick={() => navigate(`/todoList`)}>
             {status === 0 ? (
               <Badge count={todoNotice || todoNotices}>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
@@ -190,19 +190,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
 
   const token = localStorage.getItem('token')
-  // 是否是没有左侧菜单的界面
-  const isNoMenu = ['/projectList', '/home', '/todoList'].includes(pathName)
 
-  const isNoMenuN =
-    !![
-      '/userHome',
-      '/:userId',
-      'todoList',
-      '/projectList',
-      '/dashboard',
-      '/tissue',
-    ].filter((item) => pathName?.search(item) !== -1).length ||
-    pathName.split('/').length <= 2
+  // 判断是否处于一级路由
+  const isNoMenuN = fullPathName.split('/').length <= 2
   const pageName = pathName.split('/')[pathName.split('/').length - 1]
   return (
     <AuthPage redirectPath="/login" authority={!!token}>

@@ -93,7 +93,7 @@ const login = createModel()({
         ]
         localStorage.setItem('auth', JSON.stringify(authList || []))
         let navigate = param.navigate
-        await navigate(`/${userData?.user?.userName}/dashboard`, {
+        await navigate(`/dashboard`, {
           replace: true,
         })
       }
@@ -114,10 +114,9 @@ const login = createModel()({
         localStorage.setItem('token', data.data.token)
         // let url = window.location.host
         // url = url.replace(/(\?|#)[^'"]*/, '')
-        const userData = await getInfo()
-        window.location.href = `/#/${userData?.user?.userName}/dashboard`
+        window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
-          history.push(`/${userData?.user?.userName}/dashboard`)
+          history.push(`/dashboard`)
         }
         dispatch({
           type: 'routeManagement/getRouters',

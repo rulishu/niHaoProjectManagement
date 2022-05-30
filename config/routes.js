@@ -1,7 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-const CuserAccount = localStorage.getItem('userAccount')
 
 const routes = [
   {
@@ -14,8 +13,30 @@ const routes = [
     routes: [
       {
         index: true,
-        redirect: `/${CuserAccount}/dashboard`,
-        // redirect: `/${localStorage.getItem('userAccount')}`,
+        redirect: `/dashboard`,
+      },
+      {
+        path: '/dashboard',
+        name: '工作台',
+        hideInMenu: true,
+        component: '@/pages/WorkBench',
+        navigate: '(navigate) => {navigate(`/dashboard',
+      },
+      {
+        path: '/projectList',
+        name: '项目列表',
+        component: '@/pages/ProjectList',
+        hideInMenu: true,
+        isAuth: false,
+        navigate: '(navigate) => {navigate(`/projectList`)}',
+      },
+      {
+        path: '/todoList',
+        name: '待办事项列表',
+        component: '@/pages/TodoList',
+        hideInMenu: true,
+        isAuth: false,
+        navigate: '(navigate) => {navigate(`/todoList`)}',
       },
       {
         path: '/tissue',
@@ -24,13 +45,6 @@ const routes = [
         hideInMenu: true,
         side: true,
         routes: [
-          {
-            path: '/tissue/projectList',
-            name: '项目列表',
-            component: '@/pages/ProjectList',
-            hideInMenu: true,
-            isAuth: false,
-          },
           {
             path: '/tissue/:projectId',
             name: '项目概览',
@@ -166,32 +180,6 @@ const routes = [
         hideInMenu: true,
         side: true,
         routes: [
-          {
-            path: '/:userAccount/dashboard',
-            name: '工作台',
-            hideInMenu: true,
-            component: '@/pages/WorkBench',
-            navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}/dashboard",
-          },
-          {
-            path: '/:userAccount/projectList',
-            name: '项目列表',
-            component: '@/pages/ProjectList',
-            hideInMenu: true,
-            isAuth: false,
-            navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/projectList`)}",
-          },
-          {
-            path: '/:userAccount/todoList',
-            name: '待办事项列表',
-            component: '@/pages/TodoList',
-            hideInMenu: true,
-            isAuth: false,
-            navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/todoList`)}",
-          },
           {
             path: '/:userAccount/:projectId',
             name: '项目概览',

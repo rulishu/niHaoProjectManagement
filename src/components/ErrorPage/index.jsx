@@ -1,7 +1,7 @@
 import styles from './index.module.less'
 import { Button, Empty, Divider } from 'uiw' // Input,
 // import { Exceptions404 } from '@uiw-admin/exceptions'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
 const ErrorPage = () => {
@@ -12,10 +12,6 @@ const ErrorPage = () => {
       payload: { callback: '' },
     })
   }, [dispatch])
-
-  const {
-    routeManagement: { userInfoName },
-  } = useSelector((state) => state)
 
   return (
     <div className={styles.errorBox}>
@@ -53,9 +49,7 @@ const ErrorPage = () => {
             basic
             style={{ margin: 10 }}
             type="primary"
-            onClick={() =>
-              (window.location.href = `#/${userInfoName}/dashboard`)
-            }>
+            onClick={() => (window.location.href = `#/dashboard`)}>
             返回工作台
           </Button>
           <Button
