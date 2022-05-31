@@ -200,6 +200,8 @@ const EditTask = () => {
                   assigneeUserName: userName || null,
                 },
               })
+              editAssignOk()
+              setAssignState(false)
             }}
             closeLabel={() => {
               updateData({
@@ -248,6 +250,8 @@ const EditTask = () => {
               updateData({
                 editFromData: { ...editFromData, milestonesId: key },
               })
+              editMilepostOk()
+              setMilepostState(false)
             }}
             closeLabel={() => {
               updateData({
