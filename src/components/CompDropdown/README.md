@@ -64,6 +64,8 @@ ReactDOM.render(<Demo />, _mount_);
 | createTagChange | 新建标签变化回调函数  | `function(initial, current)`    | -  |
 | isTagClose     | 是否在 Tag 展示关闭按钮  | `Boolean`    | `false`  |
 | closeLabel     | 关闭组件触发回调  | `function()`    | - |
+| actionButtons  | 操作按钮组  | `actionButtons{}`    | - |
+
 
 ### listData
 
@@ -86,6 +88,15 @@ ReactDOM.render(<Demo />, _mount_);
 | dataIndex    | 唯一标识符（必填） | `String`   | -     |
 | width | 选中默认值              | `Number`   |  -  |
 | component | 自定义组件（会覆盖 `dataIndex` ）  |  `(rowData:{}, record) => JSX.Element`   | -      |
+
+### actionButtons props
+
+操作按钮组参数
+
+| 参数 | 说明    | 类型             | 默认值 |
+| ---- | ------- | ---------------- | ------ |
+| create | 创建内容按钮 | { isHide:是否隐藏按钮,title:按钮文字 } | -   |
+| manage | 管理内容按钮 | { isHide:是否隐藏按钮,title:按钮文字 } | -  |
 
 ### form
 创建内容form
