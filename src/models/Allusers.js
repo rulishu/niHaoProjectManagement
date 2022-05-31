@@ -5,6 +5,7 @@ import {
   addNewUser,
   deleteById,
   editNewUser,
+  editNewperson,
   editGetInfo,
   queryById,
   updatePassword,
@@ -132,6 +133,17 @@ const allusers = createModel()({
           uuid: data.data?.uuid || '',
         })
       }
+    },
+    //编辑个人
+    async editNewPerson(payload) {
+      const { param, callback } = payload
+      await editGetInfo(param.userId)
+      const data = await editNewperson(param)
+      if (data && data.code === 200) {
+        await callback()
+        NotifySuccess(data.message)
+      }
+      await dispatch.userHome.getUserInfo({ id: param.userId })
     },
     //修改引导状态
     async guideUpdate(payload) {

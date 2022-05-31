@@ -153,6 +153,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请输入帐号',
                   },
+                  hide: types === 2,
                 },
                 {
                   label: '密码: ',
@@ -225,6 +226,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请输入状态',
                   },
+                  hide: types === 2,
                 },
                 {
                   label: '邮箱: ',
@@ -256,6 +258,7 @@ const BasicInfo = (props) => {
                     allowClear: true,
                     placeholder: '请选择角色',
                   },
+                  hide: types === 2,
                 },
                 {
                   label: '职位: ', // baseDetail.postIds 职位为null
@@ -274,6 +277,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请选择职位',
                   },
+                  hide: types === 2,
                 },
                 {
                   label: '部门: ',
@@ -293,6 +297,7 @@ const BasicInfo = (props) => {
                     showSearch: true,
                     placeholder: '请选择部门',
                   },
+                  hide: types === 2,
                 },
                 {
                   label: '备注: ',
@@ -346,8 +351,7 @@ const BasicInfo = (props) => {
                       ...params,
                       userId: baseDetail?.userId,
                     }
-                    console.log('param', param)
-                    await dispatch.editNewUser({
+                    await dispatch.editNewPerson({
                       param,
                       callback: () => setIsOverlay(false),
                     })
@@ -366,10 +370,14 @@ const BasicInfo = (props) => {
                       callback: () => setIsOverlay(false),
                     })
                   }
-                  await dispatch.queryByPage({
-                    page: 1,
-                    pageSize: page * pageSize,
-                  })
+                  if (types === 2) {
+                    return
+                  } else {
+                    await dispatch.queryByPage({
+                      page: 1,
+                      pageSize: page * pageSize,
+                    })
+                  }
                 }}>
                 保存
               </Button>
