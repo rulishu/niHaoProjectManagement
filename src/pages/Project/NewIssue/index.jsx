@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Input,
-  SearchSelect,
   Form,
   Button,
   DateInput,
@@ -13,13 +12,14 @@ import {
 import './style.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { selectOption } from '@/utils/utils'
+import { initListData } from '@/utils/utils'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
 import { Container } from '@/components'
+import { CompDropdown } from '@/components'
 
 let tribute = new Tribute({
   trigger: '@',
@@ -85,6 +85,30 @@ const NewIssue = (props) => {
     })
   }
 
+  // 新建标签
+  const createTag = async (formData) => {
+    let result = false
+    await dispatch({
+      type: 'dictionary/addDict',
+      payload: {
+        record: {
+          ...formData,
+          dictType: 'assignment_label',
+          dictValue: dayjs().unix(),
+        },
+        callback: (data) => {
+          result = data
+          dispatch.dictionary.getDictDataList({
+            dictType: 'assignment_label',
+            page: 1,
+            pageSize: 999,
+          })
+        },
+      },
+    })
+    return result
+  }
+
   const pasteDataEvent = (event) => {
     // event.preventDefault();
     if (event.clipboardData || event.originalEvent) {
@@ -147,6 +171,7 @@ const NewIssue = (props) => {
           <Form
             ref={form}
             onChange={({ current }) => {
+              // console.log(fromData, current)
               updateData({
                 fromData: {
                   ...fromData,
@@ -156,8 +181,7 @@ const NewIssue = (props) => {
             }}
             onSubmit={() => {
               const errorObj = {}
-              const { dueDate, labels, assigneeUser, assignmentTitle } =
-                fromData
+              const { dueDate, labels, assignmentTitle } = fromData
               if (
                 !assignmentTitle ||
                 assignmentTitle.length < 2 ||
@@ -177,13 +201,9 @@ const NewIssue = (props) => {
                   labels:
                     labels.length > 0
                       ? dictDataList.filter((item) =>
-                          labels.includes(item.dictCode)
+                          labels.includes(item.dictValue)
                         )
                       : [],
-                  assigneeUserId:
-                    assigneeUser.length > 0 ? assigneeUser[0].value : '',
-                  assigneeUserName:
-                    assigneeUser.length > 0 ? assigneeUser[0].label : '',
                 },
               })
               dispatch.project.getAdd({ projectId: projectId })
@@ -227,20 +247,61 @@ const NewIssue = (props) => {
                 inline: true,
                 initialValue: fromData.assigneeUserId,
                 children: (
-                  <SearchSelect
-                    style={{ width: '100%' }}
-                    showSearch={true}
-                    allowClear
-                    disabled={false}
-                    labelInValue={true}
-                    placeholder="请输入成员姓名,可模糊查询"
-                    option={selectOption(
-                      userSelectAllList,
-                      'userId',
-                      'memberName'
-                    )}
-                    //  loading={loading}
-                  />
+                  <div style={{ width: '100%' }}>
+                    <CompDropdown
+                      listData={initListData(
+                        userSelectAllList,
+                        fromData.assigneeUserId,
+                        'userId',
+                        {
+                          memberName: 'memberName',
+                          avatar: 'avatar',
+                          userAcount: 'userAcount',
+                        }
+                      )}
+                      template="personnel"
+                      isRadio={true}
+                      shape="input"
+                      loading={loading.effects.dictionary.getDictDataList}
+                      runLabel={() =>
+                        navigate(`/${userAccount}/${projectId}/usersManagement`)
+                      }
+                      onChange={(value) => {
+                        const userName = userSelectAllList
+                          ?.map((item) =>
+                            item.userId === value ? item.memberName : undefined
+                          )
+                          ?.filter((s) => s)[0]
+                        const fieldValues = form.current.getFieldValues()
+                        form.current.setFields({
+                          ...fieldValues,
+                          assigneeUserId: value,
+                          assigneeUserName: userName,
+                        })
+                        updateData({
+                          fromData: {
+                            ...fromData,
+                            assigneeUserId: value,
+                            assigneeUserName: userName,
+                          },
+                        })
+                      }}
+                    />
+                  </div>
+                  // <SearchSelect
+                  //   style={{ width: '100%' }}
+                  //   showSearch={true}
+                  //   allowClear
+                  //   disabled={false}
+                  //   labelInValue={true}
+                  //   placeholder="请输入成员姓名,可模糊查询"
+                  //   option={selectOption(
+                  //     userSelectAllList,
+                  //     'userId',
+                  //     'memberName'
+                  //   )}
+                  // //  loading={loading}
+                  // />
                 ),
               },
               dueDate: {
@@ -259,38 +320,85 @@ const NewIssue = (props) => {
                   ? taskMilestonesId
                   : fromData.milestonesId,
                 children: (
-                  <SearchSelect
-                    showSearch={true}
-                    allowClear
-                    // value={taskMilestonesTitle}
-                    disabled={false}
-                    placeholder="请输入选择"
-                    option={
-                      selectOption(
+                  <div style={{ width: '100%' }}>
+                    <CompDropdown
+                      listData={initListData(
                         milepostaData,
+                        taskMilestonesTitle
+                          ? taskMilestonesId
+                          : fromData.milestonesId,
                         'milestonesId',
-                        'milestonesTitle'
-                      ) || []
-                    }
-                    //loading={loading}
-                  />
+                        { title: 'milestonesTitle' }
+                      )}
+                      actionButtons={{ create: { isHide: true } }}
+                      template="milepost"
+                      isRadio={true}
+                      shape="input"
+                      loading={loading.effects.dictionary.getDictDataList}
+                      runLabel={() => {
+                        navigate(`/${userAccount}/${projectId}/milestone`, {
+                          replace: true,
+                        })
+                      }}
+                      onChange={(value) => {
+                        form?.current?.setFieldValue('milestonesId', value)
+                        updateData({
+                          fromData: { ...fromData, milestonesId: value },
+                        })
+                      }}
+                    />
+                  </div>
+                  // <SearchSelect
+                  //   showSearch={true}
+                  //   allowClear
+                  //   // value={taskMilestonesTitle}
+                  //   disabled={false}
+                  //   placeholder="请输入选择"
+                  //   option={
+                  //     selectOption(
+                  //       milepostaData,
+                  //       'milestonesId',
+                  //       'milestonesTitle'
+                  //     ) || []
+                  //   }
+                  // //loading={loading}
+                  // />
                 ),
               },
               labels: {
                 inline: true,
                 initialValue: fromData.labels,
                 children: (
-                  <SearchSelect
-                    mode={'multiple'}
-                    showSearch={true}
-                    allowClear
-                    disabled={false}
-                    placeholder="请输入选择"
-                    option={
-                      selectOption(dictDataList, 'dictCode', 'dictLabel') || []
-                    }
-                    //loading={loading}
-                  />
+                  <div style={{ width: '100%' }}>
+                    <CompDropdown
+                      listData={initListData(
+                        dictDataList,
+                        fromData.labels,
+                        'dictValue',
+                        { color: 'listClass', title: 'dictLabel' }
+                      )}
+                      template="label"
+                      shape="input"
+                      loading={loading.effects.dictionary.getDictDataList}
+                      runLabel={() => navigate('/Authority/dictionary')}
+                      onChange={(value) => {
+                        form?.current?.setFieldValue('labels', value)
+                        updateData({ fromData: { ...fromData, labels: value } })
+                      }}
+                      createTag={(_, current) => createTag(current)}
+                    />
+                  </div>
+                  // <SearchSelect
+                  //   mode={'multiple'}
+                  //   showSearch={true}
+                  //   allowClear
+                  //   disabled={false}
+                  //   placeholder="请输入选择"
+                  //   option={
+                  //     selectOption(dictDataList, 'dictCode', 'dictLabel') || []
+                  //   }
+                  //   //loading={loading}
+                  // />
                 ),
               },
             }}>
@@ -304,12 +412,6 @@ const NewIssue = (props) => {
                       </Col>
                       <Col span="19">{fields.assignmentTitle}</Col>
                     </Row>
-                    {/* <Row align="baseline" className="fromItem">
-                    <Col span="4" className="titleInput">
-                      类型
-                    </Col>
-                    <Col span="19">{fields.assignmentType}</Col>
-                  </Row> */}
                     <Row align="top" className="fromItem">
                       <Col span="4" className="titleInput" style={{}}>
                         描述
