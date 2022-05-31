@@ -18,7 +18,9 @@ const AddUser = () => {
   const {
     team: { isUsers },
   } = useSelector((state) => state)
-
+  const {
+    rolemanagement: { arrLeverTop },
+  } = useSelector((state) => state)
   // 关闭弹窗
   const onClose = () => {
     dispatch({
@@ -36,67 +38,6 @@ const AddUser = () => {
       title: '人员',
       width: 500,
       key: 'personnel',
-    },
-  ]
-
-  const data = [
-    {
-      label: '人事部',
-      key: '0-0-0',
-      children: [
-        {
-          label: '招聘部',
-          key: '0-1-0',
-          children: [
-            { label: '新洲区', key: '0-1-1' },
-            { label: '武昌区', key: '0-1-2' },
-            {
-              label: 'xx部',
-              key: '0-1-3',
-              children: [
-                { label: '汉南区1', key: '0-1-3-1' },
-                { label: '汉南区2', key: '0-1-3-2' },
-                { label: '汉南区3', key: '0-1-3-3' },
-              ],
-            },
-          ],
-        },
-        { label: '福利部', key: '0-2-0' },
-      ],
-    },
-    {
-      label: '研发部',
-      key: '1-0-0',
-      children: [
-        { label: '黄浦区', key: '1-0-1' },
-        { label: '卢湾区', key: '1-0-2' },
-        {
-          label: '徐汇区',
-          key: '1-0-3',
-          children: [
-            { label: '半淞园路街道', key: '1-1-0' },
-            { label: '南京东路街道', key: '1-2-0' },
-            { label: '外滩街道', key: '1-3-0' },
-          ],
-        },
-      ],
-    },
-    {
-      label: '市场部',
-      key: '2-0-0',
-      children: [
-        { label: '东城区', key: '2-1-0' },
-        { label: '西城区', key: '2-2-0' },
-        {
-          label: '崇文区',
-          key: '2-3-0',
-          children: [
-            { label: '东花市街道', key: '2-3-1' },
-            { label: '体育馆路街道', key: '2-3-2' },
-            { label: '前门街道', key: '2-3-3' },
-          ],
-        },
-      ],
     },
   ]
 
@@ -263,7 +204,7 @@ const AddUser = () => {
           <Col fixed>
             <Card title="部门结构" noHover={true}>
               <Tree
-                data={data}
+                data={arrLeverTop}
                 showLine
                 icon={(data, { isOpen, noChild }) => {
                   if (noChild) {
