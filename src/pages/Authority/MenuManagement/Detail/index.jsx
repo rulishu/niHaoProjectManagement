@@ -64,12 +64,17 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
     key: queryInfo.parentId || '0',
     label: dataParent?.menuName || '主类目',
   }
-
   return (
     <ProDrawer
       width={500}
       title={
-        tableType === 'add' ? '新增' : tableType === 'edit' ? '编辑' : '查看'
+        tableType === 'add'
+          ? '新增'
+          : tableType === 'edit'
+          ? '编辑'
+          : tableType === 'addChild'
+          ? '编辑'
+          : '查看'
       }
       visible={drawerVisible}
       onClose={onClose}

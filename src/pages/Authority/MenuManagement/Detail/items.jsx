@@ -6,6 +6,7 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     span: '24',
     readSpan: 3,
     widgetProps: {
+      disabled: true,
       allowClear: true,
       treeProps: { style: { height: 250, overflowX: 'auto' } },
       // onSearch: (searchValue) => console.log('SearchTreeOption', searchValue),
