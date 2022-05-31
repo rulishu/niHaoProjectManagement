@@ -128,7 +128,7 @@ const ProjectManagement = (fun) => {
                   const obj = baseRef?.getFieldValues()
                   if (value > obj.begin) return true
                 },
-                message: '结束时间必须大于开始时间且不能为空',
+                message: '结束时间必须晚于开始时间且不能为空',
               },
             ],
           },
