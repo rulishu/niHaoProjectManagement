@@ -34,7 +34,7 @@ const Demo = (props) => {
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (page, pageSize, formData) => {
-      console.log('formData===>', formData)
+      // console.log('formData===>', formData)
       return {
         page,
         pageSize,

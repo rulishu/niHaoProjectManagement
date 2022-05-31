@@ -10,24 +10,69 @@ export default function TabelView() {
       // alertDept,
     },
   } = useSelector((state) => state)
-  // 层级遍历
-  const getChildrenDepart = function (data, root) {
-    let children = []
-    for (let i = 0; i < data.length; i++) {
-      if (root === data[i].parentId) {
-        data[i].children = getChildrenDepart(data, data[i].deptId)
-        children.push(data[i])
+  //构造树型结构数据
+  function handleTree(data, id, parentId, children) {
+    let config = {
+      id: id || 'id',
+      parentId: parentId || 'parentId',
+      childrenList: children || 'children',
+    }
+
+    let childrenListMap = {}
+    let nodeIds = {}
+    let tree = []
+    console.log('data', data)
+    for (let d of data) {
+      let parentId = d[config.parentId]
+      if (childrenListMap[parentId] == null) {
+        childrenListMap[parentId] = []
+      }
+      nodeIds[d[config.id]] = d
+      childrenListMap[parentId].push(d)
+    }
+
+    for (let d of data) {
+      let parentId = d[config.parentId]
+      if (nodeIds[parentId] == null) {
+        tree.push(d)
       }
     }
-    return children
+
+    for (let t of tree) {
+      adaptToChildrenList(t)
+    }
+
+    function adaptToChildrenList(o) {
+      if (childrenListMap[o[config.id]] !== null) {
+        o[config.childrenList] = childrenListMap[o[config.id]]
+      }
+      if (o[config.childrenList]) {
+        for (let c of o[config.childrenList]) {
+          adaptToChildrenList(c)
+        }
+      }
+    }
+    return tree
   }
-  const dataSourceTreeData = dataSource?.map((code) => ({
-    ...code,
-    label: code.deptName,
-    key: code.parentId,
-  }))
-  const arrSource = getChildrenDepart(dataSourceTreeData, 0) || []
-  const treeData = dataSourceTreeData?.map((e) => e.status === '1')
+  const deptData = handleTree(dataSource || [], 'deptId') || []
+  // // 层级遍历
+  // const getChildrenDepart = function (data, root) {
+  //   let children = []
+  //   for (let i = 0; i < data.length; i++) {
+  //     if (root === data[i].parentId) {
+  //       data[i].children = getChildrenDepart(data, data[i].deptId)
+  //       children.push(data[i])
+  //     }
+  //   }
+  //   return children
+  // }
+  // const dataSourceTreeData = dataSource?.map((code) => ({
+  //   ...code,
+  //   label: code.deptName,
+  //   key: code.parentId,
+  // }))
+  // const arrSource = getChildrenDepart(dataSourceTreeData, 0) || []
+  // const treeData = dataSourceTreeData?.map((e) => e.status === '1')
   const [iterm, setIterm] = useState({})
   const dispatch = useDispatch()
   //   新增
@@ -191,9 +236,11 @@ export default function TabelView() {
         // bordered
         rowKey="deptId"
         columns={columns}
-        data={treeData.includes(false) ? arrSource : dataSourceTreeData}
+        // data={treeData.includes(false) ? arrSource : dataSourceTreeData}
+        data={deptData}
         footer={
-          arrSource.length || dataSourceTreeData.length > 0 ? '' : <Empty />
+          // arrSource.length || dataSourceTreeData.length > 0 ? '' : <Empty />
+          deptData.length > 0 ? '' : <Empty />
         }
       />
     </div>

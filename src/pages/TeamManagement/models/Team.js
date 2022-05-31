@@ -7,11 +7,8 @@ import {
   deleteTeamById,
   getTeamInfoById,
   // 团队成员操作相关API
-  // addTeamMember,
-  // deleteTeamMemberById,
-  // getCurrentUserAllItem,
-  getMemberByTeamId,
-  // editTeamMemberInfo,
+  getMembers,
+  getNotTeamUsers,
 } from '../../../servers/team'
 
 const team = createModel()({
@@ -21,7 +18,7 @@ const team = createModel()({
     pageSize: 10,
     pages: 1,
     total: 0,
-    dataList: [], // 数据列表源
+    dataList: {}, // 数据列表源
     teamData: {}, // 当前团队数据
     teamMemberList: [], // 团队成员数据
     drawerVisible: false,
@@ -74,13 +71,15 @@ const team = createModel()({
         team.team.tablePro.onSearch()
       }
     },
+
     // 分页查找团队
-    async getPageTeam(params, { team }) {
+    async getPageTeam(params) {
       const param = { page: 1, pageSize: 10, ...params }
       const data = await getPageTeam(param)
+      console.log('data===>', data)
       if (data && data.code === 200) {
-        dispatch.team.update({
-          dataList: data?.data?.list,
+        dispatch.team.updateState({
+          dataList: data?.data?.rows,
         })
       }
     },
@@ -88,17 +87,26 @@ const team = createModel()({
     async getTeamInfoById(params) {
       const data = await getTeamInfoById(params)
       if (data && data.code === 200) {
-        dispatch.team.update({
+        dispatch.team.updateState({
           teamData: data.data,
         })
       }
     },
-    // 通过团队id查询团队成员信息
-    async getMemberByTeamId(params) {
-      const data = await getMemberByTeamId(params)
+    // 获取团队下成员信息--可根据部门筛选
+    async getMembers(payload) {
+      const data = await getMembers(payload)
       if (data && data.code === 200) {
-        dispatch.team.update({
+        dispatch.team.updateState({
           teamMemberList: data?.data,
+        })
+      }
+    },
+    // 获取未加入团队用户列表--可根据部门筛选
+    async getNotTeamUsers(params) {
+      const data = await getNotTeamUsers(params)
+      if (data && data.code === 200) {
+        dispatch.team.updateState({
+          teamData: data.data,
         })
       }
     },
