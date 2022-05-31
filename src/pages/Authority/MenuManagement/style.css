@@ -1,3 +1,6 @@
 .menuTable table tr td span div {
   display: inline-block;
 }
+.w-table-footer {
+  display: none;
+}
