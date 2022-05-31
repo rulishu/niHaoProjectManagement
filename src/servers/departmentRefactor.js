@@ -33,7 +33,7 @@ function judge(params) {
 
 // 根据ID获取部门详情
 function getInfoData(params) {
-  return request('/api/system/dept/listToken/exclude', {
+  return request('/api/system/dept/list/exclude', {
     method: 'POST',
     body: { ...params },
   })

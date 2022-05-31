@@ -5,6 +5,7 @@ import {
   addNewUser,
   deleteById,
   editNewUser,
+  editNewperson,
   editGetInfo,
   queryById,
   updatePassword,
@@ -59,6 +60,8 @@ const allusers = createModel()({
     postsDataInfo: {},
     isRegister: false, //是否开启注册功能
     types: '', //2:编辑用户
+    isShow: '', //show是否显示
+    userData: '', //编辑用户数据
   },
   reducers: {
     update: (state, payload) => {
@@ -132,6 +135,21 @@ const allusers = createModel()({
           uuid: data.data?.uuid || '',
         })
       }
+    },
+    //编辑个人
+    async editNewPerson(payload) {
+      const { param, callback } = payload
+      await editGetInfo(param.userId)
+      const data = await editNewperson(param)
+      if (data && data.code === 200) {
+        await callback()
+        NotifySuccess(data.message)
+        dispatch.allusers.update({
+          isShow: '',
+          userData: '',
+        })
+      }
+      await dispatch.userHome.getUserInfo({ id: param.userId })
     },
     //修改引导状态
     async guideUpdate(payload) {

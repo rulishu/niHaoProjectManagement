@@ -195,13 +195,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const token = localStorage.getItem('token')
 
   // 判断是否处于一级路由
-  const isNoMenuN = fullPathName.split('/').length <= 2
+  // const isNoMenuN = fullPathName.split('/').length <= 2
   const pageName = pathName.split('/')[pathName.split('/').length - 1]
   return (
     <AuthPage redirectPath="/login" authority={!!token}>
       <BasicLayout
         {...basicLayoutProps}
-        menuHide={isNoMenu || isNoMenuN}
+        // menuHide={true}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
         {linkedType !== -1 && !isError ? (

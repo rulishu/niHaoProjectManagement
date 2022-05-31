@@ -6,6 +6,7 @@ const department = createModel()({
   state: {
     // detailsData: {},
     drawerVisible: false,
+    tableType: '',
     // drawerVisibleText: '',
     Loading: true,
     // dataSource: [],
@@ -35,7 +36,7 @@ const department = createModel()({
         dph.department.updateState({
           drawerVisible: false,
           Loading: false,
-          drawerVisibleText: '',
+          tableType: '',
         })
         dph.department.getList({})
       }
@@ -61,7 +62,7 @@ const department = createModel()({
         dph.department.updateState({
           drawerVisible: false,
           Loading: false,
-          drawerVisibleText: '',
+          tableType: '',
         })
         dph.department.getList({})
       }

@@ -187,6 +187,9 @@ const EditTask = () => {
             template="personnel"
             shape="label"
             isRadio={true}
+            onClickable={(is) => {
+              setAssignState(is)
+            }}
             selectLabel={(key) => {
               const userName = userSelectAllList
                 ?.map((item) =>
@@ -246,6 +249,9 @@ const EditTask = () => {
             template="milepost"
             shape="label"
             isRadio={true}
+            onClickable={(is) => {
+              setMilepostState(is)
+            }}
             selectLabel={(key) => {
               updateData({
                 editFromData: { ...editFromData, milestonesId: key },
@@ -323,6 +329,9 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
+            onClickable={(is) => {
+              setLabelState(is)
+            }}
             closeLabel={() => {
               updateData({
                 editFromData: {

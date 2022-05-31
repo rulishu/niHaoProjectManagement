@@ -5,6 +5,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
 import DeletePopover from '@/components/DeletePopover'
 import './style.css'
+import { searchFun } from '@/utils/publicFun'
 
 const Demo = () => {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const Demo = () => {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data?.total,
+        // total: data?.data?.total,
         data: handleTree(data?.data || [], 'menuId') || [],
       }
     },
@@ -129,27 +130,15 @@ const Demo = () => {
             {
               label: '新增',
               type: 'primary',
+              icon: 'plus',
               onClick: () => {
                 handleEditTable('add', {})
               },
             },
           ]}
+          paginationProps={{ style: { display: 'none' } }}
           // 搜索栏按钮
-          searchBtns={[
-            {
-              label: '查询',
-              type: 'primary',
-              onClick: () => {
-                table.onSearch()
-              },
-            },
-            {
-              label: '重置',
-              onClick: () => {
-                table.onReset()
-              },
-            },
-          ]}
+          searchBtns={searchFun(table)}
           className="menuTable"
           table={table}
           columns={[

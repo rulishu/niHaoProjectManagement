@@ -31,7 +31,7 @@ function SearchView() {
             ),
           },
         }}>
-        {({ fields, canSubmit }) => {
+        {({ fields, canSubmit, resetForm }) => {
           return (
             <div
               style={{
@@ -71,16 +71,17 @@ function SearchView() {
                     </Button>
                   </Col>
                 </Row>
-                {/* <Row gutter={10} style={{ marginRight: 10 }}>
+                <Row gutter={10} style={{ marginRight: 10 }}>
                   <Col align="middle">
                     <Button
                       disabled={!canSubmit()}
                       htmlType="submit"
+                      onClick={resetForm}
                       icon="reload">
                       重置
                     </Button>
                   </Col>
-                </Row> */}
+                </Row>
               </div>
             </div>
           )

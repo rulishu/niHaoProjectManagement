@@ -107,10 +107,10 @@ export function selectAllUser(params) {
 }
 
 /**
- * 获取所有用户
+ * 获取项目中所有参与人员
  */
 export function selectAllUserlist(params) {
-  return request('/api/system/user/queryFuzzyAllUser', {
+  return request('/api/system/user/getProjectLeader', {
     method: 'POST',
     body: params,
   })

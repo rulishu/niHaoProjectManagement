@@ -19,12 +19,14 @@ const routes = [
         path: '/dashboard',
         name: '工作台',
         hideInMenu: true,
+        hiddenMainMenu: true,
         component: '@/pages/WorkBench',
         navigate: '(navigate) => {navigate(`/dashboard',
       },
       {
         path: '/projectList',
         name: '项目列表',
+        hiddenMainMenu: true,
         component: '@/pages/ProjectList',
         hideInMenu: true,
         isAuth: false,
@@ -33,6 +35,7 @@ const routes = [
       {
         path: '/todoList',
         name: '待办事项列表',
+        hiddenMainMenu: true,
         component: '@/pages/TodoList',
         hideInMenu: true,
         isAuth: false,
@@ -167,6 +170,7 @@ const routes = [
         name: '用户主页',
         component: '@/pages/Authority/AllUsers/UserHome',
         hideInMenu: true,
+        hiddenMainMenu: true,
         navigate:
           "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}",
       },

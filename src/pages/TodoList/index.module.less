@@ -27,11 +27,6 @@
   }
 }
 
-.itemListRight {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .tabsLabelTitle {
   font-size: 14px;
   line-height: 28px;
@@ -102,10 +97,16 @@
     justify-content: space-between;
     align-items: center;
 
-    .listCol {
+    .itemListLeft {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .itemListRight {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 80px;
     }
   }
 
@@ -125,6 +126,8 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .listInfo {

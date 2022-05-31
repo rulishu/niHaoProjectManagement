@@ -86,12 +86,13 @@ const Detail = ({ updateData, onSearch }) => {
             await form?.submitvalidate?.()
             const errors = form.getError()
             if (errors && Object.keys(errors).length > 0) return
+            const value = form.getFieldValues?.()
             dispatch({
               type: `rolemanagement/${
                 tableType === 'add' ? 'getAdd' : 'getEdit'
               }`,
               payload: {
-                ...queryInfo,
+                ...value,
                 menuIds: menuIds.filter((n) => n) || [],
                 roleId: queryInfo?.roleId || null,
               },
@@ -108,9 +109,9 @@ const Detail = ({ updateData, onSearch }) => {
         }}
         formType={isView ? 'pure' : 'card'}
         readOnly={isView}
-        onChange={(initial, current) =>
-          updateData({ queryInfo: { ...queryInfo, ...current } })
-        }
+        // onChange={(initial, current) =>
+        //   updateData({ queryInfo: { ...queryInfo, ...current } })
+        // }
         buttonsContainer={{ justifyContent: 'flex-start' }}
         formDatas={items(queryInfo, TreeData)}
         readOnlyProps={{ column: 1 }}

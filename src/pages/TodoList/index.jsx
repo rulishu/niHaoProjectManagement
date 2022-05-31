@@ -99,62 +99,62 @@ const TodoList = () => {
                       </div>
                     }>
                     <Row gutter={10} className={styles.listRow}>
-                      <div>
-                        <Col
-                          // span={18}
-                          className={styles.listCol}>
-                          <a href={item?.nav} className={styles.listTitle}>
-                            {item.title}
-                          </a>
-                          <span>
-                            <div className={styles.listContent}>
-                              <Icon type="user" size="big" /> 你
-                              <span>
-                                {item.doType === 0 ? '评论' : '任务指派给'}{' '}
-                              </span>
-                              <span
-                                className={styles.projectName}
-                                onClick={() =>
-                                  navigate(`/${item.doUserAccount}`)
-                                }>
-                                <Icon type="user" /> {item.doUserName}
-                              </span>
-                              <span
-                                className={
-                                  item?.projectUrl ? styles.projectName : ''
-                                }
-                                onClick={() => {
-                                  item?.projectUrl &&
-                                    navigate(
-                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
-                                    )
-                                }}>
-                                #{item.issuesId}''{item.doConnent}''
-                              </span>
-                              在
-                              <span
-                                className={
-                                  item?.projectUrl ? styles.projectName : ''
-                                }
-                                onClick={() => {
-                                  item?.projectUrl &&
-                                    navigate(`${item?.projectUrl}`)
-                                }}>
-                                {item.projectName}
-                              </span>
-                              由
-                              <span
-                                className={styles.projectName}
-                                onClick={() => {
-                                  navigate(`/${item?.assignUserAccount}`)
-                                }}>
-                                {item.assignUserName}
-                              </span>
-                              创建于 {item?.createTime}
-                            </div>
-                          </span>
-                        </Col>
-                      </div>
+                      <Col
+                        // span={18}
+                        className={styles.itemListLeft}
+                        // className={styles.itemListRight}
+                      >
+                        <a href={item?.nav} className={styles.listTitle}>
+                          {item.title}
+                        </a>
+                        <span>
+                          <div className={styles.listContent}>
+                            <Icon type="user" size="big" /> 你
+                            <span>
+                              {item.doType === 0 ? '评论' : '任务指派给'}{' '}
+                            </span>
+                            <span
+                              className={styles.projectName}
+                              onClick={() =>
+                                navigate(`/${item.doUserAccount}`)
+                              }>
+                              <Icon type="user" /> {item.doUserName}
+                            </span>
+                            <span
+                              className={
+                                item?.projectUrl ? styles.projectName : ''
+                              }
+                              onClick={() => {
+                                item?.projectUrl &&
+                                  navigate(
+                                    `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                  )
+                              }}>
+                              #{item.issuesId}''{item.doConnent}''
+                            </span>
+                            在
+                            <span
+                              className={
+                                item?.projectUrl ? styles.projectName : ''
+                              }
+                              onClick={() => {
+                                item?.projectUrl &&
+                                  navigate(`${item?.projectUrl}`)
+                              }}>
+                              {item.projectName}
+                            </span>
+                            由
+                            <span
+                              className={styles.projectName}
+                              onClick={() => {
+                                navigate(`/${item?.assignUserAccount}`)
+                              }}>
+                              {item.assignUserName}
+                            </span>
+                            创建于 {item?.createTime}
+                          </div>
+                        </span>
+                      </Col>
                       <Col className={styles.itemListRight}>
                         <div>
                           <Button
@@ -185,9 +185,10 @@ const TodoList = () => {
                 total={taskTotal}
                 alignment="center"
                 onChange={(pages, _, pageSize) => {
+                  console.log(pages, pageSize, num)
                   dispatch.todolist.goToPage({
-                    pages,
-                    pageSize,
+                    page: pages,
+                    pageSize: pageSize,
                     status: num,
                   })
                 }}

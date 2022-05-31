@@ -44,6 +44,7 @@ export default createModel()({
       createId: userData?.id,
       createName: userData?.userName,
       assignmentTitle: '',
+      assigneeUserId: 0,
       assignmentType: 1,
       description: '',
       projectId: '',
