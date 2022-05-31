@@ -8,17 +8,18 @@ export const getPageTeam = (params) => {
     body: params,
   })
 }
-// // 分页查询用户列表数据
-// export const getTeamMemberList = (params) => {
-//   return request('/api/ManagerTeam/selectPage', {
-//     method: 'POST',
-//     body: params,
-//   })
-// }
 
 // 获取团队下成员信息--可根据部门筛选
-export const getMemberByTeamId = (params) => {
+export const getMembers = (params) => {
   return request('/api/ManagerTeam/getMembers', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+// 获取未加入团队用户列表--可根据部门筛选
+export const getNotTeamUsers = (params) => {
+  return request('/api/ManagerTeam/getNotTeamUsers', {
     method: 'POST',
     body: params,
   })
@@ -43,22 +44,6 @@ export const getall = (params) => {
 //根据主键删除团队，支持批量
 export const deleteTeamById = (params) => {
   return request('/api/ManagerTeam/delete', {
-    method: 'POST',
-    body: params,
-  })
-}
-
-// 获取团队下成员信息--可根据部门筛选
-export const getMembers = (params) => {
-  return request('/api/ManagerTeam/getMembers', {
-    method: 'POST',
-    body: params,
-  })
-}
-
-//获取未加入团队用户列表--可根据部门筛选
-export const getNotTeamUsers = (params) => {
-  return request('/api/ManagerTeam/getNotTeamUsers', {
     method: 'POST',
     body: params,
   })

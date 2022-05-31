@@ -7,11 +7,8 @@ import {
   deleteTeamById,
   getTeamInfoById,
   // 团队成员操作相关API
-  // addTeamMember,
-  // deleteTeamMemberById,
-  // getCurrentUserAllItem,
-  getMemberByTeamId,
-  // editTeamMemberInfo,
+  getMembers,
+  getNotTeamUsers,
 } from '../../../servers/team'
 
 const team = createModel()({
@@ -93,9 +90,18 @@ const team = createModel()({
         })
       }
     },
-    // 通过团队id查询团队成员信息
-    async getMemberByTeamId(params) {
-      const data = await getMemberByTeamId(params)
+    // 获取未加入团队用户列表--可根据部门筛选
+    async getNotTeamUsers(params) {
+      const data = await getNotTeamUsers(params)
+      if (data && data.code === 200) {
+        dispatch.team.update({
+          teamData: data.data,
+        })
+      }
+    },
+    // 获取团队下成员信息--可根据部门筛选
+    async getMembers(params) {
+      const data = await getMembers(params)
       if (data && data.code === 200) {
         dispatch.team.update({
           teamMemberList: data?.data,
