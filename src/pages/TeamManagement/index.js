@@ -14,19 +14,16 @@ export default function Index() {
   const {
     team: { alertShow, id },
   } = useSelector((state) => state)
-  // console.log('dataList===>33333', dataList[id])
-  useEffect(
-    (id) => {
-      dispatch.team.getPageTeam()
-      dispatch({
-        type: 'team/getMembers',
-        payload: { teamId: id },
-      })
-      dispatch.team.getNotTeamUsers()
-      dispatch.rolemanagement?.getAllDepartment()
-    },
-    [dispatch]
-  )
+
+  useEffect(() => {
+    // dispatch({
+    //   type: 'team/getMembers',
+    //   payload: { teamId: id },
+    // })
+    dispatch.team.getPageTeam()
+    dispatch.team.getNotTeamUsers()
+    dispatch.rolemanagement?.getAllDepartment()
+  }, [dispatch])
 
   const token = localStorage.getItem('token')
   const { projectId } = useParams()

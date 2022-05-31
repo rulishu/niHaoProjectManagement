@@ -5,7 +5,6 @@ import {
   editTeam,
   getPageTeam,
   deleteTeamById,
-  getTeamInfoById,
   // 团队成员操作相关API
   getMembers,
   getNotTeamUsers,
@@ -18,8 +17,8 @@ const team = createModel()({
     pageSize: 10,
     pages: 1,
     total: 0,
-    dataList: {}, // 数据列表源
-    teamData: {}, // 当前团队数据
+    dataList: [], // 数据列表源
+    teamData: [], // 当前团队数据
     teamMemberList: [], // 团队成员数据
     drawerVisible: false,
     drawerType: '',
@@ -29,6 +28,7 @@ const team = createModel()({
     loading: false,
     tablePro: {},
     id: null,
+    teamId: null,
     isUsers: false,
   },
   reducers: {
@@ -76,19 +76,17 @@ const team = createModel()({
     async getPageTeam(params) {
       const param = { page: 1, pageSize: 10, ...params }
       const data = await getPageTeam(param)
-      console.log('data===>', data)
       if (data && data.code === 200) {
+        const arr = []
+        data.data.rows.forEach((item) => {
+          arr.push({
+            label: item.id,
+            value: item.id,
+          })
+        })
         dispatch.team.updateState({
           dataList: data?.data?.rows,
-        })
-      }
-    },
-    // 通过团队id查询团队信息
-    async getTeamInfoById(params) {
-      const data = await getTeamInfoById(params)
-      if (data && data.code === 200) {
-        dispatch.team.updateState({
-          teamData: data.data,
+          teamId: arr,
         })
       }
     },
@@ -105,8 +103,16 @@ const team = createModel()({
     async getNotTeamUsers(params) {
       const data = await getNotTeamUsers(params)
       if (data && data.code === 200) {
+        // console.log('data====>11111', data)
+        const arr = []
+        data.data.forEach((item) => {
+          arr.push({
+            label: item.nickName,
+            // key: item.nickName,
+          })
+        })
         dispatch.team.updateState({
-          teamData: data.data,
+          teamData: arr,
         })
       }
     },
