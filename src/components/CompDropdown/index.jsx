@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, Button, Icon } from 'uiw'
+import { Card, Button, Icon, OverlayTrigger } from 'uiw'
 import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
@@ -140,68 +140,78 @@ const CompDropdown = (props) => {
     )
   }
 
+  const dropDownContent = (
+    <Card className={styles.labelCard} bodyClassName={styles.labelCardBody}>
+      <div className={styles.labelHead}>
+        {labelStatus === 2 && (
+          <div className={styles.headBut}>
+            <Button
+              icon="arrow-left"
+              basic
+              type="dark"
+              className={styles.headClose}
+              onClick={() => {
+                setLabelStatus(1)
+              }}
+            />
+          </div>
+        )}
+        <p className={styles.headTitle}>
+          {labelStatus === 1
+            ? `指定${title || tempTitle}`
+            : `创建${title || tempTitle}`}
+        </p>
+        <div className={styles.headBut}>
+          <Button
+            icon="close"
+            basic
+            type="dark"
+            className={styles.headClose}
+            onClick={() => {
+              setOpen(false)
+              closeLabel && closeLabel()
+            }}
+          />
+        </div>
+      </div>
+      {labelStatus === 1 && (
+        <LabelBox
+          labelHeader={newHeader()}
+          isRadio={isRadio}
+          listData={listData}
+          options={options}
+          optionEvent={optionEvent}
+          setLabelStatus={setLabelStatus}
+          searchLabel={searchLabel}
+          runLabel={runLabel}
+          loading={loading || false}
+          title={title || tempTitle}
+          actionButtons={actionButtons || tempActionButtons}
+        />
+      )}
+      {labelStatus === 2 && (
+        <CreateLabel
+          setLabelStatus={setLabelStatus}
+          createTag={createTag}
+          createTagChange={createTagChange}
+          form={form || tempForm}
+        />
+      )}
+    </Card>
+  )
   return (
     <div className={styles.label}>
       <div>{tagList(listData?.filter((s) => options?.includes(s?.key)))}</div>
-      {open && (
-        <Card className={styles.labelCard} bodyClassName={styles.labelCardBody}>
-          <div className={styles.labelHead}>
-            {labelStatus === 2 && (
-              <div className={styles.headBut}>
-                <Button
-                  icon="arrow-left"
-                  basic
-                  type="dark"
-                  className={styles.headClose}
-                  onClick={() => {
-                    setLabelStatus(1)
-                  }}
-                />
-              </div>
-            )}
-            <p className={styles.headTitle}>
-              {labelStatus === 1
-                ? `指定${title || tempTitle}`
-                : `创建${title || tempTitle}`}
-            </p>
-            <div className={styles.headBut}>
-              <Button
-                icon="close"
-                basic
-                type="dark"
-                className={styles.headClose}
-                onClick={() => {
-                  setOpen(false)
-                  closeLabel && closeLabel()
-                }}
-              />
-            </div>
-          </div>
-          {labelStatus === 1 && (
-            <LabelBox
-              labelHeader={newHeader()}
-              isRadio={isRadio}
-              listData={listData}
-              options={options}
-              optionEvent={optionEvent}
-              setLabelStatus={setLabelStatus}
-              searchLabel={searchLabel}
-              runLabel={runLabel}
-              loading={loading || false}
-              title={title || tempTitle}
-              actionButtons={actionButtons || tempActionButtons}
-            />
-          )}
-          {labelStatus === 2 && (
-            <CreateLabel
-              setLabelStatus={setLabelStatus}
-              createTag={createTag}
-              createTagChange={createTagChange}
-              form={form || tempForm}
-            />
-          )}
-        </Card>
-      )}
+      <OverlayTrigger
+        isOpen={open}
+        trigger="click"
+        placement="bottom"
+        overlay={dropDownContent}
+        autoAdjustOverflow={true}
+        isClickOutside={false}
+        usePortal={false}>
+        <div>{props?.children}</div>
+      </OverlayTrigger>
     </div>
   )
 }

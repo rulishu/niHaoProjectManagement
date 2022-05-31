@@ -94,16 +94,6 @@ const checkArrayObjectValueRepeat = (dataArr, key, checkVoid = false) => {
   return checkVoid
 }
 
-export {
-  splitUrl,
-  projectStatus,
-  issueStatus,
-  selectOption,
-  BreadcrumbMap,
-  routesArr,
-  checkArrayObjectValueRepeat,
-}
-
 //百分比(不带%)（已完成/总数）*100
 export function NumColor(value, inx) {
   if (value === 0 || inx === 0 || value === undefined || inx === undefined) {
@@ -146,4 +136,43 @@ export const milepostOption = (data, value, name) => {
   } else {
     return []
   }
+}
+
+// 初始化 CompDropdown 组件数据
+// initData: 初始数据 resultData:结果数据 key: 唯一值 renderData: 渲染数据对象
+const initListData = (initData = [], resultData, key, renderData) => {
+  const dataTypes = Array.isArray(resultData)
+  const useful =
+    Array.isArray(resultData) &&
+    resultData?.map((item) => (item[key] ? item[key] : item))
+  return initData
+    ?.map((item) => {
+      if (!item[key]) return undefined
+      let resultObj = {
+        key: item[key],
+        check: dataTypes
+          ? useful?.includes(item[key])
+          : resultData === item[key],
+      }
+      Object.keys(renderData)?.forEach(
+        (keyItem) =>
+          (resultObj = {
+            ...resultObj,
+            [keyItem]: item[renderData[keyItem]],
+          })
+      )
+      return resultObj
+    })
+    ?.filter((s) => s)
+}
+
+export {
+  splitUrl,
+  projectStatus,
+  issueStatus,
+  selectOption,
+  BreadcrumbMap,
+  routesArr,
+  checkArrayObjectValueRepeat,
+  initListData,
 }

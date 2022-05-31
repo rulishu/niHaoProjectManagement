@@ -107,116 +107,116 @@
       }
     }
   }
+}
 
-  .labelCard {
-    .labelCardBody {
-      padding: 0;
-      // position: absolute;
-      // top: 25px;
-      // left: 0px;
-      // z-index: 9999;
-      // background-color: #fff;
+.labelCard {
+  .labelCardBody {
+    padding: 0;
+    // position: absolute;
+    // top: 25px;
+    // left: 0px;
+    // z-index: 9999;
+    // background-color: #fff;
+  }
+
+  .labelHead {
+    position: relative;
+    padding: 8px 12px 6px 12px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1;
+    font-size: 12px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #dbdbdb;
+    overflow: hidden;
+    display: flex;
+
+    .headTitle {
+      flex-grow: 1;
     }
 
-    .labelHead {
-      position: relative;
-      padding: 8px 12px 6px 12px;
-      margin-bottom: 8px;
-      font-weight: 600;
-      line-height: 1;
-      font-size: 12px;
-      text-align: center;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      border-bottom: 1px solid #dbdbdb;
-      overflow: hidden;
-      display: flex;
-
-      .headTitle {
-        flex-grow: 1;
+    .headBut {
+      .headClose {
+        min-width: 12px;
+        min-height: 12px;
+        font-size: 12px;
+        overflow: hidden;
+        padding: 0;
       }
+    }
+  }
 
-      .headBut {
-        .headClose {
-          min-width: 12px;
-          min-height: 12px;
-          font-size: 12px;
-          overflow: hidden;
-          padding: 0;
+  .labelBox {
+    // 列表
+    .labelList {
+      overflow: auto;
+      max-height: 189px;
+      padding-top: 5px;
+
+      // 列表项
+      .labelListLi {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+
+        &:hover {
+          background-color: #f0f0f0;
+          text-decoration: none;
+          color: #303030;
+          cursor: pointer;
         }
-      }
-    }
 
-    .labelBox {
-      // 列表
-      .labelList {
-        overflow: auto;
-        max-height: 189px;
-        padding-top: 5px;
+        .liLeft {
+          flex-shrink: 0;
+          margin-right: 0.5rem;
+          color: #525252;
+          width: 16px;
+          height: 16px;
+          font-size: 12px;
+        }
 
-        // 列表项
-        .labelListLi {
+        .liRight {
           display: flex;
           align-items: center;
-          padding: 0 12px;
-
-          &:hover {
-            background-color: #f0f0f0;
-            text-decoration: none;
-            color: #303030;
-            cursor: pointer;
-          }
-
-          .liLeft {
-            flex-shrink: 0;
-            margin-right: 0.5rem;
-            color: #525252;
-            width: 16px;
-            height: 16px;
-            font-size: 12px;
-          }
-
-          .liRight {
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 27px;
-            box-shadow: none;
-            color: #303030;
-            text-align: left;
-            width: 100%;
-            white-space: normal;
-            // max-height: 27px;
-
-            & > div {
-              display: flex;
-              align-items: center;
-            }
-          }
-        }
-      }
-
-      .labelFoot {
-        border-top-width: 1px;
-        border-top-style: solid;
-        border-top-color: #bfbfbf;
-
-        .footBut {
           font-size: 12px;
           font-weight: 400;
           line-height: 27px;
+          box-shadow: none;
           color: #303030;
-          padding: 0 12px;
-          padding-top: 2px;
-          padding-bottom: 2px;
+          text-align: left;
+          width: 100%;
+          white-space: normal;
+          // max-height: 27px;
 
-          &:hover {
-            background-color: #f0f0f0;
-            text-decoration: none;
-            color: #303030;
-            cursor: pointer;
+          & > div {
+            display: flex;
+            align-items: center;
           }
+        }
+      }
+    }
+
+    .labelFoot {
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-top-color: #bfbfbf;
+
+      .footBut {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 27px;
+        color: #303030;
+        padding: 0 12px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        &:hover {
+          background-color: #f0f0f0;
+          text-decoration: none;
+          color: #303030;
+          cursor: pointer;
         }
       }
     }
