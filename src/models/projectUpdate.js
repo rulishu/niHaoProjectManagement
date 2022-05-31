@@ -94,7 +94,10 @@ const projectUpdate = createModel()({
         })
         callback && callback() //回调刷新界面
       }
-      await dispatch.userHome.getUserInfoByAccount(userName)
+      //判断是否是用户个人页-新增项目数据回显
+      if (userName !== undefined) {
+        await dispatch.userHome.getUserInfoByAccount(userName)
+      }
     },
 
     //编辑项目

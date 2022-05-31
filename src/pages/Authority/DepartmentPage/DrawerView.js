@@ -121,7 +121,7 @@ export default function DrawerView() {
             parentId: {
               labelClassName: 'fieldLabel',
               label: '上级部门',
-              initialValue: [topDataInfo] || '',
+              initialValue: dataParent ? [topDataInfo] : [],
               required: true,
               labelFor: 'username-inline',
               disabled: drawerVisibleText !== 'add',
@@ -143,7 +143,7 @@ export default function DrawerView() {
                   //     isChecked
                   //   )
                   // }
-                  placeholder="请选择选项"
+                  placeholder="请选择上级部门"
                 />
               ),
             },
