@@ -346,16 +346,7 @@ const BasicInfo = (props) => {
                   }
                   // 调用请求接口
                   // type 1 : 查看 2 : 编辑 3 :新增 types === 2:编辑用户
-                  if (types === 2) {
-                    const param = {
-                      ...params,
-                      userId: baseDetail?.userId,
-                    }
-                    await dispatch.editNewPerson({
-                      param,
-                      callback: () => setIsOverlay(false),
-                    })
-                  } else if (props?.type === 2) {
+                  if (props?.type === 2) {
                     const param = {
                       ...params,
                       userId: baseDetail?.userId,
@@ -364,18 +355,27 @@ const BasicInfo = (props) => {
                       param,
                       callback: () => setIsOverlay(false),
                     })
+                    await dispatch.queryByPage({
+                      page: 1,
+                      pageSize: page * pageSize,
+                    })
                   } else if (props?.type === 3) {
                     await dispatch.addNewUser({
                       params,
                       callback: () => setIsOverlay(false),
                     })
-                  }
-                  if (types === 2) {
-                    return
-                  } else {
                     await dispatch.queryByPage({
                       page: 1,
                       pageSize: page * pageSize,
+                    })
+                  } else if (types === 2) {
+                    const param = {
+                      ...params,
+                      userId: baseDetail?.userId,
+                    }
+                    await dispatch.editNewPerson({
+                      param,
+                      callback: () => setIsOverlay(false),
                     })
                   }
                 }}>
