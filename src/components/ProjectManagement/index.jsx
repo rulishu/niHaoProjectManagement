@@ -99,6 +99,7 @@ const ProjectManagement = (fun) => {
             span: '24',
             required: true,
             rules: [{ required: true, message: '请输入项目负责人' }],
+            hide: drawerType === 'add',
           },
           {
             label: '起始日期:',
@@ -126,7 +127,8 @@ const ProjectManagement = (fun) => {
               {
                 validator: (value) => {
                   const obj = baseRef?.getFieldValues()
-                  if (value > obj.begin) return true
+                  if (Object.keys(obj).length > 0 && value > obj.begin)
+                    return true
                 },
                 message: '结束时间必须晚于开始时间且不能为空',
               },
