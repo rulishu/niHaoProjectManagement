@@ -134,6 +134,7 @@ const Demo = () => {
               },
             },
           ]}
+          paginationProps={{ style: { display: 'none' } }}
           // 搜索栏按钮
           searchBtns={[
             {
