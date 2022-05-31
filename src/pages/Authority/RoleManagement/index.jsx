@@ -6,6 +6,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
 // import Authorization from './Authorization/index'
 import DeletePopover from '@/components/DeletePopover'
+import { changeDate } from '@/utils/utils'
 
 const Demo = (props) => {
   const dispatch = useDispatch()
@@ -33,7 +34,18 @@ const Demo = (props) => {
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (page, pageSize, formData) => {
-      return { page, pageSize, ...formData }
+      console.log('formData===>', formData)
+      return {
+        page,
+        pageSize,
+        roleKey: formData.roleKey,
+        roleName: formData.roleName,
+        status: formData.status,
+        params: {
+          beginTime: changeDate(formData.createTime?.at(0))?.trim(),
+          endTime: changeDate(formData.createTime?.at(1))?.trim(),
+        },
+      }
     },
     // swr options
     SWRConfiguration: {

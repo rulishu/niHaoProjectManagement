@@ -176,3 +176,42 @@ export {
   checkArrayObjectValueRepeat,
   initListData,
 }
+//时间转化
+export function changeDate(date) {
+  if (date) {
+    const d = new Date(date)
+    return (
+      d.getFullYear() +
+      '-' +
+      changeStr(d.getMonth() + 1) +
+      '-' +
+      changeStr(d.getDate()) +
+      ' ' +
+      changeStr(d.getHours()) +
+      ':' +
+      changeStr(d.getMinutes()) +
+      ':' +
+      changeStr(d.getSeconds())
+    )
+  }
+}
+export function changeTime(date) {
+  if (date) {
+    const d = new Date(date)
+    return (
+      d.getFullYear() +
+      '-' +
+      changeStr(d.getMonth() + 1) +
+      '-' +
+      changeStr(d.getDate())
+    )
+  }
+}
+
+function changeStr(data) {
+  if (data < 10) {
+    return '0' + data
+  } else {
+    return data
+  }
+}
