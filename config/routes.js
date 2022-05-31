@@ -124,6 +124,14 @@ const routes = [
                   "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/task`)}",
               },
               {
+                path: '/tissue/:projectId/taskBoard',
+                name: '任务看板',
+                component: '@/pages/TaskBoard',
+                isAuth: true,
+                navigate:
+                  "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/taskBoard`)}",
+              },
+              {
                 path: '/tissue/:projectId/task/newIssue',
                 name: '新增任务',
                 hideInMenu: true,
@@ -162,17 +170,6 @@ const routes = [
         navigate:
           "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}`)}",
       },
-      // {
-      //   path: '/project/taskBoard/:projectId',
-      //   name: '任务看板',
-      //   icon: 'down-circle-o',
-      //   component: '@/pages/TaskBoard',
-      //   navigate: (navigate, location) => {
-      //     const id = sessionStorage.getItem('projectId')
-      //     navigate(`/project/TaskBoard/${id}`)
-      //   },
-      //   isAuth: true,
-      // },
       {
         path: '/:userAccount',
         name: '用户主页',
@@ -244,6 +241,14 @@ const routes = [
               navigate(`/${userId}/${id}/task`)
             },
             isAuth: true,
+          },
+          {
+            path: '/:userAccount/:projectId/taskBoard',
+            name: '任务看板',
+            component: '@/pages/TaskBoard',
+            isAuth: true,
+            navigate:
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/taskBoard`)}",
           },
           {
             path: '/:userAccount/:projectId/task',
