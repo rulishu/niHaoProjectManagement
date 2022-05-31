@@ -159,11 +159,21 @@ function BasicLayoutScreen(props = { routes: [] }) {
           )}
           <div className={styles.title} onClick={() => navigate(`/todoList`)}>
             {status === 0 ? (
-              <Badge count={todoNotice || todoNotices}>
+              <Badge
+                count={
+                  todoNotice !== 0 && todoNotices !== 0
+                    ? todoNotice || todoNotices
+                    : 0
+                }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             ) : (
-              <Badge count={openTotal || todoNotices}>
+              <Badge
+                count={
+                  openTotal !== 0 && todoNotices !== 0
+                    ? openTotal || todoNotices
+                    : 0
+                }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             )}
