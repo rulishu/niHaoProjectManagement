@@ -12,12 +12,10 @@ const AddUser = () => {
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
 
-  const [inputValue2, setInputValue2] = useState([])
-  const [indeterminate2, setIndeterminate2] = useState(false)
-  const [checkAll2, setCheckAll2] = useState(false)
   const {
-    team: { isUsers },
+    team: { isUsers, teamData },
   } = useSelector((state) => state)
+  console.log('teamData===>33333', teamData)
   const {
     rolemanagement: { arrLeverTop },
   } = useSelector((state) => state)
@@ -61,16 +59,6 @@ const AddUser = () => {
     '周杰伦稻香',
     '周杰伦听爸爸的话哦',
   ]
-  const projectList = ['老铁', '老李', '隔壁老王']
-  const softwareReqList = [
-    '胡歌',
-    '盆浴盐',
-    '彭于晏',
-    '张学友',
-    '黎明',
-    '洗脚妹',
-    '凤姐',
-  ]
 
   const onChange = (e, list) => {
     setInputValue(list)
@@ -86,26 +74,13 @@ const AddUser = () => {
   //---------
   const onChange1 = (e, list) => {
     setInputValue1(list)
-    setIndeterminate1(!!list.length && list.length < projectList.length)
-    setCheckAll1(list.length === projectList.length)
+    setIndeterminate1(!!list.length && list.length < teamData.length)
+    setCheckAll1(list.length === teamData.length)
   }
   const onCheckAllChange1 = (e) => {
-    setInputValue1(e.target.checked ? projectList : [])
+    setInputValue1(e.target.checked ? teamData : [])
     setIndeterminate1(false)
     setCheckAll1(e.target.checked)
-  }
-
-  //---------
-  const onChange2 = (e, list) => {
-    setInputValue2(list)
-    setIndeterminate2(!!list.length && list.length < softwareReqList.length)
-    setCheckAll2(list.length === softwareReqList.length)
-  }
-
-  const onCheckAllChange2 = (e) => {
-    setInputValue2(e.target.checked ? softwareReqList : [])
-    setIndeterminate2(false)
-    setCheckAll2(e.target.checked)
   }
 
   const dataSource = [
@@ -150,38 +125,12 @@ const AddUser = () => {
           name="softwareReq"
           value={inputValue1}
           onChange={(e, data) => onChange1(e, data)}>
-          {projectList.map((item, idx) => (
+          {teamData.map((item, idx) => (
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item}>
-              {item}
-            </Checkbox>
-          ))}
-        </Checkbox.Group>
-      ),
-    },
-    {
-      personnelType: (
-        <Checkbox
-          checked={checkAll2}
-          indeterminate={indeterminate2}
-          onChange={(e) => onCheckAllChange2(e)}>
-          外部人员
-        </Checkbox>
-      ),
-      personnel: (
-        <Checkbox.Group
-          style={{ width: 660, display: 'flex', flexWrap: 'wrap' }}
-          name="softwareReq"
-          value={inputValue2}
-          onChange={(e, data) => onChange2(e, data)}>
-          {softwareReqList.map((item, idx) => (
-            <Checkbox
-              style={{ width: 150, marginBottom: 5 }}
-              key={idx}
-              value={item}>
-              {item}
+              value={item.label}>
+              {item.label}
             </Checkbox>
           ))}
         </Checkbox.Group>
