@@ -17,6 +17,7 @@ const Drawer = (props) => {
       queryInfo,
       arrSource,
       dataSource,
+      tableType,
     },
   } = useSelector((state) => state)
 
@@ -106,7 +107,7 @@ const Drawer = (props) => {
   }
   return (
     <ProDrawer
-      title={''}
+      title={tableType === 'add' ? '新增' : '编辑'}
       visible={drawerVisible}
       onClose={onClose}
       width={660}
@@ -125,7 +126,7 @@ const Drawer = (props) => {
         },
       ]}>
       <ProForm
-        title={'基本信息'}
+        // title={'基本信息'}
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
         readOnly={isView}
