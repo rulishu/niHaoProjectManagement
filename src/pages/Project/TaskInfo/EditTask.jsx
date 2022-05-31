@@ -7,6 +7,7 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import { initListData } from '@/utils/utils'
 
 const EditTask = () => {
   const dispatch = useDispatch()
@@ -110,54 +111,6 @@ const EditTask = () => {
     })
   }
 
-  // 初始化 人员数据
-  const initAssignData = () => {
-    return userSelectAllList
-      ?.map((item) => {
-        if (!item.userId || !item?.memberName) return undefined
-        return {
-          key: item?.userId,
-          memberName: item?.memberName,
-          avatar: item?.avatar,
-          userAcount: item?.userAcount,
-          check: editFromData.assigneeUserId === item.userId,
-        }
-      })
-      .filter((s) => s)
-  }
-
-  // 初始化 Label 组件数据 [{key,color,title,check}]
-  const initListData = () => {
-    const useful = editFromData?.labels?.map((item) =>
-      item?.dictValue ? +item?.dictValue : +item
-    )
-    return dictDataList
-      ?.map((item) => {
-        if (!item.dictLabel || !item?.dictValue) return undefined
-        return {
-          key: item?.dictValue,
-          color: item?.listClass,
-          title: item?.dictLabel,
-          check: useful?.includes(+item?.dictValue),
-        }
-      })
-      .filter((s) => s)
-  }
-
-  // 初始化 里程碑 组件数据
-  const initMilestoneData = () => {
-    return milepostaData
-      .map((item) => {
-        if (!item.milestonesId) return undefined
-        return {
-          key: item?.milestonesId,
-          title: item?.milestonesTitle,
-          check: editFromData.milestonesId === item.milestonesId,
-        }
-      })
-      .filter((s) => s)
-  }
-
   // 新建 里程碑
   const createMilestone = async (formData) => {
     let result = false
@@ -220,7 +173,16 @@ const EditTask = () => {
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={initAssignData() || []}
+            listData={initListData(
+              userSelectAllList,
+              editFromData.assigneeUserId,
+              'userId',
+              {
+                memberName: 'memberName',
+                avatar: 'avatar',
+                userAcount: 'userAcount',
+              }
+            )}
             isOpen={assignState}
             template="personnel"
             shape="label"
@@ -254,8 +216,7 @@ const EditTask = () => {
               navigate(`/${userAccount}/${projectId}/usersManagement`, {
                 replace: true,
               })
-            }}
-          />
+            }}></CompDropdown>
         </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
@@ -273,7 +234,12 @@ const EditTask = () => {
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={initMilestoneData() || []}
+            listData={initListData(
+              milepostaData,
+              editFromData.milestonesId,
+              'milestonesId',
+              { title: 'milestonesTitle' }
+            )}
             isOpen={milepostState}
             template="milepost"
             shape="label"
@@ -343,7 +309,12 @@ const EditTask = () => {
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={initListData()}
+            listData={initListData(
+              dictDataList,
+              editFromData.labels,
+              'dictValue',
+              { color: 'listClass', title: 'dictLabel' }
+            )}
             isOpen={labelState}
             template="label"
             shape="label"
