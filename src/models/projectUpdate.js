@@ -27,10 +27,11 @@ const projectUpdate = createModel()({
     }),
   },
   effects: (dispatch) => ({
-    //获取用户列表信息
+    //获取项目成员信息(编辑的时候获取该项目的所有成员)
     async selectAllUserlist(params) {
       const dph = dispatch
-      const data = await selectAllUserlist()
+
+      const data = await selectAllUserlist(params)
       let list = data?.rows
       let arr = []
       list?.forEach((element) => {
@@ -44,7 +45,7 @@ const projectUpdate = createModel()({
       if (data.code === 200) {
         dph.projectUpdate.updateState({
           userList: arr,
-          drawerType: params.drawerType,
+          drawerType: 'edit',
           drawerVisible: true,
         })
       }
@@ -54,20 +55,18 @@ const projectUpdate = createModel()({
     async updataProject(params) {
       const dph = dispatch
       if (params.drawerType === 'add') {
-        //新增
-        dph.projectUpdate.selectAllUserlist({
+        dph.projectUpdate.updateState({
           drawerType: 'add',
-        }) //获取用户列表信息
+          drawerVisible: true,
+        })
       } else {
         //编辑
-        delete params.drawerType
-        dph.projectUpdate.selectAllUserlist({
-          drawerType: 'edit',
-        }) //获取用户列表信息
         dph.projectUpdate.updateState({
           id: params.id,
         })
-        const data = await queryProject(params) //获取项目详细信息
+        dph.projectUpdate.selectAllUserlist({ id: params.id }) //获取项目成员信息
+
+        const data = await queryProject({ id: params.id }) //获取项目详细信息
         if (data.code === 200) {
           let isrigiht
           data.data.status === 3 ? (isrigiht = true) : (isrigiht = false)
@@ -93,7 +92,7 @@ const projectUpdate = createModel()({
           seachValue: {},
           drawerVisible: false,
         })
-        callback && callback()
+        callback && callback() //回调刷新界面
       }
       await dispatch.userHome.getUserInfoByAccount(userName)
     },
@@ -119,7 +118,7 @@ const projectUpdate = createModel()({
           drawerVisible: false,
           id: '',
         })
-        callback && callback()
+        callback && callback() //回调刷新界面
         Notify.success({
           description: data.message,
         })
