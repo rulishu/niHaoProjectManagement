@@ -36,9 +36,16 @@ export const editNewUser = (params) => {
     body: params,
   })
 }
-// 编辑用户权限
+// 修改个人用户
+export const editNewperson = (params) => {
+  return request('/api/system/user/profile/update', {
+    method: 'POST',
+    body: params,
+  })
+}
+//个人信息
 export const editGetInfo = (params) => {
-  return request(`/api/system/user/getInfoToken/${params}`, {
+  return request(`/api/system/user/profile/get`, {
     method: 'POST',
     body: params,
   })
