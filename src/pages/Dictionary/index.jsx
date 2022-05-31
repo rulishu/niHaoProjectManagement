@@ -6,6 +6,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import DeletePopover from '@/components/DeletePopover'
 import Detail from './Detail'
 import { searchFun } from '@/utils/publicFun'
+import { changeDate } from '@/utils/utils'
 
 function Dictionary() {
   const dispatch = useDispatch()
@@ -31,7 +32,14 @@ function Dictionary() {
         page: pageIndex,
         pageSize,
         // dictSort: 1,
-        ...searchValues,
+        // ...searchValues,
+        dictName: searchValues.dictName,
+        dictType: searchValues.dictType,
+        status: searchValues.status,
+        params: {
+          beginTime: changeDate(searchValues.createTime?.at(0))?.trim(),
+          endTime: changeDate(searchValues.createTime?.at(1))?.trim(),
+        },
       }
     },
     requestOptions: {
