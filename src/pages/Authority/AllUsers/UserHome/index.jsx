@@ -47,12 +47,14 @@ const UserHome = (props) => {
     await dispatch.allusers.update({
       baseDetail: { ...value },
       cUser: value,
+      isShow: 'isshow',
     })
     await dispatch.allusers.queryById(value.userId)
     dispatch({
       type: 'allusers/update',
       payload: {
         types: type,
+        userData: user,
       },
     })
   }
@@ -170,7 +172,13 @@ const UserHome = (props) => {
         <Overlay
           hasBackdrop={true}
           isOpen={isOverlay}
-          onClose={() => setIsOverlay(false)}>
+          onClose={() => {
+            setIsOverlay(false)
+            dispatch.allusers.update({
+              isShow: '',
+              userData: '',
+            })
+          }}>
           <div>
             <PopupBox setIsOverlay={setIsOverlay} />
           </div>
