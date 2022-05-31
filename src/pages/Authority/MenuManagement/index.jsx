@@ -5,6 +5,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
 import DeletePopover from '@/components/DeletePopover'
 import './style.css'
+import { searchFun } from '@/utils/publicFun'
 
 const Demo = () => {
   const dispatch = useDispatch()
@@ -129,6 +130,7 @@ const Demo = () => {
             {
               label: '新增',
               type: 'primary',
+              icon: 'plus',
               onClick: () => {
                 handleEditTable('add', {})
               },
@@ -136,21 +138,7 @@ const Demo = () => {
           ]}
           paginationProps={{ style: { display: 'none' } }}
           // 搜索栏按钮
-          searchBtns={[
-            {
-              label: '查询',
-              type: 'primary',
-              onClick: () => {
-                table.onSearch()
-              },
-            },
-            {
-              label: '重置',
-              onClick: () => {
-                table.onReset()
-              },
-            },
-          ]}
+          searchBtns={searchFun(table)}
           className="menuTable"
           table={table}
           columns={[

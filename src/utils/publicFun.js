@@ -1,7 +1,7 @@
 export function searchFun(table) {
   const data = [
     {
-      label: '搜索',
+      label: '查询',
       type: 'primary',
       htmlType: 'submit',
       onClick: () => table.onSearch(),

@@ -5,6 +5,7 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
 import DeletePopover from '@/components/DeletePopover'
 import Detail from './Detail'
+import { searchFun } from '@/utils/publicFun'
 
 function Dictionary() {
   const dispatch = useDispatch()
@@ -72,6 +73,7 @@ function Dictionary() {
                 <AuthBtn path="/api/dict/add">
                   <Button
                     type="primary"
+                    icon="plus"
                     onClick={() => {
                       handleEditTable('add', {})
                     }}>
@@ -82,21 +84,7 @@ function Dictionary() {
             },
           ]}
           // 搜索栏按钮
-          searchBtns={[
-            {
-              label: '查询',
-              type: 'primary',
-              onClick: () => {
-                table.onSearch()
-              },
-            },
-            {
-              label: '重置',
-              onClick: () => {
-                table.onReset()
-              },
-            },
-          ]}
+          searchBtns={searchFun(table)}
           // rowSelection={{
           //   // 多选 checkbox 单选radio
           //   type: 'checkbox',

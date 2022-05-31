@@ -7,6 +7,7 @@ import Detail from './Detail'
 // import Authorization from './Authorization/index'
 import DeletePopover from '@/components/DeletePopover'
 import { changeDate } from '@/utils/utils'
+import { searchFun } from '@/utils/publicFun'
 
 const Demo = (props) => {
   const dispatch = useDispatch()
@@ -131,27 +132,14 @@ const Demo = (props) => {
             {
               label: '新增',
               type: 'primary',
+              icon: 'plus',
               onClick: () => {
                 handleEditTable('add', {})
               },
             },
           ]}
           // 搜索栏按钮
-          searchBtns={[
-            {
-              label: '查询',
-              type: 'primary',
-              onClick: () => {
-                table.onSearch()
-              },
-            },
-            {
-              label: '重置',
-              onClick: () => {
-                table.onReset()
-              },
-            },
-          ]}
+          searchBtns={searchFun(table)}
           // rowSelection={{
           //   // 多选 checkbox 单选radio
           //   type: 'checkbox',
