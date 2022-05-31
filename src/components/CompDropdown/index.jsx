@@ -38,6 +38,9 @@ const CompDropdown = (props) => {
     isTagClose = true,
     closeLabel,
     actionButtons,
+    isClickable = true,
+    onClickable,
+    onChange,
   } = props
 
   // 模板解构一些参数
@@ -78,12 +81,14 @@ const CompDropdown = (props) => {
     if (isRadio) {
       setOptions(exists ? [] : [key])
       selectLabel && selectLabel(exists ? null : key)
+      onChange && onChange(exists ? null : key)
       return
     }
     const newArr = exists
       ? options?.filter((i) => i !== key)
       : [...options, key]
     selectLabel && selectLabel(key, newArr)
+    onChange && onChange(newArr)
     setOptions(() => newArr)
   }
 
@@ -201,16 +206,31 @@ const CompDropdown = (props) => {
   )
   return (
     <div className={styles.label}>
-      <div>{tagList(listData?.filter((s) => options?.includes(s?.key)))}</div>
+      {!isClickable && (
+        <div className={styles.clickable}>
+          {tagList(listData?.filter((s) => options?.includes(s?.key)))}
+        </div>
+      )}
       <OverlayTrigger
         isOpen={open}
         trigger="click"
         placement="bottom"
         overlay={dropDownContent}
         autoAdjustOverflow={true}
-        isClickOutside={false}
+        onVisibleChange={(is) => {
+          onClickable && onClickable(is)
+          setOpen(is)
+        }}
+        // isClickOutside={false}
         usePortal={false}>
-        <div>{props?.children}</div>
+        <div>
+          {isClickable && (
+            <div className={styles.clickable}>
+              {tagList(listData?.filter((s) => options?.includes(s?.key)))}
+            </div>
+          )}
+          {props?.children}
+        </div>
       </OverlayTrigger>
     </div>
   )
