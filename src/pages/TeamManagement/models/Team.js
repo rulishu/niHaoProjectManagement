@@ -28,6 +28,7 @@ const team = createModel()({
     loading: false,
     tablePro: {},
     id: null,
+    teamId: null,
     isUsers: false,
   },
   reducers: {
@@ -75,10 +76,17 @@ const team = createModel()({
     async getPageTeam(params) {
       const param = { page: 1, pageSize: 10, ...params }
       const data = await getPageTeam(param)
-      // console.log('data===>', data)
       if (data && data.code === 200) {
+        const arr = []
+        data.data.rows.forEach((item) => {
+          arr.push({
+            label: item.id,
+            value: item.id,
+          })
+        })
         dispatch.team.updateState({
           dataList: data?.data?.rows,
+          teamId: arr,
         })
       }
     },
@@ -95,7 +103,7 @@ const team = createModel()({
     async getNotTeamUsers(params) {
       const data = await getNotTeamUsers(params)
       if (data && data.code === 200) {
-        console.log('data====>11111', data)
+        // console.log('data====>11111', data)
         const arr = []
         data.data.forEach((item) => {
           arr.push({
