@@ -13,13 +13,14 @@ import {
 import './style.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { selectOption } from '@/utils/utils'
+import { selectOption, initListData } from '@/utils/utils'
 import dayjs from 'dayjs'
 import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
 import { Container } from '@/components'
+import { CompDropdown } from '@/components'
 
 let tribute = new Tribute({
   trigger: '@',
@@ -147,6 +148,7 @@ const NewIssue = (props) => {
           <Form
             ref={form}
             onChange={({ current }) => {
+              console.log(current)
               updateData({
                 fromData: {
                   ...fromData,
@@ -227,20 +229,40 @@ const NewIssue = (props) => {
                 inline: true,
                 initialValue: fromData.assigneeUserId,
                 children: (
-                  <SearchSelect
-                    style={{ width: '100%' }}
-                    showSearch={true}
-                    allowClear
-                    disabled={false}
-                    labelInValue={true}
-                    placeholder="请输入成员姓名,可模糊查询"
-                    option={selectOption(
-                      userSelectAllList,
-                      'userId',
-                      'memberName'
-                    )}
-                    //  loading={loading}
-                  />
+                  <div style={{ width: '100%' }}>
+                    <CompDropdown
+                      listData={initListData(
+                        userSelectAllList,
+                        fromData.assigneeUserId,
+                        'userId',
+                        {
+                          memberName: 'memberName',
+                          avatar: 'avatar',
+                          userAcount: 'userAcount',
+                        }
+                      )}
+                      template="personnel"
+                      isRadio={true}
+                      shape="input"
+                      loading={loading.effects.dictionary.getDictDataList}
+                      runLabel={() => {
+                        navigate('/Authority/dictionary', { replace: true })
+                      }}></CompDropdown>
+                  </div>
+                  // <SearchSelect
+                  //   style={{ width: '100%' }}
+                  //   showSearch={true}
+                  //   allowClear
+                  //   disabled={false}
+                  //   labelInValue={true}
+                  //   placeholder="请输入成员姓名,可模糊查询"
+                  //   option={selectOption(
+                  //     userSelectAllList,
+                  //     'userId',
+                  //     'memberName'
+                  //   )}
+                  // //  loading={loading}
+                  // />
                 ),
               },
               dueDate: {
@@ -280,17 +302,33 @@ const NewIssue = (props) => {
                 inline: true,
                 initialValue: fromData.labels,
                 children: (
-                  <SearchSelect
-                    mode={'multiple'}
-                    showSearch={true}
-                    allowClear
-                    disabled={false}
-                    placeholder="请输入选择"
-                    option={
-                      selectOption(dictDataList, 'dictCode', 'dictLabel') || []
-                    }
-                    //loading={loading}
-                  />
+                  <div style={{ width: '100%' }}>
+                    <CompDropdown
+                      listData={initListData(
+                        dictDataList,
+                        fromData.labels,
+                        'dictValue',
+                        { color: 'listClass', title: 'dictLabel' }
+                      )}
+                      template="label"
+                      shape="input"
+                      loading={loading.effects.dictionary.getDictDataList}
+                      runLabel={() => {
+                        navigate('/Authority/dictionary', { replace: true })
+                      }}
+                      controlled={{ value: fromData.labels }}></CompDropdown>
+                  </div>
+                  // <SearchSelect
+                  //   mode={'multiple'}
+                  //   showSearch={true}
+                  //   allowClear
+                  //   disabled={false}
+                  //   placeholder="请输入选择"
+                  //   option={
+                  //     selectOption(dictDataList, 'dictCode', 'dictLabel') || []
+                  //   }
+                  //   //loading={loading}
+                  // />
                 ),
               },
             }}>
