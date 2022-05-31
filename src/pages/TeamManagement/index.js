@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Alert, Card } from 'uiw'
 import { useParams } from 'react-router-dom'
@@ -14,6 +14,19 @@ export default function Index() {
   const {
     team: { alertShow, id },
   } = useSelector((state) => state)
+  // console.log('dataList===>33333', dataList[id])
+  useEffect(
+    (id) => {
+      dispatch.team.getPageTeam()
+      dispatch({
+        type: 'team/getMembers',
+        payload: { teamId: id },
+      })
+      dispatch.team.getNotTeamUsers()
+      dispatch.rolemanagement?.getAllDepartment()
+    },
+    [dispatch]
+  )
 
   const token = localStorage.getItem('token')
   const { projectId } = useParams()
@@ -47,6 +60,7 @@ export default function Index() {
         queryInfo: {},
       },
     })
+    // console.log('id--->',data.id)
   }
   const onOpenUser = (data) => {
     dispatch({
@@ -77,6 +91,7 @@ export default function Index() {
       },
     })
   }
+
   return (
     <Fragment>
       <MaintainGroup />
