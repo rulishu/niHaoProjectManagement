@@ -129,7 +129,13 @@ const Users = (props) => {
       <Overlay
         hasBackdrop={true}
         isOpen={isOverlay}
-        onClose={() => setIsOverlay(false)}>
+        onClose={() => {
+          setIsOverlay(false)
+          dispatch.allusers.update({
+            isShow: '',
+            userData: '',
+          })
+        }}>
         <div>
           <PopupBox setIsOverlay={setIsOverlay} type={type} />
         </div>

@@ -16,6 +16,8 @@ const BasicInfo = (props) => {
   const {
     baseDetail,
     types,
+    isShow,
+    userData,
     uuid,
     page,
     pageSize,
@@ -40,7 +42,16 @@ const BasicInfo = (props) => {
           postIds: postsDataInfo,
         })
     }
-  }, [type, types, baseDetail, form1, rolesDataInfo, postsDataInfo, postName])
+  }, [
+    type,
+    types,
+    userData,
+    baseDetail,
+    form1,
+    rolesDataInfo,
+    postsDataInfo,
+    postName,
+  ])
 
   const [btnIcon, setBtnIcon] = useState('lock')
   // 下拉框值
@@ -53,7 +64,6 @@ const BasicInfo = (props) => {
   )
   //判断是否可以看到所有项目列表
   const naid = localStorage.getItem('key')
-
   return (
     <div className={styles.BasicInfo}>
       <Card title="公共头像">
@@ -135,7 +145,10 @@ const BasicInfo = (props) => {
                   span: '12',
                   required: true,
                   readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.nickName,
+                  initialValue:
+                    isShow === 'isshow'
+                      ? userData?.nickName
+                      : baseDetail.nickName,
                   widgetProps: {
                     placeholder: '请输入姓名',
                   },
@@ -153,7 +166,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请输入帐号',
                   },
-                  hide: types === 2,
+                  hide: isShow === 'isshow' ? true : false,
                 },
                 {
                   label: '密码: ',
@@ -164,7 +177,12 @@ const BasicInfo = (props) => {
                   required: true,
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.password,
-                  hide: type === 2 || types === 2,
+                  hide:
+                    type === 2
+                      ? true
+                      : false || isShow === 'isshow'
+                      ? true
+                      : false,
                   widgetProps: {
                     placeholder: '请输入密码',
                     type: btnIcon === 'lock' ? 'password' : 'text',
@@ -188,7 +206,8 @@ const BasicInfo = (props) => {
                   inline: false,
                   span: '12',
                   disabled: type === 1 && true,
-                  initialValue: baseDetail.sex || 0,
+                  initialValue:
+                    isShow === 'isshow' ? userData?.sex : baseDetail.sex || 0,
                   option: [
                     { label: '男', value: 0 },
                     { label: '女', value: 1 },
@@ -205,7 +224,10 @@ const BasicInfo = (props) => {
                   span: '12',
                   required: true,
                   readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.phonenumber,
+                  initialValue:
+                    isShow === 'isshow'
+                      ? userData?.phonenumber
+                      : baseDetail.phonenumber,
                   widgetProps: {
                     placeholder: '请输入电话',
                   },
@@ -226,7 +248,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请输入状态',
                   },
-                  hide: types === 2,
+                  hide: isShow === 'isshow' ? true : false,
                 },
                 {
                   label: '邮箱: ',
@@ -236,7 +258,8 @@ const BasicInfo = (props) => {
                   required: true,
                   span: '12',
                   readOnly: type === 1 && 'readonly',
-                  initialValue: baseDetail.email,
+                  initialValue:
+                    isShow === 'isshow' ? userData?.email : baseDetail.email,
                   widgetProps: {
                     placeholder: '请输入邮箱',
                   },
@@ -258,7 +281,7 @@ const BasicInfo = (props) => {
                     allowClear: true,
                     placeholder: '请选择角色',
                   },
-                  hide: types === 2,
+                  hide: isShow === 'isshow' ? true : false,
                 },
                 {
                   label: '职位: ', // baseDetail.postIds 职位为null
@@ -277,7 +300,7 @@ const BasicInfo = (props) => {
                   widgetProps: {
                     placeholder: '请选择职位',
                   },
-                  hide: types === 2,
+                  hide: isShow === 'isshow' ? true : false,
                 },
                 {
                   label: '部门: ',
@@ -297,7 +320,7 @@ const BasicInfo = (props) => {
                     showSearch: true,
                     placeholder: '请选择部门',
                   },
-                  hide: types === 2,
+                  hide: isShow === 'isshow' ? true : false,
                 },
                 {
                   label: '备注: ',
@@ -307,7 +330,7 @@ const BasicInfo = (props) => {
                   span: '24',
                   // readOnly: type === 1 && 'readonly',
                   initialValue:
-                    baseDetail.remark === null ? undefined : baseDetail.remark,
+                    isShow === 'isshow' ? userData?.remark : baseDetail.remark,
                   widgetProps: {
                     placeholder: '请输入备注',
                   },

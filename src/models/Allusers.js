@@ -60,6 +60,8 @@ const allusers = createModel()({
     postsDataInfo: {},
     isRegister: false, //是否开启注册功能
     types: '', //2:编辑用户
+    isShow: '', //show是否显示
+    userData: '', //编辑用户数据
   },
   reducers: {
     update: (state, payload) => {
@@ -142,6 +144,10 @@ const allusers = createModel()({
       if (data && data.code === 200) {
         await callback()
         NotifySuccess(data.message)
+        dispatch.allusers.update({
+          isShow: '',
+          userData: '',
+        })
       }
       await dispatch.userHome.getUserInfo({ id: param.userId })
     },

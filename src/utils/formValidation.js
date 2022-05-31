@@ -22,7 +22,9 @@ export const memberForm = (props) => {
   // if (!current.roleIds) errorObj.roleIds = '角色不能为空！'
   // if (!current.deptId) errorObj.deptId = '部门不能为空！'
   // if (current.sex === '') errorObj.sex = '性别不能为空！'
-  if (!current.postIds) errorObj.postIds = '职位不能为空！'
+  if (props.type === 3 || props.type === 2) {
+    if (!current.postIds) errorObj.postIds = '职位不能为空！'
+  }
   if (!pattern.test(current.phonenumber))
     errorObj.phonenumber = '请输入正确的电话号码格式！'
   // if (current.status === '') errorObj.status = '状态不能为空！'
