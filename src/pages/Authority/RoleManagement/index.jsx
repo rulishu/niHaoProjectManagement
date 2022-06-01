@@ -154,11 +154,13 @@ const Demo = (props) => {
               title: '角色编号',
               key: 'roleId',
               align: 'center',
+              ellipsis: true,
             },
             {
               title: '角色名称',
               key: 'roleName',
               align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -170,6 +172,7 @@ const Demo = (props) => {
               title: '权限字符',
               key: 'roleKey',
               align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -181,11 +184,13 @@ const Demo = (props) => {
               title: '显示顺序',
               key: 'roleSort',
               align: 'center',
+              ellipsis: true,
             },
             {
               title: '状态',
               key: 'status',
               align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'select',
                 option: [
@@ -219,6 +224,7 @@ const Demo = (props) => {
               title: '创建时间',
               key: 'createTime',
               align: 'center',
+              ellipsis: true,
               props: {
                 // label: '进入时间-离开时间',
                 widget: 'dateInputRange',
@@ -244,7 +250,7 @@ const Demo = (props) => {
                   {/* <AuthBtn path="/api/managerRole/upDateRole"> */}
                   <Button
                     size="small"
-                    type="success"
+                    type="primary"
                     icon="edit"
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑

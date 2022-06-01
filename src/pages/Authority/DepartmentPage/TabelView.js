@@ -193,7 +193,7 @@ export default function TabelView() {
             <Divider type="vertical" />
             <Button
               size="small"
-              type="success"
+              type="primary"
               icon="edit"
               onClick={(e) => onEdit(editData, e)}>
               编辑

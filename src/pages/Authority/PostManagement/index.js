@@ -107,14 +107,14 @@ export default function Index() {
             {
               title: '岗位序号',
               key: 'postId',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
             },
             {
               title: '岗位名称',
               key: 'postName',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
               props: {
@@ -127,21 +127,21 @@ export default function Index() {
             {
               title: '岗位编码',
               key: 'postCode',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
             },
             {
               title: '岗位排序',
               key: 'postSort',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
             },
             {
               title: '岗位状态',
               key: 'status',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
               props: {
@@ -174,14 +174,14 @@ export default function Index() {
             {
               title: '备注',
               key: 'remark',
-              width: 130,
+              // width: 130,
               align: 'center',
               ellipsis: true,
             },
             {
               title: '创建时间',
               key: 'createTime',
-              width: 130,
+              width: 180,
               align: 'center',
               ellipsis: true,
             },
@@ -189,7 +189,7 @@ export default function Index() {
               title: '操作',
               key: 'edit',
               align: 'center',
-              width: 150,
+              width: 200,
               render: (_, record, data) =>
                 operateFun({
                   onEvenEdit: () => onOpenEdit(data),

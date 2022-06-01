@@ -211,12 +211,12 @@ const Demo = () => {
               key: 'createTime',
               ellipsis: true,
               align: 'center',
+              width: 200,
             },
             {
               title: '操作',
               key: 'edit',
               width: 250,
-              ellipsis: true,
               align: 'center',
               render: (text, key, rowData) => {
                 return (
@@ -224,7 +224,7 @@ const Demo = () => {
                     <Divider type="vertical" />
                     <Button
                       size="small"
-                      type="primary"
+                      type="success"
                       icon="plus"
                       onClick={handleEditTable.bind(this, 'addChild', rowData)}>
                       新增
