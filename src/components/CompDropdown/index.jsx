@@ -222,7 +222,8 @@ const CompDropdown = (props) => {
           setOpen(is)
         }}
         // isClickOutside={false}
-        usePortal={false}>
+        // usePortal={false}
+      >
         <div>
           {isClickable && (
             <div className={styles.clickable}>

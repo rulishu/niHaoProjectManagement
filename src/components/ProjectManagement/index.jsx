@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
+import { useState } from 'react'
 
 /**
  * 使用方法：
@@ -23,6 +24,7 @@ import formatter from '@uiw/formatter'
  */
 
 const ProjectManagement = (fun) => {
+  const [showSubmit, setShowSubmit] = useState(false)
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -53,6 +55,7 @@ const ProjectManagement = (fun) => {
       drawerType: '',
       fileIds: '',
     })
+    setShowSubmit(false)
   }
 
   function saveData() {
@@ -83,7 +86,11 @@ const ProjectManagement = (fun) => {
             key: 'name',
             widget: 'input',
             initialValue: seachValue?.name,
-            widgetProps: {},
+            widgetProps: {
+              onChange: () => {
+                setShowSubmit(true)
+              },
+            },
             placeholder: '请输入项目名称',
             span: '24',
             required: true,
@@ -95,7 +102,11 @@ const ProjectManagement = (fun) => {
             widget: 'select',
             option: userList,
             initialValue: seachValue?.projectLeaderId,
-            widgetProps: {},
+            widgetProps: {
+              onChange: () => {
+                setShowSubmit(true)
+              },
+            },
             span: '24',
             required: true,
             rules: [{ required: true, message: '请输入项目负责人' }],
@@ -108,6 +119,9 @@ const ProjectManagement = (fun) => {
             widget: 'dateInput',
             widgetProps: {
               format: 'YYYY-MM-DD',
+              onChange: () => {
+                setShowSubmit(true)
+              },
             },
             span: '24',
             required: true,
@@ -120,6 +134,9 @@ const ProjectManagement = (fun) => {
             widget: 'dateInput',
             widgetProps: {
               format: 'YYYY-MM-DD',
+              onChange: () => {
+                setShowSubmit(true)
+              },
             },
             span: '24',
             required: true,
@@ -139,7 +156,11 @@ const ProjectManagement = (fun) => {
             key: 'descr',
             widget: 'textarea',
             initialValue: seachValue?.descr,
-            widgetProps: {},
+            widgetProps: {
+              onChange: () => {
+                setShowSubmit(true)
+              },
+            },
             span: '24',
           },
           {
@@ -162,6 +183,7 @@ const ProjectManagement = (fun) => {
                 showRemoveIcon: true,
               },
               onChange: async (e) => {
+                setShowSubmit(true)
                 if (e.length > 0) {
                   await dispatch({
                     type: 'projectUpdate/uploadFile',
@@ -180,7 +202,11 @@ const ProjectManagement = (fun) => {
             key: 'status',
             widget: 'switch',
             initialValue: isHangup,
-            widgetProps: {},
+            widgetProps: {
+              onChange: () => {
+                setShowSubmit(true)
+              },
+            },
             hide: drawerType === 'add',
           },
         ]}
@@ -209,11 +235,13 @@ const ProjectManagement = (fun) => {
           {
             label: '保存',
             type: 'primary',
+            show: showSubmit,
             onClick: async () => {
               await baseRef?.submitvalidate?.()
               const errors = baseRef.getError()
               if (errors && Object.keys(errors).length > 0) return
               saveData()
+              setShowSubmit(false)
             },
           },
         ]}>

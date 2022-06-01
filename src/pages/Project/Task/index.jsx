@@ -49,7 +49,8 @@ const Task = (props) => {
   const taskId = params.projectId || ''
   const {
     project,
-    dictionary: { dictDataList },
+    // dictionary: { dictDataList },
+    labels: { listData: labelsListData },
     loading,
   } = useSelector((state) => state)
   const {
@@ -66,7 +67,7 @@ const Task = (props) => {
     overtimeTotal,
     activeKey,
     teamMembers,
-    assignmentLabels,
+    // assignmentLabels,
     milistones,
   } = project
 
@@ -79,7 +80,8 @@ const Task = (props) => {
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId })
     dispatch.project.selectLabel({ projectId: taskId })
     dispatch.project.assignment_label()
-    dispatch.dictionary.getDictDataList({ dictType: 'assignment_label' })
+    // dispatch.dictionary.getDictDataList({ dictType: 'assignment_label' })
+    dispatch.labels.getAllLabelData({ projectId: taskId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
@@ -104,7 +106,6 @@ const Task = (props) => {
       pageS({
         assignmentStatus: '2',
       })
-
       dispatch({
         type: 'project/getProjectCountById', //统计
         payload: {
@@ -222,7 +223,7 @@ const Task = (props) => {
               listField={listField}
               listNavigate={listGo}
               delAssignment={delAssignment}
-              labelsData={dictDataList}
+              labelsData={labelsListData}
             />
             {taskTotal > 0 && (
               <Pagination
@@ -291,7 +292,10 @@ const Task = (props) => {
           </div>
           <AllSelect
             teamMembers={teamMembers}
-            assignmentLabels={assignmentLabels}
+            labelsListData={labelsListData?.map(item => ({
+              label: item.name,
+              value: item.id,
+            }))}
             milistones={milistones}
             updateData={updateData}
             pageS={pageS}

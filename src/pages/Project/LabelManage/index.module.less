@@ -1,0 +1,191 @@
+@import '../../../common.less';
+
+.wrap {
+  width: 100%;
+  padding: @padding-md - 1px;
+  background-color: @white;
+  border-radius: 2px;
+  margin: auto;
+  max-width: 1280px;
+}
+
+// 标签项
+.labelManageBox {
+  .labelsHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+
+    // 头部左侧
+    .headLeft {
+    }
+
+    // 头部右侧
+    .headRight {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      // 新增标签按钮
+      .addLabelBut {
+      }
+
+      // 下拉
+      .dropdown {
+        margin: 0 16px;
+        cursor: pointer;
+
+        .toggle {
+          padding: 6px 8px 6px 10px;
+          background-color: @white;
+          color: @black;
+          font-size: @font-size-base;
+          width: 160px;
+          text-align: left;
+          border: 1px solid #dbdbdb;
+          border-radius: 0.25rem;
+          white-space: nowrap;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  // 标签列表
+  .labelsList {
+    padding: @padding-xss;
+    border-radius: 8px;
+    margin-top: 10px;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: @font-size-sm;
+      background-color: @white;
+      margin-bottom: @padding-xss;
+      display: flex;
+      justify-content: space-between;
+      padding: @padding-md;
+      border-radius: 4px;
+      border: 3px @border-style-base #f0f0f0;
+
+      & > div {
+        flex: 1;
+      }
+
+      // 标签项左边
+      .listLiLeft {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .labelName {
+          width: 240px;
+          color: @white;
+
+          p {
+            line-height: 16px;
+            align-items: center;
+            background-color: @white;
+            overflow: hidden;
+            display: inline-flex;
+            border-radius: 10px;
+            max-width: 100%;
+
+            span {
+              display: block;
+              padding: @padding-xss - 1px @padding-xss + 2px;
+              display: inline-block;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              max-width: 100%;
+            }
+          }
+        }
+
+        .labelInfo {
+        }
+      }
+
+      // 标签项右边
+      .listLiRight {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .labelUpdateTime {
+          p {
+            color: #aaa;
+          }
+        }
+
+        // 按钮组
+        .labelButGroup {
+          width: 240px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+// 下拉菜单
+.dropdownMenu {
+  width: auto;
+  z-index: 300;
+  min-width: 240px;
+  max-width: 500px;
+  margin-top: @margin-xss;
+  margin-bottom: @margin-lg;
+  font-size: @font-size-sm;
+  font-weight: 400;
+  padding: @padding-xs 0;
+  background-color: @white;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  display: block;
+  min-height: 40px;
+  max-height: 445px;
+  overflow-y: auto;
+
+  ul {
+    display: block;
+    text-align: left;
+    list-style: none;
+    padding: 0 1px;
+
+    li {
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      display: block;
+      font-weight: 400;
+      position: relative;
+      padding: @margin-xs @margin-sm;
+      color: #303030;
+      line-height: 16px;
+      white-space: normal;
+      overflow: hidden;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: @normal-color;
+        color: @black;
+        outline: 0;
+        text-decoration: none;
+      }
+    }
+  }
+}

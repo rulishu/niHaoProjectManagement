@@ -6,7 +6,7 @@ const Register = () => {
   const dispatch = useDispatch()
 
   const {
-    login: { isLogin },
+    login: { isLogin, registerLoading },
   } = useSelector((state) => state)
 
   const returnLogin = () => {
@@ -22,6 +22,13 @@ const Register = () => {
         onSubmit={({ current }) => {
           const errorObj = {}
           if (!current.username) errorObj.username = `账号不能为空！`
+          if (
+            current.username === 'dashboard' ||
+            current.username === 'projectList' ||
+            current.username === 'todoList' ||
+            current.username === 'Authority'
+          )
+            errorObj.username = `账号不能为dashboard、projectList、todoList、Authority`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`
@@ -37,6 +44,10 @@ const Register = () => {
             dispatch({
               type: 'login/register',
               payload: { ...current },
+            })
+            dispatch({
+              type: 'login/updateState',
+              payload: { registerLoading: !isLogin },
             })
           }
         }}
@@ -101,6 +112,7 @@ const Register = () => {
                   className="btns"
                   style={{ marginTop: 20 }}
                   htmlType="submit"
+                  loading={registerLoading}
                   type="primary">
                   注册
                 </Button>

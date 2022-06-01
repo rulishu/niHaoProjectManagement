@@ -292,6 +292,42 @@ const routes = [
             navigate:
               "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/usersManagement`)}",
           },
+          {
+            path: '/:userAccount/:projectId/labels',
+            name: '标签管理',
+            icon: 'tags-o',
+            component: '@/pages/Project/LabelManage',
+            isAuth: true,
+            navigate:
+              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/labels`)}",
+          },
+          {
+            path: '/:userAccount/:projectId/labels',
+            name: '标签管理',
+            hideInMenu: true,
+            icon: 'tags-o',
+            isAuth: true,
+            routes: [
+              {
+                path: '/:userAccount/:projectId/labels/new',
+                name: '新增标签',
+                component: '@/pages/Project/LabelManage/NewEditLabel',
+                isAuth: true,
+                hideInMenu: true,
+                navigate:
+                  "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/labels/new`)}",
+              },
+              {
+                path: '/:userAccount/:projectId/labels/:labelsId',
+                name: '编辑标签',
+                component: '@/pages/Project/LabelManage/NewEditLabel',
+                isAuth: true,
+                hideInMenu: true,
+                navigate:
+                  "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/labels/${sessionStorage.getItem('labelsId')}`)}",
+              },
+            ],
+          },
         ],
       },
       {
