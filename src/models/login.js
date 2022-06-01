@@ -19,6 +19,7 @@ const login = createModel()({
     isLogin: true,
     isRegister: false,
     submitLoading: false, //登录按钮loading样式
+    registerLoading: false, //注册按钮loading样式
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -143,6 +144,7 @@ const login = createModel()({
         })
         dispatch.login.updateState({
           isLogin: true,
+          registerLoading: false,
         })
       }
     },
