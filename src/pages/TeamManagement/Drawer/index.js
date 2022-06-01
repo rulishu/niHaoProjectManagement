@@ -21,7 +21,7 @@ export default function Index() {
 
   return (
     <ProDrawer
-      width={800}
+      width={500}
       title={
         drawerType === 'add'
           ? '添加团队'
@@ -56,8 +56,8 @@ export default function Index() {
       ]}>
       <ProForm
         form={form}
-        title="基础信息"
-        formType={isView ? 'pure' : 'card'}
+        // title="基础信息"
+        formType={'card'}
         readOnly={isView}
         onChange={(initial, current) =>
           updateData({ queryInfo: { ...queryInfo, ...current } })

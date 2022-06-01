@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Card, Tooltip } from 'uiw'
+import { Button, Tag, Card, Tooltip, Divider } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
@@ -157,11 +157,13 @@ const Demo = () => {
               title: '菜单图标',
               key: 'icon',
               ellipsis: true,
+              align: 'center',
             },
             {
               title: '排序',
               key: 'orderNum',
               ellipsis: true,
+              align: 'center',
             },
             {
               title: '权限标识',
@@ -191,6 +193,7 @@ const Demo = () => {
               title: '状态',
               key: 'status',
               ellipsis: true,
+              align: 'center',
               props: {
                 widget: 'select',
                 option: [
@@ -223,19 +226,24 @@ const Demo = () => {
             {
               title: '操作',
               key: 'edit',
-              width: 200,
+              width: 250,
+              align: 'center',
               render: (text, key, rowData) => {
                 return (
                   <div>
+                    <Divider type="vertical" />
                     <Button
                       size="small"
-                      type="primary"
+                      type="success"
+                      icon="plus"
                       onClick={handleEditTable.bind(this, 'addChild', rowData)}>
                       新增
                     </Button>
+                    <Divider type="vertical" />
                     <Button
                       size="small"
                       type="primary"
+                      icon="edit"
                       onClick={handleEditTable.bind(this, 'edit', rowData)}>
                       编辑
                     </Button>
