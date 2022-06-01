@@ -241,6 +241,7 @@ const ProjectManagement = (fun) => {
               const errors = baseRef.getError()
               if (errors && Object.keys(errors).length > 0) return
               saveData()
+              setShowSubmit(false)
             },
           },
         ]}>
