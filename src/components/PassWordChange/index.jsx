@@ -33,8 +33,12 @@ const PassWordChange = (props) => {
       throw err
     }
     // dispatch.updatePassword(current)
+    console.log(current)
     dispatch.updatePassword({
-      params: { ...current },
+      params: {
+        oldPassword: current?.oldUserPassword,
+        newPassword: current?.newUserPassword,
+      },
       callback: (res) => {
         if (res.code === 200) {
           Notify.success({ description: res.message })
