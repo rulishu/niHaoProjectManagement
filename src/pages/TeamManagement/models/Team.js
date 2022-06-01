@@ -21,6 +21,7 @@ const team = createModel()({
     dataList: [], // 数据列表源
     teamData: [], // 当前未加入团队成员数据
     teamMemberList: [], // 团队成员数据
+    userIdList: [],
     drawerVisible: false,
     drawerType: '',
     queryInfo: {},
@@ -126,7 +127,6 @@ const team = createModel()({
         data.data.forEach((item) => {
           arr.push({
             label: item.nickName,
-            // key: item.nickName,
           })
         })
         dispatch.team.updateState({

@@ -13,7 +13,7 @@ const AddUser = () => {
   const [checkAll1, setCheckAll1] = useState(false)
 
   const {
-    team: { isUsers, teamData, teamMemberList },
+    team: { isUsers, teamData, teamMemberList, teamId, userIdList },
   } = useSelector((state) => state)
   // console.log('teamData===>33333', teamData)
   const {
@@ -116,6 +116,15 @@ const AddUser = () => {
       ),
     },
   ]
+  const onConfirm = () => {
+    dispatch({
+      type: 'team/updateMembers',
+      payload: {
+        teamId: teamId,
+        userIdList: userIdList,
+      },
+    })
+  }
   return (
     <Modal
       title="分组用户管理"
@@ -125,6 +134,7 @@ const AddUser = () => {
       maxWidth={1100}
       confirmText="保存"
       cancelText="取消"
+      onConfirm={() => onConfirm()}
       maskClosable={false}
       onClosed={onClose}>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
