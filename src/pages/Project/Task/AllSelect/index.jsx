@@ -3,24 +3,24 @@ import { ProForm, useForm } from '@uiw-admin/components'
 
 const LabelSelect = (props) => {
   const {
-    assignmentLabels,
+    labelsListData,
     teamMembers,
     milistones,
     updateData,
     pageS,
     project,
   } = props
-  const [label, setLabel] = useState(assignmentLabels)
+  const [label, setLabel] = useState(labelsListData)
   const [team, setTeam] = useState(teamMembers)
   const [milistone, setMilistone] = useState(milistones)
 
   const form = useForm()
 
   useEffect(() => {
-    setLabel(assignmentLabels)
+    setLabel(labelsListData)
     setTeam(teamMembers)
     setMilistone(milistones)
-  }, [assignmentLabels, teamMembers, milistones])
+  }, [labelsListData, teamMembers, milistones])
 
   const changeFun = (props) => {
     // console.log('props: ', props)
@@ -167,7 +167,7 @@ const LabelSelect = (props) => {
               labelInValue: true,
               placeholder: '标签',
               onSearch: (value) => {
-                const filterOpion = assignmentLabels.filter((item) =>
+                const filterOpion = labelsListData.filter((item) =>
                   item?.label?.includes(value.trim())
                 )
                 setLabel(filterOpion)

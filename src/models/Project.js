@@ -202,14 +202,7 @@ export default createModel()({
       // 任务列表新增
       async getAdd(params, { project }) {
         const { labels, ...newData } = project.fromData
-        let newLabels = []
-        if (labels?.length > 0 && labels[0]?.dictValue) {
-          // eslint-disable-next-line array-callback-return
-          labels.map((item) => {
-            newLabels.push(item?.dictValue.toString())
-          })
-          newData.labels = newLabels
-        }
+        newData.labels = labels
         const data = await getmMnagerAssignmentSave({
           ...newData,
           ...params,
@@ -245,14 +238,7 @@ export default createModel()({
       // 任务列表编辑
       async getEdit(params, { project }) {
         const { labels, ...newData } = project.editFromData
-        let newLabels = []
-        if (labels?.length > 0 && labels[0]?.dictValue) {
-          // eslint-disable-next-line array-callback-return
-          labels.map((item) => {
-            newLabels.push(item?.dictValue.toString())
-          })
-        }
-        newData.labels = newLabels
+        newData.labels = labels
         const data = await getManagerAssignmentUpdate({
           ...newData,
           ...params,

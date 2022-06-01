@@ -22,6 +22,7 @@ const labels = createModel()({
     linkId: 0, // 关联ID
     idType: 1, // ID类型 1：组织 2：项目
     type: 1, // type 操作状态 1：新增， 2：编辑
+    projectId: 0,
   },
   effects: (dispatch) => ({
     // 标签：条件查询-不分页
@@ -41,16 +42,20 @@ const labels = createModel()({
       const data = await addLabelItem(param)
       if (data && data.code === 200) {
         Notify.success({ description: '新增成功' })
-        callback && callback()
       }
+      callback && callback(data && data.code === 200)
     },
 
     // 删除
     async deleteLabel(payload, { labels }) {
+      const { projectId } = labels
       const data = await deleteLabel(payload)
       if (data && data.code === 200) {
         Notify.success({ description: '删除成功' })
-        await dispatch({ type: 'labels/getAllLabelData' })
+        await dispatch({
+          type: 'labels/getAllLabelData',
+          payload: { projectId },
+        })
       }
     },
 
