@@ -72,7 +72,8 @@ const TaskBoard = () => {
       ],
     },
   ])
-  const [creat, setCreat] = useState(false)
+  const [creat, setCreat] = useState(false) // 创建列表弹窗
+  const [boardName, setBoardName] = useState('') // 新建列表名
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({ projectId })
   }, [dispatch, projectId])
@@ -116,15 +117,15 @@ const TaskBoard = () => {
   }
 
   return (
-    <div>
+    <>
       <div className={styles.header}>
         <Button
           type={creat ? 'light' : 'primary'}
+          disabled={creat}
           onClick={() => {
             setCreat(true)
-            // setDataInfo([...dataInfo, { id: '9', listName: "新增看板", arr: [] }])
           }}>
-          创建看板
+          创建列表
         </Button>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -138,12 +139,7 @@ const TaskBoard = () => {
                       className={styles.dragList}
                       ref={provided.innerRef}
                       {...provided.droppableProps}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          margin: 'auto',
-                          justifyContent: 'space-between',
-                        }}>
+                      <div className={styles.dragListHead}>
                         <p className={styles.listName}>{dropItem.listName}</p>
                         <div className={styles.listName}>
                           <Icon type="appstore-o" />
@@ -153,42 +149,44 @@ const TaskBoard = () => {
                           <Icon type="plus-square-o" />
                         </div>
                       </div>
-                      {dropItem.arr.map((item, index) => (
-                        <Draggable
-                          draggableId={item.issueName}
-                          index={index}
-                          key={item.issueName}>
-                          {(provided) => (
-                            <div
-                              className={styles.dragItem}
-                              key={item.issueName}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}>
-                              <Card bordered={false}>
-                                <div className={styles.listItem}>
-                                  <div>
-                                    <div>{item.issueName}</div>
-                                    <div>{item.issueLable}</div>
-                                    <div>{item.issueNumber}</div>
+                      <div className={styles.dragListBox}>
+                        {dropItem.arr.map((item, index) => (
+                          <Draggable
+                            draggableId={item.issueName}
+                            index={index}
+                            key={item.issueName}>
+                            {(provided) => (
+                              <div
+                                className={styles.dragItem}
+                                key={item.issueName}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}>
+                                <Card bordered={false}>
+                                  <div className={styles.listItem}>
+                                    <div>
+                                      <div>{item.issueName}</div>
+                                      <div>{item.issueLable}</div>
+                                      <div>{item.issueNumber}</div>
+                                    </div>
+                                    <div className={styles.userHead}>
+                                      <Avatar
+                                        src={
+                                          item.avatar
+                                            ? `/api/file/selectFile/${item.avatar}`
+                                            : item.path
+                                        }>
+                                        {item?.nickName[0]}
+                                      </Avatar>
+                                    </div>
                                   </div>
-                                  <div className={styles.userHead}>
-                                    <Avatar
-                                      src={
-                                        item.avatar
-                                          ? `/api/file/selectFile/${item.avatar}`
-                                          : item.path
-                                      }>
-                                      {item?.nickName[0]}
-                                    </Avatar>
-                                  </div>
-                                </div>
-                              </Card>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
+                                </Card>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
                     </div>
                   )
                 }}
@@ -198,9 +196,10 @@ const TaskBoard = () => {
           {creat && (
             <div style={{ width: '20%', display: 'flex', margin: '0px 10px' }}>
               <Card
-                title="新增看板"
+                title="新增列表"
+                bodyClassName={styles.newListCardBody}
                 footer={
-                  <div>
+                  <div className={styles.newListButton}>
                     <Button
                       onClick={() => {
                         setCreat(false)
@@ -208,23 +207,30 @@ const TaskBoard = () => {
                       取消
                     </Button>
                     <Button
-                      type="primary"
+                      disabled={boardName === '' ? true : false}
+                      type={boardName === '' ? 'light' : 'primary'}
                       onClick={() => {
                         setCreat(false)
                         setDataInfo([
                           ...dataInfo,
-                          { id: '9', listName: '新增看板', arr: [] },
+                          { id: '9', listName: boardName, arr: [] },
                         ])
                       }}>
-                      添加看板
+                      添加列表
                     </Button>
                   </div>
                 }>
                 <div>
                   <div className={styles.newList}>
+                    <p style={{ marginBottom: '10px', fontSize: '12px' }}>
+                      将会创建一个可拖入任务的列表
+                    </p>
                     <Input
-                      placeholder="请输入看板名称"
+                      placeholder="请输入列表名称"
                       style={{ width: '260px' }}
+                      onChange={(e) => {
+                        setBoardName(e.target.value)
+                      }}
                     />
                   </div>
                 </div>
@@ -233,7 +239,7 @@ const TaskBoard = () => {
           )}
         </div>
       </DragDropContext>
-    </div>
+    </>
   )
 }
 

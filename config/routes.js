@@ -249,6 +249,7 @@ const routes = [
           {
             path: '/:userAccount/:projectId/taskBoard',
             name: '任务看板',
+            icon: 'table',
             component: '@/pages/TaskBoard',
             isAuth: true,
             navigate:
