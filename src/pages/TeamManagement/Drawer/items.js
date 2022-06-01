@@ -8,7 +8,7 @@ export const items = (queryInfo, drawerType) => [
     required: true,
     placeholder: '输入团队名',
     rules: [{ required: true, message: '输入团队名' }],
-    span: '12',
+    span: '24',
   },
   {
     label: '团队描述',
@@ -19,7 +19,7 @@ export const items = (queryInfo, drawerType) => [
     required: true,
     placeholder: '团队描述',
     rules: [{ required: true, message: '团队描述' }],
-    span: '12',
+    span: '24',
   },
   {
     label: '更新时间',

@@ -134,7 +134,7 @@ const NewMilestone = () => {
             current.dueTime &&
             !timeDistance(current.startTime, current.dueTime).status
           ) {
-            errorObj.dueTime = '里程碑开始时间不能大于里程碑的截至时间！'
+            errorObj.dueTime = '里程碑开始时间不能晚于结束时间！'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
@@ -208,6 +208,7 @@ const NewMilestone = () => {
           dueTime: {
             initialValue: listDataInfo.dueTime,
             inline: true,
+            required: true,
             labelFor: 'date-inline',
             children: (
               <DateInput

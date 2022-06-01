@@ -195,11 +195,18 @@ const DetailModal = ({ updateData, onSearch }) => {
             key: 'status',
             widget: 'select',
             option: [
-              { label: '停用', value: '1' },
               { label: '正常', value: '0' },
+              { label: '停用', value: '1' },
             ],
-            initialValue: detailInfo?.status || '0',
+            initialValue: detailInfo?.status,
             span: '24',
+            required: true,
+            rules: [
+              {
+                required: true,
+                message: '请选择状态',
+              },
+            ],
           },
           {
             label: '备注',
