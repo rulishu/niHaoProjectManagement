@@ -21,7 +21,6 @@ export default function TabelView() {
     let childrenListMap = {}
     let nodeIds = {}
     let tree = []
-    console.log('data', data)
     for (let d of data) {
       let parentId = d[config.parentId]
       if (childrenListMap[parentId] == null) {
