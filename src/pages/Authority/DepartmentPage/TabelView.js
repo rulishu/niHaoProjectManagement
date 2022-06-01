@@ -93,12 +93,12 @@ export default function TabelView() {
         alertVisible: true,
       },
     })
-    dispatch({
-      type: 'department/judge',
-      payload: {
-        id: other.id,
-      },
-    })
+    // dispatch({
+    //   type: 'department/judge',
+    //   payload: {
+    //     id: other.id,
+    //   },
+    // })
     setIterm(other)
     e.stopPropagation()
   }
@@ -151,9 +151,9 @@ export default function TabelView() {
           { label: '正常', value: 0 },
           { label: '停用', value: 1 },
         ],
-        widgetProps: {
-          placeholder: '请输入设备状态',
-        },
+        // widgetProps: {
+        //   placeholder: '请输入设备状态',
+        // },
       },
       render: (code) => {
         return (

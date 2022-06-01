@@ -61,6 +61,93 @@ export default function DrawerView() {
       },
     })
   }
+  const otherLabel = {
+    parentId: {
+      labelClassName: 'fieldLabel',
+      label: '上级部门',
+      initialValue: dataParent ? [topDataInfo] : [],
+      labelFor: 'username-inline',
+      disabled: drawerVisibleText !== 'add',
+      children: (
+        <SearchTree
+          id="username-inline"
+          options={arrLeverTop} //sourceArrFather(dataSource)
+          multiple={false}
+          style={{ width: '100%' }}
+          allowClear={true}
+          // onSearch={(searchValue) =>
+          //   console.log('SearchTree-> SearchTreeOption', searchValue)
+          // }
+          // onChange={(selectd, selectedAll, isChecked) =>
+          //   console.log(
+          //     'SearchTree-> onChange',
+          //     selectd,
+          //     selectedAll,
+          //     isChecked
+          //   )
+          // }
+          placeholder="请选择上级部门"
+          treeProps={{ style: { height: 250, overflowX: 'auto' } }}
+        />
+      ),
+    },
+  }
+  const mainLabel = {
+    deptName: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      initialValue: allEditData.deptName || '',
+      label: '部门名称',
+      placeholder: '请输入部门名称',
+      children: <Input />,
+      rules: [{ required: true, message: '请输入项目名称' }],
+    },
+    orderNum: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      label: '排序',
+      placeholder: '请输入排序',
+      initialValue: allEditData.orderNum || '',
+      children: <Input type="number" />,
+    },
+    leader: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      initialValue: allEditData.leader || '',
+      label: '负责人',
+      placeholder: '请输入负责人',
+      children: <Input />,
+    },
+    phone: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      initialValue: allEditData.phone || '',
+      label: '联系电话',
+      placeholder: '请输入联系电话',
+      children: <Input />,
+    },
+    email: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      initialValue: allEditData.email || '',
+      label: '邮箱',
+      placeholder: '请输入邮箱',
+      children: <Input />,
+    },
+    status: {
+      labelClassName: 'fieldLabel',
+      labelStyle: { width: 60 },
+      initialValue: allEditData.status,
+      label: '部门状态',
+      children: (
+        <Select>
+          <Select.Option value="">请选择</Select.Option>
+          <Select.Option value="0">正常</Select.Option>
+          <Select.Option value="1">停用</Select.Option>
+        </Select>
+      ),
+    },
+  }
   return (
     <>
       <Drawer
@@ -71,27 +158,33 @@ export default function DrawerView() {
         }}
         size={500}>
         <Form
-          onSubmit={({ initial, current }) => {
-            // const { current } = allFormItem
+          onSubmit={({ ...allFormItem }) => {
+            const pattern = /^[1][3,4,5,7,8,9][0-9]{9}$/
+            const { current } = allFormItem
             const errorObj = {}
-            if (current?.parentId.length === 0) {
+            if (current?.parentId?.length === 0) {
               errorObj.parentId = '上级部门不能为空！'
-            } else if (!current?.deptName) {
+            }
+            if (!current?.deptName) {
               errorObj.deptName = '部门名称不能为空！'
-            } else if (!current?.orderNum) {
-              errorObj.orderNum = '部门名称不能为空！'
-            } else if (!current?.orderNum) {
+            }
+            if (!current?.orderNum) {
               errorObj.orderNum = '排序不能为空！'
-            } else if (!current?.leader) {
+            }
+            if (!current?.leader) {
               errorObj.leader = '负责人不能为空！'
-            } else if (!current?.phone) {
+            }
+            if (!current?.phone) {
               errorObj.phone = '电话不能为空！'
-            } else if (!current?.email) {
+            } else if (!pattern.test(current?.phone)) {
+              errorObj.phone = '电话格式不正确！'
+            }
+            if (!current?.email) {
               errorObj.email = '邮箱不能为空！'
-            } else if (current?.status === '') {
+            }
+            if (current?.status === '') {
               errorObj.status = '状态不能为空！'
             }
-            console.log(current, errorObj)
             if (Object.keys(errorObj).length > 0) {
               const err = new Error()
               err.filed = errorObj
@@ -101,14 +194,22 @@ export default function DrawerView() {
               type: `department/${
                 drawerVisibleText === 'add' ? 'getAdd' : 'getEdit'
               }`,
-              payload: {
-                ...current,
-                deptId: allEditData.deptId || '',
-                parentId: Number(current?.parentId[0].key) || 0,
-                parentName: current?.parentName?.label,
-                status: Number(current?.status),
-                orderNum: Number(current?.orderNum),
-              },
+              payload: current?.parentId
+                ? {
+                    ...current,
+                    deptId: allEditData.deptId || '',
+                    parentId: Number(current?.parentId[0]?.key),
+                    parentName: current?.parentId[0]?.label,
+                    status: Number(current?.status),
+                    orderNum: Number(current?.orderNum),
+                  }
+                : {
+                    ...current,
+                    deptId: allEditData.deptId || '',
+                    parentId: allEditData.parentId,
+                    status: Number(current?.status),
+                    orderNum: Number(current?.orderNum),
+                  },
             })
           }}
           onSubmitError={(error) => {
@@ -117,97 +218,11 @@ export default function DrawerView() {
             }
             return null
           }}
-          fields={{
-            parentId: {
-              labelClassName: 'fieldLabel',
-              label: '上级部门',
-              initialValue: dataParent ? [topDataInfo] : [],
-              required: true,
-              labelFor: 'username-inline',
-              disabled: drawerVisibleText !== 'add',
-              children: (
-                <SearchTree
-                  id="username-inline"
-                  options={arrLeverTop} //sourceArrFather(dataSource)
-                  multiple={false}
-                  style={{ width: '100%' }}
-                  allowClear={true}
-                  // onSearch={(searchValue) =>
-                  //   console.log('SearchTree-> SearchTreeOption', searchValue)
-                  // }
-                  // onChange={(selectd, selectedAll, isChecked) =>
-                  //   console.log(
-                  //     'SearchTree-> onChange',
-                  //     selectd,
-                  //     selectedAll,
-                  //     isChecked
-                  //   )
-                  // }
-                  placeholder="请选择上级部门"
-                  treeProps={{ style: { height: 250, overflowX: 'auto' } }}
-                />
-              ),
-            },
-            deptName: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              initialValue: allEditData.deptName || '',
-              label: '部门名称',
-              placeholder: '请输入部门名称',
-              required: true,
-              children: <Input />,
-            },
-            orderNum: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              label: '排序',
-              placeholder: '请输入排序',
-              required: true,
-              initialValue: allEditData.orderNum || '',
-              children: <Input type="number" />,
-            },
-            leader: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              initialValue: allEditData.leader || '',
-              label: '负责人',
-              placeholder: '请输入负责人',
-              required: true,
-              children: <Input />,
-            },
-            phone: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              initialValue: allEditData.phone || '',
-              required: true,
-              label: '联系电话',
-              placeholder: '请输入联系电话',
-              children: <Input />,
-            },
-            email: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              initialValue: allEditData.email || '',
-              required: true,
-              label: '邮箱',
-              placeholder: '请输入邮箱',
-              children: <Input />,
-            },
-            status: {
-              labelClassName: 'fieldLabel',
-              labelStyle: { width: 60 },
-              initialValue: allEditData.status,
-              required: true,
-              label: '部门状态',
-              children: (
-                <Select>
-                  <Select.Option value="">请选择</Select.Option>
-                  <Select.Option value="0">正常</Select.Option>
-                  <Select.Option value="1">停用</Select.Option>
-                </Select>
-              ),
-            },
-          }}>
+          fields={
+            drawerVisibleText !== 'add' && !dataParent
+              ? mainLabel
+              : Object.assign(otherLabel, mainLabel)
+          }>
           {({ fields, canSubmit }) => {
             return (
               <div>
