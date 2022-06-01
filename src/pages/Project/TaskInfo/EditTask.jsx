@@ -16,7 +16,8 @@ const EditTask = () => {
   const {
     project: { editFromData, taskInfoData },
     projectuser: { userSelectAllList },
-    dictionary: { dictDataList },
+    // dictionary: { dictDataList },
+    labels: { listData: labelsListData },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
@@ -99,14 +100,14 @@ const EditTask = () => {
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
     setLabelState(true)
-    const labels = dictDataList?.filter((item) =>
-      keyArr?.includes(item?.dictValue)
-    )
+    const labels = labelsListData?.filter((item) => {
+      return keyArr?.includes(item?.id)
+    })
     updateData({
       editFromData: {
         ...editFromData,
         assignmentId: editFromData.assignmentId,
-        labels: labels.length ? labels : [],
+        labels: labels.length ? keyArr : [],
       },
     })
   }
@@ -134,20 +135,12 @@ const EditTask = () => {
   const createTag = async (formData) => {
     let result = false
     await dispatch({
-      type: 'dictionary/addDict',
+      type: 'labels/addLabelItem',
       payload: {
-        record: {
-          ...formData,
-          dictType: 'assignment_label',
-          dictValue: dayjs().unix(),
-        },
+        param: { ...formData, projectId },
         callback: (data) => {
           result = data
-          dispatch.dictionary.getDictDataList({
-            dictType: 'assignment_label',
-            page: 1,
-            pageSize: 999,
-          })
+          dispatch.labels.getAllLabelData({ projectId })
         },
       },
     })
@@ -320,10 +313,10 @@ const EditTask = () => {
           </div>
           <CompDropdown
             listData={initListData(
-              dictDataList,
+              labelsListData,
               editFromData.labels,
-              'dictValue',
-              { color: 'listClass', title: 'dictLabel' }
+              'id',
+              { color: 'color', title: 'name' }
             )}
             isOpen={labelState}
             template="label"
@@ -342,9 +335,7 @@ const EditTask = () => {
               setLabelState(false)
             }}
             loading={loading.effects.dictionary.getDictDataList}
-            runLabel={() => {
-              navigate('/Authority/dictionary', { replace: true })
-            }}
+            runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}
           />
           {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (

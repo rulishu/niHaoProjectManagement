@@ -90,21 +90,21 @@ export default function ListItem(props) {
                       </Tooltip>
                     )}
                     <div className={styles.listLabels}>
-                      {labelsData?.map((list, index2) => {
-                        if (item?.labels?.includes(list.dictValue)) {
+                      {labelsData?.map((list) => {
+                        if (item?.labels?.includes(list?.id)) {
                           return (
                             <span
-                              key={index2 + index}
+                              key={list?.id}
                               className={
-                                list.listClass
+                                list?.color
                                   ? styles.listIssueStatus
                                   : styles.nolistIssueTag
                               }
                               style={{
-                                backgroundColor: list.listClass,
-                                borderColor: list?.listClass,
+                                backgroundColor: list?.color,
+                                borderColor: list?.color,
                               }}>
-                              {list?.dictLabel}
+                              {list?.name}
                             </span>
                           )
                         }

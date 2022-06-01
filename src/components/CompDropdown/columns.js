@@ -38,10 +38,10 @@ const label = {
   form: {
     fields: (props) => {
       return {
-        dictLabel: {
-          children: <Input size="small" placeholder="请输入标签" />,
+        name: {
+          children: <Input size="small" placeholder="请输入标签名称" />,
         },
-        listClass: {
+        color: {
           children: <Custom color={props?.color} />,
         },
       }
@@ -49,18 +49,18 @@ const label = {
     fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
       return (
         <>
-          <div className={styles.searchBox}>{fields.dictLabel}</div>
-          {fields.listClass}
+          <div className={styles.searchBox}>{fields.name}</div>
+          {fields.color}
         </>
       )
     },
     verify: (initial, current) => {
       const errorObj = {}
-      if (current.dictLabel.length < 2 || current.dictLabel.length > 50) {
-        errorObj.dictLabel = '请输入标签名称,长度为2-50'
+      if (current?.name.length < 2 || current?.name.length > 50) {
+        errorObj.name = '请输入标签名称,长度为2-50'
       }
-      if (!current.listClass) {
-        errorObj.listClass = '请选择或输入标签背景颜色'
+      if (!current?.color) {
+        errorObj.color = '请选择或输入标签背景颜色'
       }
       return errorObj
     },
@@ -166,8 +166,8 @@ const milepost = {
       const { milestonesTitle, startTime } = current
       if (
         !milestonesTitle ||
-        milestonesTitle.length < 2 ||
-        milestonesTitle.length > 100
+        milestonesTitle?.length < 2 ||
+        milestonesTitle?.length > 100
       ) {
         errorObj.milestonesTitle = '请输入标题,长度为2~100'
       }
