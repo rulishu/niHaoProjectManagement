@@ -43,7 +43,7 @@ const Search = () => {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data?.total,
+        total: data?.data?.total || 0,
         data: data?.data?.rows || [],
       }
     },
