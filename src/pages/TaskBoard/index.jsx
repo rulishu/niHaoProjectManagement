@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Card, Icon, Avatar, Button, Input } from 'uiw'
+import { CompDropdown } from '@/components'
+import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
 
 const TaskBoard = () => {
@@ -10,6 +12,8 @@ const TaskBoard = () => {
   const { projectId } = useParams()
   const { taskboard } = useSelector((state) => state)
   console.log(taskboard)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectBoard, setSelectBoard] = useState(0)
   const [dataInfo, setDataInfo] = useState([
     {
       id: '1',
@@ -119,6 +123,80 @@ const TaskBoard = () => {
   return (
     <>
       <div className={styles.header}>
+        <div style={{ width: '200px' }}>
+          <CompDropdown
+            listData={initListData(
+              [
+                {
+                  milestonesId: 13,
+                  milestonesTitle: 'nihaoya',
+                  name: 45423213123215,
+                },
+                {
+                  milestonesId: 14,
+                  milestonesTitle: 'nihaoya12313',
+                  name: 4545,
+                },
+              ],
+              selectBoard,
+              'milestonesId',
+              { title: 'milestonesTitle' }
+            )}
+            title="看板"
+            isOpen={isOpen}
+            isRadio={true}
+            labelHeader={[
+              {
+                title: '标题',
+                dataIndex: 'title',
+                resultsShow: true,
+                isSearch: true,
+                component: (item) => {
+                  // console.log(item);
+                  return <span>{item?.title}</span>
+                },
+              },
+            ]}
+            actionButtons={{
+              manage: { title: '删除看板' },
+              create: { title: '创建看板' },
+            }}
+            form={{
+              fields: (props) => {
+                return {
+                  milestonesTitle: {
+                    inline: true,
+                    required: true,
+                    children: <Input placeholder="请输入标题" />,
+                  },
+                }
+              },
+              fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
+                return (
+                  <>
+                    {' '}
+                    <div>{fields.milestonesTitle}</div>{' '}
+                  </>
+                )
+              },
+            }}
+            template="milepost"
+            shape="input"
+            runLabel={() => {
+              console.log('删除')
+            }}
+            onChange={(e) => {
+              setSelectBoard(e)
+              setIsOpen(false)
+            }}
+            onClickable={(is) => {
+              setIsOpen(is)
+            }}
+            createTag={(icutData, nitData) => {
+              console.log('1312', icutData, nitData)
+            }}
+          />
+        </div>
         <Button
           type={creat ? 'light' : 'primary'}
           disabled={creat}

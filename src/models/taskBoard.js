@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core'
 // import { Notify } from 'uiw'
-import { selectAllTabulation } from '../servers/taskBoard'
+import { selectAllBoard } from '../servers/taskBoard'
 
 /**
  * 项目列表
@@ -31,7 +31,7 @@ const taskboard = createModel()({
         type,
         ...payload,
       }
-      const data = await selectAllTabulation(params)
+      const data = await selectAllBoard(params)
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           dataList: data?.data?.list || [],
