@@ -68,11 +68,9 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
     <ProDrawer
       width={500}
       title={
-        tableType === 'add'
+        tableType === 'add' || 'eaddChilddit'
           ? '新增'
           : tableType === 'edit'
-          ? '编辑'
-          : tableType === 'addChild'
           ? '编辑'
           : '查看'
       }
