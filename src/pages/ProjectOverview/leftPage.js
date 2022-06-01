@@ -16,6 +16,7 @@ export default function Home() {
   const dispatch = useDispatch()
   const [allTab, setAllTab] = useState('5')
   const [myTab, setMyTab] = useState('5')
+  const [myCreat, setMyCreat] = useState(true)
 
   const token = localStorage.getItem('token')
 
@@ -30,7 +31,7 @@ export default function Home() {
       return {
         projectId: projectId,
         filterParam: Number(myTab),
-        myAssignment: true,
+        myAssignment: myCreat,
         page: pageIndex,
         pageSize: pageSize,
       }
@@ -384,6 +385,7 @@ export default function Home() {
           onTabClick={(tab) => {
             setMyTab(tab)
             myTable.onSearch()
+            tab === '3' ? setMyCreat(false) : setMyCreat(true) //‘我创建的’项目myAssignment字段为false
           }}>
           <Tabs.Pane label="待处理" key="5">
             {TableList()}
