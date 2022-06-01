@@ -200,7 +200,7 @@ function Dictionary() {
               key: 'createTime',
               align: 'center',
               width: 200,
-              ellipsis: true,
+              // ellipsis: true,
               props: {
                 widget: 'dateInputRange',
                 format: 'YYYY-MM-DD HH:mm:ss',

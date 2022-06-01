@@ -49,7 +49,7 @@ export const columnsSearch = (handleEditTable, userInfo) => [
         <Button
           size="small"
           icon="edit"
-          type="success"
+          type="primary"
           onClick={() => handleEditTable('edit', rowData)}>
           编辑
         </Button>
