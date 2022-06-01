@@ -37,7 +37,7 @@ export default function DeletePopover({ handleEditTable, disabled }) {
           </div>
         </Card>
       }>
-      <Button size="small" type="danger" disabled={disabled}>
+      <Button size="small" type="danger" icon="delete" disabled={disabled}>
         删除
       </Button>
     </Popover>
