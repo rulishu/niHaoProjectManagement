@@ -6,7 +6,7 @@ const Register = () => {
   const dispatch = useDispatch()
 
   const {
-    login: { isLogin },
+    login: { isLogin, registerLoading },
   } = useSelector((state) => state)
 
   const returnLogin = () => {
@@ -44,6 +44,10 @@ const Register = () => {
             dispatch({
               type: 'login/register',
               payload: { ...current },
+            })
+            dispatch({
+              type: 'login/updateState',
+              payload: { registerLoading: !isLogin },
             })
           }
         }}
@@ -108,6 +112,7 @@ const Register = () => {
                   className="btns"
                   style={{ marginTop: 20 }}
                   htmlType="submit"
+                  loading={registerLoading}
                   type="primary">
                   注册
                 </Button>
