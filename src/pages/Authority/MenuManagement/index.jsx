@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Card } from 'uiw'
+import { Button, Tag, Card, Tooltip } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
@@ -145,7 +145,7 @@ const Demo = () => {
             {
               title: '菜单名称',
               key: 'menuName',
-              width: 220,
+              width: 200,
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -167,11 +167,25 @@ const Demo = () => {
               title: '权限标识',
               key: 'perms',
               ellipsis: true,
+              render: (perms) => (
+                <div style={{ textAlign: 'center' }}>
+                  <Tooltip placement="leftTop" content={perms}>
+                    <span>{perms}</span>
+                  </Tooltip>
+                </div>
+              ),
             },
             {
               title: '组件路径',
               key: 'component',
               ellipsis: true,
+              render: (component) => (
+                <div style={{ textAlign: 'center' }}>
+                  <Tooltip placement="leftTop" content={component}>
+                    <span>{component}</span>
+                  </Tooltip>
+                </div>
+              ),
             },
             {
               title: '状态',
@@ -204,6 +218,7 @@ const Demo = () => {
               title: '创建时间',
               key: 'createTime',
               ellipsis: true,
+              width: 170,
             },
             {
               title: '操作',
@@ -224,12 +239,6 @@ const Demo = () => {
                       onClick={handleEditTable.bind(this, 'edit', rowData)}>
                       编辑
                     </Button>
-                    {/* <Button
-                  size="small"
-                  type="success"
-                  onClick={handleEditTable.bind(this, 'view', rowData)}>
-                  查看
-                </Button> */}
                     <DeletePopover
                       handleEditTable={() => handleEditTable('del', rowData)}
                     />
