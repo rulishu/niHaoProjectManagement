@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Tooltip, Card, Notify } from 'uiw'
+import { Button, Tag, Tooltip, Card, Notify, Divider } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -153,10 +153,14 @@ const Demo = (props) => {
             {
               title: '角色编号',
               key: 'roleId',
+              align: 'center',
+              ellipsis: true,
             },
             {
               title: '角色名称',
               key: 'roleName',
+              align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -167,6 +171,8 @@ const Demo = (props) => {
             {
               title: '权限字符',
               key: 'roleKey',
+              align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'input',
                 widgetProps: {
@@ -177,10 +183,14 @@ const Demo = (props) => {
             {
               title: '显示顺序',
               key: 'roleSort',
+              align: 'center',
+              ellipsis: true,
             },
             {
               title: '状态',
               key: 'status',
+              align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'select',
                 option: [
@@ -214,6 +224,7 @@ const Demo = (props) => {
               title: '创建时间',
               key: 'createTime',
               align: 'center',
+              ellipsis: true,
               props: {
                 // label: '进入时间-离开时间',
                 widget: 'dateInputRange',
@@ -223,9 +234,11 @@ const Demo = (props) => {
             {
               title: '操作',
               key: 'edit',
+              align: 'center',
               width: 200,
               render: (text, key, rowData) => (
                 <div>
+                  <Divider type="vertical" />
                   {/* <AuthBtn path="/api/managerRole/addMenu">
                   <Button
                     size="small"
@@ -238,9 +251,11 @@ const Demo = (props) => {
                   <Button
                     size="small"
                     type="primary"
+                    icon="edit"
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑
                   </Button>
+                  <Divider type="vertical" />
                   {/* </AuthBtn> */}
                   {/* <AuthBtn path="/api/managerRole/selectRole"> */}
                   {/* <Button
@@ -258,6 +273,7 @@ const Demo = (props) => {
                       <Button
                         size="small"
                         type="danger"
+                        icon="delete"
                         // disabled={rowData.hasUser}
                       >
                         删除

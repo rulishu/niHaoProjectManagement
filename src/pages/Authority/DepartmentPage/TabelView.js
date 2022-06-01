@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty, Tag } from 'uiw'
+import { Table, Button, Alert, Empty, Tag, Divider } from 'uiw'
 
 export default function TabelView() {
   const {
@@ -125,26 +125,32 @@ export default function TabelView() {
     {
       title: '部门名称',
       key: 'deptName',
+      align: 'left',
     },
     {
       title: '排序',
       key: 'orderNum',
+      align: 'center',
     },
     {
       title: '负责人',
       key: 'leader',
+      align: 'center',
     },
     {
       title: '联系电话',
       key: 'phone',
+      align: 'center',
     },
     {
       title: '邮箱',
       key: 'email',
+      align: 'center',
     },
     {
       title: '部门状态',
       key: 'status',
+      align: 'center',
       props: {
         widget: 'select',
         option: [
@@ -178,20 +184,25 @@ export default function TabelView() {
     {
       title: '操作',
       key: 'edit',
-      width: 98,
+      width: 200,
+      align: 'center',
       render: (...other) => {
         const editData = other[2]
         return (
           <div>
+            <Divider type="vertical" />
             <Button
               size="small"
-              type="success"
+              type="primary"
+              icon="edit"
               onClick={(e) => onEdit(editData, e)}>
               编辑
             </Button>
+            <Divider type="vertical" />
             <Button
               size="small"
               type="danger"
+              icon="delete"
               onClick={(e) => onDelete(editData, e)}>
               删除
             </Button>

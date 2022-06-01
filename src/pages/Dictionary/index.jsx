@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Tag, Card, Tooltip } from 'uiw'
+import { Button, Tag, Card, Tooltip, Divider } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -108,6 +108,7 @@ function Dictionary() {
               title: '字典类型编码',
               key: 'dictId',
               ellipsis: true,
+              align: 'center',
               // props: {
               //   widget: 'input',
               //   initialValue: '',
@@ -125,6 +126,7 @@ function Dictionary() {
               title: '字典类型名称',
               key: 'dictName',
               ellipsis: true,
+              align: 'center',
               render: (text, key, rowData) => (
                 <Tooltip placement="topLeft" content={text}>
                   {text}
@@ -142,6 +144,7 @@ function Dictionary() {
               title: '字典类型',
               key: 'dictType',
               ellipsis: true,
+              align: 'center',
               render: (text, key, rowData) => (
                 <Tooltip placement="topLeft" content={text}>
                   <Button
@@ -162,6 +165,8 @@ function Dictionary() {
             {
               title: '状态',
               key: 'status',
+              align: 'center',
+              ellipsis: true,
               props: {
                 widget: 'select',
                 option: [
@@ -188,11 +193,15 @@ function Dictionary() {
             {
               title: '备注',
               key: 'remark',
+              align: 'center',
+              ellipsis: true,
             },
             {
               title: '创建时间',
               key: 'createTime',
               align: 'center',
+              width: 200,
+              // ellipsis: true,
               props: {
                 widget: 'dateInputRange',
                 format: 'YYYY-MM-DD HH:mm:ss',
@@ -201,24 +210,31 @@ function Dictionary() {
             {
               title: '操作',
               key: 'edit',
+              width: 240,
+              align: 'center',
               render: (text, key, rowData) => (
                 <div>
+                  <Divider type="vertical" />
                   <AuthBtn path="/api/dict/queryById">
                     <Button
                       size="small"
-                      type="primary"
+                      type="success"
+                      icon="eye"
                       onClick={handleEditTable.bind(this, 'detail', rowData)}>
                       查看
                     </Button>
                   </AuthBtn>
+                  <Divider type="vertical" />
                   <AuthBtn path="/api/dict/edit">
                     <Button
                       size="small"
                       type="primary"
+                      icon="edit"
                       onClick={handleEditTable.bind(this, 'edit', rowData)}>
                       编辑
                     </Button>
                   </AuthBtn>
+                  <Divider type="vertical" />
                   <AuthBtn path="/api/dict/deleteByTypeId">
                     <DeletePopover
                       handleEditTable={() => handleEditTable('del', rowData)}
