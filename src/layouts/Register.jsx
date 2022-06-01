@@ -22,6 +22,13 @@ const Register = () => {
         onSubmit={({ current }) => {
           const errorObj = {}
           if (!current.username) errorObj.username = `账号不能为空！`
+          if (
+            current.username === 'dashboard' ||
+            current.username === 'projectList' ||
+            current.username === 'todoList' ||
+            current.username === 'Authority'
+          )
+            errorObj.username = `账号不能为dashboard、projectList、todoList、Authority`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`
