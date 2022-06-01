@@ -72,6 +72,8 @@ const Detail = ({ updateData, handleTree, onSearch }) => {
           ? '新增'
           : tableType === 'edit'
           ? '编辑'
+          : tableType === 'addChild'
+          ? '新增'
           : '查看'
       }
       visible={drawerVisible}
