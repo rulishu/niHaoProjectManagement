@@ -71,10 +71,9 @@ export default function DrawerView() {
         }}
         size={500}>
         <Form
-          onSubmit={({ ...allFormItem }) => {
-            const { current } = allFormItem
+          onSubmit={({ initial, current }) => {
+            // const { current } = allFormItem
             const errorObj = {}
-            // console.log('current', current)
             if (current?.parentId.length === 0) {
               errorObj.parentId = '上级部门不能为空！'
             } else if (!current?.deptName) {
@@ -92,6 +91,7 @@ export default function DrawerView() {
             } else if (current?.status === '') {
               errorObj.status = '状态不能为空！'
             }
+            console.log(current, errorObj)
             if (Object.keys(errorObj).length > 0) {
               const err = new Error()
               err.filed = errorObj
@@ -106,7 +106,7 @@ export default function DrawerView() {
                 deptId: allEditData.deptId || '',
                 parentId: Number(current?.parentId[0].key) || 0,
                 parentName: current?.parentName?.label,
-                status: Number(current?.status || '0'),
+                status: Number(current?.status),
                 orderNum: Number(current?.orderNum),
               },
             })
@@ -144,6 +144,7 @@ export default function DrawerView() {
                   //   )
                   // }
                   placeholder="请选择上级部门"
+                  treeProps={{ style: { height: 250, overflowX: 'auto' } }}
                 />
               ),
             },
@@ -195,11 +196,12 @@ export default function DrawerView() {
             status: {
               labelClassName: 'fieldLabel',
               labelStyle: { width: 60 },
-              initialValue: allEditData.status || '0',
+              initialValue: allEditData.status,
               required: true,
               label: '部门状态',
               children: (
                 <Select>
+                  <Select.Option value="">请选择</Select.Option>
                   <Select.Option value="0">正常</Select.Option>
                   <Select.Option value="1">停用</Select.Option>
                 </Select>
