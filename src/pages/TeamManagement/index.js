@@ -41,7 +41,7 @@ export default function Index() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-  console.log('table--->', table)
+
   const onOpenDelete = (data) => {
     dispatch({
       type: 'team/updateState',
@@ -52,7 +52,6 @@ export default function Index() {
         queryInfo: {},
       },
     })
-    // console.log('id--->',data.id)
   }
   const onOpenUser = (data) => {
     dispatch({

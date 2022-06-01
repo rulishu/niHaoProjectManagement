@@ -8,6 +8,7 @@ import {
   // 团队成员操作相关API
   getMembers,
   getNotTeamUsers,
+  updateMembers,
 } from '../../../servers/team'
 
 const team = createModel()({
@@ -71,7 +72,17 @@ const team = createModel()({
         team.team.tablePro.onSearch()
       }
     },
-
+    //  团队成员管理，修改团队成员
+    async updateMembers(payload, team) {
+      const dph = dispatch
+      const data = await updateMembers(payload)
+      if (data.code === 200) {
+        dph.team.updateState({
+          isUsers: false,
+        })
+        team.team.tablePro.onSearch()
+      }
+    },
     // 分页查找团队
     async getPageTeam(params) {
       const param = { page: 1, pageSize: 10, ...params }
@@ -81,7 +92,6 @@ const team = createModel()({
         data.data.rows.forEach((item) => {
           arr.push({
             label: item.id,
-            value: item.id,
           })
         })
         dispatch.team.updateState({
