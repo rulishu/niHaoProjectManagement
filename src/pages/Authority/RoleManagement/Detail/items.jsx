@@ -58,11 +58,18 @@ export const items = (queryInfo, TreeData) => [
     key: 'status',
     widget: 'select',
     option: [
-      { label: '停用', value: '1' },
       { label: '正常', value: '0' },
+      { label: '停用', value: '1' },
     ],
-    initialValue: queryInfo?.status || '0',
+    initialValue: queryInfo?.status,
+    required: true,
     span: '24',
+    rules: [
+      {
+        required: true,
+        message: '请选择状态',
+      },
+    ],
   },
   {
     label: '菜单权限',

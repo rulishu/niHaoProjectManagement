@@ -49,13 +49,14 @@ function Dictionary() {
 
   // 操作
   async function handleEditTable(type, record) {
+    console.log(record)
     updateData({
       isView: type === 'view',
       tableType: type,
       tablePro: table,
     })
     if (type === 'add') {
-      updateData({ drawerVisible: true })
+      updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'edit' || type === 'view' || type === 'detail') {
       updateData({ drawerVisible: true, queryInfo: record })

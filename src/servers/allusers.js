@@ -62,7 +62,7 @@ export const queryById = (params) => {
 
 // 修改账户登入密码
 export const updatePassword = (params) => {
-  return request('/api/managerUser/updatePassword', {
+  return request('/api/system/user/profile/updatePwd', {
     method: 'POST',
     body: params,
   })
