@@ -130,7 +130,7 @@ const ProjectManagement = (fun) => {
                   if (Object.keys(obj).length > 0 && value > obj.begin)
                     return true
                 },
-                message: '结束时间必须晚于开始时间且不能为空',
+                message: '截止日期必须晚于起始日期且不能为空',
               },
             ],
           },
