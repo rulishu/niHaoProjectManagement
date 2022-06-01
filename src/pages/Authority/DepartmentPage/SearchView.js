@@ -49,10 +49,10 @@ function SearchView() {
                   flexDirection: 'row',
                 }}>
                 <Row gutter={10} justify="flex-start">
-                  <Col style={{ maxWidth: 300 }}>{fields.deptName}</Col>
+                  <Col style={{ idth: 200 }}>{fields.deptName}</Col>
                 </Row>
                 <Row gutter={10} justify="flex-start">
-                  <Col style={{ maxWidth: 300 }}>{fields.status}</Col>
+                  <Col style={{ width: 200 }}>{fields.status}</Col>
                 </Row>
               </div>
               <div

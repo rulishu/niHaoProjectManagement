@@ -131,10 +131,16 @@ const Drawer = (props) => {
   }
   return (
     <ProDrawer
-      title={''}
+      title={
+        tableType === 'edit'
+          ? '编辑信息'
+          : tableType === 'member'
+          ? '邀请成员'
+          : tableType === 'group' && '邀请团队'
+      }
       visible={drawerVisible}
       onClose={onClose}
-      width={800}
+      width={500}
       buttons={[
         {
           label: '取消',
@@ -150,13 +156,13 @@ const Drawer = (props) => {
         },
       ]}>
       <ProForm
-        title={
-          tableType === 'edit'
-            ? '编辑信息'
-            : tableType === 'member'
-            ? '邀请成员'
-            : tableType === 'group' && '邀请团队'
-        }
+        // title={
+        //   tableType === 'edit'
+        //     ? '编辑信息'
+        //     : tableType === 'member'
+        //       ? '邀请成员'
+        //       : tableType === 'group' && '邀请团队'
+        // }
         formType={isView ? 'pure' : 'card'}
         form={baseRef}
         readOnly={isView}
