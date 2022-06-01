@@ -9,6 +9,14 @@ export const getPageTeam = (params) => {
   })
 }
 
+// 团队成员管理，修改团队成员
+export const updateMembers = (params) => {
+  return request('/api/ManagerTeam/updateMembers', {
+    method: 'POST',
+    body: params,
+  })
+}
+
 // 获取团队下成员信息--可根据部门筛选
 export const getMembers = (params) => {
   return request('/api/ManagerTeam/getMembers', {
