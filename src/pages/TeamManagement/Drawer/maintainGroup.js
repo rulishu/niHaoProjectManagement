@@ -13,7 +13,7 @@ const AddUser = () => {
   const [checkAll1, setCheckAll1] = useState(false)
 
   const {
-    team: { isUsers, teamData },
+    team: { isUsers, teamData, teamMemberList },
   } = useSelector((state) => state)
   // console.log('teamData===>33333', teamData)
   const {
@@ -39,34 +39,13 @@ const AddUser = () => {
     },
   ]
 
-  const demandList = [
-    '苏州城外的微笑',
-    '张飞',
-    '诸葛',
-    '董小姐',
-    '程响',
-    '许嵩天使',
-    '许嵩素颜',
-    '许嵩医生',
-    '许嵩浅唱',
-    '许嵩山水之间',
-    '许嵩违章动物',
-    '许嵩拆西墙',
-    '周杰伦兰亭序',
-    '周杰伦告白气球',
-    '周杰伦晴天',
-    '周杰伦七里香',
-    '周杰伦稻香',
-    '周杰伦听爸爸的话哦',
-  ]
-
   const onChange = (e, list) => {
     setInputValue(list)
-    setIndeterminate(!!list.length && list.length < demandList.length)
-    setCheckAll(list.length === demandList.length)
+    setIndeterminate(!!list.length && list.length < teamMemberList.length)
+    setCheckAll(list.length === teamMemberList.length)
   }
   const onCheckAllChange = (e) => {
-    setInputValue(e.target.checked ? demandList : [])
+    setInputValue(e.target.checked ? teamMemberList : [])
     setIndeterminate(false)
     setCheckAll(e.target.checked)
   }
@@ -99,12 +78,12 @@ const AddUser = () => {
           name="softwareReq"
           value={inputValue}
           onChange={(e, data) => onChange(e, data)}>
-          {demandList.map((item, idx) => (
+          {teamMemberList.map((item, idx) => (
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item}>
-              {item}
+              value={item.label}>
+              {item.label}
             </Checkbox>
           ))}
         </Checkbox.Group>
