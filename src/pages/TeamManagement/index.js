@@ -6,7 +6,6 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
 import MaintainGroup from './Drawer/maintainGroup'
 import Drawer from './Drawer'
-
 import operateFun from '@/components/Operate'
 
 export default function Index() {
@@ -14,19 +13,11 @@ export default function Index() {
   const {
     team: { alertShow, id },
   } = useSelector((state) => state)
-  // console.log('dataList===>33333', dataList[id])
-  useEffect(
-    (id) => {
-      dispatch.team.getPageTeam()
-      dispatch({
-        type: 'team/getMembers',
-        payload: { teamId: id },
-      })
-      dispatch.team.getNotTeamUsers()
-      dispatch.rolemanagement?.getAllDepartment()
-    },
-    [dispatch]
-  )
+
+  useEffect(() => {
+    dispatch.team.getNotTeamUsers()
+    dispatch.rolemanagement?.getAllDepartment()
+  }, [dispatch])
 
   const token = localStorage.getItem('token')
   const { projectId } = useParams()
@@ -50,6 +41,7 @@ export default function Index() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
+
   const onOpenDelete = (data) => {
     dispatch({
       type: 'team/updateState',
@@ -60,7 +52,6 @@ export default function Index() {
         queryInfo: {},
       },
     })
-    // console.log('id--->',data.id)
   }
   const onOpenUser = (data) => {
     dispatch({
@@ -69,6 +60,10 @@ export default function Index() {
         isUsers: true,
         queryInfo: data,
       },
+    })
+    dispatch({
+      type: 'team/getMembers',
+      payload: { teamId: data.id },
     })
   }
   const setCloseDrawerVisible = () => {
@@ -91,7 +86,6 @@ export default function Index() {
       },
     })
   }
-
   return (
     <Fragment>
       <MaintainGroup />
