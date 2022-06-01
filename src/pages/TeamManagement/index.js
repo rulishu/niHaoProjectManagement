@@ -6,7 +6,6 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
 import MaintainGroup from './Drawer/maintainGroup'
 import Drawer from './Drawer'
-
 import operateFun from '@/components/Operate'
 
 export default function Index() {
@@ -16,11 +15,6 @@ export default function Index() {
   } = useSelector((state) => state)
 
   useEffect(() => {
-    // dispatch({
-    //   type: 'team/getMembers',
-    //   payload: { teamId: id },
-    // })
-    dispatch.team.getPageTeam()
     dispatch.team.getNotTeamUsers()
     dispatch.rolemanagement?.getAllDepartment()
   }, [dispatch])
@@ -47,6 +41,7 @@ export default function Index() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
+  console.log('table--->', table)
   const onOpenDelete = (data) => {
     dispatch({
       type: 'team/updateState',
@@ -66,6 +61,10 @@ export default function Index() {
         isUsers: true,
         queryInfo: data,
       },
+    })
+    dispatch({
+      type: 'team/getMembers',
+      payload: { teamId: data.id },
     })
   }
   const setCloseDrawerVisible = () => {
@@ -88,7 +87,6 @@ export default function Index() {
       },
     })
   }
-
   return (
     <Fragment>
       <MaintainGroup />

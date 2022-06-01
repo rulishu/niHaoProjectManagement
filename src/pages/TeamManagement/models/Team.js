@@ -18,7 +18,7 @@ const team = createModel()({
     pages: 1,
     total: 0,
     dataList: [], // 数据列表源
-    teamData: [], // 当前团队数据
+    teamData: [], // 当前未加入团队成员数据
     teamMemberList: [], // 团队成员数据
     drawerVisible: false,
     drawerType: '',
@@ -94,8 +94,16 @@ const team = createModel()({
     async getMembers(payload) {
       const data = await getMembers(payload)
       if (data && data.code === 200) {
+        // console.log('data====>11111', data)
+        const arr = []
+        data.data.forEach((item) => {
+          arr.push({
+            label: item.nickName,
+            // key: item.nickName,
+          })
+        })
         dispatch.team.updateState({
-          teamMemberList: data?.data,
+          teamMemberList: arr,
         })
       }
     },
