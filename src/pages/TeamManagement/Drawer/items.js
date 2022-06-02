@@ -21,15 +21,4 @@ export const items = (queryInfo, drawerType) => [
     rules: [{ required: true, message: '团队描述' }],
     span: '24',
   },
-  {
-    label: '更新时间',
-    key: 'updateTime',
-    widget: 'input',
-    initialValue: queryInfo?.updateTime,
-    widgetProps: {},
-    required: true,
-    placeholder: '选择更新时间',
-    hide: drawerType !== 'view',
-    readSpan: 1,
-  },
 ]

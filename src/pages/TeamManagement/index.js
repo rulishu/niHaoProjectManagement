@@ -15,7 +15,6 @@ export default function Index() {
   } = useSelector((state) => state)
 
   useEffect(() => {
-    dispatch.team.getNotTeamUsers()
     dispatch.rolemanagement?.getAllDepartment()
   }, [dispatch])
 
@@ -66,6 +65,9 @@ export default function Index() {
     dispatch({
       type: 'team/getMembers',
       payload: { teamId: data.id },
+    })
+    dispatch({
+      type: 'team/getNotTeamUsers',
     })
   }
   const setCloseDrawerVisible = () => {
