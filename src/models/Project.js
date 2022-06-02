@@ -290,10 +290,10 @@ export default createModel()({
       //获取任务各状态总数
       async countAssignment(params, { project }) {
         const { assignmentStatus, ...others } = params
-        const { filter, selectDtos, tabDtos } = project
+        const { filter, selectDtos } = project
         let obj = {
           ...filter,
-          splicingConditionsDtos: [...selectDtos, ...tabDtos],
+          splicingConditionsDtos: [...selectDtos],
           ...others,
         }
         const data = await countAssignment(obj)
