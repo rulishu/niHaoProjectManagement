@@ -6,16 +6,15 @@ const AddUser = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState([])
   const [indeterminate, setIndeterminate] = useState(false)
-  const [checkAll, setCheckAll] = useState(false)
+  const [checkAll, setCheckAll] = useState(true)
 
   const [inputValue1, setInputValue1] = useState([])
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
 
   const {
-    team: { isUsers, teamData, teamMemberList, teamId, userIdList },
+    team: { isUsers, teamData, teamMemberList, teamId },
   } = useSelector((state) => state)
-  // console.log('teamData===>33333', teamData)
   const {
     rolemanagement: { arrLeverTop },
   } = useSelector((state) => state)
@@ -121,7 +120,7 @@ const AddUser = () => {
       type: 'team/updateMembers',
       payload: {
         teamId: teamId,
-        userIdList: userIdList,
+        userIdList: inputValue1,
       },
     })
   }

@@ -59,6 +59,7 @@ export default function Index() {
       payload: {
         isUsers: true,
         queryInfo: data,
+        teamId: data.id,
       },
     })
     dispatch({
