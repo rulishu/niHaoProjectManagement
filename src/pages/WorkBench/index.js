@@ -248,23 +248,23 @@ export default function Demo() {
                   <Empty style={{ marginTop: 20 }} />
                 ) : (
                   <ul>
-                    <p className={styles.milInfoLiHead}>
-                      <Row style={{ marginTop: 5 }}>
-                        <Col>
-                          <Blank num={'里程碑名称'} />
-                        </Col>
-                        <Col grow={2}>
-                          <Blank num={'结束时间'} />
-                        </Col>
-                        <Col grow={5}>
-                          <Blank num={'进度'} />
-                        </Col>
-                      </Row>
-                    </p>
-                    {milesWorkVoListOne?.length === 0 &&
-                    milepost?.length === 0 ? (
+                    <Row
+                      className={styles.milInfoLiHead}
+                      style={{ marginTop: 5 }}>
+                      <Col>
+                        <Blank num={'里程碑名称'} />
+                      </Col>
+                      <Col grow={2}>
+                        <Blank num={'结束时间'} />
+                      </Col>
+                      <Col grow={5}>
+                        <Blank num={'显示进度'} />
+                      </Col>
+                    </Row>
+                    {milepost?.length === 0 ||
+                    milesWorkVoListOne?.length === 0 ? (
                       <Empty style={{ marginTop: 20 }} />
-                    ) : milesWorkVoListOne?.length !== 0 ? (
+                    ) : active === 0 ? (
                       milesWorkVoListOne?.map((item) => {
                         return (
                           <li
@@ -275,18 +275,19 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row style={{ marginTop: 5 }}>
+                            <Row
+                              style={{
+                                marginTop: 5,
+                                justify: 'space-between',
+                              }}>
                               <Col span="8">
                                 <Blank num={item?.milestonesTitle} />
                               </Col>
                               <Col span="8">
                                 <Blank
                                   num={
-                                    (item?.dueTime &&
-                                      dayjs(item?.dueTime).format(
-                                        'YYYY-MM-DD'
-                                      )) ||
-                                    ''
+                                    item?.dueTime &&
+                                    dayjs(item?.dueTime).format('YYYY-MM-DD')
                                   }
                                 />
                               </Col>
@@ -316,18 +317,19 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row style={{ marginTop: 5 }}>
+                            <Row
+                              style={{
+                                marginTop: 5,
+                                justify: 'space-between',
+                              }}>
                               <Col span="8">
                                 <Blank num={item?.milestonesTitle} />
                               </Col>
                               <Col span="8">
                                 <Blank
                                   num={
-                                    (item?.dueTime &&
-                                      dayjs(item?.dueTime).format(
-                                        'YYYY-MM-DD'
-                                      )) ||
-                                    ''
+                                    item?.dueTime &&
+                                    dayjs(item?.dueTime).format('YYYY-MM-DD')
                                   }
                                 />
                               </Col>
