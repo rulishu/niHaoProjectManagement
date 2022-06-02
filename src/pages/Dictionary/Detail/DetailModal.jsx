@@ -83,6 +83,7 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '字典类型',
             key: 'dictType',
+            align: 'center',
             widget: 'input',
             initialValue: queryInfo.dictType,
             widgetProps: {
@@ -91,7 +92,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             span: '24',
           },
           {
-            label: '数据标签',
+            label: '字典名称',
             key: 'dictLabel',
             widget: 'input',
             initialValue: detailInfo.dictLabel,
@@ -112,7 +113,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             span: '24',
           },
           {
-            label: '数据键值',
+            label: '字典键值',
             key: 'dictValue',
             widget: 'input',
             initialValue: detailInfo.dictValue,
@@ -160,6 +161,7 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '回显样式',
             key: 'listClass',
+
             widget: 'color',
             // option: [
             //   {
