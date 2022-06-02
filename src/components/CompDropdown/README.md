@@ -65,6 +65,13 @@ ReactDOM.render(<Demo />, _mount_);
 | isTagClose     | 是否在 Tag 展示关闭按钮  | `Boolean`    | `false`  |
 | closeLabel     | 关闭组件触发回调  | `function()`    | - |
 | actionButtons  | 操作按钮组  | `actionButtons{}`    | - |
+| isClickLabelShow  | 点击组件是否展示下拉  | `Boolean`     | - |
+| onClickLabelShow  | 点击组件触发事件  | `function()`    | - |
+| onChange  | 与 `selectLabel` 事件一样,为了方便组件应用与form  | `selectLabel{}`    | - |
+| isAutoDown  | 选中是否自动收起(只在 `isRadio === true` 时有效)  | `Boolean`    | `true` |
+| isGonnaHitDeselect  | 是否点击取消选中(只在 `isRadio === true` 时有效)  | `Boolean`    | `true` |
+| dropdownWindow  | 继承自[uiw OverlayTrigger](https://uiwjs.github.io/#/components/overlay-trigger)的所有属性 | `OverlayTrigger Props`    | `{}` |
+| dropdownCardBodyClassName  | 下拉卡片内容 class 名称  | `className`    | true |
 
 
 ### listData

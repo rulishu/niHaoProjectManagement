@@ -38,9 +38,13 @@ const CompDropdown = (props) => {
     isTagClose = true,
     closeLabel,
     actionButtons,
-    isClickable = true,
-    onClickable,
+    isClickLabelShow = true,
+    onClickLabelShow,
     onChange,
+    isAutoDown = true, // 选中是否自动收起(只在 isRadio === true 时有效)
+    isGonnaHitDeselect = true, // 是否点击取消选中(只在 isRadio === true 时有效)
+    dropdownWindow = {}, // 下拉窗口属性
+    dropdownCardBodyClassName, // 下拉卡片内容 class 名称
   } = props
 
   // 模板解构一些参数
@@ -76,12 +80,14 @@ const CompDropdown = (props) => {
     setOpen(isOpen)
   }, [isOpen])
 
+  // 选中触发回调
   const optionEvent = (key) => {
     const exists = options?.includes(key)
     if (isRadio) {
-      setOptions(exists ? [] : [key])
-      selectLabel && selectLabel(exists ? null : key)
-      onChange && onChange(exists ? null : key)
+      isAutoDown && setOpen(false)
+      setOptions(exists && isGonnaHitDeselect ? [] : [key])
+      selectLabel && selectLabel(exists && isGonnaHitDeselect ? null : key)
+      onChange && onChange(exists && isGonnaHitDeselect ? null : key)
       return
     }
     const newArr = exists
@@ -102,9 +108,11 @@ const CompDropdown = (props) => {
             ? styles.tagList
             : ''
         }
-        onClick={() => shape === 'input' && setOpen(!open)}>
+        onClick={(e) => {
+          shape === 'input' && setOpen(!open)
+          !isRadio && e.stopPropagation()
+        }}>
         {/* 多选与单选 */}
-
         {!isRadio ? (
           data?.map((item) => (
             <div
@@ -145,8 +153,13 @@ const CompDropdown = (props) => {
     )
   }
 
+  // 下拉内容
   const dropDownContent = (
-    <Card className={styles.labelCard} bodyClassName={styles.labelCardBody}>
+    <Card
+      className={styles.labelCard}
+      bodyClassName={`${styles.labelCardBody} ${
+        dropdownCardBodyClassName ? dropdownCardBodyClassName : ''
+      }`}>
       <div className={styles.labelHead}>
         {labelStatus === 2 && (
           <div className={styles.headBut}>
@@ -206,7 +219,7 @@ const CompDropdown = (props) => {
   )
   return (
     <div className={styles.label}>
-      {!isClickable && (
+      {!isClickLabelShow && (
         <div className={styles.clickable}>
           {tagList(listData?.filter((s) => options?.includes(s?.key)))}
         </div>
@@ -214,18 +227,18 @@ const CompDropdown = (props) => {
       <OverlayTrigger
         isOpen={open}
         trigger="click"
-        placement="bottom"
+        placement="bottomLeft"
         overlay={dropDownContent}
         autoAdjustOverflow={true}
         onVisibleChange={(is) => {
-          onClickable && onClickable(is)
+          onClickLabelShow && onClickLabelShow(is)
           setOpen(is)
         }}
-        // isClickOutside={false}
+        isClickOutside={true}
         // usePortal={false}
-      >
+        {...dropdownWindow}>
         <div>
-          {isClickable && (
+          {isClickLabelShow && (
             <div className={styles.clickable}>
               {tagList(listData?.filter((s) => options?.includes(s?.key)))}
             </div>

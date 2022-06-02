@@ -62,7 +62,7 @@ const LabelBox = (props) => {
       <div className={styles.searchBox}>
         <Input
           preIcon="search"
-          placeholder="search"
+          placeholder="搜索"
           size="small"
           onInput={(e) => {
             const searchArr = labelHeader

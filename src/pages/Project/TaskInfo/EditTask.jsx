@@ -56,7 +56,7 @@ const EditTask = () => {
   }
   // 完成人员编辑
   const editAssignOk = async () => {
-    ;(await dispatch.project.getEdit()) && setAssignState(false)
+    await dispatch.project.getEdit()
   }
 
   const editLabelOk = async () => {
@@ -64,7 +64,7 @@ const EditTask = () => {
   }
 
   const editMilepostOk = async () => {
-    ;(await dispatch.project.getEdit()) && setMilepostState(false)
+    await dispatch.project.getEdit()
   }
 
   const editDubTime = () => {
@@ -166,7 +166,7 @@ const EditTask = () => {
             template="personnel"
             shape="label"
             isRadio={true}
-            onClickable={(is) => setAssignState(is)}
+            onClickLabelShow={(is) => setAssignState(is)}
             selectLabel={(key) => {
               const userName = userSelectAllList
                 ?.map((item) =>
@@ -225,7 +225,7 @@ const EditTask = () => {
             template="milepost"
             shape="label"
             isRadio={true}
-            onClickable={(is) => setMilepostState(is)}
+            onClickLabelShow={(is) => setMilepostState(is)}
             selectLabel={(key) => {
               updateData({
                 editFromData: { ...editFromData, milestonesId: key },
@@ -306,7 +306,7 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
-            onClickable={(is) => {
+            onClickLabelShow={(is) => {
               setLabelState(is)
               if (!is && taskInfoData?.labels) {
                 updateData({
