@@ -84,3 +84,11 @@ export const assignment_label = (params) => {
     body: params,
   })
 }
+
+//获取任务列表各状态总数
+export function countAssignment(params) {
+  return request('/api/ManagerAssignment/countAssignment', {
+    method: 'POST',
+    body: params,
+  })
+}
