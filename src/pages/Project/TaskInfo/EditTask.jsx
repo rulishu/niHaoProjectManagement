@@ -56,29 +56,15 @@ const EditTask = () => {
   }
   // 完成人员编辑
   const editAssignOk = async () => {
-    setLabelState(false)
-    if (editFromData === taskInfoData) {
-      return false
-    } else {
-      await dispatch.project.getEdit()
-    }
+    await dispatch.project.getEdit()
   }
 
   const editLabelOk = async () => {
-    setLabelState(false)
-    if (editFromData === taskInfoData) {
-      return false
-    } else {
-      await dispatch.project.getEdit()
-    }
+    ;(await dispatch.project.getEdit()) && setLabelState(false)
   }
+
   const editMilepostOk = async () => {
-    setMilepostState(!milepostState)
-    if (editFromData === taskInfoData) {
-      return false
-    } else {
-      await dispatch.project.getEdit()
-    }
+    await dispatch.project.getEdit()
   }
 
   const editDubTime = () => {
@@ -99,7 +85,7 @@ const EditTask = () => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    setLabelState(true)
+    // setLabelState(true)
     const labels = labelsListData?.filter((item) => {
       return keyArr?.includes(item?.id)
     })
@@ -180,9 +166,7 @@ const EditTask = () => {
             template="personnel"
             shape="label"
             isRadio={true}
-            onClickable={(is) => {
-              setAssignState(is)
-            }}
+            onClickLabelShow={(is) => setAssignState(is)}
             selectLabel={(key) => {
               const userName = userSelectAllList
                 ?.map((item) =>
@@ -197,7 +181,6 @@ const EditTask = () => {
                 },
               })
               editAssignOk()
-              setAssignState(false)
             }}
             closeLabel={() => {
               updateData({
@@ -242,15 +225,12 @@ const EditTask = () => {
             template="milepost"
             shape="label"
             isRadio={true}
-            onClickable={(is) => {
-              setMilepostState(is)
-            }}
+            onClickLabelShow={(is) => setMilepostState(is)}
             selectLabel={(key) => {
               updateData({
                 editFromData: { ...editFromData, milestonesId: key },
               })
               editMilepostOk()
-              setMilepostState(false)
             }}
             closeLabel={() => {
               updateData({
@@ -301,7 +281,13 @@ const EditTask = () => {
             <span>标签</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
               {labelState ? (
-                <Button basic type="primary" onClick={() => editLabelOk()}>
+                <Button
+                  basic
+                  type="primary"
+                  onClick={() => {
+                    editLabelOk()
+                    setLabelState(false)
+                  }}>
                   完成
                 </Button>
               ) : (
@@ -320,8 +306,16 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
-            onClickable={(is) => {
+            onClickLabelShow={(is) => {
               setLabelState(is)
+              if (!is && taskInfoData?.labels) {
+                updateData({
+                  editFromData: {
+                    ...editFromData,
+                    labels: [...taskInfoData?.labels],
+                  },
+                })
+              }
             }}
             closeLabel={() => {
               updateData({

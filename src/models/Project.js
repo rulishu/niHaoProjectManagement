@@ -239,10 +239,11 @@ export default createModel()({
       },
       // 任务列表编辑
       async getEdit(params, { project }) {
-        const { labels, ...newData } = project.editFromData
-        newData.labels = labels
+        const { editFromData, taskInfoData } = project
+        if (JSON.stringify(taskInfoData) === JSON.stringify(editFromData))
+          return false
         const data = await getManagerAssignmentUpdate({
-          ...newData,
+          ...editFromData,
           ...params,
         })
         if (data && data.code === 200) {
@@ -250,11 +251,11 @@ export default createModel()({
             issueType: '',
           })
           dispatch.project.getSelectById({
-            projectId: params?.projectId || newData?.projectId,
-            id: newData?.assignmentId,
+            projectId: params?.projectId || editFromData?.projectId,
+            id: editFromData?.assignmentId,
           })
-          // navigate(`/project/task/${sessionStorage.getItem('id')}`)
           NotifySuccess(data.message)
+          return true
         }
       },
       // 任务列表删除
