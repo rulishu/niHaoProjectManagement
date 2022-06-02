@@ -73,8 +73,8 @@ const Task = (props) => {
   } = project
 
   const pageS = (payload) => {
-    dispatch.project.countAssignment({ ...payload, projectId: taskId })
     dispatch.project.getList({ ...payload, projectId: taskId })
+    dispatch.project.countAssignment({ ...payload, projectId: taskId })
   }
 
   useEffect(() => {
