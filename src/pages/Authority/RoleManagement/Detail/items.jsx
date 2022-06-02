@@ -82,6 +82,7 @@ export const items = (queryInfo, TreeData) => [
     label: '备注',
     key: 'remark',
     widget: 'textarea',
+    placeholder: '请输入备注',
     style: { maxWidth: '430px' },
     initialValue: queryInfo?.remark,
     span: '24',

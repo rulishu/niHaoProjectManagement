@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Button, Tag, Card, Tooltip, Divider } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -8,25 +8,20 @@ import './style.css'
 import { searchFun } from '@/utils/publicFun'
 
 const Demo = () => {
+  const token = localStorage.getItem('token')
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch({
-      type: 'menumanagement/getList',
-    })
-  }, [dispatch])
-
   const updateData = (payload) => {
     dispatch({
       type: 'menumanagement/update',
       payload,
     })
   }
-  const token = localStorage.getItem('token')
+  const [dataList, setDataList] = useState([])
   const table = useTable('/api/system/menu/list', {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        // total: data?.data?.total,
+        total: data?.data,
         data: handleTree(data?.data || [], 'menuId') || [],
       }
     },
@@ -42,6 +37,12 @@ const Demo = () => {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
+
+  useEffect(() => {
+    if (Array.isArray(table.total)) {
+      setDataList(table.total || [])
+    }
+  }, [table.total])
   // 操作
   async function handleEditTable(type, record) {
     updateData({
@@ -128,7 +129,7 @@ const Demo = () => {
           // 操作栏按钮
           operateButtons={[
             {
-              label: '新增',
+              label: '新增主菜单',
               type: 'primary',
               icon: 'plus',
               onClick: () => {
@@ -221,12 +222,12 @@ const Demo = () => {
               title: '创建时间',
               key: 'createTime',
               ellipsis: true,
-              width: 170,
+              width: 120,
             },
             {
               title: '操作',
               key: 'edit',
-              width: 250,
+              width: 280,
               align: 'center',
               render: (text, key, rowData) => {
                 return (
@@ -237,7 +238,7 @@ const Demo = () => {
                       type="success"
                       icon="plus"
                       onClick={handleEditTable.bind(this, 'addChild', rowData)}>
-                      新增
+                      新增子菜单
                     </Button>
                     <Divider type="vertical" />
                     <Button
@@ -260,6 +261,7 @@ const Demo = () => {
           updateData={updateData}
           handleTree={handleTree}
           onSearch={table.onSearch}
+          dataSourceList={dataList}
         />
       </Card>
     </Fragment>

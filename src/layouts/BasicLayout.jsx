@@ -30,9 +30,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const pathName = `/${decodeURI(fullPathName.split('/')[1] || '')}`
   const todoNotices = sessionStorage.getItem('todoNotice')
   // 是否处于没用左侧菜单的页面
-  const isNoMenu = ['/projectList', '/dashboard', '/todoList'].includes(
-    pathName
-  )
+  const isNoMenu = ['/projectList', '/todoList'].includes(pathName)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -82,9 +80,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
   }
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
-    // onLogoClick: () => {
-    //   navigate(`/${userName}`)
-    // },
+    onLogoClick: () => {
+      navigate(`/dashboard`, { replace: true })
+    },
     // logo: require('./logo.png'),
     // 刷新权限
     onReloadAuth: async () => {

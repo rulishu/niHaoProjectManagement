@@ -137,6 +137,7 @@ const TaskInfo = () => {
       serIsTitleErr(true)
       return
     }
+    console.log(editFromData.description)
     if (editFromData.description.length > 300) {
       // serIsDescrErr(true)
       return
@@ -322,7 +323,7 @@ const TaskInfo = () => {
                                   type="user"
                                 />
                               }
-                              style={{ paddingBottom: 15 }}
+                              style={{ paddingBottom: 15, display: 'flex' }}
                               title={item?.operatingRecords || ''}
                               key={index}
                             />

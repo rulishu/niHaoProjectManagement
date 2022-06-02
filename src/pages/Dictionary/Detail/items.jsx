@@ -62,6 +62,7 @@ export const itemsDetail = (queryInfo, tableType) => [
   {
     label: '备注',
     key: 'remark',
+    placeholder: '请输入备注',
     widget: 'textarea',
     initialValue: queryInfo?.remark,
     span: '24',
