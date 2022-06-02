@@ -1,6 +1,11 @@
 import { createModel } from '@rematch/core'
+import { Notify } from 'uiw'
 // import { Notify } from 'uiw'
-import { selectAllBoard, selectAllBoardNote } from '../servers/taskBoard'
+import {
+  selectAllBoard,
+  selectAllBoardNote,
+  addBNA,
+} from '../servers/taskBoard'
 
 /**
  * 项目列表
@@ -52,6 +57,14 @@ const taskboard = createModel()({
         dispatch.taskboard.update({
           list: data?.data || [],
         })
+      }
+    },
+
+    //新增看板列表
+    async addBNA(payload) {
+      const data = await addBNA(payload)
+      if (data && data.code === 200) {
+        Notify.success({ title: data.message })
       }
     },
   }),

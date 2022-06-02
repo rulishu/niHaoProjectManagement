@@ -83,6 +83,7 @@ const TaskBoard = () => {
   }, [dispatch, projectId])
 
   const onDragEnd = (result) => {
+    console.log(result)
     const sourceDroppableId = result.source.droppableId
     const destinationDroppableId = result.destination?.droppableId
     const sourceIndex = result.source.index
@@ -91,15 +92,18 @@ const TaskBoard = () => {
       sourceDroppableId !== destinationDroppableId &&
       destinationDroppableId
     ) {
-      const sourceList = dataInfo.filter((s) => s.id === sourceDroppableId)[0]
-      const [draggedItem] = sourceList.arr.splice(sourceIndex, 1)
-      const destinationList = dataInfo.filter(
-        (s) => s.id === destinationDroppableId
+      const sourceList = list.filter(
+        (s) => s.id.toString() === sourceDroppableId
       )[0]
-      destinationList.arr.splice(destinationIndex, 0, draggedItem)
-      dataInfo?.map((item, index) => {
-        if (item.id === destinationDroppableId) {
-          dataInfo[index] = destinationList
+      const [draggedItem] = sourceList.assignmentList.splice(sourceIndex, 1)
+      const destinationList = list.filter(
+        (s) => s.id.toString() === destinationDroppableId
+      )[0]
+      console.log(destinationDroppableId)
+      destinationList.assignmentList.splice(destinationIndex, 0, draggedItem)
+      list?.map((item, index) => {
+        if (item.id.toString() === destinationDroppableId) {
+          list[index] = destinationList
         }
         return null
       })
@@ -107,12 +111,14 @@ const TaskBoard = () => {
       if (destinationIndex === sourceIndex) {
         return
       } else {
-        const sourceList = dataInfo.filter((s) => s.id === sourceDroppableId)[0]
-        const [draggedItem] = sourceList.arr.splice(sourceIndex, 1)
-        sourceList.arr.splice(destinationIndex, 0, draggedItem)
-        dataInfo?.map((item, index) => {
+        const sourceList = list.filter(
+          (s) => s.id.toString() === sourceDroppableId
+        )[0]
+        const [draggedItem] = sourceList.assignmentList.splice(sourceIndex, 1)
+        sourceList.assignmentList.splice(destinationIndex, 0, draggedItem)
+        list?.map((item, index) => {
           if (item.id === sourceDroppableId) {
-            dataInfo[index] = sourceList
+            list[index] = sourceList
           }
           return null
         })
@@ -175,7 +181,6 @@ const TaskBoard = () => {
               setSelectBoard(e)
               setIsOpen(false)
               dispatch.taskboard.selectAllBoardNote({ boardId: e })
-              console.log(e)
             }}
             onClickable={(is) => {
               setIsOpen(is)
@@ -237,7 +242,7 @@ const TaskBoard = () => {
                                         <div>{item?.assignmentId}</div>
                                       </div>
                                       <div className={styles.userHead}>
-                                        {item?.assigneeUserId !== 0 && (
+                                        {item?.assigneeUserId !== 1 && (
                                           <Avatar
                                             src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
                                             {item?.assigneeUserName[0]}
@@ -279,7 +284,7 @@ const TaskBoard = () => {
                         setCreat(false)
                         setDataInfo([
                           ...dataInfo,
-                          { id: '9', listName: boardName, arr: [] },
+                          { id: '9', listName: boardName, assignmentList: [] },
                         ])
                       }}>
                       添加列表
