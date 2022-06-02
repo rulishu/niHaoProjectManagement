@@ -85,6 +85,7 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     label: '备注',
     key: 'remark',
     widget: 'textarea',
+    placeholder: '请输入备注',
     initialValue: queryInfo?.remark,
     span: '24',
   },
