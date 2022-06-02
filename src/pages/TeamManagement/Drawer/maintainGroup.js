@@ -81,7 +81,7 @@ const AddUser = () => {
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item.label}>
+              value={item.value}>
               {item.label}
             </Checkbox>
           ))}
@@ -107,7 +107,7 @@ const AddUser = () => {
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item.label}>
+              value={item.value}>
               {item.label}
             </Checkbox>
           ))}
