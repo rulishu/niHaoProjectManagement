@@ -9,6 +9,7 @@ import {
   queryFuzzyAllProjectMember,
   selectLabel,
   assignment_label,
+  countAssignment,
 } from '../servers/project'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
@@ -67,6 +68,7 @@ export default createModel()({
     splicingConditionsDtos: [],
     selectDtos: [], // 上方搜索条件
     tabDtos: [], // tab搜索条件
+    taskNum: '', //任务各状态总数
   },
   effects: (dispatch) => {
     return {
@@ -281,6 +283,25 @@ export default createModel()({
             },
           })
           NotifySuccess(data.message)
+        }
+      },
+
+      //获取任务各状态总数
+      async countAssignment(params, { project }) {
+        const { assignmentStatus, ...others } = params
+        const { filter, selectDtos, tabDtos } = project
+        let obj = {
+          ...filter,
+          splicingConditionsDtos: [...selectDtos, ...tabDtos],
+          ...others,
+        }
+        const data = await countAssignment(obj)
+        if (data && data.code === 200) {
+          dispatch.project.update({
+            taskNum: data.data,
+          })
+        } else {
+          Notify.error({ title: data.message })
         }
       },
       clean() {
