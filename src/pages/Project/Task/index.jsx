@@ -55,23 +55,25 @@ const Task = (props) => {
   } = useSelector((state) => state)
   const {
     dataList,
-    total,
+    // total,
     filter,
     closeDataList,
-    closeTotal,
+    // closeTotal,
     openTataList,
-    openTotal,
+    // openTotal,
     prepareList,
-    prepareTotal,
+    // prepareTotal,
     overtimeList,
-    overtimeTotal,
+    // overtimeTotal,
     activeKey,
     teamMembers,
+    taskNum,
     // assignmentLabels,
     milistones,
   } = project
 
   const pageS = (payload) => {
+    dispatch.project.countAssignment({ ...payload, projectId: taskId })
     dispatch.project.getList({ ...payload, projectId: taskId })
   }
 
@@ -87,6 +89,15 @@ const Task = (props) => {
 
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
+    dispatch({
+      type: 'project/update',
+      payload: {
+        page: 1,
+        pageSize: 10,
+        projectId: taskId,
+        splicingConditionsDtos: [],
+      },
+    })
     dispatch({
       type: 'project/update',
       payload: {
@@ -292,7 +303,7 @@ const Task = (props) => {
           </div>
           <AllSelect
             teamMembers={teamMembers}
-            labelsListData={labelsListData?.map(item => ({
+            labelsListData={labelsListData?.map((item) => ({
               label: item.name,
               value: item.id,
             }))}
@@ -316,24 +327,58 @@ const Task = (props) => {
           <Tabs
             type="line"
             activeKey={activeKey}
-            onTabClick={(activeKey) => getTabList(activeKey)}>
-            <Tabs.Pane label={tabsLabel('未开始', prepareTotal)} key="1">
-              {taskDataList(prepareList, prepareTotal, '1')}
+            onTabClick={(activeKey) => {
+              getTabList(activeKey)
+            }}>
+            <Tabs.Pane
+              label={tabsLabel('未开始', taskNum.noGoing ? taskNum.noGoing : 0)}
+              key="1">
+              {taskDataList(
+                prepareList,
+                taskNum.noGoing ? taskNum.noGoing : 0,
+                '1'
+              )}
             </Tabs.Pane>
 
-            <Tabs.Pane label={tabsLabel('进行中', openTotal)} key="2">
-              {taskDataList(openTataList, openTotal, '2')}
+            <Tabs.Pane
+              label={tabsLabel('进行中', taskNum.onGoing ? taskNum.onGoing : 0)}
+              key="2">
+              {taskDataList(
+                openTataList,
+                taskNum.onGoing ? taskNum.onGoing : 0,
+                '2'
+              )}
             </Tabs.Pane>
-            <Tabs.Pane label={tabsLabel('已完成', closeTotal)} key="3">
-              {taskDataList(closeDataList, closeTotal, '3')}
+            <Tabs.Pane
+              label={tabsLabel(
+                '已完成',
+                taskNum.completed ? taskNum.completed : 0
+              )}
+              key="3">
+              {taskDataList(
+                closeDataList,
+                taskNum.completed ? taskNum.completed : 0,
+                '3'
+              )}
             </Tabs.Pane>
 
-            <Tabs.Pane label={tabsLabel('已逾期', overtimeTotal)} key="4">
-              {taskDataList(overtimeList, overtimeTotal, '4')}
+            <Tabs.Pane
+              label={tabsLabel(
+                '已逾期',
+                taskNum.withoutTime ? taskNum.withoutTime : 0
+              )}
+              key="4">
+              {taskDataList(
+                overtimeList,
+                taskNum.withoutTime ? taskNum.withoutTime : 0,
+                '4'
+              )}
             </Tabs.Pane>
 
-            <Tabs.Pane label={tabsLabel('所有', total)} key="">
-              {taskDataList(dataList, total, '')}
+            <Tabs.Pane
+              label={tabsLabel('所有', taskNum.all ? taskNum.all : 0)}
+              key="">
+              {taskDataList(dataList, taskNum.all ? taskNum.all : 0, '')}
             </Tabs.Pane>
           </Tabs>
         </div>

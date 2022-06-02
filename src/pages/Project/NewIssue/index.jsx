@@ -143,7 +143,7 @@ const NewIssue = (props) => {
         form.current.setFieldValue(
           'description',
           fieldValues.description +
-          `![image](/api/file/selectFile/${res?.data})`
+            `![image](/api/file/selectFile/${res?.data})`
         )
       }
     })
@@ -193,7 +193,7 @@ const NewIssue = (props) => {
                 fromData: {
                   ...fromData,
                   dueDate: dueDate ? dayjs(dueDate).format('YYYY-MM-DD') : '',
-                  labels
+                  labels,
                 },
               })
               dispatch.project.getAdd({ projectId: projectId })
@@ -370,7 +370,9 @@ const NewIssue = (props) => {
                       template="label"
                       shape="input"
                       loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
+                      runLabel={() =>
+                        navigate(`/${userAccount}/${projectId}/labels`)
+                      }
                       onChange={(value) => {
                         form?.current?.setFieldValue('labels', value)
                         updateData({ fromData: { ...fromData, labels: value } })

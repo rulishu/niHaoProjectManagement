@@ -52,6 +52,12 @@ export const items = (queryInfo, TreeData) => [
     required: true,
     placeholder: '请输入角色顺序',
     span: '24',
+    rules: [
+      {
+        required: true,
+        message: '请输入角色顺序',
+      },
+    ],
   },
   {
     label: '状态',
@@ -82,6 +88,7 @@ export const items = (queryInfo, TreeData) => [
     label: '备注',
     key: 'remark',
     widget: 'textarea',
+    placeholder: '请输入备注',
     style: { maxWidth: '430px' },
     initialValue: queryInfo?.remark,
     span: '24',

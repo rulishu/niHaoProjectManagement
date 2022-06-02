@@ -137,6 +137,7 @@ const TaskInfo = () => {
       serIsTitleErr(true)
       return
     }
+    console.log(editFromData.description)
     if (editFromData.description.length > 300) {
       // serIsDescrErr(true)
       return
@@ -304,74 +305,74 @@ const TaskInfo = () => {
                 <Steps direction="vertical" style={{ padding: '20px 0' }}>
                   {taskInfoData?.managerAssignmentHistories?.length > 0
                     ? taskInfoData?.managerAssignmentHistories.map(
-                      (item, index) => {
-                        return item.type === 1 ? (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingTop: 0,
-                                }}
-                                type="user"
-                              />
-                            }
-                            style={{ paddingBottom: 15 }}
-                            title={item?.operatingRecords || ''}
-                            key={index}
-                          />
-                        ) : item.type === 2 ? (
-                          <Steps.Step
-                            icon={
-                              <Icon
-                                style={{
-                                  width: 30,
-                                  height: 30,
-                                  borderWidth: 1,
-                                  borderStyle: 'solid',
-                                  borderColor: '#ccc',
-                                  borderRadius: 15,
-                                  padding: 5,
-                                  paddingTop: 1,
-                                }}
-                                type="message"
-                              />
-                            }
-                            description={
-                              <div
-                                data-color-mode="light"
-                                style={{ flex: 1 }}>
-                                <MarkdownPreview
-                                  source={item?.operatingRecords || ''}
+                        (item, index) => {
+                          return item.type === 1 ? (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 0,
+                                  }}
+                                  type="user"
                                 />
-                              </div>
-                            }
-                            title={`${item.createName}评论`}
-                            key={index}
-                          />
-                        ) : item.type === 3 ? (
-                          <Steps.Step
-                            description={
-                              <FromMD
-                                upDate={updateData}
-                                submit={goSaveIssue}
-                                editData={editFromData}
-                                infoData={taskInfoData}
-                                btnName="回复"
-                              />
-                            }
-                            title="回复"
-                            key={index}
-                          />
-                        ) : null
-                      }
-                    )
+                              }
+                              style={{ paddingBottom: 15, display: 'flex' }}
+                              title={item?.operatingRecords || ''}
+                              key={index}
+                            />
+                          ) : item.type === 2 ? (
+                            <Steps.Step
+                              icon={
+                                <Icon
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    borderRadius: 15,
+                                    padding: 5,
+                                    paddingTop: 1,
+                                  }}
+                                  type="message"
+                                />
+                              }
+                              description={
+                                <div
+                                  data-color-mode="light"
+                                  style={{ flex: 1 }}>
+                                  <MarkdownPreview
+                                    source={item?.operatingRecords || ''}
+                                  />
+                                </div>
+                              }
+                              title={`${item.createName}评论`}
+                              key={index}
+                            />
+                          ) : item.type === 3 ? (
+                            <Steps.Step
+                              description={
+                                <FromMD
+                                  upDate={updateData}
+                                  submit={goSaveIssue}
+                                  editData={editFromData}
+                                  infoData={taskInfoData}
+                                  btnName="回复"
+                                />
+                              }
+                              title="回复"
+                              key={index}
+                            />
+                          ) : null
+                        }
+                      )
                     : null}
                 </Steps>
               </div>

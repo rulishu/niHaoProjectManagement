@@ -1,5 +1,5 @@
-// import { Notify } from 'uiw'
 import { createModel } from '@rematch/core'
+import { Notify } from 'uiw'
 import {
   addTeam,
   editTeam,
@@ -21,6 +21,7 @@ const team = createModel()({
     dataList: [], // 数据列表源
     teamData: [], // 当前未加入团队成员数据
     teamMemberList: [], // 团队成员数据
+    userIdList: [],
     drawerVisible: false,
     drawerType: '',
     queryInfo: {},
@@ -80,6 +81,7 @@ const team = createModel()({
         dph.team.updateState({
           isUsers: false,
         })
+        Notify.success({ title: data.message })
         team.team.tablePro.onSearch()
       }
     },
@@ -109,7 +111,7 @@ const team = createModel()({
         data.data.forEach((item) => {
           arr.push({
             label: item.nickName,
-            // key: item.nickName,
+            value: item.userId,
           })
         })
         dispatch.team.updateState({
@@ -126,7 +128,7 @@ const team = createModel()({
         data.data.forEach((item) => {
           arr.push({
             label: item.nickName,
-            // key: item.nickName,
+            value: item.userId,
           })
         })
         dispatch.team.updateState({
