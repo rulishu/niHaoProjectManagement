@@ -6,16 +6,15 @@ const AddUser = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState([])
   const [indeterminate, setIndeterminate] = useState(false)
-  const [checkAll, setCheckAll] = useState(false)
+  const [checkAll, setCheckAll] = useState(true)
 
   const [inputValue1, setInputValue1] = useState([])
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
 
   const {
-    team: { isUsers, teamData, teamMemberList },
+    team: { isUsers, teamData, teamMemberList, teamId },
   } = useSelector((state) => state)
-  // console.log('teamData===>33333', teamData)
   const {
     rolemanagement: { arrLeverTop },
   } = useSelector((state) => state)
@@ -82,7 +81,7 @@ const AddUser = () => {
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item.label}>
+              value={item.value}>
               {item.label}
             </Checkbox>
           ))}
@@ -108,7 +107,7 @@ const AddUser = () => {
             <Checkbox
               style={{ width: 150, marginBottom: 5 }}
               key={idx}
-              value={item.label}>
+              value={item.value}>
               {item.label}
             </Checkbox>
           ))}
@@ -116,6 +115,15 @@ const AddUser = () => {
       ),
     },
   ]
+  const onConfirm = () => {
+    dispatch({
+      type: 'team/updateMembers',
+      payload: {
+        teamId: teamId,
+        userIdList: inputValue1,
+      },
+    })
+  }
   return (
     <Modal
       title="分组用户管理"
@@ -125,6 +133,7 @@ const AddUser = () => {
       maxWidth={1100}
       confirmText="保存"
       cancelText="取消"
+      onConfirm={() => onConfirm()}
       maskClosable={false}
       onClosed={onClose}>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>

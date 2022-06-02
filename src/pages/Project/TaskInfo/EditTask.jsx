@@ -312,12 +312,10 @@ const EditTask = () => {
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={initListData(
-              labelsListData,
-              editFromData.labels,
-              'id',
-              { color: 'color', title: 'name' }
-            )}
+            listData={initListData(labelsListData, editFromData.labels, 'id', {
+              color: 'color',
+              title: 'name',
+            })}
             isOpen={labelState}
             template="label"
             shape="label"

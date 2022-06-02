@@ -292,7 +292,7 @@ const Task = (props) => {
           </div>
           <AllSelect
             teamMembers={teamMembers}
-            labelsListData={labelsListData?.map(item => ({
+            labelsListData={labelsListData?.map((item) => ({
               label: item.name,
               value: item.id,
             }))}

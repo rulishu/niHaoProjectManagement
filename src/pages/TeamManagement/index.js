@@ -59,6 +59,8 @@ export default function Index() {
       payload: {
         isUsers: true,
         queryInfo: data,
+        tablePro: table,
+        teamId: data.id,
       },
     })
     dispatch({
