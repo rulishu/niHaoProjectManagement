@@ -38,8 +38,9 @@ const NewIssue = (props) => {
   const { projectId, userAccount } = params
   const {
     project: { fromData },
-    dictionary: { dictDataList },
+    // dictionary: { dictDataList },
     milestone: { milepostaData, taskMilestonesTitle, taskMilestonesId },
+    labels: { listData: labelsListData },
     projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
@@ -61,9 +62,10 @@ const NewIssue = (props) => {
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
-    dispatch.dictionary.getDictDataList({
-      dictType: 'assignment_label',
-    })
+    dispatch.labels.getAllLabelData({ projectId })
+    // dispatch.dictionary.getDictDataList({
+    //   dictType: 'assignment_label',
+    // })
     dispatch.milestone.getListAll({
       projectId: projectId,
       milestonesStatusList: [1, 2],
@@ -89,20 +91,12 @@ const NewIssue = (props) => {
   const createTag = async (formData) => {
     let result = false
     await dispatch({
-      type: 'dictionary/addDict',
+      type: 'labels/addLabelItem',
       payload: {
-        record: {
-          ...formData,
-          dictType: 'assignment_label',
-          dictValue: dayjs().unix(),
-        },
+        param: { ...formData, projectId },
         callback: (data) => {
           result = data
-          dispatch.dictionary.getDictDataList({
-            dictType: 'assignment_label',
-            page: 1,
-            pageSize: 999,
-          })
+          dispatch.labels.getAllLabelData({ projectId })
         },
       },
     })
@@ -158,6 +152,7 @@ const NewIssue = (props) => {
   const onCancel = () => {
     navigate(`/${userAccount}/${projectId}/task`)
   }
+
   return (
     <Container>
       <div className="main">
@@ -198,12 +193,7 @@ const NewIssue = (props) => {
                 fromData: {
                   ...fromData,
                   dueDate: dueDate ? dayjs(dueDate).format('YYYY-MM-DD') : '',
-                  labels:
-                    labels.length > 0
-                      ? dictDataList.filter((item) =>
-                          labels.includes(item.dictValue)
-                        )
-                      : [],
+                  labels,
                 },
               })
               dispatch.project.getAdd({ projectId: projectId })
@@ -372,15 +362,17 @@ const NewIssue = (props) => {
                   <div style={{ width: '100%' }}>
                     <CompDropdown
                       listData={initListData(
-                        dictDataList,
+                        labelsListData,
                         fromData.labels,
-                        'dictValue',
-                        { color: 'listClass', title: 'dictLabel' }
+                        'id',
+                        { color: 'color', title: 'name' }
                       )}
                       template="label"
                       shape="input"
                       loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() => navigate('/Authority/dictionary')}
+                      runLabel={() =>
+                        navigate(`/${userAccount}/${projectId}/labels`)
+                      }
                       onChange={(value) => {
                         form?.current?.setFieldValue('labels', value)
                         updateData({ fromData: { ...fromData, labels: value } })

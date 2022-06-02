@@ -40,11 +40,7 @@ const MilestoneInfo = () => {
   useEffect(() => {
     const callback = async () => {
       await dispatch.milestone.getMilestone({ projectId, milestonesId })
-      await dispatch.dictionary.getDictDataList({
-        dictType: 'assignment_label',
-        page: 1,
-        pageSize: 99999,
-      })
+      await dispatch.labels.getAllLabelData({ projectId })
       await dispatch.milestone.getAllLabel({ id: milestonesId })
     }
     callback()

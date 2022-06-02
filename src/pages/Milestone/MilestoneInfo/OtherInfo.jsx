@@ -20,7 +20,7 @@ const OtherInfo = (props) => {
   const { userAccount } = useParams()
   const {
     milestone: { listDataInfo, allLabelData },
-    dictionary: { dictDataList },
+    labels: { listData: labelsListData },
     loading,
   } = useSelector((state) => state)
   const {
@@ -47,13 +47,13 @@ const OtherInfo = (props) => {
 
   // 标签块
   const lableBox = (value) => {
-    const results = dictDataList?.filter((s) => +s.dictValue === +value)[0]
+    const results = labelsListData?.filter((s) => s.id === value)[0]
     return (
       <span
-        key={results?.dictValue}
+        key={results?.id}
         className={styles.taskTags}
-        style={{ backgroundColor: results?.listClass || '#813c858c' }}>
-        {results?.dictLabel}
+        style={{ backgroundColor: results?.color || '#813c858c' }}>
+        {results?.name}
       </span>
     )
   }
@@ -132,21 +132,29 @@ const OtherInfo = (props) => {
   const lableListLi = (lableListData) => {
     return (
       <ul>
-        {lableListData?.map((item) => (
-          <li className={styles.lableLiLe} key={item?.dictValue}>
-            <div className={styles.lableLiLeft}>
-              {lableBox(item?.dictValue)}
-            </div>
-            <div className={styles.lableLiRight}>
-              <Button basic type="light" onClick={() => goTaskListPage(2)}>
-                {item?.open}个已开启任务
-              </Button>
-              <Button basic type="light" onClick={() => goTaskListPage(3)}>
-                {item?.close}个已完成任务
-              </Button>
-            </div>
-          </li>
-        ))}
+        {lableListData?.map((item) => {
+          return (
+            <li className={styles.lableLiLe} key={item?.labelId}>
+              <div className={styles.lableLiLeft}>
+                <span
+                  className={styles.taskTags}
+                  style={{
+                    backgroundColor: item?.label?.color || '#813c858c',
+                  }}>
+                  {item?.label?.name}
+                </span>
+              </div>
+              <div className={styles.lableLiRight}>
+                <Button basic type="light" onClick={() => goTaskListPage(2)}>
+                  {item?.open}个已开启任务
+                </Button>
+                <Button basic type="light" onClick={() => goTaskListPage(3)}>
+                  {item?.close}个已完成任务
+                </Button>
+              </div>
+            </li>
+          )
+        })}
       </ul>
     )
   }
