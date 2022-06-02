@@ -4,7 +4,8 @@ import { Notify } from 'uiw'
 import {
   selectAllBoard,
   selectAllBoardNote,
-  addBNA,
+  addNote,
+  deleteBoardNote,
 } from '../servers/taskBoard'
 
 /**
@@ -61,10 +62,24 @@ const taskboard = createModel()({
     },
 
     //新增看板列表
-    async addBNA(payload) {
-      const data = await addBNA(payload)
+    async addNote(payload) {
+      const { setCreat, ...other } = payload
+      const data = await addNote(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
+        dispatch.taskboard.selectAllBoardNote({ boardId: payload.boardId })
+        setCreat(false)
+      }
+    },
+
+    //删除列表
+    async deleteBoardNote(payload) {
+      const { setDeleteConfirmation, ...other } = payload
+      const data = await deleteBoardNote(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: data.message })
+        dispatch.taskboard.selectAllBoardNote({ boardId: payload.boardId })
+        setDeleteConfirmation(false)
       }
     },
   }),

@@ -23,8 +23,18 @@ export function selectAllBoardNote(params) {
 /**​
  * 新增看板列表
  */
-export function addBNA(params) {
-  return request('/api​/ManagerBNAController​/addBNA', {
+export function addNote(params) {
+  return request('/api/ManagerBNAController/addNote', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
+ * 删除列表
+ */
+export function deleteBoardNote(params) {
+  return request('/api/ManagerBNAController/deleteBoardNote', {
     method: 'POST',
     body: { ...params },
   })

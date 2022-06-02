@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Card, Icon, Avatar, Button, Input } from 'uiw'
+import { Card, Icon, Avatar, Button, Input, ButtonGroup, Overlay } from 'uiw'
 import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
@@ -10,72 +10,12 @@ import styles from './index.module.less'
 const TaskBoard = () => {
   const dispatch = useDispatch()
   const { projectId } = useParams()
-  const { taskboard } = useSelector((state) => state)
+  const { taskboard, loading } = useSelector((state) => state)
   const { boardList, list } = taskboard
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectBoard, setSelectBoard] = useState(0)
-  const [dataInfo, setDataInfo] = useState([
-    {
-      id: '1',
-      listName: '测试列表1',
-      arr: [
-        {
-          issueName: '沈建澄1',
-          issueLable: 'bug',
-          issueNumber: '#225',
-          nickName: 'fgh',
-        },
-        {
-          issueName: '吴卫刚1',
-          issueLable: '待测试',
-          issueNumber: '#222',
-          nickName: 'hgf',
-        },
-      ],
-    },
-    {
-      id: '2',
-      listName: '测试列表2',
-      arr: [
-        {
-          issueName: '沈建澄',
-          issueLable: 'creat',
-          issueNumber: '#115',
-          nickName: 'asd',
-        },
-        {
-          issueName: '吴卫刚',
-          issueLable: '已测试',
-          issueNumber: '#654',
-          nickName: 'dsa',
-        },
-        {
-          issueName: '洪高锋',
-          issueLable: '起飞',
-          issueNumber: '#335',
-          nickName: 'qwe',
-        },
-        {
-          issueName: '沈建2澄',
-          issueLable: 'creat',
-          issueNumber: '#115',
-          nickName: 'ewq',
-        },
-        {
-          issueName: '吴卫2刚',
-          issueLable: '已测试',
-          issueNumber: '#654',
-          nickName: 'rty',
-        },
-        {
-          issueName: '洪高2锋',
-          issueLable: '起飞',
-          issueNumber: '#335',
-          nickName: 'yrt',
-        },
-      ],
-    },
-  ])
+  const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
+  const [selectList, setSelectList] = useState(0) // 当前选择列表id
+  const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [creat, setCreat] = useState(false) // 创建列表弹窗
   const [boardName, setBoardName] = useState('') // 新建列表名
   useEffect(() => {
@@ -211,13 +151,24 @@ const TaskBoard = () => {
                       ref={provided.innerRef}
                       {...provided.droppableProps}>
                       <div className={styles.dragListHead}>
-                        <p className={styles.listName}>{dropItem.title}</p>
+                        <p className={styles.listName}>{dropItem.noteTitle}</p>
                         <div className={styles.listName}>
                           <Icon type="appstore-o" />
                           <span className={styles.listNum}>
                             {dropItem.assignmentList.length}
                           </span>
-                          <Icon type="plus-square-o" />
+                          <ButtonGroup>
+                            <Button>
+                              <Icon type="plus" />
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                setDeleteConfirmation(true)
+                                setSelectList(dropItem.noteId)
+                              }}>
+                              <Icon type="delete" />
+                            </Button>
+                          </ButtonGroup>
                         </div>
                       </div>
                       <div className={styles.dragListBox}>
@@ -245,7 +196,7 @@ const TaskBoard = () => {
                                         {item?.assigneeUserId !== 1 && (
                                           <Avatar
                                             src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
-                                            {item?.assigneeUserName[0]}
+                                            {/* {item?.assigneeUserName[0]} */}
                                           </Avatar>
                                         )}
                                       </div>
@@ -280,12 +231,13 @@ const TaskBoard = () => {
                     <Button
                       disabled={boardName === '' ? true : false}
                       type={boardName === '' ? 'light' : 'primary'}
+                      loading={loading.effects.taskboard.addNote}
                       onClick={() => {
-                        setCreat(false)
-                        setDataInfo([
-                          ...dataInfo,
-                          { id: '9', listName: boardName, assignmentList: [] },
-                        ])
+                        dispatch.taskboard.addNote({
+                          boardId: selectBoard,
+                          title: boardName,
+                          setCreat,
+                        })
                       }}>
                       添加列表
                     </Button>
@@ -308,6 +260,34 @@ const TaskBoard = () => {
               </Card>
             </div>
           )}
+          <Overlay
+            isOpen={deleteConfirmation}
+            onClose={() => setDeleteConfirmation(false)}>
+            <Card active style={{ width: 500 }}>
+              <strong style={{ margin: 0 }}>删除列表</strong>
+              <div style={{ marginTop: '8px' }}>您确定您将删除这个list吗？</div>
+              <br />
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  type="light"
+                  onClick={() => setDeleteConfirmation(false)}>
+                  取消
+                </Button>
+                <Button
+                  loading={loading.effects.taskboard.deleteBoardNote}
+                  type="danger"
+                  onClick={() => {
+                    dispatch.taskboard.deleteBoardNote({
+                      noteId: selectList,
+                      boardId: selectBoard,
+                      setDeleteConfirmation,
+                    })
+                  }}>
+                  删除列表
+                </Button>
+              </div>
+            </Card>
+          </Overlay>
         </div>
       </DragDropContext>
     </>
