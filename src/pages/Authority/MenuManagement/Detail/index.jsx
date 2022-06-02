@@ -2,21 +2,14 @@ import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
 
-const Detail = ({ updateData, handleTree, onSearch }) => {
+const Detail = ({ updateData, handleTree, onSearch, dataSourceList }) => {
   const dispatch = useDispatch()
   const {
-    menumanagement: {
-      drawerVisible,
-      tableType,
-      queryInfo,
-      isView,
-      dataSourceList,
-    },
+    menumanagement: { drawerVisible, tableType, queryInfo, isView },
   } = useSelector((state) => state)
 
   const form = useForm()
   const onClose = () => dispatch({ type: 'menumanagement/clean' })
-
   // 下拉
   const handleSearch = (type = '', value = '') => {
     if (type === 'searchTree') {
