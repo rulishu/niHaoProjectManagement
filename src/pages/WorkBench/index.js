@@ -43,6 +43,23 @@ export default function Demo() {
   const totalWorkVoOne = projectListOne?.totalWorkVo
   //判断是否可以看到所有项目列表
   const naid = localStorage.getItem('key')
+  const Blank = ({ num, height, width, style, background }) => (
+    <div
+      style={{
+        ...style,
+        textAlign: 'center',
+        paddingTop: 5,
+        paddingBottom: 5,
+        background,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        width: 110,
+        height,
+      }}>
+      {num}
+    </div>
+  )
   return (
     <Container>
       <div>
@@ -232,9 +249,17 @@ export default function Demo() {
                 ) : (
                   <ul>
                     <p className={styles.milInfoLiHead}>
-                      <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
-                      <samp style={{ flex: 3, marginLeft: 33 }}>结束时间</samp>
-                      <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
+                      <Row style={{ marginTop: 5 }}>
+                        <Col>
+                          <Blank num={'里程碑名称'} />
+                        </Col>
+                        <Col grow={2}>
+                          <Blank num={'结束时间'} />
+                        </Col>
+                        <Col grow={5}>
+                          <Blank num={'进度'} />
+                        </Col>
+                      </Row>
                     </p>
                     {milesWorkVoListOne?.length === 0 &&
                     milepost?.length === 0 ? (
@@ -250,14 +275,33 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <span style={{ flex: 3 }}>
+                            <Row style={{ marginTop: 5 }}>
+                              <Col span="8">
+                                <Blank num={item?.milestonesTitle} />
+                              </Col>
+                              <Col span="8">
+                                <Blank
+                                  num={
+                                    (item?.dueTime &&
+                                      dayjs(item?.dueTime).format(
+                                        'YYYY-MM-DD'
+                                      )) ||
+                                    ''
+                                  }
+                                />
+                              </Col>
+                              <Col span="8">
+                                <Blank num={item?.rate} />
+                              </Col>
+                            </Row>
+                            {/* <span style={{ flex: 3 }}>
                               {item?.milestonesTitle}
                             </span>
                             <span style={{ flex: 4, fontSize: '12px' }}>
                               {item?.dueTime &&
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })
@@ -272,14 +316,33 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <span style={{ flex: 3 }}>
+                            <Row style={{ marginTop: 5 }}>
+                              <Col span="8">
+                                <Blank num={item?.milestonesTitle} />
+                              </Col>
+                              <Col span="8">
+                                <Blank
+                                  num={
+                                    (item?.dueTime &&
+                                      dayjs(item?.dueTime).format(
+                                        'YYYY-MM-DD'
+                                      )) ||
+                                    ''
+                                  }
+                                />
+                              </Col>
+                              <Col span="8">
+                                <Blank num={item?.rate} />
+                              </Col>
+                            </Row>
+                            {/* <span style={{ flex: 3 }}>
                               {item?.milestonesTitle}
                             </span>
                             <span style={{ flex: 4, fontSize: '12px' }}>
                               {item?.dueTime &&
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })
