@@ -53,6 +53,9 @@ export default function ListItem(props) {
                       </span>
                     </Tooltip>
                   </div>
+                  {listField?.updateName
+                    ? item[listField.updateName]
+                    : item?.updateName}
                   更新于
                   {listField?.updateTime
                     ? item[listField.updateTime]
@@ -67,7 +70,10 @@ export default function ListItem(props) {
 
                   <div className={styles.listContent}>
                     # {listField?.issueNo ? item[listField.issueNo] : item.id} ·{' '}
-                    创建于{' '}
+                    {listField?.createName
+                      ? item[listField?.createName]
+                      : item.createName}
+                    {' 创建于 '}
                     {listField?.createTime
                       ? item[listField.createTime]
                       : item?.createTime}{' '}
