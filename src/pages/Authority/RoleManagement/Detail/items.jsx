@@ -52,6 +52,12 @@ export const items = (queryInfo, TreeData) => [
     required: true,
     placeholder: '请输入角色顺序',
     span: '24',
+    rules: [
+      {
+        required: true,
+        message: '请输入角色顺序',
+      },
+    ],
   },
   {
     label: '状态',
