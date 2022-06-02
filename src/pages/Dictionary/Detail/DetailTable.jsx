@@ -111,6 +111,7 @@ const DetailTable = () => {
             key: 'dictCode',
             width: 80,
             ellipsis: true,
+            align: 'center',
             // props: {
             //   widget: 'input',
             //   initialValue: '',
@@ -127,6 +128,7 @@ const DetailTable = () => {
           {
             title: '字典名称',
             key: 'dictLabel',
+            align: 'center',
             ellipsis: true,
             props: {
               widget: 'input',
@@ -144,6 +146,7 @@ const DetailTable = () => {
           {
             title: '字典键值',
             key: 'dictValue',
+            align: 'center',
             ellipsis: true,
             render: (text) => {
               return (
@@ -158,11 +161,13 @@ const DetailTable = () => {
           {
             title: '排序',
             key: 'dictSort',
+            align: 'center',
             width: 60,
           },
           {
             title: '状态',
             key: 'status',
+            align: 'center',
             props: {
               widget: 'select',
               option: [
@@ -189,10 +194,12 @@ const DetailTable = () => {
           {
             title: '备注',
             key: 'remark',
+            align: 'center',
           },
           {
             title: '创建时间',
             key: 'createTime',
+            align: 'center',
             width: 150,
             ellipsis: true,
             render: (text) => {
