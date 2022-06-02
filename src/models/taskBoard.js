@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core'
 // import { Notify } from 'uiw'
-import { selectAllBoard } from '../servers/taskBoard'
+import { selectAllBoard, selectAllBoardNote } from '../servers/taskBoard'
 
 /**
  * 项目列表
@@ -11,7 +11,8 @@ const taskboard = createModel()({
     page: 1,
     pageSize: 10,
     total: 0,
-    dataList: [],
+    boardList: [],
+    list: [],
   },
   reducers: {
     update: (state, payload) => {
@@ -22,22 +23,34 @@ const taskboard = createModel()({
     },
   },
   effects: (dispatch) => ({
-    //查询项目
+    //查询项目中看板
     async selectOneInfo(payload, { taskboard }) {
       const { pageSize, page, type } = taskboard
+      const { projectId, setSelectBoard, first } = payload
       let params = {
         pageSize,
         page,
         type,
-        ...payload,
+        projectId,
       }
       const data = await selectAllBoard(params)
       if (data && data.code === 200) {
         dispatch.taskboard.update({
-          dataList: data?.data?.list || [],
-          total: data?.data?.total,
-          page: data?.data.pageNum || page,
-          pageSize: data?.data.pageSize || pageSize,
+          boardList: data?.data || [],
+        })
+        setSelectBoard(data?.data[0]?.id)
+        if (first) {
+          dispatch.taskboard.selectAllBoardNote({ boardId: data?.data[0]?.id })
+        }
+      }
+    },
+
+    //查询看板中列表
+    async selectAllBoardNote(payload) {
+      const data = await selectAllBoardNote(payload)
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          list: data?.data || [],
         })
       }
     },

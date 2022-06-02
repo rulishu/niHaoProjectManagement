@@ -11,7 +11,7 @@ const TaskBoard = () => {
   const dispatch = useDispatch()
   const { projectId } = useParams()
   const { taskboard } = useSelector((state) => state)
-  console.log(taskboard)
+  const { boardList, list } = taskboard
   const [isOpen, setIsOpen] = useState(false)
   const [selectBoard, setSelectBoard] = useState(0)
   const [dataInfo, setDataInfo] = useState([
@@ -79,7 +79,7 @@ const TaskBoard = () => {
   const [creat, setCreat] = useState(false) // 创建列表弹窗
   const [boardName, setBoardName] = useState('') // 新建列表名
   useEffect(() => {
-    dispatch.taskboard.selectOneInfo({ projectId })
+    dispatch.taskboard.selectOneInfo({ projectId, setSelectBoard, first: true })
   }, [dispatch, projectId])
 
   const onDragEnd = (result) => {
@@ -125,23 +125,9 @@ const TaskBoard = () => {
       <div className={styles.header}>
         <div style={{ width: '200px' }}>
           <CompDropdown
-            listData={initListData(
-              [
-                {
-                  milestonesId: 13,
-                  milestonesTitle: 'nihaoya',
-                  name: 45423213123215,
-                },
-                {
-                  milestonesId: 14,
-                  milestonesTitle: 'nihaoya12313',
-                  name: 4545,
-                },
-              ],
-              selectBoard,
-              'milestonesId',
-              { title: 'milestonesTitle' }
-            )}
+            listData={initListData(boardList, selectBoard, 'id', {
+              title: 'name',
+            })}
             title="看板"
             isOpen={isOpen}
             isRadio={true}
@@ -188,6 +174,8 @@ const TaskBoard = () => {
             onChange={(e) => {
               setSelectBoard(e)
               setIsOpen(false)
+              dispatch.taskboard.selectAllBoardNote({ boardId: e })
+              console.log(e)
             }}
             onClickable={(is) => {
               setIsOpen(is)
@@ -208,9 +196,9 @@ const TaskBoard = () => {
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.drapItem}>
-          {dataInfo?.map((dropItem, dropIndex) => {
+          {list?.map((dropItem, dropIndex) => {
             return (
-              <Droppable droppableId={dropItem.id} key={dropIndex}>
+              <Droppable droppableId={dropItem.id.toString()} key={dropIndex}>
                 {(provided) => {
                   return (
                     <div
@@ -218,51 +206,51 @@ const TaskBoard = () => {
                       ref={provided.innerRef}
                       {...provided.droppableProps}>
                       <div className={styles.dragListHead}>
-                        <p className={styles.listName}>{dropItem.listName}</p>
+                        <p className={styles.listName}>{dropItem.title}</p>
                         <div className={styles.listName}>
                           <Icon type="appstore-o" />
                           <span className={styles.listNum}>
-                            {dropItem.arr.length}
+                            {dropItem.assignmentList.length}
                           </span>
                           <Icon type="plus-square-o" />
                         </div>
                       </div>
                       <div className={styles.dragListBox}>
-                        {dropItem.arr.map((item, index) => (
-                          <Draggable
-                            draggableId={item.issueName}
-                            index={index}
-                            key={item.issueName}>
-                            {(provided) => (
-                              <div
-                                className={styles.dragItem}
-                                key={item.issueName}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}>
-                                <Card bordered={false}>
-                                  <div className={styles.listItem}>
-                                    <div>
-                                      <div>{item.issueName}</div>
-                                      <div>{item.issueLable}</div>
-                                      <div>{item.issueNumber}</div>
+                        {dropItem.assignmentList.map((item, index) => {
+                          return (
+                            <Draggable
+                              draggableId={item.assignmentId.toString()}
+                              index={index}
+                              key={item.assignmentId}>
+                              {(provided) => (
+                                <div
+                                  className={styles.dragItem}
+                                  key={item.assignmentId}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}>
+                                  <Card bordered={false}>
+                                    <div className={styles.listItem}>
+                                      <div>
+                                        <div>{item?.assignmentTitle}</div>
+                                        <div>{item?.labels}</div>
+                                        <div>{item?.assignmentId}</div>
+                                      </div>
+                                      <div className={styles.userHead}>
+                                        {item?.assigneeUserId !== 0 && (
+                                          <Avatar
+                                            src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
+                                            {item?.assigneeUserName[0]}
+                                          </Avatar>
+                                        )}
+                                      </div>
                                     </div>
-                                    <div className={styles.userHead}>
-                                      <Avatar
-                                        src={
-                                          item.avatar
-                                            ? `/api/file/selectFile/${item.avatar}`
-                                            : item.path
-                                        }>
-                                        {item?.nickName[0]}
-                                      </Avatar>
-                                    </div>
-                                  </div>
-                                </Card>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
+                                  </Card>
+                                </div>
+                              )}
+                            </Draggable>
+                          )
+                        })}
                         {provided.placeholder}
                       </div>
                     </div>
