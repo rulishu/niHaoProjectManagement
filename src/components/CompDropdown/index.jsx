@@ -157,9 +157,8 @@ const CompDropdown = (props) => {
   const dropDownContent = (
     <Card
       className={styles.labelCard}
-      bodyClassName={`${styles.labelCardBody} ${
-        dropdownCardBodyClassName ? dropdownCardBodyClassName : ''
-      }`}>
+      bodyClassName={`${styles.labelCardBody} 
+      ${dropdownCardBodyClassName ? dropdownCardBodyClassName : ''}`}>
       <div className={styles.labelHead}>
         {labelStatus === 2 && (
           <div className={styles.headBut}>

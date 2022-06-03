@@ -56,14 +56,17 @@ const EditTask = () => {
   }
   // 完成人员编辑
   const editAssignOk = async () => {
+    setAssignState(false)
     await dispatch.project.getEdit()
   }
 
   const editLabelOk = async () => {
-    ;(await dispatch.project.getEdit()) && setLabelState(false)
+    setLabelState(false)
+    await dispatch.project.getEdit()
   }
 
   const editMilepostOk = async () => {
+    setMilepostState(false)
     await dispatch.project.getEdit()
   }
 
@@ -85,7 +88,7 @@ const EditTask = () => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    // setLabelState(true)
+    setLabelState(true)
     const labels = labelsListData?.filter((item) => {
       return keyArr?.includes(item?.id)
     })
@@ -166,7 +169,9 @@ const EditTask = () => {
             template="personnel"
             shape="label"
             isRadio={true}
-            onClickLabelShow={(is) => setAssignState(is)}
+            onClickLabelShow={(is) => {
+              setAssignState(is)
+            }}
             selectLabel={(key) => {
               const userName = userSelectAllList
                 ?.map((item) =>
@@ -284,9 +289,8 @@ const EditTask = () => {
                 <Button
                   basic
                   type="primary"
-                  onClick={() => {
+                  onClick={(e) => {
                     editLabelOk()
-                    setLabelState(false)
                   }}>
                   完成
                 </Button>
@@ -306,17 +310,7 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
-            onClickLabelShow={(is) => {
-              setLabelState(is)
-              if (!is && taskInfoData?.labels) {
-                updateData({
-                  editFromData: {
-                    ...editFromData,
-                    labels: [...taskInfoData?.labels],
-                  },
-                })
-              }
-            }}
+            // onClickLabelShow={(is) => setLabelState(is)}
             closeLabel={() => {
               updateData({
                 editFromData: {
