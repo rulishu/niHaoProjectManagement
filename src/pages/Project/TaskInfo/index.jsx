@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Input, Steps, Loader, Icon } from 'uiw'
+import { Button, Input, Steps, Loader, Icon, Tooltip, Alert } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
@@ -14,11 +14,19 @@ import useLocationPage from '@/hooks/useLocationPage'
 const TaskInfo = () => {
   const dispatch = useDispatch()
   const params = useParams()
-
+  const [alertShow, setAlertShow] = useState(false)
+  const [editParameter, setEditParameter] = useState({})
   // 处理带id的路由
   useLocationPage()
   const {
-    project: { issueType, editFromData, taskInfoData, commentData },
+    project: {
+      issueType,
+      editFromData,
+      taskInfoData,
+      commentData,
+      editCommentData,
+      editState,
+    },
     allusers: { uuid },
     projectuser: { userSelectAllList },
     loading,
@@ -154,6 +162,35 @@ const TaskInfo = () => {
   }
   const addComment = () => {
     dispatch.project.getAddComment()
+  }
+  //编辑评论
+  const goSaveComment = () => {
+    console.log(editCommentData)
+    dispatch.project.getEditComment({
+      ...editParameter,
+      operatingRecords: editCommentData.operatingRecords,
+    })
+  }
+  const handleComment = (detail, item) => {
+    setEditParameter(
+      detail === 'del'
+        ? {
+            id: item.taskHistoryId,
+            projectId: item.projectId,
+          }
+        : {
+            taskHistoryId: item.taskHistoryId,
+            projectId: item.projectId,
+          }
+    )
+    if (detail === 'del') {
+      setAlertShow(true)
+    } else if (detail === 'edit') {
+      updateData({
+        editCommentData: item,
+        editState: true,
+      })
+    }
   }
   return (
     <>
@@ -329,6 +366,7 @@ const TaskInfo = () => {
                             />
                           ) : item.type === 2 ? (
                             <Steps.Step
+                              style={{ paddingBottom: 15, display: 'flex' }}
                               icon={
                                 <Icon
                                   style={{
@@ -345,15 +383,57 @@ const TaskInfo = () => {
                                 />
                               }
                               description={
-                                <div
-                                  data-color-mode="light"
-                                  style={{ flex: 1 }}>
-                                  <MarkdownPreview
-                                    source={item?.operatingRecords || ''}
+                                editState ? (
+                                  <FromMD
+                                    upDate={updateData}
+                                    submit={goSaveComment}
+                                    editName="editCommentData"
+                                    editData={editCommentData}
+                                    fromValue={'operatingRecords'}
+                                    btnName="提交"
                                   />
+                                ) : (
+                                  <div
+                                    data-color-mode="light"
+                                    style={{ flex: 1 }}>
+                                    <MarkdownPreview
+                                      source={item?.operatingRecords || ''}
+                                      style={{ width: '100%' }}
+                                    />
+                                  </div>
+                                )
+                              }
+                              title={
+                                <div className={styles.buttonIcon}>
+                                  <p>{item.createName}评论</p>
+                                  <div className={styles.spanIcon}>
+                                    <Tooltip placement="top" content="回复">
+                                      <span
+                                        onClick={() =>
+                                          handleComment('reply', item)
+                                        }>
+                                        <Icon type="message" />
+                                      </span>
+                                    </Tooltip>
+                                    <Tooltip placement="top" content="编辑">
+                                      <span
+                                        onClick={() =>
+                                          handleComment('edit', item)
+                                        }>
+                                        <Icon type="edit" />
+                                      </span>
+                                    </Tooltip>
+                                    <Tooltip placement="top" content="删除">
+                                      <span
+                                        onClick={() =>
+                                          handleComment('del', item)
+                                        }>
+                                        <Icon type="delete" />
+                                      </span>
+                                    </Tooltip>
+                                  </div>
                                 </div>
                               }
-                              title={`${item.createName}评论`}
                               key={index}
                             />
                           ) : item.type === 3 ? (
@@ -376,6 +456,15 @@ const TaskInfo = () => {
                     : null}
                 </Steps>
               </div>
+              <Alert
+                isOpen={alertShow}
+                confirmText="确认"
+                onClosed={() => setAlertShow(false)}
+                type="danger"
+                content={`是否确认删除本条评论！`}
+                onConfirm={() => {
+                  dispatch.project.getDelComment(editParameter)
+                }}></Alert>
               <FromMD
                 upDate={updateData}
                 submit={addComment}
