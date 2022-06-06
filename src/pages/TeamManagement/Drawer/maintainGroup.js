@@ -11,6 +11,7 @@ const AddUser = () => {
   const [inputValue1, setInputValue1] = useState([])
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
+  const [num, setNum] = useState(false)
 
   const {
     team: { isUsers, teamData, teamMemberList, teamId },
@@ -44,6 +45,7 @@ const AddUser = () => {
     setCheckAll(list.length === teamMemberList.length)
   }
   const onCheckAllChange = (e) => {
+    setNum(true)
     setInputValue(e.target.checked ? teamMemberList : [])
     setIndeterminate(false)
     setCheckAll(e.target.checked)
@@ -56,6 +58,7 @@ const AddUser = () => {
     setCheckAll1(list.length === teamData.length)
   }
   const onCheckAllChange1 = (e) => {
+    setNum(true)
     setInputValue1(e.target.checked ? teamData : [])
     setIndeterminate1(false)
     setCheckAll1(e.target.checked)
@@ -67,7 +70,7 @@ const AddUser = () => {
         <Checkbox
           checked={checkAll}
           indeterminate={indeterminate}
-          onChange={(e) => onCheckAllChange(e)}>
+          onChange={(e) => onCheckAllChange(e, num)}>
           组内用户
         </Checkbox>
       ),
@@ -93,7 +96,7 @@ const AddUser = () => {
         <Checkbox
           checked={checkAll1}
           indeterminate={indeterminate1}
-          onChange={(e) => onCheckAllChange1(e)}>
+          onChange={(e) => onCheckAllChange1(e, num)}>
           组外用户
         </Checkbox>
       ),
@@ -116,11 +119,15 @@ const AddUser = () => {
     },
   ]
   const onConfirm = () => {
+    let oldData = []
+    inputValue1.map((item, index) => oldData.push(item.value))
+    //过滤null
+    let newData = oldData.filter((n) => n)
     dispatch({
       type: 'team/updateMembers',
       payload: {
         teamId: teamId,
-        userIdList: inputValue1,
+        userIdList: num === true ? newData : inputValue1,
       },
     })
   }
