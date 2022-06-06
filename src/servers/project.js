@@ -61,6 +61,22 @@ export const getAssignmentHistorySave = (params) => {
   })
 }
 
+//编辑评论
+export const getAssignmentHistoryEdit = (params) => {
+  return request('/api/ManagerAssignmentHistory/assignmentHistoryUpdate', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//删除评论
+export const getAssignmentHistoryDel = (params) => {
+  return request('/api/ManagerAssignmentHistory/delete', {
+    method: 'POST',
+    body: params,
+  })
+}
+
 // 查询成员不分页
 export const queryFuzzyAllProjectMember = (params) => {
   return request('/api/member/queryFuzzyAllProjectMember', {
