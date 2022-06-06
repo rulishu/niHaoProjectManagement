@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, Table, Checkbox, Tree, Card, Row, Col } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -19,6 +19,14 @@ const AddUser = () => {
   const {
     rolemanagement: { arrLeverTop },
   } = useSelector((state) => state)
+
+  useEffect(() => {
+    let oldInputValue = []
+    teamMemberList.map((item, index) => oldInputValue.push(item.value))
+    let newInputValue = oldInputValue.filter((n) => n)
+    setInputValue(newInputValue)
+  }, [teamMemberList])
+
   // 关闭弹窗
   const onClose = () => {
     dispatch({
