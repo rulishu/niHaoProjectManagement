@@ -45,6 +45,7 @@ const CompDropdown = (props) => {
     isGonnaHitDeselect = true, // 是否点击取消选中(只在 isRadio === true 时有效)
     dropdownWindow = {}, // 下拉窗口属性
     dropdownCardBodyClassName, // 下拉卡片内容 class 名称
+    isAllowsForNo = true,
   } = props
 
   // 模板解构一些参数
@@ -81,7 +82,13 @@ const CompDropdown = (props) => {
   }, [isOpen])
 
   // 选中触发回调
-  const optionEvent = (key) => {
+  const optionEvent = (key, type = 1) => {
+    if (type === 0) {
+      selectLabel && selectLabel(key)
+      onChange && onChange(key)
+      setOptions(() => key)
+      return
+    }
     const exists = options?.includes(key)
     if (isRadio) {
       isAutoDown && setOpen(false)
@@ -204,6 +211,7 @@ const CompDropdown = (props) => {
           loading={loading || false}
           title={title || tempTitle}
           actionButtons={actionButtons || tempActionButtons}
+          isAllowsForNo={isAllowsForNo}
         />
       )}
       {labelStatus === 2 && (

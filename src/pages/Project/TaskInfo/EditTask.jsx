@@ -232,7 +232,6 @@ const EditTask = () => {
             isRadio={true}
             onClickLabelShow={(is) => setMilepostState(is)}
             selectLabel={(key) => {
-              console.log('key======>', key, key || 0)
               updateData({
                 editFromData: { ...editFromData, milestonesId: key || 0 },
               })
