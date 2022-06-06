@@ -1,4 +1,4 @@
-import { Button, Divider } from 'uiw'
+import { Button } from 'uiw'
 
 export const columnsSearch = (handleEditTable, userInfo) => [
   {
@@ -45,7 +45,6 @@ export const columnsSearch = (handleEditTable, userInfo) => [
     align: 'center',
     render: (text, key, rowData) => (
       <div>
-        <Divider type="vertical" />
         <Button
           size="small"
           icon="edit"
@@ -53,7 +52,7 @@ export const columnsSearch = (handleEditTable, userInfo) => [
           onClick={() => handleEditTable('edit', rowData)}>
           编辑
         </Button>
-        <Divider type="vertical" />
+        {/* <Divider type="vertical" /> */}
         <Button
           size="small"
           type="danger"

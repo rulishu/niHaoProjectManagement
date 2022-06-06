@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Tag, Card, Tooltip, Divider } from 'uiw'
+import { Button, Tag, Card, Tooltip } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -214,7 +214,6 @@ function Dictionary() {
               align: 'center',
               render: (text, key, rowData) => (
                 <div>
-                  <Divider type="vertical" />
                   <AuthBtn path="/api/dict/queryById">
                     <Button
                       size="small"
@@ -224,7 +223,7 @@ function Dictionary() {
                       查看
                     </Button>
                   </AuthBtn>
-                  <Divider type="vertical" />
+                  {/* <Divider type="vertical" /> */}
                   <AuthBtn path="/api/dict/edit">
                     <Button
                       size="small"
@@ -234,7 +233,7 @@ function Dictionary() {
                       编辑
                     </Button>
                   </AuthBtn>
-                  <Divider type="vertical" />
+                  {/* <Divider type="vertical" /> */}
                   <AuthBtn path="/api/dict/deleteByTypeId">
                     <DeletePopover
                       handleEditTable={() => handleEditTable('del', rowData)}
