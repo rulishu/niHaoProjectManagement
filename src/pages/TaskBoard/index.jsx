@@ -75,6 +75,7 @@ const TaskBoard = () => {
               title: 'name',
             })}
             title="看板"
+            isGonnaHitDeselect={false}
             isOpen={isOpen}
             isRadio={true}
             labelHeader={[
