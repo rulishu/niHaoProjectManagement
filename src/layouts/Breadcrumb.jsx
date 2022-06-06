@@ -44,9 +44,9 @@ const Bread = (props) => {
         const { path, name } = item
         if (
           path !== '/projectList' &&
-          path !== '/home' &&
+          path !== '/dashboard' &&
           path !== '/todoList' &&
-          path !== '/userHome/:userId'
+          path !== '/:userAccount'
         ) {
           return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>
         }
