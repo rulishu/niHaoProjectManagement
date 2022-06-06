@@ -10,7 +10,7 @@ const UsersBox = (props) => {
   const {
     routeManagement: { userInfoName },
   } = useSelector((state) => state)
-  const { data, handleEdit } = props
+  const { data, handleEdit, pageSize } = props
   const navigate = useNavigate()
   // const { dictionary } = useSelector((state) => state)
 
@@ -46,9 +46,9 @@ const UsersBox = (props) => {
   // }
   return (
     <div className={styles.content}>
-      {data?.map((item, index) => {
+      {data?.map((item) => {
         return (
-          <div className={styles.userBoxFather} key={index}>
+          <div className={styles.userBoxFather} key={item.userId}>
             <Card className={styles.userBox}>
               <div className={styles.userBoxChild}>
                 <Row>
@@ -149,7 +149,7 @@ const UsersBox = (props) => {
       })}
       {/* 👇辅助布局使用👇 */}
       {data?.map((_, index) => {
-        if (index !== 0)
+        if (index < pageSize / 2)
           return <i key={index} className={styles.auxiliaryLayout}></i>
         return null
       })}
