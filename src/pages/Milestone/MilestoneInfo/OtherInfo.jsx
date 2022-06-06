@@ -46,7 +46,7 @@ const OtherInfo = (props) => {
   const [activeKey, setActiveKey] = useState('1')
 
   // 标签块
-  const lableBox = (value) => {
+  const labelBox = (value) => {
     const results = labelsListData?.filter((s) => s.id === value)[0]
     return (
       <span
@@ -93,7 +93,7 @@ const OtherInfo = (props) => {
                   #{item.assignmentId}
                 </span>
                 {item?.labels?.map((tagLi) => (
-                  <span key={tagLi}>{lableBox(tagLi)}</span>
+                  <span key={tagLi}>{labelBox(tagLi)}</span>
                 ))}
                 {item.assigneeUserId ? (
                   <Tooltip
@@ -102,7 +102,7 @@ const OtherInfo = (props) => {
                     <span
                       className={styles.taskAssignPerson}
                       onClick={() => {
-                        navigate(`/${userAccount}`, {
+                        navigate(`/${item.assigneeUserAccount}`, {
                           state: { assigneeUserId: item?.assigneeUserId },
                         })
                       }}>
@@ -129,13 +129,13 @@ const OtherInfo = (props) => {
   }
 
   // 标签列表
-  const lableListLi = (lableListData) => {
+  const labelListLi = (labelListData) => {
     return (
       <ul>
-        {lableListData?.map((item) => {
+        {labelListData?.map((item) => {
           return (
-            <li className={styles.lableLiLe} key={item?.labelId}>
-              <div className={styles.lableLiLeft}>
+            <li className={styles.labelLiLe} key={item?.labelId}>
+              <div className={styles.labelLiLeft}>
                 <span
                   className={styles.taskTags}
                   style={{
@@ -144,7 +144,7 @@ const OtherInfo = (props) => {
                   {item?.label?.name}
                 </span>
               </div>
-              <div className={styles.lableLiRight}>
+              <div className={styles.labelLiRight}>
                 <Button basic type="light" onClick={() => goTaskListPage(2)}>
                   {item?.open}个已开启任务
                 </Button>
@@ -206,14 +206,14 @@ const OtherInfo = (props) => {
         </div>
       )}
       {activeKey === '2' && (
-        <div className={styles.lableListLi}>
+        <div className={styles.labelListLi}>
           <Loader
             tip="加载中..."
             vertical
             style={{ width: '100%' }}
             bgColor="rgba(0, 0, 0, 0.1)"
             loading={loading.effects.milestone.getAllLabel}>
-            <>{allLabelData.length ? lableListLi(allLabelData) : <Empty />}</>
+            <>{allLabelData.length ? labelListLi(allLabelData) : <Empty />}</>
           </Loader>
         </div>
       )}
