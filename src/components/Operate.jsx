@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Divider, Icon } from 'uiw'
+import { Button, Icon } from 'uiw'
 
 export default function operateFun({
   onEvenEdit,
@@ -20,7 +20,7 @@ export default function operateFun({
           添加成员
         </Button>
       )}
-      <Divider type="vertical" />
+      {/* <Divider type="vertical" /> */}
       {onEvenEdit && (
         <Button
           type="primary"
@@ -32,7 +32,7 @@ export default function operateFun({
           编辑
         </Button>
       )}
-      <Divider type="vertical" />
+      {/* <Divider type="vertical" /> */}
       {onEvenDelete && (
         <Button
           type="danger"
@@ -44,7 +44,10 @@ export default function operateFun({
           删除
         </Button>
       )}
-      {onAuthorize && <Divider type="vertical" />}
+      {
+        onAuthorize
+        // && <Divider type="vertical" />
+      }
       {onAuthorize && (
         <Button
           type="primary"

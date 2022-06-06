@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Tooltip, Card, Notify, Divider } from 'uiw'
+import { Button, Tag, Tooltip, Card, Notify } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -238,7 +238,6 @@ const Demo = (props) => {
               width: 200,
               render: (text, key, rowData) => (
                 <div>
-                  <Divider type="vertical" />
                   {/* <AuthBtn path="/api/managerRole/addMenu">
                   <Button
                     size="small"
@@ -255,7 +254,7 @@ const Demo = (props) => {
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑
                   </Button>
-                  <Divider type="vertical" />
+                  {/* <Divider type="vertical" /> */}
                   {/* </AuthBtn> */}
                   {/* <AuthBtn path="/api/managerRole/selectRole"> */}
                   {/* <Button
