@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, Table, Checkbox, Tree, Card, Row, Col } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -19,6 +19,14 @@ const AddUser = () => {
   const {
     rolemanagement: { arrLeverTop },
   } = useSelector((state) => state)
+
+  useEffect(() => {
+    let oldInputValue = []
+    teamMemberList.map((item, index) => oldInputValue.push(item.value))
+    let newInputValue = oldInputValue.filter((n) => n)
+    setInputValue(newInputValue)
+  }, [teamMemberList])
+
   // 关闭弹窗
   const onClose = () => {
     dispatch({
@@ -39,27 +47,44 @@ const AddUser = () => {
     },
   ]
 
+  //组内用户
   const onChange = (e, list) => {
+    let oldData = []
+    teamMemberList.map((item, index) => oldData.push(item.value))
+    //过滤null
+    let newData = oldData.filter((n) => n)
     setInputValue(list)
-    setIndeterminate(!!list.length && list.length < teamMemberList.length)
+    setIndeterminate(!!list.length && list.length < newData.length)
     setCheckAll(list.length === teamMemberList.length)
   }
+  //组内用户
   const onCheckAllChange = (e) => {
-    setNum(true)
-    setInputValue(e.target.checked ? teamMemberList : [])
+    let oldData = []
+    teamMemberList.map((item, index) => oldData.push(item.value))
+    let newData = oldData.filter((n) => n)
+    setInputValue(e.target.checked ? newData : [])
     setIndeterminate(false)
     setCheckAll(e.target.checked)
   }
 
-  //---------
+  //组外用户
   const onChange1 = (e, list) => {
+    let oldData = []
+    teamData.map((item, index) => oldData.push(item.value))
+    //过滤null
+    let newData = oldData.filter((n) => n)
     setInputValue1(list)
-    setIndeterminate1(!!list.length && list.length < teamData.length)
+    setIndeterminate1(!!list.length && list.length < newData.length)
     setCheckAll1(list.length === teamData.length)
   }
+  //组外用户
   const onCheckAllChange1 = (e) => {
+    let oldData = []
+    teamData.map((item, index) => oldData.push(item.value))
+    //过滤null
+    let newData = oldData.filter((n) => n)
     setNum(true)
-    setInputValue1(e.target.checked ? teamData : [])
+    setInputValue1(e.target.checked ? newData : [])
     setIndeterminate1(false)
     setCheckAll1(e.target.checked)
   }
@@ -70,7 +95,7 @@ const AddUser = () => {
         <Checkbox
           checked={checkAll}
           indeterminate={indeterminate}
-          onChange={(e) => onCheckAllChange(e, num)}>
+          onChange={(e) => onCheckAllChange(e)}>
           组内用户
         </Checkbox>
       ),
@@ -119,15 +144,12 @@ const AddUser = () => {
     },
   ]
   const onConfirm = () => {
-    let oldData = []
-    inputValue1.map((item, index) => oldData.push(item.value))
-    //过滤null
-    let newData = oldData.filter((n) => n)
     dispatch({
       type: 'team/updateMembers',
       payload: {
         teamId: teamId,
-        userIdList: num === true ? newData : inputValue1,
+        userIdList: inputValue1,
+        num: num,
       },
     })
   }
