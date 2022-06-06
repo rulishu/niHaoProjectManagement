@@ -144,10 +144,10 @@ const ProjectManagement = (fun) => {
               {
                 validator: (value) => {
                   const obj = baseRef?.getFieldValues()
-                  if (Object.keys(obj).length > 0 && value > obj.begin)
+                  if (Object.keys(obj).length > 0 && value >= obj.begin)
                     return true
                 },
-                message: '截止日期必须晚于起始日期且不能为空',
+                message: '截止日期必须晚于或等于起始日期且不能为空',
               },
             ],
           },
