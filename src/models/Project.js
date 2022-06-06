@@ -6,6 +6,8 @@ import {
   getmMnagerAssignmentSave,
   deleteAssignment,
   getAssignmentHistorySave,
+  getAssignmentHistoryDel,
+  getAssignmentHistoryEdit,
   queryFuzzyAllProjectMember,
   selectLabel,
   assignment_label,
@@ -59,6 +61,8 @@ export default createModel()({
       labels: [],
       fileId: [],
     },
+    editCommentData: {},
+    editState: false,
     commentData: {
       operatingRecords: '',
     },
@@ -275,9 +279,59 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.queryFuzzyAllProjectMember({
-            userId: project?.teamMembers?.userId,
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
           })
-          // console.log('teamMembers--->1111', project.teamMembers.userId)
+          dispatch.project.update({
+            commentData: {
+              operatingRecords: '',
+            },
+          })
+          NotifySuccess(data.message)
+        }
+      },
+      // 编辑评论
+      async getEditComment(params, { project }) {
+        const data = await getAssignmentHistoryEdit({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: project?.commentData?.projectId,
+            id: project?.commentData?.assignmentId,
+          })
+          dispatch.project.queryFuzzyAllProjectMember({
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
+          })
+          dispatch.project.update({
+            commentData: {
+              operatingRecords: '',
+            },
+          })
+          dispatch.project.update({
+            editState: false,
+          })
+          NotifySuccess(data.message)
+        }
+      },
+      // 删除评论
+      async getDelComment(params, { project }) {
+        console.log(project)
+        const data = await getAssignmentHistoryDel({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: project?.commentData?.projectId,
+            id: project?.commentData?.assignmentId,
+          })
+          dispatch.project.queryFuzzyAllProjectMember({
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
+          })
           dispatch.project.update({
             commentData: {
               operatingRecords: '',

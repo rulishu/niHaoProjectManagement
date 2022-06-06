@@ -13,6 +13,15 @@ export const queryByPage = (params) => {
   })
 }
 
+//查询用户列表不分页
+export const listNotPage = (params) => {
+  console.log('params', params)
+  return request('/api/system/user/listNotPage', {
+    method: 'POST',
+    body: params,
+  })
+}
+
 // 新增用户列表数据
 export const addNewUser = (params) => {
   return request('/api/system/user/add', {

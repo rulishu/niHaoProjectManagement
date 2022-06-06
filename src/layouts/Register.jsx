@@ -26,9 +26,15 @@ const Register = () => {
             current.username === 'dashboard' ||
             current.username === 'projectList' ||
             current.username === 'todoList' ||
-            current.username === 'Authority' ||
+            current.username === 'authority' ||
             current.username === 'tissue' ||
             current.username === 'login' ||
+            current.username === 'Dashboard' ||
+            current.username === 'ProjectList' ||
+            current.username === 'TodoList' ||
+            current.username === 'Authority' ||
+            current.username === 'Tissue' ||
+            current.username === 'Login' ||
             current.username === '403' ||
             current.username === '404' ||
             current.username === '500'
