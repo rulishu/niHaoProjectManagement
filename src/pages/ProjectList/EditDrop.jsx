@@ -87,10 +87,15 @@ const EditDrop = (props) => {
         placement="bottom"
         trigger="click"
         isOpen={dropOpen}
+        onClosing={() => {
+          setDropOpen(!dropOpen)
+        }}
         overlay={menu()}>
         <div
           className={styles.editDropTrigger}
-          onClick={() => setDropOpen(!dropOpen)}>
+          onClick={() => {
+            setDropOpen(!dropOpen)
+          }}>
           <Icon type="more" />
         </div>
       </OverlayTrigger>
