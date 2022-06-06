@@ -61,6 +61,22 @@ export const getAssignmentHistorySave = (params) => {
   })
 }
 
+//编辑评论
+export const getAssignmentHistoryEdit = (params) => {
+  return request('/api/ManagerAssignmentHistory/assignmentHistoryUpdate', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//删除评论
+export const getAssignmentHistoryDel = (params) => {
+  return request('/api/ManagerAssignmentHistory/delete', {
+    method: 'POST',
+    body: params,
+  })
+}
+
 // 查询成员不分页
 export const queryFuzzyAllProjectMember = (params) => {
   return request('/api/member/queryFuzzyAllProjectMember', {
@@ -80,6 +96,14 @@ export const selectLabel = (params) => {
 // 查询所有标签
 export const assignment_label = (params) => {
   return request('/api/system/dict/data/type/assignment_label', {
+    method: 'POST',
+    body: params,
+  })
+}
+
+//获取任务列表各状态总数
+export function countAssignment(params) {
+  return request('/api/ManagerAssignment/countAssignment', {
     method: 'POST',
     body: params,
   })

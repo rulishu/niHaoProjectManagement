@@ -136,8 +136,11 @@ const OtherInfo = (props) => {
           return (
             <li className={styles.lableLiLe} key={item?.labelId}>
               <div className={styles.lableLiLeft}>
-                <span className={styles.taskTags}
-                  style={{ backgroundColor: item?.label?.color || '#813c858c' }}>
+                <span
+                  className={styles.taskTags}
+                  style={{
+                    backgroundColor: item?.label?.color || '#813c858c',
+                  }}>
                   {item?.label?.name}
                 </span>
               </div>

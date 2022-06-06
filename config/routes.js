@@ -246,15 +246,15 @@ const routes = [
             },
             isAuth: true,
           },
-          {
-            path: '/:userAccount/:projectId/taskBoard',
-            name: '任务看板',
-            icon: 'table',
-            component: '@/pages/TaskBoard',
-            isAuth: true,
-            navigate:
-              "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/taskBoard`)}",
-          },
+          // {
+          //   path: '/:userAccount/:projectId/taskBoard',
+          //   name: '任务看板',
+          //   icon: 'table',
+          //   component: '@/pages/TaskBoard',
+          //   isAuth: true,
+          //   navigate:
+          //     "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/taskBoard`)}",
+          // },
           {
             path: '/:userAccount/:projectId/task',
             name: '任务管理',

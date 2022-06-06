@@ -6,9 +6,12 @@ import {
   getmMnagerAssignmentSave,
   deleteAssignment,
   getAssignmentHistorySave,
+  getAssignmentHistoryDel,
+  getAssignmentHistoryEdit,
   queryFuzzyAllProjectMember,
   selectLabel,
   assignment_label,
+  countAssignment,
 } from '../servers/project'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
@@ -58,6 +61,8 @@ export default createModel()({
       labels: [],
       fileId: [],
     },
+    editCommentData: {},
+    editState: false,
     commentData: {
       operatingRecords: '',
     },
@@ -67,6 +72,7 @@ export default createModel()({
     splicingConditionsDtos: [],
     selectDtos: [], // 上方搜索条件
     tabDtos: [], // tab搜索条件
+    taskNum: '', //任务各状态总数
   },
   effects: (dispatch) => {
     return {
@@ -237,10 +243,11 @@ export default createModel()({
       },
       // 任务列表编辑
       async getEdit(params, { project }) {
-        const { labels, ...newData } = project.editFromData
-        newData.labels = labels
+        const { editFromData, taskInfoData } = project
+        if (JSON.stringify(taskInfoData) === JSON.stringify(editFromData))
+          return false
         const data = await getManagerAssignmentUpdate({
-          ...newData,
+          ...editFromData,
           ...params,
         })
         if (data && data.code === 200) {
@@ -248,11 +255,11 @@ export default createModel()({
             issueType: '',
           })
           dispatch.project.getSelectById({
-            projectId: params?.projectId || newData?.projectId,
-            id: newData?.assignmentId,
+            projectId: params?.projectId || editFromData?.projectId,
+            id: editFromData?.assignmentId,
           })
-          // navigate(`/project/task/${sessionStorage.getItem('id')}`)
           NotifySuccess(data.message)
+          return true
         }
       },
       // 任务列表删除
@@ -272,15 +279,84 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.queryFuzzyAllProjectMember({
-            userId: project?.teamMembers?.userId,
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
           })
-          // console.log('teamMembers--->1111', project.teamMembers.userId)
           dispatch.project.update({
             commentData: {
               operatingRecords: '',
             },
           })
           NotifySuccess(data.message)
+        }
+      },
+      // 编辑评论
+      async getEditComment(params, { project }) {
+        const data = await getAssignmentHistoryEdit({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: project?.commentData?.projectId,
+            id: project?.commentData?.assignmentId,
+          })
+          dispatch.project.queryFuzzyAllProjectMember({
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
+          })
+          dispatch.project.update({
+            commentData: {
+              operatingRecords: '',
+            },
+          })
+          dispatch.project.update({
+            editState: false,
+          })
+          NotifySuccess(data.message)
+        }
+      },
+      // 删除评论
+      async getDelComment(params, { project }) {
+        console.log(project)
+        const data = await getAssignmentHistoryDel({
+          ...project.commentData,
+          ...params,
+        })
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: project?.commentData?.projectId,
+            id: project?.commentData?.assignmentId,
+          })
+          dispatch.project.queryFuzzyAllProjectMember({
+            // userId: project?.teamMembers?.userId,
+            projectId: project?.commentData?.projectId,
+          })
+          dispatch.project.update({
+            commentData: {
+              operatingRecords: '',
+            },
+          })
+          NotifySuccess(data.message)
+        }
+      },
+
+      //获取任务各状态总数
+      async countAssignment(params, { project }) {
+        const { assignmentStatus, ...others } = params
+        const { filter, selectDtos } = project
+        let obj = {
+          ...filter,
+          splicingConditionsDtos: [...selectDtos],
+          ...others,
+        }
+        const data = await countAssignment(obj)
+        if (data && data.code === 200) {
+          dispatch.project.update({
+            taskNum: data.data,
+          })
+        } else {
+          Notify.error({ title: data.message })
         }
       },
       clean() {

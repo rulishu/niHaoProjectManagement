@@ -66,7 +66,8 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     required: true,
     placeholder: '请输入路由地址',
     rules: [{ required: true, message: '请输入路由地址' }],
-    help: '必填，请填写路由地址（如：/Authority/MenuManagement，对应的文件位于：pages/Authority/MenuManagement/）',
+    help: '必填，请填写路由地址）',
+    // help: '必填，请填写路由地址（如：/Authority/MenuManagement，对应的文件位于：pages/Authority/MenuManagement/）',
     span: '24',
   },
 
@@ -85,6 +86,7 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     label: '备注',
     key: 'remark',
     widget: 'textarea',
+    placeholder: '请输入备注',
     initialValue: queryInfo?.remark,
     span: '24',
   },

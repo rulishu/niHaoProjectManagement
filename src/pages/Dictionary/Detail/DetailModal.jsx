@@ -83,6 +83,7 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '字典类型',
             key: 'dictType',
+            placeholder: '请输入字典类型',
             align: 'center',
             widget: 'input',
             initialValue: queryInfo.dictType,
@@ -95,6 +96,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             label: '字典名称',
             key: 'dictLabel',
             widget: 'input',
+            placeholder: '请输入字典名称',
             initialValue: detailInfo.dictLabel,
             required: true,
             // rules: [
@@ -116,6 +118,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             label: '字典键值',
             key: 'dictValue',
             widget: 'input',
+            placeholder: '请输入字典键值',
             initialValue: detailInfo.dictValue,
             required: true,
             // rules: [
@@ -135,6 +138,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             label: '样式属性',
             key: 'cssClass',
             widget: 'input',
+            placeholder: '请输入样式属性',
             initialValue: detailInfo.cssClass,
             widgetProps: {},
             span: '24',
@@ -142,6 +146,7 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '显示排序',
             key: 'dictSort',
+            placeholder: '请输入排序',
             widget: 'input',
             initialValue: detailInfo.dictSort,
             required: true,
@@ -214,6 +219,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             label: '备注',
             key: 'remark',
             widget: 'textarea',
+            placeholder: '请输入备注',
             style: { maxWidth: '430px' },
             initialValue: detailInfo?.remark,
             span: '24',

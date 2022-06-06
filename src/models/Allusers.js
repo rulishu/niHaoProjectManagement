@@ -2,6 +2,7 @@ import { Notify } from 'uiw'
 import { createModel } from '@rematch/core'
 import {
   queryByPage,
+  listNotPage,
   addNewUser,
   deleteById,
   editNewUser,
@@ -42,6 +43,7 @@ const allusers = createModel()({
     pages: 1,
     total: 0,
     dataList: [], // 数据列表源
+    dataListPage: [], //不分页
     UserList: [], //多 用户数据
     baseDetail: {}, // 详情数据源
     uuid: '', // 成员头像uuid
@@ -88,6 +90,20 @@ const allusers = createModel()({
           page: params.page || page,
         })
         callback && callback(data?.rows)
+      }
+    },
+    //获取更多按钮
+    async listNotPage(params, { allusers }, callback) {
+      const { filter } = allusers
+      const data = await listNotPage({
+        ...filter,
+        ...params,
+      })
+      if (data && data.code === 200) {
+        await dispatch.allusers.update({
+          dataListPage: data?.data || '',
+        })
+        callback && callback(data?.data)
       }
     },
     // 获取多个

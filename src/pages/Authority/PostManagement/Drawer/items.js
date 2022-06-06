@@ -4,6 +4,7 @@ export const items = (queryInfo) => [
     label: '岗位名称',
     key: 'postName',
     widget: 'input',
+    placeholder: '请输入岗位名称',
     initialValue: queryInfo?.postName,
     span: '24',
     required: true,
@@ -11,6 +12,7 @@ export const items = (queryInfo) => [
   {
     label: '岗位编码',
     key: 'postCode',
+    placeholder: '请输入岗位编码',
     widget: 'input',
     initialValue: queryInfo?.postCode,
     span: '24',
@@ -19,6 +21,7 @@ export const items = (queryInfo) => [
   {
     label: '岗位顺序',
     key: 'postSort',
+    placeholder: '请输入岗位顺序',
     widget: 'input',
     initialValue: queryInfo?.postSort,
     span: '24',
@@ -39,6 +42,7 @@ export const items = (queryInfo) => [
   {
     label: '备注',
     key: 'remark',
+    placeholder: '请输入备注',
     widget: 'textarea',
     initialValue: queryInfo?.remark,
     span: '24',

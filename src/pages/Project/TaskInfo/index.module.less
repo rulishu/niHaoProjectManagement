@@ -30,6 +30,11 @@
 
 .stepsWrap {
   padding-left: 30px;
+  :global {
+    .w-steps .w-steps-item-head {
+      background: transparent;
+    }
+  }
 }
 
 .tabsLabelTitle {
@@ -162,4 +167,21 @@ a:hover {
   color: #dc3545;
   font-size: 12px;
   padding-top: 3px;
+}
+
+.buttonIcon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.spanIcon {
+  display: flex;
+  margin-left: 100px;
+  :global {
+    span {
+      margin: 0 3px;
+      display: flex;
+      align-items: center;
+    }
+  }
 }

@@ -46,9 +46,9 @@ const UsersBox = (props) => {
   // }
   return (
     <div className={styles.content}>
-      {data?.map((item) => {
+      {data?.map((item, index) => {
         return (
-          <div className={styles.userBoxFather} key={item.userId}>
+          <div className={styles.userBoxFather} key={index}>
             <Card className={styles.userBox}>
               <div className={styles.userBoxChild}>
                 <Row>

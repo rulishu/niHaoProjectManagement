@@ -26,9 +26,20 @@ const Register = () => {
             current.username === 'dashboard' ||
             current.username === 'projectList' ||
             current.username === 'todoList' ||
-            current.username === 'Authority'
+            current.username === 'authority' ||
+            current.username === 'tissue' ||
+            current.username === 'login' ||
+            current.username === 'Dashboard' ||
+            current.username === 'ProjectList' ||
+            current.username === 'TodoList' ||
+            current.username === 'Authority' ||
+            current.username === 'Tissue' ||
+            current.username === 'Login' ||
+            current.username === '403' ||
+            current.username === '404' ||
+            current.username === '500'
           )
-            errorObj.username = `账号不能为dashboard、projectList、todoList、Authority`
+            errorObj.username = `账号不能为关键字`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`
