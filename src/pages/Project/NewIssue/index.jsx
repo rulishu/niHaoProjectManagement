@@ -20,6 +20,7 @@ import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
 import { Container } from '@/components'
 import { CompDropdown } from '@/components'
+import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
 let tribute = new Tribute({
   trigger: '@',
@@ -174,7 +175,7 @@ const NewIssue = (props) => {
                 },
               })
             }}
-            onSubmit={() => {
+            onSubmit={(current) => {
               const errorObj = {}
               const { dueDate, labels, assignmentTitle } = fromData
               if (
@@ -183,6 +184,9 @@ const NewIssue = (props) => {
                 assignmentTitle.length > 100
               ) {
                 errorObj.assignmentTitle = '请输入任务名称,长度为2~100'
+              }
+              if (changeTimeFormat(current.current.dueDate) <= ThisTime()) {
+                errorObj.dueDate = '截止日期应该晚于当前时间'
               }
               if (Object.keys(errorObj).length > 0) {
                 const err = new Error()

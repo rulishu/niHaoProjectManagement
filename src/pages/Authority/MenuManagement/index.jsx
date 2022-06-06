@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Button, Tag, Card, Tooltip, Divider } from 'uiw'
+import { Button, Tag, Card, Tooltip } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
@@ -222,7 +222,15 @@ const Demo = () => {
               title: '创建时间',
               key: 'createTime',
               ellipsis: true,
+              align: 'center',
               width: 120,
+              render: (address) => (
+                <div style={{ textAlign: 'center' }}>
+                  <Tooltip placement="leftTop" content={address}>
+                    <span>{address || ''}</span>
+                  </Tooltip>
+                </div>
+              ),
             },
             {
               title: '操作',
@@ -232,7 +240,6 @@ const Demo = () => {
               render: (text, key, rowData) => {
                 return (
                   <div>
-                    <Divider type="vertical" />
                     <Button
                       size="small"
                       type="success"
@@ -240,7 +247,7 @@ const Demo = () => {
                       onClick={handleEditTable.bind(this, 'addChild', rowData)}>
                       新增子菜单
                     </Button>
-                    <Divider type="vertical" />
+                    {/* <Divider type="vertical" /> */}
                     <Button
                       size="small"
                       type="primary"
