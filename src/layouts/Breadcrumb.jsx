@@ -42,7 +42,6 @@ const Bread = (props) => {
       )}
       {domList?.map((item, index) => {
         const { path, name } = item
-        console.log('item', item)
         if (
           path !== '/projectList' &&
           path !== '/dashboard' &&
