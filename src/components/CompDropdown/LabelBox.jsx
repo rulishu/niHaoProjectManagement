@@ -57,8 +57,6 @@ const LabelBox = (props) => {
     })
   }
 
-  console.log(newListData.filter((s) => s.check))
-
   return (
     <div className={styles.labelBox}>
       <div className={styles.searchBox}>

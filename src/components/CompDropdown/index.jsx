@@ -193,7 +193,7 @@ const CompDropdown = (props) => {
             className={styles.headClose}
             onClick={() => {
               setOpen(false)
-              closeLabel && closeLabel()
+              closeLabel && closeLabel(false)
             }}
           />
         </div>
@@ -237,6 +237,7 @@ const CompDropdown = (props) => {
         placement="bottomLeft"
         overlay={dropDownContent}
         autoAdjustOverflow={true}
+        isOutside={true}
         onVisibleChange={(is) => {
           onClickLabelShow && onClickLabelShow(is)
           setOpen(is)

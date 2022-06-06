@@ -8,6 +8,7 @@ import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { initListData } from '@/utils/utils'
+import newDebounce from '@/utils/debounce'
 
 const EditTask = () => {
   const dispatch = useDispatch()
@@ -42,12 +43,12 @@ const EditTask = () => {
     setMilepostState(false)
     setDueDateState(false)
   }
-  const editLabel = () => {
-    setLabelState(!labelState)
-    setMilepostState(false)
-    setAssignState(false)
-    setDueDateState(false)
-  }
+  // const editLabel = () => {
+  //   setLabelState(!labelState)
+  //   setMilepostState(false)
+  //   setAssignState(false)
+  //   setDueDateState(false)
+  // }
   const editMilepost = () => {
     setMilepostState(!milepostState)
     setAssignState(false)
@@ -285,7 +286,13 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>标签</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              {labelState ? (
+              <Button
+                basic
+                type="primary"
+                onClick={() => setLabelState(!labelState)}>
+                编辑
+              </Button>
+              {/* {labelState ? (
                 <Button
                   basic
                   type="primary"
@@ -298,7 +305,7 @@ const EditTask = () => {
                 <Button basic type="primary" onClick={() => editLabel()}>
                   编辑
                 </Button>
-              )}
+              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
@@ -311,16 +318,10 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             onClickLabelShow={(is) => {
-              Object.keys(taskInfoData).length && !is && editLabelOk()
-            }}
-            closeLabel={() => {
-              updateData({
-                editFromData: {
-                  ...editFromData,
-                  labels: [...taskInfoData?.labels],
-                },
-              })
-              setLabelState(false)
+              setLabelState(is)
+              Object.keys(taskInfoData).length &&
+                !is &&
+                newDebounce(editLabelOk, 100)
             }}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
