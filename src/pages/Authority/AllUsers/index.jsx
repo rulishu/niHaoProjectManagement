@@ -9,7 +9,7 @@ import styles from './index.module.less'
 const Users = (props) => {
   const { dispatch, state, update } = props
   const { dataList, page, pageSize, total, types, memberAvatarArr } =
-    state.allusers
+    state.allusers // dataListPage,
   const [type, setType] = useState()
   const [isOverlay, setIsOverlay] = useState(false)
   const [newPage, setNewPage] = useState(1)
@@ -74,6 +74,7 @@ const Users = (props) => {
   const forMoreUsers = async () => {
     setNewPage(() => page + 1)
     await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
+    await dispatch.allusers.listNotPage({ page: page }, queryCallback)
   }
 
   // 加载更多成员回调函数
