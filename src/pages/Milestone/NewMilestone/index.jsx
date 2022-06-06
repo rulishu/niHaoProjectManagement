@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import formatter from '@uiw/formatter'
 import { NEWMDEditor } from '@/components'
 import styles from './index.module.less'
-import timeDistance from '@/utils/timeDistance'
+import changeTime from '@/utils/timeDistance'
 import { Container } from '@/components'
 
 const NewMilestone = () => {
@@ -116,7 +116,8 @@ const NewMilestone = () => {
         ref={form}
         onSubmit={async ({ initial, current }) => {
           const errorObj = {}
-          const { milestonesTitle, startTime, milestonesDesc } = current
+          const { milestonesTitle, startTime, milestonesDesc, dueTime } =
+            current
           if (
             !milestonesTitle ||
             milestonesTitle.length < 2 ||
@@ -130,12 +131,18 @@ const NewMilestone = () => {
           if (!startTime) {
             errorObj.startTime = '开始时间不能为空！'
           }
-          if (
-            current.dueTime &&
-            !timeDistance(current.startTime, current.dueTime).status
-          ) {
-            errorObj.dueTime = '里程碑开始时间不能晚于结束时间！'
+          if (!dueTime) {
+            errorObj.dueTime = '结束时间不能为空！'
           }
+          if (changeTime(startTime) >= changeTime(dueTime)) {
+            errorObj.dueTime = '结束时间不能早于等于开始时间'
+          }
+          // if (
+          //   current.dueTime &&
+          //   !timeDistance(current.startTime, current.dueTime).status
+          // ) {
+          //   errorObj.dueTime = '里程碑开始时间不能晚于结束时间！'
+          // }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
             err.filed = errorObj
