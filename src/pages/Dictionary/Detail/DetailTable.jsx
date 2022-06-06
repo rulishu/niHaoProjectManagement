@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Notify, Tooltip, Tag } from 'uiw'
+import { Button, Notify, Tooltip, Tag, Card } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -70,178 +70,196 @@ const DetailTable = () => {
 
   return (
     <Fragment>
-      <ProTable
-        operateButtons={[
-          {
-            label: '新增',
-            type: 'primary',
-            onClick: () => {
-              handleEditTable('add')
-            },
-          },
-        ]}
-        // 搜索栏按钮
-        searchBtns={[
-          {
-            label: '搜索',
-            type: 'primary',
-            onClick: () => {
-              table.onSearch()
-            },
-          },
-          {
-            label: '重置',
-            onClick: () => {
-              table.onReset()
-            },
-          },
-        ]}
-        // rowSelection={{
-        //   // 多选 checkbox 单选radio
-        //   type: 'checkbox',
-        //   // 选中的键名 column里的key
-        //   selectKey: 'bugId',
-        //   // 默认值
-        //   // defaultSelected: ['']
-        // }}
-        table={table}
-        columns={[
-          {
-            title: '字典编码',
-            key: 'dictCode',
-            width: 80,
-            ellipsis: true,
-            align: 'center',
-            // props: {
-            //   widget: 'input',
-            //   initialValue: '',
-            //   widgetProps: {
-            //     placeholder: '输入字典编码',
-            //   },
-            // },
-            // render: (text) => (
-            //   <Tooltip placement="topLeft" content={text}>
-            //     {text}
-            //   </Tooltip>
-            // ),
-          },
-          {
-            title: '字典名称',
-            key: 'dictLabel',
-            align: 'center',
-            ellipsis: true,
-            props: {
-              widget: 'input',
-              initialValue: '',
-              widgetProps: {
-                placeholder: '输入字典名称',
+      <Card>
+        <ProTable
+          operateButtons={[
+            {
+              label: '新增',
+              type: 'primary',
+              icon: 'plus',
+              onClick: () => {
+                handleEditTable('add')
               },
             },
-            render: (text) => (
-              <Tooltip placement="topLeft" content={text}>
-                {text}
-              </Tooltip>
-            ),
-          },
-          {
-            title: '字典键值',
-            key: 'dictValue',
-            align: 'center',
-            ellipsis: true,
-            render: (text) => {
-              return (
-                <div>
-                  <Tooltip placement="top" content={`${text}`}>
-                    <span className={styles.proTableDictValue}>{text}</span>
-                  </Tooltip>
+          ]}
+          // 搜索栏按钮
+          searchBtns={[
+            {
+              label: '搜索',
+              type: 'primary',
+              icon: 'search',
+              onClick: () => {
+                table.onSearch()
+              },
+            },
+            {
+              label: '重置',
+              icon: 'reload',
+              onClick: () => {
+                table.onReset()
+              },
+            },
+          ]}
+          // rowSelection={{
+          //   // 多选 checkbox 单选radio
+          //   type: 'checkbox',
+          //   // 选中的键名 column里的key
+          //   selectKey: 'bugId',
+          //   // 默认值
+          //   // defaultSelected: ['']
+          // }}
+          table={table}
+          columns={[
+            {
+              title: '字典编码',
+              key: 'dictCode',
+              width: 80,
+              ellipsis: true,
+              align: 'center',
+              // props: {
+              //   widget: 'input',
+              //   initialValue: '',
+              //   widgetProps: {
+              //     placeholder: '输入字典编码',
+              //   },
+              // },
+              // render: (text) => (
+              //   <Tooltip placement="topLeft" content={text}>
+              //     {text}
+              //   </Tooltip>
+              // ),
+            },
+            {
+              title: '字典名称',
+              key: 'dictLabel',
+              align: 'center',
+              ellipsis: true,
+              props: {
+                widget: 'input',
+                initialValue: '',
+                widgetProps: {
+                  placeholder: '输入字典名称',
+                },
+              },
+              render: (text) => (
+                <Tooltip placement="topLeft" content={text}>
+                  {text}
+                </Tooltip>
+              ),
+            },
+            {
+              title: '字典键值',
+              key: 'dictValue',
+              align: 'center',
+              ellipsis: true,
+              render: (text) => {
+                return (
+                  <div>
+                    <Tooltip placement="top" content={`${text}`}>
+                      <span className={styles.proTableDictValue}>{text}</span>
+                    </Tooltip>
+                  </div>
+                )
+              },
+            },
+            {
+              title: '排序',
+              key: 'dictSort',
+              align: 'center',
+              width: 60,
+            },
+            {
+              title: '状态',
+              key: 'status',
+              align: 'center',
+              props: {
+                widget: 'select',
+                option: [
+                  { label: '正常', value: '0' },
+                  { label: '停用', value: '1' },
+                ],
+              },
+              render: (text) => {
+                return (
+                  <div>
+                    {text === '1' ? (
+                      <Tag light color="#dc3545">
+                        停用
+                      </Tag>
+                    ) : (
+                      <Tag light color="#28a745">
+                        正常
+                      </Tag>
+                    )}
+                  </div>
+                )
+              },
+            },
+            {
+              title: '备注',
+              key: 'remark',
+              align: 'center',
+            },
+            {
+              title: '颜色',
+              key: 'listClass',
+              align: 'center',
+              render: (text) => {
+                return (
+                  <div style={{ backgroundColor: text, width: 80, height: 20 }}>
+                    {text}
+                  </div>
+                )
+              },
+            },
+            {
+              title: '创建时间',
+              key: 'createTime',
+              align: 'center',
+              width: 150,
+              ellipsis: true,
+              render: (text) => {
+                return (
+                  <div>
+                    <Tooltip placement="top" content={`${text}`}>
+                      <span className={styles.proTableDictValue}>{text}</span>
+                    </Tooltip>
+                  </div>
+                )
+              },
+            },
+            // {
+            //   title: '标签背景颜色',
+            //   key: 'dictColour',
+            // },
+            {
+              title: '操作',
+              key: 'edit',
+              width: 150,
+              align: 'center',
+              render: (text, key, rowData) => (
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <AuthBtn path="/api/dict/edit">
+                    <Button
+                      size="small"
+                      type="primary"
+                      icon="edit"
+                      onClick={handleEditTable.bind(this, 'edit', rowData)}>
+                      编辑
+                    </Button>
+                  </AuthBtn>
+                  <AuthBtn path="/api/dict/deleteByTypeId">
+                    <DeletePopover
+                      handleEditTable={() => handleEditTable('del', rowData)}
+                    />
+                  </AuthBtn>
                 </div>
-              )
+              ),
             },
-          },
-          {
-            title: '排序',
-            key: 'dictSort',
-            align: 'center',
-            width: 60,
-          },
-          {
-            title: '状态',
-            key: 'status',
-            align: 'center',
-            props: {
-              widget: 'select',
-              option: [
-                { label: '正常', value: '0' },
-                { label: '停用', value: '1' },
-              ],
-            },
-            render: (text) => {
-              return (
-                <div>
-                  {text === '1' ? (
-                    <Tag light color="#dc3545">
-                      停用
-                    </Tag>
-                  ) : (
-                    <Tag light color="#28a745">
-                      正常
-                    </Tag>
-                  )}
-                </div>
-              )
-            },
-          },
-          {
-            title: '备注',
-            key: 'remark',
-            align: 'center',
-          },
-          {
-            title: '创建时间',
-            key: 'createTime',
-            align: 'center',
-            width: 150,
-            ellipsis: true,
-            render: (text) => {
-              return (
-                <div>
-                  <Tooltip placement="top" content={`${text}`}>
-                    <span className={styles.proTableDictValue}>{text}</span>
-                  </Tooltip>
-                </div>
-              )
-            },
-          },
-          // {
-          //   title: '标签背景颜色',
-          //   key: 'dictColour',
-          // },
-          {
-            title: '操作',
-            key: 'edit',
-            width: 150,
-            align: 'center',
-            render: (text, key, rowData) => (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <AuthBtn path="/api/dict/edit">
-                  <Button
-                    size="small"
-                    type="primary"
-                    onClick={handleEditTable.bind(this, 'edit', rowData)}>
-                    编辑
-                  </Button>
-                </AuthBtn>
-                <AuthBtn path="/api/dict/deleteByTypeId">
-                  <DeletePopover
-                    handleEditTable={() => handleEditTable('del', rowData)}
-                  />
-                </AuthBtn>
-              </div>
-            ),
-          },
-        ]}
-      />
-      <DetailModal updateData={updateData} onSearch={table.onSearch} />
+          ]}
+        />
+        <DetailModal updateData={updateData} onSearch={table.onSearch} />
+      </Card>
     </Fragment>
   )
 }

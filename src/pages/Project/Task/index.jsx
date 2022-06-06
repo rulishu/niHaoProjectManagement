@@ -109,6 +109,7 @@ const Task = (props) => {
             value: '2',
           },
         ],
+        selectDtos: [],
       },
     })
 
