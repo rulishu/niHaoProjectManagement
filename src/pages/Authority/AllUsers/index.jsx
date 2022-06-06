@@ -16,7 +16,8 @@ const Users = (props) => {
   const [userList, setUserList] = useState(dataList)
 
   useEffect(() => {
-    dispatch.allusers?.queryByPage({ page: 1 })
+    let pageSize = parseInt((window.screen.width - 390) / 220) * 2 //根据屏幕分辨率来判断每行显示多少个，共2行
+    dispatch.allusers?.queryByPage({ page: 1, pageSize })
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
       page: 1,
