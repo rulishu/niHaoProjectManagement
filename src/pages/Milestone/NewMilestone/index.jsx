@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import formatter from '@uiw/formatter'
 import { NEWMDEditor } from '@/components'
 import styles from './index.module.less'
-import changeTime from '@/utils/timeDistance'
+// import changeTime from '@/utils/timeDistance'
 import { Container } from '@/components'
 
 const NewMilestone = () => {
@@ -134,7 +134,10 @@ const NewMilestone = () => {
           if (!dueTime) {
             errorObj.dueTime = '结束时间不能为空！'
           }
-          if (changeTime(startTime) >= changeTime(dueTime)) {
+          if (
+            formatter('YYYY-MM-DD', startTime) >=
+            formatter('YYYY-MM-DD', dueTime)
+          ) {
             errorObj.dueTime = '结束时间不能早于等于开始时间'
           }
           // if (
@@ -207,7 +210,7 @@ const NewMilestone = () => {
             labelFor: 'date-inline',
             children: (
               <DateInput
-                format="YYYY-MM-DD"
+                format="YYYY/MM/DD"
                 datePickerProps={{ todayButton: '今天' }}
               />
             ),
@@ -219,7 +222,7 @@ const NewMilestone = () => {
             labelFor: 'date-inline',
             children: (
               <DateInput
-                format="YYYY-MM-DD"
+                format="YYYY/MM/DD"
                 datePickerProps={{ todayButton: '今天' }}
               />
             ),
