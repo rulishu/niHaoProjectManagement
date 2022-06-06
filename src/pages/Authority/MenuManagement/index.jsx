@@ -222,7 +222,15 @@ const Demo = () => {
               title: '创建时间',
               key: 'createTime',
               ellipsis: true,
+              align: 'center',
               width: 120,
+              render: (address) => (
+                <div style={{ textAlign: 'center' }}>
+                  <Tooltip placement="leftTop" content={address}>
+                    <span>{address || ''}</span>
+                  </Tooltip>
+                </div>
+              ),
             },
             {
               title: '操作',
