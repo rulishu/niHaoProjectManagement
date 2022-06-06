@@ -190,6 +190,10 @@ const TaskInfo = () => {
         editCommentData: item,
         editState: true,
       })
+    } else if (detail === 'close') {
+      updateData({
+        editState: false,
+      })
     }
   }
   return (
@@ -246,7 +250,7 @@ const TaskInfo = () => {
                 </div>
               </div>
               <div className={styles.navItem}>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, width: '100%' }}>
                   {issueType === 'edit' ? (
                     <div>
                       <Input
@@ -278,62 +282,6 @@ const TaskInfo = () => {
                   btnName="保存编辑"
                 />
               ) : (
-                // <Form
-                //   ref={form}
-                //   onChange={({ current }) => {
-                //     updateData({
-                //       editFromData: {
-                //         ...editFromData,
-                //         ...current,
-                //       },
-                //     })
-                //   }}
-                //   onSubmit={(item) => {
-                //     updateData({
-                //       editFromData: {
-                //         ...editFromData,
-                //         ...item,
-                //       },
-                //     })
-                //     goSaveIssue()
-                //   }}
-                //   onSubmitError={(error) => {
-                //     if (error.filed) {
-                //       return { ...error.filed }
-                //     }
-                //     return null
-                //   }}
-                //   fields={{
-                //     description: {
-                //       inline: true,
-                //       initialValue: editFromData.description,
-                //       children: <NEWMDEditor />,
-                //     },
-                //   }}>
-                //   {({ fields }) => {
-                //     return (
-                //       <div>
-                //         <div className="from">
-                //           <Row align="top" className="fromItem">
-                //             <Col>{fields.description}</Col>
-                //           </Row>
-                //         </div>
-                //         <Row align="middle" className="fromButton">
-                //           <Col>
-                //             <div className={styles.btnWrap}>
-                //               {!issueType ||
-                //                 editFromData === taskInfoData ? null : (
-                //                 <Button type="primary" htmlType="submit">
-                //                   保存编辑
-                //                 </Button>
-                //               )}
-                //             </div>
-                //           </Col>
-                //         </Row>
-                //       </div>
-                //     )
-                //   }}
-                // </Form>
                 <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
@@ -406,32 +354,47 @@ const TaskInfo = () => {
                               title={
                                 <div className={styles.buttonIcon}>
                                   <p>{item.createName}评论</p>
-                                  <div className={styles.spanIcon}>
-                                    <Tooltip placement="top" content="回复">
-                                      <span
-                                        onClick={() =>
-                                          handleComment('reply', item)
-                                        }>
-                                        <Icon type="message" />
-                                      </span>
-                                    </Tooltip>
-                                    <Tooltip placement="top" content="编辑">
-                                      <span
-                                        onClick={() =>
-                                          handleComment('edit', item)
-                                        }>
-                                        <Icon type="edit" />
-                                      </span>
-                                    </Tooltip>
-                                    <Tooltip placement="top" content="删除">
-                                      <span
-                                        onClick={() =>
-                                          handleComment('del', item)
-                                        }>
-                                        <Icon type="delete" />
-                                      </span>
-                                    </Tooltip>
-                                  </div>
+                                  {editState ? (
+                                    <div className={styles.spanIcon}>
+                                      <Tooltip
+                                        placement="top"
+                                        content="取消编辑">
+                                        <span
+                                          onClick={() =>
+                                            handleComment('close', item)
+                                          }>
+                                          <Icon type="close" />
+                                        </span>
+                                      </Tooltip>
+                                    </div>
+                                  ) : (
+                                    <div className={styles.spanIcon}>
+                                      <Tooltip placement="top" content="回复">
+                                        <span
+                                          onClick={() =>
+                                            handleComment('reply', item)
+                                          }>
+                                          <Icon type="message" />
+                                        </span>
+                                      </Tooltip>
+                                      <Tooltip placement="top" content="编辑">
+                                        <span
+                                          onClick={() =>
+                                            handleComment('edit', item)
+                                          }>
+                                          <Icon type="edit" />
+                                        </span>
+                                      </Tooltip>
+                                      <Tooltip placement="top" content="删除">
+                                        <span
+                                          onClick={() =>
+                                            handleComment('del', item)
+                                          }>
+                                          <Icon type="delete" />
+                                        </span>
+                                      </Tooltip>
+                                    </div>
+                                  )}
                                 </div>
                               }
                               key={index}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty, Tag, Divider } from 'uiw'
+import { Table, Button, Alert, Empty, Tag } from 'uiw'
 
 export default function TabelView() {
   const {
@@ -190,7 +190,6 @@ export default function TabelView() {
         const editData = other[2]
         return (
           <div>
-            <Divider type="vertical" />
             <Button
               size="small"
               type="primary"
@@ -198,7 +197,7 @@ export default function TabelView() {
               onClick={(e) => onEdit(editData, e)}>
               编辑
             </Button>
-            <Divider type="vertical" />
+            {/* <Divider type="vertical" /> */}
             <Button
               size="small"
               type="danger"

@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Alert, Card } from 'uiw'
+import { Alert, Card, Tooltip } from 'uiw'
 import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
@@ -162,6 +162,15 @@ export default function Index() {
               title: '团队用户',
               key: 'teamUserNameSplice',
               align: 'center',
+              width: 250,
+              ellipsis: true,
+              render: (address) => (
+                <div style={{ textAlign: 'center' }}>
+                  <Tooltip placement="leftTop" content={address}>
+                    <span>{address || ''}</span>
+                  </Tooltip>
+                </div>
+              ),
             },
             {
               title: '创建时间',
@@ -177,7 +186,7 @@ export default function Index() {
               title: '操作',
               key: 'edit',
               align: 'center',
-              // width: 300,
+              width: 250,
               render: (_, record, data) =>
                 operateFun({
                   onUser: () => onOpenUser(data),
