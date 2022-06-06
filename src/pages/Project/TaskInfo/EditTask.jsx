@@ -61,7 +61,7 @@ const EditTask = () => {
   }
 
   const editLabelOk = async () => {
-    setLabelState(false)
+    // setLabelState(false)
     await dispatch.project.getEdit()
   }
 
@@ -232,8 +232,9 @@ const EditTask = () => {
             isRadio={true}
             onClickLabelShow={(is) => setMilepostState(is)}
             selectLabel={(key) => {
+              console.log('key======>', key, key || 0)
               updateData({
-                editFromData: { ...editFromData, milestonesId: key },
+                editFromData: { ...editFromData, milestonesId: key || 0 },
               })
               editMilepostOk()
             }}
@@ -310,7 +311,9 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
-            // onClickLabelShow={(is) => setLabelState(is)}
+            onClickLabelShow={(is) => {
+              Object.keys(taskInfoData).length && !is && editLabelOk()
+            }}
             closeLabel={() => {
               updateData({
                 editFromData: {

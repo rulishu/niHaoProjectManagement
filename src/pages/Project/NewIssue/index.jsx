@@ -310,34 +310,26 @@ const NewIssue = (props) => {
                   ? taskMilestonesId
                   : fromData.milestonesId,
                 children: (
-                  <div style={{ width: '100%' }}>
-                    <CompDropdown
-                      listData={initListData(
-                        milepostaData,
-                        taskMilestonesTitle
-                          ? taskMilestonesId
-                          : fromData.milestonesId,
-                        'milestonesId',
-                        { title: 'milestonesTitle' }
-                      )}
-                      actionButtons={{ create: { isHide: true } }}
-                      template="milepost"
-                      isRadio={true}
-                      shape="input"
-                      loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() => {
-                        navigate(`/${userAccount}/${projectId}/milestone`, {
-                          replace: true,
-                        })
-                      }}
-                      onChange={(value) => {
-                        form?.current?.setFieldValue('milestonesId', value)
-                        updateData({
-                          fromData: { ...fromData, milestonesId: value },
-                        })
-                      }}
-                    />
-                  </div>
+                  <CompDropdown
+                    listData={initListData(
+                      milepostaData,
+                      taskMilestonesTitle
+                        ? taskMilestonesId
+                        : fromData.milestonesId,
+                      'milestonesId',
+                      { title: 'milestonesTitle' }
+                    )}
+                    actionButtons={{ create: { isHide: true } }}
+                    template="milepost"
+                    isRadio={true}
+                    shape="input"
+                    loading={loading.effects.dictionary.getDictDataList}
+                    runLabel={() => {
+                      navigate(`/${userAccount}/${projectId}/milestone`, {
+                        replace: true,
+                      })
+                    }}
+                  />
                   // <SearchSelect
                   //   showSearch={true}
                   //   allowClear
@@ -359,27 +351,21 @@ const NewIssue = (props) => {
                 inline: true,
                 initialValue: fromData.labels,
                 children: (
-                  <div style={{ width: '100%' }}>
-                    <CompDropdown
-                      listData={initListData(
-                        labelsListData,
-                        fromData.labels,
-                        'id',
-                        { color: 'color', title: 'name' }
-                      )}
-                      template="label"
-                      shape="input"
-                      loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() =>
-                        navigate(`/${userAccount}/${projectId}/labels`)
-                      }
-                      onChange={(value) => {
-                        form?.current?.setFieldValue('labels', value)
-                        updateData({ fromData: { ...fromData, labels: value } })
-                      }}
-                      createTag={(_, current) => createTag(current)}
-                    />
-                  </div>
+                  <CompDropdown
+                    listData={initListData(
+                      labelsListData,
+                      fromData.labels,
+                      'id',
+                      { color: 'color', title: 'name' }
+                    )}
+                    template="label"
+                    shape="input"
+                    loading={loading.effects.dictionary.getDictDataList}
+                    runLabel={() =>
+                      navigate(`/${userAccount}/${projectId}/labels`)
+                    }
+                    createTag={(_, current) => createTag(current)}
+                  />
                   // <SearchSelect
                   //   mode={'multiple'}
                   //   showSearch={true}
