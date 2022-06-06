@@ -197,6 +197,18 @@ const DetailTable = () => {
             align: 'center',
           },
           {
+            title: '颜色',
+            key: 'listClass',
+            align: 'center',
+            render: (text) => {
+              return (
+                <div style={{ backgroundColor: text, width: 80, height: 20 }}>
+                  {text}
+                </div>
+              )
+            },
+          },
+          {
             title: '创建时间',
             key: 'createTime',
             align: 'center',
