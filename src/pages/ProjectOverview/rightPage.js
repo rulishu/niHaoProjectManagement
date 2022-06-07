@@ -1,4 +1,4 @@
-import { Card, Steps, Avatar, Empty } from 'uiw'
+import { Card, Steps, Avatar, Empty, Row, Col } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 // import { useParams } from 'react-router-dom'
@@ -19,16 +19,39 @@ export default function AllTasks() {
         `${allDataSource?.projectUrl}/milestone/milestoneInfo/${milestonesId}`
       )
   }
+  const Blank = ({ num, height, width, style, background }) => (
+    <div
+      style={{
+        ...style,
+        textAlign: 'center',
+        paddingTop: 5,
+        paddingBottom: 5,
+        background,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        width,
+        height,
+      }}>
+      {num}
+    </div>
+  )
   return (
     <div style={{ width: '30%' }}>
-      <Card title="里程碑" bordered={false} style={{ width: 300 }}>
+      <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
         <div className={styles.milestoneInfoList}>
           <ul>
-            <p className={styles.milInfoLiHead}>
-              <samp style={{ flex: 4, marginLeft: 0 }}>里程碑名称</samp>
-              <samp style={{ flex: 3, marginLeft: 32 }}>结束时间</samp>
-              <samp style={{ flex: 2, marginLeft: 50 }}>进度</samp>
-            </p>
+            <Row className={styles.milInfoLiHead} style={{ marginTop: 5 }}>
+              <Col>
+                <Blank num={'里程碑名称'} />
+              </Col>
+              <Col grow={2}>
+                <Blank num={'结束时间'} />
+              </Col>
+              <Col grow={5}>
+                <Blank num={'显示进度'} />
+              </Col>
+            </Row>
             {allDataSources?.length === 0 ? (
               <Empty description={false} style={{ marginTop: 20 }} />
             ) : (

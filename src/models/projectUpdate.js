@@ -105,13 +105,14 @@ const projectUpdate = createModel()({
       let { seachValue, callback } = params
       const dph = dispatch
 
-      if (
-        seachValue?.status === false ||
-        state.projectUpdate.isHangup === true
-      ) {
-        seachValue.status = 0
-      } else if (seachValue.status === true) {
-        seachValue.status = 3
+      if (seachValue?.status === state.projectUpdate.isHangup) {
+        delete seachValue.status
+      } else {
+        if (seachValue.status === true) {
+          seachValue.status = 3
+        } else {
+          seachValue.status = 0
+        }
       }
 
       const data = await updateProject(seachValue)
