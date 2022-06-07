@@ -31,7 +31,10 @@
   padding-left: 15px;
   font-weight: 600;
 }
-
+.index_label__mLvzZ .index_tagListLi__wnA0p {
+  /* margin-bottom: 0px; */
+  margin: 5px;
+}
 .fromButton {
   margin-top: 24px;
   background-color: #fafafa;
