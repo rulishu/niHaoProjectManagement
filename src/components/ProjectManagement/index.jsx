@@ -24,7 +24,7 @@ import { useState } from 'react'
  */
 
 const ProjectManagement = (fun) => {
-  const [showSubmit, setShowSubmit] = useState(false)
+  const [showSubmit, setShowSubmit] = useState(true)
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -55,7 +55,7 @@ const ProjectManagement = (fun) => {
       drawerType: '',
       fileIds: '',
     })
-    setShowSubmit(false)
+    setShowSubmit(true)
   }
 
   function saveData() {
@@ -88,7 +88,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.name,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             placeholder: '请输入项目名称',
@@ -104,7 +104,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.projectLeaderId,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             span: '24',
@@ -120,7 +120,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               format: 'YYYY-MM-DD',
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             span: '24',
@@ -135,7 +135,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               format: 'YYYY-MM-DD',
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             span: '24',
@@ -158,7 +158,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.descr,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             span: '24',
@@ -183,7 +183,7 @@ const ProjectManagement = (fun) => {
                 showRemoveIcon: true,
               },
               onChange: async (e) => {
-                setShowSubmit(true)
+                setShowSubmit(false)
                 if (e.length > 0) {
                   await dispatch({
                     type: 'projectUpdate/uploadFile',
@@ -204,7 +204,7 @@ const ProjectManagement = (fun) => {
             initialValue: isHangup,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(true)
+                setShowSubmit(false)
               },
             },
             hide: drawerType === 'add',
@@ -235,13 +235,13 @@ const ProjectManagement = (fun) => {
           {
             label: '保存',
             type: 'primary',
-            show: showSubmit,
+            disabled: showSubmit,
             onClick: async () => {
               await baseRef?.submitvalidate?.()
               const errors = baseRef.getError()
               if (errors && Object.keys(errors).length > 0) return
               saveData()
-              setShowSubmit(false)
+              setShowSubmit(true)
             },
           },
         ]}>
