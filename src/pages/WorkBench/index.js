@@ -51,10 +51,7 @@ export default function Demo() {
         paddingTop: 5,
         paddingBottom: 5,
         background,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        width: 110,
+        width: 100,
         height,
       }}>
       {num}
@@ -65,7 +62,10 @@ export default function Demo() {
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>
-            <Card title="近期参与的项目" bordered={false}>
+            <Card
+              title="近期参与的项目"
+              bordered={false}
+              style={{ width: 300 }}>
               <Col
                 fixed
                 style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -275,7 +275,16 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+
+                            {/* <Row
                               gutter={10}
                               justify="space-between"
                               align="bottom"
@@ -297,7 +306,7 @@ export default function Demo() {
                               <Col span="8">
                                 <Blank num={item?.rate} />
                               </Col>
-                            </Row>
+                            </Row> */}
                           </li>
                         )
                       })
@@ -312,7 +321,15 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                            {/* <Row
                               gutter={10}
                               justify="space-between"
                               align="bottom"
@@ -334,7 +351,7 @@ export default function Demo() {
                               <Col span="8">
                                 <Blank num={item?.rate} />
                               </Col>
-                            </Row>
+                            </Row> */}
                           </li>
                         )
                       })
