@@ -31,6 +31,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const todoNotices = sessionStorage.getItem('todoNotice')
   // 是否处于没用左侧菜单的页面
   const isNoMenu = ['/projectList', '/todoList'].includes(pathName)
+  const isGetPageTeam = ['projectList', 'Authority'].includes(
+    fullPathName.split('/').filter((s) => s)[0]
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -56,8 +59,16 @@ function BasicLayoutScreen(props = { routes: [] }) {
         payload: { params: { url } },
       })
     !isNoMenu && setIsError(!isRouteExist(pathName, userAccount))
-    pathArr?.length && pathArr[0] !== 'Authority' && !isNoMenu && getPageTeam()
-  }, [dispatch, isNoMenu, pathName, fullPathName, userAccount])
+    // 特护的几个鲁豫，强制不显示404
+    if (isGetPageTeam) {
+      dispatch({
+        type: 'url/updateState',
+        payload: { linkedType: 0 },
+      })
+      setIsError(false)
+    }
+    pathArr?.length && pathArr[0] !== 'Authority' && getPageTeam()
+  }, [dispatch, isNoMenu, pathName, fullPathName, userAccount, isGetPageTeam])
 
   useEffect(() => {
     // dispatch({
