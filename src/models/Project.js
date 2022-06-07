@@ -63,6 +63,10 @@ export default createModel()({
     },
     editCommentData: {},
     editState: false,
+    replyCommentData: {},
+    replyState: false,
+    replyConData: {},
+    replyConState: false,
     commentData: {
       operatingRecords: '',
     },
@@ -323,8 +327,9 @@ export default createModel()({
             commentData: {
               operatingRecords: '',
             },
+            replyState: false,
           })
-          NotifySuccess(data.message)
+          // NotifySuccess(data.message)
         }
       },
       // 编辑评论
@@ -349,8 +354,9 @@ export default createModel()({
           })
           dispatch.project.update({
             editState: false,
+            replyConState: false,
           })
-          NotifySuccess(data.message)
+          // NotifySuccess(data.message)
         }
       },
       // 删除评论
@@ -373,7 +379,7 @@ export default createModel()({
               operatingRecords: '',
             },
           })
-          NotifySuccess(data.message)
+          // NotifySuccess(data.message)
         }
       },
 
