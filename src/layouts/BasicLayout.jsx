@@ -126,7 +126,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
           : userInfo?.avatar?.substring(0, 4) !== 'http' &&
             userInfo?.avatar !== ''
           ? `/api/file/selectFile/${userInfo?.avatar}`
-          : userInfo?.path || require('../assets/head.png'),
+          : userInfo?.path,
       userName: userInfo?.userName,
       menuLeft: (
         <>
