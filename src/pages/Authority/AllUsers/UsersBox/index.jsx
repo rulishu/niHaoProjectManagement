@@ -5,6 +5,8 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
 import DeletePopover from './DeletePopover'
 import { useSelector } from 'react-redux'
+import { guid } from '../../../../utils/utils'
+import { Fragment } from 'react'
 
 const UsersBox = (props) => {
   const {
@@ -148,9 +150,22 @@ const UsersBox = (props) => {
         )
       })}
       {/* 👇辅助布局使用👇 */}
-      {data?.map((_, index) => {
-        if (index < pageSize / 2)
-          return <i key={index} className={styles.auxiliaryLayout}></i>
+      {data?.map((_, index, arr) => {
+        if (arr.length !== pageSize || arr.length !== pageSize / 2)
+          return (
+            <Fragment key={guid()}>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+              <i key={guid()} className={styles.auxiliaryLayout}></i>
+            </Fragment>
+          )
         return null
       })}
     </div>
