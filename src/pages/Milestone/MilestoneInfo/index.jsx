@@ -161,14 +161,16 @@ const MilestoneInfo = () => {
                 <h2>{listDataInfo.milestonesTitle}</h2>
                 <div className={styles.bodyContent}>
                   <div className="milestonesBodyMDEditor">
-                    <MDEditor
-                      style={{ boxShadow: 'none' }}
-                      value={listDataInfo.milestonesDesc || null}
-                      hideToolbar={true}
-                      preview="preview"
-                      autoFocus={true}
-                      visiableDragbar={false}
-                    />
+                    <div data-color-mode="light">
+                      <MDEditor
+                        style={{ boxShadow: 'none' }}
+                        value={listDataInfo.milestonesDesc || null}
+                        hideToolbar={true}
+                        preview="preview"
+                        autoFocus={true}
+                        visiableDragbar={false}
+                      />
+                    </div>
                   </div>
                 </div>
               </>

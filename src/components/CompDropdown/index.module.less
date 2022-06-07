@@ -162,6 +162,39 @@
       max-height: 189px;
       padding-top: 5px;
 
+      .labelClean {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 12px;
+        white-space: nowrap;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        &:hover {
+          background-color: #f0f0f0;
+          text-decoration: none;
+          color: #303030;
+          cursor: pointer;
+        }
+      }
+
+      .labelDivider {
+        height: 1px;
+        margin: 0.25rem 0;
+        padding: 0;
+        background-color: #dbdbdb;
+      }
+
+      .liLeft {
+        flex-shrink: 0;
+        margin-right: 0.5rem;
+        color: #525252;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+      }
+
       // 列表项
       .labelListLi {
         display: flex;
@@ -173,15 +206,6 @@
           text-decoration: none;
           color: #303030;
           cursor: pointer;
-        }
-
-        .liLeft {
-          flex-shrink: 0;
-          margin-right: 0.5rem;
-          color: #525252;
-          width: 16px;
-          height: 16px;
-          font-size: 12px;
         }
 
         .liRight {
