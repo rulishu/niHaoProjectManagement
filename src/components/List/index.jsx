@@ -20,8 +20,16 @@ export default function ListItem(props) {
         bordered={false}
         noHover={true}
         renderItem={(item, index) => {
+          const creatData = new Date(item.createTime)
+          const creatDataTime = creatData.getTime()
+          const timestamp = Date.parse(new Date())
+          let newColor = {}
+          if (timestamp - creatDataTime <= 86400000) {
+            newColor = { backgroundColor: '#008ef00f' }
+          }
           return (
             <List.Item
+              style={newColor}
               key={index}
               extra={
                 <div>
