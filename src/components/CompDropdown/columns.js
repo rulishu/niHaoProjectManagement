@@ -162,8 +162,16 @@ const milepost = {
     fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
       return (
         <>
-          <div className={styles.searchBox}>{fields.milestonesTitle}</div>
-          <div className={styles.searchBox}>{fields.startTime}</div>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            {fields.milestonesTitle}
+          </div>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            {fields.startTime}
+          </div>
         </>
       )
     },
