@@ -37,9 +37,17 @@ const Register = () => {
             current.username === 'Login' ||
             current.username === '403' ||
             current.username === '404' ||
-            current.username === '500'
+            current.username === '500' ||
+            current.username.search('/') !== -1 ||
+            current.username.search('#') !== -1 ||
+            current.username.search('-') !== -1 ||
+            current.username.search('_') !== -1 ||
+            current.username.search(':') !== -1 ||
+            current.username.search('.') !== -1 ||
+            current.username.search('?') !== -1 ||
+            current.username.search('!') !== -1
           )
-            errorObj.username = `账号不能为关键字`
+            errorObj.username = `账号不能为关键字或关键符号`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`

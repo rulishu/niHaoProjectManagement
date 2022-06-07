@@ -261,7 +261,7 @@ export default function Demo() {
                         <Blank num={'显示进度'} />
                       </Col>
                     </Row>
-                    {milepost?.length === 0 ||
+                    {milepost?.length === 0 &&
                     milesWorkVoListOne?.length === 0 ? (
                       <Empty style={{ marginTop: 20 }} />
                     ) : active === 0 ? (
@@ -276,6 +276,9 @@ export default function Demo() {
                               )
                             }>
                             <Row
+                              gutter={10}
+                              justify="space-between"
+                              align="bottom"
                               style={{
                                 marginTop: 5,
                                 justify: 'space-between',
@@ -295,14 +298,6 @@ export default function Demo() {
                                 <Blank num={item?.rate} />
                               </Col>
                             </Row>
-                            {/* <span style={{ flex: 3 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 4, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })
@@ -318,6 +313,9 @@ export default function Demo() {
                               )
                             }>
                             <Row
+                              gutter={10}
+                              justify="space-between"
+                              align="bottom"
                               style={{
                                 marginTop: 5,
                                 justify: 'space-between',
@@ -337,14 +335,6 @@ export default function Demo() {
                                 <Blank num={item?.rate} />
                               </Col>
                             </Row>
-                            {/* <span style={{ flex: 3 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 4, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })

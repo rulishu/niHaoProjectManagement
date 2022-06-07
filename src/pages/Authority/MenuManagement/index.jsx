@@ -223,7 +223,7 @@ const Demo = () => {
               key: 'createTime',
               ellipsis: true,
               align: 'center',
-              width: 120,
+              width: 160,
               render: (address) => (
                 <div style={{ textAlign: 'center' }}>
                   <Tooltip placement="leftTop" content={address}>
