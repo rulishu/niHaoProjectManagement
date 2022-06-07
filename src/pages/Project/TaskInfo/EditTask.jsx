@@ -319,9 +319,12 @@ const EditTask = () => {
             selectLabel={(_, selKey) => selectLabel(selKey)}
             onClickLabelShow={(is) => {
               setLabelState(is)
-              Object.keys(taskInfoData).length &&
-                !is &&
-                newDebounce(editLabelOk, 100)
+              if (
+                taskInfoData === editFromData &&
+                Object.keys(taskInfoData).length
+              ) {
+                !is && newDebounce(editLabelOk, 100)
+              }
             }}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}

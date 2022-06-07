@@ -39,7 +39,13 @@ const label = {
     fields: (props) => {
       return {
         name: {
-          children: <Input size="small" placeholder="请输入标签名称" />,
+          children: (
+            <Input
+              style={{ padding: 12 }}
+              size="small"
+              placeholder="请输入标签名称"
+            />
+          ),
         },
         color: {
           children: <Custom color={props?.color} />,
@@ -156,8 +162,16 @@ const milepost = {
     fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
       return (
         <>
-          <div className={styles.searchBox}>{fields.milestonesTitle}</div>
-          <div className={styles.searchBox}>{fields.startTime}</div>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            {fields.milestonesTitle}
+          </div>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            {fields.startTime}
+          </div>
         </>
       )
     },

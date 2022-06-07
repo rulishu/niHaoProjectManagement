@@ -240,6 +240,7 @@ const CompDropdown = (props) => {
         isOutside={true}
         onVisibleChange={(is) => {
           onClickLabelShow && onClickLabelShow(is)
+          !is && setLabelStatus(1)
           setOpen(is)
         }}
         isClickOutside={true}
