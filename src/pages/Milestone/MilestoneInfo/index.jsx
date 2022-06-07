@@ -214,7 +214,7 @@ const MilestoneInfo = () => {
                 </Button>
               </div>
               <div className={styles.rightBelow}>
-                {formatter('YYYY-MM-DD', new Date(listDataInfo.createTime))}
+                {formatter('YYYY-MM-DD', new Date(listDataInfo.startTime))}
               </div>
             </li>
             <li>
@@ -228,7 +228,7 @@ const MilestoneInfo = () => {
                 </Button>
               </div>
               <div className={styles.rightBelow}>
-                {listDataInfo.dueTime}
+                {listDataInfo.dueTime || '暂无'}
                 {listDataInfo.dueTime &&
                   listDataInfo.milestonesStatus === 1 &&
                   !timeDistance(listDataInfo.createTime, listDataInfo.dueTime)
