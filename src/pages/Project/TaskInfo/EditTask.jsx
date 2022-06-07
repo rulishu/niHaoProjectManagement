@@ -319,7 +319,10 @@ const EditTask = () => {
             selectLabel={(_, selKey) => selectLabel(selKey)}
             onClickLabelShow={(is) => {
               setLabelState(is)
-              if (Object.keys(taskInfoData).length) {
+              if (
+                taskInfoData === editFromData &&
+                Object.keys(taskInfoData).length
+              ) {
                 !is && newDebounce(editLabelOk, 100)
               }
             }}
