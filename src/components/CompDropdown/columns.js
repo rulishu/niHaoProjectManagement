@@ -39,7 +39,13 @@ const label = {
     fields: (props) => {
       return {
         name: {
-          children: <Input size="small" placeholder="请输入标签名称" />,
+          children: (
+            <Input
+              style={{ padding: 12 }}
+              size="small"
+              placeholder="请输入标签名称"
+            />
+          ),
         },
         color: {
           children: <Custom color={props?.color} />,
