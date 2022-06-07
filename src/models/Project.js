@@ -250,13 +250,13 @@ export default createModel()({
           ...editFromData,
           ...params,
         })
+        dispatch.project.getSelectById({
+          projectId: params?.projectId || editFromData?.projectId,
+          id: editFromData?.assignmentId,
+        })
         if (data && data.code === 200) {
           dispatch.project.update({
             issueType: '',
-          })
-          dispatch.project.getSelectById({
-            projectId: params?.projectId || editFromData?.projectId,
-            id: editFromData?.assignmentId,
           })
           NotifySuccess(data.message)
           return true

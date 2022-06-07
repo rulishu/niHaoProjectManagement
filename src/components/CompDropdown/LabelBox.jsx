@@ -5,7 +5,7 @@ import styles from './index.module.less'
 const LabelBox = (props) => {
   const {
     labelHeader,
-    isRadio,
+    isAllowsForNo,
     listData,
     setLabelStatus,
     options,
@@ -33,11 +33,11 @@ const LabelBox = (props) => {
           key={item.key || index}
           className={styles.labelListLi}
           onClick={() => optionEvent(item?.key)}>
-          {!isRadio && (
-            <div className={styles.liLeft}>
-              {options?.includes(item?.key) && <Icon type="check" />}
-            </div>
-          )}
+          {/* {!isRadio && ( */}
+          <div className={styles.liLeft}>
+            {options?.includes(item?.key) && <Icon type="check" />}
+          </div>
+          {/* )} */}
           <div className={styles.liRight}>
             {labelHeader.map((headItem, index) => (
               <div
@@ -73,8 +73,8 @@ const LabelBox = (props) => {
               .filter((s) => s)
             const newData = listData?.filter((item) => {
               return searchArr
-                .map((searchArritem) => {
-                  if (item[searchArritem].search(`${e.target.value}`) !== -1)
+                .map((searchArrItem) => {
+                  if (item[searchArrItem].search(`${e.target.value}`) !== -1)
                     return item
                   return undefined
                 })
@@ -91,7 +91,28 @@ const LabelBox = (props) => {
           vertical
           style={{ width: '100%' }}
           loading={loading}>
-          <div>{labelList(newListData)}</div>
+          <div>
+            <ul>
+              {isAllowsForNo && (
+                <>
+                  <li
+                    className={styles.labelClean}
+                    onClick={() => optionEvent(null, 0)}>
+                    <div className={styles.liLeft}>
+                      {newListData.filter((s) => s.check).length ? (
+                        ''
+                      ) : (
+                        <Icon type="check" />
+                      )}
+                    </div>
+                    无
+                  </li>
+                  <li className={styles.labelDivider}></li>
+                </>
+              )}
+              {labelList(newListData)}
+            </ul>
+          </div>
         </Loader>
       </ul>
       <div className={styles.labelFoot}>

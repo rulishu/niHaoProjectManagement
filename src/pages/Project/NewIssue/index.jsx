@@ -20,6 +20,7 @@ import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
 import { Container } from '@/components'
 import { CompDropdown } from '@/components'
+import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
 let tribute = new Tribute({
   trigger: '@',
@@ -174,7 +175,7 @@ const NewIssue = (props) => {
                 },
               })
             }}
-            onSubmit={() => {
+            onSubmit={(current) => {
               const errorObj = {}
               const { dueDate, labels, assignmentTitle } = fromData
               if (
@@ -183,6 +184,9 @@ const NewIssue = (props) => {
                 assignmentTitle.length > 100
               ) {
                 errorObj.assignmentTitle = '请输入任务名称,长度为2~100'
+              }
+              if (changeTimeFormat(current.current.dueDate) <= ThisTime()) {
+                errorObj.dueDate = '截止日期应该晚于当前时间'
               }
               if (Object.keys(errorObj).length > 0) {
                 const err = new Error()
@@ -310,34 +314,26 @@ const NewIssue = (props) => {
                   ? taskMilestonesId
                   : fromData.milestonesId,
                 children: (
-                  <div style={{ width: '100%' }}>
-                    <CompDropdown
-                      listData={initListData(
-                        milepostaData,
-                        taskMilestonesTitle
-                          ? taskMilestonesId
-                          : fromData.milestonesId,
-                        'milestonesId',
-                        { title: 'milestonesTitle' }
-                      )}
-                      actionButtons={{ create: { isHide: true } }}
-                      template="milepost"
-                      isRadio={true}
-                      shape="input"
-                      loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() => {
-                        navigate(`/${userAccount}/${projectId}/milestone`, {
-                          replace: true,
-                        })
-                      }}
-                      onChange={(value) => {
-                        form?.current?.setFieldValue('milestonesId', value)
-                        updateData({
-                          fromData: { ...fromData, milestonesId: value },
-                        })
-                      }}
-                    />
-                  </div>
+                  <CompDropdown
+                    listData={initListData(
+                      milepostaData,
+                      taskMilestonesTitle
+                        ? taskMilestonesId
+                        : fromData.milestonesId,
+                      'milestonesId',
+                      { title: 'milestonesTitle' }
+                    )}
+                    actionButtons={{ create: { isHide: true } }}
+                    template="milepost"
+                    isRadio={true}
+                    shape="input"
+                    loading={loading.effects.dictionary.getDictDataList}
+                    runLabel={() => {
+                      navigate(`/${userAccount}/${projectId}/milestone`, {
+                        replace: true,
+                      })
+                    }}
+                  />
                   // <SearchSelect
                   //   showSearch={true}
                   //   allowClear
@@ -359,27 +355,21 @@ const NewIssue = (props) => {
                 inline: true,
                 initialValue: fromData.labels,
                 children: (
-                  <div style={{ width: '100%' }}>
-                    <CompDropdown
-                      listData={initListData(
-                        labelsListData,
-                        fromData.labels,
-                        'id',
-                        { color: 'color', title: 'name' }
-                      )}
-                      template="label"
-                      shape="input"
-                      loading={loading.effects.dictionary.getDictDataList}
-                      runLabel={() =>
-                        navigate(`/${userAccount}/${projectId}/labels`)
-                      }
-                      onChange={(value) => {
-                        form?.current?.setFieldValue('labels', value)
-                        updateData({ fromData: { ...fromData, labels: value } })
-                      }}
-                      createTag={(_, current) => createTag(current)}
-                    />
-                  </div>
+                  <CompDropdown
+                    listData={initListData(
+                      labelsListData,
+                      fromData.labels,
+                      'id',
+                      { color: 'color', title: 'name' }
+                    )}
+                    template="label"
+                    shape="input"
+                    loading={loading.effects.dictionary.getDictDataList}
+                    runLabel={() =>
+                      navigate(`/${userAccount}/${projectId}/labels`)
+                    }
+                    createTag={(_, current) => createTag(current)}
+                  />
                   // <SearchSelect
                   //   mode={'multiple'}
                   //   showSearch={true}
