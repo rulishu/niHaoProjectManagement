@@ -35,6 +35,10 @@ export const items = (queryInfo) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
@@ -78,6 +82,10 @@ export const memberItems = (queryInfo, userIdList) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
@@ -121,6 +129,10 @@ export const groupItems = (queryInfo, teamIdList) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
