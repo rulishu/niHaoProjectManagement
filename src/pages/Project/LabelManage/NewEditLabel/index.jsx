@@ -61,7 +61,7 @@ const NewEditLabel = (props) => {
             errorObj.milestonesTitle = '请输入标题,长度为2~100'
           }
           if (desc && desc.length > 255) {
-            errorObj.milestonesDesc = '描述内容长度为应西不大于3000'
+            errorObj.milestonesDesc = '描述内容长度不大于3000'
           }
           if (!color) {
             errorObj.startTime = '颜色必填'
@@ -93,12 +93,12 @@ const NewEditLabel = (props) => {
           name: {
             initialValue: labelInfo.name,
             inline: true,
-            children: <Input size="small" placeholder="请输入标签标题" />,
+            children: <Input placeholder="请输入标签标题" />,
           },
           desc: {
             initialValue: labelInfo.desc,
             inline: true,
-            children: <Input size="small" placeholder="请输入标签描述" />,
+            children: <Input placeholder="请输入标签描述" />,
           },
           color: {
             initialValue: labelInfo.color,
@@ -136,12 +136,10 @@ const NewEditLabel = (props) => {
                       !canSubmit()
                     }
                     htmlType="submit"
-                    size="small">
+                    type="primary">
                     保存
                   </Button>
-                  <Button onClick={() => onCancel()} size="small">
-                    取消
-                  </Button>
+                  <Button onClick={() => onCancel()}>取消</Button>
                 </Col>
               </Row>
             </div>
