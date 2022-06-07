@@ -94,16 +94,53 @@ export default createModel()({
       // 分页查询
       async getList(params, { project }) {
         const { assignmentStatus, ...others } = params
-        const { filter, selectDtos, tabDtos } = project
-        let obj = {
+        const { filter, selectDtos } = project //tabDtos
+        // let obj = {
+        //   ...filter,
+        //   splicingConditionsDtos: [...selectDtos, ...tabDtos],
+        //   ...others,
+        // }
+        let newArr = () => {
+          let createIddata = selectDtos.filter(function (item) {
+            return item.field === 'createId'
+          })
+          let createIds = []
+          createIddata?.map((item, index) => createIds.push(item.value))
+
+          let assignmentIddata = selectDtos.filter(function (item) {
+            return item.field === 'assignmentId'
+          })
+          let assignmentIds = []
+          assignmentIddata?.map((item, index) => assignmentIds.push(item.value))
+
+          let milestonesIddata = selectDtos.filter(function (item) {
+            return item.field === 'milestonesId'
+          })
+          let milestonesIds = []
+          milestonesIddata?.map((item, index) => milestonesIds.push(item.value))
+          let labelsdata = selectDtos.filter(function (item) {
+            return item.field === 'labels'
+          })
+          let labels = []
+          labelsdata?.map((item, index) => labels.push(item.value))
+          return {
+            createId: createIds || [],
+            assignmentUserId: assignmentIds || [],
+            milestonesId: milestonesIds || [],
+            labels: labels || [],
+          }
+        }
+        let arr = newArr()
+        let newObj = {
           ...filter,
-          splicingConditionsDtos: [...selectDtos, ...tabDtos],
+          assignmentStatus: params?.assignmentStatus,
           ...others,
+          ...arr,
         }
         // if (splicingConditionsDtos.length > 0) {
         //   obj = { ...obj, splicingConditionsDtos }
         // }
-        const data = await getSelectPage(obj)
+        const data = await getSelectPage(newObj)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
             dispatch.project.update({
@@ -318,7 +355,6 @@ export default createModel()({
       },
       // 删除评论
       async getDelComment(params, { project }) {
-        console.log(project)
         const data = await getAssignmentHistoryDel({
           ...project.commentData,
           ...params,
@@ -345,12 +381,48 @@ export default createModel()({
       async countAssignment(params, { project }) {
         const { assignmentStatus, ...others } = params
         const { filter, selectDtos } = project
-        let obj = {
-          ...filter,
-          splicingConditionsDtos: [...selectDtos],
-          ...others,
+        let newArr = () => {
+          let createIddata = selectDtos.filter(function (item) {
+            return item.field === 'createId'
+          })
+          let createIds = []
+          createIddata?.map((item, index) => createIds.push(item.value))
+
+          let assignmentIddata = selectDtos.filter(function (item) {
+            return item.field === 'assignmentId'
+          })
+          let assignmentIds = []
+          assignmentIddata?.map((item, index) => assignmentIds.push(item.value))
+
+          let milestonesIddata = selectDtos.filter(function (item) {
+            return item.field === 'milestonesId'
+          })
+          let milestonesIds = []
+          milestonesIddata?.map((item, index) => milestonesIds.push(item.value))
+          let labelsdata = selectDtos.filter(function (item) {
+            return item.field === 'labels'
+          })
+          let labels = []
+          labelsdata?.map((item, index) => labels.push(item.value))
+          return {
+            createId: createIds || [],
+            assignmentUserId: assignmentIds || [],
+            milestonesId: milestonesIds || [],
+            labels: labels || [],
+          }
         }
-        const data = await countAssignment(obj)
+        let arr = newArr()
+        let newObj = {
+          ...filter,
+          ...others,
+          ...arr,
+        }
+        // let obj = {
+        //   ...filter,
+        //   splicingConditionsDtos: [...selectDtos],
+        //   ...others,
+        // }
+        const data = await countAssignment(newObj)
         if (data && data.code === 200) {
           dispatch.project.update({
             taskNum: data.data,
