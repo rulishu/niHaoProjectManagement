@@ -7,7 +7,7 @@ export const items = (queryInfo, drawerType) => [
     widgetProps: {},
     required: true,
     placeholder: '输入团队名',
-    rules: [{ required: true, message: '输入团队名' }],
+    rules: [{ required: true, message: '请输入团队名' }],
     span: '24',
   },
   {
@@ -18,7 +18,7 @@ export const items = (queryInfo, drawerType) => [
     widgetProps: {},
     required: true,
     placeholder: '团队描述',
-    rules: [{ required: true, message: '团队描述' }],
+    rules: [{ required: true, message: '请输入团队描述' }],
     span: '24',
   },
 ]

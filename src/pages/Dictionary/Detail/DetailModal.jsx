@@ -99,6 +99,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             placeholder: '请输入字典名称',
             initialValue: detailInfo.dictLabel,
             required: true,
+            rules: [{ required: true, message: '请输入字典名称' }],
             // rules: [
             //   {
             //     required: true,
@@ -121,6 +122,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             placeholder: '请输入字典键值',
             initialValue: detailInfo.dictValue,
             required: true,
+            rules: [{ required: true, message: '请输入字典键值' }],
             // rules: [
             //   {
             //     required: true,
@@ -150,6 +152,7 @@ const DetailModal = ({ updateData, onSearch }) => {
             widget: 'input',
             initialValue: detailInfo.dictSort,
             required: true,
+            rules: [{ required: true, message: '请输入显示排序' }],
             // rules: [
             //   {
             //     required: true,
@@ -166,7 +169,6 @@ const DetailModal = ({ updateData, onSearch }) => {
           {
             label: '回显样式',
             key: 'listClass',
-
             widget: 'color',
             // option: [
             //   {
