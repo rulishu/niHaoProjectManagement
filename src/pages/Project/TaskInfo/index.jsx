@@ -14,7 +14,6 @@ import useLocationPage from '@/hooks/useLocationPage'
 const TaskInfo = () => {
   const dispatch = useDispatch()
   const params = useParams()
-
   // 处理带id的路由
   useLocationPage()
   const {
@@ -92,7 +91,6 @@ const TaskInfo = () => {
       updateData({ issueType: '' })
     }
   }
-
   return (
     <>
       <Loader
