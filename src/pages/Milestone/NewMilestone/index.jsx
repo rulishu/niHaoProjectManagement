@@ -62,7 +62,6 @@ const NewMilestone = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   const pasteDataEvent = (event) => {
     // event.preventDefault();
     if (event.clipboardData || event.originalEvent) {
@@ -126,7 +125,7 @@ const NewMilestone = () => {
             errorObj.milestonesTitle = '请输入标题,长度为2~100'
           }
           if (milestonesDesc && milestonesDesc.length > 3000) {
-            errorObj.milestonesDesc = '描述内容长度为应西不大于3000'
+            errorObj.milestonesDesc = '描述内容长度不大于3000'
           }
           if (!startTime) {
             errorObj.startTime = '开始时间不能为空！'
@@ -135,8 +134,8 @@ const NewMilestone = () => {
             errorObj.dueTime = '结束时间不能为空！'
           }
           if (
-            formatter('YYYY-MM-DD', startTime) >=
-            formatter('YYYY-MM-DD', dueTime)
+            formatter('YYYY-MM-DD', new Date(startTime)) >=
+            formatter('YYYY-MM-DD', new Date(dueTime))
           ) {
             errorObj.dueTime = '结束时间不能早于等于开始时间'
           }
@@ -151,7 +150,7 @@ const NewMilestone = () => {
             err.filed = errorObj
             throw err
           }
-
+          console.log(222)
           //提交
           const param = {
             ...current,
@@ -210,7 +209,7 @@ const NewMilestone = () => {
             labelFor: 'date-inline',
             children: (
               <DateInput
-                format="YYYY/MM/DD"
+                format="YYYY-MM-DD"
                 datePickerProps={{ todayButton: '今天' }}
               />
             ),
@@ -222,7 +221,7 @@ const NewMilestone = () => {
             labelFor: 'date-inline',
             children: (
               <DateInput
-                format="YYYY/MM/DD"
+                format="YYYY-MM-DD"
                 datePickerProps={{ todayButton: '今天' }}
               />
             ),
@@ -241,7 +240,7 @@ const NewMilestone = () => {
           milestonesDesc: {
             initialValue: listDataInfo.milestonesDesc,
             inline: true,
-            children: <NEWMDEditor rfval={(e) => console.log(e)} />,
+            children: <NEWMDEditor />,
           },
         }}>
         {({ fields, state, canSubmit }) => {
