@@ -117,6 +117,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
         icon: 'user',
         onClick: () => {
           navigate(`/${userInfo?.userName}`, { replace: true })
+          layouts.closeMenu()
         },
       },
       {
