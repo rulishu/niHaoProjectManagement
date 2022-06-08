@@ -22,6 +22,7 @@ export default function AllTasks() {
   const Blank = ({ num, height, width, style, background }) => (
     <div
       style={{
+        marginLeft: -5,
         ...style,
         textAlign: 'center',
         paddingTop: 5,

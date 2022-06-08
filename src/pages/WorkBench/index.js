@@ -46,6 +46,7 @@ export default function Demo() {
   const Blank = ({ num, height, width, style, background }) => (
     <div
       style={{
+        marginLeft: -5,
         ...style,
         textAlign: 'center',
         paddingTop: 5,
@@ -62,10 +63,7 @@ export default function Demo() {
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>
-            <Card
-              title="近期参与的项目"
-              bordered={false}
-              style={{ width: 300 }}>
+            <Card title="近期参与的项目" bordered={false}>
               <Col
                 fixed
                 style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -139,7 +137,9 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    {projectList.length ? (
+                    {projectList.length &&
+                    totalWorkVoOne?.projectNum !== 0 &&
+                    totalData?.projectNum !== 0 ? (
                       <div style={{ margin: 10 }}>
                         <Button
                           type="primary"
