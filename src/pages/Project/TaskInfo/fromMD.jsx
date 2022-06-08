@@ -29,7 +29,6 @@ const FromMD = (props) => {
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
-
   const newTribute = useMemo(() => {
     return new Tribute({
       trigger: '@',
@@ -38,7 +37,6 @@ const FromMD = (props) => {
       fillAttr: 'userId',
     })
   }, [tributeList])
-
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true

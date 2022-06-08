@@ -1,6 +1,15 @@
 import { Fragment, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Card, OverlayTrigger, Loader, Empty, Icon, Input } from 'uiw'
+import {
+  Button,
+  Card,
+  OverlayTrigger,
+  Loader,
+  Empty,
+  Icon,
+  Input,
+  Alert,
+} from 'uiw'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
@@ -17,6 +26,8 @@ const LabelManage = (props) => {
   const [sorting, setSorting] = useState(1)
   const [inputValue, setInputValue] = useState('')
   const [isPulldown, setIsPulldown] = useState(false)
+  const [alertShow, setAlertShow] = useState(false)
+  const [delId, setDelId] = useState()
 
   // 获取列表数据
   const getListData = async (param) => {
@@ -84,11 +95,9 @@ const LabelManage = (props) => {
   )
 
   // 删除标签
-  const deleteLabelItem = async (labelId) => {
-    await dispatch({
-      type: 'labels/deleteLabel',
-      payload: [labelId],
-    })
+  const deleteLabelItem = (labelId) => {
+    setDelId(labelId)
+    setAlertShow(true)
   }
 
   // 跳转新增/编辑页面
@@ -207,6 +216,18 @@ const LabelManage = (props) => {
                 </Loader>
               </ul>
             </div>
+            <Alert
+              isOpen={alertShow}
+              confirmText="确认"
+              onClosed={() => setAlertShow(false)}
+              type="danger"
+              content={`是否确认删除本条标签！`}
+              onConfirm={() => {
+                dispatch({
+                  type: 'labels/deleteLabel',
+                  payload: [delId],
+                })
+              }}></Alert>
           </div>
         </div>
       </Card>

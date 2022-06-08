@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Input, Steps, Loader, Icon, Tooltip, Alert } from 'uiw'
+import { Button, Input, Loader } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
@@ -7,28 +7,18 @@ import MarkdownPreview from '@uiw/react-markdown-preview'
 import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
 import { useParams } from 'react-router-dom'
-// import { NEWMDEditor } from '@/components'
 import FromMD from './fromMD'
+import Comment from './Comment'
 import useLocationPage from '@/hooks/useLocationPage'
 
 const TaskInfo = () => {
   const dispatch = useDispatch()
   const params = useParams()
-  const [alertShow, setAlertShow] = useState(false)
-  const [editParameter, setEditParameter] = useState({})
   // 处理带id的路由
   useLocationPage()
   const {
-    project: {
-      issueType,
-      editFromData,
-      taskInfoData,
-      commentData,
-      editCommentData,
-      editState,
-    },
+    project: { issueType, editFromData, taskInfoData },
     allusers: { uuid },
-    projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
   const [isTitleErr, serIsTitleErr] = useState(false)
@@ -43,9 +33,6 @@ const TaskInfo = () => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.project.queryFuzzyAllProjectMember({ projectId })
     dispatch.labels.getAllLabelData({ projectId })
-    // dispatch.dictionary.getDictDataList({
-    //   dictType: 'assignment_label',
-    // })
     dispatch.projectuser.pullSelectAll({
       memberName: '',
       projectId: projectId || '',
@@ -54,7 +41,6 @@ const TaskInfo = () => {
       projectId: projectId,
       milestonesStatusList: [1, 2],
     })
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -147,53 +133,15 @@ const TaskInfo = () => {
     }
     console.log(editFromData.description)
     if (editFromData.description.length > 300) {
-      // serIsDescrErr(true)
       return
     }
     serIsTitleErr(false)
-    // serIsDescrErr(false)
     if (editFromData !== taskInfoData) {
       dispatch.project.getEdit({
         fileId: uuid ? [uuid] : editFromData.fileId,
         projectId: projectId,
       })
       updateData({ issueType: '' })
-    }
-  }
-  const addComment = () => {
-    dispatch.project.getAddComment()
-  }
-  //编辑评论
-  const goSaveComment = () => {
-    console.log(editCommentData)
-    dispatch.project.getEditComment({
-      ...editParameter,
-      operatingRecords: editCommentData.operatingRecords,
-    })
-  }
-  const handleComment = (detail, item) => {
-    setEditParameter(
-      detail === 'del'
-        ? {
-            id: item.taskHistoryId,
-            projectId: item.projectId,
-          }
-        : {
-            taskHistoryId: item.taskHistoryId,
-            projectId: item.projectId,
-          }
-    )
-    if (detail === 'del') {
-      setAlertShow(true)
-    } else if (detail === 'edit') {
-      updateData({
-        editCommentData: item,
-        editState: true,
-      })
-    } else if (detail === 'close') {
-      updateData({
-        editState: false,
-      })
     }
   }
   return (
@@ -286,158 +234,7 @@ const TaskInfo = () => {
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
-              <div className={styles.stepsWrap}>
-                <Steps direction="vertical" style={{ padding: '20px 0' }}>
-                  {taskInfoData?.managerAssignmentHistories?.length > 0
-                    ? taskInfoData?.managerAssignmentHistories.map(
-                        (item, index) => {
-                          return item.type === 1 ? (
-                            <Steps.Step
-                              icon={
-                                <Icon
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderWidth: 1,
-                                    borderStyle: 'solid',
-                                    borderColor: '#ccc',
-                                    borderRadius: 15,
-                                    padding: 5,
-                                    paddingTop: 0,
-                                  }}
-                                  type="user"
-                                />
-                              }
-                              style={{ paddingBottom: 15, display: 'flex' }}
-                              title={item?.operatingRecords || ''}
-                              key={index}
-                            />
-                          ) : item.type === 2 ? (
-                            <Steps.Step
-                              style={{ paddingBottom: 15, display: 'flex' }}
-                              icon={
-                                <Icon
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderWidth: 1,
-                                    borderStyle: 'solid',
-                                    borderColor: '#ccc',
-                                    borderRadius: 15,
-                                    padding: 5,
-                                    paddingTop: 1,
-                                  }}
-                                  type="message"
-                                />
-                              }
-                              description={
-                                editState ? (
-                                  <FromMD
-                                    upDate={updateData}
-                                    submit={goSaveComment}
-                                    editName="editCommentData"
-                                    editData={editCommentData}
-                                    fromValue={'operatingRecords'}
-                                    btnName="提交"
-                                  />
-                                ) : (
-                                  <div
-                                    data-color-mode="light"
-                                    style={{ flex: 1 }}>
-                                    <MarkdownPreview
-                                      source={item?.operatingRecords || ''}
-                                      style={{ width: '100%' }}
-                                    />
-                                  </div>
-                                )
-                              }
-                              title={
-                                <div className={styles.buttonIcon}>
-                                  <p>{item.createName}评论</p>
-                                  {editState ? (
-                                    <div className={styles.spanIcon}>
-                                      <Tooltip
-                                        placement="top"
-                                        content="取消编辑">
-                                        <span
-                                          onClick={() =>
-                                            handleComment('close', item)
-                                          }>
-                                          <Icon type="close" />
-                                        </span>
-                                      </Tooltip>
-                                    </div>
-                                  ) : (
-                                    <div className={styles.spanIcon}>
-                                      <Tooltip placement="top" content="回复">
-                                        <span
-                                          onClick={() =>
-                                            handleComment('reply', item)
-                                          }>
-                                          <Icon type="message" />
-                                        </span>
-                                      </Tooltip>
-                                      <Tooltip placement="top" content="编辑">
-                                        <span
-                                          onClick={() =>
-                                            handleComment('edit', item)
-                                          }>
-                                          <Icon type="edit" />
-                                        </span>
-                                      </Tooltip>
-                                      <Tooltip placement="top" content="删除">
-                                        <span
-                                          onClick={() =>
-                                            handleComment('del', item)
-                                          }>
-                                          <Icon type="delete" />
-                                        </span>
-                                      </Tooltip>
-                                    </div>
-                                  )}
-                                </div>
-                              }
-                              key={index}
-                            />
-                          ) : item.type === 3 ? (
-                            <Steps.Step
-                              description={
-                                <FromMD
-                                  upDate={updateData}
-                                  submit={goSaveIssue}
-                                  editData={editFromData}
-                                  infoData={taskInfoData}
-                                  btnName="回复"
-                                />
-                              }
-                              title="回复"
-                              key={index}
-                            />
-                          ) : null
-                        }
-                      )
-                    : null}
-                </Steps>
-              </div>
-              <Alert
-                isOpen={alertShow}
-                confirmText="确认"
-                onClosed={() => setAlertShow(false)}
-                type="danger"
-                content={`是否确认删除本条评论！`}
-                onConfirm={() => {
-                  dispatch.project.getDelComment(editParameter)
-                }}></Alert>
-              <FromMD
-                upDate={updateData}
-                submit={addComment}
-                editName="commentData"
-                editData={commentData}
-                fromValue="operatingRecords"
-                btnName="添加评论"
-                tributeList={userSelectAllList}
-                isComment={true}
-              />
+              <Comment />
             </div>
             <EditTask />
           </div>

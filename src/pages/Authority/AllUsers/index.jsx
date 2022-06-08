@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { connect, useSelector } from 'react-redux'
-import { Icon, Loader, Overlay, Button } from 'uiw'
+import { connect } from 'react-redux'
+import { Overlay, Pagination, Empty } from 'uiw'
 import Head from './Head'
 // import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
@@ -14,10 +14,10 @@ const Users = (props) => {
   const [isOverlay, setIsOverlay] = useState(false)
   const [newPage, setNewPage] = useState(1)
   const [userList, setUserList] = useState(dataList)
+  const [searchValue, setSearchValue] = useState({}) //搜索数据
 
   useEffect(() => {
-    let pageSize = parseInt((window.screen.width - 250) / 244) * 2 //根据屏幕分辨率来判断每行显示多少个，共2行
-    dispatch.allusers?.queryByPage({ page: 1, pageSize })
+    dispatch.allusers?.queryByPage({ page: 1 })
     dispatch.dictionary.getDictDataList({
       dictType: 'assignment_label',
       page: 1,
@@ -44,8 +44,6 @@ const Users = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { loading } = useSelector((state) => state)
-
   const handleEdit = async (value, type) => {
     // await dispatch.allusers.getNewUserAvatarFile({ uuid: value.avatar })
     if (type === 2 || types === 2) {
@@ -68,14 +66,17 @@ const Users = (props) => {
   const handleOnSearch = async (value, is) => {
     let callback = is ? (data) => setUserList([...data]) : null
     setNewPage(1)
+    setSearchValue(value)
     dispatch.allusers.queryByPage({ page: 1, ...value }, callback)
   }
 
-  // 获取更多按钮的回调
-  const forMoreUsers = async () => {
-    setNewPage(() => page + 1)
-    await dispatch.allusers.queryByPage({ page: page + 1 }, queryCallback)
-    await dispatch.allusers.listNotPage({ page: page }, queryCallback)
+  // 分页
+  const forMoreUsers = async (current) => {
+    setNewPage(current)
+    await dispatch.allusers.queryByPage(
+      { page: current, ...searchValue },
+      queryCallback
+    )
   }
 
   // 加载更多成员回调函数
@@ -97,34 +98,23 @@ const Users = (props) => {
         />
         <div className={styles.child}>
           <UsersBox
-            data={userList}
+            data={dataList}
             handleEdit={handleEdit}
             memberAvatarArr={memberAvatarArr}
+            pageSize={pageSize} //用于优化样式
           />
           <div className={styles.loadInfo}>
-            <Loader
-              tip="加载中..."
-              vertical
-              loading={loading.effects.allusers.queryByPage}
-              className={styles.forMore}
-              size="large"
-              indicator={
-                <Icon
-                  type="loading"
-                  spin={true}
-                  style={{ verticalAlign: 'text-top', fontSize: '16px' }}
-                />
-              }>
-              <>
-                {total > userList?.length ? (
-                  <Button onClick={() => forMoreUsers()}>
-                    ↓↓↓ 加载更多...↓↓↓
-                  </Button>
-                ) : (
-                  <span className={styles.prompt}>没有更多了！！！</span>
-                )}
-              </>
-            </Loader>
+            {dataList?.length ? (
+              <Pagination
+                current={page}
+                pageSize={pageSize}
+                total={total}
+                onChange={(current) => forMoreUsers(current)}
+                divider
+              />
+            ) : (
+              <Empty></Empty>
+            )}
           </div>
         </div>
       </div>
