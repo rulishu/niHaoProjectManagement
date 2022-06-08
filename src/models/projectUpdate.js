@@ -111,7 +111,7 @@ const projectUpdate = createModel()({
         if (seachValue.status === true) {
           seachValue.status = 3
         } else {
-          seachValue.status = 0
+          seachValue.status = 1
         }
       }
 
