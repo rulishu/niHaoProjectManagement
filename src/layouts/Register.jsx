@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Register = () => {
   const dispatch = useDispatch()
+  const reg = /[\u4E00-\u9FA5]|[\uFF30-\uFFA0]/g //不能为中文
 
   const {
     login: { isLogin, registerLoading },
@@ -41,13 +42,13 @@ const Register = () => {
             current.username.search('/') !== -1 ||
             current.username.search('#') !== -1 ||
             current.username.search('-') !== -1 ||
-            current.username.search('_') !== -1 ||
             current.username.search(':') !== -1 ||
-            current.username.search('.') !== -1 ||
-            current.username.search('?') !== -1 ||
+            // current.username.search('.') !== -1 ||
+            // current.username.search('?') !== -1 ||
             current.username.search('!') !== -1
           )
             errorObj.username = `账号不能为关键字或关键符号`
+          if (reg.test(current.username)) errorObj.username = `账号不能为中文！`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`
