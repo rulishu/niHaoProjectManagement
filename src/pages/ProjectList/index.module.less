@@ -39,6 +39,11 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #dbdbdb;
+    :global {
+      .w-tabs-line > div > div > .w-tabs-bar > .w-tabs-nav::after {
+        border-bottom: 0px solid #d9d9d9;
+      }
+    }
 
     .areaLeft {
       .tabsPaneLabel {
@@ -49,14 +54,16 @@
           display: inline-flex;
           align-items: center;
           font-size: 0.75rem;
-          font-weight: 400;
-          line-height: 1rem;
-          padding: @padding-xss @padding-xs;
+          // padding: @padding-xss @padding-xs;
           background-color: #f0f0f0;
           color: #000;
           font-weight: 600;
           margin-left: 0.25rem;
-          border-radius: 140px;
+          border-radius: 50%;
+          width: 1.5rem;
+          height: 1.5rem;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -90,14 +97,15 @@
   }
 
   .projectNavBlock {
-    border-style: solid;
-    border-color: #dbdbdb;
-    border-width: 0;
-    border-bottom-width: 1px;
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
     margin-bottom: 0;
+    :global {
+      .w-tabs-line > div > div > .w-tabs-bar > .w-tabs-nav::after {
+        border-bottom: 0px solid #d9d9d9;
+      }
+    }
   }
 
   .projectProTable {
