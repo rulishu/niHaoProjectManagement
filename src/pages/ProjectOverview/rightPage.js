@@ -22,6 +22,7 @@ export default function AllTasks() {
   const Blank = ({ num, height, width, style, background }) => (
     <div
       style={{
+        marginLeft: -5,
         ...style,
         textAlign: 'center',
         paddingTop: 5,
@@ -36,6 +37,12 @@ export default function AllTasks() {
       {num}
     </div>
   )
+
+  //项目成员-路由跳转
+  const goRouter = (item) => {
+    navigate(`/${item}`)
+  }
+
   return (
     <div style={{ width: '30%' }}>
       <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
@@ -77,7 +84,7 @@ export default function AllTasks() {
         title="最新动态"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
-        <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
+        <div style={{ height: 393, overflowX: 'hidden', overflowY: 'auto' }}>
           <Steps
             direction="vertical"
             progressDot
@@ -99,25 +106,33 @@ export default function AllTasks() {
           </Steps>
         </div>
       </Card>
-      <Card title="项目成员" bordered={false}>
+      <Card
+        title="项目成员"
+        bordered={false}
+        style={{ height: 460, overflowX: 'hidden', overflowY: 'auto' }}>
         <div className={styles.memberBox}>
           {projectMembersList.map((item, idx) => {
             return (
               <div key={idx} className={styles.memberItem}>
                 <div
                   className={styles.memberItemLi}
-                  onClick={() => navigate(`/${item?.userName}`)}>
+                  onClick={() => goRouter(item?.userName)}>
                   <Avatar
                     size="large"
                     src={
-                      item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''
+                      item.avatar?.substring(0, 4) === 'http'
+                        ? item.avatar
+                        : item.avatar?.substring(0, 4) !== 'http' &&
+                          item.avatar !== ''
+                        ? `/api/file/selectFile/${item.avatar}`
+                        : ''
                     }>
                     {item?.nickName && item?.nickName[0]}
                   </Avatar>
                 </div>
                 <span
                   className={styles.memberName}
-                  onClick={() => navigate(`/${item?.userName}`)}>
+                  onClick={() => goRouter(item?.userName)}>
                   {item?.nickName}
                 </span>
               </div>

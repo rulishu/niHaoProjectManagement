@@ -21,6 +21,7 @@ const projectlist = createModel()({
     dataList: [], // 数据列表源
     proNum: {}, //各类型项目数量
     proName: '', //项目名称
+    userRole: '', //项目角色
   },
   reducers: {
     update: (state, payload) => {
@@ -101,6 +102,9 @@ const projectlist = createModel()({
       if (data && data.code === 200) {
         dispatch.projectlist.update({
           proName: data.data.name,
+          projectAvatar: data.data.projectAvatar,
+          id: data.data.id,
+          updateName: data.data.updateName,
         })
       } else {
         // Notify.error({ title: data.data })

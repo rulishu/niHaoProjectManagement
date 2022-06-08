@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, matchPath, useParams } from 'react-router-dom'
-import { Breadcrumb } from 'uiw'
+import {
+  useLocation,
+  matchPath,
+  useParams,
+  useNavigate,
+} from 'react-router-dom'
+import { Breadcrumb, Avatar, Button, Icon } from 'uiw'
 
 const Bread = (props) => {
   const { projectId } = useParams()
@@ -24,7 +29,7 @@ const Bread = (props) => {
   const domList = routeMap.breadcrumb.get(searchPath()) || []
   const dispatch = useDispatch()
   const { projectlist } = useSelector((state) => state)
-  const { proName } = projectlist
+  const { proName, projectAvatar, id, updateName } = projectlist
   useEffect(() => {
     if (projectId) {
       dispatch({
@@ -33,10 +38,30 @@ const Bread = (props) => {
       })
     }
   }, [projectId, dispatch])
+  const navigate = useNavigate()
+
+  //点击项目名称跳转
+  const onClickitem = () => {
+    navigate(`${updateName}/${id}`)
+  }
+
+  const AvatarImage = (
+    <Avatar
+      style={{ marginRight: 3 }}
+      src={projectAvatar ? `/api/file/selectFile/${projectAvatar}` : ''}
+      icon={<Icon type="user" />}
+    />
+  )
   return (
     <Breadcrumb>
       {projectId ? (
-        <div style={{ marginRight: '5px' }}>{proName} /</div>
+        <div style={{ marginRight: '5px' }}>
+          {AvatarImage}
+          <Button onClick={() => onClickitem()} type="link">
+            {proName}
+          </Button>
+          /
+        </div>
       ) : (
         <div></div>
       )}
@@ -48,7 +73,11 @@ const Bread = (props) => {
           path !== '/todoList' &&
           path !== '/:userAccount'
         ) {
-          return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>
+          return (
+            <Breadcrumb.Item key={index} style={{ marginTop: 4, fontSize: 14 }}>
+              {name}
+            </Breadcrumb.Item>
+          )
         }
         return <div key={index}></div>
       })}

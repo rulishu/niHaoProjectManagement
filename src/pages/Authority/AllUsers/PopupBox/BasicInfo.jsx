@@ -19,8 +19,6 @@ const BasicInfo = (props) => {
     isShow,
     userData,
     uuid,
-    page,
-    pageSize,
     rolesDataInfo,
     postsDataInfo,
   } = state.allusers
@@ -40,6 +38,7 @@ const BasicInfo = (props) => {
             : '',
           roleIds: rolesDataInfo,
           postIds: postsDataInfo,
+          remark: baseDetail.remark || '',
         })
     }
   }, [
@@ -91,16 +90,14 @@ const BasicInfo = (props) => {
                 key: 'avatar',
                 widget: 'upload',
                 span: '12',
-                initialValue:
-                  type !== 3
-                    ? baseDetail.avatar
-                      ? [
-                          {
-                            dataURL: `/api/file/selectFile/${baseDetail.avatar}`,
-                          },
-                        ]
-                      : null
-                    : null,
+                initialValue: type !== 3 && [
+                  {
+                    dataURL:
+                      baseDetail.avatar.indexOf('http') === 0
+                        ? baseDetail.avatar
+                        : `/api/file/selectFile/${baseDetail.avatar}`,
+                  },
+                ],
                 widgetProps: {
                   uploadType: 'card',
                   shape: 'circle',
@@ -330,7 +327,7 @@ const BasicInfo = (props) => {
                   span: '24',
                   // readOnly: type === 1 && 'readonly',
                   initialValue:
-                    isShow === 'isshow' ? userData?.remark : baseDetail.remark,
+                    isShow === 'isshow' ? userData?.remark : baseDetail?.remark,
                   widgetProps: {
                     placeholder: '请输入备注',
                   },
@@ -379,8 +376,8 @@ const BasicInfo = (props) => {
                       callback: () => setIsOverlay(false),
                     })
                     await dispatch.queryByPage({
-                      page: 1,
-                      pageSize: page * pageSize,
+                      page: state.allusers.page,
+                      pageSize: state.allusers.pageSize,
                     })
                   } else if (props?.type === 3) {
                     await dispatch.addNewUser({
@@ -388,8 +385,8 @@ const BasicInfo = (props) => {
                       callback: () => setIsOverlay(false),
                     })
                     await dispatch.queryByPage({
-                      page: 1,
-                      pageSize: page * pageSize,
+                      page: state.allusers.page,
+                      pageSize: state.allusers.pageSize,
                     })
                   } else if (types === 2) {
                     const param = {

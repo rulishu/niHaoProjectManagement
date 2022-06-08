@@ -43,29 +43,27 @@ export default function Demo() {
   const totalWorkVoOne = projectListOne?.totalWorkVo
   //判断是否可以看到所有项目列表
   const naid = localStorage.getItem('key')
-  const Blank = ({ num, height, width, style, background }) => (
-    <div
-      style={{
-        ...style,
-        textAlign: 'center',
-        paddingTop: 5,
-        paddingBottom: 5,
-        background,
-        width: 100,
-        height,
-      }}>
-      {num}
-    </div>
-  )
+  // const Blank = ({ num, height, width, style, background }) => (
+  //   <div
+  //     style={{
+  //       marginLeft: -5,
+  //       ...style,
+  //       textAlign: 'center',
+  //       paddingTop: 5,
+  //       paddingBottom: 5,
+  //       background,
+  //       width: 100,
+  //       height,
+  //     }}>
+  //     {num}
+  //   </div>
+  // )
   return (
     <Container>
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>
-            <Card
-              title="近期参与的项目"
-              bordered={false}
-              style={{ width: 300 }}>
+            <Card title="近期参与的项目" bordered={false}>
               <Col
                 fixed
                 style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -139,7 +137,9 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    {projectList.length ? (
+                    {projectList.length &&
+                    totalWorkVoOne?.projectNum !== 0 &&
+                    totalData?.projectNum !== 0 ? (
                       <div style={{ margin: 10 }}>
                         <Button
                           type="primary"
@@ -248,19 +248,11 @@ export default function Demo() {
                   <Empty style={{ marginTop: 20 }} />
                 ) : (
                   <ul>
-                    <Row
-                      className={styles.milInfoLiHead}
-                      style={{ marginTop: 5 }}>
-                      <Col>
-                        <Blank num={'里程碑名称'} />
-                      </Col>
-                      <Col grow={2}>
-                        <Blank num={'结束时间'} />
-                      </Col>
-                      <Col grow={5}>
-                        <Blank num={'显示进度'} />
-                      </Col>
-                    </Row>
+                    <li className={styles.milInfoLiHead}>
+                      <div className={styles.itemName}>里程碑名称</div>
+                      <div className={styles.itemTime}>结束时间</div>
+                      <div className={styles.itemProg}>显示进度</div>
+                    </li>
                     {milepost?.length === 0 &&
                     milesWorkVoListOne?.length === 0 ? (
                       <Empty style={{ marginTop: 20 }} />
@@ -283,30 +275,6 @@ export default function Demo() {
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </span>
                             <span style={{ flex: 2 }}>{item?.rate}</span>
-
-                            {/* <Row
-                              gutter={10}
-                              justify="space-between"
-                              align="bottom"
-                              style={{
-                                marginTop: 5,
-                                justify: 'space-between',
-                              }}>
-                              <Col span="8">
-                                <Blank num={item?.milestonesTitle} />
-                              </Col>
-                              <Col span="8">
-                                <Blank
-                                  num={
-                                    item?.dueTime &&
-                                    dayjs(item?.dueTime).format('YYYY-MM-DD')
-                                  }
-                                />
-                              </Col>
-                              <Col span="8">
-                                <Blank num={item?.rate} />
-                              </Col>
-                            </Row> */}
                           </li>
                         )
                       })
@@ -321,37 +289,22 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <span style={{ flex: 3 }}>
+                            <div className={styles.itemName}>
+                              {item?.milestonesTitle}
+                            </div>
+                            <div className={styles.itemTime}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </div>
+                            <div className={styles.itemProg}>{item?.rate}</div>
+                            {/* <span style={{ flex: 3 }}>
                               {item?.milestonesTitle}
                             </span>
                             <span style={{ flex: 3, fontSize: '12px' }}>
                               {item?.dueTime &&
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
-                            {/* <Row
-                              gutter={10}
-                              justify="space-between"
-                              align="bottom"
-                              style={{
-                                marginTop: 5,
-                                justify: 'space-between',
-                              }}>
-                              <Col span="8">
-                                <Blank num={item?.milestonesTitle} />
-                              </Col>
-                              <Col span="8">
-                                <Blank
-                                  num={
-                                    item?.dueTime &&
-                                    dayjs(item?.dueTime).format('YYYY-MM-DD')
-                                  }
-                                />
-                              </Col>
-                              <Col span="8">
-                                <Blank num={item?.rate} />
-                              </Col>
-                            </Row> */}
+                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })

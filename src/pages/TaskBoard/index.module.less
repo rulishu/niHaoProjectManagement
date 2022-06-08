@@ -6,12 +6,18 @@
   padding: 10px;
 }
 
+.flexRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .dragList {
   border: 1px solid #dbdbdb;
   background-color: #f0f2f5;
   border-radius: 5px;
   margin: 5px;
   width: 400px;
+  min-width: 400px;
   padding: 3px;
   overflow: hidden;
 }
@@ -94,5 +100,8 @@
 }
 
 .empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   margin: auto;
 }

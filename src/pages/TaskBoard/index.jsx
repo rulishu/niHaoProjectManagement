@@ -22,12 +22,13 @@ const TaskBoard = () => {
   const { taskboard, loading } = useSelector((state) => state)
   const { boardList, list } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
+  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
+  const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
   const [itemName, setItemName] = useState('') // 新增小记时title
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [creat, setCreat] = useState(false) // 创建列表弹窗
-  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [boardName, setBoardName] = useState('') // 新建列表名
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({
@@ -37,6 +38,16 @@ const TaskBoard = () => {
       first: true,
     })
   }, [dispatch, projectId])
+
+  const deleteBoard = () => {
+    dispatch.taskboard.deleteBoard({
+      projectId,
+      id: selectBoard,
+      setCreatBut,
+      setDeleteBoardCon,
+      setSelectBoard,
+    })
+  }
 
   const onDragEnd = (result) => {
     //列表拖动时回调方法
@@ -62,10 +73,12 @@ const TaskBoard = () => {
         }
         return null
       })
+
       dispatch.taskboard.dragAssignmentNote({
         noteId: result.draggableId,
         newListId: destinationDroppableId,
         boardId: list[0].boardId,
+        noteSort: destinationIndex + 1,
       })
     } else {
       if (destinationIndex === sourceIndex) {
@@ -117,7 +130,7 @@ const TaskBoard = () => {
             form={{
               fields: (props) => {
                 return {
-                  milestonesTitle: {
+                  boardTitle: {
                     inline: true,
                     required: true,
                     children: <Input placeholder="请输入标题" />,
@@ -128,26 +141,45 @@ const TaskBoard = () => {
                 return (
                   <>
                     {' '}
-                    <div>{fields.milestonesTitle}</div>{' '}
+                    <div>{fields.boardTitle}</div>{' '}
                   </>
                 )
+              },
+              verify: (initial, current) => {
+                const errorObj = {}
+                const { boardTitle } = current
+                if (
+                  !boardTitle ||
+                  boardTitle?.length < 2 ||
+                  boardTitle?.length > 100
+                ) {
+                  errorObj.boardTitle = '请输入标题,长度为2~100'
+                }
+                return errorObj
               },
             }}
             template="milepost"
             shape="input"
             runLabel={() => {
-              console.log('删除')
+              setDeleteBoardCon(true)
             }}
             onChange={(e) => {
               setSelectBoard(e)
               setIsOpen(false)
-              dispatch.taskboard.selectAllBoardNote({ boardId: e, setCreatBut })
+              dispatch.taskboard.selectAllBoardNote({ boardId: e })
             }}
             onClickable={(is) => {
               setIsOpen(is)
             }}
             createTag={(icutData, nitData) => {
-              console.log('1312', icutData, nitData)
+              dispatch.taskboard.saveBoard({
+                name: nitData.boardTitle,
+                projectId,
+                setCreatBut,
+                setIsOpen,
+                setSelectBoard,
+              })
+              return true
             }}
           />
         </div>
@@ -185,6 +217,7 @@ const TaskBoard = () => {
                             <ButtonGroup>
                               <Button
                                 onClick={() => {
+                                  //添加item按钮
                                   const newList = list
                                   if (
                                     newList[dropIndex].assignmentList.length !==
@@ -208,8 +241,9 @@ const TaskBoard = () => {
                               </Button>
                               <Button
                                 onClick={() => {
+                                  //删除列表
                                   setDeleteConfirmation(true)
-                                  setSelectList(dropItem.noteId)
+                                  setSelectList(dropItem.id)
                                 }}>
                                 <Icon type="delete" />
                               </Button>
@@ -241,14 +275,16 @@ const TaskBoard = () => {
                                       justifyContent: 'space-between',
                                     }}>
                                     <Button
-                                      type="light"
+                                      type={
+                                        itemName === '' ? 'light' : 'primary'
+                                      }
+                                      disabled={itemName === '' ? true : false}
                                       onClick={() => {
                                         dispatch.taskboard.quickInsertTransfer({
                                           listId: dropItem.id,
                                           boardId: dropItem.boardId,
                                           title: itemName,
                                           setItemName,
-                                          setCreatBut,
                                         })
                                       }}>
                                       创建小记
@@ -303,7 +339,15 @@ const TaskBoard = () => {
             })
           ) : (
             <div className={styles.empty}>
-              <Empty size="200px" />
+              {boardList.length ? (
+                creatBut ? (
+                  <div></div>
+                ) : (
+                  <Empty size="200px" />
+                )
+              ) : (
+                <Empty size="200px" />
+              )}
             </div>
           )}
           {creat && (
@@ -316,6 +360,7 @@ const TaskBoard = () => {
                     <Button
                       onClick={() => {
                         setCreat(false)
+                        setCreatBut(false)
                       }}>
                       取消
                     </Button>
@@ -326,7 +371,7 @@ const TaskBoard = () => {
                       onClick={() => {
                         dispatch.taskboard.addBoardList({
                           boardId: selectBoard,
-                          title: boardName,
+                          listTitle: boardName,
                           setCreat,
                           setCreatBut,
                         })
@@ -359,7 +404,7 @@ const TaskBoard = () => {
               <strong style={{ margin: 0 }}>删除列表</strong>
               <div style={{ marginTop: '8px' }}>您确定您将删除这个list吗？</div>
               <br />
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div className={styles.flexRight}>
                 <Button
                   type="light"
                   onClick={() => setDeleteConfirmation(false)}>
@@ -370,10 +415,9 @@ const TaskBoard = () => {
                   type="danger"
                   onClick={() => {
                     dispatch.taskboard.deleteBoardNote({
-                      noteId: selectList,
+                      id: selectList,
                       boardId: selectBoard,
                       setDeleteConfirmation,
-                      setCreatBut,
                     })
                   }}>
                   删除列表
@@ -383,6 +427,21 @@ const TaskBoard = () => {
           </Overlay>
         </div>
       </DragDropContext>
+      <Overlay isOpen={deleteBoardCon} onClose={() => setDeleteBoardCon(false)}>
+        <Card style={{ width: 500 }}>
+          <strong>确定删除此看板吗？</strong>
+          <div>您将删除一个看板和看板中的内容</div>
+          <br />
+          <div className={styles.flexRight}>
+            <Button type="light" onClick={() => setDeleteBoardCon(false)}>
+              取消
+            </Button>
+            <Button type="danger" onClick={() => deleteBoard()}>
+              删除
+            </Button>
+          </div>
+        </Card>
+      </Overlay>
     </>
   )
 }

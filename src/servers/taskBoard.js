@@ -21,6 +21,16 @@ export function selectAllBoardNote(params) {
 }
 
 /**​
+ * 新建看板
+ */
+export function saveBoard(params) {
+  return request('/api/ManagerBoard/saveBoard', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
  * 新增看板列表
  */
 export function addBoardList(params) {
@@ -45,6 +55,16 @@ export function quickInsertTransfer(params) {
  */
 export function deleteBoardNote(params) {
   return request('/api/ManagerBNAController/deleteBoardList', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
+ * 删除看板
+ */
+export function deleteBoard(params) {
+  return request('/api/ManagerBoard/deleteBoard', {
     method: 'POST',
     body: { ...params },
   })

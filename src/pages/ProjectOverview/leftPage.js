@@ -76,6 +76,10 @@ export default function Home() {
         projectId: projectId,
       },
     })
+    dispatch({
+      type: 'projectlist/queryProject',
+      payload: { id: projectId },
+    })
   }
 
   //表格
@@ -83,7 +87,7 @@ export default function Home() {
     return (
       <div
         style={{
-          maxHeight: 355,
+          height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
@@ -168,7 +172,7 @@ export default function Home() {
     return (
       <div
         style={{
-          maxHeight: 355,
+          height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
