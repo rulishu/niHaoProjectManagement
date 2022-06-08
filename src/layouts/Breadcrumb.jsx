@@ -6,7 +6,7 @@ import {
   useParams,
   useNavigate,
 } from 'react-router-dom'
-import { Breadcrumb, Avatar, Button, Icon } from 'uiw'
+import { Breadcrumb, Avatar, Button } from 'uiw'
 
 const Bread = (props) => {
   const { projectId } = useParams()
@@ -29,7 +29,7 @@ const Bread = (props) => {
   const domList = routeMap.breadcrumb.get(searchPath()) || []
   const dispatch = useDispatch()
   const { projectlist } = useSelector((state) => state)
-  const { proName, projectAvatar, id, updateName } = projectlist
+  const { proName, projectAvatar, projectUrl } = projectlist
   useEffect(() => {
     if (projectId) {
       dispatch({
@@ -42,21 +42,17 @@ const Bread = (props) => {
 
   //点击项目名称跳转
   const onClickitem = () => {
-    navigate(`${updateName}/${id}`)
+    navigate(`${projectUrl}`)
   }
 
   const AvatarImage = (
-    <Avatar
-      style={{ marginRight: 3 }}
-      src={projectAvatar ? `/api/file/selectFile/${projectAvatar}` : ''}
-      icon={<Icon type="user" />}
-    />
+    <Avatar size="mini" src={`/api/file/selectFile/${projectAvatar}`} />
   )
   return (
     <Breadcrumb>
       {projectId ? (
         <div style={{ marginRight: '5px' }}>
-          {AvatarImage}
+          {projectAvatar ? AvatarImage : ''}
           <Button onClick={() => onClickitem()} type="link">
             {proName}
           </Button>
