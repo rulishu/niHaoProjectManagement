@@ -106,7 +106,6 @@ const team = createModel()({
     async getMembers(payload) {
       const data = await getMembers(payload)
       if (data && data.code === 200) {
-        // console.log('data====>11111', data)
         const arr = []
         data.data.forEach((item) => {
           arr.push({
@@ -123,7 +122,6 @@ const team = createModel()({
     async getNotTeamUsers(params) {
       const data = await getNotTeamUsers(params)
       if (data && data.code === 200) {
-        // console.log('data====>11111', data)
         const arr = []
         data.data.forEach((item) => {
           arr.push({
