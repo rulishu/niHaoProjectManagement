@@ -120,12 +120,19 @@
       justify-content: space-between;
       border-radius: 2px;
       padding: @padding-xss @padding-xs;
-
-      span {
-        display: inline-block;
+      .itemName {
+        width: 35%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        margin-right: 1%;
+      }
+      .itemTime {
+        width: 35%;
+        margin-right: 1%;
+      }
+      .itemProg {
+        width: 28%;
       }
       &:hover {
         background-color: rgba(167, 182, 194, 0.3);
