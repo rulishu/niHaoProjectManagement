@@ -391,7 +391,7 @@ const routes = [
           {
             path: '/Authority/team',
             name: '团队管理',
-            icon: 'date',
+            icon: 'usergroup-add',
             component: '@/pages/TeamManagement',
             isAuth: true,
           },
