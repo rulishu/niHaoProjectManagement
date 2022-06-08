@@ -83,7 +83,7 @@ export default function Home() {
     return (
       <div
         style={{
-          maxHeight: 355,
+          height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
@@ -168,7 +168,7 @@ export default function Home() {
     return (
       <div
         style={{
-          maxHeight: 355,
+          height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>

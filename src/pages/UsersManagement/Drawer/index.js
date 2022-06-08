@@ -84,9 +84,10 @@ const Drawer = (props) => {
 
     // 邀请成员
     if (tableType === 'member') {
+      let userId = current.userId.map((a) => a.value)
       const payload = {
         ...current,
-        userId: Number(current?.userId),
+        userId: Number(userId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
@@ -101,9 +102,10 @@ const Drawer = (props) => {
     }
     // 邀请团队
     if (tableType === 'group') {
+      let teamId = current.teamId.map((a) => a.value)
       const payload = {
         ...current,
-        teamId: Number(current?.teamId),
+        teamId: Number(teamId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
