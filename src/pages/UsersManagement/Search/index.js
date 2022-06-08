@@ -20,6 +20,7 @@ const Search = () => {
   }, [dispatch])
   const {
     routeManagement: { userInfo },
+    projectlist: { userRole },
   } = useSelector((state) => state)
   const updateData = (payload) => {
     dispatch({
@@ -117,7 +118,7 @@ const Search = () => {
             pageSize: 10,
           }}
           table={search}
-          columns={columnsSearch(handleEditTable, userInfo)}
+          columns={columnsSearch(handleEditTable, userInfo, userRole)}
         />
       </Card>
 
