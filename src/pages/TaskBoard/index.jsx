@@ -27,13 +27,11 @@ const TaskBoard = () => {
   const [itemName, setItemName] = useState('') // 新增小记时title
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [creat, setCreat] = useState(false) // 创建列表弹窗
-  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [boardName, setBoardName] = useState('') // 新建列表名
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({
       projectId,
       setSelectBoard,
-      setCreatBut,
       first: true,
     })
   }, [dispatch, projectId])
@@ -141,7 +139,7 @@ const TaskBoard = () => {
             onChange={(e) => {
               setSelectBoard(e)
               setIsOpen(false)
-              dispatch.taskboard.selectAllBoardNote({ boardId: e, setCreatBut })
+              dispatch.taskboard.selectAllBoardNote({ boardId: e })
             }}
             onClickable={(is) => {
               setIsOpen(is)
@@ -152,11 +150,10 @@ const TaskBoard = () => {
           />
         </div>
         <Button
-          type={creatBut ? 'light' : 'primary'}
-          disabled={creatBut}
+          type={creat ? 'light' : 'primary'}
+          disabled={creat}
           onClick={() => {
             setCreat(true)
-            setCreatBut(true)
           }}>
           创建列表
         </Button>
@@ -209,7 +206,7 @@ const TaskBoard = () => {
                               <Button
                                 onClick={() => {
                                   setDeleteConfirmation(true)
-                                  setSelectList(dropItem.noteId)
+                                  setSelectList(dropItem.id)
                                 }}>
                                 <Icon type="delete" />
                               </Button>
@@ -248,7 +245,6 @@ const TaskBoard = () => {
                                           boardId: dropItem.boardId,
                                           title: itemName,
                                           setItemName,
-                                          setCreatBut,
                                         })
                                       }}>
                                       创建小记
@@ -326,9 +322,8 @@ const TaskBoard = () => {
                       onClick={() => {
                         dispatch.taskboard.addBoardList({
                           boardId: selectBoard,
-                          title: boardName,
+                          listTitle: boardName,
                           setCreat,
-                          setCreatBut,
                         })
                       }}>
                       添加列表
@@ -370,10 +365,9 @@ const TaskBoard = () => {
                   type="danger"
                   onClick={() => {
                     dispatch.taskboard.deleteBoardNote({
-                      noteId: selectList,
+                      id: selectList,
                       boardId: selectBoard,
                       setDeleteConfirmation,
-                      setCreatBut,
                     })
                   }}>
                   删除列表
