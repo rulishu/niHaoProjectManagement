@@ -63,7 +63,7 @@
 .memberBox {
   display: flex;
   flex-wrap: wrap;
-  max-height: 437px;
+  max-width: 393px;
   overflow-x: hidden;
 
   .memberItem {
@@ -74,10 +74,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    align-content: flex-start;
     .memberItemLi {
       display: flex;
-
+      flex-wrap: wrap;
       span {
         font-size: 24px;
       }
@@ -86,9 +86,12 @@
     .memberName {
       display: inline-block;
       margin-top: 5px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+      // white-space: nowrap;
+      // text-overflow: ellipsis;
+      // overflow: hidden;
+      word-wrap: break-word;
+      word-break: break-all;
+      flex-wrap: 'wrap';
       width: 100%;
     }
 

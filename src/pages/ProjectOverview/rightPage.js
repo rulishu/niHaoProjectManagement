@@ -1,4 +1,4 @@
-import { Card, Steps, Avatar, Empty, Row, Col, Tooltip } from 'uiw'
+import { Card, Steps, Avatar, Empty, Row, Col } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 // import { useParams } from 'react-router-dom'
@@ -83,7 +83,7 @@ export default function AllTasks() {
         title="最新动态"
         bordered={false}
         style={{ marginTop: 15, marginBottom: 15 }}>
-        <div style={{ height: 437, overflowX: 'hidden', overflowY: 'auto' }}>
+        <div style={{ height: 393, overflowX: 'hidden', overflowY: 'auto' }}>
           <Steps
             direction="vertical"
             progressDot
@@ -105,7 +105,10 @@ export default function AllTasks() {
           </Steps>
         </div>
       </Card>
-      <Card title="项目成员" bordered={false}>
+      <Card
+        title="项目成员"
+        bordered={false}
+        style={{ height: 460, overflowX: 'hidden', overflowY: 'auto' }}>
         <div className={styles.memberBox}>
           {projectMembersList.map((item, idx) => {
             return (
@@ -126,13 +129,11 @@ export default function AllTasks() {
                     {item?.nickName && item?.nickName[0]}
                   </Avatar>
                 </div>
-                <Tooltip placement="top" content={item?.nickName}>
-                  <span
-                    className={styles.memberName}
-                    onClick={() => goRouter(item?.userName)}>
-                    {item?.nickName}
-                  </span>
-                </Tooltip>
+                <span
+                  className={styles.memberName}
+                  onClick={() => goRouter(item?.userName)}>
+                  {item?.nickName}
+                </span>
               </div>
             )
           })}
