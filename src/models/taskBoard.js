@@ -34,7 +34,7 @@ const taskboard = createModel()({
     //查询项目中看板
     async selectOneInfo(payload, { taskboard }) {
       const { pageSize, page, type } = taskboard
-      const { projectId, setSelectBoard, first, setCreatBut } = payload
+      const { projectId, setSelectBoard, first } = payload
       let params = {
         pageSize,
         page,
@@ -50,7 +50,6 @@ const taskboard = createModel()({
         if (first && data?.data.length !== 0) {
           dispatch.taskboard.selectAllBoardNote({
             boardId: data?.data[0]?.id,
-            setCreatBut,
           })
         }
       }
@@ -58,31 +57,23 @@ const taskboard = createModel()({
 
     //查询看板中列表
     async selectAllBoardNote(payload) {
-      const { setCreatBut, ...other } = payload
+      const { ...other } = payload
       const data = await selectAllBoardNote(other)
       if (data && data.code === 200) {
-        if (data?.data.length === 0) {
-          setCreatBut(true)
-        } else {
-          setCreatBut(false)
-        }
         dispatch.taskboard.update({
           list: data?.data || [],
         })
-      } else {
-        setCreatBut(true)
       }
     },
 
     //新增看板列表
     async addBoardList(payload) {
-      const { setCreatBut, setCreat, ...other } = payload
+      const { setCreat, ...other } = payload
       const data = await addBoardList(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
           boardId: payload.boardId,
-          setCreatBut,
         })
         setCreat(false)
       }
@@ -90,13 +81,12 @@ const taskboard = createModel()({
 
     //新增代转任务
     async quickInsertTransfer(payload) {
-      const { setCreatBut, setItemName, ...other } = payload
+      const { setItemName, ...other } = payload
       const data = await quickInsertTransfer(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
           boardId: payload.boardId,
-          setCreatBut,
         })
         setItemName('')
       }
@@ -104,13 +94,12 @@ const taskboard = createModel()({
 
     //删除列表
     async deleteBoardNote(payload) {
-      const { setCreatBut, setDeleteConfirmation, ...other } = payload
+      const { setDeleteConfirmation, ...other } = payload
       const data = await deleteBoardNote(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
           boardId: payload.boardId,
-          setCreatBut,
         })
         setDeleteConfirmation(false)
       }
