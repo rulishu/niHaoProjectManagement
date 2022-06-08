@@ -266,9 +266,16 @@ const ProjectList = (props) => {
                         <div className={styles.infoTopBox}>
                           <h2
                             className={styles.projectName}
-                            onClick={() =>
+                            onClick={() => {
                               router.navigate(rowData?.projectUrl)
-                            }>
+                              // console.log('rowData?.userRole',rowData?.userRole);
+                              dispatch({
+                                type: 'projectlist/update',
+                                payload: {
+                                  userRole: rowData?.userRole,
+                                },
+                              })
+                            }}>
                             {text}
                           </h2>
                           <span className={styles.projectRole}>
