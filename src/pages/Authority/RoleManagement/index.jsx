@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react'
-import { Button, Tag, Tooltip, Card, Notify } from 'uiw'
+import { Button, Tag, Tooltip, Card } from 'uiw'
 import { connect, useDispatch } from 'react-redux'
 // import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -58,13 +58,13 @@ const Demo = (props) => {
   })
   // 操作
   async function handleEditTable(type, record) {
-    if (record.roleKey === 'admin') {
-      Notify.warning({
-        title: '警告通知',
-        description: '超级管理员角色不允许操作',
-      })
-      return
-    }
+    // if (record.roleKey === 'admin') {
+    //   Notify.warning({
+    //     title: '警告通知',
+    //     description: '超级管理员角色不允许操作',
+    //   })
+    //   return
+    // }
     updateData({
       isView: type === 'view',
       tableType: type,
@@ -251,6 +251,7 @@ const Demo = (props) => {
                     size="small"
                     type="primary"
                     icon="edit"
+                    disabled={rowData.roleKey === 'admin' ? true : false}
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑
                   </Button>
@@ -280,7 +281,11 @@ const Demo = (props) => {
                     </Tooltip>
                   ) : (
                     <DeletePopover
-                      disabled={rowData.hasUser}
+                      disabled={
+                        rowData.hasUser || rowData.roleKey === 'admin'
+                          ? true
+                          : false
+                      }
                       handleEditTable={() => handleEditTable('del', rowData)}
                     />
                   )}
