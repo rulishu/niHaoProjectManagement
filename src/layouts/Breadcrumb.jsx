@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, matchPath, useParams } from 'react-router-dom'
-import { Breadcrumb } from 'uiw'
+import { Breadcrumb, Avatar } from 'uiw'
 
 const Bread = (props) => {
   const { projectId } = useParams()
@@ -24,7 +24,7 @@ const Bread = (props) => {
   const domList = routeMap.breadcrumb.get(searchPath()) || []
   const dispatch = useDispatch()
   const { projectlist } = useSelector((state) => state)
-  const { proName } = projectlist
+  const { proName, projectAvatar } = projectlist
   useEffect(() => {
     if (projectId) {
       dispatch({
@@ -33,10 +33,19 @@ const Bread = (props) => {
       })
     }
   }, [projectId, dispatch])
+  const AvatarImage = (
+    <Avatar
+      style={{ marginRight: 8 }}
+      src={`/api/file/selectFile/${projectAvatar}`}
+    />
+  )
   return (
     <Breadcrumb>
       {projectId ? (
-        <div style={{ marginRight: '5px' }}>{proName} /</div>
+        <div style={{ marginRight: '5px' }}>
+          {AvatarImage}
+          {proName} /
+        </div>
       ) : (
         <div></div>
       )}
@@ -48,7 +57,11 @@ const Bread = (props) => {
           path !== '/todoList' &&
           path !== '/:userAccount'
         ) {
-          return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>
+          return (
+            <Breadcrumb.Item style={{ marginTop: 3 }} key={index}>
+              {name}
+            </Breadcrumb.Item>
+          )
         }
         return <div key={index}></div>
       })}

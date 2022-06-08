@@ -102,6 +102,7 @@ const projectlist = createModel()({
       if (data && data.code === 200) {
         dispatch.projectlist.update({
           proName: data.data.name,
+          projectAvatar: data.data.projectAvatar,
         })
       } else {
         // Notify.error({ title: data.data })
