@@ -81,7 +81,7 @@ const Search = () => {
     <Fragment>
       <Card>
         <ProTable
-          formCol={2}
+          formCol={4}
           searchBtns={[
             {
               label: '查询',

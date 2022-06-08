@@ -36,6 +36,12 @@ export default function AllTasks() {
       {num}
     </div>
   )
+
+  //项目成员-路由跳转
+  const goRouter = (item) => {
+    navigate(`/${item}`)
+  }
+
   return (
     <div style={{ width: '30%' }}>
       <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
@@ -106,7 +112,7 @@ export default function AllTasks() {
               <div key={idx} className={styles.memberItem}>
                 <div
                   className={styles.memberItemLi}
-                  onClick={() => navigate(`/${item?.userName}`)}>
+                  onClick={() => goRouter(item?.userName)}>
                   <Avatar
                     size="large"
                     src={
@@ -123,7 +129,7 @@ export default function AllTasks() {
                 <Tooltip placement="top" content={item?.nickName}>
                   <span
                     className={styles.memberName}
-                    onClick={() => navigate(`/${item?.userName}`)}>
+                    onClick={() => goRouter(item?.userName)}>
                     {item?.nickName}
                   </span>
                 </Tooltip>
