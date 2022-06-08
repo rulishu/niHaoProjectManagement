@@ -57,7 +57,10 @@ const UsersBox = (props) => {
                   <Col span="6" className={styles.userHead}>
                     <Avatar
                       src={
-                        item.avatar
+                        item.avatar?.substring(0, 4) === 'http'
+                          ? item.avatar
+                          : item.avatar?.substring(0, 4) !== 'http' &&
+                            item.avatar !== ''
                           ? `/api/file/selectFile/${item.avatar}`
                           : item.path
                       }>
