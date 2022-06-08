@@ -1,4 +1,4 @@
-import { Card, Steps, Avatar, Empty, Row, Col } from 'uiw'
+import { Card, Steps, Avatar, Empty, Row, Col, Tooltip } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 // import { useParams } from 'react-router-dom'
@@ -115,11 +115,13 @@ export default function AllTasks() {
                     {item?.nickName && item?.nickName[0]}
                   </Avatar>
                 </div>
-                <span
-                  className={styles.memberName}
-                  onClick={() => navigate(`/${item?.userName}`)}>
-                  {item?.nickName}
-                </span>
+                <Tooltip placement="top" content={item?.nickName}>
+                  <span
+                    className={styles.memberName}
+                    onClick={() => navigate(`/${item?.userName}`)}>
+                    {item?.nickName}
+                  </span>
+                </Tooltip>
               </div>
             )
           })}
