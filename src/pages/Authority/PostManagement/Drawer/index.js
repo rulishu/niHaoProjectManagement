@@ -46,15 +46,10 @@ export default function Index() {
         onSubmit={(_, current) => {
           const errorObj = {}
           // 报警事件
-          if (!current?.postName) {
-            errorObj.postName = '岗位名称不能为空'
-          } else if (!current?.postCode) {
-            errorObj.postCode = '岗位顺序不能为空'
-          } else if (!current?.postSort) {
-            errorObj.postSort = '岗位顺序不能为空'
-          } else if (!current?.status) {
-            errorObj.status = '岗位状态不能为空'
-          }
+          if (!current.postName) errorObj.postName = `请输入岗位名称`
+          if (!current.postCode) errorObj.postCode = `请输入岗位编码`
+          if (!current.postSort) errorObj.postSort = `请输入岗位顺序`
+          if (!current.status) errorObj.status = `请选择岗位状态`
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
             err.filed = errorObj

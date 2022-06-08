@@ -35,13 +35,17 @@ export const items = (queryInfo) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },
   ]
 }
-export const memberItems = (queryInfo, userIdList) => {
+export const memberItems = (queryInfo, useoption, handlememSearch) => {
   return [
     {
       label: '选择账户姓名邮箱',
@@ -50,9 +54,19 @@ export const memberItems = (queryInfo, userIdList) => {
       initialValue: queryInfo?.userId,
       required: true,
       placeholder: '请选择账户姓名邮箱',
-      option: userIdList,
+      option: useoption,
       span: '24',
       rules: [{ required: true, message: '请选择账户姓名邮箱' }],
+      widgetProps: {
+        mode: 'single',
+        labelInValue: true,
+        showSearch: true,
+        allowClear: true,
+        onSearch: handlememSearch,
+        onChange: (v) => {
+          console.log('onChange', v)
+        },
+      },
     },
     {
       label: '选择成员角色',
@@ -78,13 +92,17 @@ export const memberItems = (queryInfo, userIdList) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],
     },
   ]
 }
-export const groupItems = (queryInfo, teamIdList) => {
+export const groupItems = (queryInfo, option, handleSearch) => {
   return [
     {
       label: '选择要邀请的团队',
@@ -92,10 +110,20 @@ export const groupItems = (queryInfo, teamIdList) => {
       widget: 'searchSelect',
       initialValue: queryInfo?.teamId,
       required: true,
-      option: teamIdList,
+      option: option,
       placeholder: '选择要邀请的团队',
       span: '24',
       rules: [{ required: true, message: '请选择要邀请的团队' }],
+      widgetProps: {
+        mode: 'single',
+        labelInValue: true,
+        showSearch: true,
+        allowClear: true,
+        onSearch: handleSearch,
+        onChange: (v) => {
+          console.log('onChange', v)
+        },
+      },
     },
     {
       label: '选择成员角色',
@@ -121,6 +149,10 @@ export const groupItems = (queryInfo, teamIdList) => {
       required: true,
       widgetProps: {
         format: 'YYYY-MM-DD HH:mm:ss',
+        datePickerProps: {
+          showTime: true,
+          todayButton: '今天',
+        },
       },
       placeholder: '请输入访问到期日期',
       rules: [{ required: true, message: '请输入访问到期日期' }],

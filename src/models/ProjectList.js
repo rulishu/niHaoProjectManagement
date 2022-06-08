@@ -21,6 +21,7 @@ const projectlist = createModel()({
     dataList: [], // 数据列表源
     proNum: {}, //各类型项目数量
     proName: '', //项目名称
+    userRole: '', //项目角色
   },
   reducers: {
     update: (state, payload) => {

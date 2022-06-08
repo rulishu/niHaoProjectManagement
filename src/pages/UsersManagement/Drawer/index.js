@@ -5,7 +5,7 @@ import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
 import { changeTimeFormat } from '../../../utils/timeDistance'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ThisTime } from '../../../utils/timeDistance'
 
 const Drawer = (props) => {
@@ -84,9 +84,10 @@ const Drawer = (props) => {
 
     // 邀请成员
     if (tableType === 'member') {
+      let userId = current.userId.map((a) => a.value)
       const payload = {
         ...current,
-        userId: Number(current?.userId),
+        userId: Number(userId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
@@ -101,9 +102,10 @@ const Drawer = (props) => {
     }
     // 邀请团队
     if (tableType === 'group') {
+      let teamId = current.teamId.map((a) => a.value)
       const payload = {
         ...current,
-        teamId: Number(current?.teamId),
+        teamId: Number(teamId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
           'YYYY-MM-DD HH:mm:ss',
@@ -131,6 +133,28 @@ const Drawer = (props) => {
         payload,
       }).then((data) => information(data))
     }
+  }
+
+  //邀请成员-模糊查询
+  const [useoption, setuseOption] = useState(userIdList)
+  const handlememSearch = (e) => {
+    setTimeout(() => {
+      const filterOpion = userIdList.filter(
+        (item) => !!item.label.includes(e.trim())
+      )
+      setuseOption([...filterOpion])
+    }, 500)
+  }
+
+  //邀请团队-模糊查询
+  const [option, setOption] = useState(teamIdList)
+  const handleSearch = (e) => {
+    setTimeout(() => {
+      const filterOpion = teamIdList.filter(
+        (item) => !!item.label.includes(e.trim())
+      )
+      setOption([...filterOpion])
+    }, 500)
   }
   return (
     <ProDrawer
@@ -181,8 +205,8 @@ const Drawer = (props) => {
           tableType === 'edit'
             ? items(queryInfo, tableType)
             : tableType === 'member'
-            ? memberItems(queryInfo, userIdList)
-            : groupItems(queryInfo, teamIdList)
+            ? memberItems(queryInfo, useoption, handlememSearch)
+            : groupItems(queryInfo, option, handleSearch)
         }
       />
     </ProDrawer>

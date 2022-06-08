@@ -185,7 +185,10 @@ const NewIssue = (props) => {
               ) {
                 errorObj.assignmentTitle = '请输入任务名称,长度为2~100'
               }
-              if (changeTimeFormat(current.current.dueDate) <= ThisTime()) {
+              if (
+                current.current.dueDate &&
+                changeTimeFormat(current.current.dueDate) <= ThisTime()
+              ) {
                 errorObj.dueDate = '截止日期应该晚于当前时间'
               }
               if (Object.keys(errorObj).length > 0) {

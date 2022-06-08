@@ -46,15 +46,13 @@ export default function Demo() {
   const Blank = ({ num, height, width, style, background }) => (
     <div
       style={{
+        marginLeft: -5,
         ...style,
         textAlign: 'center',
         paddingTop: 5,
         paddingBottom: 5,
         background,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        width: 110,
+        width: 100,
         height,
       }}>
       {num}
@@ -139,7 +137,9 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    {projectList.length ? (
+                    {projectList.length &&
+                    totalWorkVoOne?.projectNum !== 0 &&
+                    totalData?.projectNum !== 0 ? (
                       <div style={{ margin: 10 }}>
                         <Button
                           type="primary"
@@ -275,7 +275,16 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+
+                            {/* <Row
                               gutter={10}
                               justify="space-between"
                               align="bottom"
@@ -297,7 +306,7 @@ export default function Demo() {
                               <Col span="8">
                                 <Blank num={item?.rate} />
                               </Col>
-                            </Row>
+                            </Row> */}
                           </li>
                         )
                       })
@@ -312,7 +321,15 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <Row
+                            <span style={{ flex: 3 }}>
+                              {item?.milestonesTitle}
+                            </span>
+                            <span style={{ flex: 3, fontSize: '12px' }}>
+                              {item?.dueTime &&
+                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                            </span>
+                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                            {/* <Row
                               gutter={10}
                               justify="space-between"
                               align="bottom"
@@ -334,7 +351,7 @@ export default function Demo() {
                               <Col span="8">
                                 <Blank num={item?.rate} />
                               </Col>
-                            </Row>
+                            </Row> */}
                           </li>
                         )
                       })
