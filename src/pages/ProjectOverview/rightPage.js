@@ -110,7 +110,12 @@ export default function AllTasks() {
                   <Avatar
                     size="large"
                     src={
-                      item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''
+                      item.avatar?.substring(0, 4) === 'http'
+                        ? item.avatar
+                        : item.avatar?.substring(0, 4) !== 'http' &&
+                          item.avatar !== ''
+                        ? `/api/file/selectFile/${item.avatar}`
+                        : ''
                     }>
                     {item?.nickName && item?.nickName[0]}
                   </Avatar>
