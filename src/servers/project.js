@@ -14,11 +14,19 @@ export const getSelectPage = (params) => {
   })
 }
 
+// 查询任务列表数据(不分页)
+export const getAssignment = (params) => {
+  return request('/api/project/getAssignment', {
+    method: 'POST',
+    body: params,
+  })
+}
+
 // 任务列表新增
 export const getmMnagerAssignmentSave = (params) => {
   return request('/api/ManagerAssignment/managerAssignmentSave', {
     method: 'POST',
-    body: params,
+    body: { ...params },
   })
 }
 
