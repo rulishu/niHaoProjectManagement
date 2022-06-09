@@ -144,13 +144,18 @@
         .dynamicCon {
           line-height: 16px;
         }
-
+        .textCon {
+          width: '80%';
+          color: '#008ef0';
+          overflow: 'hidden';
+          white-space: 'nowrap';
+          text-overflow: 'ellipsis';
+        }
         .dynamicBot {
           display: inline;
 
           .clickOn {
             color: #008ef0;
-
             &:hover {
               text-decoration: underline;
               cursor: pointer;
@@ -237,7 +242,9 @@
       }
     }
   }
-
+  .listContent {
+    font-size: @font-size-sm;
+  }
   // 用户所有项目列表
   .userAllProjectList {
     .projectListHead {
@@ -267,6 +274,9 @@
 
           .title {
             justify-content: flex-start;
+            span {
+              font-size: @font-size-sm;
+            }
 
             h2 {
               font-size: 20px;
