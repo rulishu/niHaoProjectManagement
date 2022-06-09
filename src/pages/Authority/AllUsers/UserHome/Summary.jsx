@@ -125,12 +125,13 @@ const DynamicsList = (props) => {
                               }}>
                               {item?.assignmentTitle}
                             </span>
-                            <span>
+                            <span className={styles.time}>
                               {
                                 timeDistance(
                                   item?.updateTime || item?.createTime
                                 )?.time
                               }
+                              前
                             </span>
                           </div>
                           <div className={styles.dynamicCon}>
@@ -243,7 +244,6 @@ const DynamicsList = (props) => {
                             className={styles.dynamicCon}
                             style={{
                               width: '80%',
-                              color: '#008ef0',
                               overflow: 'hidden',
                               whiteSpace: 'nowrap',
                               textOverflow: 'ellipsis',
