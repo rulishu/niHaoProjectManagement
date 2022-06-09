@@ -8,6 +8,8 @@ import {
   deleteBoardNote,
   dragAssignmentNote,
   quickInsertTransfer,
+  deleteBoard,
+  saveBoard,
 } from '../servers/taskBoard'
 
 /**
@@ -33,8 +35,11 @@ const taskboard = createModel()({
   effects: (dispatch) => ({
     //查询项目中看板
     async selectOneInfo(payload, { taskboard }) {
+      dispatch.taskboard.update({
+        list: [],
+      })
       const { pageSize, page, type } = taskboard
-      const { projectId, setSelectBoard, first } = payload
+      const { projectId, setSelectBoard, first, setCreatBut } = payload
       let params = {
         pageSize,
         page,
@@ -43,6 +48,11 @@ const taskboard = createModel()({
       }
       const data = await selectAllBoard(params)
       if (data && data.code === 200) {
+        if (data?.data.length === 0) {
+          setCreatBut(true)
+        } else {
+          setCreatBut(false)
+        }
         dispatch.taskboard.update({
           boardList: data?.data || [],
         })
@@ -52,6 +62,8 @@ const taskboard = createModel()({
             boardId: data?.data[0]?.id,
           })
         }
+      } else {
+        setCreatBut(true)
       }
     },
 
@@ -68,7 +80,7 @@ const taskboard = createModel()({
 
     //新增看板列表
     async addBoardList(payload) {
-      const { setCreat, ...other } = payload
+      const { setCreat, setCreatBut, ...other } = payload
       const data = await addBoardList(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
@@ -76,6 +88,7 @@ const taskboard = createModel()({
           boardId: payload.boardId,
         })
         setCreat(false)
+        setCreatBut(false)
       }
     },
 
@@ -92,6 +105,23 @@ const taskboard = createModel()({
       }
     },
 
+    //新增看板
+    async saveBoard(payload) {
+      const { setCreatBut, setIsOpen, setSelectBoard, ...other } = payload
+      const data = await saveBoard(other)
+      if (data && data.code === 200) {
+        setIsOpen(false)
+        const { projectId } = other
+        Notify.success({ title: '新增看板成功' })
+        dispatch.taskboard.selectOneInfo({
+          boardId: payload.boardId,
+          setCreatBut,
+          projectId,
+          setSelectBoard,
+        })
+      }
+    },
+
     //删除列表
     async deleteBoardNote(payload) {
       const { setDeleteConfirmation, ...other } = payload
@@ -102,6 +132,24 @@ const taskboard = createModel()({
           boardId: payload.boardId,
         })
         setDeleteConfirmation(false)
+      }
+    },
+
+    //删除看板
+    async deleteBoard(payload) {
+      const { setCreatBut, setDeleteBoardCon, setSelectBoard, projectId, id } =
+        payload
+      const data = await deleteBoard({ projectId, id })
+      if (data && data.code === 200) {
+        Notify.success({ title: data.message })
+        setDeleteBoardCon(false)
+        dispatch.taskboard.selectOneInfo({
+          boardId: payload.boardId,
+          setCreatBut,
+          projectId,
+          setSelectBoard,
+          first: true,
+        })
       }
     },
 

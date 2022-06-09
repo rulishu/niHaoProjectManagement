@@ -1,4 +1,4 @@
-import { Card, Steps, Avatar, Empty, Row, Col } from 'uiw'
+import { Card, Steps, Avatar, Empty } from 'uiw'
 import { useSelector } from 'react-redux'
 import { navigate } from '@uiw-admin/router-control'
 // import { useParams } from 'react-router-dom'
@@ -19,24 +19,6 @@ export default function AllTasks() {
         `${allDataSource?.projectUrl}/milestone/milestoneInfo/${milestonesId}`
       )
   }
-  const Blank = ({ num, height, width, style, background }) => (
-    <div
-      style={{
-        marginLeft: -5,
-        ...style,
-        textAlign: 'center',
-        paddingTop: 5,
-        paddingBottom: 5,
-        background,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        width,
-        height,
-      }}>
-      {num}
-    </div>
-  )
 
   //项目成员-路由跳转
   const goRouter = (item) => {
@@ -48,17 +30,11 @@ export default function AllTasks() {
       <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
         <div className={styles.milestoneInfoList}>
           <ul>
-            <Row className={styles.milInfoLiHead} style={{ marginTop: 5 }}>
-              <Col>
-                <Blank num={'里程碑名称'} />
-              </Col>
-              <Col grow={2}>
-                <Blank num={'结束时间'} />
-              </Col>
-              <Col grow={5}>
-                <Blank num={'显示进度'} />
-              </Col>
-            </Row>
+            <li className={styles.milInfoLiHead}>
+              <div className={styles.itemName}>里程碑名称</div>
+              <div className={styles.itemTime}>结束时间</div>
+              <div className={styles.itemProg}>显示进度</div>
+            </li>
             {allDataSources?.length === 0 ? (
               <Empty description={false} style={{ marginTop: 20 }} />
             ) : (
@@ -67,12 +43,14 @@ export default function AllTasks() {
                   <li
                     key={item?.milestonesId}
                     onClick={() => goMilestones(item?.milestonesId)}>
-                    <span style={{ flex: 3 }}>{item?.milestonesTitle}</span>
-                    <span style={{ flex: 4, fontSize: '12px' }}>
+                    <div className={styles.itemName}>
+                      {item?.milestonesTitle}
+                    </div>
+                    <div className={styles.itemTime}>
                       {item?.dueTime &&
                         dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                    </span>
-                    <span style={{ flex: 2 }}>{item?.rate}</span>
+                    </div>
+                    <div className={styles.itemProg}>{item?.rate}</div>
                   </li>
                 )
               })

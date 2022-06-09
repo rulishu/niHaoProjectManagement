@@ -101,7 +101,9 @@ const projectlist = createModel()({
       const data = await queryProject(payload)
       if (data && data.code === 200) {
         dispatch.projectlist.update({
-          proName: data.data.name,
+          proName: data?.data?.name,
+          projectAvatar: data?.data?.projectAvatar,
+          projectUrl: data?.data?.projectUrl,
         })
       } else {
         // Notify.error({ title: data.data })

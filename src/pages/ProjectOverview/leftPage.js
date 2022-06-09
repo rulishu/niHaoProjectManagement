@@ -76,6 +76,10 @@ export default function Home() {
         projectId: projectId,
       },
     })
+    dispatch({
+      type: 'projectlist/queryProject',
+      payload: { id: projectId },
+    })
   }
 
   //表格
