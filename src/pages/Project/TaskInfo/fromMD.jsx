@@ -141,7 +141,7 @@ const FromMD = (props) => {
                 <Col>
                   <div className={styles.btnWrap}>
                     <Button
-                      type={btnName === '提交' ? 'link' : 'primary'}
+                      type="primary"
                       // htmlType="submit"
                       onClick={() => {
                         submit()
