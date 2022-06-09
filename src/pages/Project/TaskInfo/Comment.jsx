@@ -134,6 +134,7 @@ const Comment = (props) => {
                             editData={editCommentData}
                             fromValue={'operatingRecords'}
                             btnName="提交"
+                            isComment={true}
                           />
                         ) : replyState &&
                           replyCommentData.taskHistoryId ===
@@ -160,6 +161,7 @@ const Comment = (props) => {
                               editData={replyCommentData}
                               fromValue={'operatingRecords'}
                               btnName="提交"
+                              isComment={true}
                             />
                           </div>
                         ) : (
@@ -256,6 +258,7 @@ const Comment = (props) => {
                                             editData={replyConData}
                                             fromValue={'operatingRecords'}
                                             btnName="提交"
+                                            isComment={true}
                                           />
                                         ) : (
                                           <div
