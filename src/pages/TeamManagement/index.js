@@ -23,8 +23,8 @@ export default function Index() {
   const table = useTable('/api/ManagerTeam/selectPage', {
     formatData: (data) => {
       return {
-        total: data?.data?.total,
-        data: data?.data.rows || [],
+        total: data?.data?.total || 0,
+        data: data?.data?.rows || [],
       }
     },
     query: (pageIndex, pageSize, searchValues) => {
