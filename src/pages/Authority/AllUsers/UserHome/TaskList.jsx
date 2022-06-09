@@ -1,4 +1,4 @@
-import { Empty, Icon, Button, Loader } from 'uiw'
+import { Empty, Button, Loader } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProjectManagement } from '@/components'
 import styles from './index.module.less'
@@ -33,7 +33,7 @@ const ProjectList = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userTask.length ? (
+          {userTask?.length ? (
             userTask.map((item, index) => {
               return (
                 <li key={index}>
@@ -47,40 +47,36 @@ const ProjectList = (props) => {
                           textOverflow: 'ellipsis',
                         }}
                         onClick={() =>
-                          goSpecifyPage({ path: item.projectUrl })
+                          goSpecifyPage({
+                            path:
+                              item.projectUrl +
+                              '/task/taskInfo/' +
+                              item.assignmentId,
+                          })
                         }>
+                        <strong style={{ color: '#008ef0' }}>
+                          {' '}
+                          #{item?.assignmentId}
+                        </strong>{' '}
                         {item?.assignmentTitle}
                       </strong>
+                      <span>
+                        {item.assignmentStatus === 1 ? (
+                          <span style={{ color: 'orange' }}>未开始</span>
+                        ) : item.assignmentStatus === 2 ? (
+                          <span style={{ color: 'blue' }}>进行中</span>
+                        ) : item.assignmentStatus === 3 ? (
+                          <span style={{ color: 'green' }}>已完成</span>
+                        ) : item.assignmentStatus === 4 ? (
+                          <span style={{ color: 'red' }}> 已逾期</span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </div>
                     <div className={styles.text}>{item?.descr || <i></i>}</div>
                     <div className={styles.listContent}>
-                      # {item.assignmentId} · {item.createName}
-                      {' 创建于 '}
-                      {userTask?.createTime
-                        ? item[userTask.createTime]
-                        : item?.createTime}{' '}
-                      <span
-                        style={{ marginLeft: 10, marginRight: 10 }}
-                        onClick={() => {
-                          goSpecifyPage({
-                            path: `${item.projectUrl}/task`,
-                          })
-                        }}>
-                        <Icon type="tags-o" />
-                        {item?.name}
-                      </span>
-                      <span
-                        onClick={() => {
-                          goSpecifyPage({
-                            path: `${item.projectUrl}/usersManagement`,
-                          })
-                        }}>
-                        <Icon type="user" />
-                        {item?.updateName}
-                      </span>
-                      <span className={styles.updateTime}>
-                        ·更新于{item.updateTime || ''}
-                      </span>
+                      任务描述：{item.description}
                     </div>
                   </div>
                 </li>

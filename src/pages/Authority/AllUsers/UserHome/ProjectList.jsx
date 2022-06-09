@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import { ProjectManagement } from '@/components'
 import styles from './index.module.less'
+// import { useParams } from 'react-router-dom'
 
 const ProjectList = (props) => {
   const {
@@ -12,6 +13,8 @@ const ProjectList = (props) => {
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const { goSpecifyPage } = props
+  // const params = useParams()
+  // const { userAccount } = params
 
   return (
     <div className={styles.userAllProjectList}>
@@ -38,7 +41,7 @@ const ProjectList = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userProjectList.length ? (
+          {userProjectList?.length ? (
             userProjectList.map((item) => {
               return (
                 <li key={item.id}>
