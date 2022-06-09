@@ -8,6 +8,7 @@ import ProjectList from './ProjectList'
 import DynamicsList from './DynamicsList'
 import styles from './index.module.less'
 import PopupBox from '../PopupBox'
+import TaskList from './TaskList'
 
 const UserHome = (props) => {
   const {
@@ -164,7 +165,12 @@ const UserHome = (props) => {
                       <ProjectList goSpecifyPage={goSpecifyPage} />
                     </div>
                   </Tabs.Pane>
-                  <Tabs.Pane label="动态" key="3">
+                  <Tabs.Pane label="任务" key="3">
+                    <div>
+                      <TaskList goSpecifyPage={goSpecifyPage} />
+                    </div>
+                  </Tabs.Pane>
+                  <Tabs.Pane label="动态" key="4">
                     <div>
                       <DynamicsList goSpecifyPage={goSpecifyPage} />
                     </div>
