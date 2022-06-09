@@ -2,6 +2,7 @@ import { Empty, Button, Loader } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProjectManagement } from '@/components'
 import styles from './index.module.less'
+import { useParams } from 'react-router-dom'
 
 const ProjectList = (props) => {
   const {
@@ -10,22 +11,28 @@ const ProjectList = (props) => {
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const { goSpecifyPage } = props
+  const params = useParams()
+  const { userAccount } = params
 
   return (
     <div className={styles.userAllProjectList}>
       <div className={styles.projectListHead}>
         <div></div>
-        <Button
-          type="success"
-          size="small"
-          onClick={() => {
-            dispatch({
-              type: 'projectUpdate/updataProject',
-              payload: { drawerType: 'add' },
-            })
-          }}>
-          创建任务
-        </Button>
+        {userAccount === 'admin' ? (
+          <Button
+            type="success"
+            size="small"
+            onClick={() => {
+              dispatch({
+                type: 'projectUpdate/updataProject',
+                payload: { drawerType: 'add' },
+              })
+            }}>
+            创建任务
+          </Button>
+        ) : (
+          ''
+        )}
       </div>
       <Loader
         tip="所有项目加载中..."
