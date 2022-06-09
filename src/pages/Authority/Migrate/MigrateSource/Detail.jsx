@@ -1,6 +1,7 @@
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Loader } from 'uiw'
+import { formItem } from './item'
 const Detail = (props) => {
   const {
     migrate: {
@@ -17,59 +18,8 @@ const Detail = (props) => {
       <ProForm
         formType="card"
         form={form}
-        readOnly={type === 3 && true}
         readOnlyProps={{ column: 1, layout: 'vertical' }}
-        formDatas={[
-          {
-            label: '名称',
-            key: 'name',
-            required: true,
-            widget: 'input',
-            initialValue: dataInfo.name,
-            widgetProps: {},
-            span: '24',
-          },
-          {
-            label: 'token',
-            key: 'token',
-            required: true,
-            widget: 'input',
-            initialValue: '',
-            widgetProps: {},
-            span: '24',
-          },
-          {
-            label: '备注',
-            key: 'remark',
-            widget: 'input',
-            initialValue: dataInfo.remark,
-            widgetProps: {},
-            span: '24',
-          },
-          {
-            label: '迁移类型',
-            key: 'type',
-            required: true,
-            widget: 'select',
-            initialValue: dataInfo.type,
-            widgetProps: {},
-            span: '24',
-            option: [
-              { value: 10, label: 'GitLab' },
-              { value: 20, label: 'GitHub' },
-              { value: 30, label: '禅道' },
-            ],
-          },
-          {
-            label: '迁移路径',
-            key: 'url',
-            required: true,
-            widget: 'input',
-            initialValue: dataInfo.url,
-            widgetProps: {},
-            span: '24',
-          },
-        ]}
+        formDatas={formItem(initialValue, type)}
       />
     )
   }
