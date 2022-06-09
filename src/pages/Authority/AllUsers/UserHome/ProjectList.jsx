@@ -6,7 +6,8 @@ import styles from './index.module.less'
 
 const ProjectList = (props) => {
   const {
-    userHome: { userProjectList },
+    userHome: { userProjectList, user },
+    routeManagement: { userInfoName },
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
@@ -14,21 +15,23 @@ const ProjectList = (props) => {
 
   return (
     <div className={styles.userAllProjectList}>
-      <div className={styles.projectListHead}>
-        {/* <Input style={{ maxWidth: "700px" }} /> */}
-        <div></div>
-        <Button
-          type="success"
-          size="small"
-          onClick={() => {
-            dispatch({
-              type: 'projectUpdate/updataProject',
-              payload: { drawerType: 'add' },
-            })
-          }}>
-          创建项目
-        </Button>
-      </div>
+      {userInfoName === user?.userName ? (
+        userInfoName === 'admin' ? null : (
+          <div className={styles.projectListHead}>
+            <Button
+              type="success"
+              size="small"
+              onClick={() => {
+                dispatch({
+                  type: 'projectUpdate/updataProject',
+                  payload: { drawerType: 'add' },
+                })
+              }}>
+              创建项目
+            </Button>
+          </div>
+        )
+      ) : null}
       <Loader
         tip="所有项目加载中..."
         vertical
