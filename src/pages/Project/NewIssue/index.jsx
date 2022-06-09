@@ -67,7 +67,9 @@ const NewIssue = (props) => {
         {
           trigger: '#',
           values: allWork || [],
-          lookup: 'assignmentTitle',
+          lookup: function (allWork) {
+            return '#' + allWork.assignmentId + ' ' + allWork.assignmentTitle
+          },
           fillAttr: 'assignmentTitle',
         },
         {
