@@ -137,21 +137,24 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    {projectList.length &&
-                    totalWorkVoOne?.projectNum !== 0 &&
-                    totalData?.projectNum !== 0 ? (
+                    {projectList.length ? (
                       <div style={{ margin: 10 }}>
-                        <Button
-                          type="primary"
-                          onClick={() => {
-                            if (active === 0) {
-                              navigate(`${projectListOne.projectUrl}/task`)
-                            } else {
-                              navigate(`${projectData.projectUrl}/task`)
-                            }
-                          }}>
-                          查看全部
-                        </Button>
+                        {totalWorkVoOne?.projectNum !== 0 &&
+                        totalData?.projectNum !== 0 ? (
+                          <Button
+                            type="primary"
+                            onClick={() => {
+                              if (active === 0) {
+                                navigate(`${projectListOne.projectUrl}/task`)
+                              } else {
+                                navigate(`${projectData.projectUrl}/task`)
+                              }
+                            }}>
+                            查看全部
+                          </Button>
+                        ) : (
+                          ''
+                        )}
                         <Button
                           type="primary"
                           onClick={() => {
