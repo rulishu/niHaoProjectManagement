@@ -139,7 +139,7 @@ export default function Demo() {
                   <div>
                     {projectList.length ? (
                       <div style={{ margin: 10 }}>
-                        {totalWorkVoOne?.projectNum !== 0 &&
+                        {totalWorkVoOne?.projectNum !== 0 ||
                         totalData?.projectNum !== 0 ? (
                           <Button
                             type="primary"
