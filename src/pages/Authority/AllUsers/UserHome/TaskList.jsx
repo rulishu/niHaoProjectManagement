@@ -33,7 +33,7 @@ const ProjectList = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userTask.length ? (
+          {userTask?.length ? (
             userTask.map((item, index) => {
               return (
                 <li key={index}>

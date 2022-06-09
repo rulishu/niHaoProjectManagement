@@ -34,9 +34,8 @@ export const items = (queryInfo) => {
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },
@@ -91,9 +90,8 @@ export const memberItems = (queryInfo, useoption, handlememSearch) => {
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },
@@ -148,9 +146,8 @@ export const groupItems = (queryInfo, option, handleSearch) => {
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },

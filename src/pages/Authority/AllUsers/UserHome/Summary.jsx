@@ -22,7 +22,7 @@ const DynamicsList = (props) => {
             </Button>
           </div>
         </div>
-        {userProjectList.length ? (
+        {userProjectList?.length ? (
           <Loader
             tip="最新项目加载中..."
             vertical
@@ -93,7 +93,7 @@ const DynamicsList = (props) => {
                 </Button>
               </div>
             </div>
-            {userTask.length ? (
+            {userTask?.length ? (
               <Loader
                 tip="最新动态加载中..."
                 vertical
@@ -205,7 +205,7 @@ const DynamicsList = (props) => {
                 </Button>
               </div>
             </div>
-            {userDynamics.length ? (
+            {userDynamics?.length ? (
               <Loader
                 tip="最新动态加载中..."
                 vertical
