@@ -45,5 +45,22 @@ function getEdit(params) {
     body: { ...params },
   })
 }
-export { getList, getAdd, getDelete, getEdit, judge, getInfoData }
+
+// 模糊查询成员
+function queryFuzzyAllUser(params) {
+  return request('/api/system/user/queryFuzzyAllUser', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+export {
+  getList,
+  getAdd,
+  getDelete,
+  getEdit,
+  judge,
+  getInfoData,
+  queryFuzzyAllUser,
+}
 //
