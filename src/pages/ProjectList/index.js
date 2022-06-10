@@ -281,6 +281,13 @@ const ProjectList = (props) => {
                           <span className={styles.projectRole}>
                             {rowData?.userRole}
                           </span>
+                          <span className={styles.projectRole}>
+                            {rowData?.status !== 1
+                              ? rowData?.status === 2
+                                ? '已关闭'
+                                : '已挂起'
+                              : '进行中'}
+                          </span>
                         </div>
                         <div className={styles.infoBottomBx}>
                           <span>{rowData?.descr}</span>
