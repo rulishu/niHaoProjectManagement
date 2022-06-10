@@ -41,7 +41,7 @@ const Register = () => {
           )
             errorObj.username = `账号不能为关键字或关键符号`
           if (reg.test(current.username))
-            errorObj.username = `账号只能为数组，字母，下划线！`
+            errorObj.username = `账号只能为数字，字母，下划线！`
           if (!current.password) errorObj.password = `密码不能为空！`
           if (!current.secondPassword)
             errorObj.secondPassword = `确认密码不能为空！`
