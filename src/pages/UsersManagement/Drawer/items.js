@@ -1,3 +1,5 @@
+import formatter from '@uiw/formatter'
+
 export const items = (queryInfo) => {
   return [
     {
@@ -30,7 +32,10 @@ export const items = (queryInfo) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {
@@ -86,7 +91,10 @@ export const memberItems = (queryInfo, useoption, handlememSearch) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {
@@ -142,7 +150,10 @@ export const groupItems = (queryInfo, option, handleSearch) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {

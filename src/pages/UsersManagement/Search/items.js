@@ -1,4 +1,5 @@
 import { Button } from 'uiw'
+import formatter from '@uiw/formatter'
 
 export const columnsSearch = (handleEditTable, userInfo, userRole) => [
   {
@@ -32,11 +33,25 @@ export const columnsSearch = (handleEditTable, userInfo, userRole) => [
     title: '加入日期',
     key: 'createTime',
     align: 'center',
+    render: (createTime) => {
+      return createTime ? (
+        <div>{formatter('YYYY-MM-DD', new Date(createTime))}</div>
+      ) : (
+        ''
+      )
+    },
   },
   {
     title: '访问到期日期',
     key: 'accessExpirationTime',
     align: 'center',
+    render: (accessExpirationTime) => {
+      return accessExpirationTime ? (
+        <div>{formatter('YYYY-MM-DD', new Date(accessExpirationTime))}</div>
+      ) : (
+        ''
+      )
+    },
   },
   {
     title: '操作',
