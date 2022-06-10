@@ -77,7 +77,6 @@ const MilestoneInfo = () => {
       payload: { activeKey },
     })
   }
-  console.log(editState)
   // 改变状态
   const changeState = async (status) => {
     await dispatch.milestone.editStatusMilestones({
@@ -110,9 +109,18 @@ const MilestoneInfo = () => {
     if (type === 'due') {
       setEditState({ ...editState, due: false })
     }
+  }
+  const upDateChange = (time, type) => {
+    const newTime = formatter('YYYY-MM-DD', new Date(time))
+    if (type === 'start') {
+      setEditState({ ...editState, startTime: newTime, start: false })
+    }
+    if (type === 'due') {
+      setEditState({ ...editState, dueTime: newTime, due: false })
+    }
     const param = {
-      dueTime: editState.dueTime,
-      startTime: editState.startTime,
+      dueTime: type === 'due' ? newTime : editState.dueTime,
+      startTime: type === 'start' ? newTime : editState.startTime,
       milestonesStatus: milestonesState,
       milestonesId: milestonesId,
       projectId: projectId,
@@ -121,15 +129,6 @@ const MilestoneInfo = () => {
       payload: param,
       callback: onCancel,
     })
-  }
-  const upDateChange = (time, type) => {
-    const newTime = formatter('YYYY-MM-DD', new Date(time))
-    if (type === 'start') {
-      setEditState({ ...editState, startTime: newTime })
-    }
-    if (type === 'due') {
-      setEditState({ ...editState, dueTime: newTime })
-    }
   }
   // 返回
   const goBack = () => {
