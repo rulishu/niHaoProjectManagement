@@ -43,21 +43,7 @@ export default function Demo() {
   const totalWorkVoOne = projectListOne?.totalWorkVo
   //判断是否可以看到所有项目列表
   const naid = localStorage.getItem('key')
-  // const Blank = ({ num, height, width, style, background }) => (
-  //   <div
-  //     style={{
-  //       marginLeft: -5,
-  //       ...style,
-  //       textAlign: 'center',
-  //       paddingTop: 5,
-  //       paddingBottom: 5,
-  //       background,
-  //       width: 100,
-  //       height,
-  //     }}>
-  //     {num}
-  //   </div>
-  // )
+
   return (
     <Container>
       <div>
@@ -137,21 +123,35 @@ export default function Demo() {
                     )}
                   />
                   <div>
-                    {projectList.length &&
-                    totalWorkVoOne?.projectNum !== 0 &&
-                    totalData?.projectNum !== 0 ? (
+                    {projectList.length ? (
                       <div style={{ margin: 10 }}>
-                        <Button
-                          type="primary"
-                          onClick={() => {
-                            if (active === 0) {
-                              navigate(`${projectListOne.projectUrl}/task`)
-                            } else {
-                              navigate(`${projectData.projectUrl}/task`)
-                            }
-                          }}>
-                          查看全部
-                        </Button>
+                        {active === 0 && totalWorkVoOne?.projectNum !== 0 ? (
+                          <Button
+                            type="primary"
+                            onClick={() => {
+                              if (active === 0) {
+                                navigate(`${projectListOne.projectUrl}/task`)
+                              } else {
+                                navigate(`${projectData.projectUrl}/task`)
+                              }
+                            }}>
+                            查看全部
+                          </Button>
+                        ) : active !== 0 && totalData?.projectNum !== 0 ? (
+                          <Button
+                            type="primary"
+                            onClick={() => {
+                              if (active === 0) {
+                                navigate(`${projectListOne.projectUrl}/task`)
+                              } else {
+                                navigate(`${projectData.projectUrl}/task`)
+                              }
+                            }}>
+                            查看全部
+                          </Button>
+                        ) : (
+                          ''
+                        )}
                         <Button
                           type="primary"
                           onClick={() => {
@@ -297,14 +297,6 @@ export default function Demo() {
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </div>
                             <div className={styles.itemProg}>{item?.rate}</div>
-                            {/* <span style={{ flex: 3 }}>
-                              {item?.milestonesTitle}
-                            </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
-                              {item?.dueTime &&
-                                dayjs(item?.dueTime).format('YYYY-MM-DD')}
-                            </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span> */}
                           </li>
                         )
                       })

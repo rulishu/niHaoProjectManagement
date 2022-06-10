@@ -12,6 +12,7 @@ import {
   selectLabel,
   assignment_label,
   countAssignment,
+  getAssignment, //不分页获取所有任务
 } from '../servers/project'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
@@ -77,6 +78,7 @@ export default createModel()({
     selectDtos: [], // 上方搜索条件
     tabDtos: [], // tab搜索条件
     taskNum: '', //任务各状态总数
+    allWork: [], //所有任务，不分页
   },
   effects: (dispatch) => {
     return {
@@ -197,6 +199,14 @@ export default createModel()({
           assignmentStatus,
           projectId,
         })
+      },
+
+      // 不分页获取所有任务
+      async getAssignment(params) {
+        const data = await getAssignment(params)
+        if (data && data.code === 200) {
+          dispatch.project.update({ allWork: data.data })
+        }
       },
 
       // 查询成员
