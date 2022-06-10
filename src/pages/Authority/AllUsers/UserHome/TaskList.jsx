@@ -1,22 +1,25 @@
-import { Empty, Button, Loader } from 'uiw'
-import { useSelector, useDispatch } from 'react-redux'
+import { Empty, Loader } from 'uiw'
+import {
+  useSelector,
+  //  useDispatch
+} from 'react-redux'
 import { ProjectManagement } from '@/components'
 import styles from './index.module.less'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 const ProjectList = (props) => {
   const {
     userHome: { userTask },
     loading,
   } = useSelector((state) => state)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const { goSpecifyPage } = props
-  const params = useParams()
-  const { userAccount } = params
+  // const params = useParams()
+  // const { userAccount } = params
 
   return (
     <div className={styles.userAllProjectList}>
-      <div className={styles.projectListHead}>
+      {/* <div className={styles.projectListHead}>
         <div></div>
         {userAccount === 'admin' ? (
           <Button
@@ -33,7 +36,7 @@ const ProjectList = (props) => {
         ) : (
           ''
         )}
-      </div>
+      </div> */}
       <Loader
         tip="所有项目加载中..."
         vertical
