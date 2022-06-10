@@ -60,25 +60,33 @@ const TaskBoard = () => {
     const destinationList = list.filter(
       (s) => s.id.toString() === destinationDroppableId
     )[0]
-    if (
-      sourceDroppableId !== destinationDroppableId &&
-      destinationDroppableId
-    ) {
-      const [draggedItem] = sourceList.managerBoardNotes.splice(sourceIndex, 1)
-      destinationList.managerBoardNotes.splice(destinationIndex, 0, draggedItem)
-      list?.map((item, index) => {
-        if (item.id.toString() === destinationDroppableId) {
-          list[index] = destinationList
-        }
-        return null
-      })
-      dispatch.taskboard.dragAssignmentNote({
-        noteId: result.draggableId,
-        newListId: destinationDroppableId,
-        boardId: list[0].boardId,
-        newSort: destinationList.managerBoardNotes.length - destinationIndex,
-        oldSort: sourceList.managerBoardNotes.length - sourceIndex,
-      })
+    if (sourceDroppableId !== destinationDroppableId) {
+      if (result.destination !== null) {
+        const [draggedItem] = sourceList.managerBoardNotes.splice(
+          sourceIndex,
+          1
+        )
+        destinationList.managerBoardNotes.splice(
+          destinationIndex,
+          0,
+          draggedItem
+        )
+        list?.map((item, index) => {
+          if (item.id.toString() === destinationDroppableId) {
+            list[index] = destinationList
+          }
+          return null
+        })
+        // dispatch.taskboard.dragAssignmentNote({
+        //   noteId: result.draggableId,
+        //   newListId: destinationDroppableId,
+        //   boardId: list[0].boardId,
+        //   newSort: destinationList.managerBoardNotes.length - destinationIndex,
+        //   oldSort: sourceList.managerBoardNotes.length - sourceIndex,
+        // })
+      } else {
+        return
+      }
     } else {
       if (destinationIndex === sourceIndex) {
         return
@@ -94,13 +102,13 @@ const TaskBoard = () => {
           }
           return null
         })
-        dispatch.taskboard.dragAssignmentNote({
-          noteId: result.draggableId,
-          newListId: destinationDroppableId,
-          boardId: list[0].boardId,
-          newSort: sourceList.managerBoardNotes.length - destinationIndex,
-          oldSort: sourceList.managerBoardNotes.length - sourceIndex,
-        })
+        // dispatch.taskboard.dragAssignmentNote({
+        //   noteId: result.draggableId,
+        //   newListId: destinationDroppableId,
+        //   boardId: list[0].boardId,
+        //   newSort: sourceList.managerBoardNotes.length - destinationIndex,
+        //   oldSort: sourceList.managerBoardNotes.length - sourceIndex,
+        // })
       }
     }
   }
@@ -413,5 +421,4 @@ const TaskBoard = () => {
     </>
   )
 }
-
 export default TaskBoard
