@@ -53,7 +53,7 @@ const Detail = (props) => {
         tip="loading...">
         <div>
           {Object.keys(dataInfo).length !== 1 &&
-            (curData === dataInfo.id || type === 1) &&
+            curData === dataInfo.id &&
             proForm(dataInfo)}
           {type === 1 && proForm({})}
         </div>

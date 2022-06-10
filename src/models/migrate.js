@@ -47,8 +47,13 @@ const thirdpartyMigration = createModel()({
       }
     },
     async setConfigControl(payload, { migrate }) {
+      const { param, callback } = payload
       const { loginConfig } = migrate
-      await setConfigControl({ ...loginConfig, ...payload })
+      const data = await setConfigControl({ ...loginConfig, ...param })
+      if (data && data.code === 200) {
+        callback && callback()
+        Notify.success({ description: '配置成功' })
+      }
     },
     // gitlab数据同步
     async synchronizationControl(payload, { migrate: { control } }) {

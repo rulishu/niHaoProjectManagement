@@ -5,3 +5,25 @@
   display: flex;
   margin: auto;
 }
+
+.configForm {
+  :global {
+    .w-form-label {
+      width: 200px;
+      padding-right: 10px;
+      text-align: right;
+
+      &::after {
+        content: ':';
+        display: inline-block;
+        height: 100%;
+        width: 10px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .buttonGroup {
+    display: flex;
+  }
+}

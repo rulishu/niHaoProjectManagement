@@ -50,7 +50,7 @@ export const columns = (methods) => {
     {
       title: '操作',
       key: 'edit',
-      width: 300,
+      width: 200,
       align: 'center',
       render: (text, key, rowData) => {
         // console.log(text, key, rowData);
@@ -79,7 +79,7 @@ export const columns = (methods) => {
               type="warning"
               icon="reload"
               onClick={() => synchrodata(rowData)}>
-              同步项目数据
+              同步数据
             </Button>
           </div>
         )
@@ -144,3 +144,98 @@ export const formItem = (initialValue, type) => [
     span: '24',
   },
 ]
+
+// 第三方迁移配置
+// type: 10：gitlab 20：github 30：禅道
+export const configItem = (initialValue, type) => {
+  return [
+    {
+      label: 'GitLab第三方应用ID',
+      key: 'clientId',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.clientId,
+      widgetProps: {},
+      span: '24',
+    },
+    {
+      label: 'GitLab第三方应用密钥',
+      key: 'clientSecret',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.clientSecret,
+      widgetProps: {},
+      span: '24',
+    },
+    // {
+    //   label: 'GitLab第三方Url',
+    //   key: 'gitLabUrl',
+    //   required: true,
+    //   widget: 'input',
+    //   initialValue: initialValue?.gitLabUrl,
+    //   widgetProps: {},
+    //   span: '24',
+    // },
+    {
+      label: '授权类型',
+      key: 'grantType',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.grantType,
+      widgetProps: {},
+      span: '24',
+    },
+    {
+      label: '回调网址',
+      key: 'redirectUri',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.redirectUri,
+      widgetProps: {},
+      span: '24',
+    },
+    {
+      label: '响应类型',
+      key: 'responseType',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.responseType,
+      widgetProps: {},
+      span: '24',
+    },
+    {
+      label: '授权范围',
+      key: 'scope',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.scope,
+      widgetProps: {},
+      span: '24',
+    },
+    // {
+    //   label: 'token',
+    //   key: 'token',
+    //   required: true,
+    //   widget: 'input',
+    //   initialValue: initialValue?.token,
+    //   widgetProps: {},
+    //   span: '24'
+    // },
+    {
+      label: 'GitLab地址',
+      key: 'url',
+      required: true,
+      inline: true,
+      widget: 'input',
+      initialValue: initialValue?.url,
+      widgetProps: {},
+      span: '24',
+    },
+  ]
+}

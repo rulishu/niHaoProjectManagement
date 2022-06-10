@@ -6,6 +6,7 @@ import styles from './index.module.less'
 import { searchFun } from '@/utils/publicFun'
 import Detail from './Detail'
 import { columns } from './item'
+import MigrateConfig from './MigrateConfig'
 
 const MigrateSource = (props) => {
   const {
@@ -17,6 +18,7 @@ const MigrateSource = (props) => {
   const dispatch = useDispatch()
 
   const [isVisible, setIsVisible] = useState(false)
+  const [isConfig, setIsConfig] = useState(false)
   const [curData, setCurData] = useState()
 
   const token = localStorage.getItem('token')
@@ -24,7 +26,7 @@ const MigrateSource = (props) => {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data?.data,
+        total: data?.data?.total,
         data: data?.data?.rows,
       }
     },
@@ -87,6 +89,13 @@ const MigrateSource = (props) => {
                   icon: 'plus',
                   onClick: () => getDataByIdSource({}, 1),
                 },
+                {
+                  label: '第三方迁移配置',
+                  type: 'success',
+                  icon: 'setting',
+                  style: { float: 'right' },
+                  onClick: () => setIsConfig(true),
+                },
               ]}
               // 搜索栏按钮
               searchBtns={searchFun(table)}
@@ -107,6 +116,7 @@ const MigrateSource = (props) => {
         dataInfo={dataInfo}
         curData={curData}
       />
+      <MigrateConfig isConfig={isConfig} setIsConfig={setIsConfig} />
     </Fragment>
   )
 }
