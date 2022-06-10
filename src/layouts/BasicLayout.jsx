@@ -13,7 +13,7 @@ import './index.css'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
-    todolist: { status },
+    todolist: { openTotal, status },
     url: { linkedType, url: breadUrl },
   } = useSelector((state) => state)
   // const {
@@ -31,7 +31,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const [isError, setIsError] = useState(false)
   const fullPathName = props.router.location.pathname
   const pathName = `/${decodeURI(fullPathName.split('/')[1] || '')}`
-  // const todoNotices = sessionStorage.getItem('todoNotice')
+  const todoNotices = sessionStorage.getItem('todoNotice')
   // 是否处于没用左侧菜单的页面
   const isNoMenu = ['/projectList', '/todoList'].includes(pathName)
   const isGetPageTeam = ['projectList', 'Authority'].includes(
@@ -172,11 +172,21 @@ function BasicLayoutScreen(props = { routes: [] }) {
           )}
           <div className={styles.title} onClick={() => navigate(`/todoList`)}>
             {status === 0 ? (
-              <Badge count={todoListCount}>
+              <Badge
+                count={
+                  todoListCount !== 0 && todoNotices !== 0
+                    ? todoListCount || todoNotices
+                    : 0
+                }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             ) : (
-              <Badge count={todoListCount}>
+              <Badge
+                count={
+                  openTotal !== 0 && todoNotices !== 0
+                    ? openTotal || todoNotices
+                    : 0
+                }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
             )}
