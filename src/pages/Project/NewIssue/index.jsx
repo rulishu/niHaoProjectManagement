@@ -55,7 +55,7 @@ const NewIssue = (props) => {
     dispatch.project.getAssignment({ projectId: projectId }) //不分页获取所有任务
   }, [dispatch, projectId])
 
-  let tribute = useMemo(() => {
+  const tribute = useMemo(() => {
     return new Tribute({
       collection: [
         {
@@ -97,7 +97,7 @@ const NewIssue = (props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mdRefs?.current])
+  }, [mdRefs, tribute])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)

@@ -84,6 +84,12 @@ const Task = (props) => {
     dispatch.project.assignment_label()
     // dispatch.dictionary.getDictDataList({ dictType: 'assignment_label' })
     dispatch.labels.getAllLabelData({ projectId: taskId })
+    dispatch.projectuser.pullSelectAll({ memberName: '', projectId: taskId })
+    dispatch.milestone.getListAll({
+      projectId: taskId,
+      milestonesStatusList: [1, 2],
+    })
+    dispatch.project.getAssignment({ projectId: taskId }) //不分页获取所有任务
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
