@@ -16,22 +16,23 @@ const ProjectList = (props) => {
   return (
     <div className={styles.userAllProjectList}>
       {userInfoName === user?.userName ? (
-        userInfoName === 'admin' ? null : (
-          <div className={styles.projectListHead}>
-            <Button
-              type="success"
-              size="small"
-              onClick={() => {
-                dispatch({
-                  type: 'projectUpdate/updataProject',
-                  payload: { drawerType: 'add' },
-                })
-              }}>
-              创建项目
-            </Button>
-          </div>
-        )
-      ) : null}
+        // userInfoName === 'admin' ?  (
+        <div className={styles.projectListHead}>
+          <div></div>
+          <Button
+            type="success"
+            size="small"
+            onClick={() => {
+              dispatch({
+                type: 'projectUpdate/updataProject',
+                payload: { drawerType: 'add' },
+              })
+            }}>
+            创建项目
+          </Button>
+        </div>
+      ) : // ):null
+      null}
       <Loader
         tip="所有项目加载中..."
         vertical
