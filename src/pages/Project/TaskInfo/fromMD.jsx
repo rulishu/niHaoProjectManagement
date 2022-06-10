@@ -137,7 +137,10 @@ const FromMD = (props) => {
                   <Col>{fields[fromValue]}</Col>
                 </Row>
               </div>
-              <Row align="middle" className="fromButton">
+              <Row
+                align="middle"
+                // className="fromButton"
+              >
                 <Col>
                   <div className={styles.btnWrap}>
                     <Button
