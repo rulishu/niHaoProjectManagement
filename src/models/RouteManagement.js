@@ -20,6 +20,7 @@ export default createModel()({
     userInfo: '', //当前登陆人信息
     userInfoName: '', //账号
     todoListCount: 0,
+    userData: {},
   },
   effects: (dispatch) => ({
     // 获取路由列表数据
@@ -41,9 +42,10 @@ export default createModel()({
           userInfo: data?.user?.nickName,
           userInfoName: data?.user?.userName,
           todoListCount: data?.todoListCount,
+          userData: data.user,
         })
         const imgs = data?.user?.admin
-        payload.callback && payload.callback(data.user)
+        // payload.callback && payload.callback(data.user)
         localStorage.setItem('key', imgs)
         return true
       }
