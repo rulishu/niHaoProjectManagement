@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import {
   Row,
   Col,
@@ -22,14 +22,6 @@ import { Container } from '@/components'
 import { CompDropdown } from '@/components'
 import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
-let tribute = new Tribute({
-  trigger: '@',
-  values: [
-    { key: '展示的第一个key', value: '放上去的第一个值' },
-    { key: '展示的第二个key', value: '放上去的第二个值' },
-  ],
-})
-
 const NewIssue = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -38,7 +30,7 @@ const NewIssue = (props) => {
   const params = useParams()
   const { projectId, userAccount } = params
   const {
-    project: { fromData },
+    project: { fromData, allWork },
     // dictionary: { dictDataList },
     milestone: { milepostaData, taskMilestonesTitle, taskMilestonesId },
     labels: { listData: labelsListData },
@@ -51,17 +43,6 @@ const NewIssue = (props) => {
   const [mdRefs, setMdRefs] = useState()
 
   useEffect(() => {
-    if (mdRefs?.current?.textarea && !isBundle.current) {
-      isBundle.current = true
-      tribute.attach(mdRefs.current.textarea)
-      mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
-        form.current.setFieldValue('description', e.target.value)
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mdRefs?.current])
-
-  useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
     dispatch.labels.getAllLabelData({ projectId })
     // dispatch.dictionary.getDictDataList({
@@ -71,7 +52,50 @@ const NewIssue = (props) => {
       projectId: projectId,
       milestonesStatusList: [1, 2],
     })
+    dispatch.project.getAssignment({ projectId: projectId }) //不分页获取所有任务
   }, [dispatch, projectId])
+
+  let tribute = useMemo(() => {
+    return new Tribute({
+      collection: [
+        {
+          trigger: '@',
+          values: userSelectAllList || [],
+          lookup: 'memberName',
+          fillAttr: 'memberName',
+        },
+        {
+          trigger: '#',
+          values: allWork || [],
+          lookup: 'assignmentTitle',
+          fillAttr: 'assignmentTitle',
+        },
+        {
+          trigger: '~',
+          values: labelsListData || [],
+          lookup: 'name',
+          fillAttr: 'name',
+        },
+        {
+          trigger: '%',
+          values: milepostaData || [],
+          lookup: 'milestonesTitle',
+          fillAttr: 'milestonesTitle',
+        },
+      ],
+    })
+  }, [userSelectAllList, allWork, labelsListData, milepostaData])
+
+  useEffect(() => {
+    if (mdRefs?.current?.textarea && !isBundle.current) {
+      isBundle.current = true
+      tribute.attach(mdRefs.current.textarea)
+      mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
+        form.current.setFieldValue('description', e.target.value)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mdRefs?.current])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)

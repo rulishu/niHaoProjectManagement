@@ -38,7 +38,7 @@ const ProjectList = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userProjectList.length ? (
+          {userProjectList?.length ? (
             userProjectList.map((item) => {
               return (
                 <li key={item.id}>

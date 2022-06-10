@@ -5,6 +5,7 @@ import {
   getEdit,
   judge,
   getInfoData,
+  queryFuzzyAllUser,
 } from '@/servers/department' //
 import { createModel } from '@rematch/core'
 
@@ -23,6 +24,8 @@ const department = createModel()({
     alertVisible: false,
     alertDept: false,
     topData: {},
+    userIdList: [],
+    dataList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -112,6 +115,22 @@ const department = createModel()({
           drawerVisibleText: '',
         })
         dph.department.getList({})
+      }
+    },
+
+    // 模糊查询成员
+    async queryFuzzyAllUser(payload) {
+      const dph = dispatch
+      const data = await queryFuzzyAllUser(payload)
+      if (data.code === 200) {
+        const userIdList = data?.rows.map((item) => ({
+          label: `${item.nickName} ${item.email}`,
+          value: item.userId,
+        }))
+        dph.department.updateState({
+          userIdList: userIdList,
+          dataList: data?.rows,
+        })
       }
     },
   }),

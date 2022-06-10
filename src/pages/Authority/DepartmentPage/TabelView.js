@@ -7,6 +7,7 @@ export default function TabelView() {
     department: {
       dataSource,
       alertVisible,
+      userIdList,
       // alertDept,
     },
   } = useSelector((state) => state)
@@ -136,6 +137,15 @@ export default function TabelView() {
       title: '负责人',
       key: 'leader',
       align: 'center',
+      props: {
+        widget: 'searchSelect',
+        option: userIdList,
+      },
+      render: (code) => {
+        let learderLable =
+          userIdList.find((item) => item.value === Number(code)) || {}
+        return <div>{learderLable.label}</div>
+      },
     },
     {
       title: '联系电话',
