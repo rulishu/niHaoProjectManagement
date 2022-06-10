@@ -124,7 +124,7 @@ const department = createModel()({
       const data = await queryFuzzyAllUser(payload)
       if (data.code === 200) {
         const userIdList = data?.rows.map((item) => ({
-          label: `${item.nickName} ${item.email}`,
+          label: item.nickName,
           value: item.userId,
         }))
         dph.department.updateState({

@@ -16,8 +16,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
     todolist: { openTotal, status },
     url: { linkedType, url: breadUrl },
   } = useSelector((state) => state)
+  // const {
+  //     workbench: { todoNotice },
+  // } = useSelector((state) => state)
   const {
-    workbench: { todoNotice },
+    routeManagement: { todoListCount },
   } = useSelector((state) => state)
   const layouts = useLayouts()
   const navigate = useNavigate()
@@ -171,8 +174,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
             {status === 0 ? (
               <Badge
                 count={
-                  todoNotice !== 0 && todoNotices !== 0
-                    ? todoNotice || todoNotices
+                  todoListCount !== 0 && todoNotices !== 0
+                    ? todoListCount || todoNotices
                     : 0
                 }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />

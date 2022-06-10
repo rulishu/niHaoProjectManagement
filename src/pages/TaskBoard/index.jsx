@@ -73,12 +73,11 @@ const TaskBoard = () => {
         }
         return null
       })
-
       dispatch.taskboard.dragAssignmentNote({
         noteId: result.draggableId,
         newListId: destinationDroppableId,
         boardId: list[0].boardId,
-        noteSort: destinationIndex + 1,
+        sort: destinationList.assignmentList.length - destinationIndex,
       })
     } else {
       if (destinationIndex === sourceIndex) {
