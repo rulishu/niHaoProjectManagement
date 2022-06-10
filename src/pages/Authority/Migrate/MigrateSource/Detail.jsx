@@ -10,7 +10,7 @@ const Detail = (props) => {
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
-  const { isVisible, setIsVisible, curData } = props
+  const { isVisible, setIsVisible, curData, table } = props
   const form = useForm()
 
   const proForm = (initialValue) => {
@@ -30,23 +30,44 @@ const Detail = (props) => {
       title={'新增'}
       visible={isVisible}
       onClose={() => setIsVisible(false)}
-      buttons={[
-        {
-          label: '保存',
-          type: 'primary',
-          show: true,
-          onClick: async () => {
-            await form?.submitvalidate?.()
-            const errors = form.getError()
-            if (errors && Object.keys(errors).length > 0) return
-            const fieldValues = form.getFieldValues()
-            await dispatch({
-              type: 'migrate/addDataSource',
-              payload: fieldValues,
-            })
-          },
-        },
-      ]}>
+      buttons={
+        type !== 3
+          ? [
+              {
+                label: '保存',
+                type: 'primary',
+                show: true,
+                onClick: async () => {
+                  await form?.submitvalidate?.()
+                  const errors = form.getError()
+                  if (errors && Object.keys(errors).length > 0) return
+                  const fieldValues = form.getFieldValues()
+                  const disType =
+                    type === 1
+                      ? 'migrate/addDataSource'
+                      : type === 2
+                      ? 'migrate/updateDataByIdSource'
+                      : false
+                  const param =
+                    type === 2
+                      ? { ...fieldValues, id: dataInfo?.id }
+                      : fieldValues
+                  disType &&
+                    (await dispatch({
+                      type: disType,
+                      payload: {
+                        param,
+                        callback: () => {
+                          setIsVisible(false)
+                          table?.onRefersh()
+                        },
+                      },
+                    }))
+                },
+              },
+            ]
+          : []
+      }>
       <Loader
         loading={loading.effects.migrate.getDataByIdSource}
         style={{ width: '100%' }}
