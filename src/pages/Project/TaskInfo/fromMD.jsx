@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Form, Row, Col } from 'uiw'
 import styles from './index.module.less'
 import { NEWMDEditor } from '@/components'
@@ -22,21 +22,50 @@ const FromMD = (props) => {
     infoData,
     fromValue,
     btnName,
-    tributeList,
     isComment,
   } = props
   const dispatch = useDispatch()
+  const {
+    project: { allWork },
+    milestone: { milepostaData },
+    labels: { listData: labelsListData },
+    projectuser: { userSelectAllList },
+  } = useSelector((state) => state)
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
   const newTribute = useMemo(() => {
     return new Tribute({
-      trigger: '@',
-      values: tributeList || [],
-      lookup: 'memberName',
-      fillAttr: 'userId',
+      collection: [
+        {
+          trigger: '@',
+          values: userSelectAllList || [],
+          lookup: 'memberName',
+          fillAttr: 'memberName',
+        },
+        {
+          trigger: '#',
+          values: allWork || [],
+          lookup: function (allWork) {
+            return '#' + allWork.assignmentId + ' ' + allWork.assignmentTitle
+          },
+          fillAttr: 'assignmentTitle',
+        },
+        {
+          trigger: '~',
+          values: labelsListData || [],
+          lookup: 'name',
+          fillAttr: 'name',
+        },
+        {
+          trigger: '%',
+          values: milepostaData || [],
+          lookup: 'milestonesTitle',
+          fillAttr: 'milestonesTitle',
+        },
+      ],
     })
-  }, [tributeList])
+  }, [userSelectAllList, allWork, labelsListData, milepostaData])
   useEffect(() => {
     if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
