@@ -1,3 +1,5 @@
+import formatter from '@uiw/formatter'
+
 export const items = (queryInfo) => {
   return [
     {
@@ -30,13 +32,15 @@ export const items = (queryInfo) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },
@@ -87,13 +91,15 @@ export const memberItems = (queryInfo, useoption, handlememSearch) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },
@@ -144,13 +150,15 @@ export const groupItems = (queryInfo, option, handleSearch) => {
       label: '访问到期日期',
       key: 'accessExpirationTime',
       widget: 'dateInput',
-      initialValue: queryInfo?.accessExpirationTime,
+      initialValue:
+        queryInfo &&
+        queryInfo?.accessExpirationTime &&
+        formatter('YYYY-MM-DD', new Date(queryInfo?.accessExpirationTime)),
       span: '24',
       required: true,
       widgetProps: {
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
         datePickerProps: {
-          showTime: true,
           todayButton: '今天',
         },
       },

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Row, Col, Progress, Alert, Loader } from 'uiw'
+import { Button, Row, Col, Progress, Alert, Loader, DateInput } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
@@ -20,7 +20,7 @@ const MilestoneInfo = () => {
 
   const [milestonesState, setMilestonesState] = useState()
   const [openAlert, setOpenAlert] = useState(false)
-
+  const [editState, setEditState] = useState({ start: false, due: false })
   //自适应方法
   const ref = useRef()
   const tHeader = ref?.current?.getElementsByClassName('ant-table-thead')[0]
@@ -49,7 +49,17 @@ const MilestoneInfo = () => {
 
   useEffect(() => {
     setMilestonesState(listDataInfo?.milestonesStatus)
-  }, [listDataInfo?.milestonesStatus])
+    setEditState({
+      start: false,
+      due: false,
+      startTime: listDataInfo?.startTime,
+      dueTime: listDataInfo?.dueTime,
+    })
+  }, [
+    listDataInfo?.milestonesStatus,
+    listDataInfo?.startTime,
+    listDataInfo?.dueTime,
+  ])
 
   // 删除
   const delMilestones = async () => {
@@ -67,7 +77,6 @@ const MilestoneInfo = () => {
       payload: { activeKey },
     })
   }
-
   // 改变状态
   const changeState = async (status) => {
     await dispatch.milestone.editStatusMilestones({
@@ -78,7 +87,7 @@ const MilestoneInfo = () => {
     await dispatch.milestone.getMilestone({ projectId, milestonesId })
   }
 
-  // 编辑
+  // 编辑跳转
   const editMilestones = () => {
     dispatch.milestone.update({ milestoneType: 2, milestonesId, projectId })
     navigate(
@@ -88,7 +97,39 @@ const MilestoneInfo = () => {
       }
     )
   }
-
+  // 取消回调
+  const onCancel = () => {
+    dispatch.milestone.getMilestone({ projectId, milestonesId })
+  }
+  //编辑时间
+  const editTime = (type) => {
+    if (type === 'start') {
+      setEditState({ ...editState, start: false })
+    }
+    if (type === 'due') {
+      setEditState({ ...editState, due: false })
+    }
+  }
+  const upDateChange = (time, type) => {
+    const newTime = formatter('YYYY-MM-DD', new Date(time))
+    if (type === 'start') {
+      setEditState({ ...editState, startTime: newTime, start: false })
+    }
+    if (type === 'due') {
+      setEditState({ ...editState, dueTime: newTime, due: false })
+    }
+    const param = {
+      dueTime: type === 'due' ? newTime : editState.dueTime,
+      startTime: type === 'start' ? newTime : editState.startTime,
+      milestonesStatus: milestonesState,
+      milestonesId: milestonesId,
+      projectId: projectId,
+    }
+    dispatch.milestone.editMilestone({
+      payload: param,
+      callback: onCancel,
+    })
+  }
   // 返回
   const goBack = () => {
     window.history.back(-1)
@@ -128,8 +169,8 @@ const MilestoneInfo = () => {
               </span>
               <span className={styles.headTitle}>
                 <strong>里程碑</strong>
-                {listDataInfo.startTime}
-                {listDataInfo.dueTime && '-' + listDataInfo.dueTime}
+                {editState.startTime}
+                {editState.dueTime && '-' + editState.dueTime}
               </span>
             </div>
             <div className={styles.headRight}>
@@ -206,32 +247,73 @@ const MilestoneInfo = () => {
             <li>
               <div className={styles.rightHead}>
                 <span>开始时间</span>
-                <Button
-                  basic
-                  className={styles.rightHeadBut}
-                  onClick={() => editMilestones()}>
-                  编辑
-                </Button>
+                {editState.start ? (
+                  <Button
+                    basic
+                    className={styles.rightHeadBut}
+                    onClick={() => editTime('start')}>
+                    完成
+                  </Button>
+                ) : (
+                  <Button
+                    basic
+                    className={styles.rightHeadBut}
+                    onClick={() => setEditState({ ...editState, start: true })}>
+                    编辑
+                  </Button>
+                )}
               </div>
               <div className={styles.rightBelow}>
-                {formatter('YYYY-MM-DD', new Date(listDataInfo.startTime))}
+                {editState.start ? (
+                  <DateInput
+                    value={editState.startTime}
+                    format="YYYY-MM-DD"
+                    allowClear={false}
+                    datePickerProps={{ todayButton: '今天' }}
+                    onChange={(v) => upDateChange(v, 'start')}
+                  />
+                ) : (
+                  <span>
+                    {formatter('YYYY-MM-DD', new Date(editState.startTime))}
+                  </span>
+                )}
               </div>
             </li>
             <li>
               <div className={styles.rightHead}>
                 <span>结束时间</span>
-                <Button
-                  basic
-                  className={styles.rightHeadBut}
-                  onClick={() => editMilestones()}>
-                  编辑
-                </Button>
+                {editState.due ? (
+                  <Button
+                    basic
+                    className={styles.rightHeadBut}
+                    onClick={() => editTime('due')}>
+                    完成
+                  </Button>
+                ) : (
+                  <Button
+                    basic
+                    className={styles.rightHeadBut}
+                    onClick={() => setEditState({ ...editState, due: true })}>
+                    编辑
+                  </Button>
+                )}
               </div>
               <div className={styles.rightBelow}>
-                {listDataInfo.dueTime || '暂无'}
-                {listDataInfo.dueTime &&
+                {editState.due ? (
+                  <DateInput
+                    value={editState.dueTime}
+                    format="YYYY-MM-DD"
+                    allowClear={false}
+                    datePickerProps={{ todayButton: '今天' }}
+                    onChange={(v) => upDateChange(v, 'due')}
+                  />
+                ) : (
+                  listDataInfo.dueTime || '暂无'
+                )}
+                {!editState.due &&
+                  editState.dueTime &&
                   listDataInfo.milestonesStatus === 1 &&
-                  !timeDistance(listDataInfo.createTime, listDataInfo.dueTime)
+                  !timeDistance(editState.createTime, editState.dueTime)
                     ?.status && <span>（逾期）</span>}
               </div>
             </li>

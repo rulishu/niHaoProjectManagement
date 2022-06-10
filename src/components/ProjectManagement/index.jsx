@@ -68,6 +68,7 @@ const ProjectManagement = (fun) => {
     } else if (drawerType === 'edit') {
       seachValue.id = id
       seachValue.projectAvatar = fileIds
+      seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
       dispatch({
         type: 'projectUpdate/updateProject',
         payload: { seachValue, callback: fun.fun },
@@ -75,6 +76,20 @@ const ProjectManagement = (fun) => {
     }
   }
 
+  //项目负责人-模糊搜索
+  const [option, setOption] = useState(userList || '')
+  const handleSearch = (e) => {
+    setTimeout(() => {
+      const filterOpion = userList?.filter(
+        (item) => !!item.label.includes(e?.trim())
+      )
+      setOption([...filterOpion])
+    }, 500)
+  }
+  //项目负责人-默认
+  let dataprojectLeaderId = userList.filter(function (item) {
+    return item.value === seachValue?.projectLeaderId
+  })
   const proform = () => {
     return (
       <ProForm
@@ -99,10 +114,16 @@ const ProjectManagement = (fun) => {
           {
             label: '项目负责人:',
             key: 'projectLeaderId',
-            widget: 'select',
-            option: userList,
-            initialValue: seachValue?.projectLeaderId,
+            widget: 'searchSelect',
+            initialValue: dataprojectLeaderId,
+            placeholder: '请选择项目负责人',
+            option: option,
             widgetProps: {
+              mode: 'single',
+              labelInValue: true,
+              showSearch: true,
+              allowClear: true,
+              onSearch: handleSearch,
               onChange: () => {
                 setShowSubmit(false)
               },

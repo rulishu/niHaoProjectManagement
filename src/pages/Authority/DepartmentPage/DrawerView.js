@@ -1,9 +1,17 @@
-// import { useState } from 'react'
+import { useEffect } from 'react'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useDispatch, useSelector } from 'react-redux'
 // import { Button, Form, Input, Row, Col, Drawer, SearchTree, Select } from 'uiw'
 // import flattenDeep from "lodash/flattenDeep";
 export default function DrawerView() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: 'department/queryFuzzyAllUser',
+    })
+  }, [dispatch])
+
   const form = useForm()
   const {
     department: {
@@ -11,6 +19,8 @@ export default function DrawerView() {
       drawerVisible,
       allEditData,
       drawerVisibleText,
+      userIdList,
+      dataList,
     },
   } = useSelector((state) => state)
 
@@ -21,7 +31,6 @@ export default function DrawerView() {
     label: dataParent?.deptName,
     key: dataParent?.deptId?.toString(),
   }
-  const dispatch = useDispatch()
   // const [checkID] = useState({ pid: 0 }) //setCheckID
 
   // 层级遍历
@@ -175,9 +184,26 @@ export default function DrawerView() {
     {
       label: '负责人',
       key: 'leader',
-      widget: 'input',
-      initialValue: allEditData.leader || '',
-      widgetProps: {},
+      widget: 'searchSelect',
+      initialValue: Number(allEditData.leader) || 0,
+      widgetProps: {
+        allowClear: true,
+        mode: 'single',
+        placeholder: '请选择负责人',
+        onChange: (value) => {
+          const leaderInformation =
+            dataList.find((item) => item?.userId === value) || {}
+
+          const allEditData = form.getFieldValues()
+          form.setFields({
+            ...allEditData,
+            leader: value,
+            phone: leaderInformation?.phonenumber || '',
+            email: leaderInformation?.email || '',
+          })
+        },
+      },
+      option: userIdList,
       span: '24',
       required: true,
       placeholder: '请输入负责人',

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { items, memberItems, groupItems } from './items'
 import { Notify } from 'uiw'
 import formatter from '@uiw/formatter'
-import { changeTimeFormat } from '../../../utils/timeDistance'
+import { changeTime } from '../../../utils/timeDistance'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ThisTime } from '../../../utils/timeDistance'
@@ -72,7 +72,7 @@ const Drawer = (props) => {
       ) {
         errorObj[element] = '此项不能为空'
       }
-      if (changeTimeFormat(current?.accessExpirationTime) < ThisTime()) {
+      if (changeTime(current?.accessExpirationTime) <= ThisTime()) {
         errorObj.accessExpirationTime = '到期访问时间需要大于当前时间'
       }
     })
@@ -90,7 +90,7 @@ const Drawer = (props) => {
         userId: Number(userId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
-          'YYYY-MM-DD HH:mm:ss',
+          'YYYY-MM-DD',
           current?.accessExpirationTime
         ),
         projectId: projectId,
@@ -108,7 +108,7 @@ const Drawer = (props) => {
         teamId: Number(teamId),
         memberRole: Number(current?.memberRole),
         accessExpirationTime: formatter(
-          'YYYY-MM-DD HH:mm:ss',
+          'YYYY-MM-DD',
           current?.accessExpirationTime
         ),
         projectId: projectId,
@@ -123,7 +123,7 @@ const Drawer = (props) => {
       const payload = {
         ...current,
         id: queryInfo?.id,
-        accessExpirationTime: changeTimeFormat(current?.accessExpirationTime),
+        accessExpirationTime: changeTime(current?.accessExpirationTime),
         // joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,

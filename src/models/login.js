@@ -146,6 +146,10 @@ const login = createModel()({
           isLogin: true,
           registerLoading: false,
         })
+      } else {
+        dispatch.login.updateState({
+          registerLoading: false,
+        })
       }
     },
 

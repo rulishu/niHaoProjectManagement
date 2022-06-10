@@ -18,7 +18,7 @@ const ProjectList = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userDynamics.length ? (
+          {userDynamics?.length ? (
             userDynamics.map((item, index) => {
               return (
                 <li className={styles.eventItem} key={index}>
