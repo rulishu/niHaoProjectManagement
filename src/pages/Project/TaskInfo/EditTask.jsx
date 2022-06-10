@@ -35,9 +35,8 @@ const EditTask = () => {
       payload,
     })
   }
-
   const editAssign = () => {
-    setAssignState(!assignState)
+    setAssignState(true)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
     setLabelState(false)
     setMilepostState(false)
@@ -80,11 +79,13 @@ const EditTask = () => {
 
   const dubDateChange = async (v) => {
     setDueDateState(false)
-    await dispatch.project.getEdit({
-      assignmentId: editFromData.assignmentId,
-      dueDate: dayjs(v).format('YYYY-MM-DD'),
-      projectId: projectId || '',
+    updateData({
+      editFromData: {
+        ...editFromData,
+        dueDate: dayjs(v).format('YYYY-MM-DD'),
+      },
     })
+    await dispatch.project.getEdit()
   }
 
   // 标签组件 变化回调函数
@@ -120,7 +121,6 @@ const EditTask = () => {
     })
     return result
   }
-
   // 新建标签
   const createTag = async (formData) => {
     let result = false
@@ -136,7 +136,6 @@ const EditTask = () => {
     })
     return result
   }
-
   return (
     <div>
       <div className={styles.rightNav}>
@@ -275,6 +274,7 @@ const EditTask = () => {
             <DateInput
               value={editFromData?.dueDate}
               format="YYYY/MM/DD"
+              allowClear={false}
               datePickerProps={{ todayButton: '今天' }}
               onChange={(v) => dubDateChange(v)}
             />
@@ -290,7 +290,7 @@ const EditTask = () => {
                 basic
                 type="primary"
                 onClick={() => setLabelState(!labelState)}>
-                编辑
+                {labelState ? '完成' : '编辑'}
               </Button>
               {/* {labelState ? (
                 <Button

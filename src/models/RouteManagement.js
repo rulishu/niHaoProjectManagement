@@ -19,6 +19,7 @@ export default createModel()({
     fromType: 1, // 1:增加，2，编辑
     userInfo: '', //当前登陆人信息
     userInfoName: '', //账号
+    todoListCount: 0,
   },
   effects: (dispatch) => ({
     // 获取路由列表数据
@@ -39,6 +40,7 @@ export default createModel()({
         dph.routeManagement.update({
           userInfo: data?.user?.nickName,
           userInfoName: data?.user?.userName,
+          todoListCount: data?.todoListCount,
         })
         const imgs = data?.user?.admin
         payload.callback && payload.callback(data.user)

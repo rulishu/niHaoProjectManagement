@@ -23,6 +23,13 @@ export const setConfigControl = (params) => {
   })
 }
 
+// gitlab数据同步
+export const synchronizationControl = (params) => {
+  return request(`/api/system/transfer/synchronization/${params}`, {
+    method: 'POST',
+  })
+}
+
 /**
  * 第三方迁入源控制层
  */
@@ -31,6 +38,7 @@ export const setConfigControl = (params) => {
 export const delDataByIdSource = (params) => {
   return request('/api/system/transfersource/delete', {
     method: 'POST',
+    body: params,
   })
 }
 

@@ -1,18 +1,28 @@
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Loader } from 'uiw'
+import { formItem } from './item'
 const Detail = (props) => {
   const {
     migrate: {
-      source: { dataInfo },
+      source: { dataInfo, type },
     },
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
-  const { isVisible, setIsVisible } = props
+  const { isVisible, setIsVisible, curData } = props
   const form = useForm()
 
-  console.log('dataInfo=====>', dataInfo)
+  const proForm = (initialValue) => {
+    return (
+      <ProForm
+        formType="card"
+        form={form}
+        readOnlyProps={{ column: 1, layout: 'vertical' }}
+        formDatas={formItem(initialValue, type)}
+      />
+    )
+  }
 
   return (
     <ProDrawer
@@ -42,61 +52,10 @@ const Detail = (props) => {
         style={{ width: '100%' }}
         tip="loading...">
         <div>
-          <ProForm
-            formType="card"
-            form={form}
-            formDatas={[
-              {
-                label: '名称',
-                key: 'name',
-                required: true,
-                widget: 'input',
-                initialValue: dataInfo.name,
-                widgetProps: {},
-                span: '24',
-              },
-              {
-                label: 'token',
-                key: 'token',
-                required: true,
-                widget: 'input',
-                initialValue: '',
-                widgetProps: {},
-                span: '24',
-              },
-              {
-                label: '备注',
-                key: 'remark',
-                widget: 'input',
-                initialValue: dataInfo.remark,
-                widgetProps: {},
-                span: '24',
-              },
-              {
-                label: '迁移类型',
-                key: 'type',
-                required: true,
-                widget: 'select',
-                initialValue: dataInfo.type,
-                widgetProps: {},
-                span: '24',
-                option: [
-                  { value: 10, label: 'GitLab' },
-                  { value: 20, label: 'GitHub' },
-                  { value: 30, label: '禅道' },
-                ],
-              },
-              {
-                label: '迁移路径',
-                key: 'url',
-                required: true,
-                widget: 'input',
-                initialValue: dataInfo.url,
-                widgetProps: {},
-                span: '24',
-              },
-            ]}
-          />
+          {Object.keys(dataInfo).length !== 1 &&
+            curData === dataInfo.id &&
+            proForm(dataInfo)}
+          {type === 1 && proForm({})}
         </div>
       </Loader>
     </ProDrawer>
