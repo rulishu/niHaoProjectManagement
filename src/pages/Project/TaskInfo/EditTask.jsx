@@ -36,7 +36,7 @@ const EditTask = () => {
     })
   }
   const editAssign = () => {
-    setAssignState(true)
+    setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
     setLabelState(false)
     setMilepostState(false)
@@ -143,7 +143,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>指派人</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              {assignState ? (
+              <Button basic type="primary" onClick={() => editAssign()}>
+                编辑
+              </Button>
+              {/* {assignState ? (
                 <Button basic type="primary" onClick={() => editAssignOk()}>
                   完成
                 </Button>
@@ -151,7 +154,7 @@ const EditTask = () => {
                 <Button basic type="primary" onClick={() => editAssign()}>
                   编辑
                 </Button>
-              )}
+              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
@@ -208,7 +211,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>里程碑</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              {milepostState ? (
+              <Button basic type="primary" onClick={() => editMilepost()}>
+                编辑
+              </Button>
+              {/* {milepostState ? (
                 <Button basic type="primary" onClick={() => editMilepostOk()}>
                   完成
                 </Button>
@@ -216,7 +222,7 @@ const EditTask = () => {
                 <Button basic type="primary" onClick={() => editMilepost()}>
                   编辑
                 </Button>
-              )}
+              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
@@ -259,7 +265,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>截止日期</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              {dueDateState ? (
+              <Button basic type="primary" onClick={() => editDubTime()}>
+                编辑
+              </Button>
+              {/* {dueDateState ? (
                 <Button basic type="primary" onClick={() => editDubTime()}>
                   完成
                 </Button>
@@ -267,7 +276,7 @@ const EditTask = () => {
                 <Button basic type="primary" onClick={() => editDubTime()}>
                   编辑
                 </Button>
-              )}
+              )} */}
             </AuthBtn>
           </div>
           {dueDateState ? (
@@ -290,7 +299,8 @@ const EditTask = () => {
                 basic
                 type="primary"
                 onClick={() => setLabelState(!labelState)}>
-                {labelState ? '完成' : '编辑'}
+                {/* {labelState ? '完成' : '编辑'} */}
+                编辑
               </Button>
               {/* {labelState ? (
                 <Button
@@ -317,6 +327,9 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
+            closeLabel={() => {
+              setLabelState(false)
+            }}
             onClickLabelShow={(is) => {
               setLabelState(is)
               if (

@@ -232,7 +232,7 @@ const CompDropdown = (props) => {
         </div>
       )}
       <OverlayTrigger
-        isOpen={open}
+        isOpen={isOpen}
         trigger="click"
         placement="bottomLeft"
         overlay={dropDownContent}
@@ -243,7 +243,7 @@ const CompDropdown = (props) => {
           !is && setLabelStatus(1)
           setOpen(is)
         }}
-        isClickOutside={true}
+        isClickOutside={false}
         // usePortal={false}
         {...dropdownWindow}>
         <div>
