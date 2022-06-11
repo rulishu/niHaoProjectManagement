@@ -189,6 +189,7 @@ const Task = (props) => {
       confirmText: '确定',
       cancelText: '取消',
       children: `确定要删除该任务吗?`,
+      type: 'danger',
       onConfirm: async () => {
         await dispatch.project
           .deleteAssignment([{ id: item.assignmentId, projectId: taskId }])

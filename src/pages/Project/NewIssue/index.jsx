@@ -451,7 +451,10 @@ const NewIssue = (props) => {
                   </div>
                   <Row align="middle" className="fromButton">
                     <Col>
-                      <Button disabled={!canSubmit()} htmlType="submit">
+                      <Button
+                        disabled={!canSubmit()}
+                        htmlType="submit"
+                        type="primary">
                         提交
                       </Button>
                       <Button onClick={() => onCancel()}>取消</Button>
