@@ -1,15 +1,14 @@
 import { Button, Tooltip, Dropdown, Menu } from 'uiw'
 const menu = (rowData, goMigrateControlSynch) => {
-  const aaa = () => {
-    goMigrateControlSynch(rowData.id)
-    console.log(rowData.id)
+  const goSynch = (tabKey) => {
+    goMigrateControlSynch(rowData.id, tabKey)
   }
   return (
     <Menu bordered style={{ maxWidth: 200 }}>
-      <Menu.Item text="同步项目数据" onClick={() => aaa('label')} />
-      <Menu.Item text="同步标签数据" onClick={() => aaa('label')} />
-      <Menu.Item text="同步里程碑数据" onClick={() => aaa('label')} />
-      <Menu.Item text="同步issues数据" onClick={() => aaa('label')} />
+      <Menu.Item text="同步项目数据" onClick={() => goSynch('1')} />
+      <Menu.Item text="同步issues数据" onClick={() => goSynch('1')} />
+      <Menu.Item text="同步标签数据" onClick={() => goSynch('2')} />
+      <Menu.Item text="同步里程碑数据" onClick={() => goSynch('4')} />
     </Menu>
   )
 }
@@ -27,7 +26,7 @@ export const columns = (props) => {
       key: 'projectName',
       ellipsis: true,
       align: 'left',
-      width: 240,
+      width: 260,
       props: {
         widget: 'input',
         widgetProps: {
@@ -57,7 +56,7 @@ export const columns = (props) => {
       key: 'sshUrl',
       ellipsis: true,
       align: 'left',
-      width: 300,
+      width: 400,
       render: (text) => {
         return (
           <Tooltip placement="top" content={contentBox(text)}>
@@ -190,11 +189,10 @@ export const columns = (props) => {
     {
       title: '操作',
       key: 'edit',
-      width: 120,
+      width: 80,
       align: 'center',
       fixed: 'right',
       render: (text, key, rowData) => {
-        console.log(text, key, rowData)
         return (
           <div>
             <Tooltip placement="top" content="查看">

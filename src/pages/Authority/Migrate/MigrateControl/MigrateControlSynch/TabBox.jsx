@@ -14,12 +14,12 @@ const TabBox = (props) => {
   return (
     <Fragment>
       <div>
-        {data.length ? (
+        {data?.length ? (
           <List
             dataSource={data}
             renderItem={(item, index) => {
               return (
-                <List.Item {...item} key={index}>
+                <List.Item key={index}>
                   <div>{item[ListDataObj[type][0]]}</div>
                 </List.Item>
               )

@@ -1,6 +1,6 @@
 import { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Loader, Button } from 'uiw'
+import { Card, Loader } from 'uiw'
 import styles from './index.module.less'
 
 const MigrateDetail = (props) => {
@@ -22,7 +22,6 @@ const MigrateDetail = (props) => {
     <Fragment>
       <Card>
         <div className={styles.wrap}>
-          <Button>同步更新</Button>
           <Loader
             loading={loading.effects.migrate.getPagingDataDetail}
             style={{ width: '100%' }}
