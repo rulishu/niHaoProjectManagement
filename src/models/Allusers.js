@@ -38,7 +38,7 @@ const allusers = createModel()({
       userPosition: '',
     },
     page: 1,
-    pageSize: parseInt((window.screen.width - 250) / 244) * 2,
+    pageSize: 10,
     pages: 1,
     total: 0,
     dataList: [], // 数据列表源
