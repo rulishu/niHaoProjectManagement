@@ -2539,104 +2539,104 @@
     "@typescript-eslint/types" "5.23.0"
     eslint-visitor-keys "^3.0.0"
 
-"@uiw-admin/authorized@5.3.18", "@uiw-admin/authorized@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/authorized/-/authorized-5.3.18.tgz#1dfecdddd0fc0d87b407ff45f6b7aa1d749b6e91"
-  integrity sha512-K0ETEo/CmJ9WsMz0sFtj1gj19BBk9q24XSU2FITxcIx+oy4atHAl+AqA/7c48Ad3sCpc9HoHwD6DazhPf7aPjw==
+"@uiw-admin/authorized@5.3.19", "@uiw-admin/authorized@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/authorized/-/authorized-5.3.19.tgz#6b054993630a7e17f5e90ec48382eef40363a127"
+  integrity sha512-jaRM+BEttUpMt8vsVufjVEHfz54oUNl2akmaL40IAH2U8db/iiXC9uHVUNXEN9HHU1kyW3r39nzIgaoAmpQ85Q==
   dependencies:
     "@babel/runtime" "~7.17.0"
-    "@uiw-admin/router-control" "5.3.18"
+    "@uiw-admin/router-control" "5.3.19"
 
-"@uiw-admin/basic-layouts@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/basic-layouts/-/basic-layouts-5.3.18.tgz#40974b32dd20aa313955fad466bf0c12d3404f8c"
-  integrity sha512-LLmXaQoyn4tNcuXsrAXeuAWYv/3pT2KtCFXzV/QN7p7yoB1JIfMHyNV6ZwG92nTQxt7mObBritfLUYnJuuCKEw==
+"@uiw-admin/basic-layouts@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/basic-layouts/-/basic-layouts-5.3.19.tgz#f864044f72ae446d3afadc5cc5b53ea7001524b5"
+  integrity sha512-MWbJu9kmABecpxk9qJKUIczA4P/B1TY+gxr+e9gbQrIQZju0bxZWl0oCb5znx4rV0AtQJdTJyKde5m7PUEBmlA==
   dependencies:
     "@babel/runtime" "~7.17.0"
-    "@uiw-admin/document-title" "5.3.18"
+    "@uiw-admin/document-title" "5.3.19"
     classnames "2.3.1"
     pinyin "2.11.1"
 
-"@uiw-admin/components@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/components/-/components-5.3.18.tgz#299851088834061f553031ba496d59b843f12c97"
-  integrity sha512-w1l/Jv4rzsezGDQ+3yWOxKCzBTvsGPDlI8gBhJ/v65CmAAUGcMvONJliFLotfNvH7F361+kMzCF8NNhAzPESpw==
+"@uiw-admin/components@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/components/-/components-5.3.19.tgz#5c3d8fac49d14065c7f3c570e2cfc0a6b40a1221"
+  integrity sha512-cg5D5PyvuLxkiMwVq6FODE/EAg9vr0O1a49bCa5bm/VChM/SspklHZ+ayU0F8J6gkh6WdR0+eEe8RB6JgbECFQ==
   dependencies:
     "@babel/runtime" "~7.17.0"
-    "@uiw-admin/authorized" "5.3.18"
-    "@uiw-admin/document-title" "5.3.18"
-    "@uiw-admin/router-control" "5.3.18"
-    "@uiw-admin/utils" "5.3.18"
+    "@uiw-admin/authorized" "5.3.19"
+    "@uiw-admin/document-title" "5.3.19"
+    "@uiw-admin/router-control" "5.3.19"
+    "@uiw-admin/utils" "5.3.19"
     classnames "2.3.1"
 
-"@uiw-admin/config@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/config/-/config-5.3.18.tgz#d55639934ef47c1caffc008a4a1e89217ff6d034"
-  integrity sha512-LutpcXHb4vc8I7WsNFcXIN9hyaahwnoW+P69jAC696fmCXz4+a9+EU96az1nUHhLcUjlkTtkKUUWN13E9BlMMg==
+"@uiw-admin/config@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/config/-/config-5.3.19.tgz#d9b83871ec5c829e45f6bf3d453a75ec6599586f"
+  integrity sha512-97bqdDMMg5ZuThy+Ltntg6Zl2EpsR3xsU66C4FjsCgWWfPvJrqa5vzSefVZRn9GsFRMtRj32NtL9jJV5qj7fug==
   dependencies:
     "@kkt/less-modules" "~7.1.1"
     "@kkt/raw-modules" "~7.1.1"
     "@kkt/scope-plugin-options" "~7.1.1"
-    "@uiw-admin/plugins" "5.3.18"
-    eslint-config-uiw-admin "5.3.18"
+    "@uiw-admin/plugins" "5.3.19"
+    eslint-config-uiw-admin "5.3.19"
 
-"@uiw-admin/document-title@5.3.18", "@uiw-admin/document-title@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/document-title/-/document-title-5.3.18.tgz#b434263a7e14eff1fea16f70138bf2da029b2577"
-  integrity sha512-8OoSy4A9mNQdJ2pFLUv/BqKlWIYwoHtc56DbwYgCHhEi1M1pIdsiFS+e0+LN2QqQBkuuJJsF17SrKtNjt2lO/Q==
+"@uiw-admin/document-title@5.3.19", "@uiw-admin/document-title@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/document-title/-/document-title-5.3.19.tgz#acc214417b086587b6d7f00e2e5d0a30cdbe6512"
+  integrity sha512-7eqGc6B+V/EdInOHnLI45XTg3FqzxIBS/mikIzvMp5PPc0l4zf5who/Ne6Bn4BCuKJ7zF2aDFO30XELip4N5UA==
 
-"@uiw-admin/exceptions@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/exceptions/-/exceptions-5.3.18.tgz#5d11bf437858b921bb64b07c3358a6a27014b816"
-  integrity sha512-RK7BGpvbRAau9VgjzzSLXms3/XG1v8Du+gUkoe/N5YIsX1SGmJuoz0hv5ebiBkGsRCspwBPZeItK+F/9S68c3w==
+"@uiw-admin/exceptions@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/exceptions/-/exceptions-5.3.19.tgz#f1a5030352ae85cbf2856be6a374464a33ff6212"
+  integrity sha512-glp6F/YekoqvP/FPMODAkUaFj80JBEOIFq19o30QeTU6N2SwyUbhiN9SaEggzXUmUEbuakW+i4BzNSRuOJW1Bg==
   dependencies:
     "@babel/runtime" "~7.17.0"
 
-"@uiw-admin/layout-tabs@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/layout-tabs/-/layout-tabs-5.3.18.tgz#71a57beef396b928590c444864cca0bebbac12a3"
-  integrity sha512-xL7AveA1216kzQK2zDq+5bitfdcCl8D4aOOjEBVTU9yGW/W+jnSJPY0yH/GhAe+E4XwrlE1Ir6PLTSrBWw/kKg==
+"@uiw-admin/layout-tabs@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/layout-tabs/-/layout-tabs-5.3.19.tgz#88cb32faf0c79d13e7583f03e52e5a90492d42f4"
+  integrity sha512-NcxyoqGsuB73JgeijyVDlGDAs/zcvQ4CCgrqhO4LtgkYpuFIuOLPT6Ht3JHdzvVVWM13aOrSiFE9ANDipOLX9w==
   dependencies:
     "@babel/runtime" "~7.17.0"
 
-"@uiw-admin/models@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/models/-/models-5.3.18.tgz#aa1d146ea6398ce6bcd052e06692435c6fc0db7d"
-  integrity sha512-SCsC1v2FhjiUNtTSzu9F0vQ4W23PvVb7/1tybUA83lsW3QwqthTh8gg+UmhdS3vm9riL47eBIMvdsiCJMqdkBA==
+"@uiw-admin/models@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/models/-/models-5.3.19.tgz#96dc89a0767c2ed1b43155d11a198b781439ca9e"
+  integrity sha512-+EAP5cfgYaMAvwF3KFLuN8ytcIalGonMtDHRdyrgWsl1a9wI12BfYqI8npiys8ISNrxcPsBnOAd6ksekjECHVA==
   dependencies:
     "@rematch/core" "2.2.0"
     "@rematch/loading" "2.1.2"
 
-"@uiw-admin/plugins@5.3.18":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/plugins/-/plugins-5.3.18.tgz#16ef60cf08393b594d7200097c5b021aeaa7e1da"
-  integrity sha512-nGrtCZYtbMCZuDdpZqOkNwrrBAf29FN7ee6Yg49tr2ZyiEOTR0RROR5oVzG4zY0o/8znlwhJAyLgEy5uWgNM3w==
+"@uiw-admin/plugins@5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/plugins/-/plugins-5.3.19.tgz#0d7a1fd0751db94f01a95ceb13914a90d15ebcb3"
+  integrity sha512-fPKD0OEAPpcsN9wqebjBKJUu5/aXCFeLhQecGNXEzwnXwS+BZec1Ut0iXYwKvbYJYVRu3scYOb10fbUxwpafWw==
 
-"@uiw-admin/router-control@5.3.18", "@uiw-admin/router-control@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/router-control/-/router-control-5.3.18.tgz#85f21b868fa2f4f4bd20d7882730bd7c3bbf2de5"
-  integrity sha512-PCCgVMBQo1qgiYcPM0BAlsxbkoqKSGSlWM8wBrpA2H4mmzAA1ntzxV/w+K18WBd0HxnugouVwoTtL1KzhMZIuA==
+"@uiw-admin/router-control@5.3.19", "@uiw-admin/router-control@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/router-control/-/router-control-5.3.19.tgz#1d23ec736b8b7c28c687999357db06e5c139b5e9"
+  integrity sha512-kKz4WXq5UaiOrBnQHZzMkhQ6ze91XY7R7786xXUSqxjX32VGwPNRwZ3gtipqb4FRC0EO8pNulwO3pOWp6yTU0A==
 
-"@uiw-admin/user-login@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/user-login/-/user-login-5.3.18.tgz#d12e33dbe7d60b2a9c924e5c083b0e870b51a992"
-  integrity sha512-C0K7WuTm9V4Vg1v7Y5dLHxQbH6th3nXjYTQQlBMKZAuw3lHjYs5VsD+lPul4gupJyhVChsrAR8aTDLQUjXTRng==
+"@uiw-admin/user-login@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/user-login/-/user-login-5.3.19.tgz#6b07ccec831c92673f8e146abcedc41b1da6f30a"
+  integrity sha512-PvQWGjgNq4PGZljKd6Qt8Npoe3jqe2yUJk6+ykgqlMiy5+Hc8OjmCer9sCmRgKc0Hde7ofq+2edzDm83DFQ2kw==
   dependencies:
-    "@uiw-admin/document-title" "5.3.18"
+    "@uiw-admin/document-title" "5.3.19"
     classnames "^2.3.1"
 
-"@uiw-admin/utils@5.3.18", "@uiw-admin/utils@^5.3.17":
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/@uiw-admin/utils/-/utils-5.3.18.tgz#6f2b13cba54ea0b2c75b2e2dd2ba8c4a4540c766"
-  integrity sha512-626JnQTgUtAI4IZK2JejHyhBWpJp/x57IMgvrYUzCmmwTYDdruXEtEM7lSTm3AX5R+EEFiP/UQJGpKiS4TMc7Q==
+"@uiw-admin/utils@5.3.19", "@uiw-admin/utils@^5.3.19":
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/@uiw-admin/utils/-/utils-5.3.19.tgz#390e9677f8e139f72241304e68e9149ae97f5e2f"
+  integrity sha512-47Z9Om3868JoAOZMaZdJgj6FwAgETz2BKV79mh+PdSgD1b0bEnCpBUK8cHTv6qOm0b8eCua74OC0S3ty9hoXkg==
   dependencies:
     axios "~0.24.0"
     qs "~6.10.3"
 
-"@uiw/color-convert@1.0.10":
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/@uiw/color-convert/-/color-convert-1.0.10.tgz"
-  integrity sha512-jAqe5dwGmn8KV/P1VNfcWTaUrfznEVWyuZWWYrAEeQT2FtVhPQjyTBkoeRMoghnpTCJ73EEeXNqsv3dsHLQ6aA==
+"@uiw/color-convert@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/@uiw/color-convert/-/color-convert-1.0.11.tgz#7c6278b25378b8f39ae42e10f272fa208d68f956"
+  integrity sha512-9HO85EA6xSkpt83NvsiGlFHBDnIC9a5EocQdi73cFK9Bvc345aW6tlu8mSb1rQ5fHw6ZCWRIupHNMaMrS2G96w==
 
 "@uiw/copy-to-clipboard@~1.0.11", "@uiw/copy-to-clipboard@~1.0.12":
   version "1.0.12"
@@ -2772,39 +2772,39 @@
     "@uiw/utils" "^4.21.9"
     react-transition-group "~4.4.2"
 
-"@uiw/react-color-block@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/@uiw/react-color-block/-/react-color-block-1.0.10.tgz"
-  integrity sha512-9eVxc7noWUBcJSbdsNI6anFP8po+aNvKxfx2P1lmFp9snVqMsTqIvMmXUpgNdcwAWmiVWjvdYf+NuE/6lEUkJQ==
+"@uiw/react-color-block@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/@uiw/react-color-block/-/react-color-block-1.0.11.tgz#37b7934bed3ecf3f7c1dae12059ccdac5748aad3"
+  integrity sha512-Lr5xmF50Tjyp5XC8k1eLhYd87wyvbVKi/0oLIqvjS2Vo28QhKPC9MJtkuqhqIn7bB8pEuCgIb9hsPkFgBvx5hQ==
   dependencies:
     "@babel/runtime" "~7.17.2"
-    "@uiw/color-convert" "1.0.10"
-    "@uiw/react-color-editable-input" "1.0.10"
-    "@uiw/react-color-swatch" "1.0.10"
+    "@uiw/color-convert" "1.0.11"
+    "@uiw/react-color-editable-input" "1.0.11"
+    "@uiw/react-color-swatch" "1.0.11"
 
-"@uiw/react-color-editable-input@1.0.10":
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/@uiw/react-color-editable-input/-/react-color-editable-input-1.0.10.tgz"
-  integrity sha512-fhpTURLAoFsXMx71ged0Zjl9aeFXMAv/x/MUKHS+wi0ytBVopbLZXeGwY7oFx80YsIxUbnpl/6fxDuxWRJPTzg==
+"@uiw/react-color-editable-input@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/@uiw/react-color-editable-input/-/react-color-editable-input-1.0.11.tgz#f8deb3b9851a29210da0e56212c94332067e40b5"
+  integrity sha512-z37BTLWMiPda/BNQeQYn1NwAD4wqowPalWRz3jv6fySGqJmQ52dD28zfl9T6WYpvIM5a6byQKaDZPvJHCOzISg==
   dependencies:
     "@babel/runtime" "~7.17.2"
 
-"@uiw/react-color-github@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/@uiw/react-color-github/-/react-color-github-1.0.10.tgz"
-  integrity sha512-HKXIUMVnpb1XmZgGxTK3Y1BLj6DWxJUaArR9LF4E2GEOmKH4zruf1i5qSWj8V+/LeN5fz4fBDe+ykLCjT85Neg==
+"@uiw/react-color-github@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/@uiw/react-color-github/-/react-color-github-1.0.11.tgz#3360e058d078453d6052ef3a2e900ad4d7434f0d"
+  integrity sha512-C/PgAdViljjA/+v0VDYwdwEXvkeZ15aau38wgenZZSKXRo7SSuC12jmLFdDd8dVA0MD/rAzEVeqqy12M+YF6GA==
   dependencies:
     "@babel/runtime" "~7.17.2"
-    "@uiw/color-convert" "1.0.10"
-    "@uiw/react-color-swatch" "1.0.10"
+    "@uiw/color-convert" "1.0.11"
+    "@uiw/react-color-swatch" "1.0.11"
 
-"@uiw/react-color-swatch@1.0.10":
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/@uiw/react-color-swatch/-/react-color-swatch-1.0.10.tgz"
-  integrity sha512-ASOBx/wpsD86bYEUPdafBAB0JkMNEUFE/HhcEqsUbbDNImQQn+lRoOprzxP+BrIto/luccItxNzWQ5g5zFj0dw==
+"@uiw/react-color-swatch@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/@uiw/react-color-swatch/-/react-color-swatch-1.0.11.tgz#c3c2624ed95813c0d83b290c42b5d48ff5182c16"
+  integrity sha512-rcuUAYeOV+Huv8wc670TmoLHN7ZHUXBvMP5PyoK8N/4a6G4OIXDhzcEQ27hJjDO2y6AdIGytj2Hqnvhv8stuRw==
   dependencies:
     "@babel/runtime" "~7.17.2"
-    "@uiw/color-convert" "1.0.10"
+    "@uiw/color-convert" "1.0.11"
 
 "@uiw/react-copy-to-clipboard@^4.21.9":
   version "4.21.9"
@@ -5323,10 +5323,10 @@ eslint-config-react-app@^7.0.0, eslint-config-react-app@^7.0.1:
     eslint-plugin-react-hooks "^4.3.0"
     eslint-plugin-testing-library "^5.0.1"
 
-eslint-config-uiw-admin@5.3.18:
-  version "5.3.18"
-  resolved "https://registry.yarnpkg.com/eslint-config-uiw-admin/-/eslint-config-uiw-admin-5.3.18.tgz#427d9f873a7d15c306057733fd9b794ec3b4a7bc"
-  integrity sha512-9n+0S0kJYACKCt3eDSPXjVdCEaWFW7NJpOvZg5FNL54JiedRw8nWEW2rd1GlZx0H2h2gDfH4caHLWYn66+whGQ==
+eslint-config-uiw-admin@5.3.19:
+  version "5.3.19"
+  resolved "https://registry.npmmirror.com/eslint-config-uiw-admin/-/eslint-config-uiw-admin-5.3.19.tgz#336904af98d9e93382de4628159aecc8d8af4053"
+  integrity sha512-J1cUAPQVwLSwc6ugpHRSPgj+Xq2UCgAMZputslbbTHPyM6Vyo19hOZve9zmJ++2ankW7i6n0eKCi6n7vR0rtdg==
 
 eslint-import-resolver-node@^0.3.6:
   version "0.3.6"
