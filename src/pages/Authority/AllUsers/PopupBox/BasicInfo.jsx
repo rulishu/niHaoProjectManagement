@@ -5,13 +5,14 @@ import styles from './index.module.less'
 import { ProForm, useForm } from '@uiw-admin/components'
 import './index.css'
 import { memberForm } from '@/utils/formValidation'
+import { useDispatch } from 'react-redux'
 
 // 基础信息
 // type 1 : 查看 2 : 编辑 3 :新增
 const BasicInfo = (props) => {
+  const dispatchother = useDispatch()
   const form = useForm()
   const form1 = useForm()
-
   const { type, setIsOverlay, dispatch, state } = props
   const {
     baseDetail,
@@ -316,6 +317,17 @@ const BasicInfo = (props) => {
                     style: { width: '100%' },
                     showSearch: true,
                     placeholder: '请选择部门',
+                    onChange: (value) => {
+                      dispatchother({
+                        type: 'allusers/update',
+                        payload: {
+                          baseDetail: {
+                            ...baseDetail,
+                            deptId: value?.key,
+                          },
+                        },
+                      })
+                    },
                   },
                   hide: isShow === 'isshow' ? true : false,
                 },
@@ -375,6 +387,9 @@ const BasicInfo = (props) => {
                       param,
                       callback: () => setIsOverlay(false),
                     })
+                    await dispatchother({
+                      type: 'routeManagement/getInfo',
+                    })
                     await dispatch.queryByPage({
                       page: state.allusers.page,
                       pageSize: state.allusers.pageSize,
@@ -396,6 +411,9 @@ const BasicInfo = (props) => {
                     await dispatch.editNewPerson({
                       param,
                       callback: () => setIsOverlay(false),
+                    })
+                    await dispatchother({
+                      type: 'routeManagement/getInfo',
                     })
                   }
                 }}>

@@ -1,12 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Row, Col, Progress, Alert, Loader, DateInput } from 'uiw'
+import {
+  Button,
+  Row,
+  Col,
+  Progress,
+  Alert,
+  Loader,
+  DateInput,
+  Notify,
+} from 'uiw'
 import formatter from '@uiw/formatter'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
 import MDEditor from '@uiw/react-md-editor'
-import timeDistance from '@/utils/timeDistance'
+// import timeDistance from '@/utils/timeDistance'
 import './index.css'
 
 const MilestoneInfo = () => {
@@ -116,7 +125,11 @@ const MilestoneInfo = () => {
       setEditState({ ...editState, startTime: newTime, start: false })
     }
     if (type === 'due') {
-      setEditState({ ...editState, dueTime: newTime, due: false })
+      if (newTime <= editState.startTime) {
+        Notify.error({ description: '里程碑开始时间不能晚于里程碑的结束时间' })
+      } else {
+        setEditState({ ...editState, dueTime: newTime, due: false })
+      }
     }
     const param = {
       dueTime: type === 'due' ? newTime : editState.dueTime,
@@ -125,10 +138,12 @@ const MilestoneInfo = () => {
       milestonesId: milestonesId,
       projectId: projectId,
     }
-    dispatch.milestone.editMilestone({
-      payload: param,
-      callback: onCancel,
-    })
+    if (param.dueTime > param.startTime) {
+      dispatch.milestone.editMilestone({
+        payload: param,
+        callback: onCancel,
+      })
+    }
   }
   // 返回
   const goBack = () => {
@@ -308,13 +323,23 @@ const MilestoneInfo = () => {
                     onChange={(v) => upDateChange(v, 'due')}
                   />
                 ) : (
-                  listDataInfo.dueTime || '暂无'
+                  <>
+                    {editState.dueTime || '暂无'}
+                    {editState.dueTime &&
+                      listDataInfo.milestonesStatus === 1 &&
+                      editState.dueTime <
+                        formatter(
+                          'YYYY-MM-DD',
+                          new Date(new Date().toLocaleDateString())
+                        ) && <span>（逾期）</span>}
+                  </>
                 )}
-                {!editState.due &&
+                {}
+                {/* {!editState.due &&
                   editState.dueTime &&
                   listDataInfo.milestonesStatus === 1 &&
                   !timeDistance(editState.createTime, editState.dueTime)
-                    ?.status && <span>（逾期）</span>}
+                    ?.status && <span>（逾期）</span>} */}
               </div>
             </li>
             <li>
@@ -346,6 +371,7 @@ const MilestoneInfo = () => {
                         assignmentType: 1,
                         description: '',
                         labels: [],
+                        milestonesId: listDataInfo?.milestonesId,
                       },
                     })
                   }}>

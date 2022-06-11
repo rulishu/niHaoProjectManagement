@@ -32,7 +32,7 @@ const NewIssue = (props) => {
   const {
     project: { fromData, allWork },
     // dictionary: { dictDataList },
-    milestone: { milepostaData, taskMilestonesTitle, taskMilestonesId },
+    milestone: { milepostaData },
     labels: { listData: labelsListData },
     projectuser: { userSelectAllList },
     loading,
@@ -94,6 +94,12 @@ const NewIssue = (props) => {
       tribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
         form.current.setFieldValue('description', e.target.value)
+        updateData({
+          fromData: {
+            ...fromData,
+            description: e.target.value,
+          },
+        })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -193,7 +199,6 @@ const NewIssue = (props) => {
           <Form
             ref={form}
             onChange={({ current }) => {
-              // console.log(fromData, current)
               updateData({
                 fromData: {
                   ...fromData,
@@ -339,16 +344,12 @@ const NewIssue = (props) => {
               },
               milestonesId: {
                 inline: true,
-                initialValue: taskMilestonesTitle
-                  ? taskMilestonesId
-                  : fromData.milestonesId,
+                initialValue: fromData.milestonesId,
                 children: (
                   <CompDropdown
                     listData={initListData(
                       milepostaData,
-                      taskMilestonesTitle
-                        ? taskMilestonesId
-                        : fromData.milestonesId,
+                      fromData.milestonesId,
                       'milestonesId',
                       { title: 'milestonesTitle' }
                     )}

@@ -12,17 +12,19 @@ import {
   Overlay,
   Empty,
 } from 'uiw'
-import { CompDropdown } from '@/components'
-import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
+import DeletePop from './DeletePop'
+import Header from './Header'
+// import TaskDetail from './TaskDetail'
+import EditDrop from './EditDrop'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
   const { projectId } = useParams()
   const { taskboard, loading } = useSelector((state) => state)
   const { boardList, list } = taskboard
-  const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
+  // const [taskDetails, setTaskDetails] = useState(false) // 任务详情抽屉
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
@@ -55,44 +57,62 @@ const TaskBoard = () => {
     const destinationDroppableId = result.destination?.droppableId
     const sourceIndex = result.source.index
     const destinationIndex = result.destination?.index
-    if (
-      sourceDroppableId !== destinationDroppableId &&
-      destinationDroppableId
-    ) {
-      const sourceList = list.filter(
-        (s) => s.id.toString() === sourceDroppableId
-      )[0]
-      const [draggedItem] = sourceList.assignmentList.splice(sourceIndex, 1)
-      const destinationList = list.filter(
-        (s) => s.id.toString() === destinationDroppableId
-      )[0]
-      destinationList.assignmentList.splice(destinationIndex, 0, draggedItem)
-      list?.map((item, index) => {
-        if (item.id.toString() === destinationDroppableId) {
-          list[index] = destinationList
-        }
-        return null
-      })
-      dispatch.taskboard.dragAssignmentNote({
-        noteId: result.draggableId,
-        newListId: destinationDroppableId,
-        boardId: list[0].boardId,
-        sort: destinationList.assignmentList.length - destinationIndex,
-      })
+    const sourceList = list.filter(
+      (s) => s.id.toString() === sourceDroppableId
+    )[0]
+    const destinationList = list.filter(
+      (s) => s.id.toString() === destinationDroppableId
+    )[0]
+    if (sourceDroppableId !== destinationDroppableId) {
+      if (result.destination !== null) {
+        const [draggedItem] = sourceList.managerBoardNotes.splice(
+          sourceIndex,
+          1
+        )
+        destinationList.managerBoardNotes.splice(
+          destinationIndex,
+          0,
+          draggedItem
+        )
+        list?.map((item, index) => {
+          if (item.id.toString() === destinationDroppableId) {
+            list[index] = destinationList
+          }
+          return null
+        })
+        dispatch.taskboard.dragAssignmentNote({
+          noteId: result.draggableId,
+          newListId: destinationDroppableId,
+          oldListId: sourceDroppableId,
+          boardId: list[0].boardId,
+          newSort: destinationList.managerBoardNotes.length - destinationIndex,
+          oldSort: sourceList.managerBoardNotes.length - sourceIndex + 1,
+        })
+      } else {
+        return
+      }
     } else {
       if (destinationIndex === sourceIndex) {
         return
       } else {
-        const sourceList = list.filter(
-          (s) => s.id.toString() === sourceDroppableId
-        )[0]
-        const [draggedItem] = sourceList.assignmentList.splice(sourceIndex, 1)
-        sourceList.assignmentList.splice(destinationIndex, 0, draggedItem)
+        const [draggedItem] = sourceList.managerBoardNotes.splice(
+          sourceIndex,
+          1
+        )
+        sourceList.managerBoardNotes.splice(destinationIndex, 0, draggedItem)
         list?.map((item, index) => {
           if (item.id === sourceDroppableId) {
             list[index] = sourceList
           }
           return null
+        })
+        dispatch.taskboard.dragAssignmentNote({
+          noteId: result.draggableId,
+          newListId: destinationDroppableId,
+          oldListId: sourceDroppableId,
+          boardId: list[0].boardId,
+          newSort: sourceList.managerBoardNotes.length - destinationIndex,
+          oldSort: sourceList.managerBoardNotes.length - sourceIndex,
         })
       }
     }
@@ -100,98 +120,16 @@ const TaskBoard = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <div style={{ width: '200px' }}>
-          <CompDropdown
-            listData={initListData(boardList, selectBoard, 'id', {
-              title: 'name',
-            })}
-            title="看板"
-            isGonnaHitDeselect={false}
-            isAllowsForNo={false}
-            isOpen={isOpen}
-            isRadio={true}
-            labelHeader={[
-              {
-                title: '标题',
-                dataIndex: 'title',
-                resultsShow: true,
-                isSearch: true,
-                component: (item) => {
-                  return <span>{item?.title}</span>
-                },
-              },
-            ]}
-            actionButtons={{
-              manage: { title: '删除看板' },
-              create: { title: '创建看板' },
-            }}
-            form={{
-              fields: (props) => {
-                return {
-                  boardTitle: {
-                    inline: true,
-                    required: true,
-                    children: <Input placeholder="请输入标题" />,
-                  },
-                }
-              },
-              fieldsShow: ({ fields, state, canSubmit, resetForm }) => {
-                return (
-                  <>
-                    {' '}
-                    <div>{fields.boardTitle}</div>{' '}
-                  </>
-                )
-              },
-              verify: (initial, current) => {
-                const errorObj = {}
-                const { boardTitle } = current
-                if (
-                  !boardTitle ||
-                  boardTitle?.length < 2 ||
-                  boardTitle?.length > 100
-                ) {
-                  errorObj.boardTitle = '请输入标题,长度为2~100'
-                }
-                return errorObj
-              },
-            }}
-            template="milepost"
-            shape="input"
-            runLabel={() => {
-              setDeleteBoardCon(true)
-            }}
-            onChange={(e) => {
-              setSelectBoard(e)
-              setIsOpen(false)
-              dispatch.taskboard.selectAllBoardNote({ boardId: e })
-            }}
-            onClickable={(is) => {
-              setIsOpen(is)
-            }}
-            createTag={(icutData, nitData) => {
-              dispatch.taskboard.saveBoard({
-                name: nitData.boardTitle,
-                projectId,
-                setCreatBut,
-                setIsOpen,
-                setSelectBoard,
-              })
-              return true
-            }}
-          />
-        </div>
-        <Button
-          type={creatBut ? 'light' : 'primary'}
-          disabled={creatBut}
-          onClick={() => {
-            setCreat(true)
-            setCreatBut(true)
-          }}>
-          创建列表
-        </Button>
-      </div>
+      <Header
+        param={{
+          selectBoard,
+          setDeleteBoardCon,
+          setSelectBoard,
+          setCreatBut,
+          setCreat,
+          creatBut,
+        }}
+      />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.drapItem}>
           {list.length !== 0 ? (
@@ -211,7 +149,7 @@ const TaskBoard = () => {
                           <div className={styles.listName}>
                             <Icon type="appstore-o" />
                             <span className={styles.listNum}>
-                              {dropItem?.assignmentList?.length}
+                              {dropItem?.managerBoardNotes?.length}
                             </span>
                             <ButtonGroup>
                               <Button
@@ -219,18 +157,21 @@ const TaskBoard = () => {
                                   //添加item按钮
                                   const newList = list
                                   if (
-                                    newList[dropIndex].assignmentList.length !==
-                                      0 &&
-                                    newList[dropIndex]?.assignmentList[0]?.new
+                                    newList[dropIndex].managerBoardNotes
+                                      .length !== 0 &&
+                                    newList[dropIndex]?.managerBoardNotes[0]
+                                      ?.new
                                   ) {
-                                    newList[dropIndex]?.assignmentList?.shift()
+                                    newList[
+                                      dropIndex
+                                    ]?.managerBoardNotes?.shift()
                                   } else {
-                                    newList[dropIndex]?.assignmentList?.unshift(
-                                      {
-                                        assignmentId: 0,
-                                        new: true,
-                                      }
-                                    )
+                                    newList[
+                                      dropIndex
+                                    ]?.managerBoardNotes?.unshift({
+                                      assignmentId: 0,
+                                      new: true,
+                                    })
                                   }
                                   dispatch.taskboard.update({
                                     list: newList,
@@ -250,7 +191,7 @@ const TaskBoard = () => {
                           </div>
                         </div>
                         <div className={styles.dragListBox}>
-                          {dropItem?.assignmentList?.map((item, index) => {
+                          {dropItem?.managerBoardNotes?.map((item, index) => {
                             if (item.new) {
                               return (
                                 <div
@@ -288,7 +229,19 @@ const TaskBoard = () => {
                                       }}>
                                       创建小记
                                     </Button>
-                                    <Button type="light">取消</Button>
+                                    <Button
+                                      type="light"
+                                      onClick={() => {
+                                        const newList = list
+                                        newList[
+                                          dropIndex
+                                        ]?.managerBoardNotes?.shift()
+                                        dispatch.taskboard.update({
+                                          list: newList,
+                                        })
+                                      }}>
+                                      取消
+                                    </Button>
                                   </div>
                                 </div>
                               )
@@ -305,23 +258,88 @@ const TaskBoard = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}>
-                                      <Card bordered={false}>
-                                        <div className={styles.listItem}>
-                                          <div>
-                                            <div>{item?.noteTitle}</div>
-                                            <div>{item?.labels}</div>
-                                            <div>{item?.noteId}</div>
+                                      {item?.assignmentId !== 0 ? (
+                                        <Card bordered={false}>
+                                          <div className={styles.listItem}>
+                                            <div>
+                                              <div
+                                                style={{ display: 'flex' }}
+                                                onClick={() => {
+                                                  console.log(item)
+                                                  dispatch.taskboard.selectByProjectId(
+                                                    {
+                                                      projectId: projectId,
+                                                      id: item.assignmentId,
+                                                    }
+                                                  )
+                                                  // setTaskDetails(true)
+                                                }}>
+                                                <Icon type="down-circle-o" />
+                                                <div
+                                                  style={{
+                                                    fontSize: '18px',
+                                                    color: '#007bff',
+                                                    marginLeft: '5px',
+                                                  }}>
+                                                  {item?.assignmentTitle}
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  fontSize: '12px',
+                                                  color: '#5e5e5e',
+                                                }}>
+                                                #{item?.assignmentId}
+                                              </div>
+                                            </div>
+                                            <div className={styles.userHead}>
+                                              {item?.assigneeUserAvatar !==
+                                                null && (
+                                                <Avatar
+                                                  src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
+                                                  {item?.assigneeUserName !==
+                                                    null &&
+                                                    item?.assigneeUserName[0]}
+                                                </Avatar>
+                                              )}
+                                            </div>
                                           </div>
-                                          <div className={styles.userHead}>
-                                            {item?.assigneeUserId !== 1 && (
-                                              <Avatar
-                                                src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
-                                                {/* {item?.assigneeUserName[0]} */}
-                                              </Avatar>
-                                            )}
+                                        </Card>
+                                      ) : (
+                                        <Card bordered={false}>
+                                          <div className={styles.listItem}>
+                                            <div>
+                                              <div style={{ display: 'flex' }}>
+                                                <Icon type="tag-o" />
+                                                <div
+                                                  style={{ marginLeft: '5px' }}>
+                                                  {item?.title}
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  fontSize: '10px',
+                                                  color: '#5e5e5e',
+                                                }}>
+                                                由{item?.createName} 于{' '}
+                                                {item?.createTime.slice(0, 10)}{' '}
+                                                创建
+                                              </div>
+                                            </div>
+                                            <div style={{ margin: 'auto 0px' }}>
+                                              <EditDrop
+                                                rowData={{
+                                                  boardId: selectBoard,
+                                                  noteId: item.noteId,
+                                                  title: item.title,
+                                                  listId: item.listId,
+                                                }}
+                                                loading={loading}
+                                              />
+                                            </div>
                                           </div>
-                                        </div>
-                                      </Card>
+                                        </Card>
+                                      )}
                                     </div>
                                   )}
                                 </Draggable>
@@ -426,23 +444,9 @@ const TaskBoard = () => {
           </Overlay>
         </div>
       </DragDropContext>
-      <Overlay isOpen={deleteBoardCon} onClose={() => setDeleteBoardCon(false)}>
-        <Card style={{ width: 500 }}>
-          <strong>确定删除此看板吗？</strong>
-          <div>您将删除一个看板和看板中的内容</div>
-          <br />
-          <div className={styles.flexRight}>
-            <Button type="light" onClick={() => setDeleteBoardCon(false)}>
-              取消
-            </Button>
-            <Button type="danger" onClick={() => deleteBoard()}>
-              删除
-            </Button>
-          </div>
-        </Card>
-      </Overlay>
+      <DeletePop param={{ setDeleteBoardCon, deleteBoard, deleteBoardCon }} />
+      {/* <TaskDetail param={{ taskDetails, setTaskDetails }} /> */}
     </>
   )
 }
-
 export default TaskBoard

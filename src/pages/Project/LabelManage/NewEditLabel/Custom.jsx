@@ -23,7 +23,7 @@ const Custom = (props) => {
         <Input value={color || ''} onInput={(e) => change(e.target.value)} />
       </div>
       <div className={styles.explain}>
-        <p>选择任何颜色。</p>
+        <p>请输入十六进制颜色码,例如：#b8b8b8</p>
         <p>或者您可以选择下面的建议颜色之一</p>
       </div>
       <div className={styles.colSelect}>

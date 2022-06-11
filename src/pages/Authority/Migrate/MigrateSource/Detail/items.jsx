@@ -65,12 +65,10 @@ export const items = (queryInfo, datsSource, handleSearch, topDataMenu) => [
     widgetProps: {},
     required: true,
     placeholder: '请输入路由地址',
-    rules: [{ required: true, message: '请输入路由地址' }],
-    help: '必填，请填写路由地址）',
-    // help: '必填，请填写路由地址（如：/Authority/MenuManagement，对应的文件位于：pages/Authority/MenuManagement/）',
+    rules: [{ pattern: new RegExp(/[^/]/g), message: '请输入路由地址' }],
+    help: '必填，请填写路由地址（如：/Authority/MenuManagement，对应的文件位于：pages/Authority/MenuManagement/）',
     span: '24',
   },
-
   {
     label: '排序',
     key: 'orderNum',

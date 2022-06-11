@@ -5,14 +5,12 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
 import DeletePopover from './DeletePopover'
 import { useSelector } from 'react-redux'
-import { guid } from '../../../../utils/utils'
-import { Fragment } from 'react'
 
 const UsersBox = (props) => {
   const {
     routeManagement: { userInfoName },
   } = useSelector((state) => state)
-  const { data, handleEdit, pageSize } = props
+  const { data, handleEdit } = props
   const navigate = useNavigate()
   // const { dictionary } = useSelector((state) => state)
 
@@ -68,23 +66,23 @@ const UsersBox = (props) => {
                     </Avatar>
                   </Col>
                   <Col span="18">
-                    <Row>
-                      <div
-                        className={styles.userName}
-                        style={{ paddingBottom: 10 }}
-                        onClick={() => navigate(`/${item.userName}`)}>
-                        {item.nickName}
-                        <span>{gender(item.sex)}</span>
-                      </div>
-                    </Row>
-                    {/* <Row>
-                      <div className={styles.userId}>
-                        {item.roleIds &&
-                          userPositionBox(item.roleIds)}
-                      </div>
-                    </Row> */}
-                    <Row className={styles.buttonGroup}>
-                      <Col span="6">
+                    <div style={{ marginLeft: 10 }}>
+                      <Row>
+                        <div
+                          className={styles.userName}
+                          style={{ paddingBottom: 10 }}
+                          onClick={() => navigate(`/${item.userName}`)}>
+                          {item.nickName}
+                          <span>{gender(item.sex)}</span>
+                        </div>
+                      </Row>
+                      {/* <Row>
+                        <div className={styles.userId}>
+                          {item.roleIds &&
+                            userPositionBox(item.roleIds)}
+                        </div>
+                      </Row> */}
+                      <Row className={styles.buttonGroup}>
                         <AuthBtn path="/api/system/user/edit">
                           <Tooltip placement="top" content="编辑">
                             {userInfoName !== item.userName ? (
@@ -99,8 +97,6 @@ const UsersBox = (props) => {
                             )}
                           </Tooltip>
                         </AuthBtn>
-                      </Col>
-                      <Col span="6">
                         <AuthBtn path="/api/managerUser/queryById">
                           <Tooltip placement="top" content="详情">
                             <Button
@@ -108,18 +104,17 @@ const UsersBox = (props) => {
                               type="light"
                               size="small"
                               // type 1 : 查看 2 : 编辑 3 :新增
+                              style={{ marginRight: 5 }}
                               onClick={() =>
                                 navigate(`/${item.userName}`)
                               }></Button>
                           </Tooltip>
                         </AuthBtn>
-                      </Col>
-                      <Col span="6">
                         <AuthBtn path="/api/managerUser/deleteById">
                           <DeletePopover handleEdit={handleEdit} data={item} />
                         </AuthBtn>
-                      </Col>
-                    </Row>
+                      </Row>
+                    </div>
                   </Col>
                 </Row>
                 <Divider />
@@ -151,25 +146,6 @@ const UsersBox = (props) => {
             </Card>
           </div>
         )
-      })}
-      {/* 👇辅助布局使用👇 */}
-      {data?.map((_, index, arr) => {
-        if (arr.length !== pageSize || arr.length !== pageSize / 2)
-          return (
-            <Fragment key={guid()}>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-              <i key={guid()} className={styles.auxiliaryLayout}></i>
-            </Fragment>
-          )
-        return null
       })}
     </div>
   )

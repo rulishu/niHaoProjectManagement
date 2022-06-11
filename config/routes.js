@@ -60,7 +60,7 @@ const routes = [
           {
             path: '/tissue/:projectId/milestone',
             name: '里程碑',
-            icon: 'circle-o',
+            icon: 'coffee',
             component: '@/pages/Milestone',
             navigate:
               "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/milestone`)}",
@@ -104,7 +104,7 @@ const routes = [
           {
             path: '/tissue/:projectId/task',
             name: '任务列表',
-            icon: 'down-circle-o',
+            icon: 'paper-clip',
             component: '@/pages/Project/Task',
             navigate: (navigate, location) => {
               const id = sessionStorage.getItem('projectId')
@@ -193,7 +193,7 @@ const routes = [
           {
             path: '/:userAccount/:projectId/milestone',
             name: '里程碑',
-            icon: 'circle-o',
+            icon: 'coffee',
             component: '@/pages/Milestone',
             navigate:
               "(navigate) => {navigate(`/${sessionStorage.getItem('userAccount')}/${sessionStorage.getItem('projectId')}/milestone`)}",
@@ -237,7 +237,7 @@ const routes = [
           {
             path: '/:userAccount/:projectId/task',
             name: '任务列表',
-            icon: 'down-circle-o',
+            icon: 'paper-clip',
             component: '@/pages/Project/Task',
             navigate: (navigate, location) => {
               const userId = sessionStorage.getItem('userAccount')
@@ -445,12 +445,12 @@ const routes = [
         hideInMenu: true,
         component: '500',
       },
-      {
-        path: '/404',
-        name: '404',
-        hideInMenu: true,
-        component: '404',
-      },
+      // {
+      //   path: '/404',
+      //   name: '404',
+      //   hideInMenu: true,
+      //   component: '404',
+      // },
       {
         path: '*',
         name: '404',

@@ -26,7 +26,7 @@ export default function AllTasks() {
   }
 
   return (
-    <div style={{ width: '30%' }}>
+    <div style={{ width: '30%', maxWidth: 300 }}>
       <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
         <div className={styles.milestoneInfoList}>
           <ul>
@@ -50,7 +50,9 @@ export default function AllTasks() {
                       {item?.dueTime &&
                         dayjs(item?.dueTime).format('YYYY-MM-DD')}
                     </div>
-                    <div className={styles.itemProg}>{item?.rate}</div>
+                    <div className={styles.itemProg}>
+                      {item?.rate === '0.00%' ? '0%' : item?.rate}
+                    </div>
                   </li>
                 )
               })

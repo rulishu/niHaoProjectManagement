@@ -13,21 +13,21 @@ import './index.css'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
-    todolist: { openTotal, status },
+    // todolist: { openTotal },
     url: { linkedType, url: breadUrl },
   } = useSelector((state) => state)
   // const {
   //     workbench: { todoNotice },
   // } = useSelector((state) => state)
   const {
-    routeManagement: { todoListCount },
+    routeManagement: { todoListCount, userData },
   } = useSelector((state) => state)
   const layouts = useLayouts()
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
   const { userAccount } = useParams()
-  const [userInfo, setUserInfo] = useState({})
+  // const [userData, setuserData] = useState({})
   const [isError, setIsError] = useState(false)
   const fullPathName = props.router.location.pathname
   const pathName = `/${decodeURI(fullPathName.split('/')[1] || '')}`
@@ -42,11 +42,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
   async function refresh(type) {
     await dispatch({
       type: 'routeManagement/getInfo',
-      payload: {
-        callback: (data) => {
-          setUserInfo(data)
-        },
-      },
+      // payload: {
+      //   callback: (data) => {
+      //     setuserData(data)
+      //   },
+      // },
     })
     type && window.location.reload()
   }
@@ -88,7 +88,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
 
   let routes = props.routes
-
   if (currUserRoute) {
     routes = props.routes
   }
@@ -119,7 +118,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
         title: '用户中心',
         icon: 'user',
         onClick: () => {
-          navigate(`/${userInfo?.userName}`, { replace: true })
+          navigate(`/${userData?.userName}`, { replace: true })
           layouts.closeMenu()
         },
       },
@@ -136,13 +135,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
     ],
     profile: {
       avatar:
-        userInfo?.avatar?.substring(0, 4) === 'http'
-          ? userInfo?.avatar
-          : userInfo?.avatar?.substring(0, 4) !== 'http' &&
-            userInfo?.avatar !== ''
-          ? `/api/file/selectFile/${userInfo?.avatar}`
-          : userInfo?.path,
-      userName: userInfo?.userName,
+        userData?.avatar?.substring(0, 4) === 'http'
+          ? userData?.avatar
+          : userData?.avatar?.substring(0, 4) !== 'http' &&
+            userData?.avatar !== ''
+          ? `/api/file/selectFile/${userData?.avatar}`
+          : userData?.path,
+      userName: userData?.userName,
       menuLeft: (
         <>
           <div
@@ -159,7 +158,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             }}>
             项目管理
           </div>
-          {userInfo?.admin === true ? (
+          {userData?.admin === true ? (
             <div
               className={styles.title}
               onClick={() => {
@@ -171,7 +170,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
             ''
           )}
           <div className={styles.title} onClick={() => navigate(`/todoList`)}>
-            {status === 0 ? (
+            <Badge
+              count={
+                todoListCount !== 0 && todoNotices !== 0
+                  ? todoListCount || todoNotices
+                  : 0
+              }>
+              <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
+            </Badge>
+            {/* {status === 0 ? (
               <Badge
                 count={
                   todoListCount !== 0 && todoNotices !== 0
@@ -189,7 +196,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
-            )}
+            )} */}
           </div>
         </>
       ),
@@ -223,7 +230,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             `/${pageName}` !== breadUrl &&
             pageName !== 'dashboard' &&
             pageName !== 'todoList' ? (
-              <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+              <div style={{ paddingBottom: '10px' }}>
                 <Bread routeMap={new BreadcrumbMap(props.routes)} />
               </div>
             ) : null}

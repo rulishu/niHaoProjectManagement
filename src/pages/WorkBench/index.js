@@ -267,14 +267,22 @@ export default function Demo() {
                                 item?.milestonesId
                               )
                             }>
-                            <span style={{ flex: 3 }}>
+                            <span
+                              style={{ flex: 3 }}
+                              className={styles.itemName}>
                               {item?.milestonesTitle}
                             </span>
-                            <span style={{ flex: 3, fontSize: '12px' }}>
+                            <span
+                              style={{ flex: 3, fontSize: '12px' }}
+                              className={styles.itemTime}>
                               {item?.dueTime &&
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </span>
-                            <span style={{ flex: 2 }}>{item?.rate}</span>
+                            <span
+                              style={{ flex: 2 }}
+                              className={styles.itemProg}>
+                              {item?.rate === '0.00%' ? '0%' : item?.rate}
+                            </span>
                           </li>
                         )
                       })
@@ -296,7 +304,9 @@ export default function Demo() {
                               {item?.dueTime &&
                                 dayjs(item?.dueTime).format('YYYY-MM-DD')}
                             </div>
-                            <div className={styles.itemProg}>{item?.rate}</div>
+                            <div className={styles.itemProg}>
+                              {item?.rate === '0.00%' ? '0%' : item?.rate}
+                            </div>
                           </li>
                         )
                       })
