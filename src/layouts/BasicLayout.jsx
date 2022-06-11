@@ -13,7 +13,7 @@ import './index.css'
 
 function BasicLayoutScreen(props = { routes: [] }) {
   const {
-    todolist: { openTotal, status },
+    // todolist: { openTotal },
     url: { linkedType, url: breadUrl },
   } = useSelector((state) => state)
   // const {
@@ -88,7 +88,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
 
   let routes = props.routes
-
   if (currUserRoute) {
     routes = props.routes
   }
@@ -171,7 +170,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
             ''
           )}
           <div className={styles.title} onClick={() => navigate(`/todoList`)}>
-            {status === 0 ? (
+            <Badge
+              count={
+                todoListCount !== 0 && todoNotices !== 0
+                  ? todoListCount || todoNotices
+                  : 0
+              }>
+              <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
+            </Badge>
+            {/* {status === 0 ? (
               <Badge
                 count={
                   todoListCount !== 0 && todoNotices !== 0
@@ -189,7 +196,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 }>
                 <Icon type="bell" color="#343a40" style={{ fontSize: 20 }} />
               </Badge>
-            )}
+            )} */}
           </div>
         </>
       ),
