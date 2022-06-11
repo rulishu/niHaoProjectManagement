@@ -68,7 +68,6 @@ const MigrateSource = (props) => {
 
   // 同步数据
   const synchrodata = async (rowData) => {
-    console.log('synchrodata', rowData)
     await dispatch({
       type: 'migrate/synchronizationControl',
       payload: rowData.id,
@@ -115,6 +114,7 @@ const MigrateSource = (props) => {
         setIsVisible={setIsVisible}
         dataInfo={dataInfo}
         curData={curData}
+        table={table}
       />
       <MigrateConfig isConfig={isConfig} setIsConfig={setIsConfig} />
     </Fragment>
