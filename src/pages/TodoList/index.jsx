@@ -8,7 +8,6 @@ import {
   Empty,
   Row,
   Col,
-  Icon,
   List, // Progress,
 } from 'uiw'
 import { Container } from '@/components'
@@ -108,51 +107,82 @@ const TodoList = () => {
                           {item.title}
                         </a>
                         <span>
-                          <div className={styles.listContent}>
-                            <Icon type="user" size="big" /> 你
-                            <span>
-                              {item.doType === 0 ? '评论' : '任务指派给'}{' '}
-                            </span>
-                            <span
-                              className={styles.projectName}
-                              onClick={() =>
-                                navigate(`/${item.doUserAccount}`)
-                              }>
-                              <Icon type="user" /> {item.doUserName}
-                            </span>
-                            <span
-                              className={
-                                item?.projectUrl ? styles.projectName : ''
-                              }
-                              onClick={() => {
-                                item?.projectUrl &&
-                                  navigate(
-                                    `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
-                                  )
-                              }}>
-                              #{item.issuesId}''{item.doConnent}''
-                            </span>
-                            在
-                            <span
-                              className={
-                                item?.projectUrl ? styles.projectName : ''
-                              }
-                              onClick={() => {
-                                item?.projectUrl &&
-                                  navigate(`${item?.projectUrl}`)
-                              }}>
-                              {item.projectName}
-                            </span>
-                            由
-                            <span
-                              className={styles.projectName}
-                              onClick={() => {
-                                navigate(`/${item?.assignUserAccount}`)
-                              }}>
-                              {item.assignUserName}
-                            </span>
-                            创建于 {item?.createTime}
-                          </div>
+                          {item.assignUserName === item.doUserName ? (
+                            <div className={styles.listContent}>
+                              <span
+                                className={styles.projectName}
+                                onClick={() => {
+                                  navigate(`/${item?.assignUserAccount}`)
+                                }}>
+                                您
+                              </span>
+                              在
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(`${item?.projectUrl}`)
+                                }}>
+                                {item.projectName}
+                              </span>
+                              <span>
+                                {item.doType === 0 ? '评论' : '给自己分配了'}
+                              </span>
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(
+                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                    )
+                                }}>
+                                #{item.issuesId}
+                              </span>
+                              <span>{item.doConnent}</span>在 ·{' '}
+                              {item?.createTime}
+                            </div>
+                          ) : (
+                            <div className={styles.listContent}>
+                              <span
+                                className={styles.projectName}
+                                onClick={() => {
+                                  navigate(`/${item?.assignUserAccount}`)
+                                }}>
+                                {item.assignUserName}
+                              </span>
+                              <span>
+                                {item.doType === 0 ? '评论' : '分配给你'}{' '}
+                              </span>
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(
+                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                    )
+                                }}>
+                                #{item.issuesId}
+                              </span>
+                              <span>{item.doConnent}</span>在
+                              <span
+                                className={
+                                  item?.projectUrl ? styles.projectName : ''
+                                }
+                                onClick={() => {
+                                  item?.projectUrl &&
+                                    navigate(`${item?.projectUrl}`)
+                                }}>
+                                {item.projectName}
+                              </span>
+                              · {item?.createTime}
+                            </div>
+                          )}
                         </span>
                       </Col>
                       <Col className={styles.itemListRight}>
@@ -185,7 +215,6 @@ const TodoList = () => {
                 total={taskTotal}
                 alignment="center"
                 onChange={(pages, _, pageSize) => {
-                  console.log(pages, pageSize, num)
                   dispatch.todolist.goToPage({
                     page: pages,
                     pageSize: pageSize,
