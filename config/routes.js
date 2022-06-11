@@ -438,12 +438,12 @@ const routes = [
         hideInMenu: true,
         component: '500',
       },
-      {
-        path: '/404',
-        name: '404',
-        hideInMenu: true,
-        component: '404',
-      },
+      // {
+      //   path: '/404',
+      //   name: '404',
+      //   hideInMenu: true,
+      //   component: '404',
+      // },
       {
         path: '*',
         name: '404',
