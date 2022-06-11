@@ -41,6 +41,8 @@ const NewIssue = (props) => {
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
+  const [milepostState, setMilepostState] = useState(false)
+  const [assignState, setAssignState] = useState(false)
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
@@ -249,17 +251,6 @@ const NewIssue = (props) => {
                 initialValue: fromData.assignmentTitle,
                 children: <Input placeholder="请输入标题" />,
               },
-              // assignmentType: {
-              //   required: true,
-              //   inline: true,
-              //   initialValue: fromData.assignmentType,
-              //   children: (
-              //     <Select className="fromSelect">
-              //       <Select.Option value={1}>问题</Select.Option>
-              //       <Select.Option value={2}>事件</Select.Option>
-              //     </Select>
-              //   ),
-              // },
               description: {
                 inline: true,
                 initialValue: fromData.description,
@@ -274,6 +265,9 @@ const NewIssue = (props) => {
               assigneeUser: {
                 inline: true,
                 initialValue: fromData.assigneeUserId,
+                onClick: () => {
+                  setMilepostState(false)
+                },
                 children: (
                   <div style={{ width: '100%' }}>
                     <CompDropdown
@@ -287,6 +281,7 @@ const NewIssue = (props) => {
                           userAcount: 'userAcount',
                         }
                       )}
+                      isOpen={assignState}
                       template="personnel"
                       isRadio={true}
                       shape="input"
@@ -314,27 +309,23 @@ const NewIssue = (props) => {
                           },
                         })
                       }}
+                      onClickLabelShow={(is) => {
+                        setAssignState(is)
+                      }}
+                      closeLabel={() => {
+                        setAssignState(false)
+                      }}
                     />
                   </div>
-                  // <SearchSelect
-                  //   style={{ width: '100%' }}
-                  //   showSearch={true}
-                  //   allowClear
-                  //   disabled={false}
-                  //   labelInValue={true}
-                  //   placeholder="请输入成员姓名,可模糊查询"
-                  //   option={selectOption(
-                  //     userSelectAllList,
-                  //     'userId',
-                  //     'memberName'
-                  //   )}
-                  // //  loading={loading}
-                  // />
                 ),
               },
               dueDate: {
                 inline: true,
                 initialValue: fromData.dueDate,
+                onClick: () => {
+                  setAssignState(false)
+                  setMilepostState(false)
+                },
                 children: (
                   <DateInput
                     format="YYYY/MM/DD"
@@ -345,6 +336,9 @@ const NewIssue = (props) => {
               milestonesId: {
                 inline: true,
                 initialValue: fromData.milestonesId,
+                onClick: () => {
+                  setAssignState(false)
+                },
                 children: (
                   <CompDropdown
                     listData={initListData(
@@ -353,6 +347,7 @@ const NewIssue = (props) => {
                       'milestonesId',
                       { title: 'milestonesTitle' }
                     )}
+                    isOpen={milepostState}
                     actionButtons={{ create: { isHide: true } }}
                     template="milepost"
                     isRadio={true}
@@ -363,22 +358,13 @@ const NewIssue = (props) => {
                         replace: true,
                       })
                     }}
+                    onClickLabelShow={(is) => {
+                      setMilepostState(is)
+                    }}
+                    closeLabel={() => {
+                      setMilepostState(false)
+                    }}
                   />
-                  // <SearchSelect
-                  //   showSearch={true}
-                  //   allowClear
-                  //   // value={taskMilestonesTitle}
-                  //   disabled={false}
-                  //   placeholder="请输入选择"
-                  //   option={
-                  //     selectOption(
-                  //       milepostaData,
-                  //       'milestonesId',
-                  //       'milestonesTitle'
-                  //     ) || []
-                  //   }
-                  // //loading={loading}
-                  // />
                 ),
               },
               labels: {
@@ -400,17 +386,6 @@ const NewIssue = (props) => {
                     }
                     createTag={(_, current) => createTag(current)}
                   />
-                  // <SearchSelect
-                  //   mode={'multiple'}
-                  //   showSearch={true}
-                  //   allowClear
-                  //   disabled={false}
-                  //   placeholder="请输入选择"
-                  //   option={
-                  //     selectOption(dictDataList, 'dictCode', 'dictLabel') || []
-                  //   }
-                  //   //loading={loading}
-                  // />
                 ),
               },
             }}>
