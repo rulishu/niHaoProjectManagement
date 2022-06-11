@@ -346,6 +346,7 @@ const MilestoneInfo = () => {
                         assignmentType: 1,
                         description: '',
                         labels: [],
+                        milestonesId: listDataInfo?.milestonesId,
                       },
                     })
                   }}>

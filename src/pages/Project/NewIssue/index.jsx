@@ -32,7 +32,7 @@ const NewIssue = (props) => {
   const {
     project: { fromData, allWork },
     // dictionary: { dictDataList },
-    milestone: { milepostaData, taskMilestonesTitle, taskMilestonesId },
+    milestone: { milepostaData },
     labels: { listData: labelsListData },
     projectuser: { userSelectAllList },
     loading,
@@ -193,7 +193,6 @@ const NewIssue = (props) => {
           <Form
             ref={form}
             onChange={({ current }) => {
-              // console.log(fromData, current)
               updateData({
                 fromData: {
                   ...fromData,
@@ -339,16 +338,12 @@ const NewIssue = (props) => {
               },
               milestonesId: {
                 inline: true,
-                initialValue: taskMilestonesTitle
-                  ? taskMilestonesId
-                  : fromData.milestonesId,
+                initialValue: fromData.milestonesId,
                 children: (
                   <CompDropdown
                     listData={initListData(
                       milepostaData,
-                      taskMilestonesTitle
-                        ? taskMilestonesId
-                        : fromData.milestonesId,
+                      fromData.milestonesId,
                       'milestonesId',
                       { title: 'milestonesTitle' }
                     )}
