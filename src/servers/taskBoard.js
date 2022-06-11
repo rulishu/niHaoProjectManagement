@@ -79,3 +79,23 @@ export function dragAssignmentNote(params) {
     body: { ...params },
   })
 }
+
+/**​
+ * 查询任务详情
+ */
+export function selectByProjectId(params) {
+  return request('/api/ManagerAssignment/selectByProjectId', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
+ * note转成任务
+ */
+export function noteToAssignment(params) {
+  return request('/api/ManagerBNAController/noteToAssignment', {
+    method: 'POST',
+    body: { ...params },
+  })
+}

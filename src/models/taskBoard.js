@@ -10,6 +10,8 @@ import {
   quickInsertTransfer,
   deleteBoard,
   saveBoard,
+  selectByProjectId,
+  noteToAssignment,
 } from '../servers/taskBoard'
 
 /**
@@ -23,6 +25,7 @@ const taskboard = createModel()({
     total: 0,
     boardList: [],
     list: [],
+    taskInfo: {},
   },
   reducers: {
     update: (state, payload) => {
@@ -74,6 +77,17 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           list: data?.data || [],
+        })
+      }
+    },
+
+    //查询任务详情
+    async selectByProjectId(payload) {
+      const { ...other } = payload
+      const data = await selectByProjectId(other)
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          taskInfo: data?.data || {},
         })
       }
     },
@@ -159,6 +173,18 @@ const taskboard = createModel()({
       const data = await dragAssignmentNote(other)
       if (data && data.code === 200) {
         console.log()
+      }
+    },
+
+    //item拖动到列表
+    async noteToAssignment(payload) {
+      const { ...other } = payload
+      const data = await noteToAssignment(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '快速创建任务成功' })
+        dispatch.taskboard.selectAllBoardNote({
+          boardId: payload.boardId,
+        })
       }
     },
   }),

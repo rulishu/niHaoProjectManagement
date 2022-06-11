@@ -15,6 +15,8 @@ import {
 import styles from './index.module.less'
 import DeletePop from './DeletePop'
 import Header from './Header'
+// import TaskDetail from './TaskDetail'
+import EditDrop from './EditDrop'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
@@ -22,6 +24,7 @@ const TaskBoard = () => {
   const { taskboard, loading } = useSelector((state) => state)
   const { boardList, list } = taskboard
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
+  // const [taskDetails, setTaskDetails] = useState(false) // 任务详情抽屉
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
@@ -77,13 +80,14 @@ const TaskBoard = () => {
           }
           return null
         })
-        // dispatch.taskboard.dragAssignmentNote({
-        //   noteId: result.draggableId,
-        //   newListId: destinationDroppableId,
-        //   boardId: list[0].boardId,
-        //   newSort: destinationList.managerBoardNotes.length - destinationIndex,
-        //   oldSort: sourceList.managerBoardNotes.length - sourceIndex,
-        // })
+        dispatch.taskboard.dragAssignmentNote({
+          noteId: result.draggableId,
+          newListId: destinationDroppableId,
+          oldListId: sourceDroppableId,
+          boardId: list[0].boardId,
+          newSort: destinationList.managerBoardNotes.length - destinationIndex,
+          oldSort: sourceList.managerBoardNotes.length - sourceIndex + 1,
+        })
       } else {
         return
       }
@@ -102,13 +106,14 @@ const TaskBoard = () => {
           }
           return null
         })
-        // dispatch.taskboard.dragAssignmentNote({
-        //   noteId: result.draggableId,
-        //   newListId: destinationDroppableId,
-        //   boardId: list[0].boardId,
-        //   newSort: sourceList.managerBoardNotes.length - destinationIndex,
-        //   oldSort: sourceList.managerBoardNotes.length - sourceIndex,
-        // })
+        dispatch.taskboard.dragAssignmentNote({
+          noteId: result.draggableId,
+          newListId: destinationDroppableId,
+          oldListId: sourceDroppableId,
+          boardId: list[0].boardId,
+          newSort: sourceList.managerBoardNotes.length - destinationIndex,
+          oldSort: sourceList.managerBoardNotes.length - sourceIndex,
+        })
       }
     }
   }
@@ -257,7 +262,18 @@ const TaskBoard = () => {
                                         <Card bordered={false}>
                                           <div className={styles.listItem}>
                                             <div>
-                                              <div style={{ display: 'flex' }}>
+                                              <div
+                                                style={{ display: 'flex' }}
+                                                onClick={() => {
+                                                  console.log(item)
+                                                  dispatch.taskboard.selectByProjectId(
+                                                    {
+                                                      projectId: projectId,
+                                                      id: item.assignmentId,
+                                                    }
+                                                  )
+                                                  // setTaskDetails(true)
+                                                }}>
                                                 <Icon type="down-circle-o" />
                                                 <div
                                                   style={{
@@ -309,6 +325,15 @@ const TaskBoard = () => {
                                                 {item?.createTime.slice(0, 10)}{' '}
                                                 创建
                                               </div>
+                                            </div>
+                                            <div style={{ margin: 'auto 0px' }}>
+                                              <EditDrop
+                                                rowData={{
+                                                  boardId: selectBoard,
+                                                  noteId: item.noteId,
+                                                }}
+                                                loading={loading}
+                                              />
                                             </div>
                                           </div>
                                         </Card>
@@ -418,6 +443,7 @@ const TaskBoard = () => {
         </div>
       </DragDropContext>
       <DeletePop param={{ setDeleteBoardCon, deleteBoard, deleteBoardCon }} />
+      {/* <TaskDetail param={{ taskDetails, setTaskDetails }} /> */}
     </>
   )
 }
