@@ -54,6 +54,9 @@ const Head = (props) => {
             return null
           }}
           fields={{
+            nickName: {
+              children: <Input placeholder="请输入姓名" />,
+            },
             userName: {
               children: <Input placeholder="请输入帐号" />,
             },
@@ -79,6 +82,7 @@ const Head = (props) => {
             return (
               <div className={styles.rightForm}>
                 <Row gutter={10}>
+                  <Col fixed>{fields.nickName}</Col>
                   <Col fixed>{fields.userName}</Col>
                   <Col fixed>{fields.phonenumber}</Col>
                   {/* <Col fixed>{fields.userPosition}</Col> */}

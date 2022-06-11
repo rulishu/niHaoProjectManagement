@@ -336,7 +336,7 @@ const ProjectList = (props) => {
                             placement="top"
                             content={<strong>成员</strong>}>
                             <div>
-                              <Icon type="usergroup-add" />
+                              <Icon type="user" />
                             </div>
                           </Tooltip>
                           <span className={styles.num}>
