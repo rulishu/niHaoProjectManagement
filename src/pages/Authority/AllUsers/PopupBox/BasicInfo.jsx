@@ -91,14 +91,18 @@ const BasicInfo = (props) => {
                 key: 'avatar',
                 widget: 'upload',
                 span: '12',
-                initialValue: type !== 3 && [
-                  {
-                    dataURL:
-                      baseDetail.avatar.indexOf('http') === 0
-                        ? baseDetail.avatar
-                        : `/api/file/selectFile/${baseDetail.avatar}`,
-                  },
-                ],
+                initialValue:
+                  type !== 3 && baseDetail.avatar
+                    ? [
+                        {
+                          dataURL:
+                            baseDetail.avatar.indexOf('http') === 0 ||
+                            !baseDetail.avatar
+                              ? baseDetail.avatar
+                              : `/api/file/selectFile/${baseDetail.avatar}`,
+                        },
+                      ]
+                    : baseDetail.avatar,
                 widgetProps: {
                   uploadType: 'card',
                   shape: 'circle',
