@@ -5,13 +5,15 @@ import {
   selectAllBoard,
   selectAllBoardNote,
   addBoardList,
-  deleteBoardNote,
+  // deleteBoardList,
   dragAssignmentNote,
   quickInsertTransfer,
   deleteBoard,
   saveBoard,
   selectByProjectId,
   noteToAssignment,
+  updateBoardNote,
+  deleteBoardNote,
 } from '../servers/taskBoard'
 
 /**
@@ -136,16 +138,29 @@ const taskboard = createModel()({
       }
     },
 
-    //删除列表
+    // //删除列表
+    // async deleteBoardList(payload) {
+    //   const { setDeleteConfirmation, ...other } = payload
+    //   const data = await deleteBoardList(other)
+    //   if (data && data.code === 200) {
+    //     Notify.success({ title: data.message })
+    //     dispatch.taskboard.selectAllBoardNote({
+    //       boardId: payload.boardId,
+    //     })
+    //     setDeleteConfirmation(false)
+    //   }
+    // },
+
+    //删除note
     async deleteBoardNote(payload) {
-      const { setDeleteConfirmation, ...other } = payload
+      const { setEditOpen, boardId, ...other } = payload
       const data = await deleteBoardNote(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
-          boardId: payload.boardId,
+          boardId,
         })
-        setDeleteConfirmation(false)
+        setEditOpen(false)
       }
     },
 
@@ -176,7 +191,7 @@ const taskboard = createModel()({
       }
     },
 
-    //item拖动到列表
+    // 快速创建任务
     async noteToAssignment(payload) {
       const { ...other } = payload
       const data = await noteToAssignment(other)
@@ -185,6 +200,17 @@ const taskboard = createModel()({
         dispatch.taskboard.selectAllBoardNote({
           boardId: payload.boardId,
         })
+      }
+    },
+
+    // 编辑note
+    async updateBoardNote(payload) {
+      const { setEditOpen, boardId, ...other } = payload
+      const data = await updateBoardNote(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑小记成功' })
+        setEditOpen(false)
+        dispatch.taskboard.selectAllBoardNote({ boardId })
       }
     },
   }),

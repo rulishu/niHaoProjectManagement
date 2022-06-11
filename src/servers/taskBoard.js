@@ -53,8 +53,18 @@ export function quickInsertTransfer(params) {
 /**​
  * 删除列表
  */
-export function deleteBoardNote(params) {
+export function deleteBoardList(params) {
   return request('/api/ManagerBNAController/deleteBoardList', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
+ * 删除note
+ */
+export function deleteBoardNote(params) {
+  return request('/api/ManagerBNAController/deleteBoardNote', {
     method: 'POST',
     body: { ...params },
   })
@@ -95,6 +105,16 @@ export function selectByProjectId(params) {
  */
 export function noteToAssignment(params) {
   return request('/api/ManagerBNAController/noteToAssignment', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+/**​
+ * 编辑note
+ */
+export function updateBoardNote(params) {
+  return request('/api/ManagerBNAController/updateBoardNote', {
     method: 'POST',
     body: { ...params },
   })

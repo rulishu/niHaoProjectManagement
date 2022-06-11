@@ -331,6 +331,8 @@ const TaskBoard = () => {
                                                 rowData={{
                                                   boardId: selectBoard,
                                                   noteId: item.noteId,
+                                                  title: item.title,
+                                                  listId: item.listId,
                                                 }}
                                                 loading={loading}
                                               />
