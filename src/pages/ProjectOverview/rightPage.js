@@ -26,7 +26,7 @@ export default function AllTasks() {
   }
 
   return (
-    <div style={{ width: '30%' }}>
+    <div style={{ width: '30%', maxWidth: 300 }}>
       <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
         <div className={styles.milestoneInfoList}>
           <ul>
