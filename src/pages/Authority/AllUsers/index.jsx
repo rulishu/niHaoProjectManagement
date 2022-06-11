@@ -67,7 +67,7 @@ const Users = (props) => {
     let callback = is ? (data) => setUserList([...data]) : null
     setNewPage(1)
     setSearchValue(value)
-    dispatch.allusers.queryByPage({ page: 1, ...value }, callback)
+    dispatch.allusers.queryByPage({ page: 1, ...value, pageSize: 10 }, callback)
   }
 
   // 分页
@@ -90,32 +90,30 @@ const Users = (props) => {
 
   return (
     <div className={styles.userWrap}>
-      <div>
-        <Head
-          setVisible={setIsOverlay}
-          setType={setType}
-          handleOnSearch={handleOnSearch}
+      <Head
+        setVisible={setIsOverlay}
+        setType={setType}
+        handleOnSearch={handleOnSearch}
+      />
+      <div className={styles.child}>
+        <UsersBox
+          data={dataList}
+          handleEdit={handleEdit}
+          memberAvatarArr={memberAvatarArr}
+          pageSize={pageSize} //用于优化样式
         />
-        <div className={styles.child}>
-          <UsersBox
-            data={dataList}
-            handleEdit={handleEdit}
-            memberAvatarArr={memberAvatarArr}
-            pageSize={pageSize} //用于优化样式
-          />
-          <div className={styles.loadInfo}>
-            {dataList?.length ? (
-              <Pagination
-                current={page}
-                pageSize={pageSize}
-                total={total}
-                onChange={(current) => forMoreUsers(current)}
-                divider
-              />
-            ) : (
-              <Empty></Empty>
-            )}
-          </div>
+        <div className={styles.loadInfo}>
+          {dataList?.length ? (
+            <Pagination
+              current={page}
+              pageSize={pageSize}
+              total={total}
+              onChange={(current) => forMoreUsers(current)}
+              divider
+            />
+          ) : (
+            <Empty></Empty>
+          )}
         </div>
       </div>
       <Overlay
