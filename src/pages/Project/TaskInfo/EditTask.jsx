@@ -282,7 +282,7 @@ const EditTask = () => {
             <span>{taskInfoData?.dueDate || '无'}</span>
           )}
         </div>
-        <div className={styles.rLabel}>
+        <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
           <div className={styles.rLabelTitle}>
             <span>标签</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
