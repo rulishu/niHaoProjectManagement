@@ -137,6 +137,7 @@ const ProjectManagement = (fun) => {
             label: '起始日期:',
             key: 'begin',
             initialValue: seachValue?.begin,
+            placeholder: '请选择起始日期',
             widget: 'dateInput',
             widgetProps: {
               format: 'YYYY-MM-DD',
@@ -153,6 +154,7 @@ const ProjectManagement = (fun) => {
             key: 'end',
             initialValue: seachValue?.end,
             widget: 'dateInput',
+            placeholder: '请选择截止日期',
             widgetProps: {
               format: 'YYYY-MM-DD',
               onChange: () => {
@@ -174,6 +176,7 @@ const ProjectManagement = (fun) => {
           },
           {
             label: '项目描述:',
+            placeholder: '请输入项目描述',
             key: 'descr',
             widget: 'textarea',
             initialValue: seachValue?.descr,
