@@ -317,6 +317,17 @@ const BasicInfo = (props) => {
                     style: { width: '100%' },
                     showSearch: true,
                     placeholder: '请选择部门',
+                    onChange: (value) => {
+                      dispatchother({
+                        type: 'allusers/update',
+                        payload: {
+                          baseDetail: {
+                            ...baseDetail,
+                            deptId: value?.key,
+                          },
+                        },
+                      })
+                    },
                   },
                   hide: isShow === 'isshow' ? true : false,
                 },
