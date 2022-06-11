@@ -85,7 +85,7 @@ const LabelManage = (props) => {
               setSorting(item.value)
               setIsPulldown(false)
               await updateState({ sorting: sort.value })
-              await getListData()
+              await getListData({ name: inputValue })
             }}>
             {item.title}
           </li>

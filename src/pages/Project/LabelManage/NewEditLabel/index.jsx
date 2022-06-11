@@ -4,6 +4,7 @@ import { Button, Card, Input, Form, Divider, Row, Col, Loader } from 'uiw'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import Custom from './Custom'
 import styles from './index.module.less'
+import { isColor } from '@/utils/utils'
 
 const NewEditLabel = (props) => {
   const {
@@ -65,6 +66,9 @@ const NewEditLabel = (props) => {
           }
           if (!color) {
             errorObj.startTime = '颜色必填'
+          }
+          if (!isColor(color)) {
+            errorObj.color = '请填写正确的颜色码'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
