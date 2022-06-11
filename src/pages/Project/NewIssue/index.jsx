@@ -94,6 +94,12 @@ const NewIssue = (props) => {
       tribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
         form.current.setFieldValue('description', e.target.value)
+        updateData({
+          fromData: {
+            ...fromData,
+            description: e.target.value,
+          },
+        })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -451,10 +457,7 @@ const NewIssue = (props) => {
                   </div>
                   <Row align="middle" className="fromButton">
                     <Col>
-                      <Button
-                        disabled={!canSubmit()}
-                        htmlType="submit"
-                        type="primary">
+                      <Button disabled={!canSubmit()} htmlType="submit">
                         提交
                       </Button>
                       <Button onClick={() => onCancel()}>取消</Button>
