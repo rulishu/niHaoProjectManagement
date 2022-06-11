@@ -223,7 +223,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
             `/${pageName}` !== breadUrl &&
             pageName !== 'dashboard' &&
             pageName !== 'todoList' ? (
-              <div style={{ paddingLeft: '10px', paddingBottom: '15px' }}>
+              <div style={{ paddingBottom: '10px' }}>
                 <Bread routeMap={new BreadcrumbMap(props.routes)} />
               </div>
             ) : null}
