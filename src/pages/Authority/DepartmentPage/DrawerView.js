@@ -21,6 +21,7 @@ export default function DrawerView() {
       drawerVisibleText,
       userIdList,
       dataList,
+      saveState,
     },
   } = useSelector((state) => state)
 
@@ -175,7 +176,7 @@ export default function DrawerView() {
       label: '排序',
       key: 'orderNum',
       widget: 'input',
-      initialValue: allEditData.orderNum || '',
+      initialValue: allEditData.orderNum,
       widgetProps: {},
       span: '24',
       required: true,
@@ -269,13 +270,16 @@ export default function DrawerView() {
           onClose()
         }}
         buttons={[
-          {
-            label: '取消',
-            onClick: onClose,
-          },
+          // {
+          //   label: '取消',
+          //   onClick: onClose,
+          //   loading: saveState,
+          // },
           {
             label: '保存',
             type: 'primary',
+            style: { width: 80 },
+            loading: saveState,
             onClick: () => {
               form?.submitvalidate()
             },
@@ -294,7 +298,7 @@ export default function DrawerView() {
             if (!current?.deptName) {
               errorObj.deptName = '部门名称不能为空！'
             }
-            if (!current?.orderNum) {
+            if (!current?.orderNum && current?.orderNum !== 0) {
               errorObj.orderNum = '排序不能为空！'
             }
             if (!current?.leader) {

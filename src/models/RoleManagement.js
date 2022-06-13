@@ -34,6 +34,7 @@ export default createModel()({
     checkedKeys: [],
     arrLeverTop: [],
     arrRole: [],
+    saveState: false,
   },
   effects: (dispatch) => ({
     async selectRole(payload) {
@@ -48,13 +49,21 @@ export default createModel()({
     // 新增
     async getAdd(payload, rolemanagement) {
       const dph = dispatch
+      dph.rolemanagement.update({
+        saveState: true,
+      })
       const data = await getAdd(payload)
       if (data.code === 200) {
         dph.rolemanagement.update({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         rolemanagement.rolemanagement.tablePro.onSearch()
+      } else {
+        dph.rolemanagement.update({
+          saveState: false,
+        })
       }
     },
     // 删除
@@ -73,13 +82,21 @@ export default createModel()({
     // 编辑
     async getEdit(payload, rolemanagement) {
       const dph = dispatch
+      dph.rolemanagement.update({
+        saveState: true,
+      })
       const data = await getEdit(payload)
       if (data.code === 200) {
         dph.rolemanagement.update({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         rolemanagement.rolemanagement.tablePro.onSearch()
+      } else {
+        dph.rolemanagement.update({
+          saveState: false,
+        })
       }
     },
     // 根据角色编号获取详细信息

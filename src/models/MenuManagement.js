@@ -18,6 +18,7 @@ export default createModel()({
     queryInfo: {},
     isView: false,
     dataSourceList: [],
+    saveState: false,
   },
   effects: (dispatch) => ({
     // 获取菜单列表
@@ -33,13 +34,21 @@ export default createModel()({
     // 新增
     async getAdd(payload, menumanagement) {
       const dph = dispatch
+      dph.menumanagement.update({
+        saveState: true,
+      })
       const data = await getAdd(payload)
       if (data.code === 200) {
         dph.menumanagement.update({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         menumanagement.menumanagement.tablePro.onSearch()
+      } else {
+        dph.menumanagement.update({
+          saveState: false,
+        })
       }
     },
     // 删除
@@ -57,13 +66,21 @@ export default createModel()({
     // 编辑
     async getEdit(payload, menumanagement) {
       const dph = dispatch
+      dph.menumanagement.update({
+        saveState: true,
+      })
       const data = await getEdit(payload)
       if (data.code === 200) {
         dph.menumanagement.update({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         menumanagement.menumanagement.tablePro.onSearch()
+      } else {
+        dph.menumanagement.update({
+          saveState: false,
+        })
       }
     },
     async deleteById(payload) {

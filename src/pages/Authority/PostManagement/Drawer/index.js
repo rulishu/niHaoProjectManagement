@@ -7,7 +7,7 @@ export default function Index() {
   const form = useForm()
 
   const {
-    postManagement: { drawerVisible, drawerType, queryInfo },
+    postManagement: { drawerVisible, drawerType, queryInfo, saveState },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
@@ -35,6 +35,7 @@ export default function Index() {
           label: '保存',
           type: 'primary',
           style: { width: 80 },
+          loading: saveState,
           onClick: () => {
             form?.submitvalidate()
           },

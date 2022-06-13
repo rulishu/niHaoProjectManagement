@@ -9,7 +9,7 @@ import DetailTable from './DetailTable'
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
   const {
-    dictionary: { drawerVisible, tableType, queryInfo, isView },
+    dictionary: { drawerVisible, tableType, queryInfo, isView, saveState },
     loading,
   } = useSelector((state) => state)
 
@@ -63,18 +63,21 @@ const Detail = ({ updateData, onSearch }) => {
                   label: '取消',
                   onClick: onClose,
                   show: !isView,
+                  style: { width: 80 },
                 },
               ]
             : [
-                {
-                  label: '取消',
-                  onClick: onClose,
-                  show: !isView,
-                },
+                // {
+                //   label: '取消',
+                //   onClick: onClose,
+                //   show: !isView,
+                // },
                 {
                   label: '保存',
                   type: 'primary',
                   show: !isView,
+                  style: { width: 80 },
+                  loading: saveState,
                   onClick: async () => {
                     await form?.submitvalidate?.()
                     const errors = form.getError()

@@ -114,6 +114,10 @@ const allusers = createModel()({
         })
         await callback()
         NotifySuccess(data.message)
+      } else {
+        dispatch.allusers.update({
+          saveState: false,
+        })
       }
     },
     async deleteById(params, { allusers }) {
@@ -138,6 +142,10 @@ const allusers = createModel()({
         })
         await callback()
         NotifySuccess(data.message)
+      } else {
+        dispatch.allusers.update({
+          saveState: false,
+        })
       }
       await dispatch.userHome.getUserInfo({ id: param.userId })
     },
