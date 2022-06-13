@@ -22,6 +22,7 @@ const BasicInfo = (props) => {
     uuid,
     rolesDataInfo,
     postsDataInfo,
+    saveState,
   } = state.allusers
   const { dictAllData } = state.dictionary
   const { allRoleList, arrLeverTop, arrRole } = state.rolemanagement
@@ -52,7 +53,6 @@ const BasicInfo = (props) => {
     postsDataInfo,
     postName,
   ])
-
   const [btnIcon, setBtnIcon] = useState('lock')
   // 下拉框值
   const [dropDownBox] = useState(
@@ -294,7 +294,7 @@ const BasicInfo = (props) => {
                   required: true,
                   span: '12',
                   // disabled: type === 1 && true,
-                  initialValue: postsDataInfo,
+                  initialValue: postsDataInfo || '',
                   option: dictAllData?.map((e) => ({
                     label: e?.postName,
                     value: e.postId,
@@ -420,7 +420,8 @@ const BasicInfo = (props) => {
                       type: 'routeManagement/getInfo',
                     })
                   }
-                }}>
+                }}
+                loading={saveState}>
                 保存
               </Button>
             </Col>

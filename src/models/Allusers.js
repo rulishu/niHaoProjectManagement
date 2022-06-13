@@ -57,11 +57,12 @@ const allusers = createModel()({
     UserProjectList: [],
     membersItemsList: {},
     rolesDataInfo: {},
-    postsDataInfo: {},
+    postsDataInfo: '',
     isRegister: false, //是否开启注册功能
     types: '', //2:编辑用户
     isShow: '', //show是否显示
     userData: '', //编辑用户数据
+    saveState: false,
   },
   reducers: {
     update: (state, payload) => {
@@ -99,9 +100,15 @@ const allusers = createModel()({
     },
     // 新增成员
     async addNewUser(payload) {
+      dispatch.allusers.update({
+        saveState: true,
+      })
       const { params, callback } = payload
       const data = await addNewUser(params)
       if (data && data.code === 200) {
+        dispatch.allusers.update({
+          saveState: false,
+        })
         await callback()
         NotifySuccess(data.message)
       }
@@ -116,10 +123,16 @@ const allusers = createModel()({
       }
     },
     async editNewUser(payload) {
+      dispatch.allusers.update({
+        saveState: true,
+      })
       const { param, callback } = payload
       await editGetInfo(param.userId)
       const data = await editNewUser(param)
       if (data && data.code === 200) {
+        dispatch.allusers.update({
+          saveState: false,
+        })
         await callback()
         NotifySuccess(data.message)
       }
