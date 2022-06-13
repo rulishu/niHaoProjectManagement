@@ -138,7 +138,6 @@ const UsersBox = (props) => {
                               type="light"
                               size="small"
                               // type 1 : 查看 2 : 编辑 3 :新增
-                              style={{ marginRight: 5 }}
                               onClick={() => handleView('view', item)}>
                               {/* <ChangePwd /> */}
                             </Button>

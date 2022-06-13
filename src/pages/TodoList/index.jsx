@@ -143,7 +143,7 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span> · 更新于
+                              <span>{item.assignmentTitle}</span> · 更新于
                               {timeDistance(item?.createTime).time}
                               {timeDistance(item?.createTime).status
                                 ? '前'
@@ -173,7 +173,7 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span>
+                              <span>{item.assignmentTitle}</span>
                               <span style={{ marginLeft: 5, marginRight: 5 }}>
                                 在
                               </span>
