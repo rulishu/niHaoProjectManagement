@@ -453,7 +453,7 @@ const NewIssue = (props) => {
                         type="primary"
                         disabled={!canSubmit()}
                         htmlType="submit">
-                        提交
+                        保存
                       </Button>
                       <Button onClick={() => onCancel()}>取消</Button>
                     </Col>
