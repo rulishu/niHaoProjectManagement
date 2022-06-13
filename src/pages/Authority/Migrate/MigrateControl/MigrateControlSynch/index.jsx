@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
-import { Card, Descriptions, Loader, Tabs, Divider } from 'uiw'
+import { Card, Descriptions, Loader, Tabs, Divider, Button } from 'uiw'
 import TabBox from './TabBox'
 import styles from './index.module.less'
 
@@ -37,6 +37,12 @@ const MigrateControlSynch = () => {
     setTabKey(location?.state?.tabKey || '1')
   }, [location.state.tabKey, synchId])
 
+  const synchronousData = async (type) => {
+    type === 1 && (await dispatch.migrate.migrateProjectDataById([dataInfo.id]))
+    type === 4 &&
+      (await dispatch.migrate.migrateMilestoneDataById([dataInfo.id]))
+  }
+
   // 跳转连接块
   const jumpBox = (href) => {
     return (
@@ -56,8 +62,18 @@ const MigrateControlSynch = () => {
             tip="loading...">
             <div>
               <div className={styles.synchHead}>
-                <h1 className={styles.title}>{dataInfo?.projectName}</h1>
-                <p className={styles.desc}>{dataInfo?.description}</p>
+                <div>
+                  <h1 className={styles.title}>{dataInfo?.projectName}</h1>
+                  <p className={styles.desc}>{dataInfo?.description}</p>
+                </div>
+                <div className={styles.synProjectData}>
+                  <Button
+                    type="primary"
+                    icon="reload"
+                    onClick={() => synchronousData(1)}>
+                    同步项目数据
+                  </Button>
+                </div>
               </div>
               <Divider />
               <div>
@@ -93,9 +109,19 @@ const MigrateControlSynch = () => {
                   }}>
                   <Tabs.Pane label="项目任务" key="1" />
                   <Tabs.Pane label="项目标签" key="2" />
-                  <Tabs.Pane label="项目角色" key="3" />
+                  <Tabs.Pane label="项目成员" key="3" />
                   <Tabs.Pane label="项目里程碑" key="4" />
                 </Tabs>
+                <div className={styles.synchronousMilestone}>
+                  {tabKey === '4' && (
+                    <Button
+                      type="primary"
+                      icon="reload"
+                      onClick={() => synchronousData(4)}>
+                      同步里程碑数据
+                    </Button>
+                  )}
+                </div>
                 {tabKey === '1' && (
                   <div>
                     <TabBox data={dataInfo?.issues} type="issues" />

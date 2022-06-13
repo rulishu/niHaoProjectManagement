@@ -1,4 +1,7 @@
 import { Button } from 'uiw'
+
+const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
+
 export const columns = (methods) => {
   const { getDataByIdSource, delDatSource, synchrodata, loading } = methods
   return [
@@ -19,6 +22,7 @@ export const columns = (methods) => {
       width: 120,
       ellipsis: true,
       align: 'center',
+      render: (text) => <div>{sourceTypeObj[+text]}</div>,
     },
     {
       title: '迁移源地址',
