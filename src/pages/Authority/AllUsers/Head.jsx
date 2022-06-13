@@ -1,4 +1,4 @@
-import { Form, Input, Row, Col, Notify, Button } from 'uiw' //, Select
+import { Form, Input, Row, Col, Button } from 'uiw' //, Select
 import { connect } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import RegisterControl from './RegisterControl' //是否开启注册功能
@@ -16,34 +16,34 @@ const Head = (props) => {
   return (
     <div>
       <Form
-        onSubmit={({ current }) => {
-          const errorObj = {}
-          if (!current.username) {
-            errorObj.username = '帐号不能为空！'
-          }
-          if (!current.password) {
-            errorObj.password = '密码不能为空！'
-          }
-          if (Object.keys(errorObj).length > 0) {
-            const err = new Error()
-            err.filed = errorObj
-            Notify.error({
-              title: '提交失败！',
-              description: '请确认提交表单是否正确！',
-            })
-            throw err
-          }
-          Notify.success({
-            title: '提交成功！',
-            description: '恭喜你登录成功！',
-          })
-        }}
-        onSubmitError={(error) => {
-          if (error.filed) {
-            return { ...error.filed }
-          }
-          return null
-        }}
+        // onSubmit={({ current }) => {
+        //   const errorObj = {}
+        //   if (!current.username) {
+        //     errorObj.username = '帐号不能为空！'
+        //   }
+        //   if (!current.password) {
+        //     errorObj.password = '密码'
+        //   }
+        //   if (Object.keys(errorObj).length > 0) {
+        //     const err = new Error()
+        //     err.filed = errorObj
+        //     // Notify.error({
+        //     //   title: '提交失败！',
+        //     //   description: '请确认提交表单是否正确！',
+        //     // })
+        //     throw err
+        //   }
+        //   Notify.success({
+        //     title: '提交成功！',
+        //     description: '恭喜你登录成功！',
+        //   })
+        // }}
+        // onSubmitError={(error) => {
+        //   if (error.filed) {
+        //     return { ...error.filed }
+        //   }
+        //   return null
+        // }}
         fields={{
           nickName: {
             children: <Input placeholder="请输入姓名" />,
@@ -69,6 +69,7 @@ const Head = (props) => {
                     className="icon-btn"
                     type="primary"
                     disabled={!canSubmit()}
+                    htmlType="submit"
                     onClick={async () => {
                       const whether =
                         !UserList?.length &&
