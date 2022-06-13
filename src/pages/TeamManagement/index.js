@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Alert, Card, Tooltip } from 'uiw'
+import { Modal, Card, Tooltip } from 'uiw'
 import { useParams } from 'react-router-dom'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { searchFun } from '@/utils/publicFun'
@@ -94,7 +94,7 @@ export default function Index() {
     <Fragment>
       <MaintainGroup />
       <Card>
-        <Alert
+        {/* <Alert
           isOpen={alertShow}
           confirmText="确认"
           onClosed={() => setCloseDrawerVisible()}
@@ -109,7 +109,29 @@ export default function Index() {
                 },
               ],
             })
-          }}></Alert>
+          }}></Alert> */}
+        {/* 统一删除按钮样式 */}
+        <Modal
+          title="删除提示"
+          isOpen={alertShow}
+          confirmText="确定"
+          cancelText="取消"
+          icon="information"
+          type="primary"
+          onConfirm={() => {
+            dispatch({
+              type: 'team/deleteTeamById',
+              payload: [
+                {
+                  id: id,
+                },
+              ],
+            })
+          }}
+          onCancel={() => setCloseDrawerVisible()}
+          onClosed={() => setCloseDrawerVisible()}>
+          <p>确认删除该条数据吗?</p>
+        </Modal>
         <ProTable
           table={table}
           searchBtns={searchFun(table)}
