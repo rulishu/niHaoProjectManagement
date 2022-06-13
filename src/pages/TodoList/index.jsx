@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 import AllSelect from './AllSelect'
+import timeDistance from '@/utils/timeDistance'
 
 const tabsLabel = (title, num) => {
   return (
@@ -116,7 +117,7 @@ const TodoList = () => {
                                 }}>
                                 您
                               </span>
-                              在
+                              <span>在</span>
                               <span
                                 className={
                                   item?.projectUrl ? styles.projectName : ''
@@ -142,8 +143,11 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span>在 ·{' '}
-                              {item?.createTime}
+                              <span>{item.assignmentTitle}</span> · 更新于
+                              {timeDistance(item?.createTime).time}
+                              {timeDistance(item?.createTime).status
+                                ? '前'
+                                : '后'}{' '}
                             </div>
                           ) : (
                             <div className={styles.listContent}>
@@ -169,7 +173,10 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span>在
+                              <span>{item.assignmentTitle}</span>
+                              <span style={{ marginLeft: 5, marginRight: 5 }}>
+                                在
+                              </span>
                               <span
                                 className={
                                   item?.projectUrl ? styles.projectName : ''
@@ -180,7 +187,10 @@ const TodoList = () => {
                                 }}>
                                 {item.projectName}
                               </span>
-                              · {item?.createTime}
+                              · 更新于{timeDistance(item?.createTime).time}
+                              {timeDistance(item?.createTime).status
+                                ? '前'
+                                : '后'}{' '}
                             </div>
                           )}
                         </span>

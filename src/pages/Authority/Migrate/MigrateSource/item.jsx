@@ -1,6 +1,9 @@
 import { Button } from 'uiw'
+
+const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
+
 export const columns = (methods) => {
-  const { getDataByIdSource, delDatSource, synchrodata } = methods
+  const { getDataByIdSource, delDatSource, synchrodata, loading } = methods
   return [
     {
       title: '迁移源名称',
@@ -19,6 +22,7 @@ export const columns = (methods) => {
       width: 120,
       ellipsis: true,
       align: 'center',
+      render: (text) => <div>{sourceTypeObj[+text]}</div>,
     },
     {
       title: '迁移源地址',
@@ -78,6 +82,7 @@ export const columns = (methods) => {
               size="small"
               type="warning"
               icon="reload"
+              loading={loading.effects.migrate.synchronizationControl}
               onClick={() => synchrodata(rowData)}>
               同步数据
             </Button>

@@ -61,7 +61,7 @@ const EditTask = () => {
   }
 
   const editLabelOk = async () => {
-    // setLabelState(false)
+    setLabelState(false)
     await dispatch.project.getEdit()
   }
 
@@ -90,7 +90,6 @@ const EditTask = () => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    setLabelState(true)
     const labels = labelsListData?.filter((item) => {
       return keyArr?.includes(item?.id)
     })
@@ -101,6 +100,7 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
+    editLabelOk()
   }
 
   // 新建 里程碑
@@ -136,9 +136,46 @@ const EditTask = () => {
     })
     return result
   }
+  console.log(editFromData)
+  //添加待办
+  const addMyToDo = async () => {
+    const param = {
+      projectId: editFromData.projectId,
+      id: editFromData.assignmentId,
+    }
+    await dispatch.project.addMyToDo({
+      param: param,
+      callback: () => {
+        dispatch.routeManagement.getInfo({})
+      },
+    })
+  }
+  //标记已完成
+  const getStrutsSwitch = async () => {
+    const param = {
+      projectId: editFromData.projectId,
+      id: editFromData.assignmentId,
+    }
+    const todoData = { id: editFromData.loginUserTodoId, status: 0 }
+    await dispatch.project.getStrutsSwitch({
+      param: param,
+      todoData: todoData,
+      callback: () => {
+        dispatch.routeManagement.getInfo({})
+      },
+    })
+  }
   return (
     <div>
       <div className={styles.rightNav}>
+        <div className={styles.rLabel}>
+          <Button
+            onClick={() => {
+              editFromData.loginUserTodoId ? getStrutsSwitch() : addMyToDo()
+            }}>
+            {editFromData.loginUserTodoId ? '标记已完成' : '添加待办一个事项'}
+          </Button>
+        </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
             <span>指派人</span>
@@ -343,9 +380,9 @@ const EditTask = () => {
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}
           />
-          {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
+          {/* {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
             <div className={styles.rLabelText}>无</div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

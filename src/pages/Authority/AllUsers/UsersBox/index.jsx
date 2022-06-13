@@ -14,9 +14,10 @@ import { useNavigate } from 'react-router-dom'
 import { AuthBtn } from '@uiw-admin/authorized'
 import styles from './index.module.less'
 import DeletePopover from './DeletePopover'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const UsersBox = (props) => {
+  const dispatch = useDispatch()
   const {
     routeManagement: { userInfoName },
   } = useSelector((state) => state)
@@ -29,6 +30,16 @@ const UsersBox = (props) => {
     if (sex === '0') return <Icon type="woman" className={styles.woman} />
     else if (sex === '1') return <Icon type="man" className={styles.man} />
     else return
+  }
+  //重置密码弹窗
+  const handleView = (type, item) => {
+    dispatch({
+      type: 'allusers/update',
+      payload: {
+        viewVisible: true,
+        viewData: item,
+      },
+    })
   }
 
   // // 处理职位标签
@@ -118,6 +129,18 @@ const UsersBox = (props) => {
                             ) : (
                               ''
                             )}
+                          </Tooltip>
+                        </AuthBtn>
+                        <AuthBtn path="/api/managerUser/queryById">
+                          <Tooltip placement="top" content="重置密码">
+                            <Button
+                              icon="lock"
+                              type="light"
+                              size="small"
+                              // type 1 : 查看 2 : 编辑 3 :新增
+                              onClick={() => handleView('view', item)}>
+                              {/* <ChangePwd /> */}
+                            </Button>
                           </Tooltip>
                         </AuthBtn>
                         <AuthBtn path="/api/managerUser/queryById">

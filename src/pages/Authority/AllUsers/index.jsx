@@ -6,6 +6,7 @@ import Head from './Head'
 import UsersBox from './UsersBox' // 成员列表
 import PopupBox from './PopupBox' // 操作弹窗
 import styles from './index.module.less'
+import ChangePwd from './UsersBox/ChangePwd'
 const Users = (props) => {
   const { dispatch, state, update } = props
   const { dataList, page, pageSize, total, types, memberAvatarArr } =
@@ -130,6 +131,7 @@ const Users = (props) => {
           <PopupBox setIsOverlay={setIsOverlay} type={type} />
         </div>
       </Overlay>
+      <ChangePwd />
     </div>
   )
 }
