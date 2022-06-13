@@ -5,11 +5,15 @@ import {
   selectAllBoard,
   selectAllBoardNote,
   addBoardList,
-  deleteBoardNote,
+  // deleteBoardList,
   dragAssignmentNote,
   quickInsertTransfer,
   deleteBoard,
   saveBoard,
+  selectByProjectId,
+  noteToAssignment,
+  updateBoardNote,
+  deleteBoardNote,
 } from '../servers/taskBoard'
 
 /**
@@ -23,6 +27,7 @@ const taskboard = createModel()({
     total: 0,
     boardList: [],
     list: [],
+    taskInfo: {},
   },
   reducers: {
     update: (state, payload) => {
@@ -78,6 +83,17 @@ const taskboard = createModel()({
       }
     },
 
+    //查询任务详情
+    async selectByProjectId(payload) {
+      const { ...other } = payload
+      const data = await selectByProjectId(other)
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          taskInfo: data?.data || {},
+        })
+      }
+    },
+
     //新增看板列表
     async addBoardList(payload) {
       const { setCreat, setCreatBut, ...other } = payload
@@ -122,16 +138,29 @@ const taskboard = createModel()({
       }
     },
 
-    //删除列表
+    // //删除列表
+    // async deleteBoardList(payload) {
+    //   const { setDeleteConfirmation, ...other } = payload
+    //   const data = await deleteBoardList(other)
+    //   if (data && data.code === 200) {
+    //     Notify.success({ title: data.message })
+    //     dispatch.taskboard.selectAllBoardNote({
+    //       boardId: payload.boardId,
+    //     })
+    //     setDeleteConfirmation(false)
+    //   }
+    // },
+
+    //删除note
     async deleteBoardNote(payload) {
-      const { setDeleteConfirmation, ...other } = payload
+      const { setEditOpen, boardId, ...other } = payload
       const data = await deleteBoardNote(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
-          boardId: payload.boardId,
+          boardId,
         })
-        setDeleteConfirmation(false)
+        setEditOpen(false)
       }
     },
 
@@ -159,6 +188,29 @@ const taskboard = createModel()({
       const data = await dragAssignmentNote(other)
       if (data && data.code === 200) {
         console.log()
+      }
+    },
+
+    // 快速创建任务
+    async noteToAssignment(payload) {
+      const { ...other } = payload
+      const data = await noteToAssignment(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '快速创建任务成功' })
+        dispatch.taskboard.selectAllBoardNote({
+          boardId: payload.boardId,
+        })
+      }
+    },
+
+    // 编辑note
+    async updateBoardNote(payload) {
+      const { setEditOpen, boardId, ...other } = payload
+      const data = await updateBoardNote(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑小记成功' })
+        setEditOpen(false)
+        dispatch.taskboard.selectAllBoardNote({ boardId })
       }
     },
   }),

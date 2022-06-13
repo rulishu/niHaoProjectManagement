@@ -3,6 +3,7 @@ import {
   getConfigControl,
   setConfigControl,
   synchronizationControl, // gitlab数据同步
+  getDataByIdControl, // 根据主键id查询数据
   // 第三方迁入源控制层
   delDataByIdSource, // 根据主键删除数据
   addDataSource, // 新增数据
@@ -20,7 +21,8 @@ const thirdpartyMigration = createModel()({
   state: {
     loginConfig: {},
     control: {
-      dataa: {},
+      dataInfo: {},
+      type: 2, // 2：编辑 3： 查看
     },
     source: {
       page: 1,
@@ -59,6 +61,16 @@ const thirdpartyMigration = createModel()({
     async synchronizationControl(payload, { migrate: { control } }) {
       const data = await synchronizationControl(payload)
       console.log('data=====>', data)
+    },
+    // gitlab数据同步
+    async getDataByIdControl(payload, { migrate: { control } }) {
+      const data = await getDataByIdControl(payload)
+      if (data && data.code === 200) {
+        dispatch({
+          type: 'migrate/updateState',
+          payload: { control: { ...control, dataInfo: data?.data } },
+        })
+      }
     },
 
     /**

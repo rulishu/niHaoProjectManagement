@@ -30,6 +30,13 @@ export const synchronizationControl = (params) => {
   })
 }
 
+// 根据主键id查询数据
+export const getDataByIdControl = (params) => {
+  return request(`/api/system/transfer/selectById/${params}`, {
+    method: 'POST',
+  })
+}
+
 /**
  * 第三方迁入源控制层
  */
