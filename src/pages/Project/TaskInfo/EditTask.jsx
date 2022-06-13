@@ -90,7 +90,6 @@ const EditTask = () => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    setLabelState(true)
     const labels = labelsListData?.filter((item) => {
       return keyArr?.includes(item?.id)
     })
@@ -344,9 +343,9 @@ const EditTask = () => {
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}
           />
-          {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
+          {/* {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
             <div className={styles.rLabelText}>无</div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
