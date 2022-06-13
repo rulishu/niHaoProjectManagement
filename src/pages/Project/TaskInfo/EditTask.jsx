@@ -61,7 +61,7 @@ const EditTask = () => {
   }
 
   const editLabelOk = async () => {
-    // setLabelState(false)
+    setLabelState(false)
     await dispatch.project.getEdit()
   }
 
@@ -101,6 +101,7 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
+    editLabelOk()
   }
 
   // 新建 里程碑
