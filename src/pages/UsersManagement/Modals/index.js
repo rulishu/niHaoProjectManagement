@@ -49,7 +49,7 @@ const Modals = (props) => {
       confirmText="确定"
       cancelText="取消"
       icon="information"
-      type="primary"
+      type="danger"
       onConfirm={() => onConfirm()}
       onCancel={() => onClose()}
       onClosed={onClose}>

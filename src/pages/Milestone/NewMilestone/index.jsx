@@ -272,7 +272,10 @@ const NewMilestone = () => {
               </Row>
               <Row align="baseline" className={styles.fromButton}>
                 <Col>
-                  <Button disabled={!canSubmit()} htmlType="submit">
+                  <Button
+                    type="primary"
+                    disabled={!canSubmit()}
+                    htmlType="submit">
                     保存
                   </Button>
                   <Button onClick={() => onCancel()}>取消</Button>
