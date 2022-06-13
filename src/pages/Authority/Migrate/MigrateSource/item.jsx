@@ -1,6 +1,6 @@
 import { Button } from 'uiw'
 export const columns = (methods) => {
-  const { getDataByIdSource, delDatSource, synchrodata } = methods
+  const { getDataByIdSource, delDatSource, synchrodata, loading } = methods
   return [
     {
       title: '迁移源名称',
@@ -78,6 +78,7 @@ export const columns = (methods) => {
               size="small"
               type="warning"
               icon="reload"
+              loading={loading.effects.migrate.synchronizationControl}
               onClick={() => synchrodata(rowData)}>
               同步数据
             </Button>

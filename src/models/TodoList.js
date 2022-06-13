@@ -77,9 +77,7 @@ export default createModel()({
           ...payload,
         }
         const data = await getStrutsSwitch(params)
-        // console.log('data------>11111', data)
         if (data && data.code === 200) {
-          console.log(111)
           dispatch.todolist.getList({ status: '1' })
           dispatch.todolist.getList({ status: '0' })
           dispatch.routeManagement.getInfo({})

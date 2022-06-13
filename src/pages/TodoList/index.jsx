@@ -116,7 +116,7 @@ const TodoList = () => {
                                 }}>
                                 您
                               </span>
-                              在
+                              <span>在</span>
                               <span
                                 className={
                                   item?.projectUrl ? styles.projectName : ''
@@ -142,8 +142,7 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span>在 ·{' '}
-                              {item?.createTime}
+                              <span>{item.doConnent}</span> ·{item?.date}前
                             </div>
                           ) : (
                             <div className={styles.listContent}>
@@ -169,7 +168,10 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span>在
+                              <span>{item.doConnent}</span>
+                              <span style={{ marginLeft: 5, marginRight: 5 }}>
+                                在
+                              </span>
                               <span
                                 className={
                                   item?.projectUrl ? styles.projectName : ''
@@ -180,7 +182,7 @@ const TodoList = () => {
                                 }}>
                                 {item.projectName}
                               </span>
-                              · {item?.createTime}
+                              · {item?.date}前
                             </div>
                           )}
                         </span>
