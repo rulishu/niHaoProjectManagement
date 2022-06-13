@@ -19,6 +19,7 @@ const usersManagement = createModel()({
     tableType: '',
     userIdList: [],
     teamIdList: [],
+    loading: false,
   },
   reducers: {
     updateState: (state, payload) => ({
