@@ -1,4 +1,14 @@
-import { Divider, Icon, Card, Row, Col, Button, Tooltip, Avatar } from 'uiw'
+import {
+  Divider,
+  Icon,
+  Card,
+  Row,
+  Col,
+  Button,
+  Tooltip,
+  Avatar,
+  Tag,
+} from 'uiw'
 import { useNavigate } from 'react-router-dom'
 // import { useSelector } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
@@ -74,6 +84,19 @@ const UsersBox = (props) => {
                           onClick={() => navigate(`/${item.userName}`)}>
                           {item.nickName}
                           <span>{gender(item.sex)}</span>
+                          {item.status === '1' ? (
+                            <Tag
+                              light
+                              color="#dc3545"
+                              style={{ marginLeft: 10 }}>
+                              停用
+                            </Tag>
+                          ) : (
+                            // <Tag light color="#28a745">
+                            //   正常
+                            // </Tag>
+                            <></>
+                          )}
                         </div>
                       </Row>
                       {/* <Row>
