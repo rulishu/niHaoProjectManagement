@@ -108,7 +108,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
     menus: [
       {
         title: '修改密码',
-        icon: 'setting',
+        icon: 'lock',
         onClick: () => {
           passwordRef?.current?.open()
           layouts.closeMenu()
