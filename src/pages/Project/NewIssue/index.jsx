@@ -43,6 +43,7 @@ const NewIssue = (props) => {
   const [mdRefs, setMdRefs] = useState()
   const [milepostState, setMilepostState] = useState(false)
   const [assignState, setAssignState] = useState(false)
+  const [labelState, setLabelState] = useState(false)
 
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
@@ -267,6 +268,7 @@ const NewIssue = (props) => {
                 initialValue: fromData.assigneeUserId,
                 onClick: () => {
                   setMilepostState(false)
+                  setLabelState(false)
                 },
                 children: (
                   <div style={{ width: '100%' }}>
@@ -325,6 +327,7 @@ const NewIssue = (props) => {
                 onClick: () => {
                   setAssignState(false)
                   setMilepostState(false)
+                  setLabelState(false)
                 },
                 children: (
                   <DateInput
@@ -338,6 +341,7 @@ const NewIssue = (props) => {
                 initialValue: fromData.milestonesId,
                 onClick: () => {
                   setAssignState(false)
+                  setLabelState(false)
                 },
                 children: (
                   <CompDropdown
@@ -370,8 +374,15 @@ const NewIssue = (props) => {
               labels: {
                 inline: true,
                 initialValue: fromData.labels,
+                onClick: () => {
+                  setAssignState(false)
+                  setMilepostState(false)
+                },
                 children: (
                   <CompDropdown
+                    isOpen={labelState}
+                    isRadio={true}
+                    title="无标签"
                     listData={initListData(
                       labelsListData,
                       fromData.labels,
@@ -380,6 +391,12 @@ const NewIssue = (props) => {
                     )}
                     template="label"
                     shape="input"
+                    closeLabel={() => {
+                      setLabelState(false)
+                    }}
+                    onClickLabelShow={(is) => {
+                      setLabelState(is)
+                    }}
                     loading={loading.effects.dictionary.getDictDataList}
                     runLabel={() =>
                       navigate(`/${userAccount}/${projectId}/labels`)
