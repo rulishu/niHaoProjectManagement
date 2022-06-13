@@ -20,7 +20,11 @@ const Custom = (props) => {
         <span
           className={styles.colBlock}
           style={{ backgroundColor: color }}></span>
-        <Input value={color || ''} onInput={(e) => change(e.target.value)} />
+        <Input
+          value={color || ''}
+          onInput={(e) => change(e.target.value)}
+          placeholder="请输入十六进制颜色码"
+        />
       </div>
       <div className={styles.explain}>
         <p>请输入十六进制颜色码,例如：#b8b8b8</p>
