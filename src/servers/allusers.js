@@ -162,3 +162,11 @@ export const registerSwitch = () => {
     method: 'GET',
   })
 }
+
+//重置密码
+export const resetPwd = (params) => {
+  return request('/api/system/user/resetPwd', {
+    method: 'POST',
+    body: params,
+  })
+}

@@ -14,6 +14,7 @@ const Detail = ({ updateData, onSearch }) => {
       isView,
       menuOptions,
       checkedKeys,
+      saveState,
     },
   } = useSelector((state) => state)
   const [menuIds, setMenuIds] = useState([])
@@ -37,8 +38,7 @@ const Detail = ({ updateData, onSearch }) => {
       }
     }
   }
-
-  function TreeData({ value, onChange }) {
+  const TreeData = ({ value, onChange }) => {
     return (
       <TreeChecked
         data={menuOptions.map((item) => toTree(item))}
@@ -46,11 +46,7 @@ const Detail = ({ updateData, onSearch }) => {
         // onExpand={(key, expanded, data, node) => {
         //   console.log(key, expanded, data, node)
         // }}
-        onSelected={(key, selected, item, evn) => {
-          // console.log('select:', key)
-          // console.log('select:', selected)
-          // console.log('select:', item)
-          // console.log('select:', evn)
+        onSelected={(key) => {
           onChange(key)
           setMenuIds(key)
           // updateData({
@@ -63,7 +59,6 @@ const Detail = ({ updateData, onSearch }) => {
       />
     )
   }
-
   return (
     <ProDrawer
       width={500}
@@ -73,15 +68,18 @@ const Detail = ({ updateData, onSearch }) => {
       visible={drawerVisible}
       onClose={onClose}
       buttons={[
-        {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
+        // {
+        //   label: '取消',
+        //   onClick: onClose,
+        //   show: !isView,
+        //   loading: saveState
+        // },
         {
           label: '保存',
           type: 'primary',
+          style: { width: 80 },
           show: !isView,
+          loading: saveState,
           onClick: async () => {
             await form?.submitvalidate?.()
             const errors = form.getError()

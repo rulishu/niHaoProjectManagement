@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import 'tributejs/tribute.css'
 import AllSelect from './AllSelect'
+import timeDistance from '@/utils/timeDistance'
 
 const tabsLabel = (title, num) => {
   return (
@@ -142,7 +143,11 @@ const TodoList = () => {
                                 }}>
                                 #{item.issuesId}
                               </span>
-                              <span>{item.doConnent}</span> ·{item?.date}前
+                              <span>{item.doConnent}</span> · 更新于
+                              {timeDistance(item?.createTime).time}
+                              {timeDistance(item?.createTime).status
+                                ? '前'
+                                : '后'}{' '}
                             </div>
                           ) : (
                             <div className={styles.listContent}>
@@ -182,7 +187,10 @@ const TodoList = () => {
                                 }}>
                                 {item.projectName}
                               </span>
-                              · {item?.date}前
+                              · 更新于{timeDistance(item?.createTime).time}
+                              {timeDistance(item?.createTime).status
+                                ? '前'
+                                : '后'}{' '}
                             </div>
                           )}
                         </span>

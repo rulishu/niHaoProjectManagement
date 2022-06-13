@@ -10,6 +10,7 @@ const postManagement = createModel()({
     alertShow: false,
     ids: null,
     tablePro: {},
+    saveState: false,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -21,16 +22,24 @@ const postManagement = createModel()({
     // 新增
     async getAdd(payload, postManagement) {
       const dph = dispatch
+      dph.postManagement.updateState({
+        saveState: true,
+      })
       const data = await getAdd(payload)
       if (data.code === 200) {
         dph.postManagement.updateState({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         postManagement.postManagement.tablePro.onSearch()
+      } else {
+        dph.postManagement.updateState({
+          saveState: false,
+        })
       }
     },
-    // 新增
+    //
     async getList(payload, postManagement) {
       const dph = dispatch
       const data = await getList(payload)
@@ -57,13 +66,21 @@ const postManagement = createModel()({
     // 编辑
     async getEdit(payload, postManagement) {
       const dph = dispatch
+      dph.postManagement.updateState({
+        saveState: true,
+      })
       const data = await getEdit(payload)
       if (data.code === 200) {
         dph.postManagement.updateState({
           drawerVisible: false,
           drawerVisiText: '',
+          saveState: false,
         })
         postManagement.postManagement.tablePro.onSearch()
+      } else {
+        dph.postManagement.updateState({
+          saveState: false,
+        })
       }
     },
     clean() {

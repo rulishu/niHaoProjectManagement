@@ -26,7 +26,7 @@ const label = {
         item ? (
           <span className={styles.title}>{item?.title}</span>
         ) : (
-          <span>无里程碑</span>
+          <span>无标签</span>
         ),
     },
   ],
