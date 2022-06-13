@@ -2,11 +2,12 @@ import { useState, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Card } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
-import styles from './index.module.less'
 import { searchFun } from '@/utils/publicFun'
+import { useNavigate } from 'react-router-dom'
 import Detail from './Detail'
 import { columns } from './item'
 import MigrateConfig from './MigrateConfig'
+import styles from './index.module.less'
 
 const MigrateSource = (props) => {
   const {
@@ -14,8 +15,10 @@ const MigrateSource = (props) => {
       source,
       source: { dataInfo },
     },
+    loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [isVisible, setIsVisible] = useState(false)
   const [isConfig, setIsConfig] = useState(false)
@@ -68,9 +71,10 @@ const MigrateSource = (props) => {
 
   // 同步数据
   const synchrodata = async (rowData) => {
-    await dispatch({
-      type: 'migrate/synchronizationControl',
-      payload: rowData.id,
+    const callback = () => navigate('/Authority/migrate/control')
+    await dispatch?.migrate?.synchronizationControl({
+      param: rowData.id,
+      callback,
     })
   }
 
@@ -104,6 +108,7 @@ const MigrateSource = (props) => {
                 getDataByIdSource,
                 delDatSource,
                 synchrodata,
+                loading,
               })}
             />
           </>
