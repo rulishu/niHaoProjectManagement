@@ -136,9 +136,46 @@ const EditTask = () => {
     })
     return result
   }
+  console.log(editFromData)
+  //添加待办
+  const addMyToDo = async () => {
+    const param = {
+      projectId: editFromData.projectId,
+      id: editFromData.assignmentId,
+    }
+    await dispatch.project.addMyToDo({
+      param: param,
+      callback: () => {
+        dispatch.routeManagement.getInfo({})
+      },
+    })
+  }
+  //标记已完成
+  const getStrutsSwitch = async () => {
+    const param = {
+      projectId: editFromData.projectId,
+      id: editFromData.assignmentId,
+    }
+    const todoData = { id: editFromData.loginUserTodoId, status: 0 }
+    await dispatch.project.getStrutsSwitch({
+      param: param,
+      todoData: todoData,
+      callback: () => {
+        dispatch.routeManagement.getInfo({})
+      },
+    })
+  }
   return (
     <div>
       <div className={styles.rightNav}>
+        <div className={styles.rLabel}>
+          <Button
+            onClick={() => {
+              editFromData.loginUserTodoId ? getStrutsSwitch() : addMyToDo()
+            }}>
+            {editFromData.loginUserTodoId ? '标记已完成' : '添加待办一个事项'}
+          </Button>
+        </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
             <span>指派人</span>
