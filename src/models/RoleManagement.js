@@ -34,6 +34,8 @@ export default createModel()({
     checkedKeys: [],
     arrLeverTop: [],
     arrRole: [],
+    ids: '',
+    isOpen: false,
   },
   effects: (dispatch) => ({
     async selectRole(payload) {

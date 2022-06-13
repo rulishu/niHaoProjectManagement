@@ -44,6 +44,8 @@ export default createModel()({
     detailInfo: {},
     dictAllData: [],
     dictDataList: [],
+    isOpen: false,
+    ids: '',
   },
   effects: (dispatch) => {
     return {

@@ -18,6 +18,8 @@ export default createModel()({
     queryInfo: {},
     isView: false,
     dataSourceList: [],
+    menuId: '',
+    isOpen: false,
   },
   effects: (dispatch) => ({
     // 获取菜单列表
