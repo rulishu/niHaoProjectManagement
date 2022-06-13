@@ -13,7 +13,9 @@ import {
   assignment_label,
   countAssignment,
   getAssignment, //不分页获取所有任务
+  addMyToDo,
 } from '../servers/project'
+import { getStrutsSwitch } from '../servers/TodoList'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
 
@@ -445,6 +447,32 @@ export default createModel()({
           })
         } else {
           Notify.error({ title: data.message })
+        }
+      },
+
+      // 添加任务至我的待办
+      async addMyToDo(payload) {
+        const { param, callback } = payload
+        const data = await addMyToDo(param)
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: param?.projectId,
+            id: param?.id,
+          })
+          callback && callback()
+        }
+      },
+      // 标记已完成
+      async getStrutsSwitch(payload) {
+        const { param, todoData, callback } = payload
+        const data = await getStrutsSwitch(todoData)
+        console.log(param, todoData)
+        if (data && data.code === 200) {
+          dispatch.project.getSelectById({
+            projectId: param?.projectId,
+            id: param?.id,
+          })
+          callback && callback()
         }
       },
       clean() {

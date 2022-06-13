@@ -8,7 +8,7 @@ import {
   Empty,
   Icon,
   Input,
-  Alert,
+  Modal,
 } from 'uiw'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
@@ -216,7 +216,7 @@ const LabelManage = (props) => {
                 </Loader>
               </ul>
             </div>
-            <Alert
+            {/* <Alert
               isOpen={alertShow}
               confirmText="确认"
               onClosed={() => setAlertShow(false)}
@@ -227,7 +227,25 @@ const LabelManage = (props) => {
                   type: 'labels/deleteLabel',
                   payload: [delId],
                 })
-              }}></Alert>
+              }}></Alert> */}
+            {/* 统一删除按钮样式 */}
+            <Modal
+              title="删除提示"
+              isOpen={alertShow}
+              confirmText="确定"
+              cancelText="取消"
+              icon="information"
+              type="primary"
+              onConfirm={() => {
+                dispatch({
+                  type: 'labels/deleteLabel',
+                  payload: [delId],
+                })
+              }}
+              onCancel={() => setAlertShow(false)}
+              onClosed={() => setAlertShow(false)}>
+              <p>确认删除本条标签吗?</p>
+            </Modal>
           </div>
         </div>
       </Card>

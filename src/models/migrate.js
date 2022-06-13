@@ -4,6 +4,8 @@ import {
   setConfigControl,
   synchronizationControl, // gitlab数据同步
   getDataByIdControl, // 根据主键id查询数据
+  migrateMilestoneDataById,
+  migrateProjectDataById,
   // 第三方迁入源控制层
   delDataByIdSource, // 根据主键删除数据
   addDataSource, // 新增数据
@@ -11,7 +13,7 @@ import {
   getPagingDataSource, // 分页-条件查询列表数据
   updateDataByIdSource, // 根据主键id更新数据
   // 第三方迁移明细控制层
-  // getDataByIdDetail, // 根据主键id查询数据
+  getDataByIdDetail, // 根据主键id查询数据
   getPagingDataDetail, // 分页-条件查询列表数据
 } from '../servers/migrate'
 import { Notify } from 'uiw'
@@ -35,6 +37,7 @@ const thirdpartyMigration = createModel()({
       page: 1,
       pageSize: 10,
       listData: [], // 列数据
+      dataInfo: {}, // 当前对象
     },
   },
   effects: (dispatch) => ({
@@ -65,7 +68,7 @@ const thirdpartyMigration = createModel()({
         callback && callback()
       }
     },
-    // gitlab数据同步
+    // 根据主键id查询数据
     async getDataByIdControl(payload, { migrate: { control } }) {
       const data = await getDataByIdControl(payload)
       if (data && data.code === 200) {
@@ -73,6 +76,22 @@ const thirdpartyMigration = createModel()({
           type: 'migrate/updateState',
           payload: { control: { ...control, dataInfo: data?.data } },
         })
+      }
+    },
+
+    // 根据主键id迁移里程碑数据
+    async migrateMilestoneDataById(payload, { migrate: { control } }) {
+      const data = await migrateMilestoneDataById(payload)
+      if (data && data.code === 200) {
+        Notify.success({ description: '同步里程碑数据成功' })
+      }
+    },
+
+    // 同步项目数据
+    async migrateProjectDataById(payload, { migrate: { control } }) {
+      const data = await migrateProjectDataById(payload)
+      if (data && data.code === 200) {
+        Notify.success({ description: '同步项目数据成功' })
       }
     },
 
@@ -129,6 +148,16 @@ const thirdpartyMigration = createModel()({
     /**
      * 第三方迁移明细控制层
      */
+    // 根据主键id查询数据
+    async getDataByIdDetail(payload, { migrate: { detail } }) {
+      const data = await getDataByIdDetail(payload)
+      if (data && data.code === 200) {
+        dispatch({
+          type: 'migrate/updateState',
+          payload: { detail: { ...detail, dataInfo: data?.data } },
+        })
+      }
+    },
     // 分页-条件查询列表数据
     async getPagingDataDetail(payload, { migrate: { detail } }) {
       const data = await getPagingDataDetail({ ...payload })

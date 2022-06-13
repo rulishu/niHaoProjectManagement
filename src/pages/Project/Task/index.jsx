@@ -185,10 +185,11 @@ const Task = (props) => {
 
   const delAssignment = async (item) => {
     Modal.show({
-      title: '提示',
+      title: '删除提示',
       confirmText: '确定',
       cancelText: '取消',
       children: `确定要删除该任务吗?`,
+      icon: 'information',
       type: 'danger',
       onConfirm: async () => {
         await dispatch.project

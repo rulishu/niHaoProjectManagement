@@ -117,39 +117,53 @@ const CompDropdown = (props) => {
         }
         onClick={(e) => {
           shape === 'input' && setOpen(!open)
-          !isRadio && e.stopPropagation()
         }}>
         {/* 多选与单选 */}
         {!isRadio ? (
-          data?.map((item) => (
-            <div
-              key={item?.key}
-              className={item.color ? styles.tagListLi : styles.noColorTag}
-              style={{ backgroundColor: item.color, borderColor: item?.color }}>
-              {newHeader()?.map((headItem, index) => {
-                return (
-                  <span className={styles.tagTitle} key={index}>
-                    {headItem.resultsShow && headItem?.component ? (
-                      headItem?.component(item, headItem)
-                    ) : (
-                      <span></span>
-                    )}
+          data?.length === 0 ? (
+            newHeader()?.map((headItem, index) => (
+              <span key={index} style={{ fontSize: 14, color: '#757575' }}>
+                {headItem?.resultsShow &&
+                  headItem?.component(data[0], headItem)}
+              </span>
+            ))
+          ) : (
+            data?.map((item) => (
+              <div
+                key={item?.key}
+                className={item.color ? styles.tagListLi : styles.noColorTag}
+                style={{
+                  backgroundColor: item.color,
+                  borderColor: item?.color,
+                }}>
+                {newHeader()?.map((headItem, index) => {
+                  return (
+                    <span className={styles.tagTitle} key={index}>
+                      {headItem.resultsShow && headItem?.component ? (
+                        headItem?.component(item, headItem)
+                      ) : (
+                        <span></span>
+                      )}
+                    </span>
+                  )
+                })}
+                {isTagClose && (
+                  <span
+                    className={styles.tagBut}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      optionEvent(item?.key)
+                    }}>
+                    <Icon className={styles.tagIcon} type="close" />
                   </span>
-                )
-              })}
-              {isTagClose && (
-                <span
-                  className={styles.tagBut}
-                  onClick={() => optionEvent(item?.key)}>
-                  <Icon className={styles.tagIcon} type="close" />
-                </span>
-              )}
-            </div>
-          ))
+                )}
+              </div>
+            ))
+          )
         ) : (
           <div>
             {newHeader()?.map((headItem, index) => (
-              <span key={index}>
+              <span key={index} style={{ fontSize: 14, color: '#757575' }}>
                 {headItem?.resultsShow &&
                   headItem?.component(data[0], headItem)}
               </span>

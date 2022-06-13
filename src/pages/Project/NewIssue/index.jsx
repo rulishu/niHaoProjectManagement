@@ -381,8 +381,8 @@ const NewIssue = (props) => {
                 children: (
                   <CompDropdown
                     isOpen={labelState}
-                    isRadio={true}
-                    title="无标签"
+                    // isRadio={true}
+                    title="标签"
                     listData={initListData(
                       labelsListData,
                       fromData.labels,
