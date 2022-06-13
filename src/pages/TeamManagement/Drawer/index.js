@@ -7,7 +7,7 @@ export default function Index() {
   const dispatch = useDispatch()
 
   const {
-    team: { drawerVisible, queryInfo, drawerType, isView },
+    team: { drawerVisible, queryInfo, drawerType, isView, saveState },
   } = useSelector((state) => state)
 
   const updateData = (payload) => {
@@ -32,15 +32,17 @@ export default function Index() {
       visible={drawerVisible}
       onClose={onClose}
       buttons={[
-        {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
+        // {
+        //   label: '取消',
+        //   onClick: onClose,
+        //   show: !isView,
+        // },
         {
           label: '保存',
           type: 'primary',
           show: !isView,
+          style: { width: 80 },
+          loading: saveState,
           onClick: async () => {
             await form?.submitvalidate?.()
             const errors = form.getError()
