@@ -3,7 +3,6 @@ import React from 'react' // eslint-disable-line
 export default function TitleEx(props) {
   // 定义需要使用的传入的父级数据和方法
   const { must, children } = props
-  console.log('props', props)
   return (
     <span>
       {must ? (
