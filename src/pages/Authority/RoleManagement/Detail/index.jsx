@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { TreeChecked } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
+import { useEffect } from 'react'
 
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
@@ -14,11 +14,18 @@ const Detail = ({ updateData, onSearch }) => {
       isView,
       menuOptions,
       checkedKeys,
+      saveState,
     },
   } = useSelector((state) => state)
-  const [menuIds, setMenuIds] = useState([])
   const form = useForm()
   const onClose = () => dispatch({ type: 'rolemanagement/clean' })
+
+  useEffect(() => {
+    if (tableType === 'edit')
+      form &&
+        form.setFields &&
+        form.setFields({ ...queryInfo, menuIds: checkedKeys })
+  }, [form, queryInfo, tableType, checkedKeys])
 
   //修改树结构
   function toTree(data) {
@@ -37,8 +44,7 @@ const Detail = ({ updateData, onSearch }) => {
       }
     }
   }
-
-  function TreeData({ value, onChange }) {
+  const TreeData = ({ value, onChange }) => {
     return (
       <TreeChecked
         data={menuOptions.map((item) => toTree(item))}
@@ -46,24 +52,14 @@ const Detail = ({ updateData, onSearch }) => {
         // onExpand={(key, expanded, data, node) => {
         //   console.log(key, expanded, data, node)
         // }}
-        onSelected={(key, selected, item, evn) => {
-          // console.log('select:', key)
-          // console.log('select:', selected)
-          // console.log('select:', item)
-          // console.log('select:', evn)
+        onSelected={(key) => {
           onChange(key)
-          setMenuIds(key)
-          // updateData({
-          //   queryInfo: {
-          //     ...queryInfo,
-          //     menuIds: key
-          //   },
-          // })
+          const value = form.getFieldValues?.()
+          form.setFields({ ...value, menuIds: key })
         }}
       />
     )
   }
-
   return (
     <ProDrawer
       width={500}
@@ -73,15 +69,18 @@ const Detail = ({ updateData, onSearch }) => {
       visible={drawerVisible}
       onClose={onClose}
       buttons={[
-        {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
+        // {
+        //   label: '取消',
+        //   onClick: onClose,
+        //   show: !isView,
+        //   loading: saveState
+        // },
         {
           label: '保存',
           type: 'primary',
+          style: { width: 80 },
           show: !isView,
+          loading: saveState,
           onClick: async () => {
             await form?.submitvalidate?.()
             const errors = form.getError()
@@ -93,7 +92,7 @@ const Detail = ({ updateData, onSearch }) => {
               }`,
               payload: {
                 ...value,
-                menuIds: menuIds.filter((n) => n) || [],
+                menuIds: value.menuIds || [],
                 roleId: queryInfo?.roleId || null,
               },
             })

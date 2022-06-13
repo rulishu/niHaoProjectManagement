@@ -26,6 +26,7 @@ const department = createModel()({
     topData: {},
     userIdList: [],
     dataList: [],
+    saveState: false,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -71,14 +72,22 @@ const department = createModel()({
     // 新增
     async getAdd(payload) {
       const dph = dispatch
+      dph.department.updateState({
+        saveState: true,
+      })
       const data = await getAdd(payload)
       if (data.code === 200) {
         dph.department.updateState({
           drawerVisible: false,
           Loading: false,
           drawerVisibleText: '',
+          saveState: false,
         })
         dph.department.getList({})
+      } else {
+        dph.department.updateState({
+          saveState: false,
+        })
       }
     },
 
@@ -107,14 +116,22 @@ const department = createModel()({
     // 编辑
     async getEdit(payload) {
       const dph = dispatch
+      dph.department.updateState({
+        saveState: true,
+      })
       const data = await getEdit(payload)
       if (data.code === 200) {
         dph.department.updateState({
           drawerVisible: false,
           Loading: false,
           drawerVisibleText: '',
+          saveState: false,
         })
         dph.department.getList({})
+      } else {
+        dph.department.updateState({
+          saveState: false,
+        })
       }
     },
 

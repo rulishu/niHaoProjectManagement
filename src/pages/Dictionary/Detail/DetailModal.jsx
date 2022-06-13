@@ -14,7 +14,13 @@ function Demo({ value, onChange }) {
 const DetailModal = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
   const {
-    dictionary: { modalVisible, detailInfo, queryInfo, modalType },
+    dictionary: {
+      modalVisible,
+      detailInfo,
+      queryInfo,
+      modalType,
+      modalSaveState,
+    },
   } = useSelector((state) => state)
 
   const form = useForm()
@@ -239,12 +245,13 @@ const DetailModal = ({ updateData, onSearch }) => {
         ]}
       />
       <div className={styles.btnFoot}>
-        <Button onClick={onClose} className={styles.btn} type="light">
+        {/* <Button onClick={onClose} className={styles.btn} type="light" loading={modalSaveState}>
           取消
-        </Button>
+        </Button> */}
         <Button
           className={styles.btn}
           type="primary"
+          loading={modalSaveState}
           onClick={async () => {
             // 触发验证
             await form.submitvalidate()

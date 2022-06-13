@@ -32,6 +32,8 @@ const team = createModel()({
     id: null,
     teamId: null,
     isUsers: false,
+    saveState: false,
+    modalState: false,
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -43,12 +45,20 @@ const team = createModel()({
     // 新增团队
     async addTeam(payload, team) {
       const dph = dispatch
+      dph.team.updateState({
+        saveState: true,
+      })
       const data = await addTeam(payload)
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
+          saveState: false,
         })
         team.team.tablePro.onSearch()
+      } else {
+        dph.team.updateState({
+          saveState: false,
+        })
       }
     },
     // 根据团队 ID 删除团队
@@ -65,24 +75,40 @@ const team = createModel()({
     // 修改团队
     async editTeam(payload, team) {
       const dph = dispatch
+      dph.team.updateState({
+        saveState: true,
+      })
       const data = await editTeam(payload)
       if (data.code === 200) {
         dph.team.updateState({
           drawerVisible: false,
+          saveState: false,
         })
         team.team.tablePro.onSearch()
+      } else {
+        dph.team.updateState({
+          saveState: false,
+        })
       }
     },
     //  团队成员管理，修改团队成员
     async updateMembers(payload, team) {
       const dph = dispatch
+      dph.team.updateState({
+        modalState: true,
+      })
       const data = await updateMembers(payload)
       if (data.code === 200) {
         dph.team.updateState({
           isUsers: false,
+          modalState: false,
         })
         Notify.success({ title: data.message })
         team.team.tablePro.onSearch()
+      } else {
+        dph.team.updateState({
+          modalState: false,
+        })
       }
     },
     // 分页查找团队

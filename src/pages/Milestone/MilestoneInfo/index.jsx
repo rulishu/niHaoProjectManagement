@@ -5,7 +5,7 @@ import {
   Row,
   Col,
   Progress,
-  Alert,
+  Modal,
   Loader,
   DateInput,
   Notify,
@@ -397,7 +397,7 @@ const MilestoneInfo = () => {
           </ul>
         </Col>
       </Row>
-      <Alert
+      {/* <Alert
         isOpen={openAlert}
         confirmText="确定"
         cancelText="取消"
@@ -411,7 +411,24 @@ const MilestoneInfo = () => {
           <br />
           <strong>删除后数据不可恢复!</strong>
         </div>
-      </Alert>
+      </Alert> */}
+      {/* 统一删除按钮样式 */}
+      <Modal
+        title="删除提示"
+        isOpen={openAlert}
+        confirmText="确定"
+        cancelText="取消"
+        icon="information"
+        type="primary"
+        onConfirm={delMilestones}
+        onCancel={() => setOpenAlert(false)}
+        onClosed={() => setOpenAlert(false)}>
+        <div>
+          确定要删除该里程碑吗?
+          <br />
+          <strong>删除后数据不可恢复!</strong>
+        </div>
+      </Modal>
     </div>
   )
 }
