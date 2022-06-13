@@ -41,6 +41,7 @@ const NewIssue = (props) => {
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
+  const [labelState, setLabelState] = useState(false)
   const [milepostState, setMilepostState] = useState(false)
   const [assignState, setAssignState] = useState(false)
 
@@ -370,6 +371,9 @@ const NewIssue = (props) => {
               labels: {
                 inline: true,
                 initialValue: fromData.labels,
+                onClick: () => {
+                  setLabelState(false)
+                },
                 children: (
                   <CompDropdown
                     listData={initListData(
@@ -378,6 +382,7 @@ const NewIssue = (props) => {
                       'id',
                       { color: 'color', title: 'name' }
                     )}
+                    isOpen={labelState}
                     template="label"
                     shape="input"
                     loading={loading.effects.dictionary.getDictDataList}
