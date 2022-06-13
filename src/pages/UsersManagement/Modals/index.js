@@ -44,7 +44,7 @@ const Modals = (props) => {
 
   return (
     <Modal
-      title="单条删除"
+      title="删除提示"
       isOpen={delectVisible}
       confirmText="确定"
       cancelText="取消"
@@ -53,7 +53,7 @@ const Modals = (props) => {
       onConfirm={() => onConfirm()}
       onCancel={() => onClose()}
       onClosed={onClose}>
-      <p>是否确认删除此条数据</p>
+      <p>确定要删除该条数据吗?</p>
     </Modal>
   )
 }
