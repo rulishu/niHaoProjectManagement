@@ -5,6 +5,7 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import Custom from './Custom'
 import styles from './index.module.less'
 import { isColor } from '@/utils/utils'
+import TitleEx from '@/components/TitleEx'
 
 const NewEditLabel = (props) => {
   const {
@@ -95,16 +96,19 @@ const NewEditLabel = (props) => {
         }}
         fields={{
           name: {
+            label: <TitleEx must>标题</TitleEx>,
             initialValue: labelInfo.name,
             inline: true,
             children: <Input placeholder="请输入标签标题" />,
           },
           desc: {
+            label: '描述',
             initialValue: labelInfo.desc,
             inline: true,
             children: <Input placeholder="请输入标签描述" />,
           },
           color: {
+            label: <TitleEx must>背景颜色</TitleEx>,
             initialValue: labelInfo.color,
             inline: true,
             children: <Custom color={props?.color} />,
@@ -114,21 +118,15 @@ const NewEditLabel = (props) => {
           return (
             <div>
               <Row align="baseline" className={styles.fromItem}>
-                <Col span="4" className={styles.titleInput}>
-                  标题
-                </Col>
+                <Col span="4" className={styles.titleInput}></Col>
                 <Col span="19">{fields?.name}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
-                <Col span="4" className={styles.titleInput}>
-                  描述
-                </Col>
+                <Col span="4" className={styles.titleInput}></Col>
                 <Col span="19">{fields?.desc}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
-                <Col span="4" className={styles.titleInput}>
-                  背景颜色
-                </Col>
+                <Col span="4" className={styles.titleInput}></Col>
                 <Col span="19">{fields?.color}</Col>
               </Row>
               <Row align="baseline" className={styles.fromButton}>
