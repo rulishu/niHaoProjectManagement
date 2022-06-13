@@ -19,6 +19,7 @@ import {
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
+import { getManagerAssignmentUpdate } from '../servers/project'
 
 /**
  * 项目列表
@@ -237,6 +238,16 @@ const taskboard = createModel()({
         Notify.success({ title: '编辑小记成功' })
         setEditOpen(false)
         dispatch.taskboard.selectAllBoardNote({ boardId })
+      }
+    },
+
+    // 编辑任务
+    async getEdit(payload) {
+      const { setTaskDetails, ...other } = payload
+      const data = await getManagerAssignmentUpdate(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '更改任务状态成功' })
+        setTaskDetails(false)
       }
     },
 

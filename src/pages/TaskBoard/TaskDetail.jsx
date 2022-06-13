@@ -9,7 +9,8 @@ import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
 
 const TaskDetail = (props) => {
-  const { taskDetails, setTaskDetails, projectId, userAccount } = props?.param
+  const { taskDetails, setTaskDetails, projectId, userAccount, loading } =
+    props?.param
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
@@ -34,6 +35,7 @@ const TaskDetail = (props) => {
         <div className={styles.footerDiv}>
           <Button
             block
+            loading={loading.effects.taskboard.selectByProjectId}
             icon="link"
             className={styles.taskNaviBtu}
             type="light"
@@ -42,9 +44,28 @@ const TaskDetail = (props) => {
                 `/${userAccount}/${projectId}/task/taskInfo/${taskInfo.assignmentId}`
               )
             }}>
-            查看议题完整信息
+            查看任务完整信息
           </Button>
-          <Button block className={styles.taskCloseBtu} type="light">
+          <Button
+            loading={loading.effects.taskboard.getEdit}
+            block
+            className={styles.taskCloseBtu}
+            type="light"
+            onClick={() => {
+              let taskState = 1
+              if (taskInfo?.assignmentStatus === 3) {
+                taskState = 1
+              } else if (taskInfo?.assignmentStatus === 1) {
+                taskState = 3
+              }
+              dispatch.taskboard.getEdit({
+                projectId,
+                assignmentId: taskInfo.assignmentId,
+                assignmentStatus: taskState,
+                assignmentTitle: taskInfo.assignmentTitle,
+                setTaskDetails,
+              })
+            }}>
             {taskInfo?.assignmentStatus === 3 ? '打开任务' : '关闭任务'}
           </Button>
         </div>

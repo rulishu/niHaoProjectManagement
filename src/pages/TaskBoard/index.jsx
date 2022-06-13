@@ -456,7 +456,7 @@ const TaskBoard = () => {
       </DragDropContext>
       <DeletePop param={{ setDeleteBoardCon, deleteBoard, deleteBoardCon }} />
       <TaskDetail
-        param={{ setTaskDetails, taskDetails, projectId, userAccount }}
+        param={{ setTaskDetails, taskDetails, projectId, userAccount, loading }}
       />
     </>
   )
