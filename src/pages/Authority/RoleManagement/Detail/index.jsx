@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { TreeChecked } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { items } from './items'
+import { useEffect } from 'react'
 
 const Detail = ({ updateData, onSearch }) => {
   const dispatch = useDispatch()
@@ -17,9 +17,15 @@ const Detail = ({ updateData, onSearch }) => {
       saveState,
     },
   } = useSelector((state) => state)
-  const [menuIds, setMenuIds] = useState([])
   const form = useForm()
   const onClose = () => dispatch({ type: 'rolemanagement/clean' })
+
+  useEffect(() => {
+    if (tableType === 'edit')
+      form &&
+        form.setFields &&
+        form.setFields({ ...queryInfo, menuIds: checkedKeys })
+  }, [form, queryInfo, tableType, checkedKeys])
 
   //修改树结构
   function toTree(data) {
@@ -48,13 +54,8 @@ const Detail = ({ updateData, onSearch }) => {
         // }}
         onSelected={(key) => {
           onChange(key)
-          setMenuIds(key)
-          // updateData({
-          //   queryInfo: {
-          //     ...queryInfo,
-          //     menuIds: key
-          //   },
-          // })
+          const value = form.getFieldValues?.()
+          form.setFields({ ...value, menuIds: key })
         }}
       />
     )
@@ -91,7 +92,7 @@ const Detail = ({ updateData, onSearch }) => {
               }`,
               payload: {
                 ...value,
-                menuIds: menuIds.filter((n) => n) || [],
+                menuIds: value.menuIds || [],
                 roleId: queryInfo?.roleId || null,
               },
             })
