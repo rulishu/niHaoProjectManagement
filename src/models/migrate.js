@@ -4,6 +4,8 @@ import {
   setConfigControl,
   synchronizationControl, // gitlab数据同步
   getDataByIdControl, // 根据主键id查询数据
+  migrateMilestoneDataById,
+  migrateProjectDataById,
   // 第三方迁入源控制层
   delDataByIdSource, // 根据主键删除数据
   addDataSource, // 新增数据
@@ -65,7 +67,7 @@ const thirdpartyMigration = createModel()({
         callback && callback()
       }
     },
-    // gitlab数据同步
+    // 根据主键id查询数据
     async getDataByIdControl(payload, { migrate: { control } }) {
       const data = await getDataByIdControl(payload)
       if (data && data.code === 200) {
@@ -74,6 +76,18 @@ const thirdpartyMigration = createModel()({
           payload: { control: { ...control, dataInfo: data?.data } },
         })
       }
+    },
+
+    // 根据主键id迁移里程碑数据
+    async migrateMilestoneDataById(payload, { migrate: { control } }) {
+      const data = await migrateMilestoneDataById(payload)
+      console.log('根据主键id迁移里程碑数据====>', data)
+    },
+
+    // 同步项目数据
+    async migrateProjectDataById(payload, { migrate: { control } }) {
+      const data = await migrateProjectDataById(payload)
+      console.log('同步项目数据====>', data)
     },
 
     /**

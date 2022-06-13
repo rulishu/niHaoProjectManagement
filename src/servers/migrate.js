@@ -37,6 +37,21 @@ export const getDataByIdControl = (params) => {
   })
 }
 
+// 根据主键id迁移里程碑数据
+export const migrateMilestoneDataById = (params) => {
+  return request(`/api/system/transfer/transferMilestone/${params}`, {
+    method: 'POST',
+  })
+}
+
+// 同步项目数据
+export const migrateProjectDataById = (params) => {
+  return request(`/api/system/transfer/transferProjectData`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
 /**
  * 第三方迁入源控制层
  */

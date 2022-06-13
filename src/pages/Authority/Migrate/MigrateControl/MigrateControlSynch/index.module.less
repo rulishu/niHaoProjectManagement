@@ -7,14 +7,23 @@
 }
 
 .synchHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   // 项目标题
   .title {
-    font-size: 18px;
+    font-size: @font-size-lg + 2px;
     font-weight: bold;
   }
 
   //项目描述
   .desc {
+  }
+
+  .synProjectData {
+    width: 30%;
+    text-align: right;
   }
 }
 
@@ -26,5 +35,201 @@
   &:hover {
     text-decoration: underline;
     color: #008ef0;
+  }
+}
+
+.synchronousMilestone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+// 列表头部
+.listHeader {
+  display: flex;
+}
+
+// tab 单个项目块
+.LiItemContent {
+  width: 100%;
+
+  // 任务板块
+  .taskBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .taskBoxLeft {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .taskTitle {
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+      .taskState {
+        display: inline-block;
+        font-size: @font-size-sm;
+        line-height: 14px;
+        padding: 0px @padding-xss;
+        border-radius: 40px;
+        margin: 0 6px;
+        box-shadow: 0 0 4px 1px @normal-color;
+        color: @normal-color;
+      }
+    }
+  }
+
+  // 标签模块
+  .labelBox {
+    color: @white;
+    font-size: @font-size-sm;
+
+    p {
+      line-height: 14px;
+      align-items: center;
+      background-color: @white;
+      overflow: hidden;
+      display: inline-flex;
+      border-radius: 10px;
+      max-width: 100%;
+
+      span {
+        display: block;
+        padding: @padding-xss - 1px @padding-xss + 2px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+      }
+    }
+  }
+
+  // 人员模块
+  .memberBox {
+    display: flex;
+
+    .memberBoxLeft {
+      display: flex;
+      width: 60%;
+
+      .memberAvatar {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+      }
+
+      .memberAccount {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .name {
+          color: @black;
+        }
+
+        .username {
+          font-size: 12px;
+          color: @normal-color;
+        }
+      }
+    }
+
+    .memberBoxRight {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+
+      // 最大角色
+      .membersRole {
+        background-color: #f0f0f0;
+        color: #666;
+        padding: 4px 6px;
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 12px;
+      }
+
+      // 创建时间
+      .membersCreatedAt {
+        width: 40%;
+        color: #666;
+        font-size: 12px;
+        text-align: right;
+      }
+    }
+  }
+
+  // 里程碑模块
+  .milestoneBox {
+    display: flex;
+    align-items: center;
+
+    .title {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    .time {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+}
+
+.drawerBox {
+  // 标题
+  .title {
+    display: flex;
+
+    h1 {
+      font-size: 28px;
+      color: #303030;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: initial;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .taskState {
+      display: inline-block;
+      font-size: @font-size-sm;
+      line-height: 14px;
+      padding: 0px @padding-xss;
+      border-radius: 40px;
+      height: 16px;
+      margin: 0 @margin-xs;
+      box-shadow: 0 0 4px 1px #aaa;
+      color: #aaa;
+    }
+  }
+
+  // 创建人
+  .founder {
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  // 描述
+  .description {
+    :global {
+      .w-md-editor-preview {
+        overflow: auto;
+        position: inherit;
+      }
+    }
   }
 }
