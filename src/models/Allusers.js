@@ -15,6 +15,7 @@ import {
   guideUpdate,
   getRegisterSwitch,
   registerSwitch,
+  resetPwd,
 } from '../servers/allusers'
 import {
   uploadFile,
@@ -57,11 +58,14 @@ const allusers = createModel()({
     UserProjectList: [],
     membersItemsList: {},
     rolesDataInfo: {},
-    postsDataInfo: {},
+    postsDataInfo: '',
     isRegister: false, //是否开启注册功能
     types: '', //2:编辑用户
     isShow: '', //show是否显示
     userData: '', //编辑用户数据
+    saveState: false,
+    viewVisible: false, //重置密码弹窗
+    viewData: '', //重置密码
   },
   reducers: {
     update: (state, payload) => {
@@ -99,11 +103,21 @@ const allusers = createModel()({
     },
     // 新增成员
     async addNewUser(payload) {
+      dispatch.allusers.update({
+        saveState: true,
+      })
       const { params, callback } = payload
       const data = await addNewUser(params)
       if (data && data.code === 200) {
+        dispatch.allusers.update({
+          saveState: false,
+        })
         await callback()
         NotifySuccess(data.message)
+      } else {
+        dispatch.allusers.update({
+          saveState: false,
+        })
       }
     },
     async deleteById(params, { allusers }) {
@@ -116,12 +130,22 @@ const allusers = createModel()({
       }
     },
     async editNewUser(payload) {
+      dispatch.allusers.update({
+        saveState: true,
+      })
       const { param, callback } = payload
       await editGetInfo(param.userId)
       const data = await editNewUser(param)
       if (data && data.code === 200) {
+        dispatch.allusers.update({
+          saveState: false,
+        })
         await callback()
         NotifySuccess(data.message)
+      } else {
+        dispatch.allusers.update({
+          saveState: false,
+        })
       }
       await dispatch.userHome.getUserInfo({ id: param.userId })
     },
@@ -226,6 +250,16 @@ const allusers = createModel()({
     async registerSwitch() {
       const data = await registerSwitch()
       if (data && data.code === 200) {
+        NotifySuccess(data.message)
+      }
+    },
+    //重置密码
+    async resetPwd(params, { allusers }) {
+      const data = await resetPwd(params)
+      if (data && data.code === 200) {
+        await dispatch.allusers.update({
+          viewVisible: false,
+        })
         NotifySuccess(data.message)
       }
     },

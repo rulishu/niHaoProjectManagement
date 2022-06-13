@@ -5,7 +5,7 @@ import { items } from './items'
 const Detail = ({ updateData, handleTree, onSearch, dataSourceList }) => {
   const dispatch = useDispatch()
   const {
-    menumanagement: { drawerVisible, tableType, queryInfo, isView },
+    menumanagement: { drawerVisible, tableType, queryInfo, isView, saveState },
   } = useSelector((state) => state)
 
   const form = useForm()
@@ -70,15 +70,18 @@ const Detail = ({ updateData, handleTree, onSearch, dataSourceList }) => {
       visible={drawerVisible}
       onClose={onClose}
       buttons={[
-        {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
+        // {
+        //   label: '取消',
+        //   onClick: onClose,
+        //   show: !isView,
+        //   loading: saveState
+        // },
         {
           label: '保存',
           type: 'primary',
+          style: { width: 80 },
           show: !isView,
+          loading: saveState,
           onClick: async () => {
             await form?.submitvalidate?.()
             const errors = form.getError()

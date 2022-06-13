@@ -108,7 +108,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
     menus: [
       {
         title: '修改密码',
-        icon: 'setting',
+        icon: 'lock',
         onClick: () => {
           passwordRef?.current?.open()
           layouts.closeMenu()
@@ -224,7 +224,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
         // menuHide={true}
         // headerBackground={isNoMenu ? '#f2f2f2' : '#fff'}
       >
-        {linkedType !== -1 && !isError ? (
+        {(linkedType !== -1 && !isError) || pageName === 'dashboard' ? (
           <>
             {pageName !== 'projectList' &&
             `/${pageName}` !== breadUrl &&

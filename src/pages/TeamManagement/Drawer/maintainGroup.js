@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Modal, Table, Checkbox, Tree, Card, Row, Col } from 'uiw'
+import { Modal, Table, Checkbox, Tree, Card, Row, Col, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 
 const AddUser = () => {
@@ -14,7 +14,7 @@ const AddUser = () => {
   const [userInside, setUserInside] = useState([]) //组内用户全选 获取全部用户id
   const [userOutside, setUserOutside] = useState([]) //组外用户全选 获取全部用户id
   const {
-    team: { isUsers, teamData, teamMemberList, teamId },
+    team: { isUsers, teamData, teamMemberList, teamId, modalState },
   } = useSelector((state) => state)
   const {
     rolemanagement: { arrLeverTop },
@@ -193,9 +193,10 @@ const AddUser = () => {
       type="primary"
       width={1000}
       maxWidth={1100}
-      confirmText="保存"
-      cancelText="取消"
-      onConfirm={() => onConfirm()}
+      useButton={false}
+      // confirmText="保存"
+      // cancelText="取消"
+      // onConfirm={() => onConfirm()}
       maskClosable={false}
       onClosed={onClose}>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -221,6 +222,20 @@ const AddUser = () => {
           </Col>
         </Row>
         <Table bordered columns={columns} data={dataSource} />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          margin: '10px 0',
+        }}>
+        <Button
+          type="primary"
+          style={{ width: 80 }}
+          onClick={() => onConfirm()}
+          loading={modalState}>
+          保存
+        </Button>
       </div>
     </Modal>
   )

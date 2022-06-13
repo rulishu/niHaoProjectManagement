@@ -44,6 +44,8 @@ export default createModel()({
     detailInfo: {},
     dictAllData: [],
     dictDataList: [],
+    saveState: false,
+    modalSaveState: false,
   },
   effects: (dispatch) => {
     return {
@@ -68,49 +70,81 @@ export default createModel()({
       // 新增字典类型
       async addByDict(payload, dictionary) {
         const dph = dispatch
+        dph.dictionary.update({
+          saveState: true,
+        })
         const data = await addByDict(payload)
         if (data.code === 200) {
           dph.dictionary.update({
             drawerVisible: false,
             drawerVisiText: '',
+            saveState: false,
           })
           dictionary.dictionary.tablePro.onSearch()
+        } else {
+          dph.dictionary.update({
+            saveState: false,
+          })
         }
       },
       // 新增字典
       async addByDictData(payload, dictionary) {
         const dph = dispatch
+        dph.dictionary.update({
+          modalSaveState: true,
+        })
         const data = await addByDictData(payload)
         if (data.code === 200) {
           dph.dictionary.update({
             modalVisible: false,
             drawerVisiText: '',
+            modalSaveState: false,
           })
           dictionary.dictionary.tablePro.onSearch()
+        } else {
+          dph.dictionary.update({
+            modalSaveState: false,
+          })
         }
       },
       // 修改字典类型
       async editByDict(payload, dictionary) {
         const dph = dispatch
+        dph.dictionary.update({
+          saveState: true,
+        })
         const data = await editByDict(payload)
         if (data.code === 200) {
           dph.dictionary.update({
             drawerVisible: false,
             drawerVisiText: '',
+            saveState: false,
           })
           dictionary.dictionary.tablePro.onSearch()
+        } else {
+          dph.dictionary.update({
+            saveState: false,
+          })
         }
       },
       // 修改字典
       async editByDictData(payload, dictionary) {
         const dph = dispatch
+        dph.dictionary.update({
+          modalSaveState: true,
+        })
         const data = await editByDictData(payload)
         if (data.code === 200) {
           dph.dictionary.update({
             modalVisible: false,
             drawerVisiText: '',
+            modalSaveState: false,
           })
           dictionary.dictionary.tablePro.onSearch()
+        } else {
+          dph.dictionary.update({
+            modalSaveState: false,
+          })
         }
       },
       // 职位列表

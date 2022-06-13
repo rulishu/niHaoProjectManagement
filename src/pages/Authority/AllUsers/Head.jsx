@@ -11,7 +11,7 @@ const Head = (props) => {
   const handleAdd = () => {
     props.setType(3)
     props.setVisible(true)
-    update({ baseDetail: {} })
+    update({ baseDetail: {}, postsDataInfo: '' })
   }
   return (
     <div>

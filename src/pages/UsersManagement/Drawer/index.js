@@ -40,6 +40,7 @@ const Drawer = (props) => {
       payload: {
         drawerVisible: false,
         isView: false,
+        loading: false,
       },
     })
   }
@@ -179,7 +180,13 @@ const Drawer = (props) => {
           type: 'primary',
           show: !isView,
           loading: loading,
-          onClick: () => baseRef?.submitvalidate?.(),
+          onClick: async () => {
+            baseRef?.submitvalidate?.()
+            dispatch({
+              type: 'usersManagement/updateState',
+              payload: { loading: true },
+            })
+          },
         },
       ]}>
       <ProForm
