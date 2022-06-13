@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Table, Button, Alert, Empty, Tag } from 'uiw'
+import { Table, Button, Modal, Empty, Tag } from 'uiw'
 
 export default function TabelView() {
   const {
@@ -237,7 +237,7 @@ export default function TabelView() {
         onClick={() => onOpen()}>
         新增
       </Button>
-      <Alert
+      {/* <Alert
         isOpen={alertVisible}
         confirmText="确认"
         onClosed={() => onClose()}
@@ -250,7 +250,29 @@ export default function TabelView() {
               id: iterm.deptId,
             },
           })
-        }}></Alert>
+        }}>
+      </Alert> */}
+      {/* 统一删除按钮样式 */}
+      <Modal
+        title="删除提示"
+        isOpen={alertVisible}
+        confirmText="确定"
+        cancelText="取消"
+        icon="information"
+        type="primary"
+        onConfirm={() => {
+          dispatch({
+            type: 'department/getDelete',
+            payload: {
+              id: iterm.deptId,
+            },
+          })
+        }}
+        onCancel={() => onClose()}
+        onClosed={onClose}>
+        <p>确认删除该条数据吗?</p>
+      </Modal>
+
       <Table
         // bordered
         rowKey="deptId"
