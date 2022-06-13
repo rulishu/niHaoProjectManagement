@@ -54,8 +54,6 @@ const CompDropdown = (props) => {
     template && columns[template]?.params
   const { form: tempForm } = template && columns[template]
 
-  // console.log(tempTitle, tempActionButtons, tempForm)
-
   // labelStatus 1: 选择标签页, 2: 创建标签页
   const [labelStatus, setLabelStatus] = useState(1)
 
@@ -65,7 +63,6 @@ const CompDropdown = (props) => {
 
   // 判断使用组件头方法
   const newHeader = () => {
-    // console.log(template, columns)
     return labelHeader || (template && columns[template].header)
   }
 
@@ -153,7 +150,10 @@ const CompDropdown = (props) => {
                 {isTagClose && (
                   <span
                     className={styles.tagBut}
-                    onClick={() => optionEvent(item?.key)}>
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      optionEvent(item?.key)
+                    }}>
                     <Icon className={styles.tagIcon} type="close" />
                   </span>
                 )}
