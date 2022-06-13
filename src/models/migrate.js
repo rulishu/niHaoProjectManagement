@@ -59,8 +59,11 @@ const thirdpartyMigration = createModel()({
     },
     // gitlab数据同步
     async synchronizationControl(payload, { migrate: { control } }) {
-      const data = await synchronizationControl(payload)
-      console.log('data=====>', data)
+      const { param, callback } = payload
+      const data = await synchronizationControl(param)
+      if (data && data.code === 200) {
+        callback && callback()
+      }
     },
     // gitlab数据同步
     async getDataByIdControl(payload, { migrate: { control } }) {
