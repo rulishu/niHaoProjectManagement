@@ -15,16 +15,16 @@ import {
 import styles from './index.module.less'
 import DeletePop from './DeletePop'
 import Header from './Header'
-// import TaskDetail from './TaskDetail'
+import TaskDetail from './TaskDetail'
 import EditDrop from './EditDrop'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
-  const { projectId } = useParams()
+  const { projectId, userAccount } = useParams()
   const { taskboard, loading } = useSelector((state) => state)
   const { boardList, list } = taskboard
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
-  // const [taskDetails, setTaskDetails] = useState(false) // 任务详情抽屉
+  const [taskDetails, setTaskDetails] = useState(false) // 任务详情抽屉
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
@@ -50,7 +50,24 @@ const TaskBoard = () => {
       setSelectBoard,
     })
   }
-
+  const openTaskInfo = (item) => {
+    dispatch.taskboard.selectByProjectId({
+      projectId: projectId,
+      id: item.assignmentId,
+    })
+    dispatch.taskboard.getAllLabelData({
+      projectId: projectId,
+    })
+    dispatch.taskboard.getListAll({
+      projectId: projectId,
+      milestonesStatusList: [1, 2],
+    })
+    dispatch.taskboard.pullSelectAll({
+      projectId: projectId,
+      userName: '',
+    })
+    setTaskDetails(true)
+  }
   const onDragEnd = (result) => {
     //列表拖动时回调方法
     const sourceDroppableId = result.source.droppableId
@@ -265,14 +282,7 @@ const TaskBoard = () => {
                                               <div
                                                 style={{ display: 'flex' }}
                                                 onClick={() => {
-                                                  console.log(item)
-                                                  dispatch.taskboard.selectByProjectId(
-                                                    {
-                                                      projectId: projectId,
-                                                      id: item.assignmentId,
-                                                    }
-                                                  )
-                                                  // setTaskDetails(true)
+                                                  openTaskInfo(item)
                                                 }}>
                                                 <Icon type="down-circle-o" />
                                                 <div
@@ -445,7 +455,9 @@ const TaskBoard = () => {
         </div>
       </DragDropContext>
       <DeletePop param={{ setDeleteBoardCon, deleteBoard, deleteBoardCon }} />
-      {/* <TaskDetail param={{ taskDetails, setTaskDetails }} /> */}
+      <TaskDetail
+        param={{ setTaskDetails, taskDetails, projectId, userAccount }}
+      />
     </>
   )
 }

@@ -14,7 +14,11 @@ import {
   noteToAssignment,
   updateBoardNote,
   deleteBoardNote,
+  pullSelectAll,
+  getSelectAll,
 } from '../servers/taskBoard'
+
+import { getAllLabelData } from '../servers/labels'
 
 /**
  * 项目列表
@@ -28,6 +32,8 @@ const taskboard = createModel()({
     boardList: [],
     list: [],
     taskInfo: {},
+    labelList: [],
+    userAllList: [],
   },
   reducers: {
     update: (state, payload) => {
@@ -90,6 +96,26 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           taskInfo: data?.data || {},
+        })
+      }
+    },
+
+    // 查询项目中标签
+    async getAllLabelData(payload) {
+      const data = await getAllLabelData({ ...payload })
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          labelList: data?.data || [],
+        })
+      }
+    },
+
+    // 所有里程碑查询
+    async getListAll(payload) {
+      const data = await getSelectAll(payload)
+      if (data.code === 200) {
+        dispatch.taskboard.update({
+          milepostaData: data?.data || [],
         })
       }
     },
@@ -211,6 +237,18 @@ const taskboard = createModel()({
         Notify.success({ title: '编辑小记成功' })
         setEditOpen(false)
         dispatch.taskboard.selectAllBoardNote({ boardId })
+      }
+    },
+
+    //模糊查询所有用户
+    async pullSelectAll(params) {
+      const data = await pullSelectAll({
+        ...params,
+      })
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          userAllList: data?.data || [],
+        })
       }
     },
   }),
