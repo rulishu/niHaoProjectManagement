@@ -284,6 +284,9 @@ const NewIssue = (props) => {
                         }
                       )}
                       isOpen={assignState}
+                      selectLabel={() => {
+                        setAssignState(false)
+                      }}
                       template="personnel"
                       isRadio={true}
                       shape="input"
@@ -354,7 +357,9 @@ const NewIssue = (props) => {
                     isOpen={milepostState}
                     actionButtons={{ create: { isHide: true } }}
                     template="milepost"
-                    isRadio={true}
+                    selectLabel={() => {
+                      setMilepostState(false)
+                    }}
                     shape="input"
                     loading={loading.effects.dictionary.getDictDataList}
                     runLabel={() => {
@@ -362,6 +367,7 @@ const NewIssue = (props) => {
                         replace: true,
                       })
                     }}
+                    isRadio={true}
                     onClickLabelShow={(is) => {
                       setMilepostState(is)
                     }}
