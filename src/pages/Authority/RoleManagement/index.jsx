@@ -8,6 +8,7 @@ import Detail from './Detail'
 import DeletePopover from '@/components/DeletePopover'
 import { changeDate } from '@/utils/utils'
 import { searchFun } from '@/utils/publicFun'
+import { useSelector } from 'react-redux'
 
 const Demo = (props) => {
   const dispatch = useDispatch()
@@ -17,6 +18,10 @@ const Demo = (props) => {
       type: 'rolemanagement/getTreeSelect',
     })
   }, [dispatch])
+
+  const {
+    rolemanagement: { isOpen, ids },
+  } = useSelector((state) => state)
 
   const updateData = (payload) => {
     dispatch({
@@ -85,12 +90,14 @@ const Demo = (props) => {
       updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'del') {
-      const result = await dispatch({
-        type: 'rolemanagement/getDelete',
-        payload: { ids: [record.roleId] },
-      })
-      result && table.onSearch()
-      return result
+      updateData({ isOpen: true, ids: [record.roleId] })
+
+      // const result = await dispatch({
+      //   type: 'rolemanagement/getDelete',
+      //   payload: { ids: [record.roleId] },
+      // })
+      // result && table.onSearch()
+      // return result
     }
     // if (type === 'authorize') {
     //   dispatch({
@@ -122,10 +129,23 @@ const Demo = (props) => {
   //   //   id: listData.id,
   //   // })
   // }
-
+  const onConfirm = () => {
+    dispatch({
+      type: 'rolemanagement/getDelete',
+      payload: { ids: ids },
+    })
+  }
+  const onClosed = () => {
+    updateData({ isOpen: false })
+  }
   return (
     <Fragment>
       <Card>
+        <DeletePopover
+          isOpen={isOpen}
+          onConfirm={() => onConfirm()}
+          onClosed={() => onClosed()}
+        />
         <ProTable
           // 操作栏按钮
           operateButtons={[
@@ -280,14 +300,18 @@ const Demo = (props) => {
                       </Button>
                     </Tooltip>
                   ) : (
-                    <DeletePopover
+                    <Button
+                      size="small"
+                      type="danger"
+                      icon="delete"
                       disabled={
                         rowData.hasUser || rowData.roleKey === 'admin'
                           ? true
                           : false
                       }
-                      handleEditTable={() => handleEditTable('del', rowData)}
-                    />
+                      onClick={() => handleEditTable('del', rowData)}>
+                      删除
+                    </Button>
                   )}
                   {/* </AuthBtn> */}
                 </div>

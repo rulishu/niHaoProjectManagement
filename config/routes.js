@@ -381,36 +381,36 @@ const routes = [
             component: '@/pages/Authority/PostManagement',
             isAuth: true,
           },
-          // {
-          //   path: '/Authority/migrate',
-          //   name: '第三方迁移配置',
-          //   icon: 'shopping-cart',
-          //   isAuth: true,
-          //   routes: [
-          //     {
-          //       path: '/Authority/migrate/source',
-          //       name: '数据迁移源',
-          //       component: '@/pages/Authority/Migrate/MigrateSource',
-          //     },
-          //     {
-          //       path: '/Authority/migrate/control',
-          //       name: '数据迁移',
-          //       component: '@/pages/Authority/Migrate/MigrateControl',
-          //     },
-          //     {
-          //       path: '/Authority/migrate/control/:synchId',
-          //       name: '数据迁移同步数据',
-          //       component:
-          //         '@/pages/Authority/Migrate/MigrateControl/MigrateControlSynch',
-          //       hideInMenu: true,
-          //     },
-          //     {
-          //       path: '/Authority/migrate/detail',
-          //       name: '迁移日志',
-          //       component: '@/pages/Authority/Migrate/MigrateDetail',
-          //     },
-          //   ],
-          // },
+          {
+            path: '/Authority/migrate',
+            name: '第三方迁移配置',
+            icon: 'shopping-cart',
+            isAuth: true,
+            routes: [
+              {
+                path: '/Authority/migrate/source',
+                name: '数据迁移源',
+                component: '@/pages/Authority/Migrate/MigrateSource',
+              },
+              {
+                path: '/Authority/migrate/control',
+                name: '数据迁移',
+                component: '@/pages/Authority/Migrate/MigrateControl',
+              },
+              {
+                path: '/Authority/migrate/control/:synchId',
+                name: '数据迁移同步数据',
+                component:
+                  '@/pages/Authority/Migrate/MigrateControl/MigrateControlSynch',
+                hideInMenu: true,
+              },
+              {
+                path: '/Authority/migrate/detail',
+                name: '迁移日志',
+                component: '@/pages/Authority/Migrate/MigrateDetail',
+              },
+            ],
+          },
           {
             path: '/Authority/dictionary',
             name: '数据字典',

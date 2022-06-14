@@ -116,3 +116,11 @@ export function countAssignment(params) {
     body: params,
   })
 }
+
+//添加任务至我的待办
+export function addMyToDo(params) {
+  return request('/api/ManagerTodoList/addMyToDo', {
+    method: 'POST',
+    body: params,
+  })
+}

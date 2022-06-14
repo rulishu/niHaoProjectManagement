@@ -266,10 +266,6 @@ const NewIssue = (props) => {
               assigneeUser: {
                 inline: true,
                 initialValue: fromData.assigneeUserId,
-                onClick: () => {
-                  setMilepostState(false)
-                  setLabelState(false)
-                },
                 children: (
                   <div style={{ width: '100%' }}>
                     <CompDropdown
@@ -339,10 +335,6 @@ const NewIssue = (props) => {
               milestonesId: {
                 inline: true,
                 initialValue: fromData.milestonesId,
-                onClick: () => {
-                  setAssignState(false)
-                  setLabelState(false)
-                },
                 children: (
                   <CompDropdown
                     listData={initListData(
@@ -374,15 +366,11 @@ const NewIssue = (props) => {
               labels: {
                 inline: true,
                 initialValue: fromData.labels,
-                onClick: () => {
-                  setAssignState(false)
-                  setMilepostState(false)
-                },
                 children: (
                   <CompDropdown
                     isOpen={labelState}
-                    isRadio={true}
-                    title="无标签"
+                    // isRadio={true}
+                    title="标签"
                     listData={initListData(
                       labelsListData,
                       fromData.labels,

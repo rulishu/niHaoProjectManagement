@@ -6,10 +6,15 @@ import Detail from './Detail'
 import DeletePopover from '@/components/DeletePopover'
 import './style.css'
 import { searchFun } from '@/utils/publicFun'
+import { useSelector } from 'react-redux'
 
 const Demo = () => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
+  const {
+    menumanagement: { isOpen, menuId },
+  } = useSelector((state) => state)
+
   const updateData = (payload) => {
     dispatch({
       type: 'menumanagement/update',
@@ -66,12 +71,14 @@ const Demo = () => {
       updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'del') {
-      const result = await dispatch({
-        type: 'menumanagement/getDelete',
-        payload: record?.menuId,
-      })
-      result && table.onSearch()
-      return result
+      updateData({ isOpen: true, menuId: record?.menuId })
+
+      // const result = await dispatch({
+      //   type: 'menumanagement/getDelete',
+      //   payload: record?.menuId,
+      // })
+      // result && table.onSearch()
+      // return result
     }
     if (type === 'authorize') {
       updateData({ drawerVisibleAuth: true })
@@ -122,9 +129,24 @@ const Demo = () => {
     }
     return tree
   }
+  const onConfirm = () => {
+    dispatch({
+      type: 'menumanagement/getDelete',
+      payload: menuId,
+    })
+  }
+
+  const onClosed = () => {
+    updateData({ isOpen: false })
+  }
   return (
     <Fragment>
       <Card>
+        <DeletePopover
+          isOpen={isOpen}
+          onConfirm={() => onConfirm()}
+          onClosed={() => onClosed()}
+        />
         <ProTable
           // 操作栏按钮
           operateButtons={[
@@ -255,9 +277,13 @@ const Demo = () => {
                       onClick={handleEditTable.bind(this, 'edit', rowData)}>
                       编辑
                     </Button>
-                    <DeletePopover
-                      handleEditTable={() => handleEditTable('del', rowData)}
-                    />
+                    <Button
+                      size="small"
+                      type="danger"
+                      icon="delete"
+                      onClick={handleEditTable.bind(this, 'del', rowData)}>
+                      删除
+                    </Button>
                   </div>
                 )
               },
