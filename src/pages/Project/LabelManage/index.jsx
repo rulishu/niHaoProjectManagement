@@ -177,7 +177,9 @@ const LabelManage = (props) => {
                                 <p
                                   style={
                                     item?.color === '#ffffff' ||
-                                    item?.color === '#FFFFFF'
+                                    item?.color === '#FFFFFF' ||
+                                    item?.color === '#fff' ||
+                                    item?.color === '#FFF'
                                       ? {
                                           backgroundColor: item?.color,
                                           color: '#000000',
