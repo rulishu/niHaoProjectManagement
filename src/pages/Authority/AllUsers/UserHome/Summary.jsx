@@ -200,7 +200,7 @@ const DynamicsList = (props) => {
             <div className={styles.head}>
               <div className={styles.title}>最新动态</div>
               <div>
-                <Button size="small" onClick={() => setActiveKey('3')} basic>
+                <Button size="small" onClick={() => setActiveKey('4')} basic>
                   所有动态
                 </Button>
               </div>
