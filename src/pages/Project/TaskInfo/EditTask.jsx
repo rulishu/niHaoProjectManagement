@@ -15,7 +15,7 @@ const EditTask = () => {
   const params = useParams()
   const { userAccount, projectId } = params
   const {
-    project: { editFromData, taskInfoData },
+    project: { editFromData, taskInfoData, handleState },
     projectuser: { userSelectAllList },
     // dictionary: { dictDataList },
     labels: { listData: labelsListData },
@@ -173,6 +173,7 @@ const EditTask = () => {
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button
+            loading={handleState}
             onClick={() => {
               editFromData.loginUserTodoId ? getStrutsSwitch() : addMyToDo()
             }}>
