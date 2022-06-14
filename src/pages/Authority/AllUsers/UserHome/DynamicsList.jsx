@@ -73,7 +73,7 @@ const ProjectList = (props) => {
               )
             })
           ) : (
-            <Empty />
+            <Empty style={{ padding: '30px 0' }} />
           )}
         </ul>
       </Loader>
