@@ -419,7 +419,7 @@ const MilestoneInfo = () => {
         confirmText="确定"
         cancelText="取消"
         icon="information"
-        type="primary"
+        type="danger"
         onConfirm={delMilestones}
         onCancel={() => setOpenAlert(false)}
         onClosed={() => setOpenAlert(false)}>
