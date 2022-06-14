@@ -21,6 +21,8 @@ import { Notify } from 'uiw'
 const thirdpartyMigration = createModel()({
   name: 'migrate',
   state: {
+    isOpen: false, //删除弹窗
+    ids: '', //存储删除id
     loginConfig: {},
     control: {
       dataInfo: {},
