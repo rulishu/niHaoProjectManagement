@@ -94,23 +94,6 @@ export default function Index() {
     <Fragment>
       <MaintainGroup />
       <Card>
-        {/* <Alert
-          isOpen={alertShow}
-          confirmText="确认"
-          onClosed={() => setCloseDrawerVisible()}
-          type="danger"
-          content={`是否确认删除本条数据！`}
-          onConfirm={() => {
-            dispatch({
-              type: 'team/deleteTeamById',
-              payload: [
-                {
-                  id: id,
-                },
-              ],
-            })
-          }}></Alert> */}
-        {/* 统一删除按钮样式 */}
         <Modal
           title="删除提示"
           isOpen={alertShow}
@@ -147,6 +130,7 @@ export default function Index() {
                     drawerType: 'add',
                     drawerVisible: true,
                     tablePro: table,
+                    queryInfo: {},
                   },
                 })
               },

@@ -12,6 +12,10 @@ export default function SlelectLabel() {
   } = useSelector((state) => state)
   const navigate = useNavigate()
   const [tab, setTab] = useState(1)
+  const [newMemberList, setNewMemberList] = useState([])
+  useEffect(() => {
+    setNewMemberList(memberList.slice(0, 10))
+  }, [memberList])
 
   useEffect(() => {
     dispatch({
@@ -41,6 +45,22 @@ export default function SlelectLabel() {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
+
+  const divscrollFn = (event) => {
+    let el = event.target
+    console.log(el.scrollTop, 'el.scrollTop')
+    console.log(el.clientHeight, 'el.clientHeight')
+    console.log(el.scrollHeight, ' el.scrollHeight')
+    if (el.scrollTop + el.clientHeight + 2 >= el.scrollHeight) {
+      console.log('滚动到底部了')
+      if (newMemberList.length !== memberList.length) {
+        setNewMemberList([
+          ...newMemberList,
+          ...memberList.slice(newMemberList.length, newMemberList.length + 10),
+        ])
+      }
+    }
+  }
 
   const TableList = () => {
     return (
@@ -138,17 +158,19 @@ export default function SlelectLabel() {
         </Col>
         <Col fixed style={{ width: '25%' }}>
           <Card title="成员动态" bordered={false}>
-            <div className={styles.dynamicList}>
-              {memberList.length === 0 ? (
+            <div
+              className={styles.dynamicList}
+              onScroll={(e) => divscrollFn(e)}>
+              {newMemberList.length === 0 ? (
                 <Empty style={{ marginTop: 20 }} />
               ) : (
                 <Steps
                   direction="vertical"
                   progressDot
                   status="error"
-                  current={memberList?.length}
+                  current={newMemberList?.length}
                   style={{ padding: '20px 0' }}>
-                  {memberList?.map((a, key) => {
+                  {newMemberList?.map((a, key) => {
                     return (
                       <Steps.Step
                         title={a?.createTime}

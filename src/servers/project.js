@@ -124,3 +124,10 @@ export function addMyToDo(params) {
     body: params,
   })
 }
+//待办事项转换批量
+export const getStrutsSwitch = (params) => {
+  return request('/api/ManagerTodoList/strutsSwitchBatch', {
+    method: 'POST',
+    body: params,
+  })
+}

@@ -125,6 +125,7 @@ const milepost = {
       dataIndex: 'title',
       resultsShow: true,
       isSearch: true,
+      width: 150,
       component: (item) =>
         item ? (
           <span className={styles.title}>{item?.title}</span>
