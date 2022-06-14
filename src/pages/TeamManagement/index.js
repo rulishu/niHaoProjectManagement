@@ -129,7 +129,7 @@ export default function Index() {
                   payload: {
                     drawerType: 'add',
                     drawerVisible: true,
-                    tablePro: {},
+                    tablePro: table,
                     queryInfo: {},
                   },
                 })
