@@ -14,7 +14,7 @@ const Head = (props) => {
     update({ baseDetail: {}, postsDataInfo: '' })
   }
   return (
-    <div>
+    <div style={{ marginLeft: -13 }}>
       <Form
         // onSubmit={({ current }) => {
         //   const errorObj = {}
@@ -59,10 +59,19 @@ const Head = (props) => {
         {({ fields, state, canSubmit, resetForm }) => {
           return (
             <Row gutter={24}>
-              <Col span={6}>{fields.nickName}</Col>
-              <Col span={6}>{fields.userName}</Col>
-              <Col span={6}>{fields.phonenumber}</Col>
-              <Col span={6}>
+              <Col span={5}>
+                <span className={styles.usernameSize}>姓名:</span>
+                {fields.nickName}
+              </Col>
+              <Col span={5}>
+                <span className={styles.usernameSize}>帐号:</span>
+                {fields.userName}
+              </Col>
+              <Col span={5}>
+                <span className={styles.usernameSize}>电话:</span>
+                {fields.phonenumber}
+              </Col>
+              <Col span={9}>
                 <div className={styles.serachBox}>
                   <Button
                     icon="search"
