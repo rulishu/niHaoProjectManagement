@@ -160,7 +160,7 @@ const EditTask = () => {
       projectId: editFromData.projectId,
       id: editFromData.assignmentId,
     }
-    const todoData = { id: editFromData.loginUserTodoId, status: 0 }
+    const todoData = editFromData.loginUserTodoIdList
     await dispatch.project.getStrutsSwitch({
       param: param,
       todoData: todoData,
@@ -176,9 +176,15 @@ const EditTask = () => {
           <Button
             loading={handleState}
             onClick={() => {
-              editFromData.loginUserTodoId ? getStrutsSwitch() : addMyToDo()
+              editFromData.loginUserTodoIdList &&
+              editFromData.loginUserTodoIdList > 0
+                ? getStrutsSwitch()
+                : addMyToDo()
             }}>
-            {editFromData.loginUserTodoId ? '标记已完成' : '添加待办一个事项'}
+            {editFromData.loginUserTodoIdList &&
+            editFromData.loginUserTodoIdList > 0
+              ? '标记已完成'
+              : '添加待办一个事项'}
           </Button>
         </div>
         <div className={styles.rLabel}>
