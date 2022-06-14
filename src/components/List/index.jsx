@@ -15,7 +15,7 @@ export default function ListItem(props) {
   if (isIssue) {
     return (
       <List
-        className={`${styles.list} issueList`}
+        className={styles.list}
         dataSource={data}
         bordered={false}
         noHover={true}
