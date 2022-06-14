@@ -17,9 +17,21 @@
 }
 
 .createLabel {
+  :global {
+    .w-form-help {
+      padding: 3px 12px;
+    }
+  }
   // 颜色选择
   .colSelect {
-    padding: 0px 12px 6px 6px;
+    padding: 0px 12px;
+    width: 220px;
+
+    :global {
+      .w-color-swatch {
+        width: 220px !important;
+      }
+    }
 
     .colSelectBlock {
       display: flex;
