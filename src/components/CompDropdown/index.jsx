@@ -122,10 +122,16 @@ const CompDropdown = (props) => {
         {!isRadio ? (
           data?.length === 0 ? (
             newHeader()?.map((headItem, index) => (
-              <span key={index} style={{ fontSize: 14, color: '#757575' }}>
+              <div
+                key={index}
+                className={
+                  shape === 'input'
+                    ? styles.milestonesTitle
+                    : styles.milestonesTitleWidth
+                }>
                 {headItem?.resultsShow &&
                   headItem?.component(data[0], headItem)}
-              </span>
+              </div>
             ))
           ) : (
             data?.map((item) => (
@@ -163,10 +169,16 @@ const CompDropdown = (props) => {
         ) : (
           <div>
             {newHeader()?.map((headItem, index) => (
-              <span key={index} style={{ fontSize: 14, color: '#757575' }}>
+              <div
+                key={index}
+                className={
+                  shape === 'input'
+                    ? styles.milestonesTitle
+                    : styles.milestonesTitleWidth
+                }>
                 {headItem?.resultsShow &&
                   headItem?.component(data[0], headItem)}
-              </span>
+              </div>
             ))}
           </div>
         )}
@@ -257,7 +269,7 @@ const CompDropdown = (props) => {
           !is && setLabelStatus(1)
           setOpen(is)
         }}
-        isClickOutside={true}
+        isClickOutside={false}
         // usePortal={false}
         {...dropdownWindow}>
         <div>
