@@ -14,8 +14,8 @@ import {
   countAssignment,
   getAssignment, //不分页获取所有任务
   addMyToDo,
+  getStrutsSwitch,
 } from '../servers/project'
-import { getStrutsSwitch } from '../servers/TodoList'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
 
