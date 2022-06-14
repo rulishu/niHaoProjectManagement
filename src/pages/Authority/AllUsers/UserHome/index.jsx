@@ -191,6 +191,7 @@ const UserHome = (props) => {
             dispatch.allusers.update({
               isShow: '',
               userData: '',
+              postsDataInfo: [],
             })
           }}>
           <div>

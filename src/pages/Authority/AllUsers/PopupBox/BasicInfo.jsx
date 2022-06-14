@@ -294,7 +294,7 @@ const BasicInfo = (props) => {
                   required: true,
                   span: '12',
                   // disabled: type === 1 && true,
-                  initialValue: postsDataInfo || '',
+                  initialValue: postsDataInfo || [],
                   option: dictAllData?.map((e) => ({
                     label: e?.postName,
                     value: e.postId,

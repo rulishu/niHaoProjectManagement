@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Overlay, Pagination, Empty } from 'uiw'
+import { Overlay, Pagination, Empty, Card } from 'uiw'
 import Head from './Head'
 // import MembersProject from './MembersProject'
 import UsersBox from './UsersBox' // 成员列表
@@ -90,48 +90,51 @@ const Users = (props) => {
   }
 
   return (
-    <div className={styles.userWrap}>
-      <Head
-        setVisible={setIsOverlay}
-        setType={setType}
-        handleOnSearch={handleOnSearch}
-      />
-      <div className={styles.child}>
-        <UsersBox
-          data={dataList}
-          handleEdit={handleEdit}
-          memberAvatarArr={memberAvatarArr}
-          pageSize={pageSize} //用于优化样式
+    <div>
+      <Card>
+        <Head
+          setVisible={setIsOverlay}
+          setType={setType}
+          handleOnSearch={handleOnSearch}
         />
-        <div className={styles.loadInfo}>
-          {dataList?.length ? (
-            <Pagination
-              current={page}
-              pageSize={pageSize}
-              total={total}
-              onChange={(current) => forMoreUsers(current)}
-              divider
-            />
-          ) : (
-            <Empty></Empty>
-          )}
+        <div className={styles.child}>
+          <UsersBox
+            data={dataList}
+            handleEdit={handleEdit}
+            memberAvatarArr={memberAvatarArr}
+            pageSize={pageSize} //用于优化样式
+          />
+          <div className={styles.loadInfo}>
+            {dataList?.length ? (
+              <Pagination
+                current={page}
+                pageSize={pageSize}
+                total={total}
+                onChange={(current) => forMoreUsers(current)}
+                divider
+              />
+            ) : (
+              <Empty></Empty>
+            )}
+          </div>
         </div>
-      </div>
-      <Overlay
-        hasBackdrop={true}
-        isOpen={isOverlay}
-        onClose={() => {
-          setIsOverlay(false)
-          dispatch.allusers.update({
-            isShow: '',
-            userData: '',
-          })
-        }}>
-        <div>
-          <PopupBox setIsOverlay={setIsOverlay} type={type} />
-        </div>
-      </Overlay>
-      <ChangePwd />
+        <Overlay
+          hasBackdrop={true}
+          isOpen={isOverlay}
+          onClose={() => {
+            setIsOverlay(false)
+            dispatch.allusers.update({
+              isShow: '',
+              userData: '',
+              postsDataInfo: [],
+            })
+          }}>
+          <div>
+            <PopupBox setIsOverlay={setIsOverlay} type={type} />
+          </div>
+        </Overlay>
+        <ChangePwd />
+      </Card>
     </div>
   )
 }
