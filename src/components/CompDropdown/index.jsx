@@ -257,7 +257,7 @@ const CompDropdown = (props) => {
           !is && setLabelStatus(1)
           setOpen(is)
         }}
-        isClickOutside={false}
+        isClickOutside={true}
         // usePortal={false}
         {...dropdownWindow}>
         <div>

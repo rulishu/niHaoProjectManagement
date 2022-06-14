@@ -18,6 +18,8 @@ export default createModel()({
     queryInfo: {},
     isView: false,
     dataSourceList: [],
+    menuId: '',
+    isOpen: false,
     saveState: false,
   },
   effects: (dispatch) => ({

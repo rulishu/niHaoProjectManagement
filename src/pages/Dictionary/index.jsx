@@ -7,9 +7,13 @@ import DeletePopover from '@/components/DeletePopover'
 import Detail from './Detail'
 import { searchFun } from '@/utils/publicFun'
 import { changeDate } from '@/utils/utils'
+import { useSelector } from 'react-redux'
 
 function Dictionary() {
   const dispatch = useDispatch()
+  const {
+    dictionary: { isOpen, ids },
+  } = useSelector((state) => state)
 
   const updateData = (payload) => {
     dispatch({
@@ -62,19 +66,34 @@ function Dictionary() {
       updateData({ drawerVisible: true, queryInfo: record })
     }
     if (type === 'del') {
-      const result = await dispatch({
-        type: 'dictionary/deleteByTypeId',
-        payload: { ids: [record?.dictId] },
-      })
-      if (result.code === 200) {
-        table.onSearch()
-      }
+      updateData({ isOpen: true, ids: [record?.dictId] })
+
+      // const result = await dispatch({
+      //   type: 'dictionary/deleteByTypeId',
+      //   payload: { ids: [record?.dictId] },
+      // })
+      // if (result.code === 200) {
+      //   table.onSearch()
+      // }
     }
   }
-
+  const onConfirm = () => {
+    dispatch({
+      type: 'dictionary/deleteByTypeId',
+      payload: { ids: ids },
+    })
+  }
+  const onClosed = () => {
+    updateData({ isOpen: false })
+  }
   return (
     <Fragment>
       <Card>
+        <DeletePopover
+          isOpen={isOpen}
+          onConfirm={() => onConfirm()}
+          onClosed={() => onClosed()}
+        />
         <ProTable
           operateButtons={[
             {
@@ -235,9 +254,13 @@ function Dictionary() {
                   </AuthBtn>
                   {/* <Divider type="vertical" /> */}
                   <AuthBtn path="/api/dict/deleteByTypeId">
-                    <DeletePopover
-                      handleEditTable={() => handleEditTable('del', rowData)}
-                    />
+                    <Button
+                      size="small"
+                      type="danger"
+                      icon="delete"
+                      onClick={handleEditTable.bind(this, 'del', rowData)}>
+                      删除
+                    </Button>
                   </AuthBtn>
                 </div>
               ),
