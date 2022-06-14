@@ -58,7 +58,8 @@ const EditTask = () => {
   // 完成人员编辑
   const editAssignOk = async () => {
     setAssignState(false)
-    await dispatch.project.getEdit()
+    const result = await dispatch.project.getEdit()
+    result && dispatch.routeManagement.getInfo({})
   }
 
   const editLabelOk = async () => {
