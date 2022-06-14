@@ -35,7 +35,10 @@ const usersManagement = createModel()({
         drawerVisible: true,
         tableType: 'member',
       })
-      return await inviteMember(payload)
+      await inviteMember(payload)
+      dph.usersManagement.updateState({
+        loading: false,
+      })
     },
     // 邀请团队
     async inviteTeam(payload) {
@@ -44,7 +47,10 @@ const usersManagement = createModel()({
         drawerVisible: true,
         tableType: 'group',
       })
-      return await inviteTeam(payload)
+      await inviteTeam(payload)
+      dph.usersManagement.updateState({
+        loading: false,
+      })
     },
     // 编辑成员
     async updateProjectMember(payload) {
@@ -53,7 +59,10 @@ const usersManagement = createModel()({
         drawerVisible: true,
         tableType: 'edit',
       })
-      return await updateProjectMember(payload)
+      await updateProjectMember(payload)
+      dph.usersManagement.updateState({
+        loading: false,
+      })
     },
     // 移除成员
     async deleteProjectMember(payload) {
