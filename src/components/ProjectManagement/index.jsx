@@ -3,7 +3,8 @@ import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useState } from 'react'
-
+import CompDropdown from '../../components/CompDropdown'
+import { initListData } from '@/utils/utils'
 /**
  * 使用方法：
  * 先引用组件（fun为回调函数，回调刷新函数）
@@ -25,6 +26,8 @@ import { useState } from 'react'
 
 const ProjectManagement = (fun) => {
   const [showSubmit, setShowSubmit] = useState(true)
+  const [addrolds, setAddrolds] = useState(false)
+  // const [leaderId, serLeaderId] = useState('')
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -40,6 +43,31 @@ const ProjectManagement = (fun) => {
     userHome: { user },
     loading,
   } = useSelector((state) => state)
+
+  const dropdown = () => {
+    return (
+      <>
+        <CompDropdown
+          isOpen={addrolds}
+          shape="input"
+          template="addrole"
+          // listData={userList}
+          listData={initListData(userList, seachValue.projectLeaderId, 'key', {
+            memberName: 'memberName',
+          })}
+          selectLabel={() => {
+            setAddrolds(false)
+            setShowSubmit(false)
+          }}
+          // closeLabel={() => {
+          //   setAddrolds(false)
+          // }}
+          isRadio={true}
+          // isAutoDown ={true}
+        />
+      </>
+    )
+  }
 
   const updateData = (payload) => {
     dispatch({
@@ -76,23 +104,24 @@ const ProjectManagement = (fun) => {
     }
   }
 
-  //项目负责人-模糊搜索
-  const [option, setOption] = useState(userList || '')
-  const handleSearch = (e) => {
-    setTimeout(() => {
-      const filterOpion = userList?.filter(
-        (item) => !!item.label.includes(e?.trim())
-      )
-      setOption([...filterOpion])
-    }, 500)
-  }
-  //项目负责人-默认
-  let dataprojectLeaderId = userList.filter(function (item) {
-    return item.value === seachValue?.projectLeaderId
-  })
+  // //项目负责人-模糊搜索
+  // const [option, setOption] = useState(userList || '')
+  // const handleSearch = (e) => {
+  //   setTimeout(() => {
+  //     const filterOpion = userList?.filter(
+  //       (item) => !!item.label.includes(e?.trim())
+  //     )
+  //     setOption([...filterOpion])
+  //   }, 500)
+  // }
+  // //项目负责人-默认
+  // let dataprojectLeaderId = userList.filter(function (item) {
+  //   return item.value === seachValue?.projectLeaderId
+  // })
   const proform = () => {
     return (
       <ProForm
+        customWidgetsList={{ dropdown: dropdown }}
         formType="pure"
         form={baseRef}
         formDatas={[
@@ -114,23 +143,23 @@ const ProjectManagement = (fun) => {
           {
             label: '项目负责人:',
             key: 'projectLeaderId',
-            widget: 'searchSelect',
-            initialValue: dataprojectLeaderId,
-            placeholder: '请选择项目负责人',
-            option: option,
-            widgetProps: {
-              mode: 'single',
-              labelInValue: true,
-              showSearch: true,
-              allowClear: true,
-              onSearch: handleSearch,
-              onChange: () => {
-                setShowSubmit(false)
-              },
-            },
+            widget: 'dropdown',
+            // initialValue: dataprojectLeaderId,
+            // placeholder: '请选择项目负责人',
+            // option: option,
+            // widgetProps: {
+            //   mode: 'single',
+            //   labelInValue: true,
+            //   showSearch: true,
+            //   allowClear: true,
+            //   onSearch: handleSearch,
+            //   onChange: () => {
+            //     setShowSubmit(false)
+            //   },
+            // },
             span: '24',
             required: true,
-            rules: [{ required: true, message: '请输入项目负责人' }],
+            // rules: [{ required: true, message: '请输入项目负责人' }],
             hide: drawerType === 'add',
           },
           {
@@ -239,6 +268,7 @@ const ProjectManagement = (fun) => {
           let end = formatter(current.end)
           current.begin = begin
           current.end = end
+          // current.projectLeaderId = leaderId
           updateData({ seachValue: { ...current } })
         }}
       />
