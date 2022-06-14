@@ -67,14 +67,24 @@ const FromMD = (props) => {
     })
   }, [userSelectAllList, allWork, labelsListData, milepostaData])
   useEffect(() => {
-    if (mdRefs?.current?.textarea && !isBundle.current) {
+    if (
+      mdRefs?.current?.textarea &&
+      !isBundle.current &&
+      Object.keys(editData).length > 2
+    ) {
       isBundle.current = true
       newTribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
         form.current.setFieldValue(fromValue, e.target.value)
+        upDate({
+          [editName]: {
+            ...editData,
+            [fromValue]: e.target.value,
+          },
+        })
       })
     }
-  }, [fromValue, mdRefs, newTribute])
+  }, [fromValue, mdRefs, newTribute, editData, editName, upDate])
 
   useEffect(() => {
     document.addEventListener('paste', pasteDataEvent)
