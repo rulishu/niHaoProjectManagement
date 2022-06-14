@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Button, Tag, Card, Tooltip } from 'uiw'
+import { Button, Tag, Card, Tooltip, Notify } from 'uiw'
 import { useDispatch } from 'react-redux'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { ProTable, useTable } from '@uiw-admin/components'
@@ -80,7 +80,12 @@ function Dictionary() {
   const onConfirm = () => {
     dispatch({
       type: 'dictionary/deleteByTypeId',
-      payload: { ids: ids },
+      payload: { ids },
+    }).then((data) => {
+      if (data?.code === 200) {
+        table.onSearch()
+        Notify.success({ title: data?.message })
+      }
     })
   }
   const onClosed = () => {

@@ -42,7 +42,7 @@ export default function DeletePopover({ isOpen, onConfirm, onClosed }) {
       confirmText="确定"
       cancelText="取消"
       icon="information"
-      type="primary"
+      type="danger"
       onConfirm={onConfirm}
       onCancel={onClosed}
       onClosed={onClosed}>

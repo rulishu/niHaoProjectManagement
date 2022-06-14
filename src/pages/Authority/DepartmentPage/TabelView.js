@@ -259,7 +259,7 @@ export default function TabelView() {
         confirmText="确定"
         cancelText="取消"
         icon="information"
-        type="primary"
+        type="danger"
         onConfirm={() => {
           dispatch({
             type: 'department/getDelete',

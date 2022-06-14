@@ -107,9 +107,19 @@ const login = createModel()({
 
     //第三方登录
     async getThirdLoginToken() {
+      dispatch.login.updateState({
+        submitLoading: true,
+      })
       const data = await getThirdLoginToken()
       if (data && data.data) {
         window.location.href = data.data.gitLabUrl
+        dispatch.login.updateState({
+          submitLoading: false,
+        })
+      } else {
+        dispatch.login.updateState({
+          submitLoading: false,
+        })
       }
     },
 

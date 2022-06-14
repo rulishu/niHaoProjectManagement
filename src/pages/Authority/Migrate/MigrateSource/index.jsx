@@ -8,10 +8,13 @@ import Detail from './Detail'
 import { columns } from './item'
 import MigrateConfig from './MigrateConfig'
 import styles from './index.module.less'
+import DeletePopover from '@/components/DeletePopover'
 
 const MigrateSource = (props) => {
   const {
     migrate: {
+      isOpen,
+      ids,
       source,
       source: { dataInfo },
     },
@@ -19,6 +22,12 @@ const MigrateSource = (props) => {
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const updateData = (payload) => {
+    dispatch({
+      type: 'migrate/updateState',
+      payload,
+    })
+  }
 
   const [isVisible, setIsVisible] = useState(false)
   const [isConfig, setIsConfig] = useState(false)
@@ -61,12 +70,25 @@ const MigrateSource = (props) => {
   }
 
   // 删除迁移配置
-  const delDatSource = async (id) => {
+  const delDatSource = (id) => {
+    updateData({
+      isOpen: true,
+      ids: id,
+    })
+  }
+
+  //删除确定
+  const onConfirm = async () => {
     await dispatch({
       type: 'migrate/delDataByIdSource',
-      payload: id,
+      payload: ids,
     })
     await table?.onRefersh()
+  }
+
+  //删除取消
+  const onClosed = () => {
+    updateData({ isOpen: false })
   }
 
   // 同步数据
@@ -81,6 +103,11 @@ const MigrateSource = (props) => {
   return (
     <Fragment>
       <Card>
+        <DeletePopover
+          isOpen={isOpen}
+          onConfirm={() => onConfirm()}
+          onClosed={() => onClosed()}
+        />
         <div className={styles.wrap}>
           <>
             <ProTable
