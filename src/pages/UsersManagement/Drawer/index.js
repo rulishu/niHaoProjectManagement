@@ -134,6 +134,10 @@ const Drawer = (props) => {
         payload,
       }).then((data) => information(data))
     }
+    dispatch({
+      type: 'usersManagement/updateState',
+      payload: { loading: true },
+    })
   }
 
   //邀请成员-模糊查询
@@ -182,10 +186,6 @@ const Drawer = (props) => {
           loading: loading,
           onClick: async () => {
             baseRef?.submitvalidate?.()
-            dispatch({
-              type: 'usersManagement/updateState',
-              payload: { loading: true },
-            })
           },
         },
       ]}>

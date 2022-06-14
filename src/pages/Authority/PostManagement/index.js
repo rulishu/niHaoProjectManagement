@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { ProTable, useTable } from '@uiw-admin/components'
-import { Alert, Tag, Card } from 'uiw'
+import { Modal, Tag, Card } from 'uiw'
 import { useDispatch, useSelector } from 'react-redux'
 import Drawer from './Drawer'
 import { searchFun } from '@/utils/publicFun'
@@ -68,7 +68,7 @@ export default function Index() {
   return (
     <Fragment>
       <Card>
-        <Alert
+        {/* <Alert
           isOpen={alertShow}
           confirmText="确认"
           onClosed={() => setCloseDrawerVisible()}
@@ -81,7 +81,28 @@ export default function Index() {
                 ids: [ids],
               },
             })
-          }}></Alert>
+          }}></Alert> */}
+        {/* 统一删除按钮样式 */}
+        <Modal
+          title="删除提示"
+          isOpen={alertShow}
+          confirmText="确定"
+          cancelText="取消"
+          icon="information"
+          type="primary"
+          onConfirm={() => {
+            dispatch({
+              type: 'postManagement/getDelete',
+              payload: {
+                ids: [ids],
+              },
+            })
+          }}
+          onCancel={() => setCloseDrawerVisible()}
+          onClosed={() => setCloseDrawerVisible()}>
+          <p>确认删除该条数据吗?</p>
+        </Modal>
+
         <ProTable
           table={table}
           // bordered

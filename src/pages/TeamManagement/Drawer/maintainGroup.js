@@ -6,7 +6,7 @@ const AddUser = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState([])
   const [indeterminate, setIndeterminate] = useState(false)
-  const [checkAll, setCheckAll] = useState(true)
+  const [checkAll, setCheckAll] = useState(false)
   const [inputValue1, setInputValue1] = useState([])
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
@@ -25,6 +25,11 @@ const AddUser = () => {
     teamMemberList.map((item, index) => oldInputValue.push(item.value))
     let newInputValue = oldInputValue.filter((n) => n)
     setInputValue(newInputValue)
+    if (newInputValue.length > 0) {
+      setCheckAll(true)
+    } else {
+      setCheckAll(false)
+    }
   }, [teamMemberList])
 
   // 关闭弹窗
@@ -162,7 +167,8 @@ const AddUser = () => {
         type: 'team/updateMembers',
         payload: {
           teamId: teamId,
-          userIdList: userInside,
+          userIdList:
+            userInside === '' ? inputValue1 : inputValue1.concat(userInside),
           num: num,
         },
       })
