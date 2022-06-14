@@ -79,7 +79,7 @@ const DynamicsList = (props) => {
             </ul>
           </Loader>
         ) : (
-          <Empty />
+          <Empty style={{ padding: '30px 0' }} />
         )}
       </div>
       <Row>
@@ -191,7 +191,7 @@ const DynamicsList = (props) => {
                 </ul>
               </Loader>
             ) : (
-              <Empty />
+              <Empty style={{ padding: '30px 0' }} />
             )}
           </div>
         </Col>
@@ -292,7 +292,7 @@ const DynamicsList = (props) => {
                 </ul>
               </Loader>
             ) : (
-              <Empty />
+              <Empty style={{ padding: '30px 0' }} />
             )}
           </div>
         </Col>
