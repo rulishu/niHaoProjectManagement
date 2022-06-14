@@ -32,11 +32,6 @@ export default function Index() {
       visible={drawerVisible}
       onClose={onClose}
       buttons={[
-        // {
-        //   label: '取消',
-        //   onClick: onClose,
-        //   show: !isView,
-        // },
         {
           label: '保存',
           type: 'primary',
@@ -48,7 +43,7 @@ export default function Index() {
             const errors = form.getError()
             if (errors && Object.keys(errors).length > 0) return
             dispatch({
-              type: `team/${drawerType === 'add' ? 'addTeam' : 'editTeam'}`,
+              type: `team/${drawerType === 'edit' ? 'editTeam' : 'addTeam'}`,
               payload: {
                 ...queryInfo,
               },

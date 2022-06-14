@@ -46,10 +46,7 @@ const Drawer = (props) => {
   }
   // 执行成功返回的信息
   const information = (data) => {
-    if (data.code === 301) {
-      return
-    }
-    if (data.code === 200) {
+    if (data?.code === 200) {
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })

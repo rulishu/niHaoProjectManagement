@@ -58,7 +58,7 @@ const allusers = createModel()({
     UserProjectList: [],
     membersItemsList: {},
     rolesDataInfo: {},
-    postsDataInfo: '',
+    postsDataInfo: [],
     isRegister: false, //是否开启注册功能
     types: '', //2:编辑用户
     isShow: '', //show是否显示
@@ -154,7 +154,7 @@ const allusers = createModel()({
       if (data && data.code === 200) {
         dispatch.allusers.update({
           rolesDataInfo: data?.roleIds[0], // data?.roles?.find(e=>e?.roleId === data?.roleIds[0]) || {},
-          postsDataInfo: data?.postIds[0], // data?.posts?.find(e=>e?.postId === ) || {},
+          postsDataInfo: data?.postIds[0] || [], // data?.posts?.find(e=>e?.postId === ) || {},
           baseDetail: data.data,
           uuid: data.data?.uuid || '',
         })
