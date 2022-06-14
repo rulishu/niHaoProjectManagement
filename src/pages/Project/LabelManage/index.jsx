@@ -174,7 +174,16 @@ const LabelManage = (props) => {
                           <li key={item?.id}>
                             <div className={styles.listLiLeft}>
                               <div className={styles.labelName}>
-                                <p style={{ backgroundColor: item?.color }}>
+                                <p
+                                  style={
+                                    item?.color === '#ffffff' ||
+                                    item?.color === '#FFFFFF'
+                                      ? {
+                                          backgroundColor: item?.color,
+                                          color: '#000000',
+                                        }
+                                      : { backgroundColor: item?.color }
+                                  }>
                                   <span>{item?.name}</span>
                                 </p>
                               </div>
