@@ -110,7 +110,7 @@ const personnel = {
   params: {
     title: '人员',
     actionButtons: {
-      create: { isHide: true },
+      // create: { isHide: true },
       manage: { title: '邀请成员' },
     },
   },
@@ -194,6 +194,94 @@ const milepost = {
   },
 }
 
-const columns = { label, personnel, milepost }
+// 配置 addrole 的模板
+const addrole = {
+  // 数据渲染头部
+  header: [
+    {
+      title: '人员名称',
+      dataIndex: 'memberName',
+      resultsShow: true,
+      isSearch: true,
+      width: '100%',
+      component: (item) => {
+        return item ? (
+          <div className={styles.personnelLi}>
+            <div className={styles.userLiAvatar}>
+              <Avatar
+                size="small"
+                src={
+                  item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''
+                }>
+                {item?.memberName && item?.memberName[0]}
+              </Avatar>
+            </div>
+            <div className={styles.userLiInfo}>
+              <div className={styles.userName}>{item?.memberName}</div>
+              <div className={styles.userAcount}>{item?.userAcount}</div>
+            </div>
+          </div>
+        ) : (
+          <div>无人员</div>
+        )
+      },
+    },
+  ],
+  // 配置参数
+  params: {
+    title: '人员',
+    actionButtons: {
+      // create: { title: '创建成员' },
+      create: { isHide: true },
+      manage: { isHide: true },
+    },
+  },
+  form: {
+    fields: (props) => {
+      return {
+        username: {
+          inline: true,
+          required: true,
+          children: <Input placeholder="请输入标题" />,
+        },
+        password: {
+          inline: true,
+          required: true,
+          labelFor: 'date-inline',
+          children: <Input placeholder="请输入密码" />,
+        },
+      }
+    },
+    fieldsShow: ({ fields }) => {
+      return (
+        <>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            用户名：{fields.username}
+          </div>
+          <div
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            className={styles.searchBox}>
+            密码：{fields.password}
+          </div>
+        </>
+      )
+    },
+    verify: (initial, current) => {
+      const errorObj = {}
+      const { username, password } = current
+      if (!username) {
+        errorObj.username = '用户名不能为空'
+      }
+      if (!password) {
+        errorObj.password = '密码不能为空'
+      }
+      return errorObj
+    },
+  },
+}
+
+const columns = { label, personnel, milepost, addrole }
 
 export default columns
