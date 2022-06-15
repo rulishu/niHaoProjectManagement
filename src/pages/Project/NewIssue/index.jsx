@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo, Fragment } from 'react'
 import {
   Row,
   Col,
@@ -6,7 +6,8 @@ import {
   Form,
   Button,
   DateInput,
-  Loader,
+  Card,
+  // Loader,
   // FileInput,
 } from 'uiw'
 import './style.css'
@@ -18,7 +19,7 @@ import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
-import { Container } from '@/components'
+// import { Container } from '@/components'
 import { CompDropdown } from '@/components'
 import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
@@ -37,6 +38,7 @@ const NewIssue = (props) => {
     projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
+  const { getAdd } = loading.effects.project
 
   const form = useRef()
   const isBundle = useRef(false)
@@ -190,15 +192,16 @@ const NewIssue = (props) => {
   }
 
   return (
-    <Container>
-      <div className="main">
-        <div className="title">新建任务</div>
-        {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
-        <Loader
+    <Fragment>
+      <Card>
+        <div className="main">
+          <div className="title">新建任务</div>
+          {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
+          {/* <Loader
           tip="加载中..."
           vertical
           style={{ width: '100%' }}
-          loading={loading.effects.project.getAdd}>
+          loading={getAdd}> */}
           <Form
             ref={form}
             onChange={({ current }) => {
@@ -457,8 +460,8 @@ const NewIssue = (props) => {
                     <Col>
                       <Button
                         type="primary"
-                        disabled={!canSubmit()}
-                        style={{ width: '80px' }}
+                        // disabled={!canSubmit()}
+                        loading={getAdd}
                         htmlType="submit">
                         保存
                       </Button>
@@ -473,9 +476,10 @@ const NewIssue = (props) => {
               )
             }}
           </Form>
-        </Loader>
-      </div>
-    </Container>
+          {/* </Loader> */}
+        </div>
+      </Card>
+    </Fragment>
   )
 }
 
