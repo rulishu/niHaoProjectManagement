@@ -99,7 +99,16 @@ const TaskDetail = (props) => {
             </div>
             <div>
               <span style={{ fontSize: '12px', color: '#768390' }}>
-                由 {taskInfo.createName} 于{taskInfo?.createTime?.slice(0, 10)}
+                由{' '}
+                <span
+                  className={styles.projectName}
+                  onClick={() => {
+                    console.log(userAccount)
+                    navigate(`/${taskInfo.createName}`)
+                  }}>
+                  {taskInfo.createName}
+                </span>{' '}
+                于{taskInfo?.createTime?.slice(0, 10)}
                 时创建
               </span>
             </div>

@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Overlay,
   Empty,
+  Loader,
 } from 'uiw'
 import styles from './index.module.less'
 import DeletePop from './DeletePop'
@@ -366,15 +367,19 @@ const TaskBoard = () => {
             })
           ) : (
             <div className={styles.empty}>
-              {boardList.length ? (
-                creatBut ? (
-                  <div></div>
+              <Loader
+                size="large"
+                loading={loading.effects.taskboard.selectAllBoardNote}>
+                {boardList.length ? (
+                  creatBut ? (
+                    <div></div>
+                  ) : (
+                    <Empty size="200px" />
+                  )
                 ) : (
                   <Empty size="200px" />
-                )
-              ) : (
-                <Empty size="200px" />
-              )}
+                )}
+              </Loader>
             </div>
           )}
           {creat && (
