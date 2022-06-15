@@ -231,7 +231,8 @@ const addrole = {
   params: {
     title: '人员',
     actionButtons: {
-      create: { title: '创建成员' },
+      // create: { title: '创建成员' },
+      create: { isHide: true },
       manage: { isHide: true },
     },
   },

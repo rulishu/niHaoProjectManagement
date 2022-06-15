@@ -5,6 +5,8 @@ import formatter from '@uiw/formatter'
 import { useState } from 'react'
 import CompDropdown from '../../components/CompDropdown'
 import { initListData } from '@/utils/utils'
+import styles from './index.module.less'
+
 /**
  * 使用方法：
  * 先引用组件（fun为回调函数，回调刷新函数）
@@ -27,7 +29,6 @@ import { initListData } from '@/utils/utils'
 const ProjectManagement = (fun) => {
   const [showSubmit, setShowSubmit] = useState(true)
   const [addrolds, setAddrolds] = useState(false)
-  // const [leaderId, serLeaderId] = useState('')
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -44,6 +45,13 @@ const ProjectManagement = (fun) => {
     loading,
   } = useSelector((state) => state)
 
+  const updateData = (payload) => {
+    dispatch({
+      type: 'projectUpdate/updateState',
+      payload,
+    })
+  }
+
   const dropdown = () => {
     return (
       <>
@@ -51,29 +59,34 @@ const ProjectManagement = (fun) => {
           isOpen={addrolds}
           shape="input"
           template="addrole"
-          // listData={userList}
           listData={initListData(userList, seachValue.projectLeaderId, 'key', {
             memberName: 'memberName',
           })}
-          selectLabel={() => {
+          selectLabel={(e) => {
+            baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)
             setShowSubmit(false)
+            let arr = {
+              projectLeaderId: e,
+              name: seachValue?.name,
+              begin: seachValue?.begin,
+              end: seachValue?.end,
+              descr: seachValue?.descr,
+              status: seachValue?.status,
+            }
+            updateData({ seachValue: arr })
           }}
-          // closeLabel={() => {
-          //   setAddrolds(false)
-          // }}
+          onClickLabelShow={(e) => {
+            setAddrolds(e)
+          }}
           isRadio={true}
-          // isAutoDown ={true}
+          createTag={(_, current) => {
+            console.log(current)
+            return true
+          }}
         />
       </>
     )
-  }
-
-  const updateData = (payload) => {
-    dispatch({
-      type: 'projectUpdate/updateState',
-      payload,
-    })
   }
 
   const onClose = () => {
@@ -84,6 +97,7 @@ const ProjectManagement = (fun) => {
       fileIds: '',
     })
     setShowSubmit(true)
+    setAddrolds(false)
   }
 
   function saveData() {
@@ -96,7 +110,7 @@ const ProjectManagement = (fun) => {
     } else if (drawerType === 'edit') {
       seachValue.id = id
       seachValue.projectAvatar = fileIds
-      seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
+      // seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
       dispatch({
         type: 'projectUpdate/updateProject',
         payload: { seachValue, callback: fun.fun },
@@ -133,6 +147,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 setShowSubmit(false)
+                setAddrolds(false)
               },
             },
             placeholder: '请输入项目名称',
@@ -148,14 +163,14 @@ const ProjectManagement = (fun) => {
             // placeholder: '请选择项目负责人',
             // option: option,
             // widgetProps: {
-            //   mode: 'single',
-            //   labelInValue: true,
-            //   showSearch: true,
-            //   allowClear: true,
-            //   onSearch: handleSearch,
-            //   onChange: () => {
-            //     setShowSubmit(false)
-            //   },
+            // mode: 'single',
+            // labelInValue: true,
+            // showSearch: true,
+            // allowClear: true,
+            // onSearch: handleSearch,
+            // onChange: () => {
+            //   setShowSubmit(false)
+            // },
             // },
             span: '24',
             required: true,
@@ -173,6 +188,9 @@ const ProjectManagement = (fun) => {
               onChange: () => {
                 setShowSubmit(false)
               },
+              onClick: () => {
+                setAddrolds(false)
+              },
             },
             span: '24',
             required: true,
@@ -188,6 +206,9 @@ const ProjectManagement = (fun) => {
               format: 'YYYY-MM-DD',
               onChange: () => {
                 setShowSubmit(false)
+              },
+              onClick: () => {
+                setAddrolds(false)
               },
             },
             span: '24',
@@ -212,6 +233,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 setShowSubmit(false)
+                setAddrolds(false)
               },
             },
             span: '24',
@@ -237,6 +259,7 @@ const ProjectManagement = (fun) => {
               },
               onChange: async (e) => {
                 setShowSubmit(false)
+                setAddrolds(false)
                 if (e.length > 0) {
                   await dispatch({
                     type: 'projectUpdate/uploadFile',
@@ -258,6 +281,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 setShowSubmit(false)
+                setAddrolds(false)
               },
             },
             hide: drawerType === 'add',
@@ -268,16 +292,21 @@ const ProjectManagement = (fun) => {
           let end = formatter(current.end)
           current.begin = begin
           current.end = end
-          // current.projectLeaderId = leaderId
-          updateData({ seachValue: { ...current } })
+          updateData({
+            seachValue: {
+              ...current,
+              projectLeaderId: seachValue.projectLeaderId,
+            },
+          })
         }}
       />
     )
   }
   return (
-    <div>
+    <div className={styles.layout}>
       <ProDrawer
         visible={drawerVisible}
+        usePortal={false}
         width={500}
         onClose={onClose}
         title={drawerType === 'edit' ? '编辑' : '新增'}
