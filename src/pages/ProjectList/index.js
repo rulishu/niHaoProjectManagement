@@ -140,12 +140,20 @@ const ProjectList = (props) => {
                     setProjectStatus(2)
                   } else if (tab === '4') {
                     setProjectStatus(3)
+                  } else if (tab === '0') {
+                    setProjectStatus(0)
                   }
                   table.onSearch()
                 }}>
                 <Tabs.Pane
                   label={tabsPaneLabel('全部', proNum.all ? proNum.all : 0)}
                   key="1"></Tabs.Pane>
+                <Tabs.Pane
+                  label={tabsPaneLabel(
+                    '未开始',
+                    proNum.ongoing ? proNum.nogoing : 0
+                  )}
+                  key="0"></Tabs.Pane>
                 <Tabs.Pane
                   label={tabsPaneLabel(
                     '进行中',
