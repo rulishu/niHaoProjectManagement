@@ -20,18 +20,24 @@ import EditDrop from './EditDrop'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
-  const { projectId, userAccount } = useParams()
   const { taskboard, loading } = useSelector((state) => state)
+  const { projectId, userAccount } = useParams()
   const { boardList, list } = taskboard
-  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
-  const [taskDetails, setTaskDetails] = useState(false) // 任务详情抽屉
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
+
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
-  const [selectList, setSelectList] = useState(0) // 当前选择列表id
-  const [itemName, setItemName] = useState('') // 新增小记时title
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
-  const [creat, setCreat] = useState(false) // 创建列表弹窗
+
+  const [selectList, setSelectList] = useState(0) // 当前选择列表id
+  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
+  const [editList, setEditList] = useState(false) // 编辑列表弹窗
   const [boardName, setBoardName] = useState('') // 新建列表名
+  const [editBoardName, setEditBoardName] = useState('') // 编辑列表名
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
+  const [creat, setCreat] = useState(false) // 创建列表弹窗
+
+  const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
+  const [itemName, setItemName] = useState('') // 新增小记时title
+
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({
       projectId,
@@ -42,6 +48,7 @@ const TaskBoard = () => {
   }, [dispatch, projectId])
 
   const deleteBoard = () => {
+    //删除看板
     dispatch.taskboard.deleteBoard({
       projectId,
       id: selectBoard,
@@ -52,10 +59,21 @@ const TaskBoard = () => {
   }
 
   const deleteList = () => {
+    //删除列表
     dispatch.taskboard.deleteBoardList({
       id: selectList,
       boardId: selectBoard,
       setDeleteConfirmation,
+    })
+  }
+
+  const editListName = (name) => {
+    //编辑列表
+    dispatch.taskboard.updateBoardList({
+      id: selectList,
+      boardId: selectBoard,
+      listTitle: name,
+      setEditList,
     })
   }
 
@@ -207,20 +225,21 @@ const TaskBoard = () => {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  //删除列表
-                                  setDeleteConfirmation(true)
+                                  setEditBoardName(dropItem.listTitle)
+                                  //编辑列表
+                                  setEditList(true)
                                   setSelectList(dropItem.id)
                                 }}>
-                                <Icon type="delete" />
+                                <Icon type="edit" />
                               </Button>
-                              {/* <Button
+                              <Button
                                 onClick={() => {
                                   //删除列表
                                   setDeleteConfirmation(true)
                                   setSelectList(dropItem.id)
                                 }}>
                                 <Icon type="delete" />
-                              </Button> */}
+                              </Button>
                             </ButtonGroup>
                           </div>
                         </div>
@@ -451,6 +470,10 @@ const TaskBoard = () => {
         param={{
           setDeleteBoardCon,
           deleteBoard,
+          editList,
+          editBoardName,
+          setEditList,
+          editListName,
           deleteBoardCon,
           deleteConfirmation,
           setDeleteConfirmation,

@@ -1,4 +1,5 @@
-import { Button, Overlay, Card } from 'uiw'
+import { useState, useEffect } from 'react'
+import { Button, Overlay, Card, Input } from 'uiw'
 import styles from './index.module.less'
 
 /**
@@ -14,7 +15,18 @@ const DeletePop = (props) => {
     setDeleteConfirmation,
     loading,
     deleteList,
+    editBoardName,
+    editList,
+    setEditList,
+    editListName,
   } = props.param
+
+  const [editName, setEditName] = useState('') // 编辑列表名input的值
+
+  useEffect(() => {
+    setEditName(editBoardName)
+  }, [editBoardName])
+
   return (
     <>
       <Overlay isOpen={deleteBoardCon} onClose={() => setDeleteBoardCon(false)}>
@@ -51,6 +63,30 @@ const DeletePop = (props) => {
               type="danger"
               onClick={() => deleteList()}>
               删除列表
+            </Button>
+          </div>
+        </Card>
+      </Overlay>
+      <Overlay isOpen={editList} onClose={() => setEditList(false)}>
+        <Card title={`编辑 ${editBoardName}`} active style={{ width: 500 }}>
+          <strong style={{ margin: 0 }}>列表名称</strong>
+          <div style={{ marginTop: '10px' }}>
+            <Input
+              placeholder="请输入列表名称"
+              value={editName}
+              onInput={(e) => {
+                setEditName(e.target.value)
+              }}
+            />
+          </div>
+          <div className={styles.flexRight} style={{ marginTop: '10px' }}>
+            <Button
+              loading={loading.effects.taskboard.updateBoardList}
+              type="primary"
+              onClick={() => {
+                editListName(editName)
+              }}>
+              保存列名
             </Button>
           </div>
         </Card>

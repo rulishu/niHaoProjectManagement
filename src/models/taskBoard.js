@@ -15,6 +15,7 @@ import {
   updateBoardNote,
   deleteBoardNote,
   pullSelectAll,
+  updateBoardList,
   getSelectAll,
 } from '../servers/taskBoard'
 
@@ -252,6 +253,17 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         Notify.success({ title: '编辑小记成功' })
         setEditOpen(false)
+        dispatch.taskboard.selectAllBoardNote({ boardId })
+      }
+    },
+
+    // 编辑list
+    async updateBoardList(payload) {
+      const { setEditList, boardId, ...other } = payload
+      const data = await updateBoardList(other, boardId)
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑列表成功' })
+        setEditList(false)
         dispatch.taskboard.selectAllBoardNote({ boardId })
       }
     },

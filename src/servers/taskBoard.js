@@ -120,6 +120,16 @@ export function updateBoardNote(params) {
   })
 }
 
+/**​
+ * 编辑list
+ */
+export function updateBoardList(params) {
+  return request('/api/ManagerBNAController/updateBoardList', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
 // 模糊查询所有用户
 export const pullSelectAll = (params) => {
   return request('/api/member/queryFuzzyAllProjectMember', {
