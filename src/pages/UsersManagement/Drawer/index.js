@@ -60,7 +60,6 @@ const Drawer = (props) => {
         type: 'usersManagement/updateState',
         payload: { loading: false },
       })
-      Notify.error({ title: data?.message || '' })
     }
   }
 
@@ -127,6 +126,7 @@ const Drawer = (props) => {
         ...current,
         id: queryInfo?.id,
         accessExpirationTime: changeTime(current?.accessExpirationTime),
+        // joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,
       }
