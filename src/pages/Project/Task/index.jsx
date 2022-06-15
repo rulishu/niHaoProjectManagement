@@ -267,7 +267,7 @@ const Task = (props) => {
             )}
           </Fragment>
         ) : (
-          <Empty />
+          <Empty style={{ padding: '30px 0' }} />
         )}
       </div>
     )
