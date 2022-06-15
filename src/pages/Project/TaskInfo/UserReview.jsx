@@ -1,23 +1,54 @@
 import { useEffect, useState } from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
-import { Avatar, Button, Tooltip } from 'uiw'
-import styles from './taskEvent.module.less'
+import { useSelector } from 'react-redux'
 import MarkdownPreview from '@uiw/react-markdown-preview'
+import { Avatar, Button, Tooltip } from 'uiw'
+import FromMD from './fromMD'
+import styles from './taskEvent.module.less'
 
 const UserReview = (props) => {
-  const { item, tier, editContent, showReview, setShowReview } = props
+  // const dispatch = useDispatch()
+  const {
+    projectuser: { userSelectAllList },
+  } = useSelector((state) => state)
+  const { item, tier = 1, showReview, setShowReview } = props
 
   const [isEdit, setIsEdit] = useState(false)
   // 1 : 回复 2 编辑
-  // const [editOrReply, setEditOrReply] = useState(1)
+  const [editOrReply, setEditOrReply] = useState(1)
 
+  // 判断是否是当前评论
   useEffect(() => {
-    setIsEdit(showReview === item.taskHistoryId)
+    console.log(showReview === item?.taskHistoryId, item)
+    setIsEdit(showReview === item?.taskHistoryId)
   }, [showReview, item])
 
-  const nihao = () => {
+  const strikeEditOrReply = (type) => {
     setIsEdit(true)
+    setEditOrReply(type)
     setShowReview(item.taskHistoryId)
+  }
+
+  const subEditOrReply = (type) => {
+    console.log('nihao', type)
+  }
+
+  // MD文档编译器
+  const editContent = (editData, editName) => {
+    console.log('editOrReply', editOrReply)
+    return (
+      <div className={styles.editContent}>
+        <FromMD
+          // upDate={updateData}
+          submit={() => subEditOrReply()}
+          editName={'commentData'}
+          editData={editOrReply === 2 ? editData : ''}
+          fromValue="operatingRecords"
+          btnName="添加评论"
+          tributeList={userSelectAllList}
+          isComment={true}
+        />
+      </div>
+    )
   }
 
   // 显示MD文档
@@ -32,7 +63,10 @@ const UserReview = (props) => {
   return (
     <div className={styles.eventLiBox} key={item.taskHistoryId}>
       <div className={styles.eventLiIcon}>
-        <Avatar src="https://avatars2.githubusercontent.com/u/1680273?s=40&v=4" />
+        <Avatar
+          src={item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''}>
+          {item?.nickName && item?.nickName[0]}
+        </Avatar>
       </div>
       <div className={styles.eventLiContent}>
         <div className={styles.messageHeader}>
@@ -40,7 +74,13 @@ const UserReview = (props) => {
           <div className={styles.actions}>
             {tier === 1 && (
               <Tooltip placement="top" content="回复">
-                <Button icon="message" basic size="small" type="light" />
+                <Button
+                  icon="message"
+                  basic
+                  size="small"
+                  type="light"
+                  onClick={() => strikeEditOrReply(1)}
+                />
               </Tooltip>
             )}
             <Tooltip placement="top" content="删除">
@@ -52,14 +92,14 @@ const UserReview = (props) => {
                 basic
                 size="small"
                 type="light"
-                onClick={() => nihao()}
+                onClick={() => strikeEditOrReply(2)}
               />
             </Tooltip>
           </div>
         </div>
         <div className={styles.messageContent}>
           {isEdit
-            ? editContent(item.operatingRecords)
+            ? editContent(item, 'operatingRecords')
             : showMDBox(item.operatingRecords)}
         </div>
       </div>

@@ -166,7 +166,7 @@ const TaskEvent = (props) => {
                 return (
                   <Card>
                     <UserReview
-                      item={item}
+                      item={itemA}
                       editContent={editContent}
                       showReview={showReview}
                       setShowReview={setShowReview}
