@@ -31,7 +31,7 @@ function deleteProjectMember(params) {
 }
 // 模糊查询成员
 function queryFuzzyAllUser(params) {
-  return request('/api/system/user/queryFuzzyAllUser', {
+  return request('/api/project/getSameProjectUser', {
     method: 'POST',
     body: { ...params },
   })
