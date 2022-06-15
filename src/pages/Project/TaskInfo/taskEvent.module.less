@@ -1,7 +1,7 @@
 @import '../../../common.less';
 
 .taskEventWrap {
-  ul {
+  & > ul {
     display: block;
     position: relative;
     list-style: none;
@@ -19,7 +19,7 @@
       border-left: 2px solid rgb(240, 240, 240);
     }
 
-    li {
+    & > li {
       border-radius: 4px;
       margin: 16px 0px;
       background: #fff;
@@ -46,6 +46,7 @@
 
         .eventLiContent {
           width: 100%;
+          line-height: 32px;
         }
       }
     }
@@ -58,6 +59,25 @@
       :global {
         .w-card-body {
           padding: 16px;
+        }
+      }
+
+      // 回复评论
+      .replyManage {
+        padding-top: 20px;
+
+        :global {
+          .w-card {
+            margin: 5px;
+          }
+
+          .wmde-markdown {
+            font-size: 12px;
+          }
+        }
+
+        .eventLiBox {
+          margin: 5px;
         }
       }
 
@@ -95,6 +115,7 @@
     }
   }
 }
+
 .editContent {
   :global {
     .w-form-label {
