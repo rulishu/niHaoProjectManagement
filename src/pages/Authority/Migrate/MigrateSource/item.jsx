@@ -171,6 +171,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.clientId,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: 'GitLab第三方应用密钥',
@@ -181,6 +182,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.clientSecret,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     // {
     //   label: 'GitLab第三方Url',
@@ -200,6 +202,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.grantType,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '回调网址',
@@ -210,6 +213,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.redirectUri,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '响应类型',
@@ -220,6 +224,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.responseType,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '授权范围',
@@ -230,6 +235,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.scope,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     // {
     //   label: 'token',
@@ -249,6 +255,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.url,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
   ]
 }
