@@ -210,6 +210,7 @@ const NewIssue = (props) => {
               })
             }}
             onSubmit={(current) => {
+              console.log('任务')
               const errorObj = {}
               const { dueDate, labels, assignmentTitle } = fromData
               if (
@@ -247,7 +248,6 @@ const NewIssue = (props) => {
             }}
             fields={{
               assignmentTitle: {
-                required: true,
                 inline: true,
                 initialValue: fromData.assignmentTitle,
                 children: <Input placeholder="请输入标题" />,
@@ -334,7 +334,7 @@ const NewIssue = (props) => {
                 },
                 children: (
                   <DateInput
-                    format="YYYY/MM/DD"
+                    format="YYYY-MM-DD"
                     datePickerProps={{ todayButton: '今天' }}
                   />
                 ),
@@ -418,7 +418,7 @@ const NewIssue = (props) => {
                   <div className="from">
                     <Row align="baseline" className="fromItem">
                       <Col span="4" className="titleInput">
-                        标题
+                        <span style={{ color: 'red' }}>*</span>标题
                       </Col>
                       <Col span="19">{fields.assignmentTitle}</Col>
                     </Row>
@@ -458,10 +458,15 @@ const NewIssue = (props) => {
                       <Button
                         type="primary"
                         disabled={!canSubmit()}
+                        style={{ width: '80px' }}
                         htmlType="submit">
                         保存
                       </Button>
-                      <Button onClick={() => onCancel()}>取消</Button>
+                      <Button
+                        onClick={() => onCancel()}
+                        style={{ width: '80px' }}>
+                        取消
+                      </Button>
                     </Col>
                   </Row>
                 </div>
