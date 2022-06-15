@@ -36,11 +36,11 @@ const projectUpdate = createModel()({
       let list = data?.rows
       let arr = []
       list?.forEach((element) => {
-        let value = element.userId
-        let label = element.nickName + '  ' + element.email
+        let key = element.userId
+        let memberName = element.nickName + '  ' + element.email
         arr.push({
-          value,
-          label,
+          key,
+          memberName,
         })
       })
       if (data.code === 200) {

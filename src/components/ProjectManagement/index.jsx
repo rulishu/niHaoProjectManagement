@@ -3,6 +3,9 @@ import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useState } from 'react'
+import CompDropdown from '../../components/CompDropdown'
+import { initListData } from '@/utils/utils'
+import styles from './index.module.less'
 
 /**
  * 使用方法：
@@ -25,7 +28,7 @@ import { useState } from 'react'
 
 const ProjectManagement = (fun) => {
   // const [showSubmit, setShowSubmit] = useState(true)
-
+  const [addrolds, setAddrolds] = useState(false)
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -50,6 +53,43 @@ const ProjectManagement = (fun) => {
     })
   }
 
+  const dropdown = () => {
+    return (
+      <>
+        <CompDropdown
+          isOpen={addrolds}
+          shape="input"
+          template="addrole"
+          listData={initListData(userList, seachValue.projectLeaderId, 'key', {
+            memberName: 'memberName',
+          })}
+          selectLabel={(e) => {
+            baseRef.setFieldValue('projectLeaderId', e)
+            setAddrolds(false)
+            // setShowSubmit(false)
+            let arr = {
+              projectLeaderId: e,
+              name: seachValue?.name,
+              begin: seachValue?.begin,
+              end: seachValue?.end,
+              descr: seachValue?.descr,
+              status: seachValue?.status,
+            }
+            updateData({ seachValue: arr })
+          }}
+          onClickLabelShow={(e) => {
+            setAddrolds(e)
+          }}
+          isRadio={true}
+          createTag={(_, current) => {
+            console.log(current)
+            return true
+          }}
+        />
+      </>
+    )
+  }
+
   const onClose = () => {
     updateData({
       drawerVisible: false,
@@ -59,6 +99,7 @@ const ProjectManagement = (fun) => {
       editLoading: false,
     })
     // setShowSubmit(true)
+    setAddrolds(false)
   }
 
   function saveData() {
@@ -71,7 +112,7 @@ const ProjectManagement = (fun) => {
     } else if (drawerType === 'edit') {
       seachValue.id = id
       seachValue.projectAvatar = fileIds
-      seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
+      // seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
       dispatch({
         type: 'projectUpdate/updateProject',
         payload: { seachValue, callback: fun.fun },
@@ -85,23 +126,24 @@ const ProjectManagement = (fun) => {
     })
   }
 
-  //项目负责人-模糊搜索
-  const [option, setOption] = useState(userList || '')
-  const handleSearch = (e) => {
-    setTimeout(() => {
-      const filterOpion = userList?.filter(
-        (item) => !!item.label.includes(e?.trim())
-      )
-      setOption([...filterOpion])
-    }, 500)
-  }
-  //项目负责人-默认
-  let dataprojectLeaderId = userList.filter(function (item) {
-    return item.value === seachValue?.projectLeaderId
-  })
+  // //项目负责人-模糊搜索
+  // const [option, setOption] = useState(userList || '')
+  // const handleSearch = (e) => {
+  //   setTimeout(() => {
+  //     const filterOpion = userList?.filter(
+  //       (item) => !!item.label.includes(e?.trim())
+  //     )
+  //     setOption([...filterOpion])
+  //   }, 500)
+  // }
+  // //项目负责人-默认
+  // let dataprojectLeaderId = userList.filter(function (item) {
+  //   return item.value === seachValue?.projectLeaderId
+  // })
   const proform = () => {
     return (
       <ProForm
+        customWidgetsList={{ dropdown: dropdown }}
         formType="pure"
         form={baseRef}
         formDatas={[
@@ -110,11 +152,12 @@ const ProjectManagement = (fun) => {
             key: 'name',
             widget: 'input',
             initialValue: seachValue?.name,
-            // widgetProps: {
-            //   onChange: () => {
-            //     setShowSubmit(false)
-            //   },
-            // },
+            widgetProps: {
+              onChange: () => {
+                // setShowSubmit(false)
+                setAddrolds(false)
+              },
+            },
             placeholder: '请输入项目名称',
             span: '24',
             required: true,
@@ -123,23 +166,23 @@ const ProjectManagement = (fun) => {
           {
             label: '项目负责人:',
             key: 'projectLeaderId',
-            widget: 'searchSelect',
-            initialValue: dataprojectLeaderId,
-            placeholder: '请选择项目负责人',
-            option: option,
-            widgetProps: {
-              mode: 'single',
-              labelInValue: true,
-              showSearch: true,
-              allowClear: true,
-              onSearch: handleSearch,
-              // onChange: () => {
-              //   setShowSubmit(false)
-              // },
-            },
+            widget: 'dropdown',
+            // initialValue: dataprojectLeaderId,
+            // placeholder: '请选择项目负责人',
+            // option: option,
+            // widgetProps: {
+            // mode: 'single',
+            // labelInValue: true,
+            // showSearch: true,
+            // allowClear: true,
+            // onSearch: handleSearch,
+            // onChange: () => {
+            //   setShowSubmit(false)
+            // },
+            // },
             span: '24',
             required: true,
-            rules: [{ required: true, message: '请输入项目负责人' }],
+            // rules: [{ required: true, message: '请输入项目负责人' }],
             hide: drawerType === 'add',
           },
           {
@@ -153,6 +196,9 @@ const ProjectManagement = (fun) => {
               // onChange: () => {
               //   setShowSubmit(false)
               // },
+              onClick: () => {
+                setAddrolds(false)
+              },
             },
             span: '24',
             required: true,
@@ -169,6 +215,9 @@ const ProjectManagement = (fun) => {
               // onChange: () => {
               //   setShowSubmit(false)
               // },
+              onClick: () => {
+                setAddrolds(false)
+              },
             },
             span: '24',
             required: true,
@@ -190,9 +239,10 @@ const ProjectManagement = (fun) => {
             widget: 'textarea',
             initialValue: seachValue?.descr,
             widgetProps: {
-              // onChange: () => {
-              //   setShowSubmit(false)
-              // },
+              onChange: () => {
+                // setShowSubmit(false)
+                setAddrolds(false)
+              },
             },
             span: '24',
           },
@@ -217,6 +267,7 @@ const ProjectManagement = (fun) => {
               },
               onChange: async (e) => {
                 // setShowSubmit(false)
+                setAddrolds(false)
                 if (e.length > 0) {
                   await dispatch({
                     type: 'projectUpdate/uploadFile',
@@ -235,11 +286,12 @@ const ProjectManagement = (fun) => {
             key: 'status',
             widget: 'switch',
             initialValue: isHangup,
-            // widgetProps: {
-            //   onChange: () => {
-            //     setShowSubmit(false)
-            //   },
-            // },
+            widgetProps: {
+              onChange: () => {
+                // setShowSubmit(false)
+                setAddrolds(false)
+              },
+            },
             hide: drawerType === 'add',
           },
         ]}
@@ -248,15 +300,21 @@ const ProjectManagement = (fun) => {
           let end = formatter(current.end)
           current.begin = begin
           current.end = end
-          updateData({ seachValue: { ...current } })
+          updateData({
+            seachValue: {
+              ...current,
+              projectLeaderId: seachValue.projectLeaderId,
+            },
+          })
         }}
       />
     )
   }
   return (
-    <div>
+    <div className={styles.layout}>
       <ProDrawer
         visible={drawerVisible}
+        usePortal={false}
         width={500}
         onClose={onClose}
         title={drawerType === 'edit' ? '编辑' : '新增'}
