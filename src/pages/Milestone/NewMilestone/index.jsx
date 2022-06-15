@@ -1,12 +1,22 @@
-import { useEffect, useRef } from 'react'
-import { Row, Col, Input, DateInput, Select, Form, Button, Loader } from 'uiw'
+import { useEffect, useRef, Fragment } from 'react'
+import {
+  Row,
+  Col,
+  Input,
+  DateInput,
+  Card,
+  Select,
+  Form,
+  Button,
+  Loader,
+} from 'uiw'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import formatter from '@uiw/formatter'
 import { NEWMDEditor } from '@/components'
 import styles from './index.module.less'
 // import changeTime from '@/utils/timeDistance'
-import { Container } from '@/components'
+// import { Container } from '@/components'
 
 const NewMilestone = () => {
   const {
@@ -274,7 +284,8 @@ const NewMilestone = () => {
                 <Col>
                   <Button
                     type="primary"
-                    disabled={!canSubmit()}
+                    // disabled={!canSubmit()}
+                    loading={addMilestone || editMilestone}
                     htmlType="submit">
                     保存
                   </Button>
@@ -289,33 +300,29 @@ const NewMilestone = () => {
   }
 
   return (
-    <Container>
-      <div className={styles.main}>
-        <div className={styles.wrap}>
-          <div className={styles.title}>
-            {milestoneType === 1 ? '新建' : milestoneType === 2 ? '编辑' : ''}
-            里程碑
+    <Fragment>
+      <Card>
+        <div className={styles.main}>
+          <div className={styles.wrap}>
+            <div className={styles.title}>
+              {milestoneType === 1 ? '新建' : milestoneType === 2 ? '编辑' : ''}
+              里程碑
+            </div>
+            <Loader
+              tip="loading..."
+              vertical
+              style={{ width: '100%' }}
+              loading={getMilestone}>
+              {milestoneType === 1
+                ? milestonesForm()
+                : milestoneType === 2 && Object.keys(listDataInfo).length
+                ? milestonesForm()
+                : ''}
+            </Loader>
           </div>
-          <Loader
-            tip="loading..."
-            vertical
-            style={{ width: '100%' }}
-            loading={
-              milestoneType === 1
-                ? addMilestone
-                : milestoneType === 2
-                ? getMilestone || editMilestone
-                : false
-            }>
-            {milestoneType === 1
-              ? milestonesForm()
-              : milestoneType === 2 && Object.keys(listDataInfo).length
-              ? milestonesForm()
-              : ''}
-          </Loader>
         </div>
-      </div>
-    </Container>
+      </Card>
+    </Fragment>
   )
 }
 

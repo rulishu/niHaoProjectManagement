@@ -41,9 +41,9 @@ const labels = createModel()({
       const { param, callback } = payload
       const data = await addLabelItem(param)
       if (data && data.code === 200) {
+        callback && callback(data && data.code === 200)
         Notify.success({ description: '新增成功' })
       }
-      callback && callback(data && data.code === 200)
     },
 
     // 删除
