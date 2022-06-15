@@ -19,6 +19,7 @@ const projectUpdate = createModel()({
     fun: {},
     isHangup: false, //项目是否挂起
     fileIds: '', //Logo文件的id
+    editLoading: false, //新增编辑项目loading
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -91,6 +92,7 @@ const projectUpdate = createModel()({
         dph.projectUpdate.updateState({
           seachValue: {},
           drawerVisible: false,
+          editLoading: false,
         })
         callback && callback() //回调刷新界面
       }
@@ -121,6 +123,7 @@ const projectUpdate = createModel()({
           seachValue: {},
           drawerVisible: false,
           id: '',
+          editLoading: false,
         })
         callback && callback() //回调刷新界面
         Notify.success({
