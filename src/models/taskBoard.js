@@ -5,7 +5,7 @@ import {
   selectAllBoard,
   selectAllBoardNote,
   addBoardList,
-  // deleteBoardList,
+  deleteBoardList,
   dragAssignmentNote,
   quickInsertTransfer,
   deleteBoard,
@@ -51,7 +51,14 @@ const taskboard = createModel()({
         list: [],
       })
       const { pageSize, page, type } = taskboard
-      const { projectId, setSelectBoard, first, setCreatBut } = payload
+      const {
+        projectId,
+        setSelectBoard,
+        first,
+        setCreatBut,
+        creat,
+        creatBoardId,
+      } = payload
       let params = {
         pageSize,
         page,
@@ -73,6 +80,12 @@ const taskboard = createModel()({
           dispatch.taskboard.selectAllBoardNote({
             boardId: data?.data[0]?.id,
           })
+        }
+        if (creat && data?.data.length !== 0) {
+          dispatch.taskboard.selectAllBoardNote({
+            boardId: creatBoardId,
+          })
+          setSelectBoard(creatBoardId)
         }
       } else {
         setCreatBut(true)
@@ -161,22 +174,24 @@ const taskboard = createModel()({
           setCreatBut,
           projectId,
           setSelectBoard,
+          creat: true,
+          creatBoardId: data.data.id,
         })
       }
     },
 
-    // //删除列表
-    // async deleteBoardList(payload) {
-    //   const { setDeleteConfirmation, ...other } = payload
-    //   const data = await deleteBoardList(other)
-    //   if (data && data.code === 200) {
-    //     Notify.success({ title: data.message })
-    //     dispatch.taskboard.selectAllBoardNote({
-    //       boardId: payload.boardId,
-    //     })
-    //     setDeleteConfirmation(false)
-    //   }
-    // },
+    //删除列表
+    async deleteBoardList(payload) {
+      const { setDeleteConfirmation, ...other } = payload
+      const data = await deleteBoardList(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '删除成功' })
+        dispatch.taskboard.selectAllBoardNote({
+          boardId: payload.boardId,
+        })
+        setDeleteConfirmation(false)
+      }
+    },
 
     //删除note
     async deleteBoardNote(payload) {

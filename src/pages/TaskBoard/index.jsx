@@ -9,7 +9,6 @@ import {
   Button,
   Input,
   ButtonGroup,
-  Overlay,
   Empty,
   Loader,
 } from 'uiw'
@@ -51,6 +50,15 @@ const TaskBoard = () => {
       setSelectBoard,
     })
   }
+
+  const deleteList = () => {
+    dispatch.taskboard.deleteBoardList({
+      id: selectList,
+      boardId: selectBoard,
+      setDeleteConfirmation,
+    })
+  }
+
   const openTaskInfo = (item) => {
     dispatch.taskboard.selectByProjectId({
       projectId: projectId,
@@ -205,6 +213,14 @@ const TaskBoard = () => {
                                 }}>
                                 <Icon type="delete" />
                               </Button>
+                              {/* <Button
+                                onClick={() => {
+                                  //删除列表
+                                  setDeleteConfirmation(true)
+                                  setSelectList(dropItem.id)
+                                }}>
+                                <Icon type="delete" />
+                              </Button> */}
                             </ButtonGroup>
                           </div>
                         </div>
@@ -429,37 +445,19 @@ const TaskBoard = () => {
               </Card>
             </div>
           )}
-          <Overlay
-            isOpen={deleteConfirmation}
-            onClose={() => setDeleteConfirmation(false)}>
-            <Card active style={{ width: 500 }}>
-              <strong style={{ margin: 0 }}>删除列表</strong>
-              <div style={{ marginTop: '8px' }}>您确定您将删除这个list吗？</div>
-              <br />
-              <div className={styles.flexRight}>
-                <Button
-                  type="light"
-                  onClick={() => setDeleteConfirmation(false)}>
-                  取消
-                </Button>
-                <Button
-                  loading={loading.effects.taskboard.deleteBoardNote}
-                  type="danger"
-                  onClick={() => {
-                    dispatch.taskboard.deleteBoardNote({
-                      id: selectList,
-                      boardId: selectBoard,
-                      setDeleteConfirmation,
-                    })
-                  }}>
-                  删除列表
-                </Button>
-              </div>
-            </Card>
-          </Overlay>
         </div>
       </DragDropContext>
-      <DeletePop param={{ setDeleteBoardCon, deleteBoard, deleteBoardCon }} />
+      <DeletePop
+        param={{
+          setDeleteBoardCon,
+          deleteBoard,
+          deleteBoardCon,
+          deleteConfirmation,
+          setDeleteConfirmation,
+          deleteList,
+          loading,
+        }}
+      />
       <TaskDetail
         param={{ setTaskDetails, taskDetails, projectId, userAccount, loading }}
       />

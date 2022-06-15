@@ -20,7 +20,6 @@ const Header = (props) => {
   const { taskboard } = useSelector((state) => state)
   const { boardList } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
-
   return (
     <div className={styles.header}>
       <div style={{ width: '200px' }}>
