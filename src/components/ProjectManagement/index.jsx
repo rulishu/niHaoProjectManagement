@@ -286,12 +286,14 @@ const ProjectManagement = (fun) => {
             key: 'status',
             widget: 'switch',
             initialValue: isHangup,
+            span: '24',
             widgetProps: {
               onChange: () => {
                 // setShowSubmit(false)
                 setAddrolds(false)
               },
             },
+            help: '挂起指的是项目暂时停止开发',
             hide: drawerType === 'add',
           },
         ]}
