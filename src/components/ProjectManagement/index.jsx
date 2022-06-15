@@ -27,7 +27,7 @@ import styles from './index.module.less'
  */
 
 const ProjectManagement = (fun) => {
-  const [showSubmit, setShowSubmit] = useState(true)
+  // const [showSubmit, setShowSubmit] = useState(true)
   const [addrolds, setAddrolds] = useState(false)
   const baseRef = useForm()
   const dispatch = useDispatch()
@@ -39,6 +39,7 @@ const ProjectManagement = (fun) => {
       userList,
       id,
       isHangup,
+      editLoading,
       fileIds, //Logo文件的id
     },
     userHome: { user },
@@ -65,7 +66,7 @@ const ProjectManagement = (fun) => {
           selectLabel={(e) => {
             baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)
-            setShowSubmit(false)
+            // setShowSubmit(false)
             let arr = {
               projectLeaderId: e,
               name: seachValue?.name,
@@ -95,8 +96,9 @@ const ProjectManagement = (fun) => {
       seachValue: {},
       drawerType: '',
       fileIds: '',
+      editLoading: false,
     })
-    setShowSubmit(true)
+    // setShowSubmit(true)
     setAddrolds(false)
   }
 
@@ -116,6 +118,12 @@ const ProjectManagement = (fun) => {
         payload: { seachValue, callback: fun.fun },
       })
     }
+    dispatch({
+      type: 'projectUpdate/updateState',
+      payload: {
+        editLoading: true,
+      },
+    })
   }
 
   // //项目负责人-模糊搜索
@@ -146,7 +154,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.name,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(false)
+                // setShowSubmit(false)
                 setAddrolds(false)
               },
             },
@@ -185,9 +193,9 @@ const ProjectManagement = (fun) => {
             widget: 'dateInput',
             widgetProps: {
               format: 'YYYY-MM-DD',
-              onChange: () => {
-                setShowSubmit(false)
-              },
+              // onChange: () => {
+              //   setShowSubmit(false)
+              // },
               onClick: () => {
                 setAddrolds(false)
               },
@@ -204,9 +212,9 @@ const ProjectManagement = (fun) => {
             placeholder: '请选择截止日期',
             widgetProps: {
               format: 'YYYY-MM-DD',
-              onChange: () => {
-                setShowSubmit(false)
-              },
+              // onChange: () => {
+              //   setShowSubmit(false)
+              // },
               onClick: () => {
                 setAddrolds(false)
               },
@@ -232,7 +240,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.descr,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(false)
+                // setShowSubmit(false)
                 setAddrolds(false)
               },
             },
@@ -258,7 +266,7 @@ const ProjectManagement = (fun) => {
                 showRemoveIcon: true,
               },
               onChange: async (e) => {
-                setShowSubmit(false)
+                // setShowSubmit(false)
                 setAddrolds(false)
                 if (e.length > 0) {
                   await dispatch({
@@ -280,7 +288,7 @@ const ProjectManagement = (fun) => {
             initialValue: isHangup,
             widgetProps: {
               onChange: () => {
-                setShowSubmit(false)
+                // setShowSubmit(false)
                 setAddrolds(false)
               },
             },
@@ -318,13 +326,14 @@ const ProjectManagement = (fun) => {
           {
             label: '保存',
             type: 'primary',
-            disabled: showSubmit,
+            // disabled: showSubmit,
+            loading: editLoading,
             onClick: async () => {
               await baseRef?.submitvalidate?.()
               const errors = baseRef.getError()
               if (errors && Object.keys(errors).length > 0) return
               saveData()
-              setShowSubmit(true)
+              // setShowSubmit(true)
             },
           },
         ]}>

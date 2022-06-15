@@ -150,7 +150,7 @@ const NewMilestone = () => {
             err.filed = errorObj
             throw err
           }
-          console.log(222)
+
           //提交
           const param = {
             ...current,

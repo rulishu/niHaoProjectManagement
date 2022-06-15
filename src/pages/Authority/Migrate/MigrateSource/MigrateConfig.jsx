@@ -9,7 +9,7 @@ const Panel = Collapse.Panel
 
 const MigrateConfig = (props) => {
   const {
-    migrate: { loginConfig },
+    migrate: { loginConfig, confignState },
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const { isConfig, setIsConfig } = props
@@ -56,6 +56,7 @@ const MigrateConfig = (props) => {
                 <Button
                   style={{ marginTop: 10, width: 80 }}
                   type="primary"
+                  loading={confignState}
                   onClick={async () => {
                     // 触发验证
                     await form.submitvalidate()
