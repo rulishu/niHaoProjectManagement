@@ -1,3 +1,5 @@
+@import '../../../common.less';
+
 .wrapTask {
   display: flex;
   background-color: #fff;
@@ -10,6 +12,7 @@
   width: 75%;
   flex: 1;
   padding: 15px 30px;
+  max-width: 1280px;
 }
 
 .navItem {
@@ -33,13 +36,16 @@
 
 .stepsWrap {
   padding-left: 30px;
+
   :global {
     .w-steps .w-steps-item-head {
       background: transparent;
     }
+
     .w-steps .w-steps-item-title {
       width: 100%;
     }
+
     .w-form-row {
       border: 1px solid #d0d7de;
     }
@@ -187,9 +193,11 @@ a:hover {
   justify-content: space-between;
   align-items: center;
 }
+
 .spanIcon {
   display: flex;
   justify-content: space-between;
+
   :global {
     span {
       margin: 0 5px;
@@ -198,11 +206,13 @@ a:hover {
     }
   }
 }
+
 .spanIconR {
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
   margin: 5px 0;
+
   :global {
     span {
       margin: 0 5px;
