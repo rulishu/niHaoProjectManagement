@@ -42,6 +42,7 @@ const thirdpartyMigration = createModel()({
       dataInfo: {}, // 当前对象
     },
     sourceState: false,
+    confignState: false,
   },
   effects: (dispatch) => ({
     // 标签：条件查询-不分页
@@ -59,6 +60,10 @@ const thirdpartyMigration = createModel()({
       }
     },
     async setConfigControl(payload, { migrate }) {
+      dispatch({
+        type: 'migrate/updateState',
+        payload: { confignState: true },
+      })
       const { param, callback } = payload
       const { loginConfig } = migrate
       const data = await setConfigControl({ ...loginConfig, ...param })
@@ -67,7 +72,12 @@ const thirdpartyMigration = createModel()({
         Notify.success({ description: '配置成功' })
         dispatch({
           type: 'migrate/updateState',
-          payload: { loginConfig: {} },
+          payload: { loginConfig: {}, confignState: false },
+        })
+      } else {
+        dispatch({
+          type: 'migrate/updateState',
+          payload: { confignState: false },
         })
       }
     },
