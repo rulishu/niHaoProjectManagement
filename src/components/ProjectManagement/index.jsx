@@ -321,13 +321,14 @@ const ProjectManagement = (fun) => {
         onClose={onClose}
         title={drawerType === 'edit' ? '编辑' : '新增'}
         buttons={[
-          {
-            label: '取消',
-            onClick: onClose,
-          },
+          // {
+          //   label: '取消',
+          //   onClick: onClose,
+          // },
           {
             label: '保存',
             type: 'primary',
+            style: { width: '80px' },
             // disabled: showSubmit,
             loading: editLoading,
             onClick: async () => {
