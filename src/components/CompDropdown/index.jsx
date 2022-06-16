@@ -46,6 +46,10 @@ const CompDropdown = (props) => {
     dropdownWindow = {}, // 下拉窗口属性
     dropdownCardBodyClassName, // 下拉卡片内容 class 名称
     isAllowsForNo = true,
+    textBooks = {
+      mainTitle: `指定`,
+      createTitle: `创建`,
+    },
   } = props
 
   // 模板解构一些参数
@@ -208,8 +212,8 @@ const CompDropdown = (props) => {
         )}
         <p className={styles.headTitle}>
           {labelStatus === 1
-            ? `指定${title || tempTitle}`
-            : `创建${title || tempTitle}`}
+            ? `${textBooks.mainTitle}${title || tempTitle}`
+            : `${textBooks.createTitle}${title || tempTitle}`}
         </p>
         <div className={styles.headBut}>
           <Button

@@ -18,7 +18,6 @@ const CreateLabel = (props) => {
           createTagChange && createTagChange(initial, current)
         }}
         onSubmit={async ({ initial, current }) => {
-          console.log('标签')
           // 表单校验
           const errorObj = form ? form?.verify(initial, current) : {}
           if (Object.keys(errorObj).length > 0) {
