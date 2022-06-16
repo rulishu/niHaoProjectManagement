@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Form, Row, Col, Button } from 'uiw'
 import ThridLogin from './ThridLogin'
+import { useState } from 'react'
 
 export let navigate
 const Login = () => {
+  const [isOk, setIsOk] = useState(true)
   navigate = useNavigate()
   const dispatch = useDispatch()
-
   const {
     login: { isLogin, isRegister, submitLoading },
   } = useSelector((state) => state)
@@ -25,7 +26,6 @@ const Login = () => {
       payload: { isLogin: !isLogin },
     })
   }
-
   return (
     <UserLogin projectName={'尼好程序开发测试项目管理软件'}>
       <Form
@@ -37,7 +37,8 @@ const Login = () => {
             const err = new Error()
             err.filed = errorObj
             throw err
-          } else {
+          }
+          if (isOk) {
             dispatch({
               type: 'login/updateState',
               payload: { submitLoading: !submitLoading },
@@ -46,6 +47,7 @@ const Login = () => {
               type: 'login/submitLogin',
               payload: { ...current, navigate },
             })
+            setIsOk(false)
           }
         }}
         onSubmitError={(error) => {
