@@ -27,7 +27,11 @@ const Custom = (props) => {
         <span
           className={styles.colBlock}
           style={{ backgroundColor: color }}></span>
-        <Input value={color || ''} onInput={(e) => change(e.target.value)} />
+        <Input
+          value={color || ''}
+          onInput={(e) => change(e.target.value)}
+          placeholder="请选择或输入标签背景颜色"
+        />
       </div>
     </div>
   )
