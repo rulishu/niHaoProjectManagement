@@ -17,6 +17,7 @@ import {
   pullSelectAll,
   updateBoardList,
   getSelectAll,
+  changeAssignmentStatus,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -268,15 +269,22 @@ const taskboard = createModel()({
       }
     },
 
+    // 编辑任务状态
+    async changeAssignmentStatus(payload) {
+      const { setTaskDetails, ...other } = payload
+      const data = await changeAssignmentStatus(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '更改任务状态成功' })
+        setTaskDetails(false)
+        dispatch.routeManagement.getInfo({})
+      }
+    },
+
     // 编辑任务
     async getEdit(payload) {
-      const { setTaskDetails, ...other } = payload
-      const data = await getManagerAssignmentUpdate(other.taskInfo)
+      const data = await getManagerAssignmentUpdate(payload.taskInfo)
       if (data && data.code === 200) {
-        if (setTaskDetails) {
-          setTaskDetails(false)
-          Notify.success({ title: '更改任务状态成功' })
-        }
+        console.log(data)
       }
     },
 

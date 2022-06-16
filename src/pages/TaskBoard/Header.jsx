@@ -21,6 +21,7 @@ const Header = (props) => {
   const { taskboard } = useSelector((state) => state)
   const { boardList } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
+
   return (
     <div className={styles.header}>
       <div style={{ width: '200px' }}>
@@ -33,6 +34,7 @@ const Header = (props) => {
           isAllowsForNo={false}
           isOpen={isOpen}
           isRadio={true}
+          dropdownWindow={{ isClickOutside: true }}
           labelHeader={[
             {
               title: '标题',
@@ -88,6 +90,8 @@ const Header = (props) => {
           template="milepost"
           shape="input"
           runLabel={() => {
+            setIsOpen(false)
+            setCreat(false)
             setDeleteBoardCon(true)
           }}
           onChange={(e) => {
@@ -95,10 +99,11 @@ const Header = (props) => {
             setIsOpen(false)
             dispatch.taskboard.selectAllBoardNote({ boardId: e })
           }}
-          onClickable={(is) => {
+          onClickLabelShow={(is) => {
             setIsOpen(is)
           }}
           createTag={(icutData, nitData) => {
+            setCreat(false)
             dispatch.taskboard.saveBoard({
               name: nitData.boardTitle,
               projectId,

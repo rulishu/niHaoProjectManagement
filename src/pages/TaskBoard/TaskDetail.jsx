@@ -103,22 +103,24 @@ const TaskDetail = (props) => {
             查看任务完整信息
           </Button>
           <Button
-            loading={loading.effects.taskboard.getEdit}
+            loading={
+              loading.effects.taskboard.changeAssignmentStatus ||
+              loading.effects.taskboard.selectByProjectId
+            }
             block
             className={styles.taskCloseBtu}
             type="light"
             onClick={() => {
               let taskState = 1
               if (taskInfo?.assignmentStatus === 3) {
-                taskState = 1
+                taskState = '打开'
               } else if (taskInfo?.assignmentStatus === 1) {
-                taskState = 3
+                taskState = '关闭'
               }
-              dispatch.taskboard.getEdit({
+              dispatch.taskboard.changeAssignmentStatus({
                 projectId,
                 assignmentId: taskInfo.assignmentId,
-                assignmentStatus: taskState,
-                assignmentTitle: taskInfo.assignmentTitle,
+                type: taskState,
                 setTaskDetails,
               })
             }}>
@@ -196,6 +198,7 @@ const TaskDetail = (props) => {
                   })}
                   isOpen={labelState}
                   template="label"
+                  dropdownWindow={{ isClickOutside: true }}
                   shape="label"
                   selectLabel={(_, selKey) => selectLabel(selKey)}
                   closeLabel={() => {
@@ -239,6 +242,7 @@ const TaskDetail = (props) => {
                     }
                   )}
                   isOpen={assignState}
+                  dropdownWindow={{ isClickOutside: true }}
                   template="personnel"
                   shape="label"
                   isRadio={true}
