@@ -200,9 +200,9 @@ const LabelManage = (props) => {
                                             : '#ffffff',
                                       }}>
                                       {`${
-                                        item?.name.length > 10
+                                        item?.name && item?.name.length > 10
                                           ? item?.name.substring(0, 10) + '...'
-                                          : item?.name
+                                          : item?.name || ''
                                       }`}
                                     </span>
                                   </Tooltip>
@@ -213,9 +213,9 @@ const LabelManage = (props) => {
                                   <Tooltip placement="top" content={item?.desc}>
                                     <span>
                                       {`${
-                                        item?.desc.length > 10
+                                        item?.desc && item?.desc.length > 10
                                           ? item?.desc.substring(0, 10) + '...'
-                                          : item?.desc
+                                          : item?.desc || ''
                                       }`}
                                     </span>
                                   </Tooltip>
