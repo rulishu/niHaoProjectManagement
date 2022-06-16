@@ -130,9 +130,9 @@ const NewMilestone = () => {
           if (
             !milestonesTitle ||
             milestonesTitle.length < 2 ||
-            milestonesTitle.length > 100
+            milestonesTitle.length > 78
           ) {
-            errorObj.milestonesTitle = '请输入标题,长度为2~100'
+            errorObj.milestonesTitle = '请输入标题,长度为2~78'
           }
           if (milestonesDesc && milestonesDesc.length > 3000) {
             errorObj.milestonesDesc = '描述内容长度不大于3000'
