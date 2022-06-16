@@ -55,7 +55,12 @@ const Header = (props) => {
                 boardTitle: {
                   inline: true,
                   required: true,
-                  children: <Input placeholder="请输入标题" />,
+                  children: (
+                    <Input
+                      placeholder="请输入标题"
+                      style={{ width: '95%', lineHeight: '40px' }}
+                    />
+                  ),
                 },
               }
             },

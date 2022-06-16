@@ -214,7 +214,6 @@ const taskboard = createModel()({
       const data = await deleteBoard({ projectId, id })
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
-        setDeleteBoardCon(false)
         dispatch.taskboard.selectOneInfo({
           boardId: payload.boardId,
           setCreatBut,
@@ -223,6 +222,7 @@ const taskboard = createModel()({
           first: true,
         })
       }
+      setDeleteBoardCon(false)
     },
 
     //item拖动到列表
@@ -271,10 +271,12 @@ const taskboard = createModel()({
     // 编辑任务
     async getEdit(payload) {
       const { setTaskDetails, ...other } = payload
-      const data = await getManagerAssignmentUpdate(other)
+      const data = await getManagerAssignmentUpdate(other.taskInfo)
       if (data && data.code === 200) {
-        Notify.success({ title: '更改任务状态成功' })
-        setTaskDetails(false)
+        if (setTaskDetails) {
+          setTaskDetails(false)
+          Notify.success({ title: '更改任务状态成功' })
+        }
       }
     },
 
