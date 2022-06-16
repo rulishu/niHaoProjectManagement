@@ -1,4 +1,4 @@
-import { Button } from 'uiw'
+import { Button, Tooltip } from 'uiw'
 
 const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
 
@@ -50,11 +50,18 @@ export const columns = (methods) => {
       key: 'remark',
       ellipsis: true,
       align: 'center',
+      render: (remark) => (
+        <div style={{ textAlign: 'center' }}>
+          <Tooltip placement="leftTop" content={remark}>
+            <span>{remark || ''}</span>
+          </Tooltip>
+        </div>
+      ),
     },
     {
       title: '操作',
       key: 'edit',
-      width: 200,
+      width: 210,
       align: 'center',
       render: (text, key, rowData) => {
         // console.log(text, key, rowData);
