@@ -186,12 +186,12 @@ const EditTask = () => {
             loading={handleState}
             onClick={() => {
               editFromData.loginUserTodoIdList &&
-              editFromData.loginUserTodoIdList > 0
+              editFromData.loginUserTodoIdList.length > 0
                 ? getStrutsSwitch()
                 : addMyToDo()
             }}>
             {editFromData.loginUserTodoIdList &&
-            editFromData.loginUserTodoIdList > 0
+            editFromData.loginUserTodoIdList.length > 0
               ? '标记已完成'
               : '添加待办一个事项'}
           </Button>
