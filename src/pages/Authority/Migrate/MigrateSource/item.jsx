@@ -97,6 +97,8 @@ export const formItem = (initialValue, type) => [
   {
     label: '名称',
     key: 'name',
+    placeholder: '请输入名称',
+    rules: [{ required: true, message: '请输入名称' }],
     required: true,
     widget: 'input',
     initialValue: initialValue?.name,
@@ -107,6 +109,8 @@ export const formItem = (initialValue, type) => [
   {
     label: type === 1 ? 'token' : 'token(加密后)',
     key: 'token',
+    placeholder: '请输入token',
+    rules: [{ required: true, message: '请输入token' }],
     required: true,
     widget: 'input',
     initialValue: initialValue?.token,
@@ -117,6 +121,7 @@ export const formItem = (initialValue, type) => [
   {
     label: '备注',
     key: 'remark',
+    placeholder: '请输入备注',
     widget: 'input',
     initialValue: initialValue?.remark,
     disabled: type === 3,
@@ -130,6 +135,7 @@ export const formItem = (initialValue, type) => [
     widget: 'select',
     initialValue: initialValue?.type,
     disabled: type === 3,
+    rules: [{ required: true, message: '请选择迁移类型' }],
     widgetProps: {},
     span: '24',
     option: [
@@ -142,6 +148,8 @@ export const formItem = (initialValue, type) => [
     label: '迁移路径',
     key: 'url',
     required: true,
+    placeholder: '请输入迁移路径',
+    rules: [{ required: true, message: '请输入迁移路径' }],
     widget: 'input',
     initialValue: initialValue?.url,
     disabled: type === 3,
@@ -163,6 +171,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.clientId,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: 'GitLab第三方应用密钥',
@@ -173,6 +182,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.clientSecret,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     // {
     //   label: 'GitLab第三方Url',
@@ -192,6 +202,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.grantType,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '回调网址',
@@ -202,6 +213,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.redirectUri,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '响应类型',
@@ -212,6 +224,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.responseType,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     {
       label: '授权范围',
@@ -222,6 +235,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.scope,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
     // {
     //   label: 'token',
@@ -241,6 +255,7 @@ export const configItem = (initialValue, type) => {
       initialValue: initialValue?.url,
       widgetProps: {},
       span: '24',
+      rules: [{ required: true, message: '请输入' }],
     },
   ]
 }

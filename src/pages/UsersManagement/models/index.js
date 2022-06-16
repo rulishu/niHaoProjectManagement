@@ -34,6 +34,7 @@ const usersManagement = createModel()({
       dph.usersManagement.updateState({
         drawerVisible: true,
         tableType: 'member',
+        loading: false,
       })
       return await inviteMember(payload)
     },
@@ -43,6 +44,7 @@ const usersManagement = createModel()({
       dph.usersManagement.updateState({
         drawerVisible: true,
         tableType: 'group',
+        loading: false,
       })
       return await inviteTeam(payload)
     },
@@ -52,6 +54,7 @@ const usersManagement = createModel()({
       dph.usersManagement.updateState({
         drawerVisible: true,
         tableType: 'edit',
+        loading: false,
       })
       return await updateProjectMember(payload)
     },

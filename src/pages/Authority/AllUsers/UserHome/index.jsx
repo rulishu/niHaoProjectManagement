@@ -104,7 +104,10 @@ const UserHome = (props) => {
                   )
                 ) : null}
                 <div className={styles.note}>
-                  <p>{user?.remark}</p>
+                  <p>
+                    <span>备注：</span>
+                    {user?.remark ? user?.remark : '此人很懒，暂无备注'}
+                  </p>
                 </div>
                 <div className={styles.userBasicInfo}>
                   <ul>
@@ -188,6 +191,7 @@ const UserHome = (props) => {
             dispatch.allusers.update({
               isShow: '',
               userData: '',
+              postsDataInfo: [],
             })
           }}>
           <div>

@@ -15,7 +15,7 @@ const EditTask = () => {
   const params = useParams()
   const { userAccount, projectId } = params
   const {
-    project: { editFromData, taskInfoData },
+    project: { editFromData, taskInfoData, handleState },
     projectuser: { userSelectAllList },
     // dictionary: { dictDataList },
     labels: { listData: labelsListData },
@@ -35,6 +35,7 @@ const EditTask = () => {
       payload,
     })
   }
+
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -57,7 +58,8 @@ const EditTask = () => {
   // 完成人员编辑
   const editAssignOk = async () => {
     setAssignState(false)
-    await dispatch.project.getEdit()
+    const result = await dispatch.project.getEdit()
+    result && dispatch.routeManagement.getInfo({})
   }
 
   const editLabelOk = async () => {
@@ -79,12 +81,21 @@ const EditTask = () => {
 
   const dubDateChange = async (v) => {
     setDueDateState(false)
-    updateData({
-      editFromData: {
-        ...editFromData,
-        dueDate: dayjs(v).format('YYYY-MM-DD'),
-      },
-    })
+    if (v === undefined) {
+      updateData({
+        editFromData: {
+          ...editFromData,
+          dueDate: '',
+        },
+      })
+    } else {
+      updateData({
+        editFromData: {
+          ...editFromData,
+          dueDate: dayjs(v).format('YYYY-MM-DD'),
+        },
+      })
+    }
     await dispatch.project.getEdit()
   }
 
@@ -100,7 +111,10 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
-    editLabelOk()
+    if (!labelState) {
+      editLabelOk()
+    }
+    // editLabelOk()
   }
 
   // 新建 里程碑
@@ -136,7 +150,6 @@ const EditTask = () => {
     })
     return result
   }
-
   //添加待办
   const addMyToDo = async () => {
     const param = {
@@ -156,7 +169,7 @@ const EditTask = () => {
       projectId: editFromData.projectId,
       id: editFromData.assignmentId,
     }
-    const todoData = { id: editFromData.loginUserTodoId, status: 0 }
+    const todoData = editFromData.loginUserTodoIdList
     await dispatch.project.getStrutsSwitch({
       param: param,
       todoData: todoData,
@@ -170,10 +183,17 @@ const EditTask = () => {
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button
+            loading={handleState}
             onClick={() => {
-              editFromData.loginUserTodoId ? getStrutsSwitch() : addMyToDo()
+              editFromData.loginUserTodoIdList &&
+              editFromData.loginUserTodoIdList > 0
+                ? getStrutsSwitch()
+                : addMyToDo()
             }}>
-            {editFromData.loginUserTodoId ? '标记已完成' : '添加待办一个事项'}
+            {editFromData.loginUserTodoIdList &&
+            editFromData.loginUserTodoIdList > 0
+              ? '标记已完成'
+              : '添加待办一个事项'}
           </Button>
         </div>
         <div className={styles.rLabel}>
@@ -320,7 +340,8 @@ const EditTask = () => {
             <DateInput
               value={editFromData?.dueDate}
               format="YYYY/MM/DD"
-              allowClear={false}
+              allowClear={true}
+              autoClose={true}
               datePickerProps={{ todayButton: '今天' }}
               onChange={(v) => dubDateChange(v)}
             />
@@ -335,7 +356,10 @@ const EditTask = () => {
               <Button
                 basic
                 type="primary"
-                onClick={() => setLabelState(!labelState)}>
+                onClick={async () => {
+                  setLabelState(!labelState)
+                  await dispatch.project.getEdit()
+                }}>
                 {/* {labelState ? '完成' : '编辑'} */}
                 编辑
               </Button>
@@ -366,6 +390,7 @@ const EditTask = () => {
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
               setLabelState(false)
+              editLabelOk()
             }}
             onClickLabelShow={(is) => {
               setLabelState(is)

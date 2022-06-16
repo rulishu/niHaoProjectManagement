@@ -174,7 +174,18 @@ const LabelManage = (props) => {
                           <li key={item?.id}>
                             <div className={styles.listLiLeft}>
                               <div className={styles.labelName}>
-                                <p style={{ backgroundColor: item?.color }}>
+                                <p
+                                  style={
+                                    item?.color === '#ffffff' ||
+                                    item?.color === '#FFFFFF' ||
+                                    item?.color === '#fff' ||
+                                    item?.color === '#FFF'
+                                      ? {
+                                          backgroundColor: item?.color,
+                                          color: '#000000',
+                                        }
+                                      : { backgroundColor: item?.color }
+                                  }>
                                   <span>{item?.name}</span>
                                 </p>
                               </div>
@@ -235,7 +246,7 @@ const LabelManage = (props) => {
               confirmText="确定"
               cancelText="取消"
               icon="information"
-              type="primary"
+              type="danger"
               onConfirm={() => {
                 dispatch({
                   type: 'labels/deleteLabel',

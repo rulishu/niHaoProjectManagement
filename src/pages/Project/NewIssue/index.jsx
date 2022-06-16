@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo, Fragment } from 'react'
 import {
   Row,
   Col,
@@ -6,7 +6,8 @@ import {
   Form,
   Button,
   DateInput,
-  Loader,
+  Card,
+  // Loader,
   // FileInput,
 } from 'uiw'
 import './style.css'
@@ -18,7 +19,7 @@ import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
-import { Container } from '@/components'
+// import { Container } from '@/components'
 import { CompDropdown } from '@/components'
 import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
@@ -37,6 +38,7 @@ const NewIssue = (props) => {
     projectuser: { userSelectAllList },
     loading,
   } = useSelector((state) => state)
+  const { getAdd } = loading.effects.project
 
   const form = useRef()
   const isBundle = useRef(false)
@@ -190,15 +192,16 @@ const NewIssue = (props) => {
   }
 
   return (
-    <Container>
-      <div className="main">
-        <div className="title">新建任务</div>
-        {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
-        <Loader
+    <Fragment>
+      <Card>
+        <div className="main">
+          <div className="title">新建任务</div>
+          {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
+          {/* <Loader
           tip="加载中..."
           vertical
           style={{ width: '100%' }}
-          loading={loading.effects.project.getAdd}>
+          loading={getAdd}> */}
           <Form
             ref={form}
             onChange={({ current }) => {
@@ -247,7 +250,6 @@ const NewIssue = (props) => {
             }}
             fields={{
               assignmentTitle: {
-                required: true,
                 inline: true,
                 initialValue: fromData.assignmentTitle,
                 children: <Input placeholder="请输入标题" />,
@@ -266,6 +268,10 @@ const NewIssue = (props) => {
               assigneeUser: {
                 inline: true,
                 initialValue: fromData.assigneeUserId,
+                onClick: () => {
+                  setMilepostState(false)
+                  setLabelState(false)
+                },
                 children: (
                   <div style={{ width: '100%' }}>
                     <CompDropdown
@@ -280,6 +286,9 @@ const NewIssue = (props) => {
                         }
                       )}
                       isOpen={assignState}
+                      selectLabel={() => {
+                        setAssignState(false)
+                      }}
                       template="personnel"
                       isRadio={true}
                       shape="input"
@@ -327,7 +336,7 @@ const NewIssue = (props) => {
                 },
                 children: (
                   <DateInput
-                    format="YYYY/MM/DD"
+                    format="YYYY-MM-DD"
                     datePickerProps={{ todayButton: '今天' }}
                   />
                 ),
@@ -335,6 +344,10 @@ const NewIssue = (props) => {
               milestonesId: {
                 inline: true,
                 initialValue: fromData.milestonesId,
+                onClick: () => {
+                  setAssignState(false)
+                  setLabelState(false)
+                },
                 children: (
                   <CompDropdown
                     listData={initListData(
@@ -346,7 +359,9 @@ const NewIssue = (props) => {
                     isOpen={milepostState}
                     actionButtons={{ create: { isHide: true } }}
                     template="milepost"
-                    isRadio={true}
+                    selectLabel={() => {
+                      setMilepostState(false)
+                    }}
                     shape="input"
                     loading={loading.effects.dictionary.getDictDataList}
                     runLabel={() => {
@@ -354,6 +369,7 @@ const NewIssue = (props) => {
                         replace: true,
                       })
                     }}
+                    isRadio={true}
                     onClickLabelShow={(is) => {
                       setMilepostState(is)
                     }}
@@ -366,6 +382,10 @@ const NewIssue = (props) => {
               labels: {
                 inline: true,
                 initialValue: fromData.labels,
+                onClick: () => {
+                  setMilepostState(false)
+                  setAssignState(false)
+                },
                 children: (
                   <CompDropdown
                     isOpen={labelState}
@@ -400,7 +420,7 @@ const NewIssue = (props) => {
                   <div className="from">
                     <Row align="baseline" className="fromItem">
                       <Col span="4" className="titleInput">
-                        标题
+                        <span style={{ color: 'red' }}>*</span>标题
                       </Col>
                       <Col span="19">{fields.assignmentTitle}</Col>
                     </Row>
@@ -439,20 +459,27 @@ const NewIssue = (props) => {
                     <Col>
                       <Button
                         type="primary"
-                        disabled={!canSubmit()}
+                        // disabled={!canSubmit()}
+                        style={{ width: '80px' }}
+                        loading={getAdd}
                         htmlType="submit">
                         保存
                       </Button>
-                      <Button onClick={() => onCancel()}>取消</Button>
+                      <Button
+                        onClick={() => onCancel()}
+                        style={{ width: '80px' }}>
+                        取消
+                      </Button>
                     </Col>
                   </Row>
                 </div>
               )
             }}
           </Form>
-        </Loader>
-      </div>
-    </Container>
+          {/* </Loader> */}
+        </div>
+      </Card>
+    </Fragment>
   )
 }
 

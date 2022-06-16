@@ -106,3 +106,73 @@
   left: 50%;
   margin: auto;
 }
+
+.drawerFooter {
+  height: 100px;
+  width: 100%;
+  padding: 15px;
+
+  .footerDiv {
+    flex-wrap: wrap;
+    align-content: space-between;
+    height: 100%;
+    display: flex;
+  }
+}
+
+.taskNaviBtu,
+.taskCloseBtu {
+  width: 95%;
+  height: 45%;
+}
+
+.taskNaviBtu {
+  color: rgb(0, 123, 255);
+}
+
+.nihao {
+  :global {
+    .w-overlay-enter-done {
+      z-index: 998;
+    }
+  }
+}
+
+.rLabel {
+  padding: 16px 0 10px 0;
+  font-size: 14px;
+}
+
+.rLabelTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rLabelbott {
+  padding: 16px 0 10px 0;
+  width: 250px;
+}
+
+.rLabelText {
+  height: 32px;
+  line-height: 32px;
+
+  div {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.projectName {
+  padding: 0 5px;
+  color: blue;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

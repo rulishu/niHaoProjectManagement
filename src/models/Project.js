@@ -14,8 +14,8 @@ import {
   countAssignment,
   getAssignment, //不分页获取所有任务
   addMyToDo,
+  getStrutsSwitch,
 } from '../servers/project'
-import { getStrutsSwitch } from '../servers/TodoList'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
 
@@ -24,9 +24,7 @@ const NotifySuccess = (message) => {
 }
 
 const userData = JSON.parse(localStorage.getItem('userData'))
-/**
- * 任务Project
- */
+/* 任务Project*/
 export default createModel()({
   name: 'project',
   state: {
@@ -81,6 +79,7 @@ export default createModel()({
     tabDtos: [], // tab搜索条件
     taskNum: '', //任务各状态总数
     allWork: [], //所有任务，不分页
+    handleState: false,
   },
   effects: (dispatch) => {
     return {
@@ -103,11 +102,6 @@ export default createModel()({
       async getList(params, { project }) {
         const { assignmentStatus, ...others } = params
         const { filter, selectDtos } = project //tabDtos
-        // let obj = {
-        //   ...filter,
-        //   splicingConditionsDtos: [...selectDtos, ...tabDtos],
-        //   ...others,
-        // }
         let newArr = () => {
           let createIddata = selectDtos.filter(function (item) {
             return item.field === 'createId'
@@ -338,7 +332,6 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.queryFuzzyAllProjectMember({
-            // userId: project?.teamMembers?.userId,
             projectId: project?.commentData?.projectId,
           })
           dispatch.project.update({
@@ -365,7 +358,6 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.queryFuzzyAllProjectMember({
-            // userId: project?.teamMembers?.userId,
             projectId: project?.commentData?.projectId,
           })
           dispatch.project.update({
@@ -432,11 +424,6 @@ export default createModel()({
           ...others,
           ...arr,
         }
-        // let obj = {
-        //   ...filter,
-        //   splicingConditionsDtos: [...selectDtos],
-        //   ...others,
-        // }
         const data = await countAssignment(newObj)
         if (data && data.code === 200) {
           dispatch.project.update({
@@ -449,6 +436,9 @@ export default createModel()({
 
       // 添加任务至我的待办
       async addMyToDo(payload) {
+        dispatch.project.update({
+          handleState: true,
+        })
         const { param, callback } = payload
         const data = await addMyToDo(param)
         if (data && data.code === 200) {
@@ -457,19 +447,35 @@ export default createModel()({
             id: param?.id,
           })
           callback && callback()
+          dispatch.project.update({
+            handleState: false,
+          })
+        } else {
+          dispatch.project.update({
+            handleState: false,
+          })
         }
       },
       // 标记已完成
       async getStrutsSwitch(payload) {
+        dispatch.project.update({
+          handleState: true,
+        })
         const { param, todoData, callback } = payload
         const data = await getStrutsSwitch(todoData)
-        console.log(param, todoData)
         if (data && data.code === 200) {
           dispatch.project.getSelectById({
             projectId: param?.projectId,
             id: param?.id,
           })
           callback && callback()
+          dispatch.project.update({
+            handleState: false,
+          })
+        } else {
+          dispatch.project.update({
+            handleState: false,
+          })
         }
       },
       clean() {

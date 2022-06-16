@@ -224,6 +224,7 @@ const TodoList = () => {
                 pageSize={10}
                 total={taskTotal}
                 alignment="center"
+                size="default"
                 onChange={(pages, _, pageSize) => {
                   dispatch.todolist.goToPage({
                     page: pages,

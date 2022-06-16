@@ -1,12 +1,22 @@
-import { useEffect, useRef } from 'react'
-import { Row, Col, Input, DateInput, Select, Form, Button, Loader } from 'uiw'
+import { useEffect, useRef, Fragment } from 'react'
+import {
+  Row,
+  Col,
+  Input,
+  DateInput,
+  Card,
+  Select,
+  Form,
+  Button,
+  Loader,
+} from 'uiw'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import formatter from '@uiw/formatter'
 import { NEWMDEditor } from '@/components'
 import styles from './index.module.less'
 // import changeTime from '@/utils/timeDistance'
-import { Container } from '@/components'
+// import { Container } from '@/components'
 
 const NewMilestone = () => {
   const {
@@ -150,7 +160,7 @@ const NewMilestone = () => {
             err.filed = errorObj
             throw err
           }
-          console.log(222)
+
           //提交
           const param = {
             ...current,
@@ -198,14 +208,12 @@ const NewMilestone = () => {
           },
           milestonesTitle: {
             inline: true,
-            required: true,
             initialValue: listDataInfo.milestonesTitle,
             children: <Input placeholder="请输入标题" />,
           },
           startTime: {
             initialValue: listDataInfo.startTime,
             inline: true,
-            required: true,
             labelFor: 'date-inline',
             children: (
               <DateInput
@@ -217,7 +225,6 @@ const NewMilestone = () => {
           dueTime: {
             initialValue: listDataInfo.dueTime,
             inline: true,
-            required: true,
             labelFor: 'date-inline',
             children: (
               <DateInput
@@ -248,19 +255,19 @@ const NewMilestone = () => {
             <div className={styles.from}>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  标题
+                  <span style={{ color: 'red' }}>*</span>标题
                 </Col>
                 <Col span="19">{fields.milestonesTitle}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  开始时间
+                  <span style={{ color: 'red' }}>*</span>开始时间
                 </Col>
                 <Col span="19">{fields.startTime}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  结束时间
+                  <span style={{ color: 'red' }}>*</span>结束时间
                 </Col>
                 <Col span="19">{fields.dueTime}</Col>
               </Row>
@@ -274,11 +281,18 @@ const NewMilestone = () => {
                 <Col>
                   <Button
                     type="primary"
-                    disabled={!canSubmit()}
+                    // disabled={!canSubmit()}
+                    style={{ width: '80px' }}
+                    loading={addMilestone || editMilestone}
                     htmlType="submit">
                     保存
                   </Button>
-                  <Button onClick={() => onCancel()}>取消</Button>
+                  <Button
+                    onClick={() => onCancel()}
+                    loading={addMilestone || editMilestone}
+                    style={{ width: '80px' }}>
+                    取消
+                  </Button>
                 </Col>
               </Row>
             </div>
@@ -289,33 +303,29 @@ const NewMilestone = () => {
   }
 
   return (
-    <Container>
-      <div className={styles.main}>
-        <div className={styles.wrap}>
-          <div className={styles.title}>
-            {milestoneType === 1 ? '新建' : milestoneType === 2 ? '编辑' : ''}
-            里程碑
+    <Fragment>
+      <Card>
+        <div className={styles.main}>
+          <div className={styles.wrap}>
+            <div className={styles.title}>
+              {milestoneType === 1 ? '新建' : milestoneType === 2 ? '编辑' : ''}
+              里程碑
+            </div>
+            <Loader
+              tip="loading..."
+              vertical
+              style={{ width: '100%' }}
+              loading={getMilestone}>
+              {milestoneType === 1
+                ? milestonesForm()
+                : milestoneType === 2 && Object.keys(listDataInfo).length
+                ? milestonesForm()
+                : ''}
+            </Loader>
           </div>
-          <Loader
-            tip="loading..."
-            vertical
-            style={{ width: '100%' }}
-            loading={
-              milestoneType === 1
-                ? addMilestone
-                : milestoneType === 2
-                ? getMilestone || editMilestone
-                : false
-            }>
-            {milestoneType === 1
-              ? milestonesForm()
-              : milestoneType === 2 && Object.keys(listDataInfo).length
-              ? milestonesForm()
-              : ''}
-          </Loader>
         </div>
-      </div>
-    </Container>
+      </Card>
+    </Fragment>
   )
 }
 

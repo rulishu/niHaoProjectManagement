@@ -1,13 +1,15 @@
+import { useRef } from 'react'
 import { Button, Form } from 'uiw'
 import styles from './template.module.less'
 
 // 创建标签
 const CreateLabel = (props) => {
   const { setLabelStatus, createTag, createTagChange, form } = props
-
+  const labelForm = useRef()
   return (
     <div className={styles.createLabel}>
       <Form
+        ref={labelForm}
         onSubmitError={(error) => {
           if (error.filed) return { ...error.filed }
           return null
@@ -16,6 +18,7 @@ const CreateLabel = (props) => {
           createTagChange && createTagChange(initial, current)
         }}
         onSubmit={async ({ initial, current }) => {
+          console.log('标签')
           // 表单校验
           const errorObj = form ? form?.verify(initial, current) : {}
           if (Object.keys(errorObj).length > 0) {
@@ -40,7 +43,8 @@ const CreateLabel = (props) => {
                   size="small"
                   type="success"
                   disabled={!Object.keys(state?.current)?.length}
-                  htmlType="submit">
+                  // htmlType="submit"
+                  onClick={() => labelForm.current.onSubmit()}>
                   创建
                 </Button>
                 <Button size="small" onClick={() => setLabelStatus(1)}>

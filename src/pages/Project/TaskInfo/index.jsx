@@ -99,7 +99,7 @@ const TaskInfo = () => {
   const goEditIssue = (type) => {
     updateData({ issueType: type })
   }
-  const goStateIssue = (e) => {
+  const goStateIssue = async (e) => {
     const { assignmentId, assignmentTitle, description } = editFromData
     updateData({
       editFromData: {
@@ -109,10 +109,11 @@ const TaskInfo = () => {
         assignmentStatus: e,
       },
     })
-    dispatch.project.getEdit({
+    const result = await dispatch.project.getEdit({
       fileId: uuid ? [uuid] : editFromData.fileId,
       projectId: projectId,
     })
+    result && e === 3 && dispatch.routeManagement.getInfo({})
   }
   const steInputChange = (e) => {
     updateData({
@@ -132,7 +133,6 @@ const TaskInfo = () => {
       serIsTitleErr(true)
       return
     }
-    console.log(editFromData.description)
     if (editFromData.description.length > 300) {
       return
     }

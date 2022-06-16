@@ -46,19 +46,20 @@ const Drawer = (props) => {
   }
   // 执行成功返回的信息
   const information = (data) => {
-    if (data.code === 301) {
-      return
-    }
-    if (data.code === 200) {
+    if (data?.code === 200) {
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })
+    } else if (data?.code === 301) {
+      dispatch({
+        type: 'usersManagement/updateState',
+        payload: { loading: false },
+      })
     } else {
       dispatch({
         type: 'usersManagement/updateState',
         payload: { loading: false },
       })
-      Notify.error({ title: data?.message || '' })
     }
   }
 
@@ -134,6 +135,10 @@ const Drawer = (props) => {
         payload,
       }).then((data) => information(data))
     }
+    dispatch({
+      type: 'usersManagement/updateState',
+      payload: { loading: true },
+    })
   }
 
   //邀请成员-模糊查询
@@ -171,23 +176,22 @@ const Drawer = (props) => {
       width={500}
       buttons={[
         {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
-        {
           label: '保存',
           type: 'primary',
           show: !isView,
           loading: loading,
+          style: { width: '80px' },
           onClick: async () => {
             baseRef?.submitvalidate?.()
-            dispatch({
-              type: 'usersManagement/updateState',
-              payload: { loading: true },
-            })
           },
         },
+        // {
+        //   label: '取消',
+        //   loading: loading,
+        //   onClick: onClose,
+        //   show: !isView,
+        //   style: { width: '80px' }
+        // }
       ]}>
       <ProForm
         // title={

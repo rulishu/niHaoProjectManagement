@@ -14,8 +14,7 @@ axios.interceptors.response.use(
     if (response?.data?.code === 401) {
       localStorage.removeItem('token')
       navigate('/login')
-    }
-    if (response?.data?.code !== 200) {
+    } else if (response?.data?.code !== 200 && response?.data?.code !== 401) {
       // 判断是否为 Blob 数据
       if (!(response?.data instanceof Blob)) {
         await newDebounce(Notify.error, 300, {

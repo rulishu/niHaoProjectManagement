@@ -6,13 +6,13 @@ const Detail = (props) => {
   const {
     migrate: {
       source: { dataInfo, type },
+      sourceState,
     },
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const { isVisible, setIsVisible, curData, table } = props
   const form = useForm()
-
   const proForm = (initialValue) => {
     return (
       <ProForm
@@ -27,7 +27,7 @@ const Detail = (props) => {
   return (
     <ProDrawer
       width={500}
-      title={'新增'}
+      title={type === 1 ? '新增' : type === 2 ? '编辑' : '查看'}
       visible={isVisible}
       onClose={() => setIsVisible(false)}
       buttons={
@@ -36,7 +36,9 @@ const Detail = (props) => {
               {
                 label: '保存',
                 type: 'primary',
+                style: { width: 80 },
                 show: true,
+                loading: sourceState,
                 onClick: async () => {
                   await form?.submitvalidate?.()
                   const errors = form.getError()
