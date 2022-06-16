@@ -9,8 +9,14 @@ import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
 
 const TaskDetail = (props) => {
-  const { taskDetails, setTaskDetails, projectId, userAccount, loading } =
-    props?.param
+  const {
+    taskDetails,
+    setTaskDetails,
+    projectId,
+    userAccount,
+    loading,
+    selectBoard,
+  } = props?.param
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
@@ -144,7 +150,11 @@ const TaskDetail = (props) => {
         }}
         size="20%"
         usePortal={false}>
-        <Loader loading={loading.effects.taskboard.selectByProjectId}>
+        <Loader
+          loading={
+            loading.effects.taskboard.selectByProjectId ||
+            loading.effects.taskboard.changeAssignmentUser
+          }>
           <Card>
             <div>
               <div>
@@ -250,31 +260,29 @@ const TaskDetail = (props) => {
                     setAssignState(is)
                   }}
                   selectLabel={(key) => {
-                    //   const userName = userAllList
-                    //     ?.map((item) =>
-                    //       item.userId === key ? item.memberName : undefined
-                    //     )
-                    //     ?.filter((s) => s)[0]
-                    //   updateData({
-                    //     editFromData: {
-                    //       ...editFromData,
-                    //       assigneeUserId: key || 0,
-                    //       assigneeUserName: userName || null,
-                    //     },
-                    //   })
-                    //   editAssignOk()
-                  }}
-                  closeLabel={() => {
-                    //   updateData({
-                    //     editFromData: {
-                    //       ...editFromData,
-                    //       assigneeUserId: taskInfoData.assigneeUserId,
-                    //       assigneeUserName: taskInfoData.assigneeUserName,
-                    //     },
-                    //   })
+                    taskInfo.assigneeUserId = key
+                    let userName = ''
+                    userAllList?.filter((item) => {
+                      if (item.userId === key) {
+                        userName = item.memberName
+                        return null
+                      }
+                      return null
+                    })
+                    dispatch.taskboard.changeAssignmentUser({
+                      projectId,
+                      assigneeUserId: key,
+                      assigneeUserName: userName,
+                      assignmentId: taskInfo.assignmentId,
+                      assignmentType: taskInfo.assignmentType,
+                      assignmentTitle: taskInfo.assignmentTitle,
+                      selectBoard,
+                    })
                     setAssignState(false)
                   }}
-                  // loading={loading.effects.milestone.selectPageList}
+                  closeLabel={() => {
+                    setAssignState(false)
+                  }}
                   runLabel={() => {
                     navigate(`/${userAccount}/${projectId}/usersManagement`, {
                       replace: true,

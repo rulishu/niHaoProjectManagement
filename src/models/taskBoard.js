@@ -18,6 +18,7 @@ import {
   updateBoardList,
   getSelectAll,
   changeAssignmentStatus,
+  changeAssignmentUser,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -277,6 +278,20 @@ const taskboard = createModel()({
         Notify.success({ title: '更改任务状态成功' })
         setTaskDetails(false)
         dispatch.routeManagement.getInfo({})
+      }
+    },
+
+    // 编辑任务指派人
+    async changeAssignmentUser(payload) {
+      const { selectBoard, ...other } = payload
+      const data = await changeAssignmentUser(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '指派成功' })
+        dispatch.taskboard.selectByProjectId({
+          projectId: payload.projectId,
+          id: payload.assignmentId,
+        })
+        dispatch.taskboard.selectAllBoardNote({ boardId: selectBoard })
       }
     },
 

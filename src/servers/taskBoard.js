@@ -153,3 +153,11 @@ export function changeAssignmentStatus(params) {
     body: { ...params },
   })
 }
+
+// 编辑任务指派人
+export function changeAssignmentUser(params) {
+  return request('/api/ManagerAssignment/changeAssignmentUser', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
