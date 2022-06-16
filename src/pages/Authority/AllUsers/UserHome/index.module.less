@@ -215,11 +215,12 @@
     .text {
       min-height: 18px;
       overflow: hidden;
-      white-space: nowrap;
       text-overflow: ellipsis;
+      word-wrap: break-word;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
       width: 100%;
-      display: block;
-      cursor: pointer;
     }
 
     p {
