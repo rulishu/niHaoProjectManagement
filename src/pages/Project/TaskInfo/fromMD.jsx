@@ -23,6 +23,7 @@ const FromMD = (props) => {
     fromValue,
     btnName,
     isComment,
+    onClose,
   } = props
   const dispatch = useDispatch()
   const params = useParams()
@@ -76,7 +77,6 @@ const FromMD = (props) => {
     })
   }, []) // eslint-disable-line
   const remoteSearch = async (text, cb) => {
-    console.log('11111111111')
     const data = await text({ projectId: params.projectId })
     if (data && data.code === 200) {
       cb(data.data)
@@ -218,6 +218,12 @@ const FromMD = (props) => {
                           : false
                       }>
                       {btnName || '提交'}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        onClose && onClose()
+                      }}>
+                      {'取消'}
                     </Button>
                   </div>
                 </Col>

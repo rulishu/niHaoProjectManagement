@@ -17,6 +17,8 @@ import {
   pullSelectAll,
   updateBoardList,
   getSelectAll,
+  changeAssignmentStatus,
+  changeAssignmentUser,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -214,7 +216,6 @@ const taskboard = createModel()({
       const data = await deleteBoard({ projectId, id })
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
-        setDeleteBoardCon(false)
         dispatch.taskboard.selectOneInfo({
           boardId: payload.boardId,
           setCreatBut,
@@ -223,6 +224,7 @@ const taskboard = createModel()({
           first: true,
         })
       }
+      setDeleteBoardCon(false)
     },
 
     //item拖动到列表
@@ -268,13 +270,36 @@ const taskboard = createModel()({
       }
     },
 
-    // 编辑任务
-    async getEdit(payload) {
+    // 编辑任务状态
+    async changeAssignmentStatus(payload) {
       const { setTaskDetails, ...other } = payload
-      const data = await getManagerAssignmentUpdate(other)
+      const data = await changeAssignmentStatus(other)
       if (data && data.code === 200) {
         Notify.success({ title: '更改任务状态成功' })
         setTaskDetails(false)
+        dispatch.routeManagement.getInfo({})
+      }
+    },
+
+    // 编辑任务指派人
+    async changeAssignmentUser(payload) {
+      const { selectBoard, ...other } = payload
+      const data = await changeAssignmentUser(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '指派成功' })
+        dispatch.taskboard.selectByProjectId({
+          projectId: payload.projectId,
+          id: payload.assignmentId,
+        })
+        dispatch.taskboard.selectAllBoardNote({ boardId: selectBoard })
+      }
+    },
+
+    // 编辑任务
+    async getEdit(payload) {
+      const data = await getManagerAssignmentUpdate(payload.taskInfo)
+      if (data && data.code === 200) {
+        console.log(data)
       }
     },
 

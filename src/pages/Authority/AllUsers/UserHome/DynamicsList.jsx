@@ -2,6 +2,7 @@ import { Empty, Avatar, Loader } from 'uiw'
 import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
+import { useEffect, useState } from 'react'
 
 const ProjectList = (props) => {
   const {
@@ -9,17 +10,54 @@ const ProjectList = (props) => {
     loading,
   } = useSelector((state) => state)
   const { goSpecifyPage } = props
+  const [newUserDynamicsList, setNewUserDynamicsList] = useState([])
+
+  useEffect(() => {
+    setNewUserDynamicsList(userDynamics.slice(0, 100))
+    window.addEventListener('scroll', handleScroll, true)
+    handleScroll()
+    return () => {
+      window.removeEventListener('scroll', handleScroll, false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDynamics])
+
+  const handleScroll = (e) => {
+    let el = e && e.target
+    // console.log('el',el);
+    // let scrollTop = document.documentElement.scrollTop; // 滚动条滚动高度
+    // let clientHeight = document.documentElement.clientHeight; // 可视区域高度
+    // let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
+
+    // console.log('clientHeight',el.scrollTop, el.clientHeight, el.scrollHeight);
+    if (el?.scrollTop + el?.clientHeight + 2 >= el?.scrollHeight) {
+      console.log('滚动到底部了')
+      if (newUserDynamicsList.length !== userDynamics.length) {
+        setNewUserDynamicsList([
+          ...newUserDynamicsList,
+          ...userDynamics.slice(
+            newUserDynamicsList.length,
+            newUserDynamicsList.length + 100
+          ),
+        ])
+      }
+    }
+  }
 
   return (
-    <div className={styles.userAllDynamicList}>
+    <div
+      className={styles.userAllDynamicList}
+      onScroll={(e) => {
+        handleScroll(e)
+      }}>
       <Loader
         tip="所有动态加载中..."
         vertical
         style={{ width: '100%' }}
         loading={loading.effects.userHome.getUserInfo}>
         <ul>
-          {userDynamics?.length ? (
-            userDynamics.map((item, index) => {
+          {newUserDynamicsList?.length ? (
+            newUserDynamicsList.map((item, index) => {
               return (
                 <li className={styles.eventItem} key={index}>
                   <div className={styles.avatar}>

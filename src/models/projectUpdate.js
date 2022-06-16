@@ -83,8 +83,8 @@ const projectUpdate = createModel()({
     //新增项目
     async addProject(params) {
       const dph = dispatch
-      const { seachValue, callback, userName } = params
-      const data = await addProject(seachValue)
+      const { newValue, callback, userName } = params
+      const data = await addProject(newValue)
       if (data.code === 200) {
         Notify.success({
           description: data.message,
@@ -104,20 +104,19 @@ const projectUpdate = createModel()({
 
     //编辑项目
     async updateProject(params, state) {
-      let { seachValue, callback } = params
+      let { newValue, callback } = params
       const dph = dispatch
-
-      if (seachValue?.status === state.projectUpdate.isHangup) {
-        delete seachValue.status
+      if (newValue?.status === state.projectUpdate.isHangup) {
+        delete newValue.status
       } else {
-        if (seachValue.status === true) {
-          seachValue.status = 3
+        if (newValue.status === true) {
+          newValue.status = 3
         } else {
-          seachValue.status = 1
+          newValue.status = 1
         }
       }
 
-      const data = await updateProject(seachValue)
+      const data = await updateProject(newValue)
       if (data.code === 200) {
         dph.projectUpdate.updateState({
           seachValue: {},

@@ -214,6 +214,13 @@
 
     .text {
       min-height: 18px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      width: 100%;
     }
 
     p {

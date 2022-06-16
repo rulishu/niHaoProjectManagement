@@ -10,14 +10,24 @@ const LabelSelect = (props) => {
     pageS,
     project,
   } = props
-  const [label, setLabel] = useState(labelsListData)
+  const [label, setLabel] = useState([])
   const [team, setTeam] = useState(teamMembers)
   const [milistone, setMilistone] = useState(milistones)
 
   const form = useForm()
 
   useEffect(() => {
-    setLabel(labelsListData)
+    setLabel(
+      labelsListData.map((item) => {
+        return {
+          value: item.value,
+          label:
+            item.label.length > 4
+              ? item.label.substring(0, 4) + '..'
+              : item.label,
+        }
+      })
+    )
     setTeam(teamMembers)
     setMilistone(milistones)
   }, [labelsListData, teamMembers, milistones])
@@ -166,11 +176,22 @@ const LabelSelect = (props) => {
               mode: 'multiple',
               labelInValue: true,
               placeholder: '标签',
+              maxTagCount: 2,
               onSearch: (value) => {
                 const filterOpion = labelsListData.filter((item) =>
                   item?.label?.includes(value.trim())
                 )
-                setLabel(filterOpion)
+                setLabel(
+                  filterOpion.map((item) => {
+                    return {
+                      value: item.value,
+                      label:
+                        item.label.length > 4
+                          ? item.label.substring(0, 4) + '..'
+                          : item.label,
+                    }
+                  })
+                )
               },
               onChange: (value) => {
                 changeFun({ labels: value })

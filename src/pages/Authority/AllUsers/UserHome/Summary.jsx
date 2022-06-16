@@ -262,6 +262,7 @@ const DynamicsList = (props) => {
                             </span>
                           )}
                         </div>
+                        {}
                         <p className={styles.text}>{item?.descr || <i></i>}</p>
                         <p>
                           <span
