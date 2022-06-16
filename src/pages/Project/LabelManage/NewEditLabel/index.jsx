@@ -62,13 +62,13 @@ const NewEditLabel = (props) => {
           const errorObj = {}
           const { name, desc, color } = current
           if (!name || name.length < 2 || name.length > 64) {
-            errorObj.milestonesTitle = '请输入标题,长度为2~100'
+            errorObj.name = '请输入标题,长度为2~64'
           }
           if (desc && desc.length > 255) {
-            errorObj.milestonesDesc = '描述内容长度不大于3000'
+            errorObj.desc = '描述内容长度不大于255'
           }
           if (!color) {
-            errorObj.startTime = '颜色必填'
+            errorObj.color = '颜色必填'
           }
           if (!isColor(color)) {
             errorObj.color = '请填写正确的颜色码'
@@ -113,7 +113,6 @@ const NewEditLabel = (props) => {
             // label: <TitleEx must>标题</TitleEx>,
             initialValue: labelInfo.name,
             inline: true,
-            required: true,
             children: <Input placeholder="请输入标签标题" />,
           },
           desc: {
@@ -126,7 +125,6 @@ const NewEditLabel = (props) => {
             // label: <TitleEx must>背景颜色</TitleEx>,
             initialValue: labelInfo.color,
             inline: true,
-            required: true,
             children: <Custom color={props?.color} />,
           },
         }}>
@@ -135,7 +133,7 @@ const NewEditLabel = (props) => {
             <div className={styles.fromDiv}>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  标题
+                  <span style={{ color: 'red' }}>*</span>标题
                 </Col>
                 <Col span="19">{fields.name}</Col>
               </Row>
@@ -147,7 +145,7 @@ const NewEditLabel = (props) => {
               </Row>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  背景颜色
+                  <span style={{ color: 'red' }}>*</span>背景颜色
                 </Col>
                 <Col span="19">{fields.color}</Col>
               </Row>
@@ -156,10 +154,13 @@ const NewEditLabel = (props) => {
                   <Button
                     htmlType="submit"
                     type="primary"
+                    style={{ width: '80px' }}
                     loading={addLabelItem || editLabelInfo}>
                     保存
                   </Button>
-                  <Button onClick={() => onCancel()}>取消</Button>
+                  <Button onClick={() => onCancel()} style={{ width: '80px' }}>
+                    取消
+                  </Button>
                 </Col>
               </Row>
             </div>
