@@ -16,7 +16,7 @@ const Detail = (props) => {
 
   return (
     <ProDrawer
-      width={300}
+      width={500}
       title={'迁移详细信息'}
       visible={isVisible}
       onClose={() => setIsVisible(false)}>
@@ -25,7 +25,7 @@ const Detail = (props) => {
         style={{ width: '100%' }}
         tip="loading...">
         <div>
-          <Descriptions layout="vertical">
+          <Descriptions layout="vertical" bordered>
             <Descriptions.Item label="迁移任务id" span={3}>
               {dataInfo.transferId}
             </Descriptions.Item>

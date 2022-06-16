@@ -50,12 +50,16 @@ const Drawer = (props) => {
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })
+    } else if (data?.code === 301) {
+      dispatch({
+        type: 'usersManagement/updateState',
+        payload: { loading: false },
+      })
     } else {
       dispatch({
         type: 'usersManagement/updateState',
         payload: { loading: false },
       })
-      Notify.error({ title: data?.message || '' })
     }
   }
 
@@ -122,6 +126,7 @@ const Drawer = (props) => {
         ...current,
         id: queryInfo?.id,
         accessExpirationTime: changeTime(current?.accessExpirationTime),
+        // joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,
       }

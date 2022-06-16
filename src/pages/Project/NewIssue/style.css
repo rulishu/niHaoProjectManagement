@@ -5,11 +5,11 @@
 }
 
 .from {
-  margin-top: 0.5rem;
+  margin-top: 8px;
 }
 
 .fromItem {
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .fromSelect {
@@ -18,9 +18,9 @@
 }
 
 .title {
-  padding: 1rem;
+  padding: 16px;
   line-height: 1.3;
-  font-size: 1.25em;
+  font-size: 18px;
   font-weight: 600;
   border-bottom: 1px solid #dbdbdb;
 }

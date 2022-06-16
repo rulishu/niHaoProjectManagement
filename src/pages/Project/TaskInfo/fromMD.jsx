@@ -1,17 +1,17 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, Form, Row, Col } from 'uiw'
 import styles from './index.module.less'
 import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
-
-// let tribute = new Tribute({
-//   trigger: '@',
-//   values: [{aa:'1111',bb:'ccccc'}],
-//   lookup: 'aa',
-//   fillAttr: 'bb'
-// })
+import { useParams } from 'react-router-dom'
+import { getAllLabelData } from '../../../servers/labels'
+import {
+  queryFuzzyAllProjectMember,
+  getAssignment,
+} from '../../../servers/project'
+import { getSelectAll } from '../../../servers/milestone'
 
 const FromMD = (props) => {
   const {
@@ -25,12 +25,7 @@ const FromMD = (props) => {
     isComment,
   } = props
   const dispatch = useDispatch()
-  const {
-    project: { allWork },
-    milestone: { milepostaData },
-    labels: { listData: labelsListData },
-    projectuser: { userSelectAllList },
-  } = useSelector((state) => state)
+  const params = useParams()
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
@@ -39,13 +34,23 @@ const FromMD = (props) => {
       collection: [
         {
           trigger: '@',
-          values: userSelectAllList || [],
-          lookup: 'memberName',
+          values: function (text, cb) {
+            remoteSearch(queryFuzzyAllProjectMember, (users) => cb(users))
+          },
+          // lookup: 'memberName',
+          lookup: function (memberName) {
+            return `<div style='display: flex; align-items: center;'>
+                <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${memberName.avatar}' />
+                <span style='font-size: 14px; font-weight: lighter;'>${memberName.memberName}</span>
+              </div>`
+          },
           fillAttr: 'memberName',
         },
         {
           trigger: '#',
-          values: allWork || [],
+          values: function (text, cb) {
+            remoteSearch(getAssignment, (users) => cb(users))
+          },
           lookup: function (allWork) {
             return '#' + allWork.assignmentId + ' ' + allWork.assignmentTitle
           },
@@ -53,19 +58,33 @@ const FromMD = (props) => {
         },
         {
           trigger: '~',
-          values: labelsListData || [],
+          values: function (text, cb) {
+            remoteSearch(getAllLabelData, (users) => cb(users))
+          },
           lookup: 'name',
           fillAttr: 'name',
         },
         {
           trigger: '%',
-          values: milepostaData || [],
+          values: function (text, cb) {
+            remoteSearch(getSelectAll, (users) => cb(users))
+          },
           lookup: 'milestonesTitle',
           fillAttr: 'milestonesTitle',
         },
       ],
     })
-  }, [userSelectAllList, allWork, labelsListData, milepostaData])
+  }, []) // eslint-disable-line
+  const remoteSearch = async (text, cb) => {
+    console.log('11111111111')
+    const data = await text({ projectId: params.projectId })
+    if (data && data.code === 200) {
+      cb(data.data)
+    } else {
+      cb([])
+    }
+  }
+
   useEffect(() => {
     if (
       mdRefs?.current?.textarea &&

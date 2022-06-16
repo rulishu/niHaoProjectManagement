@@ -55,7 +55,7 @@ const LabelSelect = (props) => {
   }
 
   return (
-    <div>
+    <div style={{ padding: '0 4px' }}>
       <ProForm
         form={form}
         formType="pure"
@@ -82,7 +82,7 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '100%' },
+              style: { width: '260px' },
             },
             span: '6',
           },
@@ -108,7 +108,7 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '100%' },
+              style: { width: '260px' },
             },
             span: '6',
           },
@@ -134,7 +134,7 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '100%' },
+              style: { width: '260px' },
             },
             span: '6',
           },
@@ -179,7 +179,7 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '100%' },
+              style: { width: '260px' },
             },
             span: '6',
           },
