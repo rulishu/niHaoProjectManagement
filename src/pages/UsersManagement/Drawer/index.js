@@ -176,19 +176,22 @@ const Drawer = (props) => {
       width={500}
       buttons={[
         {
-          label: '取消',
-          onClick: onClose,
-          show: !isView,
-        },
-        {
           label: '保存',
           type: 'primary',
           show: !isView,
           loading: loading,
+          style: { width: '80px' },
           onClick: async () => {
             baseRef?.submitvalidate?.()
           },
         },
+        // {
+        //   label: '取消',
+        //   loading: loading,
+        //   onClick: onClose,
+        //   show: !isView,
+        //   style: { width: '80px' }
+        // }
       ]}>
       <ProForm
         // title={

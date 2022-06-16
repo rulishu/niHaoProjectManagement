@@ -208,14 +208,12 @@ const NewMilestone = () => {
           },
           milestonesTitle: {
             inline: true,
-            required: true,
             initialValue: listDataInfo.milestonesTitle,
             children: <Input placeholder="请输入标题" />,
           },
           startTime: {
             initialValue: listDataInfo.startTime,
             inline: true,
-            required: true,
             labelFor: 'date-inline',
             children: (
               <DateInput
@@ -227,7 +225,6 @@ const NewMilestone = () => {
           dueTime: {
             initialValue: listDataInfo.dueTime,
             inline: true,
-            required: true,
             labelFor: 'date-inline',
             children: (
               <DateInput
@@ -258,19 +255,19 @@ const NewMilestone = () => {
             <div className={styles.from}>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  标题
+                  <span style={{ color: 'red' }}>*</span>标题
                 </Col>
                 <Col span="19">{fields.milestonesTitle}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  开始时间
+                  <span style={{ color: 'red' }}>*</span>开始时间
                 </Col>
                 <Col span="19">{fields.startTime}</Col>
               </Row>
               <Row align="baseline" className={styles.fromItem}>
                 <Col span="4" className={styles.titleInput}>
-                  结束时间
+                  <span style={{ color: 'red' }}>*</span>结束时间
                 </Col>
                 <Col span="19">{fields.dueTime}</Col>
               </Row>
@@ -285,11 +282,17 @@ const NewMilestone = () => {
                   <Button
                     type="primary"
                     // disabled={!canSubmit()}
+                    style={{ width: '80px' }}
                     loading={addMilestone || editMilestone}
                     htmlType="submit">
                     保存
                   </Button>
-                  <Button onClick={() => onCancel()}>取消</Button>
+                  <Button
+                    onClick={() => onCancel()}
+                    loading={addMilestone || editMilestone}
+                    style={{ width: '80px' }}>
+                    取消
+                  </Button>
                 </Col>
               </Row>
             </div>
