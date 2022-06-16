@@ -262,6 +262,10 @@ const TaskDetail = (props) => {
                   selectLabel={(key) => {
                     taskInfo.assigneeUserId = key
                     let userName = ''
+                    let userId = 0
+                    if (key !== null) {
+                      userId = key
+                    }
                     userAllList?.filter((item) => {
                       if (item.userId === key) {
                         userName = item.memberName
@@ -271,7 +275,7 @@ const TaskDetail = (props) => {
                     })
                     dispatch.taskboard.changeAssignmentUser({
                       projectId,
-                      assigneeUserId: key,
+                      assigneeUserId: userId,
                       assigneeUserName: userName,
                       assignmentId: taskInfo.assignmentId,
                       assignmentType: taskInfo.assignmentType,
