@@ -81,12 +81,21 @@ const EditTask = () => {
 
   const dubDateChange = async (v) => {
     setDueDateState(false)
-    updateData({
-      editFromData: {
-        ...editFromData,
-        dueDate: dayjs(v).format('YYYY-MM-DD'),
-      },
-    })
+    if (v === undefined) {
+      updateData({
+        editFromData: {
+          ...editFromData,
+          dueDate: '',
+        },
+      })
+    } else {
+      updateData({
+        editFromData: {
+          ...editFromData,
+          dueDate: dayjs(v).format('YYYY-MM-DD'),
+        },
+      })
+    }
     await dispatch.project.getEdit()
   }
 
@@ -331,7 +340,8 @@ const EditTask = () => {
             <DateInput
               value={editFromData?.dueDate}
               format="YYYY/MM/DD"
-              allowClear={false}
+              allowClear={true}
+              autoClose={true}
               datePickerProps={{ todayButton: '今天' }}
               onChange={(v) => dubDateChange(v)}
             />
