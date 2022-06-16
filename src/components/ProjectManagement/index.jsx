@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Loader } from 'uiw'
+import { Loader, Select } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useState } from 'react'
 import CompDropdown from '../../components/CompDropdown'
 import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
+import { useEffect } from 'react'
 
 /**
  * 使用方法：
@@ -53,6 +54,12 @@ const ProjectManagement = (fun) => {
     })
   }
 
+  useEffect(() => {
+    dispatch({
+      type: 'projectUpdate/queryFuzzyAllUser',
+    })
+  })
+
   const dropdown = () => {
     return (
       <>
@@ -82,8 +89,71 @@ const ProjectManagement = (fun) => {
           }}
           isRadio={true}
           createTag={(_, current) => {
-            console.log(current)
+            console.log(current, 'current')
             return true
+          }}
+          textBooks={{
+            createTitle: `快速邀请成员并成为负责人`,
+            mainTitle: `项目负责人`,
+          }}
+          actionButtons={
+            JSON.parse(localStorage.getItem('userData')).admin
+              ? {
+                  create: { title: '快速邀请成员并成为负责人' },
+                  manage: { isHide: true },
+                }
+              : {
+                  create: { isHide: true },
+                  manage: { isHide: true },
+                }
+          }
+          form={{
+            fields: (props) => {
+              return {
+                userId: {
+                  inline: true,
+                  required: true,
+                  children: (
+                    <>
+                      <Select>
+                        <Select.Option value="w">
+                          Choose an item...
+                        </Select.Option>
+                        <Select.Option value="1">
+                          OneOneOneOneOneOneOne
+                        </Select.Option>
+                        <Select.Option value="2">Two</Select.Option>
+                        <Select.Option value="3">Three</Select.Option>
+                        <Select.Option value="4">Four</Select.Option>
+                      </Select>
+                    </>
+                  ),
+                },
+              }
+            },
+            fieldsShow: ({ fields }) => {
+              return (
+                <div style={{ minWidth: '350px' }}>
+                  <div
+                    style={{
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      display: 'flex',
+                      lineHeight: '30px',
+                    }}>
+                    用户名：{fields.userId}
+                  </div>
+                </div>
+              )
+            },
+            verify: (initial, current) => {
+              const errorObj = {}
+              const { userId } = current
+              if (!userId) {
+                errorObj.userId = '请选择用户'
+              }
+              return errorObj
+            },
           }}
         />
       </>
