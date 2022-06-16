@@ -276,14 +276,25 @@ export default function Home() {
           }>
           <Col style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
             <List bordered={false} noHover={true}>
-              <List.Item>
-                负责人:
+              <List.Item className={styles.leftList}>
+                <span className={styles.leftTitle}>负责人:</span>
                 {allDataSource.projectLeader?.nickName +
                   allDataSource.projectLeader?.email || ''}
               </List.Item>
-              <List.Item>开始时间: {allDataSource.begin || ''}</List.Item>
-              <List.Item>结束时间: {allDataSource.end || ''}</List.Item>
-              <List.Item>描述: {allDataSource.projectDesc || ''}</List.Item>
+              <List.Item>
+                <span className={styles.leftTitle}>开始时间:</span>{' '}
+                {allDataSource.begin || ''}
+              </List.Item>
+              <List.Item>
+                <span className={styles.leftTitle}>结束时间:</span>{' '}
+                {allDataSource.end || ''}
+              </List.Item>
+              <List.Item className={styles.msList}>
+                <span className={styles.leftTitle}>描述: </span>
+                <span className={styles.msList}>
+                  {allDataSource.projectDesc || ''}
+                </span>
+              </List.Item>
             </List>
           </Col>
         </Card>
