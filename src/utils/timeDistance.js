@@ -18,6 +18,12 @@ const timeDistance = (beforeTime, afterTime = new Date()) => {
     time = Math.floor(ms / (30 * 24 * 3600 * 1000))
     unit = '月'
   }
+
+  if (time > 6 && time < 30 && time % 7 === 0) {
+    time = Math.floor(ms / (7 * 24 * 3600 * 1000))
+    unit = '周'
+  }
+
   if (time < 1) {
     time = Math.floor(ms / (3600 * 1000))
     unit = '小时'

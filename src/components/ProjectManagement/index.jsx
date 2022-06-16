@@ -102,20 +102,20 @@ const ProjectManagement = (fun) => {
     setAddrolds(false)
   }
 
-  function saveData() {
+  function saveData(newValue) {
     if (drawerType === 'add') {
-      seachValue.projectAvatar = fileIds
+      newValue.projectAvatar = fileIds
       dispatch({
         type: 'projectUpdate/addProject',
-        payload: { seachValue, callback: fun.fun, userName: user.userName },
+        payload: { newValue, callback: fun.fun, userName: user.userName },
       })
     } else if (drawerType === 'edit') {
-      seachValue.id = id
-      seachValue.projectAvatar = fileIds
+      newValue.id = id
+      newValue.projectAvatar = fileIds
       // seachValue.projectLeaderId = seachValue?.projectLeaderId[0]?.value
       dispatch({
         type: 'projectUpdate/updateProject',
-        payload: { seachValue, callback: fun.fun },
+        payload: { newValue, callback: fun.fun },
       })
     }
     dispatch({
@@ -202,7 +202,7 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
-            rules: [{ required: true, message: '请输入起始日期' }],
+            // rules: [{ required: true, message: '请输入起始日期' }],
           },
           {
             label: '截止日期:',
@@ -221,16 +221,17 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
-            rules: [
-              {
-                validator: (value) => {
-                  const obj = baseRef?.getFieldValues()
-                  if (Object.keys(obj).length > 0 && value >= obj.begin)
-                    return true
-                },
-                message: '截止日期必须晚于或等于起始日期且不能为空',
-              },
-            ],
+            // rules: [
+            //   {
+            //     validator: (value) => {
+            //       const obj = baseRef?.getFieldValues()
+            //       console.log(obj, formatter(value))
+            //       if ((Object.keys(obj).length > 0 && formatter(value) >= formatter(obj.begin) || !formatter(obj.begin)))
+            //         return true
+            //     },
+            //     message: '截止日期必须晚于或等于起始日期且不为空',
+            //   },
+            // ],
           },
           {
             label: '项目描述:',
@@ -297,18 +298,47 @@ const ProjectManagement = (fun) => {
             hide: drawerType === 'add',
           },
         ]}
-        onChange={(initial, current) => {
-          let begin = formatter(current.begin)
-          let end = formatter(current.end)
-          current.begin = begin
-          current.end = end
-          updateData({
-            seachValue: {
-              ...current,
-              projectLeaderId: seachValue.projectLeaderId,
-            },
-          })
+        onSubmit={(initial, current) => {
+          const errorObj = {}
+          if (!current?.begin) {
+            errorObj.begin = '请输入起始日期'
+          }
+          if (!current?.end) {
+            errorObj.end = '请输入截止日期'
+          }
+          if (
+            current?.begin &&
+            current?.end &&
+            formatter(current?.end) < formatter(current?.begin)
+          ) {
+            errorObj.end = '截止日期必须晚于或等于起始日期'
+          }
+          if (Object.keys(errorObj).length > 0) {
+            const err = new Error()
+            err.filed = errorObj
+            throw err
+          }
+          const newValue = {
+            ...current,
+            projectLeaderId: seachValue.projectLeaderId,
+            begin: formatter(current.begin),
+            end: formatter(current.end),
+          }
+          console.log(newValue)
+          saveData(newValue)
         }}
+        // onChange={(initial, current) => {
+        //   let begin = formatter(current.begin)
+        //   let end = formatter(current.end)
+        //   current.begin = begin
+        //   current.end = end
+        //   updateData({
+        //     seachValue: {
+        //       ...current,
+        //       projectLeaderId: seachValue.projectLeaderId,
+        //     },
+        //   })
+        // }}
       />
     )
   }
@@ -331,11 +361,14 @@ const ProjectManagement = (fun) => {
             style: { width: '80px' },
             // disabled: showSubmit,
             loading: editLoading,
-            onClick: async () => {
-              await baseRef?.submitvalidate?.()
-              const errors = baseRef.getError()
-              if (errors && Object.keys(errors).length > 0) return
-              saveData()
+            onClick: () => {
+              baseRef?.submitvalidate()
+              // await baseRef?.submitvalidate?.()
+              // const obj = baseRef?.getFieldValues()
+              // console.log(obj)
+              // const errors = baseRef.getError()
+              // if (errors && Object.keys(errors).length > 0) return
+              // saveData()
               // setShowSubmit(true)
             },
           },

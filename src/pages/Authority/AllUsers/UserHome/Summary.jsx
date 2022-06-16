@@ -1,4 +1,4 @@
-import { Icon, Button, Avatar, Loader, Empty, Row, Col } from 'uiw'
+import { Icon, Button, Avatar, Loader, Empty, Row, Col, Tooltip } from 'uiw'
 import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
@@ -262,7 +262,15 @@ const DynamicsList = (props) => {
                             </span>
                           )}
                         </div>
-                        <p className={styles.text}>{item?.descr || <i></i>}</p>
+                        {}
+                        <Tooltip
+                          placement="top"
+                          content={item?.descr || ''}
+                          disabled={!item?.descr}>
+                          <div className={styles.text}>
+                            {item?.descr || <i></i>}
+                          </div>
+                        </Tooltip>
                         <p>
                           <span
                             onClick={() => {

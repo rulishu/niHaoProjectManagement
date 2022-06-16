@@ -10,7 +10,7 @@ import {
   Col,
   List, // Progress,
 } from 'uiw'
-import { Container } from '@/components'
+import { Container, LinkText } from '@/components'
 import styles from './index.module.less'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -110,13 +110,10 @@ const TodoList = () => {
                         <span>
                           {item.assignUserName === item.doUserName ? (
                             <div className={styles.listContent}>
-                              <span
-                                className={styles.projectName}
-                                onClick={() => {
-                                  navigate(`/${item?.assignUserAccount}`)
-                                }}>
-                                您
-                              </span>
+                              <LinkText
+                                link={`/${item?.assignUserAccount}`}
+                                value="您"
+                              />
                               <span>在</span>
                               <span
                                 className={
@@ -131,18 +128,18 @@ const TodoList = () => {
                               <span>
                                 {item.doType === 0 ? '评论' : '给自己分配了'}
                               </span>
-                              <span
-                                className={
-                                  item?.projectUrl ? styles.projectName : ''
-                                }
-                                onClick={() => {
-                                  item?.projectUrl &&
-                                    navigate(
-                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
-                                    )
-                                }}>
-                                #{item.issuesId}
-                              </span>
+                              {item?.projectUrl ? (
+                                <LinkText
+                                  link={
+                                    item?.projectUrl
+                                      ? `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                      : ''
+                                  }
+                                  value={`#${item.issuesId}`}
+                                />
+                              ) : (
+                                <span>#{item.issuesId}</span>
+                              )}
                               <span>{item.assignmentTitle}</span> · 更新于
                               {timeDistance(item?.createTime).time}
                               {timeDistance(item?.createTime).status
@@ -151,42 +148,31 @@ const TodoList = () => {
                             </div>
                           ) : (
                             <div className={styles.listContent}>
-                              <span
-                                className={styles.projectName}
-                                onClick={() => {
-                                  navigate(`/${item?.assignUserAccount}`)
-                                }}>
-                                {item.assignUserName}
-                              </span>
+                              <LinkText
+                                link={`/${item?.assignUserAccount}`}
+                                value={item.assignUserName}
+                              />
                               <span>
                                 {item.doType === 0 ? '评论' : '分配给你'}{' '}
                               </span>
-                              <span
-                                className={
-                                  item?.projectUrl ? styles.projectName : ''
+                              <LinkText
+                                link={
+                                  item?.projectUrl
+                                    ? `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
+                                    : ''
                                 }
-                                onClick={() => {
-                                  item?.projectUrl &&
-                                    navigate(
-                                      `${item?.projectUrl}/task/taskInfo/${item?.issuesId}`
-                                    )
-                                }}>
-                                #{item.issuesId}
-                              </span>
+                                value={`#${item.issuesId}`}
+                              />
                               <span>{item.assignmentTitle}</span>
                               <span style={{ marginLeft: 5, marginRight: 5 }}>
                                 在
                               </span>
-                              <span
-                                className={
-                                  item?.projectUrl ? styles.projectName : ''
+                              <LinkText
+                                link={
+                                  item?.projectUrl ? `${item?.projectUrl}` : ''
                                 }
-                                onClick={() => {
-                                  item?.projectUrl &&
-                                    navigate(`${item?.projectUrl}`)
-                                }}>
-                                {item.projectName}
-                              </span>
+                                value={item.projectName}
+                              />
                               · 更新于{timeDistance(item?.createTime).time}
                               {timeDistance(item?.createTime).status
                                 ? '前'
@@ -224,6 +210,7 @@ const TodoList = () => {
                 pageSize={10}
                 total={taskTotal}
                 alignment="center"
+                size="default"
                 onChange={(pages, _, pageSize) => {
                   dispatch.todolist.goToPage({
                     page: pages,
