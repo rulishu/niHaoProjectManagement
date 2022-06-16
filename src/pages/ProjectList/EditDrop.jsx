@@ -88,7 +88,7 @@ const EditDrop = (props) => {
         trigger="click"
         isOpen={dropOpen}
         onClosing={() => {
-          setDropOpen(!dropOpen)
+          setDropOpen(false)
         }}
         overlay={menu()}>
         <div

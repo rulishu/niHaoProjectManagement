@@ -5,7 +5,7 @@ import {
   selectAllBoard,
   selectAllBoardNote,
   addBoardList,
-  // deleteBoardList,
+  deleteBoardList,
   dragAssignmentNote,
   quickInsertTransfer,
   deleteBoard,
@@ -14,7 +14,13 @@ import {
   noteToAssignment,
   updateBoardNote,
   deleteBoardNote,
+  pullSelectAll,
+  updateBoardList,
+  getSelectAll,
 } from '../servers/taskBoard'
+
+import { getAllLabelData } from '../servers/labels'
+import { getManagerAssignmentUpdate } from '../servers/project'
 
 /**
  * 项目列表
@@ -28,6 +34,8 @@ const taskboard = createModel()({
     boardList: [],
     list: [],
     taskInfo: {},
+    labelList: [],
+    userAllList: [],
   },
   reducers: {
     update: (state, payload) => {
@@ -44,7 +52,14 @@ const taskboard = createModel()({
         list: [],
       })
       const { pageSize, page, type } = taskboard
-      const { projectId, setSelectBoard, first, setCreatBut } = payload
+      const {
+        projectId,
+        setSelectBoard,
+        first,
+        setCreatBut,
+        creat,
+        creatBoardId,
+      } = payload
       let params = {
         pageSize,
         page,
@@ -66,6 +81,12 @@ const taskboard = createModel()({
           dispatch.taskboard.selectAllBoardNote({
             boardId: data?.data[0]?.id,
           })
+        }
+        if (creat && data?.data.length !== 0) {
+          dispatch.taskboard.selectAllBoardNote({
+            boardId: creatBoardId,
+          })
+          setSelectBoard(creatBoardId)
         }
       } else {
         setCreatBut(true)
@@ -90,6 +111,26 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           taskInfo: data?.data || {},
+        })
+      }
+    },
+
+    // 查询项目中标签
+    async getAllLabelData(payload) {
+      const data = await getAllLabelData({ ...payload })
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          labelList: data?.data || [],
+        })
+      }
+    },
+
+    // 所有里程碑查询
+    async getListAll(payload) {
+      const data = await getSelectAll(payload)
+      if (data.code === 200) {
+        dispatch.taskboard.update({
+          milepostaData: data?.data || [],
         })
       }
     },
@@ -134,22 +175,24 @@ const taskboard = createModel()({
           setCreatBut,
           projectId,
           setSelectBoard,
+          creat: true,
+          creatBoardId: data.data.id,
         })
       }
     },
 
-    // //删除列表
-    // async deleteBoardList(payload) {
-    //   const { setDeleteConfirmation, ...other } = payload
-    //   const data = await deleteBoardList(other)
-    //   if (data && data.code === 200) {
-    //     Notify.success({ title: data.message })
-    //     dispatch.taskboard.selectAllBoardNote({
-    //       boardId: payload.boardId,
-    //     })
-    //     setDeleteConfirmation(false)
-    //   }
-    // },
+    //删除列表
+    async deleteBoardList(payload) {
+      const { setDeleteConfirmation, ...other } = payload
+      const data = await deleteBoardList(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '删除成功' })
+        dispatch.taskboard.selectAllBoardNote({
+          boardId: payload.boardId,
+        })
+        setDeleteConfirmation(false)
+      }
+    },
 
     //删除note
     async deleteBoardNote(payload) {
@@ -211,6 +254,39 @@ const taskboard = createModel()({
         Notify.success({ title: '编辑小记成功' })
         setEditOpen(false)
         dispatch.taskboard.selectAllBoardNote({ boardId })
+      }
+    },
+
+    // 编辑list
+    async updateBoardList(payload) {
+      const { setEditList, boardId, ...other } = payload
+      const data = await updateBoardList(other, boardId)
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑列表成功' })
+        setEditList(false)
+        dispatch.taskboard.selectAllBoardNote({ boardId })
+      }
+    },
+
+    // 编辑任务
+    async getEdit(payload) {
+      const { setTaskDetails, ...other } = payload
+      const data = await getManagerAssignmentUpdate(other)
+      if (data && data.code === 200) {
+        Notify.success({ title: '更改任务状态成功' })
+        setTaskDetails(false)
+      }
+    },
+
+    //模糊查询所有用户
+    async pullSelectAll(params) {
+      const data = await pullSelectAll({
+        ...params,
+      })
+      if (data && data.code === 200) {
+        dispatch.taskboard.update({
+          userAllList: data?.data || [],
+        })
       }
     },
   }),

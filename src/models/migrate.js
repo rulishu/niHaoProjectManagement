@@ -41,10 +41,16 @@ const thirdpartyMigration = createModel()({
       listData: [], // 列数据
       dataInfo: {}, // 当前对象
     },
+    sourceState: false,
+    confignState: false,
   },
   effects: (dispatch) => ({
     // 标签：条件查询-不分页
     async getConfigControl(payload, { migrate }) {
+      dispatch({
+        type: 'migrate/updateState',
+        payload: { loginConfig: {} },
+      })
       const data = await getConfigControl({ ...payload })
       if (data && data.code === 200) {
         dispatch({
@@ -54,12 +60,25 @@ const thirdpartyMigration = createModel()({
       }
     },
     async setConfigControl(payload, { migrate }) {
+      dispatch({
+        type: 'migrate/updateState',
+        payload: { confignState: true },
+      })
       const { param, callback } = payload
       const { loginConfig } = migrate
       const data = await setConfigControl({ ...loginConfig, ...param })
       if (data && data.code === 200) {
         callback && callback()
         Notify.success({ description: '配置成功' })
+        dispatch({
+          type: 'migrate/updateState',
+          payload: { loginConfig: {}, confignState: false },
+        })
+      } else {
+        dispatch({
+          type: 'migrate/updateState',
+          payload: { confignState: false },
+        })
       }
     },
     // gitlab数据同步
@@ -120,11 +139,21 @@ const thirdpartyMigration = createModel()({
     },
     // 新增数据
     async addDataSource(payload, { migrate }) {
+      dispatch.migrate.updateState({
+        sourceState: true,
+      })
       const { param, callback } = payload
       const data = await addDataSource({ ...param })
       if (data && data.code === 200) {
+        dispatch.migrate.updateState({
+          sourceState: false,
+        })
         callback && callback()
         Notify.success({ description: '新增成功' })
+      } else {
+        dispatch.migrate.updateState({
+          sourceState: false,
+        })
       }
     },
     // 根据主键id查询数据
@@ -139,11 +168,21 @@ const thirdpartyMigration = createModel()({
     },
     // 根据主键id更新数据
     async updateDataByIdSource(payload, { migrate: { source } }) {
+      dispatch.migrate.updateState({
+        sourceState: true,
+      })
       const { param, callback } = payload
       const data = await updateDataByIdSource(param)
       if (data && data.code === 200) {
+        dispatch.migrate.updateState({
+          sourceState: false,
+        })
         callback && callback()
         Notify.success({ description: '更新成功' })
+      } else {
+        dispatch.migrate.updateState({
+          sourceState: false,
+        })
       }
     },
 
