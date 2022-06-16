@@ -207,9 +207,7 @@ const CompDropdown = (props) => {
           </div>
         )}
         <p className={styles.headTitle}>
-          {labelStatus === 1
-            ? `指定${title || tempTitle}`
-            : `创建${title || tempTitle}`}
+          {labelStatus === 1 ? `指定${title || tempTitle}` : ''}
         </p>
         <div className={styles.headBut}>
           <Button
