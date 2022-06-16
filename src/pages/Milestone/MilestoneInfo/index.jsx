@@ -214,7 +214,9 @@ const MilestoneInfo = () => {
               bgColor="rgba(0, 0, 0, 0.1)"
               loading={loading.effects.milestone.getMilestone}>
               <>
-                <h2>{listDataInfo.milestonesTitle}</h2>
+                <h2 style={{ wordBreak: 'break-all' }}>
+                  {listDataInfo.milestonesTitle}
+                </h2>
                 <div className={styles.bodyContent}>
                   <div className="milestonesBodyMDEditor">
                     <div data-color-mode="light">
