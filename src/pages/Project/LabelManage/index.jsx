@@ -9,6 +9,9 @@ import {
   Icon,
   Input,
   Modal,
+  Row,
+  Col,
+  Tooltip,
 } from 'uiw'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
@@ -109,6 +112,17 @@ const LabelManage = (props) => {
     navigate(`${location.pathname}/${id ? id : 'new'}`)
   }
 
+  const Blank = (props) => (
+    <div
+      style={{
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      {props?.children}
+    </div>
+  )
   return (
     <Fragment>
       <Card>
@@ -172,51 +186,73 @@ const LabelManage = (props) => {
                       listData?.map((item) => {
                         return (
                           <li key={item?.id}>
-                            <div className={styles.listLiLeft}>
-                              <div className={styles.labelName}>
-                                <p
-                                  style={
-                                    item?.color === '#ffffff' ||
-                                    item?.color === '#FFFFFF' ||
-                                    item?.color === '#fff' ||
-                                    item?.color === '#FFF'
-                                      ? {
-                                          backgroundColor: item?.color,
-                                          color: '#000000',
-                                        }
-                                      : { backgroundColor: item?.color }
-                                  }>
-                                  <span>{item?.name}</span>
-                                </p>
-                              </div>
-                              <div className={styles.labelInfo}>
-                                <span>{item?.desc}</span>
-                              </div>
-                            </div>
-
-                            <div className={styles.listLiRight}>
-                              <div className={styles.labelUpdateTime}>
-                                <p>
-                                  更新于{timeDistance(item?.updateTime).time}前
-                                </p>
-                              </div>
-                              <div className={styles.labelButGroup}>
-                                <Button
-                                  icon="edit"
-                                  basic
-                                  type="dark"
-                                  size="small"
-                                  onClick={() => goNewEditLabel(item?.id, item)}
-                                />
-                                <Button
-                                  icon="delete"
-                                  basic
-                                  type="dark"
-                                  size="small"
-                                  onClick={() => deleteLabelItem(item?.id)}
-                                />
-                              </div>
-                            </div>
+                            <Row gutter={24} align="middle">
+                              <Col span={6}>
+                                <Blank>
+                                  <Tooltip placement="top" content={item?.name}>
+                                    <span
+                                      className={styles.namebox}
+                                      style={{
+                                        backgroundColor: item?.color,
+                                        color:
+                                          item?.color === '#ffffff' ||
+                                          item?.color === '#FFFFFF' ||
+                                          item?.color === '#fff' ||
+                                          item?.color === '#FFF'
+                                            ? '#000000'
+                                            : '#ffffff',
+                                        border: '1px solid #f0f0f0',
+                                      }}>
+                                      {`${
+                                        item?.name && item?.name.length > 10
+                                          ? item?.name.substring(0, 10) + '...'
+                                          : item?.name || ''
+                                      }`}
+                                    </span>
+                                  </Tooltip>
+                                </Blank>
+                              </Col>
+                              <Col span={6}>
+                                <Blank>
+                                  <Tooltip placement="top" content={item?.desc}>
+                                    <span>
+                                      {`${
+                                        item?.desc && item?.desc.length > 10
+                                          ? item?.desc.substring(0, 10) + '...'
+                                          : item?.desc || ''
+                                      }`}
+                                    </span>
+                                  </Tooltip>
+                                </Blank>
+                              </Col>
+                              <Col span={6}>
+                                <Blank>
+                                  {`更新于${
+                                    timeDistance(item?.updateTime).time
+                                  }前`}
+                                </Blank>
+                              </Col>
+                              <Col span={6}>
+                                <Blank>
+                                  <Button
+                                    icon="edit"
+                                    basic
+                                    type="dark"
+                                    size="small"
+                                    onClick={() =>
+                                      goNewEditLabel(item?.id, item)
+                                    }
+                                  />
+                                  <Button
+                                    icon="delete"
+                                    basic
+                                    type="dark"
+                                    size="small"
+                                    onClick={() => deleteLabelItem(item?.id)}
+                                  />
+                                </Blank>
+                              </Col>
+                            </Row>
                           </li>
                         )
                       })

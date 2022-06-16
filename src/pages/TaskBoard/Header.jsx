@@ -14,12 +14,14 @@ const Header = (props) => {
     setCreatBut,
     setCreat,
     creatBut,
+    loading,
   } = props.param
   const { projectId } = useParams()
   const dispatch = useDispatch()
   const { taskboard } = useSelector((state) => state)
   const { boardList } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
+
   return (
     <div className={styles.header}>
       <div style={{ width: '200px' }}>
@@ -32,6 +34,7 @@ const Header = (props) => {
           isAllowsForNo={false}
           isOpen={isOpen}
           isRadio={true}
+          dropdownWindow={{ isClickOutside: true }}
           labelHeader={[
             {
               title: '标题',
@@ -47,13 +50,19 @@ const Header = (props) => {
             manage: { title: '删除看板' },
             create: { title: '创建看板' },
           }}
+          loading={loading.effects.taskboard.saveBoard}
           form={{
             fields: (props) => {
               return {
                 boardTitle: {
                   inline: true,
                   required: true,
-                  children: <Input placeholder="请输入标题" />,
+                  children: (
+                    <Input
+                      placeholder="请输入标题"
+                      style={{ width: '95%', lineHeight: '40px' }}
+                    />
+                  ),
                 },
               }
             },
@@ -81,6 +90,8 @@ const Header = (props) => {
           template="milepost"
           shape="input"
           runLabel={() => {
+            setIsOpen(false)
+            setCreat(false)
             setDeleteBoardCon(true)
           }}
           onChange={(e) => {
@@ -88,10 +99,11 @@ const Header = (props) => {
             setIsOpen(false)
             dispatch.taskboard.selectAllBoardNote({ boardId: e })
           }}
-          onClickable={(is) => {
+          onClickLabelShow={(is) => {
             setIsOpen(is)
           }}
           createTag={(icutData, nitData) => {
+            setCreat(false)
             dispatch.taskboard.saveBoard({
               name: nitData.boardTitle,
               projectId,

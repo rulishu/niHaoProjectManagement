@@ -145,3 +145,19 @@ export function getSelectAll(params) {
     body: { ...params },
   })
 }
+
+// 编辑任务状态
+export function changeAssignmentStatus(params) {
+  return request('/api/ManagerAssignment/changeAssignmentStatus', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
+// 编辑任务指派人
+export function changeAssignmentUser(params) {
+  return request('/api/ManagerAssignment/changeAssignmentUser', {
+    method: 'POST',
+    body: { ...params },
+  })
+}

@@ -110,7 +110,7 @@ const personnel = {
   params: {
     title: '人员',
     actionButtons: {
-      // create: { isHide: true },
+      create: { isHide: true },
       manage: { title: '邀请成员' },
     },
   },

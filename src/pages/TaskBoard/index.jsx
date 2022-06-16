@@ -17,6 +17,7 @@ import DeletePop from './DeletePop'
 import Header from './Header'
 import TaskDetail from './TaskDetail'
 import EditDrop from './EditDrop'
+import CreatList from './CreatList'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
@@ -30,7 +31,6 @@ const TaskBoard = () => {
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [editList, setEditList] = useState(false) // 编辑列表弹窗
-  const [boardName, setBoardName] = useState('') // 新建列表名
   const [editBoardName, setEditBoardName] = useState('') // 编辑列表名
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [creat, setCreat] = useState(false) // 创建列表弹窗
@@ -172,6 +172,7 @@ const TaskBoard = () => {
           setCreatBut,
           setCreat,
           creatBut,
+          loading,
         }}
       />
       <DragDropContext onDragEnd={onDragEnd}>
@@ -268,6 +269,10 @@ const TaskBoard = () => {
                                       justifyContent: 'space-between',
                                     }}>
                                     <Button
+                                      loading={
+                                        loading.effects.taskboard
+                                          .quickInsertTransfer
+                                      }
                                       type={
                                         itemName === '' ? 'light' : 'primary'
                                       }
@@ -417,53 +422,7 @@ const TaskBoard = () => {
               </Loader>
             </div>
           )}
-          {creat && (
-            <div style={{ width: '20%', display: 'flex', margin: '0px 10px' }}>
-              <Card
-                title="新增列表"
-                bodyClassName={styles.newListCardBody}
-                footer={
-                  <div className={styles.newListButton}>
-                    <Button
-                      onClick={() => {
-                        setCreat(false)
-                        setCreatBut(false)
-                      }}>
-                      取消
-                    </Button>
-                    <Button
-                      disabled={boardName === '' ? true : false}
-                      type={boardName === '' ? 'light' : 'primary'}
-                      loading={loading.effects.taskboard.addBoardList}
-                      onClick={() => {
-                        dispatch.taskboard.addBoardList({
-                          boardId: selectBoard,
-                          listTitle: boardName,
-                          setCreat,
-                          setCreatBut,
-                        })
-                      }}>
-                      添加列表
-                    </Button>
-                  </div>
-                }>
-                <div>
-                  <div className={styles.newList}>
-                    <p style={{ marginBottom: '10px', fontSize: '12px' }}>
-                      将会创建一个可拖入任务的列表
-                    </p>
-                    <Input
-                      placeholder="请输入列表名称"
-                      style={{ width: '260px' }}
-                      onChange={(e) => {
-                        setBoardName(e.target.value)
-                      }}
-                    />
-                  </div>
-                </div>
-              </Card>
-            </div>
-          )}
+          <CreatList param={{ creat, setCreat, setCreatBut, selectBoard }} />
         </div>
       </DragDropContext>
       <DeletePop
@@ -482,7 +441,14 @@ const TaskBoard = () => {
         }}
       />
       <TaskDetail
-        param={{ setTaskDetails, taskDetails, projectId, userAccount, loading }}
+        param={{
+          setTaskDetails,
+          taskDetails,
+          projectId,
+          userAccount,
+          loading,
+          selectBoard,
+        }}
       />
     </>
   )

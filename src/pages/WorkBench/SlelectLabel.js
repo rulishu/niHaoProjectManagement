@@ -48,11 +48,7 @@ export default function SlelectLabel() {
 
   const divscrollFn = (event) => {
     let el = event.target
-    console.log(el.scrollTop, 'el.scrollTop')
-    console.log(el.clientHeight, 'el.clientHeight')
-    console.log(el.scrollHeight, ' el.scrollHeight')
     if (el.scrollTop + el.clientHeight + 2 >= el.scrollHeight) {
-      console.log('滚动到底部了')
       if (newMemberList.length !== memberList.length) {
         setNewMemberList([
           ...newMemberList,
