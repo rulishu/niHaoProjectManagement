@@ -183,7 +183,7 @@ const LabelManage = (props) => {
                       listData?.map((item) => {
                         return (
                           <li key={item?.id}>
-                            <Row gutter={24}>
+                            <Row gutter={24} align="middle">
                               <Col span={6}>
                                 <Blank>
                                   <Tooltip placement="top" content={item?.name}>
