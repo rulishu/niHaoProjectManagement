@@ -34,7 +34,7 @@ const EditDrop = (props) => {
   }
   const menu = () => (
     <div>
-      <Menu bordered style={{ width: '200px' }}>
+      <Menu bordered style={{ width: '120px' }}>
         {rowData.status !== 2 && (
           <Menu.Item
             onClick={() => {
