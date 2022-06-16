@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import { Avatar, Button, Tooltip, Alert } from 'uiw'
+import { Avatar, Button, Tooltip, Modal } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
 
@@ -91,9 +91,11 @@ const UserReview = (props) => {
           }
           editData={editOrReply === 2 ? editData : ''}
           fromValue="operatingRecords"
-          btnName="添加评论"
+          btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
           isComment={true}
+          isEdit={isEdit}
+          onClose={() => setIsEdit(false)}
         />
       </div>
     )
@@ -160,15 +162,18 @@ const UserReview = (props) => {
           {isEdit && editContentBox(item, editOrReply)}
         </div>
       </div>
-      <Alert
+      <Modal
+        title="删除提示"
         isOpen={alertShow}
-        confirmText="确认"
+        confirmText="确定"
+        cancelText="取消"
+        icon="information"
         onClosed={() => setAlertShow(false)}
         type="danger"
         content={`是否确认删除本条评论！`}
         onConfirm={() => {
           dispatch.project.delCommentById(item)
-        }}></Alert>
+        }}></Modal>
     </div>
   )
 }

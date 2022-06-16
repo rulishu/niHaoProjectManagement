@@ -23,6 +23,7 @@ const FromMD = (props) => {
     fromValue,
     btnName,
     isComment,
+    onClose,
   } = props
   const dispatch = useDispatch()
   const params = useParams()
@@ -217,6 +218,12 @@ const FromMD = (props) => {
                           : false
                       }>
                       {btnName || '提交'}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        onClose && onClose()
+                      }}>
+                      {'取消'}
                     </Button>
                   </div>
                 </Col>
