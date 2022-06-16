@@ -14,6 +14,7 @@ const Header = (props) => {
     setCreatBut,
     setCreat,
     creatBut,
+    loading,
   } = props.param
   const { projectId } = useParams()
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ const Header = (props) => {
             manage: { title: '删除看板' },
             create: { title: '创建看板' },
           }}
+          loading={loading.effects.taskboard.saveBoard}
           form={{
             fields: (props) => {
               return {

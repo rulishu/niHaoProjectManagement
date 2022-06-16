@@ -172,6 +172,7 @@ const TaskBoard = () => {
           setCreatBut,
           setCreat,
           creatBut,
+          loading,
         }}
       />
       <DragDropContext onDragEnd={onDragEnd}>
@@ -268,6 +269,10 @@ const TaskBoard = () => {
                                       justifyContent: 'space-between',
                                     }}>
                                     <Button
+                                      loading={
+                                        loading.effects.taskboard
+                                          .quickInsertTransfer
+                                      }
                                       type={
                                         itemName === '' ? 'light' : 'primary'
                                       }
