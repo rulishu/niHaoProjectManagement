@@ -8,10 +8,14 @@ import styles from './taskEvent.module.less'
 const UserReview = (props) => {
   const dispatch = useDispatch()
   const {
+    project: { editCommentData, replyConData },
     projectuser: { userSelectAllList },
   } = useSelector((state) => state)
-  const { item, tier = 1, showReview, setShowReview } = props
+  const curUser = JSON.parse(localStorage.getItem('userData'))
 
+  const { item, tier = 1, showReview, setShowReview, updateData } = props
+
+  // 编辑组件是否打开
   const [isEdit, setIsEdit] = useState(false)
 
   // 删除评论弹窗
@@ -20,31 +24,71 @@ const UserReview = (props) => {
   // 1 : 回复 2 编辑
   const [editOrReply, setEditOrReply] = useState(1)
 
+  // 1 : 回复 2 编辑
+  const [isCurUser, setIsCurUser] = useState(false)
+
   // 判断是否是当前评论
   useEffect(() => {
-    console.log(showReview === item?.taskHistoryId, item)
+    setIsCurUser(curUser.admin || curUser?.userId === item?.createId)
+  }, [curUser.admin, curUser?.userId, item?.createId])
+
+  // 判断是否是当前评论
+  useEffect(() => {
     setIsEdit(showReview === item?.taskHistoryId)
   }, [showReview, item])
 
+  // 点击回复与评论回调函数
   const strikeEditOrReply = (type) => {
     setIsEdit(!isEdit)
     setEditOrReply(type)
     setShowReview(item.taskHistoryId)
   }
 
-  const subEditOrReply = (type) => {
-    console.log('nihao', type)
+  // 编辑或回复评论
+  const subEditOrReply = () => {
+    const callback = () => {
+      setShowReview(0)
+      setIsEdit(false)
+    }
+    const action =
+      editOrReply === 1
+        ? 'project/getAddComment'
+        : editOrReply === 2
+        ? 'project/getEditComment'
+        : ''
+    const params =
+      editOrReply === 1
+        ? {
+            operatingRecords: replyConData.operatingRecords,
+            parentId: item.taskHistoryId,
+            projectId: item.projectId,
+          }
+        : editOrReply === 2
+        ? {
+            ...editCommentData,
+            operatingRecords: editCommentData.operatingRecords,
+          }
+        : {}
+    dispatch({
+      type: action,
+      payload: { params, callback },
+    })
   }
 
   // MD文档编译器
-  const editContent = (editData, editName) => {
-    console.log('editOrReply', editOrReply)
+  const editContentBox = (editData, editType) => {
     return (
       <div className={styles.editContent}>
         <FromMD
-          // upDate={updateData}
-          submit={() => subEditOrReply()}
-          editName={'commentData'}
+          upDate={updateData}
+          submit={subEditOrReply}
+          editName={
+            editOrReply === 1
+              ? 'replyConData'
+              : editOrReply === 2
+              ? 'editCommentData'
+              : 'commentData'
+          }
           editData={editOrReply === 2 ? editData : ''}
           fromValue="operatingRecords"
           btnName="添加评论"
@@ -83,36 +127,37 @@ const UserReview = (props) => {
                   basic
                   size="small"
                   type="light"
-                  onClick={() => strikeEditOrReply(1)}
+                  onClick={() => strikeEditOrReply(1, '')}
                 />
               </Tooltip>
             )}
-            <Tooltip placement="top" content="删除">
-              <Button
-                icon="delete"
-                basic
-                size="small"
-                type="light"
-                onClick={() => setAlertShow(2)}
-              />
-            </Tooltip>
-            {!(editOrReply === 1 && isEdit) && (
+            {isCurUser && (
+              <Tooltip placement="top" content="删除">
+                <Button
+                  icon="delete"
+                  basic
+                  size="small"
+                  type="light"
+                  onClick={() => setAlertShow(2)}
+                />
+              </Tooltip>
+            )}
+            {isCurUser && !(editOrReply === 1 && isEdit) && (
               <Tooltip placement="top" content="编辑">
                 <Button
                   icon="edit"
                   basic
                   size="small"
                   type="light"
-                  onClick={() => strikeEditOrReply(2)}
+                  onClick={() => strikeEditOrReply(2, item.operatingRecords)}
                 />
               </Tooltip>
             )}
           </div>
         </div>
         <div className={styles.messageContent}>
-          {isEdit
-            ? editContent(item, 'operatingRecords')
-            : showMDBox(item.operatingRecords)}
+          {(editOrReply !== 2 || !isEdit) && showMDBox(item.operatingRecords)}
+          {isEdit && editContentBox(item, editOrReply)}
         </div>
       </div>
       <Alert

@@ -302,7 +302,8 @@ export default createModel()({
         return data
       },
       // 添加评论
-      async getAddComment(params, { project }) {
+      async getAddComment(payload, { project }) {
+        const { params, callback } = payload
         const data = await getAssignmentHistorySave({
           ...project.commentData,
           ...params,
@@ -321,10 +322,12 @@ export default createModel()({
             },
             replyState: false,
           })
+          callback && callback()
         }
       },
       // 编辑评论
-      async getEditComment(params, { project }) {
+      async getEditComment(payload, { project }) {
+        const { params, callback } = payload
         const data = await getAssignmentHistoryEdit({
           ...project.commentData,
           ...params,
@@ -347,7 +350,7 @@ export default createModel()({
             editState: false,
             replyConState: false,
           })
-          // NotifySuccess(data.message)
+          callback && callback()
         }
       },
       // 删除评论
