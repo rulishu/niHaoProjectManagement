@@ -213,7 +213,6 @@ const NewIssue = (props) => {
               })
             }}
             onSubmit={(current) => {
-              console.log('任务')
               const errorObj = {}
               const { dueDate, labels, assignmentTitle } = fromData
               if (
@@ -461,6 +460,7 @@ const NewIssue = (props) => {
                       <Button
                         type="primary"
                         // disabled={!canSubmit()}
+                        style={{ width: '80px' }}
                         loading={getAdd}
                         htmlType="submit">
                         保存
