@@ -183,7 +183,7 @@ const LabelManage = (props) => {
                       listData?.map((item) => {
                         return (
                           <li key={item?.id}>
-                            <Row gutter={24}>
+                            <Row gutter={24} align="middle">
                               <Col span={6}>
                                 <Blank>
                                   <Tooltip placement="top" content={item?.name}>
@@ -193,11 +193,12 @@ const LabelManage = (props) => {
                                         backgroundColor: item?.color,
                                         color:
                                           item?.color === '#ffffff' ||
-                                          item.color === '#FFFFFF' ||
+                                          item?.color === '#FFFFFF' ||
                                           item?.color === '#fff' ||
                                           item?.color === '#FFF'
                                             ? '#000000'
                                             : '#ffffff',
+                                        border: '1px solid #f0f0f0',
                                       }}>
                                       {`${
                                         item?.name && item?.name.length > 10

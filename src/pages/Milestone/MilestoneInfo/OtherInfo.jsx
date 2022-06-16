@@ -52,8 +52,15 @@ const OtherInfo = (props) => {
       <span
         key={results?.id}
         className={styles.taskTags}
-        style={{ backgroundColor: results?.color || '#813c858c' }}>
-        {results?.name}
+        style={
+          results?.color === '#ffffff'
+            ? { backgroundColor: results?.color || '#813c858c', color: '#333' }
+            : { backgroundColor: results?.color || '#813c858c' }
+        }>
+        {results?.name &&
+          (results?.name.length <= 10
+            ? results?.name
+            : results?.name.slice(0, 10) + '...')}
       </span>
     )
   }
@@ -99,7 +106,7 @@ const OtherInfo = (props) => {
                   <Tooltip
                     placement="top"
                     content={<>指派给{item.assigneeUserName}</>}>
-                    <span
+                    <div
                       className={styles.taskAssignPerson}
                       onClick={() => {
                         navigate(`/${item.assigneeUserAccount}`, {
@@ -113,9 +120,9 @@ const OtherInfo = (props) => {
                           `/api/file/selectFile/${item?.assigneeUserAvatar}`
                         }
                         className={styles.roleAvatar}>
-                        {item.assigneeUserName}
+                        {item.assigneeUserName && item.assigneeUserName[0]}
                       </Avatar>
-                    </span>
+                    </div>
                   </Tooltip>
                 ) : (
                   <></>
@@ -176,34 +183,32 @@ const OtherInfo = (props) => {
         </Tabs>
       </div>
       {activeKey === '1' && (
-        <div>
-          <Loader
-            tip="加载中..."
-            vertical
-            style={{ width: '100%' }}
-            bgColor="rgba(0, 0, 0, 0.1)"
-            loading={loading.effects.milestone.getMilestone}>
-            <>
-              <Row gutter={30} className={styles.taskList} justify="flex-start">
-                <Col span="8">
-                  <div className={styles.taskListLi}>
-                    {issuesListLi('未开始的任务（打开和未分配）', unassigned)}
-                  </div>
-                </Col>
-                <Col span="8">
-                  <div className={styles.taskListLi}>
-                    {issuesListLi('正在进行的任务（打开和已分配）', conduct)}
-                  </div>
-                </Col>
-                <Col span="8">
-                  <div className={styles.taskListLi}>
-                    {issuesListLi('已完成的任务（已关闭）', finish)}
-                  </div>
-                </Col>
-              </Row>
-            </>
-          </Loader>
-        </div>
+        <Loader
+          tip="加载中..."
+          vertical
+          style={{ width: '100%', padding: '20px 0' }}
+          bgColor="rgba(0, 0, 0, 0.1)"
+          loading={loading.effects.milestone.getMilestone}>
+          <>
+            <Row gutter={30} className={styles.taskList} justify="flex-start">
+              <Col span="8">
+                <div className={styles.taskListLi}>
+                  {issuesListLi('未开始的任务（打开和未分配）', unassigned)}
+                </div>
+              </Col>
+              <Col span="8">
+                <div className={styles.taskListLi}>
+                  {issuesListLi('正在进行的任务（打开和已分配）', conduct)}
+                </div>
+              </Col>
+              <Col span="8">
+                <div className={styles.taskListLi}>
+                  {issuesListLi('已完成的任务（已关闭）', finish)}
+                </div>
+              </Col>
+            </Row>
+          </>
+        </Loader>
       )}
       {activeKey === '2' && (
         <div className={styles.labelListLi}>
