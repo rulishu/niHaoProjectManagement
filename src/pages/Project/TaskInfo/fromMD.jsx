@@ -76,7 +76,6 @@ const FromMD = (props) => {
     })
   }, []) // eslint-disable-line
   const remoteSearch = async (text, cb) => {
-    console.log('11111111111')
     const data = await text({ projectId: params.projectId })
     if (data && data.code === 200) {
       cb(data.data)

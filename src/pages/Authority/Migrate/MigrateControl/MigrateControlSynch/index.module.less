@@ -18,8 +18,8 @@
   }
 
   //项目描述
-  .desc {
-  }
+  // .desc {
+  // }
 
   .synProjectData {
     width: 30%;
@@ -115,6 +115,7 @@
   // 人员模块
   .memberBox {
     display: flex;
+    cursor: pointer;
 
     .memberBoxLeft {
       display: flex;
@@ -231,5 +232,11 @@
         position: inherit;
       }
     }
+  }
+}
+
+.memberBox {
+  &:hover {
+    cursor: 'pointer';
   }
 }
