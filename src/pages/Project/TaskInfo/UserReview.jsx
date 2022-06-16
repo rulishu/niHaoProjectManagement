@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import { Avatar, Button, Tooltip } from 'uiw'
+import { Avatar, Button, Tooltip, Alert } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
 
 const UserReview = (props) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const {
     projectuser: { userSelectAllList },
   } = useSelector((state) => state)
   const { item, tier = 1, showReview, setShowReview } = props
 
   const [isEdit, setIsEdit] = useState(false)
+
+  // 删除评论弹窗
+  const [alertShow, setAlertShow] = useState(false)
+
   // 1 : 回复 2 编辑
   const [editOrReply, setEditOrReply] = useState(1)
 
@@ -23,7 +27,7 @@ const UserReview = (props) => {
   }, [showReview, item])
 
   const strikeEditOrReply = (type) => {
-    setIsEdit(true)
+    setIsEdit(!isEdit)
     setEditOrReply(type)
     setShowReview(item.taskHistoryId)
   }
@@ -72,7 +76,7 @@ const UserReview = (props) => {
         <div className={styles.messageHeader}>
           <div className={styles.info}>{item.createName}</div>
           <div className={styles.actions}>
-            {tier === 1 && (
+            {tier === 1 && !(editOrReply === 2 && isEdit) && (
               <Tooltip placement="top" content="回复">
                 <Button
                   icon="message"
@@ -84,17 +88,25 @@ const UserReview = (props) => {
               </Tooltip>
             )}
             <Tooltip placement="top" content="删除">
-              <Button icon="delete" basic size="small" type="light" />
-            </Tooltip>
-            <Tooltip placement="top" content="编辑">
               <Button
-                icon="edit"
+                icon="delete"
                 basic
                 size="small"
                 type="light"
-                onClick={() => strikeEditOrReply(2)}
+                onClick={() => setAlertShow(2)}
               />
             </Tooltip>
+            {!(editOrReply === 1 && isEdit) && (
+              <Tooltip placement="top" content="编辑">
+                <Button
+                  icon="edit"
+                  basic
+                  size="small"
+                  type="light"
+                  onClick={() => strikeEditOrReply(2)}
+                />
+              </Tooltip>
+            )}
           </div>
         </div>
         <div className={styles.messageContent}>
@@ -103,6 +115,15 @@ const UserReview = (props) => {
             : showMDBox(item.operatingRecords)}
         </div>
       </div>
+      <Alert
+        isOpen={alertShow}
+        confirmText="确认"
+        onClosed={() => setAlertShow(false)}
+        type="danger"
+        content={`是否确认删除本条评论！`}
+        onConfirm={() => {
+          dispatch.project.delCommentById(item)
+        }}></Alert>
     </div>
   )
 }

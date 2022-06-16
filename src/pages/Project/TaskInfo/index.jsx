@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Input, Loader } from 'uiw'
+import { Button, Input, Loader, Divider } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { issueStatus } from '@/utils/utils'
 import styles from './index.module.less'
@@ -8,8 +8,9 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
 import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
-import Comment from './Comment'
+// import Comment from './Comment'
 import useLocationPage from '@/hooks/useLocationPage'
+import TaskEvent from './TaskEvent'
 
 const TaskInfo = () => {
   const dispatch = useDispatch()
@@ -234,7 +235,9 @@ const TaskInfo = () => {
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
-              <Comment />
+              {/* <Comment /> */}
+              <Divider />
+              <TaskEvent />
             </div>
             <EditTask />
           </div>

@@ -145,9 +145,6 @@ export default createModel()({
           ...others,
           ...arr,
         }
-        // if (splicingConditionsDtos.length > 0) {
-        //   obj = { ...obj, splicingConditionsDtos }
-        // }
         const data = await getSelectPage(newObj)
         if (data && data.code === 200) {
           if (assignmentStatus === '1') {
@@ -181,17 +178,6 @@ export default createModel()({
       // 翻页
       async goToPage(payload) {
         const { page, pageSize, assignmentStatus, projectId } = payload
-
-        // let tabDtos = []
-        // if (assignmentStatus !== '') {
-        //   tabDtos = [
-        //     {
-        //       condition: '=',
-        //       field: 'assignmentStatus',
-        //       value: assignmentStatus,
-        //     },
-        //   ]
-        // }
         dispatch.project.update({
           filter: { page, pageSize },
         })
@@ -202,7 +188,6 @@ export default createModel()({
           projectId,
         })
       },
-
       // 不分页获取所有任务
       async getAssignment(params) {
         const data = await getAssignment(params)
@@ -210,7 +195,6 @@ export default createModel()({
           dispatch.project.update({ allWork: data.data })
         }
       },
-
       // 查询成员
       async queryFuzzyAllProjectMember(params) {
         const data = await queryFuzzyAllProjectMember({
@@ -226,7 +210,6 @@ export default createModel()({
           }
         }
       },
-
       // 查询所有里程碑
       async selectLabel(params) {
         const data = await selectLabel({
@@ -257,7 +240,6 @@ export default createModel()({
           }
         }
       },
-
       // 任务列表新增
       async getAdd(params, { project }) {
         const { labels, ...newData } = project.fromData
@@ -274,7 +256,6 @@ export default createModel()({
           Notify.success({ title: data.message, description: '' })
         }
       },
-
       // 任务列表查详情
       async getSelectById(params) {
         const data = await getManagerAssignmentSelectById({
@@ -332,7 +313,6 @@ export default createModel()({
             id: project?.commentData?.assignmentId,
           })
           dispatch.project.queryFuzzyAllProjectMember({
-            // userId: project?.teamMembers?.userId,
             projectId: project?.commentData?.projectId,
           })
           dispatch.project.update({
@@ -341,7 +321,6 @@ export default createModel()({
             },
             replyState: false,
           })
-          // NotifySuccess(data.message)
         }
       },
       // 编辑评论
@@ -392,6 +371,21 @@ export default createModel()({
             },
           })
           // NotifySuccess(data.message)
+        }
+      },
+      // 删除评论
+      async delCommentById(params, { project }) {
+        const { assignmentId, projectId, taskHistoryId } = params
+        const { getSelectById, queryFuzzyAllProjectMember, update } =
+          dispatch.project
+        const data = await getAssignmentHistoryDel({
+          projectId,
+          id: taskHistoryId,
+        })
+        if (data && data.code === 200) {
+          getSelectById({ projectId, id: assignmentId })
+          queryFuzzyAllProjectMember({ projectId })
+          update({ commentData: { operatingRecords: '' } })
         }
       },
 
