@@ -14,8 +14,8 @@ import {
   Icon,
   OverlayTrigger,
 } from 'uiw'
+import formatter from '@uiw/formatter'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import timeDistance from '@/utils/timeDistance'
 import newDebounce from '@/utils/debounce'
 import styles from './index.module.less'
 import useLocationPage from '@/hooks/useLocationPage'
@@ -147,8 +147,11 @@ const Milestone = () => {
                         <div>
                           {item.dueTime &&
                             item.milestonesStatus === 1 &&
-                            !timeDistance(item.createTime, item.dueTime)
-                              ?.status && (
+                            item.dueTime <
+                              formatter(
+                                'YYYY-MM-DD',
+                                new Date(new Date().toLocaleDateString())
+                              ) && (
                               <span className={styles.overdue}>已延期</span>
                             )}
                           <span className={styles.project}>
