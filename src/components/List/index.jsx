@@ -36,17 +36,23 @@ export default function ListItem(props) {
                   <div className={styles.listIssueIcon}>
                     {item.assigneeUserName && (
                       <Tooltip placement="top" content="指派人">
-                        <span className={styles.taskUserName}>
+                        <span
+                          className={styles.taskUserName}
+                          style={{ width: 95 }}>
                           <Icon type="user" />
                           <span className={styles.listIconSpan}>
-                            {item.assigneeUserName}
+                            {item.assigneeUserName.lenght &&
+                            item.assigneeUserName.lenght > 4
+                              ? item.assigneeUserName.substring(0, 4) + '...'
+                              : item.assigneeUserName}
                           </span>
                         </span>
                       </Tooltip>
                     )}
-
                     <Tooltip placement="top" content="评论">
-                      <span className={styles.taskUserName}>
+                      <span
+                        className={styles.taskUserName}
+                        style={{ width: 95 }}>
                         <Icon type="message" />
                         <span className={styles.listIconSpan}>
                           {item?.commentNum}
@@ -61,13 +67,15 @@ export default function ListItem(props) {
                       </span>
                     </Tooltip>
                   </div>
-                  {listField?.updateName
-                    ? item[listField.updateName]
-                    : item?.updateName}
-                  更新于
-                  {listField?.updateTime
-                    ? item[listField.updateTime]
-                    : item?.updateTime}
+                  <div style={{ textAlign: 'right' }}>
+                    {listField?.updateName
+                      ? item[listField.updateName]
+                      : item?.updateName}
+                    更新于
+                    {listField?.updateTime
+                      ? item[listField.updateTime]
+                      : item?.updateTime}
+                  </div>
                 </div>
               }>
               <Row gutter={10} className={styles.listRow}>
