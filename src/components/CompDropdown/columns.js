@@ -155,6 +155,7 @@ const milepost = {
             <DateInput
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
+              popoverProps={{ usePortal: false }}
             />
           ),
         },
@@ -169,7 +170,7 @@ const milepost = {
             {fields.milestonesTitle}
           </div>
           <div
-            style={{ paddingLeft: 10, paddingRight: 10 }}
+            style={{ paddingLeft: 10, paddingRight: 10, position: 'relative' }}
             className={styles.searchBox}>
             {fields.startTime}
           </div>
@@ -229,55 +230,10 @@ const addrole = {
   ],
   // 配置参数
   params: {
-    title: '人员',
+    title: '',
     actionButtons: {
-      // create: { title: '创建成员' },
       create: { isHide: true },
       manage: { isHide: true },
-    },
-  },
-  form: {
-    fields: (props) => {
-      return {
-        username: {
-          inline: true,
-          required: true,
-          children: <Input placeholder="请输入标题" />,
-        },
-        password: {
-          inline: true,
-          required: true,
-          labelFor: 'date-inline',
-          children: <Input placeholder="请输入密码" />,
-        },
-      }
-    },
-    fieldsShow: ({ fields }) => {
-      return (
-        <>
-          <div
-            style={{ paddingLeft: 10, paddingRight: 10 }}
-            className={styles.searchBox}>
-            用户名：{fields.username}
-          </div>
-          <div
-            style={{ paddingLeft: 10, paddingRight: 10 }}
-            className={styles.searchBox}>
-            密码：{fields.password}
-          </div>
-        </>
-      )
-    },
-    verify: (initial, current) => {
-      const errorObj = {}
-      const { username, password } = current
-      if (!username) {
-        errorObj.username = '用户名不能为空'
-      }
-      if (!password) {
-        errorObj.password = '密码不能为空'
-      }
-      return errorObj
     },
   },
 }

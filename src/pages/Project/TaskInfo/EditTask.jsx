@@ -8,7 +8,6 @@ import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { initListData } from '@/utils/utils'
-import newDebounce from '@/utils/debounce'
 
 const EditTask = () => {
   const dispatch = useDispatch()
@@ -358,7 +357,7 @@ const EditTask = () => {
                 type="primary"
                 onClick={async () => {
                   setLabelState(!labelState)
-                  await dispatch.project.getEdit()
+                  // await dispatch.project.getEdit()
                 }}>
                 {/* {labelState ? '完成' : '编辑'} */}
                 编辑
@@ -389,18 +388,11 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
-              setLabelState(false)
-              editLabelOk()
-            }}
-            onClickLabelShow={(is) => {
-              setLabelState(is)
-              if (
-                taskInfoData === editFromData &&
-                Object.keys(taskInfoData).length
-              ) {
-                !is && newDebounce(editLabelOk, 100)
+              if (Object.keys(taskInfoData).length) {
+                editLabelOk()
               }
             }}
+            onClickLabelShow={(is) => setLabelState(is)}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}

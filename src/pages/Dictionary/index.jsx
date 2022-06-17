@@ -6,7 +6,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import DeletePopover from '@/components/DeletePopover'
 import Detail from './Detail'
 import { searchFun } from '@/utils/publicFun'
-import { changeDate } from '@/utils/utils'
+import { changeTime } from '@/utils/timeDistance'
 import { useSelector } from 'react-redux'
 
 function Dictionary() {
@@ -41,8 +41,8 @@ function Dictionary() {
         dictType: searchValues.dictType,
         status: searchValues.status,
         params: {
-          beginTime: changeDate(searchValues.createTime?.at(0))?.trim(),
-          endTime: changeDate(searchValues.createTime?.at(1))?.trim(),
+          beginTime: changeTime(searchValues.createTime?.at(0))?.trim(),
+          endTime: changeTime(searchValues.createTime?.at(1))?.trim(),
         },
       }
     },
@@ -228,7 +228,7 @@ function Dictionary() {
               // ellipsis: true,
               props: {
                 widget: 'dateInputRange',
-                format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'YYYY-MM-DD',
               },
             },
             {
