@@ -22,7 +22,7 @@ import columns from './columns'
 const CompDropdown = (props) => {
   const {
     form,
-    title,
+    title = '',
     template,
     labelHeader, // Label 数据头
     isRadio = false,
@@ -64,6 +64,9 @@ const CompDropdown = (props) => {
   const [open, setOpen] = useState(isOpen || false)
   // 保存多选数据
   const [options, setOptions] = useState()
+
+  // 是否处于挂载阶段
+  const [firstTime, setFirstTime] = useState(true)
 
   // 判断使用组件头方法
   const newHeader = () => {
@@ -222,8 +225,8 @@ const CompDropdown = (props) => {
             type="dark"
             className={styles.headClose}
             onClick={() => {
-              setOpen(false)
-              closeLabel && closeLabel(false)
+              setOpen(() => false)
+              // closeLabel && closeLabel(false)
             }}
           />
         </div>
@@ -269,11 +272,19 @@ const CompDropdown = (props) => {
         autoAdjustOverflow={true}
         isOutside={true}
         onVisibleChange={(is) => {
-          onClickLabelShow && onClickLabelShow(is)
-          !is && setLabelStatus(1)
+          if (firstTime) {
+            setFirstTime(false)
+          }
+          if (!firstTime) {
+            onClickLabelShow && onClickLabelShow(is)
+            if (!is) {
+              setLabelStatus(1)
+              closeLabel && closeLabel(false)
+            }
+          }
           setOpen(is)
         }}
-        isClickOutside={false}
+        isClickOutside={true}
         // usePortal={false}
         {...dropdownWindow}>
         <div>
