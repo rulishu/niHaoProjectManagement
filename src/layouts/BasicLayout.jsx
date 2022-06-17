@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Badge, Icon } from 'uiw'
 import BasicLayout, { useLayouts } from '@uiw-admin/basic-layouts'
 import { PassWordChange, ErrorPage } from '@/components'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams, useLocation } from 'react-router-dom'
 import AuthPage from '@uiw-admin/authorized'
 import { useSelector, useDispatch } from 'react-redux'
 import Bread from './Breadcrumb'
@@ -37,6 +37,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const isGetPageTeam = ['projectList', 'Authority'].includes(
     fullPathName.split('/').filter((s) => s)[0]
   )
+  const location = useLocation()
+
+  useEffect(() => {
+    localStorage.setItem('lastPath', JSON.stringify(location.pathname))
+  }, [location])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
