@@ -228,7 +228,8 @@ const CompDropdown = (props) => {
             type="dark"
             className={styles.headClose}
             onClick={() => {
-              setOpen(() => false)
+              console.log(222)
+              setOpen(false)
               // closeLabel && closeLabel(false)
             }}
           />
@@ -268,7 +269,7 @@ const CompDropdown = (props) => {
         </div>
       )}
       <OverlayTrigger
-        isOpen={isOpen}
+        isOpen={open}
         trigger="click"
         placement="bottomLeft"
         overlay={dropDownContent}
