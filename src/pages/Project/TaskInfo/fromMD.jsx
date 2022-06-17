@@ -225,12 +225,16 @@ const FromMD = (props) => {
                       }>
                       {btnName || '提交'}
                     </Button>
-                    <Button
-                      onClick={() => {
-                        onClose && onClose()
-                      }}>
-                      {'取消'}
-                    </Button>
+                    {btnName !== '添加评论' ? (
+                      <Button
+                        onClick={() => {
+                          onClose && onClose()
+                        }}>
+                        {'取消'}
+                      </Button>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </Col>
               </Row>
