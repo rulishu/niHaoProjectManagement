@@ -127,6 +127,11 @@ const CompDropdown = (props) => {
         }
         onClick={(e) => {
           shape === 'input' && setOpen(!open)
+          setFirst(2)
+          console.log('open===>', open)
+          if (open) {
+            closeLabel && closeLabel(false)
+          }
         }}>
         {/* 多选与单选 */}
         {!isRadio ? (
@@ -287,6 +292,7 @@ const CompDropdown = (props) => {
             onClickLabelShow && onClickLabelShow(is)
             if (!is) {
               setFirst((item) => {
+                if (item === 2) return 1
                 if (!item || item === 1) closeLabel && closeLabel(false)
                 return !item
               })
