@@ -3,6 +3,7 @@
  * @param {*} props
  * @returns
  */
+import { verifyPwd } from '@/utils/utils'
 
 // 成员管理表单验证
 export const memberForm = (props) => {
@@ -15,6 +16,9 @@ export const memberForm = (props) => {
   if (!current.nickName) errorObj.nickName = '帐号不能为空！'
   if (props.type === 3) {
     if (!current.password) errorObj.password = '密码不能为空！'
+    if (!verifyPwd(current.password)) {
+      errorObj.password = `必须含有字母跟数字且大于六位`
+    }
   }
   if (!current.email) errorObj.email = 'Email不能为空！'
   if (!current.phonenumber) errorObj.phonenumber = '电话号码不能为空！'
