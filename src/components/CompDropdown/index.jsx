@@ -4,6 +4,7 @@ import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
 import columns from './columns'
+import newDebounce from '@/utils/debounce'
 
 /**
  * This is a label
@@ -279,7 +280,7 @@ const CompDropdown = (props) => {
             onClickLabelShow && onClickLabelShow(is)
             if (!is) {
               setLabelStatus(1)
-              closeLabel && closeLabel(false)
+              newDebounce(closeLabel, 100, false)
             }
           }
           setOpen(is)
