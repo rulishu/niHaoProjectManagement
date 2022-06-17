@@ -103,3 +103,10 @@ export const getRouters = () => {
     method: 'GET',
   })
 }
+//成员列表
+export function queryFuzzyAllProjectMember(params) {
+  return request('/api/member/queryFuzzyAllProjectMember', {
+    method: 'POST',
+    body: { ...params },
+  })
+}

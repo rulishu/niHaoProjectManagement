@@ -1,7 +1,13 @@
 import { Button } from 'uiw'
 import formatter from '@uiw/formatter'
 
-export const columnsSearch = (handleEditTable, userInfo, userRole) => [
+export const columnsSearch = (
+  handleEditTable,
+  userInfo,
+  userRole,
+  memberRoles,
+  own
+) => [
   {
     title: '成员姓名',
     key: 'memberName',
@@ -57,33 +63,58 @@ export const columnsSearch = (handleEditTable, userInfo, userRole) => [
   {
     title: '操作',
     key: 'edit',
-    width: 200,
+    width: 150,
     align: 'center',
     render: (text, key, rowData) => (
       <div>
-        <Button
-          size="small"
-          icon="edit"
-          type="primary"
-          disabled={userRole === '开发' || userRole === '测试' ? true : false}
-          onClick={() => handleEditTable('edit', rowData)}>
-          编辑
-        </Button>
-        {/* <Divider type="vertical" /> */}
-        <Button
-          size="small"
-          type="danger"
-          icon="user-delete"
-          disabled={
-            rowData?.memberName === userInfo ||
-            userRole === '开发' ||
-            userRole === '测试'
-              ? true
-              : false
-          }
-          onClick={() => handleEditTable('del', rowData)}>
-          删除
-        </Button>
+        {own === 'true' || Number(memberRoles) === 3 ? (
+          <Button
+            size="small"
+            icon="edit"
+            type="primary"
+            disabled={userRole === '开发' || userRole === '测试' ? true : false}
+            onClick={() => handleEditTable('edit', rowData)}>
+            编辑
+          </Button>
+        ) : (
+          ''
+        )}
+        {own === 'true' || Number(memberRoles) === 3 ? (
+          userInfo === rowData?.memberName ? (
+            <Button
+              size="small"
+              type="danger"
+              icon="close"
+              onClick={() => handleEditTable('del', rowData)}>
+              退出
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              type="danger"
+              icon="user-delete"
+              disabled={
+                rowData?.memberName === userInfo ||
+                userRole === '开发' ||
+                userRole === '测试'
+                  ? true
+                  : false
+              }
+              onClick={() => handleEditTable('del', rowData)}>
+              删除
+            </Button>
+          )
+        ) : userInfo === rowData?.memberName ? (
+          <Button
+            size="small"
+            type="danger"
+            icon="close"
+            onClick={() => handleEditTable('del', rowData)}>
+            退出
+          </Button>
+        ) : (
+          ''
+        )}
       </div>
     ),
   },
