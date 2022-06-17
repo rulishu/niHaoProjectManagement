@@ -4,11 +4,12 @@ import MarkdownPreview from '@uiw/react-markdown-preview'
 import { Avatar, Button, Tooltip, Modal } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
+import timeDistance from '@/utils/timeDistance'
 
 const UserReview = (props) => {
   const dispatch = useDispatch()
   const {
-    project: { editCommentData, replyConData },
+    project: { editCommentData, replyConData, taskInfoData },
     projectuser: { userSelectAllList },
   } = useSelector((state) => state)
   const curUser = JSON.parse(localStorage.getItem('userData'))
@@ -89,7 +90,7 @@ const UserReview = (props) => {
               ? 'editCommentData'
               : 'commentData'
           }
-          editData={editOrReply === 2 ? editData : ''}
+          editData={editData}
           fromValue="operatingRecords"
           btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
@@ -120,8 +121,46 @@ const UserReview = (props) => {
       </div>
       <div className={styles.eventLiContent}>
         <div className={styles.messageHeader}>
-          <div className={styles.info}>{item.createName}</div>
+          <div className={styles.info}>
+            {item.createName}
+            <span style={{ color: '#666' }}> @{item.userName} </span>·{' '}
+            <span style={{ color: '#666' }}>
+              {timeDistance(item?.createTime).time}
+              {timeDistance(item?.createTime).status ? '前' : '后'}{' '}
+            </span>
+          </div>
           <div className={styles.actions}>
+            {item.createName === taskInfoData.createName &&
+              !(editOrReply === 2 && isEdit) && (
+                <Tooltip placement="top" content={'此用户是此问题的作者'}>
+                  <span
+                    className={styles.namebox}
+                    style={{
+                      backgroundColor: 'white',
+                      color: '#666',
+                    }}>
+                    {'作者'}
+                  </span>
+                </Tooltip>
+              )}
+            {item.memberRole && !(editOrReply === 2 && isEdit) && (
+              <Tooltip
+                placement="top"
+                content={'此用户在管理项目中具有所有者角色'}>
+                <span
+                  className={styles.namebox}
+                  style={{
+                    backgroundColor: 'white',
+                    color: '#666',
+                  }}>
+                  {item.memberRole === 1
+                    ? '开发'
+                    : item.memberRole === 2
+                    ? '测试'
+                    : '项目管理者'}
+                </span>
+              </Tooltip>
+            )}
             {tier === 1 && !(editOrReply === 2 && isEdit) && (
               <Tooltip placement="top" content="回复">
                 <Button

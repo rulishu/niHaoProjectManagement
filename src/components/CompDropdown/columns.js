@@ -155,6 +155,7 @@ const milepost = {
             <DateInput
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
+              popoverProps={{ usePortal: false }}
             />
           ),
         },
@@ -169,7 +170,7 @@ const milepost = {
             {fields.milestonesTitle}
           </div>
           <div
-            style={{ paddingLeft: 10, paddingRight: 10 }}
+            style={{ paddingLeft: 10, paddingRight: 10, position: 'relative' }}
             className={styles.searchBox}>
             {fields.startTime}
           </div>

@@ -6,6 +6,7 @@ export const columnsSearch = (handleEditTable, userInfo, userRole) => [
     title: '成员姓名',
     key: 'memberName',
     align: 'center',
+    width: 250,
     props: {
       widget: 'input',
       widgetProps: {

@@ -38,16 +38,19 @@ const FromMD = (props) => {
           values: function (text, cb) {
             remoteSearch(queryFuzzyAllProjectMember, (users) => cb(users))
           },
-          // lookup: 'memberName',
-          lookup: function (memberName) {
+          lookup: 'memberName',
+          noMatchTemplate: function () {
+            return '<span style:"visibility: hidden;"></span>'
+          },
+          menuItemTemplate: function (item) {
             return `<div style='display: flex; align-items: center;'>
                 <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
-                  memberName?.avatar
-                    ? `/api/file/selectFile/${memberName?.avatar}`
+                  item?.original?.avatar
+                    ? `/api/file/selectFile/${item?.original?.avatar}`
                     : ''
                 }' />
                 <span style='font-size: 14px; font-weight: lighter;'>${
-                  memberName.memberName
+                  item?.original?.memberName
                 }</span>
               </div>`
           },
@@ -94,8 +97,8 @@ const FromMD = (props) => {
   useEffect(() => {
     if (
       mdRefs?.current?.textarea &&
-      !isBundle.current
-      // Object.keys(editData).length > 2
+      !isBundle.current &&
+      Object.keys(editData).length > 2
     ) {
       isBundle.current = true
       newTribute.attach(mdRefs.current.textarea)
