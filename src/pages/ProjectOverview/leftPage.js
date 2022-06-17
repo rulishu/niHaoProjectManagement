@@ -1,5 +1,16 @@
 import { useState } from 'react'
-import { Row, Col, Card, List, Tabs, Tag, Button, Progress, Tooltip } from 'uiw'
+import {
+  Row,
+  Col,
+  Card,
+  List,
+  Tabs,
+  Tag,
+  Button,
+  Progress,
+  Tooltip,
+  Empty,
+} from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -17,7 +28,7 @@ export default function Home() {
   const [allTab, setAllTab] = useState('5')
   const [myTab, setMyTab] = useState('5')
   const [myCreat, setMyCreat] = useState(true)
-
+  const allDataSources = allDataSource?.milesWorkVoList
   const token = localStorage.getItem('token')
 
   const myTable = useTable('/api/ManagerAssignment/projectOverview', {
@@ -83,6 +94,7 @@ export default function Home() {
   }
 
   //表格
+
   const TableList = () => {
     return (
       <div
@@ -91,82 +103,87 @@ export default function Home() {
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
-        <ProTable
-          className={styles.mouseList}
-          style={{ width: 900 }}
-          table={myTable}
-          onCell={(rowData) => {
-            navigate(
-              `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
-            )
-          }}
-          columns={[
-            {
-              title: '任务标题',
-              key: 'assignmentTitle',
-              ellipsis: true,
-              width: 100,
-              render: (address) => (
-                <Tooltip placement="topLeft" content={address}>
-                  {address}
-                </Tooltip>
-              ),
-            },
-            // {
-            //   title: '任务描述',
-            //   key: 'description',
-            //   ellipsis: true,
-            // },
-            {
-              title: '创建人',
-              key: 'createName',
-              width: 100,
-              ellipsis: true,
-            },
-            {
-              title: '任务状态',
-              key: 'assignmentStatus',
-              width: 100,
-              render: (text) => {
-                return (
-                  <Tag
-                    color={
-                      text === 1
-                        ? '#F95C2B'
-                        : text === 2
-                        ? '#008EF0'
-                        : text === 3
-                        ? '#28a745'
-                        : '#dc3545'
-                    }>
-                    {text === 1
-                      ? '未开始'
-                      : text === 2
-                      ? '进行中'
-                      : text === 3
-                      ? '已完成'
-                      : '已逾期'}
-                  </Tag>
-                )
+        {allDataSources?.length === 0 ? (
+          <Empty description={false} style={{ marginTop: 30 }} />
+        ) : (
+          <ProTable
+            className={styles.mouseList}
+            style={{ width: 900 }}
+            table={myTable}
+            onCell={(rowData) => {
+              navigate(
+                `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
+              )
+            }}
+            columns={[
+              {
+                title: '任务标题',
+                key: 'assignmentTitle',
+                ellipsis: true,
+                width: 100,
+                render: (address) => (
+                  <Tooltip placement="topLeft" content={address}>
+                    {address}
+                  </Tooltip>
+                ),
               },
-            },
-            {
-              title: '截止时间',
-              key: 'finishTime',
-              width: 180,
-              ellipsis: true,
-            },
-            {
-              title: '创建时间',
-              key: 'createTime',
-              width: 180,
-              ellipsis: true,
-            },
-          ]}
-        />
+              // {
+              //   title: '任务描述',
+              //   key: 'description',
+              //   ellipsis: true,
+              // },
+              {
+                title: '创建人',
+                key: 'createName',
+                width: 100,
+                ellipsis: true,
+              },
+              {
+                title: '任务状态',
+                key: 'assignmentStatus',
+                width: 100,
+                render: (text) => {
+                  return (
+                    <Tag
+                      color={
+                        text === 1
+                          ? '#F95C2B'
+                          : text === 2
+                          ? '#008EF0'
+                          : text === 3
+                          ? '#28a745'
+                          : '#dc3545'
+                      }>
+                      {text === 1
+                        ? '未开始'
+                        : text === 2
+                        ? '进行中'
+                        : text === 3
+                        ? '已完成'
+                        : '已逾期'}
+                    </Tag>
+                  )
+                },
+              },
+              {
+                title: '截止时间',
+                key: 'finishTime',
+                width: 180,
+                ellipsis: true,
+              },
+              {
+                title: '创建时间',
+                key: 'createTime',
+                width: 180,
+                ellipsis: true,
+              },
+            ]}
+          />
+        )}
       </div>
     )
   }
+
   //表格
   const AllTableList = () => {
     return (
