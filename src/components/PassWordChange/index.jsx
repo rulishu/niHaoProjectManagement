@@ -2,6 +2,7 @@ import { useEffect, useState, useImperativeHandle } from 'react'
 import { connect } from 'react-redux'
 import { Modal, Row, Col, Input, Form, Button, Notify } from 'uiw'
 import { useNavigate } from 'react-router-dom'
+import { verifyPwd } from '@/utils/utils'
 
 // eslint-disable-next-line react/display-name
 const PassWordChange = (props) => {
@@ -17,15 +18,21 @@ const PassWordChange = (props) => {
     if (!current.oldUserPassword) {
       errorObj.oldUserPassword = '密码不能为空！'
     }
-    if (
-      !current.newUserPassword ||
-      current.newUserPassword.length < 6 ||
-      current.newUserPassword.length > 30
-    ) {
-      errorObj.newUserPassword = '密码不能为空，且长度为6-30位！'
+    // if (
+    //   !current.newUserPassword ||
+    //   current.newUserPassword.length < 6 ||
+    //   current.newUserPassword.length > 30
+    // ) {
+    //   errorObj.newUserPassword = '密码不能为空，且长度为6-30位！'
+    // }
+    if (!verifyPwd(current.newUserPassword)) {
+      errorObj.newUserPassword = `必须含有字母跟数字且大于六位`
     }
     if (current.newUserPassword !== current.newUserPassword2) {
       errorObj.newUserPassword2 = '两次输入密码不一致'
+    }
+    if (!verifyPwd(current.newUserPassword2)) {
+      errorObj.newUserPassword2 = `必须含有字母跟数字且大于六位`
     }
     if (Object.keys(errorObj).length > 0) {
       const err = new Error()
@@ -96,7 +103,10 @@ const PassWordChange = (props) => {
             labelFor: 'password',
             label: '新密码',
             required: true,
-            rules: [{ required: true, message: '输入新密码' }],
+            help: '必须含有字母跟数字且大于六位',
+            rules: [
+              { required: true, message: '必须含有字母跟数字且大于六位' },
+            ],
             children: <Input type="password" />,
           },
           newUserPassword2: {

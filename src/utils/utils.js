@@ -241,3 +241,9 @@ export function isColor(iDCard) {
   let cPattern = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
   return cPattern.test(iDCard)
 }
+
+//密码校验
+export function verifyPwd(phone) {
+  const phoneReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+  return phoneReg.test(phone)
+}

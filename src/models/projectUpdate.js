@@ -97,10 +97,12 @@ const projectUpdate = createModel()({
         dph.projectUpdate.updateState({
           seachValue: {},
           drawerVisible: false,
-          editLoading: false,
         })
         callback && callback() //回调刷新界面
       }
+      dph.projectUpdate.updateState({
+        editLoading: false,
+      })
       //判断是否是用户个人页-新增项目数据回显
       if (userName !== undefined) {
         await dispatch.userHome.getUserInfoByAccount(userName)
@@ -127,13 +129,15 @@ const projectUpdate = createModel()({
           seachValue: {},
           drawerVisible: false,
           id: '',
-          editLoading: false,
         })
         callback && callback() //回调刷新界面
         Notify.success({
           description: data.message,
         })
       }
+      dph.projectUpdate.updateState({
+        editLoading: false,
+      })
     },
 
     // 上传项目Logo
