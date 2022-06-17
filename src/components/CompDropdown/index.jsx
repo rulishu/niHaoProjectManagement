@@ -4,7 +4,6 @@ import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
 import columns from './columns'
-import newDebounce from '@/utils/debounce'
 
 /**
  * This is a label
@@ -68,6 +67,9 @@ const CompDropdown = (props) => {
 
   // 是否处于挂载阶段
   const [firstTime, setFirstTime] = useState(true)
+
+  // eslint-disable-next-line no-unused-vars
+  const [first, setFirst] = useState(true)
 
   // 判断使用组件头方法
   const newHeader = () => {
@@ -279,8 +281,11 @@ const CompDropdown = (props) => {
           if (!firstTime) {
             onClickLabelShow && onClickLabelShow(is)
             if (!is) {
+              setFirst((item) => {
+                if (item) closeLabel && closeLabel(false)
+                return !item
+              })
               setLabelStatus(1)
-              newDebounce(closeLabel, 100, false)
             }
           }
           setOpen(is)

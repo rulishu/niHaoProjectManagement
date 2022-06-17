@@ -357,7 +357,7 @@ const EditTask = () => {
                 type="primary"
                 onClick={async () => {
                   setLabelState(!labelState)
-                  await dispatch.project.getEdit()
+                  // await dispatch.project.getEdit()
                 }}>
                 {/* {labelState ? '完成' : '编辑'} */}
                 编辑
