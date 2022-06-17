@@ -75,8 +75,13 @@ const BasicInfo = (props) => {
             formType="pure"
             className={styles.leftForm}
             onChange={(initial, current) => {
-              current.avatar[0] &&
+              if (current.avatar[0]) {
                 dispatch.getUploadAvatar(current.avatar[0].file)
+              } else {
+                dispatchother.allusers.update({
+                  uuid: '',
+                })
+              }
             }}
             onSubmit={async (initial, current) => {
               const errorObj = {}
@@ -378,7 +383,7 @@ const BasicInfo = (props) => {
                         : [],
                     roleIds: value1?.roleIds ? [value1?.roleIds] : [],
                     deptId: value1?.deptId[0]?.key || '',
-                    avatar: uuid || '',
+                    avatar: uuid,
                   }
                   // 调用请求接口
                   // type 1 : 查看 2 : 编辑 3 :新增 types === 2:编辑用户

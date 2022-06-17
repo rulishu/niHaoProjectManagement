@@ -5,6 +5,7 @@ import {
   updateProject,
   selectAllUserlist,
 } from '@/servers/projectList'
+import { queryFuzzyAllUser } from '../servers/usersManagement'
 import { uploadFile } from '../servers/fileQuery'
 import { Notify } from 'uiw'
 
@@ -20,6 +21,8 @@ const projectUpdate = createModel()({
     isHangup: false, //项目是否挂起
     fileIds: '', //Logo文件的id
     editLoading: false, //新增编辑项目loading
+    originData: [], //项目成员原信息
+    addList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -31,7 +34,6 @@ const projectUpdate = createModel()({
     //获取项目成员信息(编辑的时候获取该项目的所有成员)
     async selectAllUserlist(params) {
       const dph = dispatch
-
       const data = await selectAllUserlist(params)
       let list = data?.rows
       let arr = []
@@ -48,7 +50,9 @@ const projectUpdate = createModel()({
           userList: arr,
           drawerType: 'edit',
           drawerVisible: true,
+          originData: list,
         })
+        dph.projectUpdate.queryFuzzyAllUser()
       }
     },
 
@@ -141,6 +145,25 @@ const projectUpdate = createModel()({
         })
         Notify.success({
           description: data.message,
+        })
+      }
+    },
+
+    // 模糊查询成员
+    async queryFuzzyAllUser(payload, state) {
+      const data = await queryFuzzyAllUser(payload)
+      if (data.code === 200) {
+        let originData = state.projectUpdate.originData
+        let newData = data.rows
+
+        let arr = newData.filter((e) => {
+          return !originData.some((i) => {
+            return i.userId === e.userId
+          })
+        })
+
+        dispatch.projectUpdate.updateState({
+          addList: arr,
         })
       }
     },

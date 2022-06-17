@@ -11,6 +11,7 @@ export default createModel()({
     userDynamics: [], //	用户动态
     userProjectList: [], // 用户项目
     userTask: [], // 用户任务
+    loading: true,
   },
   reducers: {
     update: (state, payload) => {
@@ -34,11 +35,23 @@ export default createModel()({
       },
       async getUserInfoByAccount(params, { userHome }) {
         const data = await getUserInfoByAccount(params)
+
         if (data && data.code === 200) {
           const { user, userDynamics, userProjectList, userTask } = data.data
           dispatch({
             type: 'userHome/update',
-            payload: { user, userDynamics, userProjectList, userTask },
+            payload: {
+              user,
+              userDynamics,
+              userProjectList,
+              userTask,
+              loading: false,
+            },
+          })
+        } else {
+          dispatch({
+            type: 'userHome/update',
+            payload: { loading: false },
           })
         }
       },

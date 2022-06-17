@@ -69,7 +69,7 @@ const CompDropdown = (props) => {
   const [firstTime, setFirstTime] = useState(true)
 
   // eslint-disable-next-line no-unused-vars
-  const [first, setFirst] = useState(true)
+  const [first, setFirst] = useState(false)
 
   // 判断使用组件头方法
   const newHeader = () => {
@@ -228,8 +228,8 @@ const CompDropdown = (props) => {
             type="dark"
             className={styles.headClose}
             onClick={() => {
-              console.log(222)
               setOpen(false)
+              setFirst(1)
               // closeLabel && closeLabel(false)
             }}
           />
@@ -283,7 +283,7 @@ const CompDropdown = (props) => {
             onClickLabelShow && onClickLabelShow(is)
             if (!is) {
               setFirst((item) => {
-                if (item) closeLabel && closeLabel(false)
+                if (!item || item === 1) closeLabel && closeLabel(false)
                 return !item
               })
               setLabelStatus(1)
