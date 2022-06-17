@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button, DateInput } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import dayjs from 'dayjs'
@@ -35,9 +35,9 @@ const EditTask = () => {
     })
   }
 
-  useEffect(() => {
-    labelsListData.length > 0 && !labelState && editLabelOk()
-  }, [labelState]) // eslint-disable-line
+  // useEffect(() => {
+  //   labelsListData.length > 0 && !labelState && editLabelOk()
+  // }, [labelState]) // eslint-disable-line
 
   const editAssign = () => {
     setAssignState(!assignState)
@@ -114,9 +114,9 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
-    // if (!labelState) {
-    //   editLabelOk()
-    // }
+    if (!labelState) {
+      editLabelOk()
+    }
     // editLabelOk()
   }
 
@@ -392,18 +392,12 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
-              setLabelState(false)
-              // if (
-              //   taskInfoData === editFromData &&
-              //   Object.keys(taskInfoData).length
-              // ) {
-              //   editLabelOk()
-              // }
+              // setLabelState(false)
+              if (Object.keys(taskInfoData).length) {
+                editLabelOk()
+              }
             }}
-            onClickLabelShow={(is) => {
-              // !is && editLabelOk();
-              setLabelState(is)
-            }}
+            onClickLabelShow={(is) => setLabelState(is)}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}
