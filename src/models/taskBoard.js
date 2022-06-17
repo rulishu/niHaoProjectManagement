@@ -312,7 +312,7 @@ const taskboard = createModel()({
     async getEdit(payload) {
       const data = await getManagerAssignmentUpdate(payload.taskInfo)
       if (data && data.code === 200) {
-        console.log(data)
+        Notify.success({ title: '修改标签成功' })
       }
     },
 

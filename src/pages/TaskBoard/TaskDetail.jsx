@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
 import { Button, Drawer, Icon, Card, Divider, Loader } from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
@@ -24,13 +24,8 @@ const TaskDetail = (props) => {
 
   const [assignState, setAssignState] = useState(false) //指派人组件状态
   const [labelState, setLabelState] = useState(false) //标签组件状态
-  const [cLabelList, setCLabelList] = useState([]) //当前选中标签
+  const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
-
-  useEffect(() => {
-    setCLabelList(taskInfo.label)
-  }, [taskInfo])
-
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -139,13 +134,14 @@ const TaskDetail = (props) => {
   return (
     <div className={styles.nihao}>
       <Drawer
+        maskClosable={
+          !loading.effects.taskboard.selectByProjectId &&
+          !loading.effects.taskboard.getEdit
+        }
         isOpen={taskDetails}
         footer={footer()}
         onClose={() => {
           setTaskDetails(false)
-          setMilepostState(false)
-          setLabelState(false)
-          setAssignState(false)
         }}
         size="20%"
         usePortal={false}>
@@ -154,7 +150,7 @@ const TaskDetail = (props) => {
             loading.effects.taskboard.selectByProjectId ||
             loading.effects.taskboard.changeAssignmentUser
           }>
-          <Card>
+          <Card style={{ minWidth: '300px' }}>
             <div>
               <div>
                 <Icon
@@ -207,7 +203,6 @@ const TaskDetail = (props) => {
                   })}
                   isOpen={labelState}
                   template="label"
-                  dropdownWindow={{ isClickOutside: true }}
                   shape="label"
                   selectLabel={(_, selKey) => selectLabel(selKey)}
                   closeLabel={() => {
@@ -215,7 +210,6 @@ const TaskDetail = (props) => {
                   }}
                   onClickLabelShow={(is) => {
                     setLabelState(is)
-                    //  !is && newDebounce(editLabelOk, 100)
                   }}
                   loading={loading.effects.dictionary.getDictDataList}
                   runLabel={() =>
@@ -223,9 +217,6 @@ const TaskDetail = (props) => {
                   }
                   createTag={(_, current) => createTag(current)}
                 />
-                {!taskInfo?.labels?.length && (
-                  <div className={styles.rLabelText}>无</div>
-                )}
               </div>
               <Divider />
               <div className={styles.rLabel}>
@@ -251,7 +242,6 @@ const TaskDetail = (props) => {
                     }
                   )}
                   isOpen={assignState}
-                  dropdownWindow={{ isClickOutside: true }}
                   template="personnel"
                   shape="label"
                   isRadio={true}
