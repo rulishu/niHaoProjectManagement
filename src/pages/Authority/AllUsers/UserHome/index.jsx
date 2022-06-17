@@ -12,9 +12,8 @@ import TaskList from './TaskList'
 
 const UserHome = (props) => {
   const {
-    userHome: { user },
+    userHome: { user, loading },
     routeManagement: { userInfoName },
-    loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
 
@@ -61,145 +60,143 @@ const UserHome = (props) => {
   }
 
   return (
-    <div>
-      <Container>
-        <div className={styles.userHomeWrap}>
-          <div className={styles.userInfo}>
-            <Card>
-              <>
-                <div className={styles.avatar}>
-                  <Avatar
-                    src={
-                      user?.avatar?.substring(0, 4) === 'http'
-                        ? user?.avatar
-                        : user?.avatar?.substring(0, 4) !== 'http' &&
-                          user?.avatar !== ''
-                        ? `/api/file/selectFile/${user?.avatar}`
-                        : ''
-                    }>
-                    {user?.nickName && user?.nickName[0]}
-                  </Avatar>
-                </div>
-                <Loader
-                  tip="用户信息加载中..."
-                  vertical
-                  style={{ width: '100%' }}
-                  loading={loading.effects.userHome.getUserInfo}>
-                  <>
-                    <div className={styles.name}>
-                      <h2>{user?.nickName}</h2>
-                    </div>
-                  </>
-                </Loader>
-                {userInfoName === user?.userName ? (
-                  userInfoName === 'admin' ? null : (
-                    <div className={styles.editBut}>
-                      <Button
-                        block
-                        type="light"
-                        onClick={() => handleEdit(user, 2)}>
-                        编辑用户
-                      </Button>
-                    </div>
-                  )
-                ) : null}
-                <div className={styles.note}>
-                  <p>
-                    <span>备注：</span>
-                    {user?.remark ? user?.remark : '此人很懒，暂无备注'}
-                  </p>
-                </div>
-                <div className={styles.userBasicInfo}>
-                  <ul>
-                    {user?.userName && (
-                      <li>
-                        <span>
-                          <Icon type="user" />
-                        </span>
-                        <span>{user?.userName}</span>
-                      </li>
-                    )}
-                    {user?.email && (
-                      <li>
-                        <span>
-                          <Icon type="mail-o" />
-                        </span>
-                        <span>{user?.email}</span>
-                      </li>
-                    )}
-                    {user?.phonenumber && (
-                      <li>
-                        <span>
-                          <Icon type="mobile" />
-                        </span>
-                        <span>{user?.phonenumber}</span>
-                      </li>
-                    )}
-                    {user?.roles?.length && (
-                      <li>
-                        <span>
-                          <Icon type="verification" />
-                        </span>
-                        <span>{user?.roles[0].roleName}</span>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              </>
-            </Card>
+    <Loader
+      tip="用户信息加载中..."
+      vertical
+      style={{ width: '100%' }}
+      loading={loading}>
+      <div>
+        <Container>
+          <div className={styles.userHomeWrap}>
+            <div className={styles.userInfo}>
+              <Card>
+                <>
+                  <div className={styles.avatar}>
+                    <Avatar
+                      src={
+                        user?.avatar?.substring(0, 4) === 'http'
+                          ? user?.avatar
+                          : user?.avatar?.substring(0, 4) !== 'http' &&
+                            user?.avatar !== ''
+                          ? `/api/file/selectFile/${user?.avatar}`
+                          : ''
+                      }>
+                      {user?.nickName && user?.nickName[0]}
+                    </Avatar>
+                  </div>
+                  <div className={styles.name}>
+                    <h2>{user?.nickName}</h2>
+                  </div>
+                  {userInfoName === user?.userName ? (
+                    userInfoName === 'admin' ? null : (
+                      <div className={styles.editBut}>
+                        <Button
+                          block
+                          type="light"
+                          onClick={() => handleEdit(user, 2)}>
+                          编辑用户
+                        </Button>
+                      </div>
+                    )
+                  ) : null}
+                  <div className={styles.note}>
+                    <p>
+                      <span>备注：</span>
+                      {user?.remark ? user?.remark : '此人很懒，暂无备注'}
+                    </p>
+                  </div>
+                  <div className={styles.userBasicInfo}>
+                    <ul>
+                      {user?.userName && (
+                        <li>
+                          <span>
+                            <Icon type="user" />
+                          </span>
+                          <span>{user?.userName}</span>
+                        </li>
+                      )}
+                      {user?.email && (
+                        <li>
+                          <span>
+                            <Icon type="mail-o" />
+                          </span>
+                          <span>{user?.email}</span>
+                        </li>
+                      )}
+                      {user?.phonenumber && (
+                        <li>
+                          <span>
+                            <Icon type="mobile" />
+                          </span>
+                          <span>{user?.phonenumber}</span>
+                        </li>
+                      )}
+                      {user?.roles?.length && (
+                        <li>
+                          <span>
+                            <Icon type="verification" />
+                          </span>
+                          <span>{user?.roles[0].roleName}</span>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </>
+              </Card>
+            </div>
+            <div className={styles.userProject}>
+              <Card>
+                <>
+                  <Tabs
+                    type="line"
+                    activeKey={activeKey}
+                    onTabClick={(key) => setActiveKey(key)}>
+                    <Tabs.Pane label="概述" key="1">
+                      <div>
+                        <Summary
+                          goSpecifyPage={goSpecifyPage}
+                          setActiveKey={setActiveKey}
+                        />
+                      </div>
+                    </Tabs.Pane>
+                    <Tabs.Pane label="项目" key="2">
+                      <div>
+                        <ProjectList goSpecifyPage={goSpecifyPage} />
+                      </div>
+                    </Tabs.Pane>
+                    <Tabs.Pane label="任务" key="3">
+                      <div>
+                        <TaskList goSpecifyPage={goSpecifyPage} />
+                      </div>
+                    </Tabs.Pane>
+                    <Tabs.Pane label="动态" key="4">
+                      <div>
+                        <DynamicsList goSpecifyPage={goSpecifyPage} />
+                      </div>
+                    </Tabs.Pane>
+                  </Tabs>
+                </>
+              </Card>
+            </div>
           </div>
-          <div className={styles.userProject}>
-            <Card>
-              <>
-                <Tabs
-                  type="line"
-                  activeKey={activeKey}
-                  onTabClick={(key) => setActiveKey(key)}>
-                  <Tabs.Pane label="概述" key="1">
-                    <div>
-                      <Summary
-                        goSpecifyPage={goSpecifyPage}
-                        setActiveKey={setActiveKey}
-                      />
-                    </div>
-                  </Tabs.Pane>
-                  <Tabs.Pane label="项目" key="2">
-                    <div>
-                      <ProjectList goSpecifyPage={goSpecifyPage} />
-                    </div>
-                  </Tabs.Pane>
-                  <Tabs.Pane label="任务" key="3">
-                    <div>
-                      <TaskList goSpecifyPage={goSpecifyPage} />
-                    </div>
-                  </Tabs.Pane>
-                  <Tabs.Pane label="动态" key="4">
-                    <div>
-                      <DynamicsList goSpecifyPage={goSpecifyPage} />
-                    </div>
-                  </Tabs.Pane>
-                </Tabs>
-              </>
-            </Card>
-          </div>
-        </div>
-        <Overlay
-          hasBackdrop={true}
-          isOpen={isOverlay}
-          onClose={() => {
-            setIsOverlay(false)
-            dispatch.allusers.update({
-              isShow: '',
-              userData: '',
-              postsDataInfo: [],
-            })
-          }}>
-          <div>
-            <PopupBox setIsOverlay={setIsOverlay} />
-          </div>
-        </Overlay>
-      </Container>
-    </div>
+          <Overlay
+            hasBackdrop={true}
+            isOpen={isOverlay}
+            onClose={() => {
+              setIsOverlay(false)
+              dispatch.allusers.update({
+                isShow: '',
+                userData: '',
+                postsDataInfo: [],
+              })
+            }}>
+            <div>
+              <PopupBox setIsOverlay={setIsOverlay} />
+            </div>
+          </Overlay>
+        </Container>
+      </div>
+    </Loader>
   )
 }
 // export default UserHome
