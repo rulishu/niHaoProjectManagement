@@ -161,6 +161,16 @@ const TaskBoard = () => {
       }
     }
   }
+  const isUrl = (url) => {
+    if (url !== '') {
+      const reg = /(http|ftp|https):?/
+      if (reg.test(url)) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 
   return (
     <>
@@ -347,7 +357,13 @@ const TaskBoard = () => {
                                               {item?.assigneeUserAvatar !==
                                                 null && (
                                                 <Avatar
-                                                  src={`/api/file/selectFile/${item.assigneeUserAvatar}`}>
+                                                  src={
+                                                    isUrl(
+                                                      item.assigneeUserAvatar
+                                                    )
+                                                      ? item.assigneeUserAvatar
+                                                      : `/api/file/selectFile/${item.assigneeUserAvatar}`
+                                                  }>
                                                   {item?.assigneeUserName !==
                                                     null &&
                                                     item?.assigneeUserName[0]}
