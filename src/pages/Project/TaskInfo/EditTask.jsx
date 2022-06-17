@@ -388,10 +388,7 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
-              if (
-                taskInfoData === editFromData &&
-                Object.keys(taskInfoData).length
-              ) {
+              if (Object.keys(taskInfoData).length) {
                 editLabelOk()
               }
             }}
