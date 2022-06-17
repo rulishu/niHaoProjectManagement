@@ -85,9 +85,10 @@ const projectUpdate = createModel()({
     },
 
     //新增项目
-    async addProject(params) {
+    async addProject(params, state) {
       const dph = dispatch
       const { newValue, callback, userName } = params
+      newValue.projectAvatar = state.projectUpdate.fileIds
       const data = await addProject(newValue)
       if (data.code === 200) {
         Notify.success({
@@ -119,7 +120,7 @@ const projectUpdate = createModel()({
           newValue.status = 1
         }
       }
-
+      newValue.projectAvatar = state.projectUpdate.fileIds
       const data = await updateProject(newValue)
       if (data.code === 200) {
         dph.projectUpdate.updateState({
