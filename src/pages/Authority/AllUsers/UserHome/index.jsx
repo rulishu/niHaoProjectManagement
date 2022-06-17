@@ -101,7 +101,7 @@ const UserHome = (props) => {
                   ) : null}
                   <div className={styles.note}>
                     <p>
-                      <span>备注：</span>
+                      {/* <span>备注：</span> */}
                       {user?.remark ? user?.remark : '此人很懒，暂无备注'}
                     </p>
                   </div>
