@@ -47,7 +47,6 @@ const TaskDetail = (props) => {
   const selectLabel = (keyArr) => {
     taskInfo.labels = keyArr
     setCLabelList(keyArr)
-    console.log(labelState)
     if (!labelState) {
       const labels = labelList?.filter((item) => {
         return keyArr?.includes(item?.id)
@@ -318,10 +317,26 @@ const TaskDetail = (props) => {
                   isRadio={true}
                   onClickLabelShow={(is) => setMilepostState(is)}
                   selectLabel={(key) => {
-                    // updateData({
-                    //     editFromData: { ...editFromData, milestonesId: key || 0 },
-                    // })
-                    // editMilepostOk()
+                    taskInfo.milestonesId = key
+                    let milestonesId = 0
+                    let milestonesTitle = ''
+                    if (key !== null) {
+                      milestonesId = key
+                    }
+                    milepostaData?.filter((item) => {
+                      if (item.milestonesId === key) {
+                        milestonesTitle = item.milestonesTitle
+                        return null
+                      }
+                      return null
+                    })
+                    dispatch.taskboard.changeAssignmentMilestones({
+                      projectId,
+                      assignmentId: taskInfo.assignmentId,
+                      milestonesId: milestonesId,
+                      milestonesTitle: milestonesTitle,
+                    })
+                    setMilepostState(false)
                   }}
                   closeLabel={() => {
                     // updateData({
@@ -332,7 +347,6 @@ const TaskDetail = (props) => {
                     // })
                     setMilepostState(false)
                   }}
-                  // loading={loading.effects.milestone.selectPageList}
                   runLabel={() => {
                     navigate(`/${userAccount}/${projectId}/milestone`, {
                       replace: true,

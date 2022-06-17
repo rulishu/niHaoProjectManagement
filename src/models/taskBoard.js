@@ -18,6 +18,7 @@ import {
   updateBoardList,
   getSelectAll,
   changeAssignmentStatus,
+  changeAssignmentMilestones,
   changeAssignmentUser,
 } from '../servers/taskBoard'
 
@@ -292,6 +293,18 @@ const taskboard = createModel()({
           id: payload.assignmentId,
         })
         dispatch.taskboard.selectAllBoardNote({ boardId: selectBoard })
+      }
+    },
+
+    // 编辑任务里程碑
+    async changeAssignmentMilestones(payload) {
+      const { selectBoard, ...other } = payload
+      const data = await changeAssignmentMilestones(other)
+      if (data && data.code === 200) {
+        dispatch.taskboard.selectByProjectId({
+          projectId: payload.projectId,
+          id: payload.assignmentId,
+        })
       }
     },
 

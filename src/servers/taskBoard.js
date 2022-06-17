@@ -161,3 +161,11 @@ export function changeAssignmentUser(params) {
     body: { ...params },
   })
 }
+
+// 编辑任务里程碑
+export function changeAssignmentMilestones(params) {
+  return request('/api/ManagerAssignment/changeAssignmentMilestones', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
