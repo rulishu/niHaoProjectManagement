@@ -311,10 +311,12 @@ export default function Home() {
                 {allDataSource.end || ''}
               </List.Item>
               <List.Item>
-                <span className={styles.leftTitle}>项目描述: </span>
-                <span className={styles.msList}>
-                  {allDataSource.projectDesc || ''}
-                </span>
+                <div>
+                  <div className={styles.leftTitle}>项目描述: </div>
+                  <div className={styles.msList}>
+                    {allDataSource.projectDesc || '暂无描述！'}
+                  </div>
+                </div>
               </List.Item>
             </List>
           </Col>
