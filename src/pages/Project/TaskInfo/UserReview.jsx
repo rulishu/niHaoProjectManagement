@@ -90,7 +90,7 @@ const UserReview = (props) => {
               ? 'editCommentData'
               : 'commentData'
           }
-          editData={editOrReply === 2 ? editData : ''}
+          editData={editData}
           fromValue="operatingRecords"
           btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
