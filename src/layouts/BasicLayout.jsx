@@ -149,13 +149,23 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userData?.userName,
       menuLeft: (
         <>
-          <div
-            className={styles.title}
-            onClick={() => {
-              navigate(`/dashboard`)
-            }}>
-            工作台
-          </div>
+          {userData?.avatar === '' ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/dashboard`)
+              }}>
+              工作台
+            </div>
+          ) : (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/dashboard`)
+              }}>
+              工作台
+            </div>
+          )}
           <div
             className={styles.title}
             onClick={() => {
