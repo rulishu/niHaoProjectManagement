@@ -22,7 +22,7 @@ import columns from './columns'
 const CompDropdown = (props) => {
   const {
     form,
-    title,
+    title = '',
     template,
     labelHeader, // Label 数据头
     isRadio = false,
@@ -222,7 +222,7 @@ const CompDropdown = (props) => {
             type="dark"
             className={styles.headClose}
             onClick={() => {
-              setOpen(false)
+              setOpen(() => false)
               closeLabel && closeLabel(false)
             }}
           />
