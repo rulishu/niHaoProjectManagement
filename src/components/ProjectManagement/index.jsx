@@ -6,6 +6,7 @@ import { useState } from 'react'
 import CompDropdown from '../../components/CompDropdown'
 import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
+import AddList from './AddList'
 
 /**
  * 使用方法：
@@ -41,6 +42,7 @@ const ProjectManagement = (fun) => {
       isHangup,
       editLoading,
       fileIds, //Logo文件的id
+      addList,
     },
     userHome: { user },
     loading,
@@ -51,6 +53,29 @@ const ProjectManagement = (fun) => {
       type: 'projectUpdate/updateState',
       payload,
     })
+  }
+
+  const optionEvent = (item) => {
+    let key = item.userId
+    let memberName = item.nickName + '  ' + item.email
+    let arr = userList
+    arr.push({
+      key,
+      memberName,
+    })
+    updateData({ userList: arr })
+
+    baseRef.setFieldValue('projectLeaderId', item.userId)
+    let data = {
+      projectLeaderId: item.userId,
+      name: seachValue?.name,
+      begin: seachValue?.begin,
+      end: seachValue?.end,
+      descr: seachValue?.descr,
+      status: seachValue?.status,
+    }
+    updateData({ seachValue: data })
+    setAddrolds(false)
   }
 
   const dropdown = () => {
@@ -81,9 +106,57 @@ const ProjectManagement = (fun) => {
             setAddrolds(e)
           }}
           isRadio={true}
-          createTag={(_, current) => {
-            console.log(current)
-            return true
+          textBooks={{
+            createTitle: `快速邀请成员并成为负责人`,
+            mainTitle: `项目负责人`,
+          }}
+          actionButtons={
+            JSON.parse(localStorage.getItem('userData')).admin
+              ? {
+                  create: { title: '快速邀请成员并成为负责人' },
+                  manage: { isHide: true },
+                }
+              : {
+                  create: { isHide: true },
+                  manage: { isHide: true },
+                }
+          }
+          form={{
+            fields: (props) => {
+              return {
+                userId: {
+                  inline: true,
+                  children: (
+                    <>
+                      <AddList data={addList} optionEvent={optionEvent} />
+                    </>
+                  ),
+                },
+              }
+            },
+            fieldsShow: ({ fields }) => {
+              return (
+                <div style={{ minWidth: '350px' }}>
+                  <div
+                    style={{
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      display: 'flex',
+                      lineHeight: '30px',
+                    }}>
+                    {fields.userId}
+                  </div>
+                </div>
+              )
+            },
+            // verify: (initial, current) => {
+            //   const errorObj = {}
+            //   const { userId } = current
+            //   if (!userId) {
+            //     errorObj.userId = '请选择用户'
+            //   }
+            //   return errorObj
+            // },
           }}
         />
       </>
@@ -324,7 +397,6 @@ const ProjectManagement = (fun) => {
             begin: formatter(current.begin),
             end: formatter(current.end),
           }
-          console.log(newValue)
           saveData(newValue)
         }}
         // onChange={(initial, current) => {
