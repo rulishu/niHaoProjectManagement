@@ -156,7 +156,7 @@ const allusers = createModel()({
           rolesDataInfo: data?.roleIds[0], // data?.roles?.find(e=>e?.roleId === data?.roleIds[0]) || {},
           postsDataInfo: data?.postIds[0] || [], // data?.posts?.find(e=>e?.postId === ) || {},
           baseDetail: data.data,
-          uuid: data.data?.uuid || '',
+          uuid: data.data?.avatar || '',
         })
       }
     },
