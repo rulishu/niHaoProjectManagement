@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
-import { Loader, Select } from 'uiw'
+import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useState } from 'react'
 import CompDropdown from '../../components/CompDropdown'
 import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
-import { useEffect } from 'react'
+import AddList from './AddList'
 
 /**
  * 使用方法：
@@ -42,6 +42,7 @@ const ProjectManagement = (fun) => {
       isHangup,
       editLoading,
       fileIds, //Logo文件的id
+      addList,
     },
     userHome: { user },
     loading,
@@ -54,11 +55,28 @@ const ProjectManagement = (fun) => {
     })
   }
 
-  useEffect(() => {
-    dispatch({
-      type: 'projectUpdate/queryFuzzyAllUser',
+  const optionEvent = (item) => {
+    let key = item.userId
+    let memberName = item.nickName + '  ' + item.email
+    let arr = userList
+    arr.push({
+      key,
+      memberName,
     })
-  })
+    updateData({ userList: arr })
+
+    baseRef.setFieldValue('projectLeaderId', item.userId)
+    let data = {
+      projectLeaderId: item.userId,
+      name: seachValue?.name,
+      begin: seachValue?.begin,
+      end: seachValue?.end,
+      descr: seachValue?.descr,
+      status: seachValue?.status,
+    }
+    updateData({ seachValue: data })
+    setAddrolds(false)
+  }
 
   const dropdown = () => {
     return (
@@ -88,10 +106,6 @@ const ProjectManagement = (fun) => {
             setAddrolds(e)
           }}
           isRadio={true}
-          createTag={(_, current) => {
-            console.log(current, 'current')
-            return true
-          }}
           textBooks={{
             createTitle: `快速邀请成员并成为负责人`,
             mainTitle: `项目负责人`,
@@ -112,20 +126,9 @@ const ProjectManagement = (fun) => {
               return {
                 userId: {
                   inline: true,
-                  required: true,
                   children: (
                     <>
-                      <Select>
-                        <Select.Option value="w">
-                          Choose an item...
-                        </Select.Option>
-                        <Select.Option value="1">
-                          OneOneOneOneOneOneOne
-                        </Select.Option>
-                        <Select.Option value="2">Two</Select.Option>
-                        <Select.Option value="3">Three</Select.Option>
-                        <Select.Option value="4">Four</Select.Option>
-                      </Select>
+                      <AddList data={addList} optionEvent={optionEvent} />
                     </>
                   ),
                 },
@@ -141,19 +144,19 @@ const ProjectManagement = (fun) => {
                       display: 'flex',
                       lineHeight: '30px',
                     }}>
-                    用户名：{fields.userId}
+                    {fields.userId}
                   </div>
                 </div>
               )
             },
-            verify: (initial, current) => {
-              const errorObj = {}
-              const { userId } = current
-              if (!userId) {
-                errorObj.userId = '请选择用户'
-              }
-              return errorObj
-            },
+            // verify: (initial, current) => {
+            //   const errorObj = {}
+            //   const { userId } = current
+            //   if (!userId) {
+            //     errorObj.userId = '请选择用户'
+            //   }
+            //   return errorObj
+            // },
           }}
         />
       </>
@@ -394,7 +397,6 @@ const ProjectManagement = (fun) => {
             begin: formatter(current.begin),
             end: formatter(current.end),
           }
-          console.log(newValue)
           saveData(newValue)
         }}
         // onChange={(initial, current) => {

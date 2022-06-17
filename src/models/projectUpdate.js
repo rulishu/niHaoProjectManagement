@@ -22,6 +22,7 @@ const projectUpdate = createModel()({
     fileIds: '', //Logo文件的id
     editLoading: false, //新增编辑项目loading
     originData: [], //项目成员原信息
+    addList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -51,6 +52,7 @@ const projectUpdate = createModel()({
           drawerVisible: true,
           originData: list,
         })
+        dph.projectUpdate.queryFuzzyAllUser()
       }
     },
 
@@ -149,27 +151,20 @@ const projectUpdate = createModel()({
 
     // 模糊查询成员
     async queryFuzzyAllUser(payload, state) {
-      // const dph = dispatch
       const data = await queryFuzzyAllUser(payload)
       if (data.code === 200) {
         let originData = state.projectUpdate.originData
         let newData = data.rows
 
-        // eslint-disable-next-line
-        originData.map((item) => {
-          // eslint-disable-next-line
-          newData.map((itemA, index) => {
-            if (item.userId === itemA.userId) {
-              newData.splice(index, 1)
-            }
+        let arr = newData.filter((e) => {
+          return !originData.some((i) => {
+            return i.userId === e.userId
           })
         })
-        console.log(newData)
 
-        // dph.department.updateState({
-        //   userIdList: userIdList,
-        //   dataList: data?.rows,
-        // })
+        dispatch.projectUpdate.updateState({
+          addList: arr,
+        })
       }
     },
   }),
