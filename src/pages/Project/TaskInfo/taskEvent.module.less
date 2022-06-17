@@ -12,18 +12,18 @@
     &::before {
       content: '';
       position: absolute;
-      top: 0px;
+      top: 5px;
       bottom: 0px;
       left: 34px;
-      height: calc(100% - 20px);
+      height: calc(100% - 30px);
       border-left: 2px solid rgb(240, 240, 240);
     }
 
     & > li {
       border-radius: 4px;
-      margin: 8px 0px;
+      margin: @margin-xs 0px;
       background: #fff;
-      padding: 4px 20px;
+      padding: @padding-xss 20px;
 
       // 事件项内容
       .eventLiBox {
@@ -35,8 +35,10 @@
           justify-content: center;
           width: 32px;
           height: 32px;
+          min-width: 32px;
+          min-height: 32px;
           border: 1px solid #dbdbdb;
-          border-radius: 32px;
+          border-radius: 50%;
           // margin: -6px 20px 0px 0px;
           margin-right: 20px;
           position: relative;
@@ -46,7 +48,7 @@
 
         .eventLiContent {
           width: 100%;
-          font-size: 12px;
+          font-size: @font-size-sm;
           line-height: 32px;
         }
       }
@@ -59,26 +61,26 @@
 
       :global {
         .w-card-body {
-          padding: 8px;
+          padding: @padding-xs;
         }
 
         .wmde-markdown {
-          font-size: 12px;
+          font-size: @font-size-sm;
         }
       }
 
       // 回复评论
       .replyManage {
-        padding-top: 10px;
+        padding-top: @padding-sm - 2px;
 
         :global {
           .w-card {
-            margin: 5px;
+            margin: @margin-xss;
           }
         }
 
         .eventLiBox {
-          margin: 5px;
+          margin: @margin-xss;
         }
       }
 
@@ -86,6 +88,10 @@
         .eventLiIcon {
           width: 40px;
           height: 40px;
+          min-width: 35px;
+          min-height: 35px;
+          max-width: 50px;
+          max-height: 50px;
         }
       }
 
@@ -100,7 +106,7 @@
 
           // 信息
           .info {
-            font-size: 12px;
+            font-size: @font-size-sm;
             font-weight: bold;
           }
 
@@ -110,7 +116,7 @@
         }
 
         .messageContent {
-          font-size: 12px;
+          font-size: @font-size-sm;
         }
       }
     }
