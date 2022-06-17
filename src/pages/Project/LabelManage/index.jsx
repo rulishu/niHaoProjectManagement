@@ -182,7 +182,7 @@ const LabelManage = (props) => {
                   style={{ width: '100%' }}
                   loading={loading.effects.labels.getAllLabelData}>
                   <>
-                    {listData.length ? (
+                    {listData?.length ? (
                       listData?.map((item) => {
                         return (
                           <li key={item?.id}>
