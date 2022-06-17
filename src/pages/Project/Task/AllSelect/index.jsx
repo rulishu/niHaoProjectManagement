@@ -164,6 +164,7 @@ const LabelSelect = (props) => {
                 onChange: (value) => {
                   changeFun({ labels: value })
                 },
+                showSearch: true,
                 allowClear: true,
                 style: {
                   width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
