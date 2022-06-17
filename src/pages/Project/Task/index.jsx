@@ -159,11 +159,6 @@ const Task = (props) => {
 
   const listGo = (item) => {
     updateData({ editId: item.assignmentId, editFromData: item })
-    // navigate(`/project/taskInfo/${item.assignmentId}`, {
-    //   state: { editId: item.assignmentId },
-    // })
-    // console.log('item', item)
-
     navigate(
       `/${userAccount}/${item.projectId}/task/taskInfo/${item.assignmentId}`
     )
@@ -303,6 +298,20 @@ const Task = (props) => {
         style={{ width: '100%' }}
         loading={loading.effects.project.getList}>
         <div>
+          <div className={styles.allSelectBox}>
+            <AllSelect
+              teamMembers={teamMembers}
+              labelsListData={labelsListData?.map((item) => ({
+                label: item.name,
+                value: item.id,
+              }))}
+              milistones={milistones}
+              updateData={updateData}
+              pageS={pageS}
+              project={project}
+            />
+          </div>
+
           <div className={styles.nav}>
             {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
             <Button type="primary" onClick={() => goIssue()}>
@@ -310,29 +319,6 @@ const Task = (props) => {
             </Button>
             {/* </AuthBtn> */}
           </div>
-          <AllSelect
-            teamMembers={teamMembers}
-            labelsListData={labelsListData?.map((item) => ({
-              label: item.name,
-              value: item.id,
-            }))}
-            milistones={milistones}
-            updateData={updateData}
-            pageS={pageS}
-            project={project}
-          />
-          {/* <div>
-            <LabelSelect />
-          </div>
-          <div>
-            <SearchBar
-              isDrop={true}
-              option={SearchBarOption}
-              onSearch={(value, selectValue) =>
-                getTaskListData(value, selectValue)
-              }
-            />
-          </div> */}
           <Tabs
             type="line"
             activeKey={activeKey}
