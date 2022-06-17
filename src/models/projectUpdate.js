@@ -19,6 +19,7 @@ const projectUpdate = createModel()({
     userList: [], //新增项目或编辑项目的项目负责人列表
     fun: {},
     isHangup: false, //项目是否挂起
+    isOldStatus: false, //项目原来的状态
     fileIds: '', //Logo文件的id
     editLoading: false, //新增编辑项目loading
     originData: [], //项目成员原信息
@@ -77,6 +78,7 @@ const projectUpdate = createModel()({
           data.data.status === 3 ? (isrigiht = true) : (isrigiht = false)
           dph.projectUpdate.updateState({
             isHangup: isrigiht,
+            isOldStatus: isrigiht,
             seachValue: data.data,
             drawerVisible: true,
           })
@@ -111,7 +113,7 @@ const projectUpdate = createModel()({
     async updateProject(params, state) {
       let { newValue, callback } = params
       const dph = dispatch
-      if (newValue?.status === state.projectUpdate.isHangup) {
+      if (state.projectUpdate.isOldStatus === state.projectUpdate.isHangup) {
         delete newValue.status
       } else {
         if (newValue.status === true) {

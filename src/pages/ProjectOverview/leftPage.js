@@ -275,7 +275,11 @@ export default function Home() {
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40%' }}
-          title="项目说明" //{allDataSource?.projectName || ''}
+          title={
+            allDataSource?.projectStatus === 3
+              ? '项目说明（已挂起）'
+              : '项目说明'
+          }
           bodyStyle={{ padding: 0 }}
           bordered={false}
           extra={
