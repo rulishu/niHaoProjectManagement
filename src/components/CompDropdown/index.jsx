@@ -68,6 +68,9 @@ const CompDropdown = (props) => {
   // 是否处于挂载阶段
   const [firstTime, setFirstTime] = useState(true)
 
+  // eslint-disable-next-line no-unused-vars
+  const [first, setFirst] = useState(false)
+
   // 判断使用组件头方法
   const newHeader = () => {
     return labelHeader || (template && columns[template].header)
@@ -225,7 +228,8 @@ const CompDropdown = (props) => {
             type="dark"
             className={styles.headClose}
             onClick={() => {
-              setOpen(() => false)
+              setOpen(false)
+              setFirst(1)
               // closeLabel && closeLabel(false)
             }}
           />
@@ -265,7 +269,7 @@ const CompDropdown = (props) => {
         </div>
       )}
       <OverlayTrigger
-        isOpen={isOpen}
+        isOpen={open}
         trigger="click"
         placement="bottomLeft"
         overlay={dropDownContent}
@@ -278,8 +282,11 @@ const CompDropdown = (props) => {
           if (!firstTime) {
             onClickLabelShow && onClickLabelShow(is)
             if (!is) {
+              setFirst((item) => {
+                if (!item || item === 1) closeLabel && closeLabel(false)
+                return !item
+              })
               setLabelStatus(1)
-              closeLabel && closeLabel(false)
             }
           }
           setOpen(is)

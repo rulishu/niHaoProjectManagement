@@ -357,7 +357,7 @@ const EditTask = () => {
                 type="primary"
                 onClick={async () => {
                   setLabelState(!labelState)
-                  await dispatch.project.getEdit()
+                  // await dispatch.project.getEdit()
                 }}>
                 {/* {labelState ? '完成' : '编辑'} */}
                 编辑
@@ -388,11 +388,7 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
-              setLabelState(false)
-              if (
-                taskInfoData === editFromData &&
-                Object.keys(taskInfoData).length
-              ) {
+              if (Object.keys(taskInfoData).length) {
                 editLabelOk()
               }
             }}
