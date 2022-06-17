@@ -24,7 +24,18 @@ const label = {
       width: 100,
       component: (item) =>
         item ? (
-          <span className={styles.title}>{item?.title}</span>
+          <span
+            className={styles.title}
+            style={{
+              color:
+                (item?.color === '#fff' ||
+                  item?.color === '#ffffff' ||
+                  item?.color === '#FFF' ||
+                  item?.color === '#FFFFFF') &&
+                '#000',
+            }}>
+            {item?.title}
+          </span>
         ) : (
           <span>无标签</span>
         ),

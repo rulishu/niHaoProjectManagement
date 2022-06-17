@@ -112,15 +112,16 @@ const LabelManage = (props) => {
     navigate(`${location.pathname}/${id ? id : 'new'}`)
   }
 
-  const Blank = (props) => (
+  const Blank = ({ children, style }) => (
     <div
       style={{
         textAlign: 'center',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        ...style,
       }}>
-      {props?.children}
+      {children}
     </div>
   )
   return (
@@ -188,7 +189,11 @@ const LabelManage = (props) => {
                           <li key={item?.id}>
                             <Row gutter={24} align="middle">
                               <Col span={6}>
-                                <Blank>
+                                <Blank
+                                  style={{
+                                    justifyContent: 'flex-start',
+                                    paddingLeft: 0,
+                                  }}>
                                   <Tooltip placement="top" content={item?.name}>
                                     <span
                                       className={styles.namebox}
@@ -213,27 +218,39 @@ const LabelManage = (props) => {
                                 </Blank>
                               </Col>
                               <Col span={6}>
-                                <Blank>
+                                <Blank
+                                  style={{
+                                    justifyContent: 'flex-start',
+                                    paddingLeft: 0,
+                                  }}>
                                   <Tooltip placement="top" content={item?.desc}>
                                     <span>
                                       {`${
-                                        item?.desc && item?.desc.length > 10
-                                          ? item?.desc.substring(0, 10) + '...'
+                                        item?.desc && item?.desc.length > 30
+                                          ? item?.desc.substring(0, 30) + '...'
                                           : item?.desc || ''
                                       }`}
                                     </span>
                                   </Tooltip>
                                 </Blank>
                               </Col>
-                              <Col span={6}>
-                                <Blank>
+                              <Col span={8}>
+                                <Blank
+                                  style={{
+                                    justifyContent: 'flex-end',
+                                    paddingLeft: 0,
+                                  }}>
                                   {`更新于${
                                     timeDistance(item?.updateTime).time
                                   }前`}
                                 </Blank>
                               </Col>
-                              <Col span={6}>
-                                <Blank>
+                              <Col span={4}>
+                                <Blank
+                                  style={{
+                                    justifyContent: 'flex-end',
+                                    paddingLeft: 0,
+                                  }}>
                                   <Button
                                     icon="edit"
                                     basic
