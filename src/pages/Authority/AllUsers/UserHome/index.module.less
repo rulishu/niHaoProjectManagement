@@ -9,6 +9,11 @@
     width: 296px;
     max-width: 296px;
 
+    & > div {
+      width: 296px;
+      position: fixed;
+    }
+
     .avatar {
       display: flex;
       flex-direction: row;
@@ -74,6 +79,29 @@
     padding-left: @padding-sm;
     width: calc(100% - 316px);
     overflow: hidden;
+
+    .fixed {
+      :global {
+        .w-tabs-line {
+          width: 100%;
+          background-color: #fff;
+
+          & > div:first-child {
+            position: fixed;
+            z-index: 2;
+            width: calc(90% - 386px);
+            max-width: 1280px - 344px;
+            background-color: #fff;
+            height: 60px;
+            top: 68px;
+          }
+
+          & > .w-tabs-pane {
+            padding-top: 30px;
+          }
+        }
+      }
+    }
 
     // 概括
     .summary {
@@ -146,6 +174,7 @@
         .dynamicCon {
           line-height: 16px;
         }
+
         .textCon {
           width: '80%';
           color: '#008ef0';
@@ -153,11 +182,13 @@
           white-space: 'nowrap';
           text-overflow: 'ellipsis';
         }
+
         .dynamicBot {
           display: inline;
 
           .clickOn {
             color: #008ef0;
+
             &:hover {
               text-decoration: underline;
               cursor: pointer;
@@ -251,9 +282,11 @@
       }
     }
   }
+
   .listContent {
     font-size: @font-size-sm;
   }
+
   // 用户所有项目列表
   .userAllProjectList {
     .projectListHead {
@@ -284,6 +317,7 @@
 
           .title {
             justify-content: flex-start;
+
             span {
               font-size: @font-size-sm;
             }
