@@ -41,8 +41,14 @@ const FromMD = (props) => {
           // lookup: 'memberName',
           lookup: function (memberName) {
             return `<div style='display: flex; align-items: center;'>
-                <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${memberName.avatar}' />
-                <span style='font-size: 14px; font-weight: lighter;'>${memberName.memberName}</span>
+                <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
+                  memberName?.avatar
+                    ? `/api/file/selectFile/${memberName?.avatar}`
+                    : ''
+                }' />
+                <span style='font-size: 14px; font-weight: lighter;'>${
+                  memberName.memberName
+                }</span>
               </div>`
           },
           fillAttr: 'memberName',
@@ -88,8 +94,8 @@ const FromMD = (props) => {
   useEffect(() => {
     if (
       mdRefs?.current?.textarea &&
-      !isBundle.current &&
-      Object.keys(editData).length > 2
+      !isBundle.current
+      // Object.keys(editData).length > 2
     ) {
       isBundle.current = true
       newTribute.attach(mdRefs.current.textarea)
