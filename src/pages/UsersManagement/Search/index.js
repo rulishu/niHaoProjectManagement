@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 
 const Search = () => {
   const dispatch = useDispatch()
+  const { projectId } = useParams()
   useEffect(() => {
     dispatch({
       type: 'routeManagement/getInfo',
@@ -17,9 +18,15 @@ const Search = () => {
         callback: '',
       },
     })
-  }, [dispatch])
+    dispatch({
+      type: 'routeManagement/queryFuzzyAllProjectMember',
+      payload: {
+        projectId: projectId,
+      },
+    })
+  }, [dispatch, projectId])
   const {
-    routeManagement: { userInfo },
+    routeManagement: { userInfo, dataUser },
     projectlist: { userRole },
   } = useSelector((state) => state)
   const updateData = (payload) => {
@@ -28,7 +35,6 @@ const Search = () => {
       payload,
     })
   }
-  const { projectId } = useParams()
   const token = localStorage.getItem('token')
 
   const search = useTable('/api/member/selectProjectMember', {
@@ -78,6 +84,14 @@ const Search = () => {
       })
     }
   }
+
+  //权限设置:仅项目管理者可以邀请/编辑删除
+  let data = dataUser.filter(function (item) {
+    return item.memberName === userInfo
+  })
+  const memberRoles = data.map((a) => a.memberRole)
+  //超级管理员权限
+  const own = localStorage.getItem('key')
   return (
     <Fragment>
       <Card>
@@ -101,6 +115,8 @@ const Search = () => {
             {
               label: '邀请成员',
               htmlType: 'submit',
+              disabled:
+                own === 'false' && Number(memberRoles) !== 3 ? true : false,
               type: 'primary',
               onClick: () => handleEditTable('member'),
               icon: 'user-add',
@@ -108,6 +124,8 @@ const Search = () => {
             {
               label: '邀请团队',
               htmlType: 'submit',
+              disabled:
+                own === 'false' && Number(memberRoles) !== 3 ? true : false,
               type: 'primary',
               onClick: () => handleEditTable('group'),
               icon: 'usergroup-add',
@@ -118,7 +136,13 @@ const Search = () => {
             pageSize: 10,
           }}
           table={search}
-          columns={columnsSearch(handleEditTable, userInfo, userRole)}
+          columns={columnsSearch(
+            handleEditTable,
+            userInfo,
+            userRole,
+            memberRoles,
+            own
+          )}
         />
       </Card>
 

@@ -399,9 +399,6 @@ const NewIssue = (props) => {
                     )}
                     template="label"
                     shape="input"
-                    closeLabel={() => {
-                      setLabelState(false)
-                    }}
                     onClickLabelShow={(is) => {
                       setLabelState(is)
                     }}

@@ -22,7 +22,7 @@ import columns from './columns'
 const CompDropdown = (props) => {
   const {
     form,
-    title,
+    title = '',
     template,
     labelHeader, // Label 数据头
     isRadio = false,
@@ -64,6 +64,12 @@ const CompDropdown = (props) => {
   const [open, setOpen] = useState(isOpen || false)
   // 保存多选数据
   const [options, setOptions] = useState()
+
+  // 是否处于挂载阶段
+  const [firstTime, setFirstTime] = useState(true)
+
+  // eslint-disable-next-line no-unused-vars
+  const [first, setFirst] = useState(false)
 
   // 判断使用组件头方法
   const newHeader = () => {
@@ -164,7 +170,11 @@ const CompDropdown = (props) => {
                       event.stopPropagation()
                       optionEvent(item?.key)
                     }}>
-                    <Icon className={styles.tagIcon} type="close" />
+                    <Icon
+                      color="#000"
+                      className={styles.tagIcon}
+                      type="close"
+                    />
                   </span>
                 )}
               </div>
@@ -223,7 +233,8 @@ const CompDropdown = (props) => {
             className={styles.headClose}
             onClick={() => {
               setOpen(false)
-              closeLabel && closeLabel(false)
+              setFirst(1)
+              // closeLabel && closeLabel(false)
             }}
           />
         </div>
@@ -262,18 +273,29 @@ const CompDropdown = (props) => {
         </div>
       )}
       <OverlayTrigger
-        isOpen={isOpen}
+        isOpen={open}
         trigger="click"
         placement="bottomLeft"
         overlay={dropDownContent}
         autoAdjustOverflow={true}
         isOutside={true}
         onVisibleChange={(is) => {
-          onClickLabelShow && onClickLabelShow(is)
-          !is && setLabelStatus(1)
+          if (firstTime) {
+            setFirstTime(false)
+          }
+          if (!firstTime) {
+            onClickLabelShow && onClickLabelShow(is)
+            if (!is) {
+              setFirst((item) => {
+                if (!item || item === 1) closeLabel && closeLabel(false)
+                return !item
+              })
+              setLabelStatus(1)
+            }
+          }
           setOpen(is)
         }}
-        isClickOutside={false}
+        isClickOutside={true}
         // usePortal={false}
         {...dropdownWindow}>
         <div>

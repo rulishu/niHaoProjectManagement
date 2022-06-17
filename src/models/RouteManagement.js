@@ -6,6 +6,7 @@ import {
   editMenu,
   getInfo,
   getRouters,
+  queryFuzzyAllProjectMember,
 } from '@/servers/menumanagement'
 import { Notify } from 'uiw'
 
@@ -21,6 +22,7 @@ export default createModel()({
     userInfoName: '', //账号
     todoListCount: 0,
     userData: {},
+    dataUser: [], //成员
   },
   effects: (dispatch) => ({
     // 获取路由列表数据
@@ -81,6 +83,15 @@ export default createModel()({
         await dispatch.routeManagement.update({ isOpenModal: false })
         Notify.success({ title: data.message })
         await dispatch.routeManagement.getRouteMenu()
+      }
+    },
+    //成员列表不分页
+    async queryFuzzyAllProjectMember(payload, { routeManagement }) {
+      const data = await queryFuzzyAllProjectMember(payload)
+      if (data.code === 200) {
+        await dispatch.routeManagement.update({
+          dataUser: data.data,
+        })
       }
     },
   }),
