@@ -8,7 +8,6 @@ import { CompDropdown } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { initListData } from '@/utils/utils'
-import newDebounce from '@/utils/debounce'
 
 const EditTask = () => {
   const dispatch = useDispatch()
@@ -390,17 +389,14 @@ const EditTask = () => {
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
               setLabelState(false)
-              editLabelOk()
-            }}
-            onClickLabelShow={(is) => {
-              setLabelState(is)
               if (
                 taskInfoData === editFromData &&
                 Object.keys(taskInfoData).length
               ) {
-                !is && newDebounce(editLabelOk, 100)
+                editLabelOk()
               }
             }}
+            onClickLabelShow={(is) => setLabelState(is)}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}

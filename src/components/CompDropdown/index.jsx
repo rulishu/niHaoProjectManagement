@@ -65,6 +65,9 @@ const CompDropdown = (props) => {
   // 保存多选数据
   const [options, setOptions] = useState()
 
+  // 是否处于挂载阶段
+  const [firstTime, setFirstTime] = useState(true)
+
   // 判断使用组件头方法
   const newHeader = () => {
     return labelHeader || (template && columns[template].header)
@@ -223,7 +226,7 @@ const CompDropdown = (props) => {
             className={styles.headClose}
             onClick={() => {
               setOpen(() => false)
-              closeLabel && closeLabel(false)
+              // closeLabel && closeLabel(false)
             }}
           />
         </div>
@@ -269,11 +272,19 @@ const CompDropdown = (props) => {
         autoAdjustOverflow={true}
         isOutside={true}
         onVisibleChange={(is) => {
-          onClickLabelShow && onClickLabelShow(is)
-          !is && setLabelStatus(1)
+          if (firstTime) {
+            setFirstTime(false)
+          }
+          if (!firstTime) {
+            onClickLabelShow && onClickLabelShow(is)
+            if (!is) {
+              setLabelStatus(1)
+              closeLabel && closeLabel(false)
+            }
+          }
           setOpen(is)
         }}
-        isClickOutside={false}
+        isClickOutside={true}
         // usePortal={false}
         {...dropdownWindow}>
         <div>
