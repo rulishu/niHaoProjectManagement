@@ -1,5 +1,6 @@
 import { Modal, Row, Col, Input, Form, Button } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
+import { verifyPwd } from '@/utils/utils'
 
 const ChangePwd = () => {
   const dispatch = useDispatch()
@@ -20,7 +21,10 @@ const ChangePwd = () => {
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}
     if (!current.password) {
-      errorObj.rawPassword = '密码不能为空！'
+      errorObj.password = '密码不能为空！'
+    }
+    if (!verifyPwd(current.password)) {
+      errorObj.password = `必须含有字母跟数字且大于六位`
     }
     if (Object.keys(errorObj).length > 0) {
       const err = new Error()
@@ -59,6 +63,7 @@ const ChangePwd = () => {
               labelFor: 'password',
               label: '新密码',
               required: true,
+              help: '必须含有字母跟数字且大于六位',
               rules: [{ required: true, message: '输入新密码' }],
               children: <Input type="password" />,
               placeholder: '请输入新密码',
