@@ -170,7 +170,11 @@ const CompDropdown = (props) => {
                       event.stopPropagation()
                       optionEvent(item?.key)
                     }}>
-                    <Icon className={styles.tagIcon} type="close" />
+                    <Icon
+                      color="#000"
+                      className={styles.tagIcon}
+                      type="close"
+                    />
                   </span>
                 )}
               </div>
