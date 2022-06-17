@@ -45,9 +45,8 @@ const Login = () => {
             })
             dispatch({
               type: 'login/submitLogin',
-              payload: { ...current, navigate },
+              payload: { ...current, navigate, setIsOk },
             })
-            setIsOk(false)
           }
         }}
         onSubmitError={(error) => {

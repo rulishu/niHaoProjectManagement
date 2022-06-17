@@ -22,8 +22,8 @@ const LabelSelect = (props) => {
         return {
           value: item.value,
           label:
-            item.label.length > 4
-              ? item.label.substring(0, 4) + '..'
+            item.label.length > 7
+              ? item.label.substring(0, 7) + '..'
               : item.label,
         }
       })
@@ -33,11 +33,8 @@ const LabelSelect = (props) => {
   }, [labelsListData, teamMembers, milistones])
 
   const changeFun = (props) => {
-    // console.log('props: ', props)
     const value = { ...form.getFieldValues?.(), ...props }
-    // console.log('value: ', value)
     let selectDtos = []
-
     Object.keys(value).forEach((item) => {
       // console.log('item: ', item)
       if (value[item].length > 0) {
@@ -50,14 +47,7 @@ const LabelSelect = (props) => {
         })
       }
     })
-    // console.log('selectDtos: ', selectDtos)
-    // if (project.activeKey !== '') {
-    //   splicingConditionsDtos.push({
-    //     condition: '=',
-    //     field: 'assignmentStatus',
-    //     value: project.activeKey,
-    //   })
-    // }
+
     updateData({ selectDtos: [...selectDtos] })
     pageS({
       assignmentStatus: project.activeKey,
@@ -88,11 +78,11 @@ const LabelSelect = (props) => {
               onChange: (value) => {
                 changeFun({ createId: value })
               },
-              // onSelect: (value) => console.log('selectvalue', value),
-              // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              style: {
+                width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+              },
             },
             span: '6',
           },
@@ -114,11 +104,11 @@ const LabelSelect = (props) => {
               onChange: (value) => {
                 changeFun({ assignmentId: value })
               },
-              // onSelect: (value) => console.log('selectvalue', value),
-              // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              style: {
+                width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+              },
             },
             span: '6',
           },
@@ -144,29 +134,12 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              style: {
+                width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+              },
             },
             span: '6',
           },
-          // {
-          //   label: '',
-          //   key: 'release',
-          //   widget: 'searchSelect',
-          //   option: option,
-          //   widgetProps: {
-          //     mode: 'multiple',
-          //     labelInValue: true,
-          //     placeholder: '状态',
-          //     onSearch: (value) => console.log('onSearch', value),
-          //     onChange: (value) => console.log('changevalue', value),
-          //     onSelect: (value) => console.log('selectvalue', value),
-          //     // loading: loading,
-          //     allowClear: true,
-          //     showSearch: true,
-          //     style: { width: '100%' },
-          //   },
-          //   span: '4',
-          // },
           {
             label: '',
             key: 'labels',
@@ -176,7 +149,6 @@ const LabelSelect = (props) => {
               mode: 'multiple',
               labelInValue: true,
               placeholder: '标签',
-              maxTagCount: 2,
               onSearch: (value) => {
                 const filterOpion = labelsListData.filter((item) =>
                   item?.label?.includes(value.trim())
@@ -196,11 +168,10 @@ const LabelSelect = (props) => {
               onChange: (value) => {
                 changeFun({ labels: value })
               },
-              // onSelect: (value) => console.log('selectvalue', value),
-              // loading: loading,
               allowClear: true,
-              showSearch: true,
-              style: { width: '260px' },
+              style: {
+                width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+              },
             },
             span: '6',
           },

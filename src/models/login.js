@@ -50,6 +50,7 @@ const login = createModel()({
 
       if (data && data.code === 200) {
         const lastPath = JSON.parse(localStorage.getItem('lastPath'))
+        param?.setIsOk && param.setIsOk(false)
         Notify.success({ title: '登录成功' })
         // const userDataAccount = localStorage.getItem('userData')
         localStorage.setItem('token', data?.token || '')
@@ -103,6 +104,7 @@ const login = createModel()({
         await navigate(lastPath || `/dashboard`, {
           replace: true,
         })
+        return data
       }
     },
 
