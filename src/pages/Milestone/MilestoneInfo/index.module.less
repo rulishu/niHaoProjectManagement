@@ -1,12 +1,21 @@
 @import '../../../common.less';
 
 .contentWrapper {
-  background-color: @white;
+  // background-color: @white;
   border-radius: 2px;
-  // margin-right: 290px;
   display: flex;
   justify-content: space-between;
-  // width: 100%;
+  width: calc(100% - 300px);
+  overflow: hidden;
+  height: calc(100vh - 121px);
+  max-height: calc(100vh - 121px);
+  min-height: calc(100vh - 121px);
+
+  :global {
+    .w-loader-blur {
+      filter: initial;
+    }
+  }
 }
 
 // 数字
@@ -25,12 +34,14 @@
 
 // 里程碑详情 左边布局
 .layoutLeft {
-  // max-width: 1280px;
+  max-width: 1280px;
   padding: 0 @padding-md;
-  // margin: auto;
+  margin: auto;
   background-color: @white;
   // min-height: calc(100vh - 84px);
   width: 100%;
+  height: 100%;
+  overflow: auto;
 
   // 里程碑详情 左边布局 头部
   .layoutLeftHead {
@@ -142,6 +153,7 @@
               display: flex;
               align-items: center;
               flex-wrap: wrap;
+
               .taskLink {
               }
 
@@ -218,16 +230,17 @@
 // 里程碑详情 右边布局
 .layoutRight {
   width: 290px;
-  // position: fixed;
-  // top: 53px;
-  // right: 0;
-  // transition: width 0.3s;
   background: #fafafa;
   z-index: 200;
-  // overflow: hidden;
   padding: 0 20px;
   box-sizing: border-box;
-  // border-left: 1px solid #dbdbdb;
+  position: fixed;
+  top: 53px;
+  right: 0;
+  z-index: 0;
+  overflow: auto;
+  height: 100%;
+  padding-bottom: 50px;
 
   li {
     padding: 16px 0;
@@ -239,6 +252,7 @@
       justify-content: space-between;
       align-items: flex-end;
       margin-bottom: 5px;
+
       .num {
         background-color: #f0f0f0;
         color: #666;
@@ -267,6 +281,7 @@
       display: flex;
       height: 25px;
       align-items: center;
+
       span {
         display: flex;
         margin-right: @margin-xss;
