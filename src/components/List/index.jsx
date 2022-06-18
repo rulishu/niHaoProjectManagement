@@ -1,12 +1,14 @@
-import { List, Row, Col, Icon, Tooltip } from 'uiw'
+import { List, Row, Col, Icon, Tooltip, Avatar } from 'uiw'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { projectStatus } from '../../utils/utils'
+import timeDistance from '@/utils/timeDistance'
+import { useNavigate } from 'react-router-dom'
 import './style.css'
 
 export default function ListItem(props) {
-  const { data, isIssue, listField, listNavigate, delAssignment, labelsData } =
-    props
+  const navigate = useNavigate()
+  const { data, isIssue, listField, listNavigate, labelsData } = props
 
   const listGoTo = (val) => {
     listNavigate(val)
@@ -35,46 +37,68 @@ export default function ListItem(props) {
                 <div>
                   <div className={styles.listIssueIcon}>
                     {item.assigneeUserName && (
-                      <Tooltip placement="top" content="指派人">
-                        <span
+                      <Tooltip
+                        placement="top"
+                        content={<>指派给{item.assigneeUserName}</>}>
+                        <div
                           className={styles.taskUserName}
-                          style={{ width: 95 }}>
-                          <Icon type="user" />
+                          onClick={() => {
+                            navigate(`/${item.assigneeUserAccount}`, {
+                              state: { assigneeUserId: item?.assigneeUserId },
+                            })
+                          }}>
+                          {/* <Icon type="user" />
                           <span className={styles.listIconSpan}>
                             {item.assigneeUserName.lenght &&
                             item.assigneeUserName.lenght > 4
                               ? item.assigneeUserName.substring(0, 4) + '...'
                               : item.assigneeUserName}
-                          </span>
-                        </span>
+                          </span> */}
+                          <Avatar
+                            size="mini"
+                            src={
+                              item?.assigneeUserAvatar &&
+                              `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                            }
+                            className={styles.roleAvatar}>
+                            {item.assigneeUserName && item.assigneeUserName[0]}
+                          </Avatar>
+                        </div>
                       </Tooltip>
                     )}
                     <Tooltip placement="top" content="评论">
-                      <span
-                        className={styles.taskUserName}
-                        style={{ width: 95 }}>
+                      <div className={styles.taskUserMessage}>
                         <Icon type="message" />
                         <span className={styles.listIconSpan}>
                           {item?.commentNum}
                         </span>
-                      </span>
+                      </div>
                     </Tooltip>
-                    <Tooltip placement="top" content="删除">
+                    {/* <Tooltip placement="top" content="删除">
                       <span
                         className={styles.listIconSpan}
                         onClick={() => delAssignment(item)}>
                         <Icon type="delete" />
                       </span>
-                    </Tooltip>
+                    </Tooltip> */}
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    {listField?.updateName
+                  <div style={{ textAlign: 'right', color: '#666' }}>
+                    {/* {listField?.updateName
                       ? item[listField.updateName]
                       : item?.updateName}
                     更新于
                     {listField?.updateTime
                       ? item[listField.updateTime]
-                      : item?.updateTime}
+                      : item?.updateTime} */}
+                    更新于
+                    {
+                      timeDistance(
+                        listField?.updateTime
+                          ? item[listField.updateTime]
+                          : item?.updateTime
+                      ).time
+                    }
+                    前
                   </div>
                 </div>
               }>

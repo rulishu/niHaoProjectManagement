@@ -241,24 +241,26 @@ const Task = (props) => {
               labelsData={labelsListData}
             />
             {taskTotal > 0 && (
-              <Pagination
-                current={filter.page}
-                pageSize={10}
-                total={taskTotal}
-                alignment="center"
-                onChange={(page, _, pageSize) => {
-                  dispatch.project.goToPage({
-                    page,
-                    pageSize,
-                    // assignmentStatus: num,
-                    assignmentStatus: activeKey,
-                    projectId: taskId,
-                    // createId: location?.state?.createId
-                    //   ? location?.state.createId
-                    //   : '',
-                  })
-                }}
-              />
+              <div style={{ marginTop: '0.5rem' }}>
+                <Pagination
+                  current={filter.page}
+                  pageSize={10}
+                  total={taskTotal}
+                  alignment="center"
+                  onChange={(page, _, pageSize) => {
+                    dispatch.project.goToPage({
+                      page,
+                      pageSize,
+                      // assignmentStatus: num,
+                      assignmentStatus: activeKey,
+                      projectId: taskId,
+                      // createId: location?.state?.createId
+                      //   ? location?.state.createId
+                      //   : '',
+                    })
+                  }}
+                />
+              </div>
             )}
           </Fragment>
         ) : (
