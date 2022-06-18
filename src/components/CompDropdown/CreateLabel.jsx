@@ -38,17 +38,21 @@ const CreateLabel = (props) => {
                   form?.fieldsShow({ fields, state, canSubmit, resetForm })}
               </div>
               <div className={styles.butGroup}>
-                <Button
-                  size="small"
-                  type="success"
-                  disabled={!Object.keys(state?.current)?.length}
-                  // htmlType="submit"
-                  onClick={() => labelForm.current.onSubmit()}>
-                  创建
-                </Button>
-                <Button size="small" onClick={() => setLabelStatus(1)}>
-                  取消
-                </Button>
+                {!form?.isHidSubmit && (
+                  <Button
+                    size="small"
+                    type="success"
+                    disabled={!Object.keys(state?.current)?.length}
+                    // htmlType="submit"
+                    onClick={() => labelForm.current.onSubmit()}>
+                    创建
+                  </Button>
+                )}
+                {!form?.isHidCancel && (
+                  <Button size="small" onClick={() => setLabelStatus(1)}>
+                    取消
+                  </Button>
+                )}
               </div>
             </div>
           )

@@ -112,7 +112,7 @@ const ProjectManagement = (fun) => {
             mainTitle: `项目负责人`,
           }}
           actionButtons={
-            JSON.parse(localStorage.getItem('userData')).admin
+            JSON.parse(localStorage.getItem('userData'))?.admin
               ? {
                   create: { title: '快速邀请成员并成为负责人' },
                   manage: { isHide: true },
