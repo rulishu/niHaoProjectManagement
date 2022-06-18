@@ -112,8 +112,8 @@ export default function ListItem(props) {
                       </Tooltip>
                     )}
                     <div className={styles.listLabels}>
-                      {labelsData?.map((list) => {
-                        if (item?.labels?.includes(list?.id)) {
+                      {labelsData?.map((list, index) => {
+                        if (item?.labels?.includes(list?.id) && index < 4) {
                           return (
                             <Tooltip key={list?.id} content={list?.name}>
                               <span
