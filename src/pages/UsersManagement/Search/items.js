@@ -85,7 +85,7 @@ export const columnsSearch = (
               size="small"
               type="danger"
               icon="close"
-              onClick={() => handleEditTable('del', rowData)}>
+              onClick={() => handleEditTable('out', rowData)}>
               退出
             </Button>
           ) : (
@@ -109,7 +109,7 @@ export const columnsSearch = (
             size="small"
             type="danger"
             icon="close"
-            onClick={() => handleEditTable('del', rowData)}>
+            onClick={() => handleEditTable('out', rowData)}>
             退出
           </Button>
         ) : (
