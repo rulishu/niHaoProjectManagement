@@ -93,9 +93,8 @@ const Search = () => {
       })
     }
   }
-
   //权限设置:仅项目管理者可以邀请/编辑删除
-  let data = dataUser.filter(function (item) {
+  let data = dataUser?.filter(function (item) {
     return item.memberName === userInfo
   })
   const memberRoles = data.map((a) => a.memberRole)

@@ -88,7 +88,7 @@ export default createModel()({
     //成员列表不分页
     async queryFuzzyAllProjectMember(payload, { routeManagement }) {
       const data = await queryFuzzyAllProjectMember(payload)
-      if (data.code === 200) {
+      if (data.data && data.code === 200) {
         await dispatch.routeManagement.update({
           dataUser: data.data,
         })
