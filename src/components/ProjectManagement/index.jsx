@@ -88,6 +88,7 @@ const ProjectManagement = (fun) => {
           listData={initListData(userList, seachValue.projectLeaderId, 'key', {
             memberName: 'memberName',
           })}
+          isAllowsForNo={false}
           selectLabel={(e) => {
             baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)

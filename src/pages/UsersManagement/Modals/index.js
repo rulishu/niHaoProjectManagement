@@ -1,11 +1,12 @@
 import { Modal } from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
 import { Notify } from 'uiw'
-
+import { useNavigate } from 'react-router-dom'
 const Modals = (props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const {
-    usersManagement: { delectVisible, userId, projectId, type },
+    usersManagement: { delectVisible, userId, projectId, type, tableType },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -20,6 +21,12 @@ const Modals = (props) => {
   // 执行成功返回的信息
   const information = (data) => {
     if (data.code === 200) {
+      if (tableType === 'out') {
+        navigate(`/dashboard`, { replace: true })
+        onClose()
+        Notify.success({ title: data?.message || '' })
+        return
+      }
       onClose()
       props?.onSearch()
       Notify.success({ title: data?.message || '' })

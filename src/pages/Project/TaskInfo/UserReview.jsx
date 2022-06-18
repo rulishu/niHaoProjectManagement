@@ -30,8 +30,8 @@ const UserReview = (props) => {
 
   // 判断是否是当前评论
   useEffect(() => {
-    setIsCurUser(curUser.admin || curUser?.userId === item?.createId)
-  }, [curUser.admin, curUser?.userId, item?.createId])
+    setIsCurUser(curUser?.admin || curUser?.userId === item?.createId)
+  }, [curUser?.admin, curUser?.userId, item?.createId])
 
   // 判断是否是当前评论
   useEffect(() => {
@@ -67,17 +67,22 @@ const UserReview = (props) => {
         : editOrReply === 2
         ? {
             ...editCommentData,
-            operatingRecords: editCommentData.operatingRecords,
+
+            taskHistoryId: item.taskHistoryId,
+            operatingRecords:
+              editCommentData.operatingRecords || item.operatingRecords,
           }
         : {}
+    // console.log(params, item)
     dispatch({
       type: action,
       payload: { params, callback },
     })
   }
-
   // MD文档编译器
   const editContentBox = (editData, editType) => {
+    const newEditData =
+      editOrReply === 1 ? { ...editData, operatingRecords: '' } : editData
     return (
       <div className={styles.editContent}>
         <FromMD
@@ -90,11 +95,11 @@ const UserReview = (props) => {
               ? 'editCommentData'
               : 'commentData'
           }
-          editData={editData}
+          editData={newEditData}
           fromValue="operatingRecords"
           btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
-          isComment={true}
+          // isComment={true}
           isEdit={isEdit}
           onClose={() => setIsEdit(false)}
         />
