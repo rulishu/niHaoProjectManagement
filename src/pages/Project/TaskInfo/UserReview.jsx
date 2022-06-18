@@ -30,8 +30,8 @@ const UserReview = (props) => {
 
   // 判断是否是当前评论
   useEffect(() => {
-    setIsCurUser(curUser.admin || curUser?.userId === item?.createId)
-  }, [curUser.admin, curUser?.userId, item?.createId])
+    setIsCurUser(curUser?.admin || curUser?.userId === item?.createId)
+  }, [curUser?.admin, curUser?.userId, item?.createId])
 
   // 判断是否是当前评论
   useEffect(() => {

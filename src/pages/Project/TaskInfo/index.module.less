@@ -2,17 +2,34 @@
 
 .wrapTask {
   display: flex;
-  background-color: #fff;
   border-radius: 2px;
-  width: 100%;
+  width: calc(100% - 300px);
   overflow: hidden;
+  height: calc(100vh - 121px);
 }
 
 .leftNav {
-  width: 75%;
+  width: 100%;
   flex: 1;
   padding: 15px 30px;
   max-width: 1280px;
+  margin: auto;
+  overflow: auto;
+  height: 100%;
+  background-color: #fff;
+}
+
+// 右边固定
+.rightFixed {
+  position: fixed;
+  top: 53px;
+  transition: width 0.3s;
+  background: #fafafa;
+  z-index: 0;
+  overflow: auto;
+  right: 0px;
+  height: 100%;
+  padding-bottom: 50px;
 }
 
 .navItem {
