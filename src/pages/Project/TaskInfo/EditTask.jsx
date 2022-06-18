@@ -182,7 +182,7 @@ const EditTask = () => {
     })
   }
   return (
-    <div>
+    <div className={styles.rightFixed}>
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button

@@ -45,7 +45,7 @@ export default function Demo() {
   const naid = localStorage.getItem('key')
 
   return (
-    <Container>
+    <Container className={styles.workbench}>
       <div>
         <Row gutter={20}>
           <Col fixed style={{ width: '25%' }}>

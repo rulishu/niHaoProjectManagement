@@ -112,22 +112,34 @@ export default function ListItem(props) {
                       </Tooltip>
                     )}
                     <div className={styles.listLabels}>
-                      {labelsData?.map((list) => {
-                        if (item?.labels?.includes(list?.id)) {
+                      {labelsData?.map((list, index) => {
+                        if (item?.labels?.includes(list?.id) && index < 4) {
                           return (
-                            <span
-                              key={list?.id}
-                              className={
-                                list?.color
-                                  ? styles.listIssueStatus
-                                  : styles.nolistIssueTag
-                              }
-                              style={{
-                                backgroundColor: list?.color,
-                                borderColor: list?.color,
-                              }}>
-                              {list?.name}
-                            </span>
+                            <Tooltip key={list?.id} content={list?.name}>
+                              <span
+                                className={
+                                  list?.color
+                                    ? styles.listIssueStatus
+                                    : styles.nolistIssueTag
+                                }
+                                style={{
+                                  color:
+                                    list?.color === '#fff' ||
+                                    list?.color === '#ffffff' ||
+                                    list?.color === '#FFF' ||
+                                    list?.color === '#FFFFFF'
+                                      ? '#000'
+                                      : '#FFF',
+                                  backgroundColor: list?.color,
+                                  border: '1px solid rgb(240, 240, 240)',
+                                  minWidth: 50,
+                                  textAlign: 'center',
+                                }}>
+                                {list?.name && list?.name.length > 5
+                                  ? list?.name.substring(0, 5) + '...'
+                                  : list?.name}
+                              </span>
+                            </Tooltip>
                           )
                         }
                         return null

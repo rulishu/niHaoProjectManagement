@@ -1,15 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  Button,
-  // Row,
-  // Col,
-  Progress,
-  Modal,
-  Loader,
-  DateInput,
-  Notify,
-} from 'uiw'
+import { Button, Progress, Modal, Loader, DateInput, Notify } from 'uiw'
 import formatter from '@uiw/formatter'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
@@ -163,11 +154,7 @@ const MilestoneInfo = () => {
   return (
     <div
       ref={ref}
-      style={{
-        minHeight: window.innerHeight - tHeaderTop - 130,
-        // overflowX: 'hidden',
-        // overflowY: 'auto',
-      }}
+      style={{ minHeight: window.innerHeight - tHeaderTop - 130 }}
       className={styles.contentWrapper}>
       <div className={styles.layoutLeft}>
         <div className={styles.layoutLeftHead}>
@@ -335,7 +322,6 @@ const MilestoneInfo = () => {
                       ) && <span>（逾期）</span>}
                 </>
               )}
-              {}
               {/* {!editState.due &&
                   editState.dueTime &&
                   listDataInfo.milestonesStatus === 1 &&
@@ -397,22 +383,6 @@ const MilestoneInfo = () => {
           </li>
         </ul>
       </div>
-      {/* <Alert
-        isOpen={openAlert}
-        confirmText="确定"
-        cancelText="取消"
-        icon="delete"
-        type="danger"
-        onConfirm={delMilestones}
-        onCancel={() => setOpenAlert(false)}
-        onClosed={() => setOpenAlert(false)}>
-        <div>
-          确定要删除该里程碑吗?
-          <br />
-          <strong>删除后数据不可恢复!</strong>
-        </div>
-      </Alert> */}
-      {/* 统一删除按钮样式 */}
       <Modal
         title="删除提示"
         isOpen={openAlert}

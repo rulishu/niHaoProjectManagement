@@ -61,13 +61,13 @@ export default function SlelectLabel() {
   const TableList = () => {
     return (
       <div
+        className={styles.oncell}
         style={{
           height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
         <ProTable
-          className={styles.mouseList}
           paginationProps={{ style: { display: 'none' } }}
           onCell={(rowData) => {
             navigate(
@@ -92,8 +92,15 @@ export default function SlelectLabel() {
             //   key: 'assignmentId',
             // },
             {
-              title: '项目',
+              title: '项目名称',
               key: 'name',
+              width: 200,
+              ellipsis: true,
+              render: (name) => (
+                <Tooltip placement="topLeft" content={name}>
+                  {name}
+                </Tooltip>
+              ),
             },
 
             {
@@ -158,7 +165,7 @@ export default function SlelectLabel() {
               className={styles.dynamicList}
               onScroll={(e) => divscrollFn(e)}>
               {newMemberList.length === 0 ? (
-                <Empty style={{ marginTop: 20 }} />
+                <Empty />
               ) : (
                 <Steps
                   direction="vertical"
