@@ -32,13 +32,13 @@ export default function TableManage() {
   const TableListUser = () => {
     return (
       <div
+        className={styles.oncell}
         style={{
           height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
         <ProTable
-          className={styles.mouseList}
           onCell={(rowData) => {
             navigate(
               `${rowData?.projectUrl}/task/taskInfo/${rowData?.assignmentId}`
@@ -64,8 +64,15 @@ export default function TableManage() {
             //   key: 'assignmentId',
             // },
             {
-              title: '项目名',
+              title: '项目名称',
               key: 'name',
+              width: 200,
+              ellipsis: true,
+              render: (name) => (
+                <Tooltip placement="topLeft" content={name}>
+                  {name}
+                </Tooltip>
+              ),
             },
             {
               title: '任务状态',
