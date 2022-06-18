@@ -179,21 +179,21 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      max-width: 130px;
+      // max-width: 130px;
 
       .projectControlsLI {
         display: flex;
-        justify-content: space-around;
         align-items: center;
-
+        width: 50px;
+        &:hover {
+          cursor: pointer;
+        }
+        &:hover .num {
+          text-decoration: underline;
+        }
         .num {
           margin-left: @margin-xss;
           margin-right: @margin-xs;
-
-          &:hover {
-            text-decoration: underline;
-            cursor: pointer;
-          }
         }
       }
     }
