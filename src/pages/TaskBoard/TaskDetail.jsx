@@ -43,7 +43,6 @@ const TaskDetail = (props) => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    taskInfo.labels = keyArr
     setCLabelList(keyArr)
     if (!labelState) {
       const labels = labelList?.filter((item) => {
@@ -59,16 +58,25 @@ const TaskDetail = (props) => {
     }
   }
 
-  const editLabelOk = async () => {
+  //关闭标签回调
+  const editLabelOk = () => {
     setLabelState(false)
-    const labels = labelList?.filter((item) => {
-      return cLabelList?.includes(item?.id)
-    })
-    dispatch.taskboard.getEdit({
-      taskInfo: {
-        ...taskInfo,
-        labels: labels.length ? cLabelList : [],
-      },
+    setCLabelList((newData) => {
+      const labels = labelList?.filter((item) => {
+        return newData?.includes(item.id)
+      })
+      if (
+        JSON.stringify(taskInfo?.labels?.sort()) !==
+        JSON.stringify(labels?.sort())
+      ) {
+        dispatch.taskboard.getEdit({
+          taskInfo: {
+            ...taskInfo,
+            labels: labels.length ? newData : [],
+          },
+        })
+      }
+      return newData
     })
   }
 
@@ -100,7 +108,6 @@ const TaskDetail = (props) => {
   const dueDateChange = async (e) => {
     setTaskDueDate(e)
     setDueDateState(false)
-    console.log(e)
     dispatch.taskboard.changeCloseTime({
       projectId,
       assignmentId: taskInfo.assignmentId,
@@ -134,10 +141,14 @@ const TaskDetail = (props) => {
             className={styles.taskCloseBtu}
             type="light"
             onClick={() => {
-              let taskState = 1
+              const closeState = [
+                //任务开启状态
+                1, 2, 4,
+              ]
+              let taskState = ''
               if (taskInfo?.assignmentStatus === 3) {
                 taskState = '打开'
-              } else if (taskInfo?.assignmentStatus === 1) {
+              } else if (closeState.includes(taskInfo?.assignmentStatus)) {
                 taskState = '关闭'
               }
               dispatch.taskboard.changeAssignmentStatus({
@@ -371,7 +382,7 @@ const TaskDetail = (props) => {
                   </AuthBtn>
                 </div>
                 <CompDropdown
-                  listData={initListData(labelList, taskInfo.labels, 'id', {
+                  listData={initListData(labelList, cLabelList, 'id', {
                     color: 'color',
                     title: 'name',
                   })}
