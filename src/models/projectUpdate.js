@@ -24,6 +24,7 @@ const projectUpdate = createModel()({
     editLoading: false, //新增编辑项目loading
     originData: [], //项目成员原信息
     addList: [],
+    oldProjectAvatar: '', //原头像uuid
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -76,11 +77,13 @@ const projectUpdate = createModel()({
         if (data.code === 200) {
           let isrigiht
           data.data.status === 3 ? (isrigiht = true) : (isrigiht = false)
+
           dph.projectUpdate.updateState({
             isHangup: isrigiht,
             isOldStatus: isrigiht,
             seachValue: data.data,
             drawerVisible: true,
+            oldProjectAvatar: data.data.projectAvatar,
           })
         }
       }
@@ -125,6 +128,7 @@ const projectUpdate = createModel()({
         }
       }
       newValue.projectAvatar = state.projectUpdate.fileIds
+      newValue.oldProjectAvatar = state.projectUpdate.oldProjectAvatar
       const data = await updateProject(newValue)
       if (data.code === 200) {
         dph.projectUpdate.updateState({
