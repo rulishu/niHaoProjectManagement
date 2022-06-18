@@ -135,7 +135,7 @@ export default function SlelectLabel() {
     <div>
       <Row gutter={20}>
         <Col fixed style={{ width: '75%' }}>
-          <Card title="我的任务" bodyStyle={{ paddingTop: 0 }}>
+          <Card title="我的任务" bodyStyle={{ paddingTop: 0 }} bordered={false}>
             <Tabs
               // type="line"
               activeKey="1"

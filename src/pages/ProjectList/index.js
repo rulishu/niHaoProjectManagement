@@ -323,7 +323,6 @@ const ProjectList = (props) => {
                       <div className={styles.projectControls}>
                         <div style={{ maxWidth: 210, display: 'flex' }}>
                           <div
-                            style={{ width: 70 }}
                             className={styles.projectControlsLI}
                             onClick={(e) => {
                               console.log(rowData)
@@ -337,19 +336,15 @@ const ProjectList = (props) => {
                               content={<strong>任务</strong>}>
                               <div style={{ lineHeight: 0 }}>
                                 <Icon type="paper-clip" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.task || 0) >= 100
+                                    ? '...'
+                                    : rowData?.task}
+                                </span>
                               </div>
                             </Tooltip>
-                            <span className={styles.num}>
-                              <Tooltip
-                                content={<strong>{rowData?.task || 0}</strong>}>
-                                {Number(rowData?.task || 0) >= 100
-                                  ? '...'
-                                  : rowData?.task}
-                              </Tooltip>
-                            </span>
                           </div>
                           <div
-                            style={{ width: 70 }}
                             className={styles.projectControlsLI}
                             onClick={(e) => {
                               goSpecifyPage({
@@ -362,21 +357,15 @@ const ProjectList = (props) => {
                               content={<strong>成员</strong>}>
                               <div style={{ lineHeight: 0 }}>
                                 <Icon type="user" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.teamMember || 0) >= 100
+                                    ? '...'
+                                    : rowData?.teamMember}
+                                </span>
                               </div>
                             </Tooltip>
-                            <span className={styles.num}>
-                              <Tooltip
-                                content={
-                                  <strong>{rowData?.teamMember || 0}</strong>
-                                }>
-                                {Number(rowData?.teamMember || 0) >= 100
-                                  ? '...'
-                                  : rowData?.teamMember}
-                              </Tooltip>
-                            </span>
                           </div>
                           <div
-                            style={{ width: 70 }}
                             className={styles.projectControlsLI}
                             onClick={(e) => {
                               goSpecifyPage({
@@ -389,18 +378,13 @@ const ProjectList = (props) => {
                               content={<strong>里程碑</strong>}>
                               <div style={{ lineHeight: 0 }}>
                                 <Icon type="coffee" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.milestones || 0) >= 100
+                                    ? '...'
+                                    : rowData?.milestones}
+                                </span>
                               </div>
                             </Tooltip>
-                            <span className={styles.num}>
-                              <Tooltip
-                                content={
-                                  <strong>{rowData?.milestones || 0}</strong>
-                                }>
-                                {Number(rowData?.milestones || 0) >= 100
-                                  ? '...'
-                                  : rowData?.milestones}
-                              </Tooltip>
-                            </span>
                           </div>
                         </div>
                       </div>

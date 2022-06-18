@@ -89,6 +89,7 @@ const ProjectManagement = (fun) => {
             memberName: 'memberName',
           })}
           isAllowsForNo={false}
+          isGonnaHitDeselect={false}
           selectLabel={(e) => {
             baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)
@@ -112,7 +113,7 @@ const ProjectManagement = (fun) => {
             mainTitle: `项目负责人`,
           }}
           actionButtons={
-            JSON.parse(localStorage.getItem('userData')).admin
+            JSON.parse(localStorage.getItem('userData'))?.admin
               ? {
                   create: { title: '快速邀请成员并成为负责人' },
                   manage: { isHide: true },
@@ -123,6 +124,7 @@ const ProjectManagement = (fun) => {
                 }
           }
           form={{
+            isHidSubmit: true,
             fields: (props) => {
               return {
                 userId: {
