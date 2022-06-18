@@ -62,7 +62,9 @@ const DynamicsList = (props) => {
                         前
                       </span>
                     </div>
-                    <div className={styles.dynamicCon}>
+                    <div
+                      className={styles.dynamicCon}
+                      style={{ float: 'right' }}>
                       {/* <span>{item?.createTime} </span> */}
                       <span
                         style={{
