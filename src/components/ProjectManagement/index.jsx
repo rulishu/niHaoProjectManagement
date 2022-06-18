@@ -89,6 +89,7 @@ const ProjectManagement = (fun) => {
             memberName: 'memberName',
           })}
           isAllowsForNo={false}
+          isGonnaHitDeselect={false}
           selectLabel={(e) => {
             baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)
@@ -123,6 +124,7 @@ const ProjectManagement = (fun) => {
                 }
           }
           form={{
+            isHidSubmit: true,
             fields: (props) => {
               return {
                 userId: {
