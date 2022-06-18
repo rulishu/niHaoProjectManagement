@@ -146,7 +146,7 @@ const TaskInfo = () => {
     }
   }
   return (
-    <>
+    <div className={styles.infoLoad}>
       <Loader
         tip="加载中..."
         vertical
@@ -243,7 +243,7 @@ const TaskInfo = () => {
           </div>
         </div>
       </Loader>
-    </>
+    </div>
   )
 }
 export default TaskInfo
