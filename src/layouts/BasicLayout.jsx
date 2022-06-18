@@ -111,7 +111,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       refresh(true)
     },
     hideLogoutButton: true,
-    // hideReloadButton: true,
+    hideReloadButton: true,
     // 修改密码以及其他操作在项目中进行
     menus: [
       {
@@ -128,6 +128,14 @@ function BasicLayoutScreen(props = { routes: [] }) {
         onClick: () => {
           navigate(`/${userData?.userName}`, { replace: true })
           layouts.closeMenu()
+        },
+      },
+      {
+        title: '刷新权限',
+        icon: 'reload',
+        onClick: async () => {
+          await dispatch({ type: 'users/getUserPermis' })
+          refresh(true)
         },
       },
       {
