@@ -23,6 +23,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
     routeManagement: { todoListCount, userData },
   } = useSelector((state) => state)
   const layouts = useLayouts()
+  const [checkAll, setCheckAll] = useState(false)
+  const [projectList, setprojectList] = useState(false)
+  // const [users, setusers] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
@@ -149,11 +152,14 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userData?.userName,
       menuLeft: (
         <>
-          {userData?.avatar === '' ? (
+          {checkAll === false ? (
             <div
               className={styles.title}
               onClick={() => {
                 navigate(`/dashboard`)
+                setCheckAll(true)
+                setprojectList(false)
+                // setusers(false)
               }}>
               工作台
             </div>
@@ -162,22 +168,44 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate(`/dashboard`)
+                setCheckAll(false)
+                setprojectList(false)
+                // setusers(false)
               }}>
               工作台
             </div>
           )}
-          <div
-            className={styles.title}
-            onClick={() => {
-              navigate(`/projectList`)
-            }}>
-            项目管理
-          </div>
+          {projectList === false ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/projectList`)
+                setprojectList(true)
+                setCheckAll(false)
+                // setusers(false)
+              }}>
+              项目管理
+            </div>
+          ) : (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/projectList`)
+                setprojectList(false)
+                setCheckAll(false)
+                // setusers(false)
+              }}>
+              项目管理
+            </div>
+          )}
           {userData?.admin === true ? (
             <div
               className={styles.title}
               onClick={() => {
                 navigate('/Authority/users')
+                // setusers(true)
+                setprojectList(false)
+                setCheckAll(false)
               }}>
               系统管理
             </div>
