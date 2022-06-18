@@ -19,6 +19,7 @@ const projectUpdate = createModel()({
     userList: [], //新增项目或编辑项目的项目负责人列表
     fun: {},
     isHangup: false, //项目是否挂起
+    isOldStatus: false, //项目原来的状态
     fileIds: '', //Logo文件的id
     editLoading: false, //新增编辑项目loading
     originData: [], //项目成员原信息
@@ -77,6 +78,7 @@ const projectUpdate = createModel()({
           data.data.status === 3 ? (isrigiht = true) : (isrigiht = false)
           dph.projectUpdate.updateState({
             isHangup: isrigiht,
+            isOldStatus: isrigiht,
             seachValue: data.data,
             drawerVisible: true,
           })
@@ -97,10 +99,12 @@ const projectUpdate = createModel()({
         dph.projectUpdate.updateState({
           seachValue: {},
           drawerVisible: false,
-          editLoading: false,
         })
         callback && callback() //回调刷新界面
       }
+      dph.projectUpdate.updateState({
+        editLoading: false,
+      })
       //判断是否是用户个人页-新增项目数据回显
       if (userName !== undefined) {
         await dispatch.userHome.getUserInfoByAccount(userName)
@@ -111,7 +115,7 @@ const projectUpdate = createModel()({
     async updateProject(params, state) {
       let { newValue, callback } = params
       const dph = dispatch
-      if (newValue?.status === state.projectUpdate.isHangup) {
+      if (state.projectUpdate.isOldStatus === state.projectUpdate.isHangup) {
         delete newValue.status
       } else {
         if (newValue.status === true) {
@@ -127,13 +131,15 @@ const projectUpdate = createModel()({
           seachValue: {},
           drawerVisible: false,
           id: '',
-          editLoading: false,
         })
         callback && callback() //回调刷新界面
         Notify.success({
           description: data.message,
         })
       }
+      dph.projectUpdate.updateState({
+        editLoading: false,
+      })
     },
 
     // 上传项目Logo

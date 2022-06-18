@@ -182,6 +182,7 @@ const BasicInfo = (props) => {
                   inline: false,
                   span: '12',
                   required: true,
+                  help: '必须含有字母跟数字且大于六位',
                   readOnly: type === 1 && 'readonly',
                   initialValue: baseDetail.password,
                   hide:
