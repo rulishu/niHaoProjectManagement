@@ -1,8 +1,8 @@
-import { Row, Col, Card, Button, Tag } from 'uiw'
+import { Row, Col, Card, Button, Tag, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import styles from './index.module.less'
+// import styles from './index.module.less'
 
 export default function TodoList() {
   const dispatch = useDispatch()
@@ -56,7 +56,6 @@ export default function TodoList() {
                   overflowY: 'auto',
                 }}>
                 <ProTable
-                  className={styles.mouseList}
                   table={table}
                   paginationProps={{ style: { display: 'none' } }}
                   columns={[
@@ -67,18 +66,34 @@ export default function TodoList() {
                     {
                       title: '待办内容',
                       key: 'doConnent',
+                      width: 200,
+                      ellipsis: true,
+                      render: (doConnent) => (
+                        <Tooltip placement="topLeft" content={doConnent}>
+                          {doConnent}
+                        </Tooltip>
+                      ),
                     },
                     {
                       title: '项目名称',
                       key: 'projectName',
+                      width: 200,
+                      ellipsis: true,
+                      render: (projectName) => (
+                        <Tooltip placement="topLeft" content={projectName}>
+                          {projectName}
+                        </Tooltip>
+                      ),
                     },
                     {
                       title: '时间',
                       key: 'createTime',
+                      width: 180,
                     },
                     {
                       title: '状态',
                       key: 'status',
+                      width: 80,
                       render: (text) => {
                         if (text === 0) {
                           return <Tag color="#F95C2B">未开始</Tag>
@@ -90,7 +105,7 @@ export default function TodoList() {
                     {
                       title: '操作',
                       key: 'edit',
-                      width: 100,
+                      width: 80,
                       align: 'center',
                       render: (text, key, rowData) => (
                         <div>
