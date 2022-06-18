@@ -25,7 +25,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const layouts = useLayouts()
   const [checkAll, setCheckAll] = useState(false)
   const [projectList, setprojectList] = useState(false)
-  // const [users, setusers] = useState(false)
+  const [users, setusers] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
@@ -159,7 +159,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/dashboard`)
                 setCheckAll(true)
                 setprojectList(false)
-                // setusers(false)
+                setusers(false)
               }}>
               工作台
             </div>
@@ -170,7 +170,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/dashboard`)
                 setCheckAll(false)
                 setprojectList(false)
-                // setusers(false)
+                setusers(false)
               }}>
               工作台
             </div>
@@ -182,7 +182,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/projectList`)
                 setprojectList(true)
                 setCheckAll(false)
-                // setusers(false)
+                setusers(false)
               }}>
               项目管理
             </div>
@@ -193,17 +193,40 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/projectList`)
                 setprojectList(false)
                 setCheckAll(false)
-                // setusers(false)
+                setusers(false)
               }}>
               项目管理
             </div>
           )}
-          {userData?.admin === true ? (
+          {userData?.admin === true && users === false ? (
             <div
               className={styles.title}
               onClick={() => {
                 navigate('/Authority/users')
-                // setusers(true)
+                setusers(true)
+                setprojectList(false)
+                setCheckAll(false)
+              }}>
+              系统管理
+            </div>
+          ) : null
+          // <div
+          //   className={styles.newtitle}
+          //   onClick={() => {
+          //     navigate('/Authority/users')
+          //     setusers(false)
+          //     setprojectList(false)
+          //     setCheckAll(false)
+          //   }}>
+          //   系统管理
+          // </div>
+          }
+          {userData?.admin === true && users === true ? (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate('/Authority/users')
+                setusers(false)
                 setprojectList(false)
                 setCheckAll(false)
               }}>
