@@ -5,7 +5,7 @@ import { Notify } from 'uiw'
 const Modals = (props) => {
   const dispatch = useDispatch()
   const {
-    usersManagement: { delectVisible, userId, projectId },
+    usersManagement: { delectVisible, userId, projectId, type },
   } = useSelector((state) => state)
 
   const onClose = () => {
@@ -53,7 +53,7 @@ const Modals = (props) => {
       onConfirm={() => onConfirm()}
       onCancel={() => onClose()}
       onClosed={onClose}>
-      <p>确定要删除该条数据吗?</p>
+      <p>确定要{type === 'del' ? '删除该条数据' : '退出该项目'}吗?</p>
     </Modal>
   )
 }
