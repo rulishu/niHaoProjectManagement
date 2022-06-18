@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
-import { Button, Drawer, Icon, Card, Divider, Loader } from 'uiw'
+import { Button, Drawer, Icon, Card, Divider, Loader, DateInput } from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
+import dayjs from 'dayjs'
 import styles from './index.module.less'
 
 const TaskDetail = (props) => {
@@ -26,6 +27,8 @@ const TaskDetail = (props) => {
   const [labelState, setLabelState] = useState(false) //标签组件状态
   const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
+  const [taskDueDate, setTaskDueDate] = useState(taskInfo.dueDate) //任务截止日期
+  const [dueDateState, setDueDateState] = useState(false) //任务截止日期弹窗状态
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -85,6 +88,26 @@ const TaskDetail = (props) => {
     return result
   }
 
+  //编辑任务截止日期
+  const editDubTime = () => {
+    setDueDateState(!dueDateState)
+    setAssignState(false)
+    setLabelState(false)
+    setMilepostState(false)
+  }
+
+  //截止日期选择
+  const dueDateChange = async (e) => {
+    setTaskDueDate(e)
+    setDueDateState(false)
+    console.log(e)
+    dispatch.taskboard.changeCloseTime({
+      projectId,
+      assignmentId: taskInfo.assignmentId,
+      dueDate: dayjs(e).format('YYYY-MM-DD'),
+    })
+  }
+
   const footer = () => {
     return (
       <div className={styles.drawerFooter}>
@@ -142,8 +165,9 @@ const TaskDetail = (props) => {
         footer={footer()}
         onClose={() => {
           setTaskDetails(false)
+          setTaskDueDate('')
         }}
-        size="20%"
+        size="330px"
         usePortal={false}>
         <Loader
           loading={
@@ -183,42 +207,6 @@ const TaskDetail = (props) => {
             </div>
             <Divider />
             <div>
-              <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
-                <div className={styles.rLabelTitle}>
-                  <span>标签</span>
-                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-                    <Icon
-                      color="#768390"
-                      type="setting-o"
-                      onClick={() => {
-                        setLabelState(!labelState)
-                      }}
-                    />
-                  </AuthBtn>
-                </div>
-                <CompDropdown
-                  listData={initListData(labelList, taskInfo.labels, 'id', {
-                    color: 'color',
-                    title: 'name',
-                  })}
-                  isOpen={labelState}
-                  template="label"
-                  shape="label"
-                  selectLabel={(_, selKey) => selectLabel(selKey)}
-                  closeLabel={() => {
-                    editLabelOk()
-                  }}
-                  onClickLabelShow={(is) => {
-                    setLabelState(is)
-                  }}
-                  loading={loading.effects.dictionary.getDictDataList}
-                  runLabel={() =>
-                    navigate(`/${userAccount}/${projectId}/labels`)
-                  }
-                  createTag={(_, current) => createTag(current)}
-                />
-              </div>
-              <Divider />
               <div className={styles.rLabel}>
                 <div className={styles.rLabelTitle}>
                   <span>指派人</span>
@@ -343,6 +331,65 @@ const TaskDetail = (props) => {
                     })
                   }}
                   // createTag={(_, current) => createMilestone(current)}
+                />
+              </div>
+              <Divider />
+              <div className={styles.rLabel}>
+                <div className={styles.rLabelTitle}>
+                  <span>截止日期</span>
+                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
+                    <Button basic type="primary" onClick={() => editDubTime()}>
+                      编辑
+                    </Button>
+                  </AuthBtn>
+                </div>
+                {dueDateState ? (
+                  <DateInput
+                    value={taskDueDate}
+                    format="YYYY/MM/DD"
+                    allowClear={true}
+                    autoClose={true}
+                    datePickerProps={{ todayButton: '今天' }}
+                    onChange={(e) => dueDateChange(e)}
+                  />
+                ) : (
+                  <span>{taskInfo?.dueDate || '无'}</span>
+                )}
+              </div>
+              <Divider />
+              <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
+                <div className={styles.rLabelTitle}>
+                  <span>标签</span>
+                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
+                    <Icon
+                      color="#768390"
+                      type="setting-o"
+                      onClick={() => {
+                        setLabelState(!labelState)
+                      }}
+                    />
+                  </AuthBtn>
+                </div>
+                <CompDropdown
+                  listData={initListData(labelList, taskInfo.labels, 'id', {
+                    color: 'color',
+                    title: 'name',
+                  })}
+                  isOpen={labelState}
+                  template="label"
+                  shape="label"
+                  selectLabel={(_, selKey) => selectLabel(selKey)}
+                  closeLabel={() => {
+                    editLabelOk()
+                  }}
+                  onClickLabelShow={(is) => {
+                    setLabelState(is)
+                  }}
+                  loading={loading.effects.dictionary.getDictDataList}
+                  runLabel={() =>
+                    navigate(`/${userAccount}/${projectId}/labels`)
+                  }
+                  createTag={(_, current) => createTag(current)}
                 />
               </div>
             </div>

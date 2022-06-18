@@ -169,3 +169,11 @@ export function changeAssignmentMilestones(params) {
     body: { ...params },
   })
 }
+
+// 编辑任务截止日期
+export function changeCloseTime(params) {
+  return request('/api/ManagerAssignment/changeCloseTime', {
+    method: 'POST',
+    body: { ...params },
+  })
+}

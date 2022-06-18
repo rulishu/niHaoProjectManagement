@@ -20,6 +20,7 @@ import {
   changeAssignmentStatus,
   changeAssignmentMilestones,
   changeAssignmentUser,
+  changeCloseTime,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -313,6 +314,18 @@ const taskboard = createModel()({
       const data = await getManagerAssignmentUpdate(payload.taskInfo)
       if (data && data.code === 200) {
         Notify.success({ title: '修改标签成功' })
+      }
+    },
+
+    // 编辑任务截止日期
+    async changeCloseTime(payload) {
+      const data = await changeCloseTime(payload)
+      if (data && data.code === 200) {
+        Notify.success({ title: '截止日期已修改' })
+        dispatch.taskboard.selectByProjectId({
+          projectId: payload.projectId,
+          id: payload.assignmentId,
+        })
       }
     },
 
