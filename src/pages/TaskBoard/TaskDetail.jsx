@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
-import { Button, Drawer, Icon, Card, Divider, Loader } from 'uiw'
+import { Button, Drawer, Icon, Card, Divider, Loader, DateInput } from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
+import dayjs from 'dayjs'
 import styles from './index.module.less'
 
 const TaskDetail = (props) => {
@@ -24,13 +25,10 @@ const TaskDetail = (props) => {
 
   const [assignState, setAssignState] = useState(false) //指派人组件状态
   const [labelState, setLabelState] = useState(false) //标签组件状态
-  const [cLabelList, setCLabelList] = useState([]) //当前选中标签
+  const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
-
-  useEffect(() => {
-    setCLabelList(taskInfo.label)
-  }, [taskInfo])
-
+  const [taskDueDate, setTaskDueDate] = useState(taskInfo.dueDate) //任务截止日期
+  const [dueDateState, setDueDateState] = useState(false) //任务截止日期弹窗状态
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -45,9 +43,7 @@ const TaskDetail = (props) => {
 
   // 标签组件 变化回调函数
   const selectLabel = (keyArr) => {
-    taskInfo.labels = keyArr
     setCLabelList(keyArr)
-    console.log(labelState)
     if (!labelState) {
       const labels = labelList?.filter((item) => {
         return keyArr?.includes(item?.id)
@@ -62,16 +58,25 @@ const TaskDetail = (props) => {
     }
   }
 
-  const editLabelOk = async () => {
+  //关闭标签回调
+  const editLabelOk = () => {
     setLabelState(false)
-    const labels = labelList?.filter((item) => {
-      return cLabelList?.includes(item?.id)
-    })
-    dispatch.taskboard.getEdit({
-      taskInfo: {
-        ...taskInfo,
-        labels: labels.length ? cLabelList : [],
-      },
+    setCLabelList((newData) => {
+      const labels = labelList?.filter((item) => {
+        return newData?.includes(item.id)
+      })
+      if (
+        JSON.stringify(taskInfo?.labels?.sort()) !==
+        JSON.stringify(labels?.sort())
+      ) {
+        dispatch.taskboard.getEdit({
+          taskInfo: {
+            ...taskInfo,
+            labels: labels.length ? newData : [],
+          },
+        })
+      }
+      return newData
     })
   }
 
@@ -89,6 +94,25 @@ const TaskDetail = (props) => {
       },
     })
     return result
+  }
+
+  //编辑任务截止日期
+  const editDubTime = () => {
+    setDueDateState(!dueDateState)
+    setAssignState(false)
+    setLabelState(false)
+    setMilepostState(false)
+  }
+
+  //截止日期选择
+  const dueDateChange = async (e) => {
+    setTaskDueDate(e)
+    setDueDateState(false)
+    dispatch.taskboard.changeCloseTime({
+      projectId,
+      assignmentId: taskInfo.assignmentId,
+      dueDate: dayjs(e).format('YYYY-MM-DD'),
+    })
   }
 
   const footer = () => {
@@ -117,10 +141,14 @@ const TaskDetail = (props) => {
             className={styles.taskCloseBtu}
             type="light"
             onClick={() => {
-              let taskState = 1
+              const closeState = [
+                //任务开启状态
+                1, 2, 4,
+              ]
+              let taskState = ''
               if (taskInfo?.assignmentStatus === 3) {
                 taskState = '打开'
-              } else if (taskInfo?.assignmentStatus === 1) {
+              } else if (closeState.includes(taskInfo?.assignmentStatus)) {
                 taskState = '关闭'
               }
               dispatch.taskboard.changeAssignmentStatus({
@@ -140,22 +168,24 @@ const TaskDetail = (props) => {
   return (
     <div className={styles.nihao}>
       <Drawer
+        maskClosable={
+          !loading.effects.taskboard.selectByProjectId &&
+          !loading.effects.taskboard.getEdit
+        }
         isOpen={taskDetails}
         footer={footer()}
         onClose={() => {
           setTaskDetails(false)
-          setMilepostState(false)
-          setLabelState(false)
-          setAssignState(false)
+          setTaskDueDate('')
         }}
-        size="20%"
+        size="330px"
         usePortal={false}>
         <Loader
           loading={
             loading.effects.taskboard.selectByProjectId ||
             loading.effects.taskboard.changeAssignmentUser
           }>
-          <Card>
+          <Card style={{ minWidth: '300px' }}>
             <div>
               <div>
                 <Icon
@@ -188,47 +218,6 @@ const TaskDetail = (props) => {
             </div>
             <Divider />
             <div>
-              <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
-                <div className={styles.rLabelTitle}>
-                  <span>标签</span>
-                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-                    <Icon
-                      color="#768390"
-                      type="setting-o"
-                      onClick={() => {
-                        setLabelState(!labelState)
-                      }}
-                    />
-                  </AuthBtn>
-                </div>
-                <CompDropdown
-                  listData={initListData(labelList, taskInfo.labels, 'id', {
-                    color: 'color',
-                    title: 'name',
-                  })}
-                  isOpen={labelState}
-                  template="label"
-                  dropdownWindow={{ isClickOutside: true }}
-                  shape="label"
-                  selectLabel={(_, selKey) => selectLabel(selKey)}
-                  closeLabel={() => {
-                    editLabelOk()
-                  }}
-                  onClickLabelShow={(is) => {
-                    setLabelState(is)
-                    //  !is && newDebounce(editLabelOk, 100)
-                  }}
-                  loading={loading.effects.dictionary.getDictDataList}
-                  runLabel={() =>
-                    navigate(`/${userAccount}/${projectId}/labels`)
-                  }
-                  createTag={(_, current) => createTag(current)}
-                />
-                {!taskInfo?.labels?.length && (
-                  <div className={styles.rLabelText}>无</div>
-                )}
-              </div>
-              <Divider />
               <div className={styles.rLabel}>
                 <div className={styles.rLabelTitle}>
                   <span>指派人</span>
@@ -252,7 +241,6 @@ const TaskDetail = (props) => {
                     }
                   )}
                   isOpen={assignState}
-                  dropdownWindow={{ isClickOutside: true }}
                   template="personnel"
                   shape="label"
                   isRadio={true}
@@ -262,6 +250,10 @@ const TaskDetail = (props) => {
                   selectLabel={(key) => {
                     taskInfo.assigneeUserId = key
                     let userName = ''
+                    let userId = 0
+                    if (key !== null) {
+                      userId = key
+                    }
                     userAllList?.filter((item) => {
                       if (item.userId === key) {
                         userName = item.memberName
@@ -271,7 +263,7 @@ const TaskDetail = (props) => {
                     })
                     dispatch.taskboard.changeAssignmentUser({
                       projectId,
-                      assigneeUserId: key,
+                      assigneeUserId: userId,
                       assigneeUserName: userName,
                       assignmentId: taskInfo.assignmentId,
                       assignmentType: taskInfo.assignmentType,
@@ -314,10 +306,26 @@ const TaskDetail = (props) => {
                   isRadio={true}
                   onClickLabelShow={(is) => setMilepostState(is)}
                   selectLabel={(key) => {
-                    // updateData({
-                    //     editFromData: { ...editFromData, milestonesId: key || 0 },
-                    // })
-                    // editMilepostOk()
+                    taskInfo.milestonesId = key
+                    let milestonesId = 0
+                    let milestonesTitle = ''
+                    if (key !== null) {
+                      milestonesId = key
+                    }
+                    milepostaData?.filter((item) => {
+                      if (item.milestonesId === key) {
+                        milestonesTitle = item.milestonesTitle
+                        return null
+                      }
+                      return null
+                    })
+                    dispatch.taskboard.changeAssignmentMilestones({
+                      projectId,
+                      assignmentId: taskInfo.assignmentId,
+                      milestonesId: milestonesId,
+                      milestonesTitle: milestonesTitle,
+                    })
+                    setMilepostState(false)
                   }}
                   closeLabel={() => {
                     // updateData({
@@ -328,13 +336,71 @@ const TaskDetail = (props) => {
                     // })
                     setMilepostState(false)
                   }}
-                  // loading={loading.effects.milestone.selectPageList}
                   runLabel={() => {
                     navigate(`/${userAccount}/${projectId}/milestone`, {
                       replace: true,
                     })
                   }}
                   // createTag={(_, current) => createMilestone(current)}
+                />
+              </div>
+              <Divider />
+              <div className={styles.rLabel}>
+                <div className={styles.rLabelTitle}>
+                  <span>截止日期</span>
+                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
+                    <Button basic type="primary" onClick={() => editDubTime()}>
+                      编辑
+                    </Button>
+                  </AuthBtn>
+                </div>
+                {dueDateState ? (
+                  <DateInput
+                    value={taskDueDate}
+                    format="YYYY/MM/DD"
+                    allowClear={true}
+                    autoClose={true}
+                    datePickerProps={{ todayButton: '今天' }}
+                    onChange={(e) => dueDateChange(e)}
+                  />
+                ) : (
+                  <span>{taskInfo?.dueDate || '无'}</span>
+                )}
+              </div>
+              <Divider />
+              <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
+                <div className={styles.rLabelTitle}>
+                  <span>标签</span>
+                  <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
+                    <Icon
+                      color="#768390"
+                      type="setting-o"
+                      onClick={() => {
+                        setLabelState(!labelState)
+                      }}
+                    />
+                  </AuthBtn>
+                </div>
+                <CompDropdown
+                  listData={initListData(labelList, cLabelList, 'id', {
+                    color: 'color',
+                    title: 'name',
+                  })}
+                  isOpen={labelState}
+                  template="label"
+                  shape="label"
+                  selectLabel={(_, selKey) => selectLabel(selKey)}
+                  closeLabel={() => {
+                    editLabelOk()
+                  }}
+                  onClickLabelShow={(is) => {
+                    setLabelState(is)
+                  }}
+                  loading={loading.effects.dictionary.getDictDataList}
+                  runLabel={() =>
+                    navigate(`/${userAccount}/${projectId}/labels`)
+                  }
+                  createTag={(_, current) => createTag(current)}
                 />
               </div>
             </div>
