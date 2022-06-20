@@ -104,7 +104,7 @@ export default function Home() {
           overflowY: 'auto',
         }}>
         {allDataSources?.length === 0 ? (
-          <Empty description={false} style={{ marginTop: 30 }} />
+          <Empty description={false} />
         ) : (
           <ProTable
             className={styles.mouseList}
@@ -416,8 +416,9 @@ export default function Home() {
       </div>
       <Card
         title="我的任务"
+        bordered={false}
         // extra={'更多'}
-        style={{ margin: '15px 15px 15px 0px' }}>
+        style={{ margin: '15px 15px 15px 0px', height: 460 }}>
         <Tabs
           activeKey="5"
           onTabClick={(tab) => {
@@ -444,6 +445,7 @@ export default function Home() {
       </Card>
       <Card
         title="所有任务"
+        bordered={false}
         extra={
           <Button
             basic
@@ -454,7 +456,7 @@ export default function Home() {
             更多
           </Button>
         }
-        style={{ marginRight: 15 }}>
+        style={{ marginRight: 15, height: 460 }}>
         <Tabs
           activeKey="5"
           onTabClick={(tab) => {

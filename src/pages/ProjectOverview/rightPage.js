@@ -27,7 +27,10 @@ export default function AllTasks() {
 
   return (
     <div style={{ width: '30%', maxWidth: 300 }}>
-      <Card title="里程碑" bordered={false} style={{ minWidth: 300 }}>
+      <Card
+        title="里程碑"
+        bordered={false}
+        style={{ minWidth: 300, height: 400 }}>
         <div className={styles.milestoneInfoList}>
           <ul>
             <li className={styles.milInfoLiHead}>
@@ -36,7 +39,7 @@ export default function AllTasks() {
               <div className={styles.itemProg}>显示进度</div>
             </li>
             {allDataSources?.length === 0 ? (
-              <Empty description={false} style={{ marginTop: 30 }} />
+              <Empty description={false} />
             ) : (
               allDataSources?.map((item) => {
                 return (
@@ -63,27 +66,33 @@ export default function AllTasks() {
       <Card
         title="最新动态"
         bordered={false}
-        style={{ marginTop: 15, marginBottom: 15 }}>
+        style={{ marginTop: 15, marginBottom: 15, height: 460 }}>
         <div style={{ height: 393, overflowX: 'hidden', overflowY: 'auto' }}>
-          <Steps
-            direction="vertical"
-            progressDot
-            status="error"
-            current={projectDynamicsList?.length}
-            style={{ padding: '20px 0' }}>
-            {projectDynamicsList?.map((itm, key) => {
-              return (
-                <Steps.Step
-                  title={itm?.createTime}
-                  key={key}
-                  description={
-                    <div className={styles.mouseList}>
-                      {itm?.operatingRecords}
-                    </div>
-                  }></Steps.Step>
-              )
-            })}
-          </Steps>
+          {projectDynamicsList && projectDynamicsList.length > 0 ? (
+            <Steps
+              direction="vertical"
+              progressDot
+              status="error"
+              current={projectDynamicsList?.length}
+              style={{ padding: '20px 0' }}>
+              {projectDynamicsList?.map((itm, key) => {
+                return (
+                  <Steps.Step
+                    title={itm?.createTime}
+                    key={key}
+                    description={
+                      <div className={styles.mouseList}>
+                        {itm?.operatingRecords}
+                      </div>
+                    }></Steps.Step>
+                )
+              })}
+            </Steps>
+          ) : (
+            <div style={{ margin: 'auto' }}>
+              <Empty />
+            </div>
+          )}
         </div>
       </Card>
       <Card
@@ -91,33 +100,39 @@ export default function AllTasks() {
         bordered={false}
         style={{ height: 460, overflowX: 'hidden', overflowY: 'auto' }}>
         <div className={styles.memberBox}>
-          {projectMembersList.map((item, idx) => {
-            return (
-              <div key={idx} className={styles.memberItem}>
-                <div
-                  className={styles.memberItemLi}
-                  onClick={() => goRouter(item?.userName)}>
-                  <Avatar
-                    size="large"
-                    src={
-                      item.avatar?.substring(0, 4) === 'http'
-                        ? item.avatar
-                        : item.avatar?.substring(0, 4) !== 'http' &&
-                          item.avatar !== ''
-                        ? `/api/file/selectFile/${item.avatar}`
-                        : ''
-                    }>
-                    {item?.nickName && item?.nickName[0]}
-                  </Avatar>
+          {projectMembersList && projectMembersList.length > 0 ? (
+            projectMembersList.map((item, idx) => {
+              return (
+                <div key={idx} className={styles.memberItem}>
+                  <div
+                    className={styles.memberItemLi}
+                    onClick={() => goRouter(item?.userName)}>
+                    <Avatar
+                      size="large"
+                      src={
+                        item.avatar?.substring(0, 4) === 'http'
+                          ? item.avatar
+                          : item.avatar?.substring(0, 4) !== 'http' &&
+                            item.avatar !== ''
+                          ? `/api/file/selectFile/${item.avatar}`
+                          : ''
+                      }>
+                      {item?.nickName && item?.nickName[0]}
+                    </Avatar>
+                  </div>
+                  <span
+                    className={styles.memberName}
+                    onClick={() => goRouter(item?.userName)}>
+                    {item?.nickName}
+                  </span>
                 </div>
-                <span
-                  className={styles.memberName}
-                  onClick={() => goRouter(item?.userName)}>
-                  {item?.nickName}
-                </span>
-              </div>
-            )
-          })}
+              )
+            })
+          ) : (
+            <div style={{ margin: 'auto' }}>
+              <Empty />
+            </div>
+          )}
         </div>
       </Card>
     </div>
