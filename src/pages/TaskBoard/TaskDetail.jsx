@@ -22,7 +22,6 @@ const TaskDetail = (props) => {
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
   const { taskInfo, labelList, userAllList, milepostaData } = taskboard
-
   const [assignState, setAssignState] = useState(false) //指派人组件状态
   const [labelState, setLabelState] = useState(false) //标签组件状态
   const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
@@ -207,9 +206,9 @@ const TaskDetail = (props) => {
                   <span
                     className={styles.projectName}
                     onClick={() => {
-                      navigate(`/${taskInfo.createName}`)
+                      navigate(`/${taskInfo.createUserAccount}`)
                     }}>
-                    {taskInfo.createName}
+                    {taskInfo.createUserAccount}
                   </span>{' '}
                   于{taskInfo?.createTime?.slice(0, 10)}
                   时创建

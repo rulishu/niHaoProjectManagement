@@ -52,7 +52,7 @@ const DeletePop = (props) => {
         onClose={() => setDeleteConfirmation(false)}>
         <Card active style={{ width: 500 }}>
           <strong style={{ margin: 0 }}>删除列表</strong>
-          <div style={{ marginTop: '8px' }}>您确定您将删除这个list吗？</div>
+          <div style={{ marginTop: '8px' }}>您确定您将删除这个列表吗？</div>
           <br />
           <div className={styles.flexRight}>
             <Button type="light" onClick={() => setDeleteConfirmation(false)}>

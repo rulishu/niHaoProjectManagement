@@ -60,11 +60,20 @@ const Search = () => {
     },
   })
   // 操作
-  function handleEditTable(type, obj) {
+  async function handleEditTable(type, obj) {
+    const gropData = search?.data?.map((a) => {
+      return a.userId
+    })
     updateData({
       tableType: type,
     })
     if (type === 'member' || type === 'group') {
+      await dispatch({
+        type: 'usersManagement/fuzzyNameS',
+        payload: {
+          userIds: gropData,
+        },
+      })
       updateData({
         drawerVisible: true,
         queryInfo: {},
