@@ -34,6 +34,10 @@ const TaskInfo = () => {
     dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.project.queryFuzzyAllProjectMember({ projectId })
     dispatch.labels.getAllLabelData({ projectId })
+    dispatch.projectTasks.getTaskDetailsDataUnCheck({
+      projectId: projectId,
+      id: id,
+    })
     dispatch.projectuser.pullSelectAll({
       memberName: '',
       projectId: projectId || '',
@@ -45,57 +49,6 @@ const TaskInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // useEffect(() => {
-  //   document.addEventListener('paste', pasteDataEvent)
-  //   return () => {
-  //     document.removeEventListener('paste', pasteDataEvent)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  // const pasteDataEvent = (event) => {
-  //   // event.preventDefault();
-  //   if (event.clipboardData || event.originalEvent) {
-  //     let clipboardData =
-  //       event.clipboardData || event.originalEvent.clipboardData
-  //     if (clipboardData.items) {
-  //       let items = clipboardData.items,
-  //         len = items.length,
-  //         blob = null
-  //       for (let i = 0; i < len; i++) {
-  //         let item = clipboardData.items[i]
-  //         if (item.kind === 'string') {
-  //           // item.getAsString(function (str) {
-  //           //   console.log('string', str);
-  //           // })
-  //         } else if (item.kind === 'file') {
-  //           blob = item.getAsFile()
-  //           addImg(blob)
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // const addImg = (event) => {
-  //   const file = event
-  //   if (!file) return
-  //   dispatch({
-  //     type: 'allusers/upLoadImg',
-  //     payload: {
-  //       file: file,
-  //     },
-  //   }).then((res) => {
-  //     if (res && res.code === 200) {
-  //       const fieldValues = form.current.getFieldValues()
-  //       form.current.setFieldValue(
-  //         'description',
-  //         fieldValues.description +
-  //         `![image](/api/file/selectFile/${res?.data})`
-  //       )
-  //     }
-  //   })
-  // }
   const goEditIssue = (type) => {
     updateData({ issueType: type })
   }
@@ -152,6 +105,7 @@ const TaskInfo = () => {
         vertical
         style={{ width: '100%' }}
         loading={
+          loading.effects.projectTasks.getTaskDetailsDataUnCheck ||
           loading.effects.project.getSelectById ||
           loading.effects.project.getEdit
         }>
