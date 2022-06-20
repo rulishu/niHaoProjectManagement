@@ -30,7 +30,8 @@ const Drawer = (props) => {
       queryInfo,
       tableType,
       userIdList,
-      teamIdList,
+      // teamIdList,
+      groupList,
     },
   } = useSelector((state) => state)
 
@@ -153,10 +154,10 @@ const Drawer = (props) => {
   }
 
   //邀请团队-模糊查询
-  const [option, setOption] = useState(teamIdList)
+  const [option, setOption] = useState(groupList)
   const handleSearch = (e) => {
     setTimeout(() => {
-      const filterOpion = teamIdList.filter(
+      const filterOpion = groupList?.filter(
         (item) => !!item.label.includes(e.trim())
       )
       setOption([...filterOpion])

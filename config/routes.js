@@ -108,7 +108,7 @@ const routes = [
             component: '@/pages/Project/Task',
             navigate: (navigate, location) => {
               const id = sessionStorage.getItem('projectId')
-              navigate(`/tissue/${id}/task`)
+              navigate(`/tissue/${id}/task?2`)
             },
             isAuth: true,
           },
@@ -124,7 +124,7 @@ const routes = [
                 component: '@/pages/Project/Task',
                 isAuth: true,
                 navigate:
-                  "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/task`)}",
+                  "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/task?2`)}",
               },
               {
                 path: '/tissue/:projectId/taskBoard',
@@ -242,7 +242,7 @@ const routes = [
             navigate: (navigate, location) => {
               const userId = sessionStorage.getItem('userAccount')
               const id = sessionStorage.getItem('projectId')
-              navigate(`/${userId}/${id}/task`)
+              navigate(`/${userId}/${id}/task?2`)
             },
             isAuth: true,
           },
@@ -262,7 +262,7 @@ const routes = [
             hideInMenu: true,
             routes: [
               {
-                path: '/:userAccount/:projectId/task',
+                path: '/:userAccount/:projectId/task?2',
                 name: '任务列表',
                 component: '@/pages/Project/Task',
                 isAuth: true,

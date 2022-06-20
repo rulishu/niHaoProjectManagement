@@ -16,6 +16,7 @@ export default function ListItem(props) {
     labelsData,
     delAssignment,
     onCLickSearch,
+    milestonesData,
   } = props
 
   const listGoTo = (val) => {
@@ -128,6 +129,7 @@ export default function ListItem(props) {
                     {item?.dueDate && (
                       <Tooltip placement="top" content="截止日期">
                         <span
+                          style={{ display: 'flex', alignItems: 'center' }}
                           className={`dueDate ${
                             dayjs(item?.dueDate)?.diff(
                               dayjs().format('YYYY-MM-DD'),
@@ -136,13 +138,43 @@ export default function ListItem(props) {
                               ? 'redDate'
                               : ''
                           }`}>
-                          <Icon type="date" />{' '}
+                          <Icon type="date" style={{ marginRight: '5px' }} />{' '}
                           {listField?.dueDate
                             ? item[listField.dueDate]
                             : item?.dueDate}
                         </span>
                       </Tooltip>
                     )}
+                    {
+                      <div className={styles.milestones}>
+                        {milestonesData?.map(
+                          (milestonesItem, milestonesIndex) =>
+                            item?.milestonesId === milestonesItem?.value && (
+                              <Tooltip
+                                key={milestonesItem.value}
+                                content="里程碑">
+                                <span
+                                  style={{ display: 'flex' }}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    onCLickSearch &&
+                                      onCLickSearch(
+                                        'milestonesId',
+                                        milestonesItem
+                                      )
+                                  }}>
+                                  <Icon type="time-o" />
+                                  <span
+                                    key={milestonesIndex}
+                                    className={styles.milestonesSpan}>
+                                    {milestonesItem.label}
+                                  </span>
+                                </span>
+                              </Tooltip>
+                            )
+                        )}
+                      </div>
+                    }
                     <div className={styles.listLabels}>
                       {labelsData?.map((list, index) => {
                         if (item?.labels?.includes(list?.id) && index < 4) {
@@ -151,7 +183,11 @@ export default function ListItem(props) {
                               <span
                                 onClick={(e) => {
                                   e.stopPropagation()
-                                  onCLickSearch && onCLickSearch(list)
+                                  onCLickSearch &&
+                                    onCLickSearch('labels', {
+                                      value: list.id,
+                                      label: list.name,
+                                    })
                                 }}
                                 className={
                                   list?.color

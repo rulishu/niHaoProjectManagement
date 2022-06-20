@@ -34,6 +34,14 @@ export default function Demo() {
   const goMilestones = (projectUrl, milestonesId) => {
     navigate(`${projectUrl}/milestone/milestoneInfo/${milestonesId}`)
   }
+  // 跳转任务列表
+  const goToTask = (state) => {
+    if (active === 0) {
+      navigate(`${projectListOne.projectUrl}/task?${state}`)
+    } else {
+      navigate(`${projectData.projectUrl}/task?${state}`)
+    }
+  }
   //默认选中第一个
   const onClickItem = (key) => {
     setActive(key)
@@ -197,7 +205,7 @@ export default function Demo() {
                           key: 1,
                         },
                         {
-                          title: '开发中',
+                          title: '进行中',
                           num:
                             projectList.length === 0
                               ? 0
@@ -228,11 +236,11 @@ export default function Demo() {
                         },
                       ].map((item, key) => {
                         return (
-                          <div key={key}>
+                          <div key={key} onClick={() => goToTask(key + 1)}>
                             <Card
                               bordered={false}
                               title={item.title}
-                              style={{ width: 80 }}>
+                              style={{ width: 80, cursor: 'pointer' }}>
                               <span style={{ fontSize: 36 }}>{item?.num}</span>
                             </Card>
                           </div>
