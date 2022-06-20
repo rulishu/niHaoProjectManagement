@@ -56,8 +56,12 @@ const ProjectList = (props) => {
   })
 
   const goSpecifyPage = (option = { path: String, projectUrl: String }) => {
-    console.log(option)
-    router.navigate(`${option?.projectUrl}${option?.path}`)
+    if (option.path === '/task') {
+      router.navigate(`${option?.projectUrl}${option?.path}?2`)
+    } else {
+      router.navigate(`${option?.projectUrl}${option?.path}`)
+    }
+
     // e.stopPropagation()禁止冒泡
   }
 
@@ -325,7 +329,6 @@ const ProjectList = (props) => {
                           <div
                             className={styles.projectControlsLI}
                             onClick={(e) => {
-                              console.log(rowData)
                               goSpecifyPage({
                                 path: '/task',
                                 projectUrl: rowData.projectUrl,

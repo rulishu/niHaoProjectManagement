@@ -217,18 +217,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               }}>
               系统管理
             </div>
-          ) : null
-          // <div
-          //   className={styles.newtitle}
-          //   onClick={() => {
-          //     navigate('/Authority/users')
-          //     setusers(false)
-          //     setprojectList(false)
-          //     setCheckAll(false)
-          //   }}>
-          //   系统管理
-          // </div>
-          }
+          ) : null}
           {userData?.admin === true && users === true ? (
             <div
               className={styles.newtitle}
