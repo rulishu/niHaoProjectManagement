@@ -11,6 +11,7 @@ const LabelSelect = (props) => {
     pageS,
     project,
     labelSearch,
+    milestonesSearch,
   } = props
   const [label, setLabel] = useState([])
   const [team, setTeam] = useState(teamMembers)
@@ -34,21 +35,38 @@ const LabelSelect = (props) => {
   useEffect(() => {
     if (labelSearch) {
       form.setFields({ labels: [labelSearch] })
-      changeFun({ labels: [labelSearch] })
+      changeFun({ labels: [labelSearch] }, false)
     }
   }, [labelSearch]) // eslint-disable-line
 
-  const changeFun = (props) => {
+  useEffect(() => {
+    if (milestonesSearch) {
+      form.setFields({ milestonesId: [milestonesSearch] })
+      changeFun({ milestonesId: [milestonesSearch] }, false)
+    }
+  }, [milestonesSearch]) // eslint-disable-line
+
+  const changeFun = (props, type) => {
     const value = { ...form.getFieldValues?.(), ...props }
     let selectDtos = []
     Object.keys(value).forEach((item) => {
       if (value[item].length > 0) {
         value[item].forEach((i) => {
-          selectDtos.push({
-            condition: '=',
-            field: item,
-            value: i.value,
-          })
+          if (type) {
+            selectDtos.push({
+              condition: '=',
+              field: item,
+              value: i.value,
+            })
+          } else {
+            selectDtos = [
+              {
+                condition: '=',
+                field: item,
+                value: i.value,
+              },
+            ]
+          }
         })
       }
     })
