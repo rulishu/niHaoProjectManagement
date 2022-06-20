@@ -39,7 +39,7 @@ export default createModel()({
     openTotal: 0,
     closeDataList: [],
     closeTotal: 0,
-    issueType: '',
+    issueType: 'cancel',
     isView: false,
     queryInfo: {},
     taskInfoData: {},
@@ -244,7 +244,7 @@ export default createModel()({
         })
         if (data && data.code === 200) {
           dispatch.project.update({
-            issueType: '',
+            issueType: 'cancel',
           })
           window.history.back(-1)
           Notify.success({ title: data.message, description: '' })
@@ -284,7 +284,7 @@ export default createModel()({
         })
         if (data && data.code === 200) {
           dispatch.project.update({
-            issueType: '',
+            issueType: 'cancel',
           })
           NotifySuccess(data.message)
           return true
@@ -481,7 +481,7 @@ export default createModel()({
       clean() {
         const dph = dispatch
         dph.project.update({
-          issueType: '',
+          issueType: 'cancel',
           queryInfo: {},
           isView: false,
         })

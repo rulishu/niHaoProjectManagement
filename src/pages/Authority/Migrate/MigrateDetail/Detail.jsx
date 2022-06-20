@@ -2,7 +2,7 @@ import { ProDrawer } from '@uiw-admin/components'
 import { useSelector } from 'react-redux'
 import { Loader, Descriptions } from 'uiw'
 
-const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
+const sourceTypeObj = { 10: '项目', 20: 'issue', 30: '里程碑', 40: '标签' }
 
 const Detail = (props) => {
   const {
