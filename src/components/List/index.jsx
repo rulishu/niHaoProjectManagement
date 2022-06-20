@@ -126,7 +126,7 @@ export default function ListItem(props) {
                       ? item[listField.createTime]
                       : item?.createTime}{' '}
                     {item?.dueDate && (
-                      <Tooltip placement="top" content="计划日期">
+                      <Tooltip placement="top" content="截止日期">
                         <span
                           className={`dueDate ${
                             dayjs(item?.dueDate)?.diff(
