@@ -239,8 +239,12 @@ const Task = (props) => {
               listNavigate={listGo}
               delAssignment={delAssignment}
               labelsData={labelsListData}
+              milestonesData={milistones}
               onCLickSearch={(val) => {
                 setLabelSearch({ value: val.id, label: val.name })
+              }}
+              onCLickMilestonesSearch={(val) => {
+                setMilestonesSearch({ value: val.value, label: val.label })
               }}
             />
             {taskTotal > 0 && (
@@ -296,6 +300,7 @@ const Task = (props) => {
   }
 
   const [labelSearch, setLabelSearch] = useState()
+  const [milestonesSearch, setMilestonesSearch] = useState()
 
   return (
     <div className={styles.wrap}>
@@ -317,6 +322,7 @@ const Task = (props) => {
               pageS={pageS}
               project={project}
               labelSearch={labelSearch}
+              milestonesSearch={milestonesSearch}
             />
           </div>
 
