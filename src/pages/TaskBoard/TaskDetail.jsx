@@ -18,9 +18,6 @@ const TaskDetail = (props) => {
     loading,
     selectBoard,
   } = props?.param
-  const {
-    routeManagement: { userData },
-  } = useSelector((state) => state)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
@@ -209,9 +206,9 @@ const TaskDetail = (props) => {
                   <span
                     className={styles.projectName}
                     onClick={() => {
-                      navigate(`/${userData?.userName}`)
+                      navigate(`/${taskInfo.createUserAccount}`)
                     }}>
-                    {taskInfo.createName}
+                    {taskInfo.createUserAccount}
                   </span>{' '}
                   于{taskInfo?.createTime?.slice(0, 10)}
                   时创建
