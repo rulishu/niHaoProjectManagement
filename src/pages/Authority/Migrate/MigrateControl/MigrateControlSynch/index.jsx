@@ -38,7 +38,13 @@ const MigrateControlSynch = () => {
   }, [location.state.tabKey, synchId])
 
   const synchronousData = async (type) => {
+    // 同步项目数据
     type === 1 && (await dispatch.migrate.migrateProjectDataById([dataInfo.id]))
+    // 同步issues数据
+    type === 2 && (await dispatch.migrate.migrateIssuesDataById([dataInfo.id]))
+    // 同步标签数据
+    type === 3 && (await dispatch.migrate.migrateLabelsDataById([dataInfo.id]))
+    // 同步里程碑数据
     type === 4 &&
       (await dispatch.migrate.migrateMilestoneDataById([dataInfo.id]))
   }
@@ -113,6 +119,22 @@ const MigrateControlSynch = () => {
                   <Tabs.Pane label="项目里程碑" key="4" />
                 </Tabs>
                 <div className={styles.synchronousMilestone}>
+                  {tabKey === '1' && (
+                    <Button
+                      type="primary"
+                      icon="reload"
+                      onClick={() => synchronousData(2)}>
+                      同步任务数据
+                    </Button>
+                  )}
+                  {tabKey === '2' && (
+                    <Button
+                      type="primary"
+                      icon="reload"
+                      onClick={() => synchronousData(3)}>
+                      同步标签数据
+                    </Button>
+                  )}
                   {tabKey === '4' && (
                     <Button
                       type="primary"

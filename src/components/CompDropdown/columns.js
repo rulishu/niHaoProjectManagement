@@ -116,6 +116,14 @@ const personnel = {
         )
       },
     },
+    {
+      title: '人员账号',
+      dataIndex: 'userAcount',
+      resultsShow: true,
+      isSearch: true,
+      width: '0%',
+      component: () => <span></span>,
+    },
   ],
   // 配置参数
   params: {
