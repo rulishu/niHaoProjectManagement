@@ -15,7 +15,6 @@ const TaskEvent = () => {
   const [showReview, setShowReview] = useState(0)
 
   const updateData = (payload) => {
-    console.log(payload)
     dispatch({
       type: 'project/update',
       payload,
