@@ -5,16 +5,16 @@ import {
   getManagerAssignmentSelectById,
   getmMnagerAssignmentSave,
   deleteAssignment,
-  getAssignmentHistorySave,
-  getAssignmentHistoryDel,
-  getAssignmentHistoryEdit,
+  // getAssignmentHistorySave,
+  // getAssignmentHistoryDel,
+  // getAssignmentHistoryEdit,
   queryFuzzyAllProjectMember,
   selectLabel,
   assignment_label,
   countAssignment,
   getAssignment, //不分页获取所有任务
-  addMyToDo,
-  getStrutsSwitch,
+  // addMyToDo,
+  // getStrutsSwitch,
 } from '../servers/project'
 import { getProjectCountById } from '../servers/projectoverview'
 import { Notify } from 'uiw'
@@ -295,96 +295,74 @@ export default createModel()({
         const data = await deleteAssignment(params)
         return data
       },
-      // 添加评论
-      async getAddComment(payload, { project }) {
-        const { params, callback } = payload
-        const data = await getAssignmentHistorySave({
-          ...project.commentData,
-          ...params,
-        })
-        if (data && data.code === 200) {
-          dispatch.project.getSelectById({
-            projectId: project?.commentData?.projectId,
-            id: project?.commentData?.assignmentId,
-          })
-          dispatch.project.queryFuzzyAllProjectMember({
-            projectId: project?.commentData?.projectId,
-          })
-          dispatch.project.update({
-            commentData: {
-              operatingRecords: '',
-            },
-            replyState: false,
-          })
-          callback && callback()
-        }
-      },
-      // 编辑评论
-      async getEditComment(payload, { project }) {
-        const { params, callback } = payload
-        const data = await getAssignmentHistoryEdit({
-          ...project.commentData,
-          ...params,
-        })
-        if (data && data.code === 200) {
-          dispatch.project.getSelectById({
-            projectId: project?.commentData?.projectId,
-            id: project?.commentData?.assignmentId,
-          })
-          dispatch.project.queryFuzzyAllProjectMember({
-            projectId: project?.commentData?.projectId,
-          })
-          dispatch.project.update({
-            commentData: {
-              operatingRecords: '',
-            },
-          })
-          dispatch.project.update({
-            editState: false,
-            replyConState: false,
-          })
-          callback && callback()
-        }
-      },
-      // 删除评论
-      async getDelComment(params, { project }) {
-        const data = await getAssignmentHistoryDel({
-          ...project.commentData,
-          ...params,
-        })
-        if (data && data.code === 200) {
-          dispatch.project.getSelectById({
-            projectId: project?.commentData?.projectId,
-            id: project?.commentData?.assignmentId,
-          })
-          dispatch.project.queryFuzzyAllProjectMember({
-            projectId: project?.commentData?.projectId,
-          })
-          dispatch.project.update({
-            commentData: {
-              operatingRecords: '',
-            },
-          })
-          // NotifySuccess(data.message)
-        }
-      },
-      // 删除评论
-      async delCommentById(params, { project }) {
-        const { assignmentId, projectId, taskHistoryId } = params
-        const { getSelectById, queryFuzzyAllProjectMember, update } =
-          dispatch.project
-        const data = await getAssignmentHistoryDel({
-          projectId,
-          id: taskHistoryId,
-        })
-        if (data && data.code === 200) {
-          getSelectById({ projectId, id: assignmentId })
-          queryFuzzyAllProjectMember({ projectId })
-          update({ commentData: { operatingRecords: '' } })
-        }
-      },
+      // // 添加评论
+      // async getAddComment(payload, { project }) {
+      //   const { params, callback } = payload
+      //   const data = await getAssignmentHistorySave({
+      //     ...project.commentData,
+      //     ...params,
+      //   })
+      //   if (data && data.code === 200) {
+      //     dispatch.project.getSelectById({
+      //       projectId: project?.commentData?.projectId,
+      //       id: project?.commentData?.assignmentId,
+      //     })
+      //     dispatch.project.queryFuzzyAllProjectMember({
+      //       projectId: project?.commentData?.projectId,
+      //     })
+      //     dispatch.project.update({
+      //       commentData: {
+      //         operatingRecords: '',
+      //       },
+      //       replyState: false,
+      //     })
+      //     callback && callback()
+      //   }
+      // },
+      // // 编辑评论
+      // async getEditComment(payload, { project }) {
+      //   const { params, callback } = payload
+      //   const data = await getAssignmentHistoryEdit({
+      //     ...project.commentData,
+      //     ...params,
+      //   })
+      //   if (data && data.code === 200) {
+      //     dispatch.project.getSelectById({
+      //       projectId: project?.commentData?.projectId,
+      //       id: project?.commentData?.assignmentId,
+      //     })
+      //     dispatch.project.queryFuzzyAllProjectMember({
+      //       projectId: project?.commentData?.projectId,
+      //     })
+      //     dispatch.project.update({
+      //       commentData: {
+      //         operatingRecords: '',
+      //       },
+      //     })
+      //     dispatch.project.update({
+      //       editState: false,
+      //       replyConState: false,
+      //     })
+      //     callback && callback()
+      //   }
+      // },
+      // // 删除评论
+      // async delCommentById(params, { project }) {
+      //   const { assignmentId, projectId, taskHistoryId } = params
+      //   const { getSelectById, queryFuzzyAllProjectMember, update } =
+      //     dispatch.project
+      //   const data = await getAssignmentHistoryDel({
+      //     projectId,
+      //     id: taskHistoryId,
+      //   })
+      //   if (data && data.code === 200) {
+      //     getSelectById({ projectId, id: assignmentId })
+      //     queryFuzzyAllProjectMember({ projectId })
+      //     update({ commentData: { operatingRecords: '' } })
+      //   }
+      // },
 
-      //获取任务各状态总数
+      // 获取任务各状态总数
       async countAssignment(params, { project }) {
         const { assignmentStatus, ...others } = params
         const { filter, selectDtos } = project
@@ -434,58 +412,58 @@ export default createModel()({
         }
       },
 
-      // 添加任务至我的待办
-      async addMyToDo(payload) {
-        dispatch.project.update({
-          handleState: true,
-        })
-        const { param, callback } = payload
-        const data = await addMyToDo(param)
-        if (data && data.code === 200) {
-          dispatch.project.getSelectById({
-            projectId: param?.projectId,
-            id: param?.id,
-          })
-          callback && callback()
-          dispatch.project.update({
-            handleState: false,
-          })
-        } else {
-          dispatch.project.update({
-            handleState: false,
-          })
-        }
-      },
-      // 标记已完成
-      async getStrutsSwitch(payload) {
-        dispatch.project.update({
-          handleState: true,
-        })
-        const { param, todoData, callback } = payload
-        const data = await getStrutsSwitch(todoData)
-        if (data && data.code === 200) {
-          dispatch.project.getSelectById({
-            projectId: param?.projectId,
-            id: param?.id,
-          })
-          callback && callback()
-          dispatch.project.update({
-            handleState: false,
-          })
-        } else {
-          dispatch.project.update({
-            handleState: false,
-          })
-        }
-      },
-      clean() {
-        const dph = dispatch
-        dph.project.update({
-          issueType: 'cancel',
-          queryInfo: {},
-          isView: false,
-        })
-      },
+      // // 添加任务至我的待办
+      // async addMyToDo(payload) {
+      //   dispatch.project.update({
+      //     handleState: true,
+      //   })
+      //   const { param, callback } = payload
+      //   const data = await addMyToDo(param)
+      //   if (data && data.code === 200) {
+      //     dispatch.project.getSelectById({
+      //       projectId: param?.projectId,
+      //       id: param?.id,
+      //     })
+      //     callback && callback()
+      //     dispatch.project.update({
+      //       handleState: false,
+      //     })
+      //   } else {
+      //     dispatch.project.update({
+      //       handleState: false,
+      //     })
+      //   }
+      // },
+      // // 标记已完成
+      // async getStrutsSwitch(payload) {
+      //   dispatch.project.update({
+      //     handleState: true,
+      //   })
+      //   const { param, todoData, callback } = payload
+      //   const data = await getStrutsSwitch(todoData)
+      //   if (data && data.code === 200) {
+      //     dispatch.project.getSelectById({
+      //       projectId: param?.projectId,
+      //       id: param?.id,
+      //     })
+      //     callback && callback()
+      //     dispatch.project.update({
+      //       handleState: false,
+      //     })
+      //   } else {
+      //     dispatch.project.update({
+      //       handleState: false,
+      //     })
+      //   }
+      // },
+      // clean() {
+      //   const dph = dispatch
+      //   dph.project.update({
+      //     issueType: 'cancel',
+      //     queryInfo: {},
+      //     isView: false,
+      //   })
+      // },
     }
   },
   reducers: {

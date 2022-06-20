@@ -9,15 +9,15 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { initListData } from '@/utils/utils'
 
+// 任务详情右侧菜单
 const EditTask = () => {
   const dispatch = useDispatch()
   const params = useParams()
   const { userAccount, projectId } = params
   const {
-    project: { editFromData, handleState },
     projectuser: { userSelectAllList },
     labels: { listData: labelsListData },
-    projectTasks: { editTaskData, taskInfoData },
+    projectTasks: { editTaskData, taskInfoData, loginUserTodoIdList },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
@@ -45,6 +45,8 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
+
+    // 组件是否在关闭的状态
     if (!labelState) editTaskDataWay('labels', { labels: keyArr })
   }
 
@@ -85,12 +87,8 @@ const EditTask = () => {
 
   // 添加待办
   const addMyToDo = async () => {
-    const param = {
-      projectId: editFromData.projectId,
-      id: editFromData.assignmentId,
-    }
     await dispatch.project.addMyToDo({
-      param: param,
+      param: {},
       callback: () => {
         dispatch.routeManagement.getInfo({})
       },
@@ -99,14 +97,8 @@ const EditTask = () => {
 
   // 标记已完成
   const getStrutsSwitch = async () => {
-    const param = {
-      projectId: editFromData.projectId,
-      id: editFromData.assignmentId,
-    }
-    const todoData = editFromData.loginUserTodoIdList
     await dispatch.project.getStrutsSwitch({
-      param: param,
-      todoData: todoData,
+      param: loginUserTodoIdList,
       callback: () => {
         dispatch.routeManagement.getInfo({})
       },
@@ -161,15 +153,16 @@ const EditTask = () => {
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button
-            loading={handleState}
+            loading={
+              loading?.effects?.projectTasks?.addMyToDo ||
+              loading?.effects?.projectTasks?.getStrutsSwitch
+            }
             onClick={() => {
-              editFromData.loginUserTodoIdList &&
-              editFromData.loginUserTodoIdList.length > 0
+              loginUserTodoIdList && loginUserTodoIdList.length > 0
                 ? getStrutsSwitch()
                 : addMyToDo()
             }}>
-            {editFromData.loginUserTodoIdList &&
-            editFromData.loginUserTodoIdList.length > 0
+            {loginUserTodoIdList && loginUserTodoIdList.length > 0
               ? '标记已完成'
               : '添加待办一个事项'}
           </Button>

@@ -8,7 +8,6 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
 import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
-// import Comment from './Comment'
 import useLocationPage from '@/hooks/useLocationPage'
 import TaskEvent from './TaskEvent'
 
@@ -18,20 +17,17 @@ const TaskInfo = () => {
   // 处理带id的路由
   useLocationPage()
   const {
-    project: { issueType, editFromData, taskInfoData },
+    projectTasks: { issueType, taskInfoData, editTaskFromData },
     allusers: { uuid },
     loading,
   } = useSelector((state) => state)
   const [isTitleErr, serIsTitleErr] = useState(false)
   const { projectId, id } = params
-  const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
+
+  const updateData = (payload) =>
+    dispatch({ type: 'projectTasks/update', payload })
+
   useEffect(() => {
-    dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.project.queryFuzzyAllProjectMember({ projectId })
     dispatch.labels.getAllLabelData({ projectId })
     dispatch.projectTasks.getTaskDetailsDataUnCheck({
@@ -53,7 +49,7 @@ const TaskInfo = () => {
     updateData({ issueType: type })
   }
   const goStateIssue = async (e) => {
-    const { assignmentId, assignmentTitle, description } = editFromData
+    const { assignmentId, assignmentTitle, description } = editTaskFromData
     updateData({
       editFromData: {
         assignmentId,
@@ -63,41 +59,39 @@ const TaskInfo = () => {
       },
     })
     const result = await dispatch.project.getEdit({
-      fileId: uuid ? [uuid] : editFromData.fileId,
+      fileId: uuid ? [uuid] : editTaskFromData.fileId,
       projectId: projectId,
     })
     result && e === 3 && dispatch.routeManagement.getInfo({})
   }
+
   const steInputChange = (e) => {
     updateData({
-      editFromData: {
-        assignmentId: editFromData.assignmentId || taskInfoData.assignmentId,
-        description: editFromData.description,
+      editTaskFromData: {
+        assignmentId:
+          editTaskFromData.assignmentId || taskInfoData.assignmentId,
+        description: editTaskFromData.description,
         assignmentTitle: e.target.value,
-        fileId: editFromData.fileId,
       },
     })
   }
-  const goSaveIssue = () => {
+
+  // 保存任务详情编辑
+  const goSaveIssue = async () => {
     if (
-      editFromData.assignmentTitle.length < 2 ||
-      editFromData.assignmentTitle.length > 100
+      editTaskFromData.assignmentTitle.length < 2 ||
+      editTaskFromData.assignmentTitle.length > 100
     ) {
       serIsTitleErr(true)
       return
     }
-    if (editFromData.description.length > 300) {
+    if (editTaskFromData.description.length > 300) {
       return
     }
     serIsTitleErr(false)
-    if (editFromData !== taskInfoData) {
-      dispatch.project.getEdit({
-        fileId: uuid ? [uuid] : editFromData.fileId,
-        projectId: projectId,
-      })
-      updateData({ issueType: 'cancel' })
-    }
+    dispatch.projectTasks.editTaskList({ projectId })
   }
+
   return (
     <div className={styles.infoLoad}>
       <Loader
@@ -106,7 +100,6 @@ const TaskInfo = () => {
         style={{ width: '100%' }}
         loading={
           loading.effects.projectTasks.getTaskDetailsDataUnCheck ||
-          loading.effects.project.getSelectById ||
           loading.effects.project.getEdit
         }>
         <div>
@@ -160,7 +153,7 @@ const TaskInfo = () => {
                     <div>
                       <Input
                         onChange={(e) => steInputChange(e)}
-                        value={editFromData?.assignmentTitle}
+                        value={editTaskFromData?.assignmentTitle}
                         className={isTitleErr && styles.inputErr}
                       />
                       {isTitleErr && (
@@ -181,8 +174,8 @@ const TaskInfo = () => {
                   <FromMD
                     upDate={updateData}
                     submit={goSaveIssue}
-                    editName={'editFromData'}
-                    editData={editFromData}
+                    editName={'editTaskFromData'}
+                    editData={editTaskFromData}
                     infoData={taskInfoData}
                     fromValue={'description'}
                     btnName="保存编辑"
@@ -194,7 +187,6 @@ const TaskInfo = () => {
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
-              {/* <Comment /> */}
               <Divider />
               <TaskEvent />
             </div>

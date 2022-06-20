@@ -8,16 +8,27 @@ import styles from './taskEvent.module.less'
 const TaskEvent = () => {
   const dispatch = useDispatch()
   const {
-    project: { commentData, taskInfoData },
+    projectTasks: { taskInfoData, commentData },
     projectuser: { userSelectAllList },
   } = useSelector((state) => state)
 
   const [showReview, setShowReview] = useState(0)
 
   const updateData = (payload) => {
+    dispatch({ type: 'projectTasks/update', payload })
+  }
+
+  // 添加评论
+  const addTaskComments = () => {
     dispatch({
-      type: 'project/update',
-      payload,
+      type: 'projectTasks/addTaskComment',
+      payload: {
+        params: {
+          operatingRecords: commentData.operatingRecords,
+          assignmentId: taskInfoData.assignmentId,
+          projectId: taskInfoData.projectId,
+        },
+      },
     })
   }
 
@@ -77,7 +88,7 @@ const TaskEvent = () => {
       <div className={styles.editContent}>
         <FromMD
           upDate={updateData}
-          submit={() => dispatch.project.getAddComment({})}
+          submit={() => addTaskComments()}
           editName="commentData"
           editData={commentData}
           fromValue="operatingRecords"
