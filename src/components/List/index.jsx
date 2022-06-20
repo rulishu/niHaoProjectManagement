@@ -8,8 +8,15 @@ import './style.css'
 
 export default function ListItem(props) {
   const navigate = useNavigate()
-  const { data, isIssue, listField, listNavigate, delAssignment, labelsData } =
-    props
+  const {
+    data,
+    isIssue,
+    listField,
+    listNavigate,
+    labelsData,
+    delAssignment,
+    onCLickSearch,
+  } = props
 
   const listGoTo = (val) => {
     listNavigate(val)
@@ -142,6 +149,10 @@ export default function ListItem(props) {
                           return (
                             <Tooltip key={list?.id} content={list?.name}>
                               <span
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onCLickSearch && onCLickSearch(list)
+                                }}
                                 className={
                                   list?.color
                                     ? styles.listIssueStatus
