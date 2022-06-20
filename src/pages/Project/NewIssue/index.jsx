@@ -273,7 +273,7 @@ const NewIssue = (props) => {
                   setLabelState(false)
                 },
                 children: (
-                  <div style={{ width: '100%' }}>
+                  <>
                     <CompDropdown
                       listData={initListData(
                         userSelectAllList,
@@ -286,9 +286,6 @@ const NewIssue = (props) => {
                         }
                       )}
                       isOpen={assignState}
-                      selectLabel={() => {
-                        setAssignState(false)
-                      }}
                       template="personnel"
                       isRadio={true}
                       shape="input"
@@ -323,7 +320,7 @@ const NewIssue = (props) => {
                         setAssignState(false)
                       }}
                     />
-                  </div>
+                  </>
                 ),
               },
               dueDate: {
