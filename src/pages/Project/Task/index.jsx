@@ -43,7 +43,7 @@ const Task = (props) => {
   // const location = useLocation()
   const params = useParams()
   const { userAccount } = useParams()
-
+  const [taskStatus, setTaskStatus] = useState('2')
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -92,9 +92,10 @@ const Task = (props) => {
     dispatch.project.getAssignment({ projectId: taskId }) //不分页获取所有任务
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
-
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
+    const newStatus = window.location.hash.split('?')[1] || ''
+    setTaskStatus(newStatus)
     dispatch({
       type: 'project/update',
       payload: {
@@ -107,12 +108,12 @@ const Task = (props) => {
     dispatch({
       type: 'project/update',
       payload: {
-        activeKey: '2',
+        activeKey: taskStatus,
         tabDtos: [
           {
             condition: '=',
             field: 'assignmentStatus',
-            value: '2',
+            value: taskStatus,
           },
         ],
         selectDtos: [],
@@ -122,7 +123,7 @@ const Task = (props) => {
     if (taskId) {
       // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
       pageS({
-        assignmentStatus: '2',
+        assignmentStatus: taskStatus,
       })
       dispatch({
         type: 'project/getProjectCountById', //统计
@@ -134,7 +135,7 @@ const Task = (props) => {
       Notify.success({ description: '查无此项' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params])
+  }, [params, taskStatus])
 
   const updateData = (payload) => {
     dispatch({
@@ -348,7 +349,6 @@ const Task = (props) => {
                 '1'
               )}
             </Tabs.Pane>
-
             <Tabs.Pane
               label={tabsLabel('进行中', taskNum.onGoing ? taskNum.onGoing : 0)}
               key="2">
