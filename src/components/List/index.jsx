@@ -17,7 +17,6 @@ export default function ListItem(props) {
     delAssignment,
     onCLickSearch,
     milestonesData,
-    onCLickMilestonesSearch,
   } = props
 
   const listGoTo = (val) => {
@@ -146,7 +145,7 @@ export default function ListItem(props) {
                         </span>
                       </Tooltip>
                     )}
-                    {item?.milestonesId && (
+                    {
                       <div className={styles.milestones}>
                         {milestonesData?.map(
                           (milestonesItem, milestonesIndex) =>
@@ -158,8 +157,11 @@ export default function ListItem(props) {
                                   style={{ display: 'flex' }}
                                   onClick={(e) => {
                                     e.stopPropagation()
-                                    onCLickMilestonesSearch &&
-                                      onCLickMilestonesSearch(milestonesItem)
+                                    onCLickSearch &&
+                                      onCLickSearch(
+                                        'milestonesId',
+                                        milestonesItem
+                                      )
                                   }}>
                                   <Icon type="time-o" />
                                   <span
@@ -172,7 +174,7 @@ export default function ListItem(props) {
                             )
                         )}
                       </div>
-                    )}
+                    }
                     <div className={styles.listLabels}>
                       {labelsData?.map((list, index) => {
                         if (item?.labels?.includes(list?.id) && index < 4) {
@@ -181,7 +183,11 @@ export default function ListItem(props) {
                               <span
                                 onClick={(e) => {
                                   e.stopPropagation()
-                                  onCLickSearch && onCLickSearch(list)
+                                  onCLickSearch &&
+                                    onCLickSearch('labels', {
+                                      value: list.id,
+                                      label: list.name,
+                                    })
                                 }}
                                 className={
                                   list?.color
