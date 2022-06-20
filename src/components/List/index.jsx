@@ -128,6 +128,7 @@ export default function ListItem(props) {
                     {item?.dueDate && (
                       <Tooltip placement="top" content="截止日期">
                         <span
+                          style={{ display: 'flex', alignItems: 'center' }}
                           className={`dueDate ${
                             dayjs(item?.dueDate)?.diff(
                               dayjs().format('YYYY-MM-DD'),
@@ -136,7 +137,7 @@ export default function ListItem(props) {
                               ? 'redDate'
                               : ''
                           }`}>
-                          <Icon type="date" />{' '}
+                          <Icon type="date" style={{ marginRight: '5px' }} />{' '}
                           {listField?.dueDate
                             ? item[listField.dueDate]
                             : item?.dueDate}

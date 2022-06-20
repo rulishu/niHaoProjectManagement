@@ -92,7 +92,10 @@ export default function Home() {
       payload: { id: projectId },
     })
   }
-
+  //跳转任务列表
+  const goToTask = (state) => {
+    navigate(`${allDataSource.projectUrl}/task?${state}`)
+  }
   //表格
 
   const TableList = () => {
@@ -106,79 +109,80 @@ export default function Home() {
         {allDataSources?.length === 0 ? (
           <Empty description={false} />
         ) : (
-          <ProTable
-            className={styles.mouseList}
-            style={{ width: 900 }}
-            table={myTable}
-            onCell={(rowData) => {
-              navigate(
-                `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
-              )
-            }}
-            columns={[
-              {
-                title: '任务标题',
-                key: 'assignmentTitle',
-                ellipsis: true,
-                width: 100,
-                render: (address) => (
-                  <Tooltip placement="topLeft" content={address}>
-                    {address}
-                  </Tooltip>
-                ),
-              },
-              // {
-              //   title: '任务描述',
-              //   key: 'description',
-              //   ellipsis: true,
-              // },
-              {
-                title: '创建人',
-                key: 'createName',
-                width: 100,
-                ellipsis: true,
-              },
-              {
-                title: '任务状态',
-                key: 'assignmentStatus',
-                width: 100,
-                render: (text) => {
-                  return (
-                    <Tag
-                      color={
-                        text === 1
-                          ? '#F95C2B'
-                          : text === 2
-                          ? '#008EF0'
-                          : text === 3
-                          ? '#28a745'
-                          : '#dc3545'
-                      }>
-                      {text === 1
-                        ? '未开始'
-                        : text === 2
-                        ? '进行中'
-                        : text === 3
-                        ? '已完成'
-                        : '已逾期'}
-                    </Tag>
-                  )
+          <div className={styles.mouseList}>
+            <ProTable
+              style={{ width: 900 }}
+              table={myTable}
+              onCell={(rowData) => {
+                navigate(
+                  `${rowData?.projectUrl}/task/taskInfo/${rowData.assignmentId}`
+                )
+              }}
+              columns={[
+                {
+                  title: '任务标题',
+                  key: 'assignmentTitle',
+                  ellipsis: true,
+                  width: 100,
+                  render: (address) => (
+                    <Tooltip placement="topLeft" content={address}>
+                      {address}
+                    </Tooltip>
+                  ),
                 },
-              },
-              {
-                title: '截止时间',
-                key: 'finishTime',
-                width: 180,
-                ellipsis: true,
-              },
-              {
-                title: '创建时间',
-                key: 'createTime',
-                width: 180,
-                ellipsis: true,
-              },
-            ]}
-          />
+                // {
+                //   title: '任务描述',
+                //   key: 'description',
+                //   ellipsis: true,
+                // },
+                {
+                  title: '创建人',
+                  key: 'createName',
+                  width: 100,
+                  ellipsis: true,
+                },
+                {
+                  title: '任务状态',
+                  key: 'assignmentStatus',
+                  width: 100,
+                  render: (text) => {
+                    return (
+                      <Tag
+                        color={
+                          text === 1
+                            ? '#F95C2B'
+                            : text === 2
+                            ? '#008EF0'
+                            : text === 3
+                            ? '#28a745'
+                            : '#dc3545'
+                        }>
+                        {text === 1
+                          ? '未开始'
+                          : text === 2
+                          ? '进行中'
+                          : text === 3
+                          ? '已完成'
+                          : '已逾期'}
+                      </Tag>
+                    )
+                  },
+                },
+                {
+                  title: '截止时间',
+                  key: 'finishTime',
+                  width: 180,
+                  ellipsis: true,
+                },
+                {
+                  title: '创建时间',
+                  key: 'createTime',
+                  width: 180,
+                  ellipsis: true,
+                },
+              ]}
+            />
+          </div>
         )}
       </div>
     )
@@ -188,13 +192,13 @@ export default function Home() {
   const AllTableList = () => {
     return (
       <div
+        className={styles.mouseList}
         style={{
           height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
         <ProTable
-          className={styles.mouseList}
           style={{ width: 900 }}
           table={table}
           onCell={(rowData) => {
@@ -382,7 +386,7 @@ export default function Home() {
                       key: 1,
                     },
                     {
-                      title: '开发中',
+                      title: '进行中',
                       num: allDataSource?.totalWorkVo?.projectKfzNum || 0,
                       key: 2,
                     },
@@ -394,7 +398,7 @@ export default function Home() {
                     {
                       title: '已逾期',
                       num: allDataSource?.totalWorkVo?.projectYqsNum || 0,
-                      key: 5,
+                      key: 4,
                     },
                   ].map((item) => {
                     return (
@@ -402,8 +406,8 @@ export default function Home() {
                         bordered={false}
                         key={item.key}
                         title={item.title}
-                        // style={{ width: 80 }}
-                      >
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => goToTask(item.key)}>
                         <span style={{ fontSize: 36 }}>{item.num}</span>
                       </Card>
                     )
