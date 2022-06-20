@@ -8,7 +8,8 @@ import './style.css'
 
 export default function ListItem(props) {
   const navigate = useNavigate()
-  const { data, isIssue, listField, listNavigate, labelsData } = props
+  const { data, isIssue, listField, listNavigate, delAssignment, labelsData } =
+    props
 
   const listGoTo = (val) => {
     listNavigate(val)
@@ -74,13 +75,13 @@ export default function ListItem(props) {
                         </span>
                       </div>
                     </Tooltip>
-                    {/* <Tooltip placement="top" content="删除">
-                      <span
-                        className={styles.listIconSpan}
+                    <Tooltip placement="top" content="删除">
+                      <div
+                        className={styles.taskUserDel}
                         onClick={() => delAssignment(item)}>
                         <Icon type="delete" />
-                      </span>
-                    </Tooltip> */}
+                      </div>
+                    </Tooltip>
                   </div>
                   <div style={{ textAlign: 'right', color: '#666' }}>
                     {/* {listField?.updateName
