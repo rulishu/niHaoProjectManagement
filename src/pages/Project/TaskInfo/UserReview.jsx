@@ -151,7 +151,13 @@ const UserReview = (props) => {
             {item.memberRole && !(editOrReply === 2 && isEdit) && (
               <Tooltip
                 placement="top"
-                content={'此用户在管理项目中具有所有者角色'}>
+                content={`此用户在管理项目中具有${
+                  item.memberRole === 1
+                    ? '开发'
+                    : item.memberRole === 2
+                    ? '测试'
+                    : '项目管理者'
+                }角色`}>
                 <span
                   className={styles.namebox}
                   style={{

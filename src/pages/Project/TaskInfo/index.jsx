@@ -142,7 +142,7 @@ const TaskInfo = () => {
         fileId: uuid ? [uuid] : editFromData.fileId,
         projectId: projectId,
       })
-      updateData({ issueType: '' })
+      updateData({ issueType: 'cancel' })
     }
   }
   return (
@@ -189,7 +189,9 @@ const TaskInfo = () => {
                       </Button>
                     )}
                     {issueType === 'edit' ? (
-                      <Button onClick={() => goEditIssue('')}>取消编辑</Button>
+                      <Button onClick={() => goEditIssue('cancel')}>
+                        取消编辑
+                      </Button>
                     ) : (
                       <Button onClick={() => goEditIssue('edit')}>
                         编辑任务
@@ -221,15 +223,18 @@ const TaskInfo = () => {
                 </div>
               </div>
               {issueType === 'edit' ? (
-                <FromMD
-                  upDate={updateData}
-                  submit={goSaveIssue}
-                  editName={'editFromData'}
-                  editData={editFromData}
-                  infoData={taskInfoData}
-                  fromValue={'description'}
-                  btnName="保存编辑"
-                />
+                <div className={styles.content}>
+                  <FromMD
+                    upDate={updateData}
+                    submit={goSaveIssue}
+                    editName={'editFromData'}
+                    editData={editFromData}
+                    infoData={taskInfoData}
+                    fromValue={'description'}
+                    btnName="保存编辑"
+                    onClose={() => goEditIssue('cancel')}
+                  />
+                </div>
               ) : (
                 <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />

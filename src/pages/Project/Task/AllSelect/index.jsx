@@ -10,6 +10,7 @@ const LabelSelect = (props) => {
     updateData,
     pageS,
     project,
+    labelSearch,
   } = props
   const [label, setLabel] = useState([])
   const [team, setTeam] = useState(teamMembers)
@@ -30,11 +31,17 @@ const LabelSelect = (props) => {
     setMilistone(milistones)
   }, [labelsListData, teamMembers, milistones])
 
+  useEffect(() => {
+    if (labelSearch) {
+      form.setFields({ labels: [labelSearch] })
+      changeFun({ labels: [labelSearch] })
+    }
+  }, [labelSearch]) // eslint-disable-line
+
   const changeFun = (props) => {
     const value = { ...form.getFieldValues?.(), ...props }
     let selectDtos = []
     Object.keys(value).forEach((item) => {
-      // console.log('item: ', item)
       if (value[item].length > 0) {
         value[item].forEach((i) => {
           selectDtos.push({
@@ -45,7 +52,6 @@ const LabelSelect = (props) => {
         })
       }
     })
-
     updateData({ selectDtos: [...selectDtos] })
     pageS({
       assignmentStatus: project.activeKey,

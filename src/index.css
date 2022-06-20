@@ -1,3 +1,30 @@
 #root, body, html {
   height: 100%;
+  position: relative;
+}
+::-webkit-scrollbar {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 6px;
+  height: 5px;
+  border-radius:4px;
+  -webkit-border-radius:  4px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+  border-radius:4px;
+  -webkit-border-radius:  4px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;   
+  background-color: rgba(144,147,153,.3);
+  border-radius: 4px;
+  -webkit-border-radius:  4px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  width: 4px;
+  background-color: rgba(144,147,153,.3);
+  border-radius:  4px;  
+  -webkit-border-radius: 4px;
 }

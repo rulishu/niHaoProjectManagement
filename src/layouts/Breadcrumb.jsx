@@ -7,6 +7,7 @@ import {
   useNavigate,
 } from 'react-router-dom'
 import { Breadcrumb, Avatar, Button } from 'uiw'
+import styles from './index.module.less'
 
 const Bread = (props) => {
   const { projectId } = useParams()
@@ -40,11 +41,21 @@ const Bread = (props) => {
   }, [projectId, dispatch])
   const navigate = useNavigate()
 
-  //点击项目名称跳转
+  // 点击项目名称跳转
   const onClickitem = () => {
     navigate(`${projectUrl}`)
   }
-
+  // 点击里程碑/任务管理跳转
+  const onClickthree = () => {
+    const issue = domList.at(1).name
+    if (issue === '任务管理') {
+      navigate(`${projectUrl}/task`)
+    } else if (issue === '里程碑') {
+      navigate(`${projectUrl}/milestone`)
+    } else if (issue === '标签管理') {
+      navigate(`${projectUrl}/labels`)
+    }
+  }
   const AvatarImage = (
     <Avatar size="mini" src={`/api/file/selectFile/${projectAvatar}`} />
   )
@@ -61,22 +72,33 @@ const Bread = (props) => {
       ) : (
         <div></div>
       )}
-      {domList?.map((item, index) => {
-        const { path, name } = item
-        if (
-          path !== '/projectList' &&
-          path !== '/dashboard' &&
-          path !== '/todoList' &&
-          path !== '/:userAccount'
-        ) {
-          return (
-            <Breadcrumb.Item key={index} style={{ marginTop: 4, fontSize: 14 }}>
-              {name}
-            </Breadcrumb.Item>
-          )
-        }
-        return <div key={index}></div>
-      })}
+      {domList?.length === 3 ? (
+        <Breadcrumb.Item
+          style={{ marginTop: 4, fontSize: 14 }}
+          onClick={() => onClickthree()}>
+          <span className={styles.itemText}>{domList.at(1).name}</span> /{' '}
+          {domList.at(2).name}
+        </Breadcrumb.Item>
+      ) : (
+        domList?.map((item, index) => {
+          const { path, name } = item
+          if (
+            path !== '/projectList' &&
+            path !== '/dashboard' &&
+            path !== '/todoList' &&
+            path !== '/:userAccount'
+          ) {
+            return (
+              <Breadcrumb.Item
+                key={index}
+                style={{ marginTop: 4, fontSize: 14 }}>
+                {name}
+              </Breadcrumb.Item>
+            )
+          }
+          return <div key={index}></div>
+        })
+      )}
     </Breadcrumb>
   )
 }
