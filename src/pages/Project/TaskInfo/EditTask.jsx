@@ -9,97 +9,29 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { initListData } from '@/utils/utils'
 
+// 任务详情右侧菜单
 const EditTask = () => {
   const dispatch = useDispatch()
   const params = useParams()
   const { userAccount, projectId } = params
   const {
-    project: { editFromData, taskInfoData, handleState },
     projectuser: { userSelectAllList },
-    // dictionary: { dictDataList },
     labels: { listData: labelsListData },
+    projectTasks: { editTaskData, taskInfoData, loginUserTodoIdList },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
+
   const navigate = useNavigate()
 
-  const [assignState, setAssignState] = useState(false)
-  const [labelState, setLabelState] = useState(false)
-  const [milepostState, setMilepostState] = useState(false)
-  const [dueDateState, setDueDateState] = useState(false)
+  const [assignState, setAssignState] = useState(false) // 指派人
+  const [labelState, setLabelState] = useState(false) // 标签
+  const [milepostState, setMilepostState] = useState(false) // 里程碑
+  const [dueDateState, setDueDateState] = useState(false) // 截止日期
 
+  // 更新数据方法
   const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
-
-  // useEffect(() => {
-  //   labelsListData.length > 0 && !labelState && editLabelOk()
-  // }, [labelState]) // eslint-disable-line
-
-  const editAssign = () => {
-    setAssignState(!assignState)
-    dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
-    setLabelState(false)
-    setMilepostState(false)
-    setDueDateState(false)
-  }
-  // const editLabel = () => {
-  //   setLabelState(!labelState)
-  //   setMilepostState(false)
-  //   setAssignState(false)
-  //   setDueDateState(false)
-  // }
-  const editMilepost = () => {
-    setMilepostState(!milepostState)
-    setAssignState(false)
-    setLabelState(false)
-    setDueDateState(false)
-  }
-  // 完成人员编辑
-  const editAssignOk = async () => {
-    setAssignState(false)
-    const result = await dispatch.project.getEdit()
-    result && dispatch.routeManagement.getInfo({})
-  }
-
-  const editLabelOk = async () => {
-    setLabelState(false)
-    await dispatch.project.getEdit()
-  }
-
-  const editMilepostOk = async () => {
-    setMilepostState(false)
-    await dispatch.project.getEdit()
-  }
-
-  const editDubTime = () => {
-    setMilepostState(false)
-    setAssignState(false)
-    setLabelState(false)
-    setDueDateState(!dueDateState)
-  }
-
-  const dubDateChange = async (v) => {
-    setDueDateState(false)
-    if (v === undefined) {
-      updateData({
-        editFromData: {
-          ...editFromData,
-          dueDate: '',
-        },
-      })
-    } else {
-      updateData({
-        editFromData: {
-          ...editFromData,
-          dueDate: dayjs(v).format('YYYY-MM-DD'),
-        },
-      })
-    }
-    await dispatch.project.getEdit()
+    dispatch({ type: 'projectTasks/update', payload })
   }
 
   // 标签组件 变化回调函数
@@ -108,16 +40,14 @@ const EditTask = () => {
       return keyArr?.includes(item?.id)
     })
     updateData({
-      editFromData: {
-        ...editFromData,
-        assignmentId: editFromData.assignmentId,
+      editTaskData: {
+        ...editTaskData,
         labels: labels.length ? keyArr : [],
       },
     })
-    if (!labelState) {
-      editLabelOk()
-    }
-    // editLabelOk()
+
+    // 组件是否在关闭的状态
+    if (!labelState) editTaskDataWay('labels', { labels: keyArr })
   }
 
   // 新建 里程碑
@@ -138,6 +68,7 @@ const EditTask = () => {
     })
     return result
   }
+
   // 新建标签
   const createTag = async (formData) => {
     let result = false
@@ -153,48 +84,85 @@ const EditTask = () => {
     })
     return result
   }
-  //添加待办
+
+  // 添加待办
   const addMyToDo = async () => {
-    const param = {
-      projectId: editFromData.projectId,
-      id: editFromData.assignmentId,
-    }
     await dispatch.project.addMyToDo({
-      param: param,
+      param: {},
       callback: () => {
         dispatch.routeManagement.getInfo({})
       },
     })
   }
-  //标记已完成
+
+  // 标记已完成
   const getStrutsSwitch = async () => {
-    const param = {
-      projectId: editFromData.projectId,
-      id: editFromData.assignmentId,
-    }
-    const todoData = editFromData.loginUserTodoIdList
     await dispatch.project.getStrutsSwitch({
-      param: param,
-      todoData: todoData,
+      param: loginUserTodoIdList,
       callback: () => {
         dispatch.routeManagement.getInfo({})
       },
     })
   }
+
+  // 编辑任务数据方法
+  const editTaskDataWay = async (type, param) => {
+    setAssignState(false)
+    setLabelState(false)
+    setMilepostState(false)
+    setDueDateState(false)
+    let params = param
+
+    const {
+      editTaskMilestone,
+      editTaskAssign,
+      editTaskCloseTime,
+      editTaskLabel,
+      getTaskDetailsDataUnCheck,
+    } = dispatch.projectTasks
+    const methods = {
+      milestone: editTaskMilestone,
+      assign: editTaskAssign,
+      closeTime: editTaskCloseTime,
+      labels: editTaskLabel,
+    }
+
+    if (type === 'closeTime') {
+      params = { dueDate: param ? dayjs(param).format('YYYY-MM-DD') : '' }
+    }
+
+    if (type === 'labels') {
+      if (
+        taskInfoData?.labels?.sort()?.toString() ===
+        param?.labels?.sort()?.toString()
+      ) {
+        return
+      }
+    }
+
+    const { projectId, assignmentId } = taskInfoData
+    await methods[type]({
+      param: { projectId, assignmentId, ...params },
+      callback: async () =>
+        await getTaskDetailsDataUnCheck({ projectId, id: assignmentId }),
+    })
+  }
+
   return (
     <div className={styles.rightFixed}>
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button
-            loading={handleState}
+            loading={
+              loading?.effects?.projectTasks?.addMyToDo ||
+              loading?.effects?.projectTasks?.getStrutsSwitch
+            }
             onClick={() => {
-              editFromData.loginUserTodoIdList &&
-              editFromData.loginUserTodoIdList.length > 0
+              loginUserTodoIdList && loginUserTodoIdList.length > 0
                 ? getStrutsSwitch()
                 : addMyToDo()
             }}>
-            {editFromData.loginUserTodoIdList &&
-            editFromData.loginUserTodoIdList.length > 0
+            {loginUserTodoIdList && loginUserTodoIdList.length > 0
               ? '标记已完成'
               : '添加待办一个事项'}
           </Button>
@@ -203,24 +171,18 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>指派人</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editAssign()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setAssignState(!assignState)}>
                 编辑
               </Button>
-              {/* {assignState ? (
-                <Button basic type="primary" onClick={() => editAssignOk()}>
-                  完成
-                </Button>
-              ) : (
-                <Button basic type="primary" onClick={() => editAssign()}>
-                  编辑
-                </Button>
-              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
             listData={initListData(
               userSelectAllList,
-              editFromData.assigneeUserId,
+              editTaskData?.assigneeUser?.assigneeUserId,
               'userId',
               {
                 memberName: 'memberName',
@@ -232,63 +194,48 @@ const EditTask = () => {
             template="personnel"
             shape="label"
             isRadio={true}
-            onClickLabelShow={(is) => {
-              setAssignState(is)
-            }}
+            onClickLabelShow={(is) => setAssignState(is)}
             selectLabel={(key) => {
               const userName = userSelectAllList
                 ?.map((item) =>
                   item.userId === key ? item.memberName : undefined
                 )
                 ?.filter((s) => s)[0]
+              const userData = {
+                assigneeUserId: key || 0,
+                assigneeUserName: userName || null,
+              }
               updateData({
-                editFromData: {
-                  ...editFromData,
-                  assigneeUserId: key || 0,
-                  assigneeUserName: userName || null,
+                editTaskData: {
+                  assigneeUser: userData,
                 },
               })
-              editAssignOk()
-            }}
-            closeLabel={() => {
-              updateData({
-                editFromData: {
-                  ...editFromData,
-                  assigneeUserId: taskInfoData.assigneeUserId,
-                  assigneeUserName: taskInfoData.assigneeUserName,
-                },
-              })
-              setAssignState(false)
+              editTaskDataWay('assign', userData)
             }}
             loading={loading.effects.milestone.selectPageList}
             runLabel={() => {
               navigate(`/${userAccount}/${projectId}/usersManagement`, {
                 replace: true,
               })
-            }}></CompDropdown>
+            }}
+          />
         </div>
         <div className={styles.rLabel}>
           <div className={styles.rLabelTitle}>
             <span>里程碑</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editMilepost()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setMilepostState(!milepostState)}>
                 编辑
               </Button>
-              {/* {milepostState ? (
-                <Button basic type="primary" onClick={() => editMilepostOk()}>
-                  完成
-                </Button>
-              ) : (
-                <Button basic type="primary" onClick={() => editMilepost()}>
-                  编辑
-                </Button>
-              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
             listData={initListData(
               milepostaData,
-              editFromData.milestonesId,
+              taskInfoData.milestonesId,
               'milestonesId',
               { title: 'milestonesTitle' }
             )}
@@ -298,19 +245,17 @@ const EditTask = () => {
             isRadio={true}
             onClickLabelShow={(is) => setMilepostState(is)}
             selectLabel={(key) => {
-              updateData({
-                editFromData: { ...editFromData, milestonesId: key || 0 },
-              })
-              editMilepostOk()
-            }}
-            closeLabel={() => {
-              updateData({
-                editFromData: {
-                  ...editFromData,
-                  milestonesId: taskInfoData?.milestonesId,
-                },
-              })
-              setMilepostState(false)
+              const milestonesTitle = milepostaData
+                ?.map((item) =>
+                  item.milestonesId === key ? item.milestonesTitle : undefined
+                )
+                ?.filter((s) => s)[0]
+              const milestoneData = {
+                milestonesId: key || 0,
+                milestonesTitle: milestonesTitle || null,
+              }
+              updateData({ editTaskData: { milestones: milestoneData } })
+              editTaskDataWay('milestone', milestoneData)
             }}
             loading={loading.effects.milestone.selectPageList}
             runLabel={() => {
@@ -325,28 +270,22 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>截止日期</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editDubTime()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setDueDateState(!dueDateState)}>
                 编辑
               </Button>
-              {/* {dueDateState ? (
-                <Button basic type="primary" onClick={() => editDubTime()}>
-                  完成
-                </Button>
-              ) : (
-                <Button basic type="primary" onClick={() => editDubTime()}>
-                  编辑
-                </Button>
-              )} */}
             </AuthBtn>
           </div>
           {dueDateState ? (
             <DateInput
-              value={editFromData?.dueDate}
+              value={taskInfoData?.dueDate}
               format="YYYY/MM/DD"
               allowClear={true}
               autoClose={true}
               datePickerProps={{ todayButton: '今天' }}
-              onChange={(v) => dubDateChange(v)}
+              onChange={(v) => editTaskDataWay('closeTime', v)}
             />
           ) : (
             <span>{taskInfoData?.dueDate || '无'}</span>
@@ -359,31 +298,13 @@ const EditTask = () => {
               <Button
                 basic
                 type="primary"
-                onClick={async () => {
-                  setLabelState(!labelState)
-                  // await dispatch.project.getEdit()
-                }}>
-                {/* {labelState ? '完成' : '编辑'} */}
+                onClick={() => setLabelState(!labelState)}>
                 编辑
               </Button>
-              {/* {labelState ? (
-                <Button
-                  basic
-                  type="primary"
-                  onClick={(e) => {
-                    editLabelOk()
-                  }}>
-                  完成
-                </Button>
-              ) : (
-                <Button basic type="primary" onClick={() => editLabel()}>
-                  编辑
-                </Button>
-              )} */}
             </AuthBtn>
           </div>
           <CompDropdown
-            listData={initListData(labelsListData, editFromData.labels, 'id', {
+            listData={initListData(labelsListData, editTaskData?.labels, 'id', {
               color: 'color',
               title: 'name',
             })}
@@ -392,19 +313,13 @@ const EditTask = () => {
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
             closeLabel={() => {
-              // setLabelState(false)
-              if (Object.keys(taskInfoData).length) {
-                editLabelOk()
-              }
+              editTaskDataWay('labels', { labels: editTaskData?.labels })
             }}
             onClickLabelShow={(is) => setLabelState(is)}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
             createTag={(_, current) => createTag(current)}
           />
-          {/* {!editFromData?.labels?.length && !taskInfoData?.labels?.length && (
-            <div className={styles.rLabelText}>无</div>
-          )} */}
         </div>
       </div>
     </div>

@@ -1,14 +1,12 @@
-import { Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-// import { AuthBtn } from '@uiw-admin/authorized'
-import 'tributejs/tribute.css'
 import useLocationPage from '@/hooks/useLocationPage'
+import 'tributejs/tribute.css'
 
-// import LabelSelect from './LabelSelect'
 import AllSelect from './AllSelect'
 
 const listField = {
@@ -19,14 +17,6 @@ const listField = {
   updateTime: 'updateTime',
   updateName: 'updateName',
 }
-
-// const SearchBarOption = [
-//   { value: '1', text: '未开始' },
-//   { value: '2', text: '已打开' },
-//   { value: '3', text: '已完成' },
-//   { value: '4', text: '已逾期' },
-//   { value: '', text: '所有' },
-// ]
 
 const tabsLabel = (title, num) => {
   return (
@@ -40,7 +30,6 @@ const tabsLabel = (title, num) => {
 const Task = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // const location = useLocation()
   const params = useParams()
   const { userAccount } = useParams()
   const [taskStatus, setTaskStatus] = useState('2')
@@ -49,26 +38,19 @@ const Task = (props) => {
   const taskId = params.projectId || ''
   const {
     project,
-    // dictionary: { dictDataList },
     labels: { listData: labelsListData },
     loading,
   } = useSelector((state) => state)
   const {
     dataList,
-    // total,
     filter,
     closeDataList,
-    // closeTotal,
     openTataList,
-    // openTotal,
     prepareList,
-    // prepareTotal,
     overtimeList,
-    // overtimeTotal,
     activeKey,
     teamMembers,
     taskNum,
-    // assignmentLabels,
     milistones,
   } = project
 
@@ -78,11 +60,9 @@ const Task = (props) => {
   }
 
   useEffect(() => {
-    // console.log('params', params)
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId })
     dispatch.project.selectLabel({ projectId: taskId })
     dispatch.project.assignment_label()
-    // dispatch.dictionary.getDictDataList({ dictType: 'assignment_label' })
     dispatch.labels.getAllLabelData({ projectId: taskId })
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: taskId })
     dispatch.milestone.getListAll({
@@ -92,6 +72,7 @@ const Task = (props) => {
     dispatch.project.getAssignment({ projectId: taskId }) //不分页获取所有任务
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
+
   // 进页面先查询一次，获取任务数量角标
   useEffect(() => {
     const newStatus = window.location.hash.split('?')[1] || ''
@@ -127,9 +108,7 @@ const Task = (props) => {
       })
       dispatch({
         type: 'project/getProjectCountById', //统计
-        payload: {
-          projectId: taskId,
-        },
+        payload: { projectId: taskId },
       })
     } else {
       Notify.success({ description: '查无此项' })
@@ -138,10 +117,7 @@ const Task = (props) => {
   }, [params, taskStatus])
 
   const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
+    dispatch({ type: 'project/update', payload })
   }
 
   const goIssue = () => {
@@ -164,20 +140,6 @@ const Task = (props) => {
       `/${userAccount}/${item.projectId}/task/taskInfo/${item.assignmentId}`
     )
   }
-
-  // // 搜索按钮事件
-  // const getTaskListData = async (value, selectValue) => {
-  //   updateData({ activeKey: selectValue })
-  //   // await dispatch.project.getList({
-  //   //   assignmentStatus: selectValue,
-  //   //   assignmentTitle: value,
-  //   //   page: 1,
-  //   // })
-
-  //   pageS({
-  //     assignmentStatus: activeKey,
-  //   })
-  // }
 
   const delAssignment = async (item) => {
     Modal.show({
@@ -240,9 +202,6 @@ const Task = (props) => {
               listNavigate={listGo}
               delAssignment={delAssignment}
               labelsData={labelsListData}
-              // onCLickSearch={(val) => {
-              //   setLabelSearch({ value: val.id, label: val.name })
-              // }}
             />
             {taskTotal > 0 && (
               <div style={{ marginTop: '0.5rem' }}>
@@ -255,12 +214,8 @@ const Task = (props) => {
                     dispatch.project.goToPage({
                       page,
                       pageSize,
-                      // assignmentStatus: num,
                       assignmentStatus: activeKey,
                       projectId: taskId,
-                      // createId: location?.state?.createId
-                      //   ? location?.state.createId
-                      //   : '',
                     })
                   }}
                 />
@@ -296,8 +251,6 @@ const Task = (props) => {
     })
   }
 
-  // const [labelSearch, setLabelSearch] = useState()
-
   return (
     <div className={styles.wrap}>
       <Loader
@@ -317,16 +270,13 @@ const Task = (props) => {
               updateData={updateData}
               pageS={pageS}
               project={project}
-              // labelSearch={labelSearch}
             />
           </div>
 
           <div className={styles.nav}>
-            {/* <AuthBtn path="/api/ManagerAssignment/managerAssignmentSave"> */}
             <Button type="primary" onClick={() => goIssue()}>
               新建任务
             </Button>
-            {/* </AuthBtn> */}
           </div>
           <Tabs
             type="line"

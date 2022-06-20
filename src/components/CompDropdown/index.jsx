@@ -288,7 +288,6 @@ const CompDropdown = (props) => {
             setFirstTime(false)
           }
           if (!firstTime) {
-            onClickLabelShow && onClickLabelShow(is)
             if (!is) {
               setFirst((item) => {
                 if (item === 2) return 1
@@ -297,6 +296,7 @@ const CompDropdown = (props) => {
               })
               setLabelStatus(1)
             }
+            onClickLabelShow && onClickLabelShow(is)
           }
           setOpen(is)
         }}

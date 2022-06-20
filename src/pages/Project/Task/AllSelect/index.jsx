@@ -145,8 +145,6 @@ const LabelSelect = (props) => {
                 onChange: (value) => {
                   changeFun({ milestonesId: value })
                 },
-                // onSelect: (value) => console.log('selectvalue', value),
-                // loading: loading,
                 allowClear: true,
                 showSearch: true,
                 style: {
