@@ -21,6 +21,7 @@ const EditTask = () => {
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
+
   const navigate = useNavigate()
 
   const [assignState, setAssignState] = useState(false) // 指派人
@@ -28,30 +29,9 @@ const EditTask = () => {
   const [milepostState, setMilepostState] = useState(false) // 里程碑
   const [dueDateState, setDueDateState] = useState(false) // 截止日期
 
+  // 更新数据方法
   const updateData = (payload) => {
     dispatch({ type: 'projectTasks/update', payload })
-  }
-
-  const editAssign = () => {
-    setAssignState(!assignState)
-    dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
-    setLabelState(false)
-    setMilepostState(false)
-    setDueDateState(false)
-  }
-
-  const editMilepost = () => {
-    setMilepostState(!milepostState)
-    setAssignState(false)
-    setLabelState(false)
-    setDueDateState(false)
-  }
-
-  const editDubTime = () => {
-    setMilepostState(false)
-    setAssignState(false)
-    setLabelState(false)
-    setDueDateState(!dueDateState)
   }
 
   // 标签组件 变化回调函数
@@ -65,9 +45,7 @@ const EditTask = () => {
         labels: labels.length ? keyArr : [],
       },
     })
-    if (!labelState) {
-      editTaskDataWay('label', { labels: keyArr })
-    }
+    if (!labelState) editTaskDataWay('labels', { labels: keyArr })
   }
 
   // 新建 里程碑
@@ -88,6 +66,7 @@ const EditTask = () => {
     })
     return result
   }
+
   // 新建标签
   const createTag = async (formData) => {
     let result = false
@@ -103,6 +82,7 @@ const EditTask = () => {
     })
     return result
   }
+
   // 添加待办
   const addMyToDo = async () => {
     const param = {
@@ -116,6 +96,7 @@ const EditTask = () => {
       },
     })
   }
+
   // 标记已完成
   const getStrutsSwitch = async () => {
     const param = {
@@ -151,11 +132,22 @@ const EditTask = () => {
       milestone: editTaskMilestone,
       assign: editTaskAssign,
       closeTime: editTaskCloseTime,
-      label: editTaskLabel,
+      labels: editTaskLabel,
     }
+
     if (type === 'closeTime') {
       params = { dueDate: param ? dayjs(param).format('YYYY-MM-DD') : '' }
     }
+
+    if (type === 'labels') {
+      if (
+        taskInfoData?.labels?.sort()?.toString() ===
+        param?.labels?.sort()?.toString()
+      ) {
+        return
+      }
+    }
+
     const { projectId, assignmentId } = taskInfoData
     await methods[type]({
       param: { projectId, assignmentId, ...params },
@@ -186,7 +178,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>指派人</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editAssign()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setAssignState(!assignState)}>
                 编辑
               </Button>
             </AuthBtn>
@@ -236,7 +231,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>里程碑</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editMilepost()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setMilepostState(!milepostState)}>
                 编辑
               </Button>
             </AuthBtn>
@@ -279,7 +277,10 @@ const EditTask = () => {
           <div className={styles.rLabelTitle}>
             <span>截止日期</span>
             <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-              <Button basic type="primary" onClick={() => editDubTime()}>
+              <Button
+                basic
+                type="primary"
+                onClick={() => setDueDateState(!dueDateState)}>
                 编辑
               </Button>
             </AuthBtn>
@@ -318,9 +319,9 @@ const EditTask = () => {
             template="label"
             shape="label"
             selectLabel={(_, selKey) => selectLabel(selKey)}
-            closeLabel={() =>
-              editTaskDataWay('label', { labels: editTaskData?.labels })
-            }
+            closeLabel={() => {
+              editTaskDataWay('labels', { labels: editTaskData?.labels })
+            }}
             onClickLabelShow={(is) => setLabelState(is)}
             loading={loading.effects.dictionary.getDictDataList}
             runLabel={() => navigate(`/${userAccount}/${projectId}/labels`)}
