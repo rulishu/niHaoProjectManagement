@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Button, Tabs, Pagination, Loader, Empty, Modal, Notify } from 'uiw'
 import { List } from '@/components'
 import styles from './index.module.less'
@@ -239,9 +239,9 @@ const Task = (props) => {
               listNavigate={listGo}
               delAssignment={delAssignment}
               labelsData={labelsListData}
-              onCLickSearch={(val) => {
-                setLabelSearch({ value: val.id, label: val.name })
-              }}
+              // onCLickSearch={(val) => {
+              //   setLabelSearch({ value: val.id, label: val.name })
+              // }}
             />
             {taskTotal > 0 && (
               <div style={{ marginTop: '0.5rem' }}>
@@ -295,7 +295,7 @@ const Task = (props) => {
     })
   }
 
-  const [labelSearch, setLabelSearch] = useState()
+  // const [labelSearch, setLabelSearch] = useState()
 
   return (
     <div className={styles.wrap}>
@@ -316,7 +316,7 @@ const Task = (props) => {
               updateData={updateData}
               pageS={pageS}
               project={project}
-              labelSearch={labelSearch}
+              // labelSearch={labelSearch}
             />
           </div>
 
