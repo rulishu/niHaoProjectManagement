@@ -6,6 +6,7 @@ import {
   deleteProjectMember,
   queryFuzzyAllUser,
   fuzzyNameQuery,
+  fuzzyNameS,
 } from '../../../servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -19,6 +20,7 @@ const usersManagement = createModel()({
     tableType: '',
     userIdList: [],
     teamIdList: [],
+    groupList: '',
     loading: false,
   },
   reducers: {
@@ -92,6 +94,20 @@ const usersManagement = createModel()({
         }))
         dph.usersManagement.updateState({
           teamIdList: teamIdList,
+        })
+      }
+    },
+    // 模糊查询团队
+    async fuzzyNameS(payload) {
+      const dph = dispatch
+      const data = await fuzzyNameS(payload)
+      if (data.code === 200) {
+        const teamIdList = data?.data.map((item) => ({
+          label: item.teamName,
+          value: item.id,
+        }))
+        dph.usersManagement.updateState({
+          groupList: teamIdList,
         })
       }
     },
