@@ -1,7 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import { useParams } from 'react-router-dom'
-import { Button, Drawer, Icon, Card, Divider, Loader, DateInput } from 'uiw'
+import {
+  Button,
+  Drawer,
+  Icon,
+  Card,
+  Divider,
+  Loader,
+  DateInput,
+  Notify,
+} from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import { CompDropdown } from '@/components'
@@ -21,13 +30,16 @@ const TaskDetail = (props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
-  const { taskInfo, labelList, userAllList, milepostaData } = taskboard
+  const { taskInfo, labelList, userAllList, milepostaData, taskDueDate } =
+    taskboard
   const [assignState, setAssignState] = useState(false) //指派人组件状态
   const [labelState, setLabelState] = useState(false) //标签组件状态
   const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
-  const [taskDueDate, setTaskDueDate] = useState(taskInfo.dueDate) //任务截止日期
   const [dueDateState, setDueDateState] = useState(false) //任务截止日期弹窗状态
+  useEffect(() => {
+    setCLabelList(taskInfo.labels)
+  }, [taskInfo.labels])
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -105,13 +117,24 @@ const TaskDetail = (props) => {
 
   //截止日期选择
   const dueDateChange = async (e) => {
-    setTaskDueDate(e)
+    const creatTime = new Date(taskInfo.createTime).getTime()
+    const newTime = new Date(e).getTime()
+    if (newTime >= creatTime) {
+      dispatch.taskboard.update({
+        taskDueDate: e,
+      })
+      dispatch.taskboard.changeCloseTime({
+        projectId,
+        assignmentId: taskInfo.assignmentId,
+        dueDate: dayjs(e).format('YYYY-MM-DD'),
+      })
+    } else {
+      dispatch.taskboard.update({
+        taskDueDate: taskInfo.dueDate,
+      })
+      Notify.error({ title: '截止日期需在创建日期之后！' })
+    }
     setDueDateState(false)
-    dispatch.taskboard.changeCloseTime({
-      projectId,
-      assignmentId: taskInfo.assignmentId,
-      dueDate: dayjs(e).format('YYYY-MM-DD'),
-    })
   }
 
   const footer = () => {
@@ -163,7 +186,6 @@ const TaskDetail = (props) => {
       </div>
     )
   }
-
   return (
     <div className={styles.nihao}>
       <Drawer
@@ -175,9 +197,9 @@ const TaskDetail = (props) => {
         footer={footer()}
         onClose={() => {
           setTaskDetails(false)
-          setTaskDueDate('')
+          setDueDateState(false)
         }}
-        size="330px"
+        size="340px"
         usePortal={false}>
         <Loader
           loading={

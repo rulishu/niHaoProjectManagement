@@ -40,6 +40,7 @@ const taskboard = createModel()({
     taskInfo: {},
     labelList: [],
     userAllList: [],
+    taskDueDate: '',
   },
   reducers: {
     update: (state, payload) => {
@@ -115,6 +116,7 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           taskInfo: data?.data || {},
+          taskDueDate: data?.data?.dueDate || '',
         })
       }
     },
