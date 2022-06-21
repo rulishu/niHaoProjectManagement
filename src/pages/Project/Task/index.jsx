@@ -280,6 +280,7 @@ const Task = (props) => {
           </div>
           <Tabs
             type="line"
+            style={{ width: '100%' }}
             activeKey={activeKey}
             onTabClick={(activeKey) => {
               getTabList(activeKey)
