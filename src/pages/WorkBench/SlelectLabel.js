@@ -164,7 +164,7 @@ export default function SlelectLabel() {
             <div
               className={styles.dynamicList}
               onScroll={(e) => divscrollFn(e)}>
-              {newMemberList.length === 0 ? (
+              {newMemberList?.length === 0 ? (
                 <Empty />
               ) : (
                 <Steps

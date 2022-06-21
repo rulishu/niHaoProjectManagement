@@ -66,7 +66,7 @@ export default function Demo() {
                     overflowX: 'hidden',
                     overflowY: 'auto',
                   }}>
-                  {projectList.length === 0 ? (
+                  {projectList?.length === 0 ? (
                     <Empty style={{ marginTop: 20 }} />
                   ) : (
                     <Menu>
@@ -110,7 +110,7 @@ export default function Demo() {
                       width={100}
                       strokeWidth={10}
                       percent={
-                        projectList.length === 0
+                        projectList?.length === 0
                           ? 0
                           : active === 0
                           ? NumColor(
@@ -124,7 +124,7 @@ export default function Demo() {
                       }
                       format={(percent) => (
                         <span>
-                          {projectList.length === 0
+                          {projectList?.length === 0
                             ? 0
                             : active === 0
                             ? totalWorkVoOne?.projectNum
@@ -143,9 +143,9 @@ export default function Demo() {
                               type="primary"
                               onClick={() => {
                                 if (active === 0) {
-                                  navigate(`${projectListOne.projectUrl}/task`)
+                                  navigate(`${projectListOne?.projectUrl}/task`)
                                 } else {
-                                  navigate(`${projectData.projectUrl}/task`)
+                                  navigate(`${projectData?.projectUrl}/task`)
                                 }
                               }}>
                               查看全部
@@ -155,9 +155,9 @@ export default function Demo() {
                               type="primary"
                               onClick={() => {
                                 if (active === 0) {
-                                  navigate(`${projectListOne.projectUrl}/task`)
+                                  navigate(`${projectListOne?.projectUrl}/task`)
                                 } else {
-                                  navigate(`${projectData.projectUrl}/task`)
+                                  navigate(`${projectData?.projectUrl}/task`)
                                 }
                               }}>
                               查看全部
@@ -169,9 +169,9 @@ export default function Demo() {
                             type="primary"
                             onClick={() => {
                               if (active === 0) {
-                                navigate(`${projectListOne.projectUrl}`)
+                                navigate(`${projectListOne?.projectUrl}`)
                               } else {
-                                navigate(`${projectData.projectUrl}`)
+                                navigate(`${projectData?.projectUrl}`)
                               }
                             }}>
                             项目概览
@@ -197,7 +197,7 @@ export default function Demo() {
                         {
                           title: '未开始',
                           num:
-                            projectList.length === 0
+                            projectList?.length === 0
                               ? 0
                               : active === 0
                               ? totalWorkVoOne?.projectWksNum
@@ -257,7 +257,7 @@ export default function Demo() {
                 bordered={false}
                 style={{ height: 400, position: 'relative' }}>
                 <div className={styles.milestoneInfoList}>
-                  {projectList.length === 0 ? (
+                  {projectList?.length === 0 ? (
                     <Empty style={{ marginTop: 20 }} />
                   ) : (
                     <ul>

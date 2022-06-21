@@ -39,92 +39,90 @@ export default function TodoList() {
   }
   return (
     <div>
-      <div>
-        <Row gutter={20}>
-          <Col fixed style={{ width: '75%' }}>
-            <Card
-              title="待办事项"
-              extra={
-                <Button basic type="dark" onClick={() => navigate(`/todoList`)}>
-                  更多
-                </Button>
-              }>
-              <div
-                style={{
-                  maxHeight: 355,
-                  overflowX: 'hidden',
-                  overflowY: 'auto',
-                }}>
-                <ProTable
-                  table={table}
-                  paginationProps={{ style: { display: 'none' } }}
-                  columns={[
-                    {
-                      title: '待办ID',
-                      key: 'id',
+      <Row gutter={20}>
+        <Col fixed style={{ width: '75%' }}>
+          <Card
+            title="待办事项"
+            extra={
+              <Button basic type="dark" onClick={() => navigate(`/todoList`)}>
+                更多
+              </Button>
+            }>
+            <div
+              style={{
+                maxHeight: 355,
+                overflowX: 'hidden',
+                overflowY: 'auto',
+              }}>
+              <ProTable
+                table={table}
+                paginationProps={{ style: { display: 'none' } }}
+                columns={[
+                  {
+                    title: '待办ID',
+                    key: 'id',
+                  },
+                  {
+                    title: '待办内容',
+                    key: 'doConnent',
+                    width: 200,
+                    ellipsis: true,
+                    render: (doConnent) => (
+                      <Tooltip placement="topLeft" content={doConnent}>
+                        {doConnent || ''}
+                      </Tooltip>
+                    ),
+                  },
+                  {
+                    title: '项目名称',
+                    key: 'projectName',
+                    width: 200,
+                    ellipsis: true,
+                    render: (projectName) => (
+                      <Tooltip placement="topLeft" content={projectName}>
+                        {projectName || ''}
+                      </Tooltip>
+                    ),
+                  },
+                  {
+                    title: '时间',
+                    key: 'createTime',
+                    width: 180,
+                  },
+                  {
+                    title: '状态',
+                    key: 'status',
+                    width: 80,
+                    render: (text) => {
+                      if (text === 0) {
+                        return <Tag color="#F95C2B">未开始</Tag>
+                      } else if (text === 1) {
+                        return <Tag color="#28a745">已完成</Tag>
+                      }
                     },
-                    {
-                      title: '待办内容',
-                      key: 'doConnent',
-                      width: 200,
-                      ellipsis: true,
-                      render: (doConnent) => (
-                        <Tooltip placement="topLeft" content={doConnent}>
-                          {doConnent}
-                        </Tooltip>
-                      ),
-                    },
-                    {
-                      title: '项目名称',
-                      key: 'projectName',
-                      width: 200,
-                      ellipsis: true,
-                      render: (projectName) => (
-                        <Tooltip placement="topLeft" content={projectName}>
-                          {projectName}
-                        </Tooltip>
-                      ),
-                    },
-                    {
-                      title: '时间',
-                      key: 'createTime',
-                      width: 180,
-                    },
-                    {
-                      title: '状态',
-                      key: 'status',
-                      width: 80,
-                      render: (text) => {
-                        if (text === 0) {
-                          return <Tag color="#F95C2B">未开始</Tag>
-                        } else if (text === 1) {
-                          return <Tag color="#28a745">已完成</Tag>
-                        }
-                      },
-                    },
-                    {
-                      title: '操作',
-                      key: 'edit',
-                      width: 80,
-                      align: 'center',
-                      render: (text, key, rowData) => (
-                        <div>
-                          <Button
-                            size="small"
-                            type="primary"
-                            onClick={() => handleEditTable('del', rowData)}>
-                            完毕
-                          </Button>
-                        </div>
-                      ),
-                    },
-                  ]}
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+                  },
+                  {
+                    title: '操作',
+                    key: 'edit',
+                    width: 80,
+                    align: 'center',
+                    render: (text, key, rowData) => (
+                      <div>
+                        <Button
+                          size="small"
+                          type="primary"
+                          onClick={() => handleEditTable('del', rowData)}>
+                          完毕
+                        </Button>
+                      </div>
+                    ),
+                  },
+                ]}
+              />
+            </div>
+          </Card>
+        </Col>
+      </Row>
     </div>
   )
 }
