@@ -55,7 +55,7 @@ const ProjectList = (props) => {
   })
   const goSpecifyPage = (option = { path: String, projectUrl: String }) => {
     if (option.path === '/task') {
-      router.navigate(`${option?.projectUrl}${option?.path}?2`)
+      router.navigate(`${option?.projectUrl}${option?.path}`)
     } else {
       router.navigate(`${option?.projectUrl}${option?.path}`)
     }
