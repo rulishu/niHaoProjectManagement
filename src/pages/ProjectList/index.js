@@ -16,9 +16,6 @@ const ProjectList = (props) => {
   const { projectlist } = useSelector((state) => state)
   const { proNum } = projectlist
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch.projectlist.selectNumber({ type: '20', name: '' })
-  }, [dispatch])
   //项目状态
   const [projectStatus, setProjectStatus] = useState('')
   //项目名称搜索框的值
@@ -30,7 +27,9 @@ const ProjectList = (props) => {
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
-
+  useEffect(() => {
+    dispatch.projectlist.selectNumber({ type: projectType, name: projectName })
+  }, [dispatch, projectType, projectName])
   const table = useTable('/api/project/selectOneInfo', {
     formatData: (data) => {
       return {
@@ -54,7 +53,6 @@ const ProjectList = (props) => {
       headers: { Authorization: 'Bearer ' + token },
     },
   })
-
   const goSpecifyPage = (option = { path: String, projectUrl: String }) => {
     if (option.path === '/task') {
       router.navigate(`${option?.projectUrl}${option?.path}?2`)
@@ -66,15 +64,15 @@ const ProjectList = (props) => {
   }
 
   const sortingList = [
-    { value: 1, title: '修改时间' },
+    { value: 3, title: '修改时间' },
     { value: 2, title: '创建时间' },
-    { value: 3, title: '名称' },
+    { value: 1, title: '名称' },
   ]
 
   //刷新界面
   const refresh = () => {
     table.onSearch()
-    dispatch.projectlist.selectNumber({ type: projectType, name: projectName })
+    // dispatch.projectlist.selectNumber({ type: projectType, name: projectName })
   }
 
   // 渲染下拉框
@@ -85,13 +83,14 @@ const ProjectList = (props) => {
           <li
             key={item.value}
             onClick={() => {
-              if (item.value === 1) {
-                setProjectOrder(3)
-              } else if (item.value === 3) {
-                setProjectOrder(1)
-              } else {
-                setProjectOrder(2)
-              }
+              setProjectOrder(item.value)
+              // if (item.value === 1) {
+              //   setProjectOrder(3)
+              // } else if (item.value === 3) {
+              //   setProjectOrder(1)
+              // } else {
+              //   setProjectOrder(2)
+              // }
               setIsPulldown(false)
               setSorting(item.value)
               table.onSearch()
@@ -143,45 +142,46 @@ const ProjectList = (props) => {
                 activeKey="1"
                 className="projectListTabs"
                 onTabClick={(tab, key, e) => {
-                  if (tab === '1') {
-                    setProjectStatus('')
-                  } else if (tab === '2') {
-                    setProjectStatus(1)
-                  } else if (tab === '3') {
-                    setProjectStatus(2)
-                  } else if (tab === '4') {
-                    setProjectStatus(3)
-                  } else if (tab === '0') {
-                    setProjectStatus(0)
-                  }
+                  // if (tab === '1') {
+                  //   setProjectStatus('')
+                  // } else if (tab === '2') {
+                  //   setProjectStatus(1)
+                  // } else if (tab === '3') {
+                  //   setProjectStatus(2)
+                  // } else if (tab === '4') {
+                  //   setProjectStatus(3)
+                  // } else if (tab === '0') {
+                  //   setProjectStatus(0)
+                  // }
+                  const newStatus =
+                    tab === '1'
+                      ? ''
+                      : tab === '2'
+                      ? 1
+                      : tab === '3'
+                      ? 2
+                      : tab === '4'
+                      ? 3
+                      : tab === '0'
+                      ? 0
+                      : ''
+                  setProjectStatus(newStatus)
                   table.onSearch()
                 }}>
                 <Tabs.Pane
-                  label={tabsPaneLabel('全部', proNum.all ? proNum.all : 0)}
+                  label={tabsPaneLabel('全部', proNum?.all || 0)}
                   key="1"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel(
-                    '未开始',
-                    proNum.ongoing ? proNum.nogoing : 0
-                  )}
+                  label={tabsPaneLabel('未开始', proNum?.nogoing || 0)}
                   key="0"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel(
-                    '进行中',
-                    proNum.ongoing ? proNum.ongoing : 0
-                  )}
+                  label={tabsPaneLabel('进行中', proNum?.ongoing || 0)}
                   key="2"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel(
-                    '已关闭',
-                    proNum.closed ? proNum.closed : 0
-                  )}
+                  label={tabsPaneLabel('已关闭', proNum?.closed || 0)}
                   key="3"></Tabs.Pane>
                 <Tabs.Pane
-                  label={tabsPaneLabel(
-                    '已挂起',
-                    proNum.hangUp ? proNum.hangUp : 0
-                  )}
+                  label={tabsPaneLabel('已挂起', proNum?.hangUp || 0)}
                   key="4"></Tabs.Pane>
               </Tabs>
             </div>
@@ -191,12 +191,13 @@ const ProjectList = (props) => {
                   placeholder="按名称筛选"
                   onChange={(e) => {
                     setProjectName(e.target.value)
+                    // table.onSearch()
                     const nameSearch = () => {
                       table.onSearch()
-                      dispatch.projectlist.selectNumber({
-                        type: projectType,
-                        name: e.target.value,
-                      })
+                      // dispatch.projectlist.selectNumber({
+                      //   type: projectType,
+                      //   name: e.target.value,
+                      // })
                     }
                     newDebounce(nameSearch, 500)
                   }}
@@ -227,19 +228,11 @@ const ProjectList = (props) => {
               activeKey="1"
               className="projectListTabs"
               onTabClick={(tab, key, e) => {
-                if (tab === '1') {
-                  setProjectType('20')
-                  dispatch.projectlist.selectNumber({
-                    type: '20',
-                    name: projectName,
-                  })
-                } else if (tab === '2') {
-                  setProjectType('10')
-                  dispatch.projectlist.selectNumber({
-                    type: '10',
-                    name: projectName,
-                  })
-                }
+                setProjectType(tab === '1' ? '20' : '10')
+                // dispatch.projectlist.selectNumber({
+                //   type: tab === '1' ? '20' : '10',
+                //   name: projectName,
+                // })
                 table.onSearch()
               }}>
               <Tabs.Pane label="所有项目" key="1"></Tabs.Pane>
