@@ -124,14 +124,14 @@ const TaskDetail = (props) => {
   const dueDateChange = async (e) => {
     const creatTime = new Date(taskInfo.createTime).getTime()
     const newTime = new Date(e).getTime()
-    if (newTime >= creatTime) {
+    if (newTime >= creatTime || isNaN(newTime)) {
       dispatch.taskboard.update({
         taskDueDate: e,
       })
       dispatch.taskboard.changeCloseTime({
         projectId,
         assignmentId: taskInfo.assignmentId,
-        dueDate: dayjs(e).format('YYYY-MM-DD'),
+        dueDate: e ? dayjs(e).format('YYYY-MM-DD') : null,
       })
     } else {
       dispatch.taskboard.update({
@@ -212,7 +212,8 @@ const TaskDetail = (props) => {
         <Loader
           loading={
             loading.effects.taskboard.selectByProjectId ||
-            loading.effects.taskboard.changeAssignmentUser
+            loading.effects.taskboard.changeAssignmentUser ||
+            loading.effects.taskboard.changeCloseTime
           }>
           <Card style={{ minWidth: '300px' }}>
             <div>
@@ -388,6 +389,7 @@ const TaskDetail = (props) => {
                 {dueDateState ? (
                   <DateInput
                     value={taskDueDate}
+                    style={{ marginTop: '5px' }}
                     format="YYYY/MM/DD"
                     allowClear={true}
                     autoClose={true}
@@ -395,7 +397,11 @@ const TaskDetail = (props) => {
                     onChange={(e) => dueDateChange(e)}
                   />
                 ) : (
-                  <span>{taskInfo?.dueDate || '无'}</span>
+                  <span
+                    style={{ marginTop: '5px', display: 'block' }}
+                    onClick={() => editDubTime()}>
+                    {taskInfo?.dueDate || '无'}
+                  </span>
                 )}
               </div>
               <Divider />
