@@ -342,7 +342,12 @@ const TaskBoard = () => {
                                                     color: '#007bff',
                                                     marginLeft: '5px',
                                                   }}>
-                                                  {item?.assignmentTitle}
+                                                  <span
+                                                    className={
+                                                      styles.listItemColor
+                                                    }>
+                                                    {item?.assignmentTitle}
+                                                  </span>
                                                 </div>
                                               </div>
                                               <div
