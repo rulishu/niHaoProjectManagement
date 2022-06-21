@@ -19,7 +19,6 @@ import { NEWMDEditor } from '@/components'
 import 'tributejs/tribute.css'
 import Tribute from 'tributejs'
 import useLocationPage from '@/hooks/useLocationPage'
-// import { Container } from '@/components'
 import { CompDropdown } from '@/components'
 import { ThisTime, changeTimeFormat } from '@/utils/timeDistance'
 
@@ -32,7 +31,6 @@ const NewIssue = (props) => {
   const { projectId, userAccount } = params
   const {
     project: { fromData, allWork },
-    // dictionary: { dictDataList },
     milestone: { milepostaData },
     labels: { listData: labelsListData },
     projectuser: { userSelectAllList },
@@ -50,9 +48,6 @@ const NewIssue = (props) => {
   useEffect(() => {
     dispatch.projectuser.pullSelectAll({ memberName: '', projectId: projectId })
     dispatch.labels.getAllLabelData({ projectId })
-    // dispatch.dictionary.getDictDataList({
-    //   dictType: 'assignment_label',
-    // })
     dispatch.milestone.getListAll({
       projectId: projectId,
       milestonesStatusList: [1, 2],
@@ -196,12 +191,6 @@ const NewIssue = (props) => {
       <Card>
         <div className="main">
           <div className="title">新建任务</div>
-          {/* <FileInput multiple="multiple" style={{ maxWidth: 200 }} size="small" onChange={onChange} /> */}
-          {/* <Loader
-          tip="加载中..."
-          vertical
-          style={{ width: '100%' }}
-          loading={getAdd}> */}
           <Form
             ref={form}
             onChange={({ current }) => {
@@ -273,7 +262,7 @@ const NewIssue = (props) => {
                   setLabelState(false)
                 },
                 children: (
-                  <div style={{ width: '100%' }}>
+                  <>
                     <CompDropdown
                       listData={initListData(
                         userSelectAllList,
@@ -286,9 +275,6 @@ const NewIssue = (props) => {
                         }
                       )}
                       isOpen={assignState}
-                      selectLabel={() => {
-                        setAssignState(false)
-                      }}
                       template="personnel"
                       isRadio={true}
                       shape="input"
@@ -323,7 +309,7 @@ const NewIssue = (props) => {
                         setAssignState(false)
                       }}
                     />
-                  </div>
+                  </>
                 ),
               },
               dueDate: {
@@ -473,7 +459,6 @@ const NewIssue = (props) => {
               )
             }}
           </Form>
-          {/* </Loader> */}
         </div>
       </Card>
     </Fragment>

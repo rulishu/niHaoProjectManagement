@@ -8,7 +8,6 @@ import { AuthBtn } from '@uiw-admin/authorized'
 import EditTask from './EditTask'
 import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
-// import Comment from './Comment'
 import useLocationPage from '@/hooks/useLocationPage'
 import TaskEvent from './TaskEvent'
 
@@ -18,22 +17,23 @@ const TaskInfo = () => {
   // 处理带id的路由
   useLocationPage()
   const {
-    project: { issueType, editFromData, taskInfoData },
+    projectTasks: { issueType, taskInfoData, editTaskFromData },
     allusers: { uuid },
     loading,
   } = useSelector((state) => state)
   const [isTitleErr, serIsTitleErr] = useState(false)
   const { projectId, id } = params
-  const updateData = (payload) => {
-    dispatch({
-      type: 'project/update',
-      payload,
-    })
-  }
+
+  const updateData = (payload) =>
+    dispatch({ type: 'projectTasks/update', payload })
+
   useEffect(() => {
-    dispatch.project.getSelectById({ projectId: projectId, id: id })
     dispatch.project.queryFuzzyAllProjectMember({ projectId })
     dispatch.labels.getAllLabelData({ projectId })
+    dispatch.projectTasks.getTaskDetailsDataUnCheck({
+      projectId: projectId,
+      id: id,
+    })
     dispatch.projectuser.pullSelectAll({
       memberName: '',
       projectId: projectId || '',
@@ -45,62 +45,11 @@ const TaskInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // useEffect(() => {
-  //   document.addEventListener('paste', pasteDataEvent)
-  //   return () => {
-  //     document.removeEventListener('paste', pasteDataEvent)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  // const pasteDataEvent = (event) => {
-  //   // event.preventDefault();
-  //   if (event.clipboardData || event.originalEvent) {
-  //     let clipboardData =
-  //       event.clipboardData || event.originalEvent.clipboardData
-  //     if (clipboardData.items) {
-  //       let items = clipboardData.items,
-  //         len = items.length,
-  //         blob = null
-  //       for (let i = 0; i < len; i++) {
-  //         let item = clipboardData.items[i]
-  //         if (item.kind === 'string') {
-  //           // item.getAsString(function (str) {
-  //           //   console.log('string', str);
-  //           // })
-  //         } else if (item.kind === 'file') {
-  //           blob = item.getAsFile()
-  //           addImg(blob)
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // const addImg = (event) => {
-  //   const file = event
-  //   if (!file) return
-  //   dispatch({
-  //     type: 'allusers/upLoadImg',
-  //     payload: {
-  //       file: file,
-  //     },
-  //   }).then((res) => {
-  //     if (res && res.code === 200) {
-  //       const fieldValues = form.current.getFieldValues()
-  //       form.current.setFieldValue(
-  //         'description',
-  //         fieldValues.description +
-  //         `![image](/api/file/selectFile/${res?.data})`
-  //       )
-  //     }
-  //   })
-  // }
   const goEditIssue = (type) => {
     updateData({ issueType: type })
   }
   const goStateIssue = async (e) => {
-    const { assignmentId, assignmentTitle, description } = editFromData
+    const { assignmentId, assignmentTitle, description } = editTaskFromData
     updateData({
       editFromData: {
         assignmentId,
@@ -110,49 +59,47 @@ const TaskInfo = () => {
       },
     })
     const result = await dispatch.project.getEdit({
-      fileId: uuid ? [uuid] : editFromData.fileId,
+      fileId: uuid ? [uuid] : editTaskFromData.fileId,
       projectId: projectId,
     })
     result && e === 3 && dispatch.routeManagement.getInfo({})
   }
+
   const steInputChange = (e) => {
     updateData({
-      editFromData: {
-        assignmentId: editFromData.assignmentId || taskInfoData.assignmentId,
-        description: editFromData.description,
+      editTaskFromData: {
+        assignmentId:
+          editTaskFromData.assignmentId || taskInfoData.assignmentId,
+        description: editTaskFromData.description,
         assignmentTitle: e.target.value,
-        fileId: editFromData.fileId,
       },
     })
   }
-  const goSaveIssue = () => {
+
+  // 保存任务详情编辑
+  const goSaveIssue = async () => {
     if (
-      editFromData.assignmentTitle.length < 2 ||
-      editFromData.assignmentTitle.length > 100
+      editTaskFromData.assignmentTitle.length < 2 ||
+      editTaskFromData.assignmentTitle.length > 100
     ) {
       serIsTitleErr(true)
       return
     }
-    if (editFromData.description.length > 300) {
+    if (editTaskFromData.description.length > 300) {
       return
     }
     serIsTitleErr(false)
-    if (editFromData !== taskInfoData) {
-      dispatch.project.getEdit({
-        fileId: uuid ? [uuid] : editFromData.fileId,
-        projectId: projectId,
-      })
-      updateData({ issueType: '' })
-    }
+    dispatch.projectTasks.editTaskList({ projectId })
   }
+
   return (
-    <>
+    <div className={styles.infoLoad}>
       <Loader
         tip="加载中..."
         vertical
         style={{ width: '100%' }}
         loading={
-          loading.effects.project.getSelectById ||
+          loading.effects.projectTasks.getTaskDetailsDataUnCheck ||
           loading.effects.project.getEdit
         }>
         <div>
@@ -189,7 +136,9 @@ const TaskInfo = () => {
                       </Button>
                     )}
                     {issueType === 'edit' ? (
-                      <Button onClick={() => goEditIssue('')}>取消编辑</Button>
+                      <Button onClick={() => goEditIssue('cancel')}>
+                        取消编辑
+                      </Button>
                     ) : (
                       <Button onClick={() => goEditIssue('edit')}>
                         编辑任务
@@ -204,7 +153,7 @@ const TaskInfo = () => {
                     <div>
                       <Input
                         onChange={(e) => steInputChange(e)}
-                        value={editFromData?.assignmentTitle}
+                        value={editTaskFromData?.assignmentTitle}
                         className={isTitleErr && styles.inputErr}
                       />
                       {isTitleErr && (
@@ -221,21 +170,23 @@ const TaskInfo = () => {
                 </div>
               </div>
               {issueType === 'edit' ? (
-                <FromMD
-                  upDate={updateData}
-                  submit={goSaveIssue}
-                  editName={'editFromData'}
-                  editData={editFromData}
-                  infoData={taskInfoData}
-                  fromValue={'description'}
-                  btnName="保存编辑"
-                />
+                <div className={styles.content}>
+                  <FromMD
+                    upDate={updateData}
+                    submit={goSaveIssue}
+                    editName={'editTaskFromData'}
+                    editData={editTaskFromData}
+                    infoData={taskInfoData}
+                    fromValue={'description'}
+                    btnName="保存编辑"
+                    onClose={() => goEditIssue('cancel')}
+                  />
+                </div>
               ) : (
                 <div data-color-mode="light" style={{ flex: 1 }}>
                   <MarkdownPreview source={taskInfoData?.description || ''} />
                 </div>
               )}
-              {/* <Comment /> */}
               <Divider />
               <TaskEvent />
             </div>
@@ -243,7 +194,7 @@ const TaskInfo = () => {
           </div>
         </div>
       </Loader>
-    </>
+    </div>
   )
 }
 export default TaskInfo

@@ -44,6 +44,20 @@ export const migrateMilestoneDataById = (params) => {
   })
 }
 
+// 根据主键id迁移标签（Labels）数据
+export const migrateLabelsDataById = (params) => {
+  return request(`/api/system/transfer/transferLabels/${params}`, {
+    method: 'POST',
+  })
+}
+
+// 根据主键id迁移issue数据
+export const migrateIssuesDataById = (params) => {
+  return request(`/api/system/transfer/transferIssues/${params}`, {
+    method: 'POST',
+  })
+}
+
 // 同步项目数据
 export const migrateProjectDataById = (params) => {
   return request(`/api/system/transfer/transferProjectData`, {

@@ -60,11 +60,20 @@ const Search = () => {
     },
   })
   // 操作
-  function handleEditTable(type, obj) {
+  async function handleEditTable(type, obj) {
+    const gropData = search?.data?.map((a) => {
+      return a.userId
+    })
     updateData({
       tableType: type,
     })
     if (type === 'member' || type === 'group') {
+      await dispatch({
+        type: 'usersManagement/fuzzyNameS',
+        payload: {
+          userIds: gropData,
+        },
+      })
       updateData({
         drawerVisible: true,
         queryInfo: {},
@@ -79,14 +88,22 @@ const Search = () => {
     if (type === 'del') {
       updateData({
         delectVisible: true,
+        type: 'del',
         userId: obj?.userId,
         projectId: obj?.projectId,
       })
     }
+    if (type === 'out') {
+      updateData({
+        delectVisible: true,
+        userId: obj?.userId,
+        type: 'out',
+        projectId: obj?.projectId,
+      })
+    }
   }
-
   //权限设置:仅项目管理者可以邀请/编辑删除
-  let data = dataUser.filter(function (item) {
+  let data = dataUser?.filter(function (item) {
     return item.memberName === userInfo
   })
   const memberRoles = data.map((a) => a.memberRole)

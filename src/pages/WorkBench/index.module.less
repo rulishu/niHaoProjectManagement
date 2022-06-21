@@ -109,10 +109,10 @@
 
 // 成员动态
 .dynamicList {
-  height: 355px;
+  height: 376px;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 
   .dynamicListLi {
     padding: 4px;
@@ -132,4 +132,20 @@
   //   background-color: rgba(167, 182, 194, 0.3);
   //   cursor: pointer;
   // }
+}
+.workbench {
+  :global {
+    .w-empty {
+      padding: 30px 0;
+    }
+  }
+}
+.oncell {
+  :global {
+    .w-table > table > tbody > tr {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }

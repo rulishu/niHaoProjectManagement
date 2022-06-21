@@ -5,10 +5,13 @@
 }
 //我的任务&&所有任务-表格行鼠标经过时样式修改
 .mouseList {
-  // &:hover {
-  //   background-color: rgba(167, 182, 194, 0.3);
-  //   cursor: pointer;
-  // }
+  :global {
+    .w-table > table > tbody > tr {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }
 .leftList {
   flex-wrap: wrap;
@@ -171,6 +174,13 @@
       flex: 1;
       padding: 0 @padding-xss;
       margin-bottom: @margin-xss;
+    }
+  }
+}
+body {
+  :global {
+    .w-empty {
+      padding: 30px 0;
     }
   }
 }

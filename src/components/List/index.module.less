@@ -1,10 +1,21 @@
 .list {
-  margin: 15px 0 15px 0;
+  // margin: 15px 0 15px 0;
   cursor: pointer;
 
   :global {
     .w-list-item {
-      padding: 20px 7px;
+      padding: 10px 7px;
+    }
+  }
+  .milestones {
+    margin-left: 0.5rem;
+
+    .milestonesSpan {
+      margin-left: 3px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -73,6 +84,7 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    align-items: center;
 
     .listLabels {
       overflow: hidden;
@@ -97,18 +109,32 @@
   .listIssueIcon {
     display: flex;
     justify-content: right;
+    align-items: center;
   }
 
   .taskUserName {
-    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    // padding: 0 10px;
     // text-shadow: 0 0 10px #008ef0;
 
     // &:hover {
     //   text-decoration: underline;
     // }
   }
+  .taskUserMessage {
+    display: flex;
+    align-items: center;
+  }
+
+  .taskUserDel {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
 
   .listIconSpan {
-    margin: 0 5px;
+    margin-left: 5px;
   }
 }

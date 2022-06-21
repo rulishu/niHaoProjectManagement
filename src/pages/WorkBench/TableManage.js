@@ -12,8 +12,8 @@ export default function TableManage() {
     // 格式化接口返回的数据，必须返回{total 总数, data: 列表数据}的格式
     formatData: (data) => {
       return {
-        total: data.data?.total,
-        data: data.data,
+        total: data?.data?.total,
+        data: data?.data,
       }
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
@@ -32,13 +32,13 @@ export default function TableManage() {
   const TableListUser = () => {
     return (
       <div
+        className={styles.oncell}
         style={{
           height: 355,
           overflowX: 'hidden',
           overflowY: 'auto',
         }}>
         <ProTable
-          className={styles.mouseList}
           onCell={(rowData) => {
             navigate(
               `${rowData?.projectUrl}/task/taskInfo/${rowData?.assignmentId}`
@@ -55,7 +55,7 @@ export default function TableManage() {
               ellipsis: true,
               render: (address) => (
                 <Tooltip placement="topLeft" content={address}>
-                  {address}
+                  {address || ''}
                 </Tooltip>
               ),
             },
@@ -64,8 +64,15 @@ export default function TableManage() {
             //   key: 'assignmentId',
             // },
             {
-              title: '项目名',
+              title: '项目名称',
               key: 'name',
+              width: 200,
+              ellipsis: true,
+              render: (name) => (
+                <Tooltip placement="topLeft" content={name}>
+                  {name || ''}
+                </Tooltip>
+              ),
             },
             {
               title: '任务状态',

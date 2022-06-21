@@ -6,7 +6,7 @@ import { Card, Loader, Button, Tooltip } from 'uiw'
 import Detail from './Detail'
 import styles from './index.module.less'
 
-const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
+const sourceTypeObj = { 10: '项目', 20: 'issue', 30: '里程碑', 40: '标签' }
 
 const MigrateDetail = (props) => {
   const { loading } = useSelector((state) => state)

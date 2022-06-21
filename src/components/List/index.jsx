@@ -1,12 +1,23 @@
-import { List, Row, Col, Icon, Tooltip } from 'uiw'
+import { List, Row, Col, Icon, Tooltip, Avatar } from 'uiw'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import { projectStatus } from '../../utils/utils'
+import timeDistance from '@/utils/timeDistance'
+import { useNavigate } from 'react-router-dom'
 import './style.css'
 
 export default function ListItem(props) {
-  const { data, isIssue, listField, listNavigate, delAssignment, labelsData } =
-    props
+  const navigate = useNavigate()
+  const {
+    data,
+    isIssue,
+    listField,
+    listNavigate,
+    labelsData,
+    delAssignment,
+    onCLickSearch,
+    milestonesData,
+  } = props
 
   const listGoTo = (val) => {
     listNavigate(val)
@@ -35,39 +46,69 @@ export default function ListItem(props) {
                 <div>
                   <div className={styles.listIssueIcon}>
                     {item.assigneeUserName && (
-                      <Tooltip placement="top" content="指派人">
-                        <span className={styles.taskUserName}>
-                          <Icon type="user" />
+                      <Tooltip
+                        placement="top"
+                        content={<>指派给{item.assigneeUserName}</>}>
+                        <div
+                          className={styles.taskUserName}
+                          onClick={() => {
+                            navigate(`/${item.assigneeUserAccount}`, {
+                              state: { assigneeUserId: item?.assigneeUserId },
+                            })
+                          }}>
+                          {/* <Icon type="user" />
                           <span className={styles.listIconSpan}>
-                            {item.assigneeUserName}
-                          </span>
-                        </span>
+                            {item.assigneeUserName.lenght &&
+                            item.assigneeUserName.lenght > 4
+                              ? item.assigneeUserName.substring(0, 4) + '...'
+                              : item.assigneeUserName}
+                          </span> */}
+                          <Avatar
+                            size="mini"
+                            src={
+                              item?.assigneeUserAvatar &&
+                              `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                            }
+                            className={styles.roleAvatar}>
+                            {item.assigneeUserName && item.assigneeUserName[0]}
+                          </Avatar>
+                        </div>
                       </Tooltip>
                     )}
-
                     <Tooltip placement="top" content="评论">
-                      <span className={styles.taskUserName}>
+                      <div className={styles.taskUserMessage}>
                         <Icon type="message" />
                         <span className={styles.listIconSpan}>
                           {item?.commentNum}
                         </span>
-                      </span>
+                      </div>
                     </Tooltip>
                     <Tooltip placement="top" content="删除">
-                      <span
-                        className={styles.listIconSpan}
+                      <div
+                        className={styles.taskUserDel}
                         onClick={() => delAssignment(item)}>
                         <Icon type="delete" />
-                      </span>
+                      </div>
                     </Tooltip>
                   </div>
-                  {listField?.updateName
-                    ? item[listField.updateName]
-                    : item?.updateName}
-                  更新于
-                  {listField?.updateTime
-                    ? item[listField.updateTime]
-                    : item?.updateTime}
+                  <div style={{ textAlign: 'right', color: '#666' }}>
+                    {/* {listField?.updateName
+                      ? item[listField.updateName]
+                      : item?.updateName}
+                    更新于
+                    {listField?.updateTime
+                      ? item[listField.updateTime]
+                      : item?.updateTime} */}
+                    更新于
+                    {
+                      timeDistance(
+                        listField?.updateTime
+                          ? item[listField.updateTime]
+                          : item?.updateTime
+                      ).time
+                    }
+                    前
+                  </div>
                 </div>
               }>
               <Row gutter={10} className={styles.listRow}>
@@ -86,8 +127,9 @@ export default function ListItem(props) {
                       ? item[listField.createTime]
                       : item?.createTime}{' '}
                     {item?.dueDate && (
-                      <Tooltip placement="top" content="计划日期">
+                      <Tooltip placement="top" content="截止日期">
                         <span
+                          style={{ display: 'flex', alignItems: 'center' }}
                           className={`dueDate ${
                             dayjs(item?.dueDate)?.diff(
                               dayjs().format('YYYY-MM-DD'),
@@ -96,30 +138,80 @@ export default function ListItem(props) {
                               ? 'redDate'
                               : ''
                           }`}>
-                          <Icon type="date" />{' '}
+                          <Icon type="date" style={{ marginRight: '5px' }} />{' '}
                           {listField?.dueDate
                             ? item[listField.dueDate]
                             : item?.dueDate}
                         </span>
                       </Tooltip>
                     )}
+                    {
+                      <div className={styles.milestones}>
+                        {milestonesData?.map(
+                          (milestonesItem, milestonesIndex) =>
+                            item?.milestonesId === milestonesItem?.value && (
+                              <Tooltip
+                                key={milestonesItem.value}
+                                content="里程碑">
+                                <span
+                                  style={{ display: 'flex' }}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    onCLickSearch &&
+                                      onCLickSearch(
+                                        'milestonesId',
+                                        milestonesItem
+                                      )
+                                  }}>
+                                  <Icon type="time-o" />
+                                  <span
+                                    key={milestonesIndex}
+                                    className={styles.milestonesSpan}>
+                                    {milestonesItem.label}
+                                  </span>
+                                </span>
+                              </Tooltip>
+                            )
+                        )}
+                      </div>
+                    }
                     <div className={styles.listLabels}>
-                      {labelsData?.map((list) => {
-                        if (item?.labels?.includes(list?.id)) {
+                      {labelsData?.map((list, index) => {
+                        if (item?.labels?.includes(list?.id) && index < 4) {
                           return (
-                            <span
-                              key={list?.id}
-                              className={
-                                list?.color
-                                  ? styles.listIssueStatus
-                                  : styles.nolistIssueTag
-                              }
-                              style={{
-                                backgroundColor: list?.color,
-                                borderColor: list?.color,
-                              }}>
-                              {list?.name}
-                            </span>
+                            <Tooltip key={list?.id} content={list?.name}>
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onCLickSearch &&
+                                    onCLickSearch('labels', {
+                                      value: list.id,
+                                      label: list.name,
+                                    })
+                                }}
+                                className={
+                                  list?.color
+                                    ? styles.listIssueStatus
+                                    : styles.nolistIssueTag
+                                }
+                                style={{
+                                  color:
+                                    list?.color === '#fff' ||
+                                    list?.color === '#ffffff' ||
+                                    list?.color === '#FFF' ||
+                                    list?.color === '#FFFFFF'
+                                      ? '#000'
+                                      : '#FFF',
+                                  backgroundColor: list?.color,
+                                  border: '1px solid rgb(240, 240, 240)',
+                                  minWidth: 50,
+                                  textAlign: 'center',
+                                }}>
+                                {list?.name && list?.name.length > 5
+                                  ? list?.name.substring(0, 5) + '...'
+                                  : list?.name}
+                              </span>
+                            </Tooltip>
                           )
                         }
                         return null

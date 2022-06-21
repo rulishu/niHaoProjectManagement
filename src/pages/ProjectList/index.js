@@ -56,8 +56,12 @@ const ProjectList = (props) => {
   })
 
   const goSpecifyPage = (option = { path: String, projectUrl: String }) => {
-    console.log(option)
-    router.navigate(`${option?.projectUrl}${option?.path}`)
+    if (option.path === '/task') {
+      router.navigate(`${option?.projectUrl}${option?.path}?2`)
+    } else {
+      router.navigate(`${option?.projectUrl}${option?.path}`)
+    }
+
     // e.stopPropagation()禁止冒泡
   }
 
@@ -245,14 +249,11 @@ const ProjectList = (props) => {
           <div className={styles.projectProTable}>
             <ProTable
               tableHeadHidden={true}
-              // tableBackgroundColor="#fff"
               className="proProTable"
-              // onCell={() => router.navigate('/projectOverview/333')}
               paginationProps={{ pageSize: 10 }}
               table={table}
               columns={[
                 {
-                  // title: '头像',
                   key: 'avatar',
                   width: 30,
                   render: (text, _, rowData) => {
@@ -273,7 +274,6 @@ const ProjectList = (props) => {
                   },
                 },
                 {
-                  // title: '项目名称',
                   key: 'name',
                   render: (text, keyName, rowData) => {
                     return (
@@ -288,10 +288,23 @@ const ProjectList = (props) => {
                             }}>
                             {text}
                           </h2>
-                          <span className={styles.projectRole}>
+                          <span
+                            className={styles.projectRole}
+                            style={{ backgroundColor: '#e9daff' }}>
                             {rowData?.userRole}
                           </span>
-                          <span className={styles.projectRole}>
+                          <span
+                            className={styles.projectRole}
+                            style={{
+                              backgroundColor:
+                                rowData?.status === 1
+                                  ? '#e8edff'
+                                  : rowData?.status === 2
+                                  ? '#ffcdcd'
+                                  : rowData?.status === 3
+                                  ? '#c9d1d9'
+                                  : '#ffebb1',
+                            }}>
                             {rowData?.status !== 0
                               ? rowData?.status !== 1
                                 ? rowData?.status === 2
@@ -314,66 +327,70 @@ const ProjectList = (props) => {
                   render: (text, _, rowData) => {
                     return (
                       <div className={styles.projectControls}>
-                        <div
-                          className={styles.projectControlsLI}
-                          onClick={(e) => {
-                            console.log(rowData)
-                            goSpecifyPage({
-                              path: '/task',
-                              projectUrl: rowData.projectUrl,
-                            })
-                            updateUserRole(rowData)
-                          }}>
-                          <Tooltip
-                            placement="top"
-                            content={<strong>任务</strong>}>
-                            <div>
-                              <Icon type="paper-clip" />
-                            </div>
-                          </Tooltip>
-                          <span className={styles.num}>
-                            {rowData?.task || 0}
-                          </span>
-                        </div>
-                        <div
-                          className={styles.projectControlsLI}
-                          onClick={(e) => {
-                            goSpecifyPage({
-                              path: '/usersManagement',
-                              projectUrl: rowData.projectUrl,
-                            })
-                            updateUserRole(rowData)
-                          }}>
-                          <Tooltip
-                            placement="top"
-                            content={<strong>成员</strong>}>
-                            <div>
-                              <Icon type="user" />
-                            </div>
-                          </Tooltip>
-                          <span className={styles.num}>
-                            {rowData?.teamMember || 0}
-                          </span>
-                        </div>
-                        <div
-                          className={styles.projectControlsLI}
-                          onClick={(e) => {
-                            goSpecifyPage({
-                              path: '/milestone',
-                              projectUrl: rowData.projectUrl,
-                            })
-                            updateUserRole(rowData)
-                          }}>
-                          <Tooltip
-                            placement="top"
-                            content={<strong>里程碑</strong>}>
-                            <div>
-                              <Icon type="coffee" />
-                            </div>
-                          </Tooltip>
-                          <span className={styles.num}>
-                            {rowData?.milestones || 0}
-                          </span>
+                        <div style={{ maxWidth: 210, display: 'flex' }}>
+                          <div
+                            className={styles.projectControlsLI}
+                            onClick={(e) => {
+                              goSpecifyPage({
+                                path: '/task',
+                                projectUrl: rowData.projectUrl,
+                              })
+                            }}>
+                            <Tooltip
+                              placement="top"
+                              content={<strong>任务</strong>}>
+                              <div style={{ lineHeight: 0 }}>
+                                <Icon type="paper-clip" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.task || 0) >= 100
+                                    ? '...'
+                                    : rowData?.task}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          </div>
+                          <div
+                            className={styles.projectControlsLI}
+                            onClick={(e) => {
+                              goSpecifyPage({
+                                path: '/usersManagement',
+                                projectUrl: rowData.projectUrl,
+                              })
+                            }}>
+                            <Tooltip
+                              placement="top"
+                              content={<strong>成员</strong>}>
+                              <div style={{ lineHeight: 0 }}>
+                                <Icon type="user" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.teamMember || 0) >= 100
+                                    ? '...'
+                                    : rowData?.teamMember}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          </div>
+                          <div
+                            className={styles.projectControlsLI}
+                            onClick={(e) => {
+                              goSpecifyPage({
+                                path: '/milestone',
+                                projectUrl: rowData.projectUrl,
+                              })
+                            }}>
+                            <Tooltip
+                              placement="top"
+                              content={<strong>里程碑</strong>}>
+                              <div style={{ lineHeight: 0 }}>
+                                <Icon type="coffee" />
+                                <span className={styles.num}>
+                                  {Number(rowData?.milestones || 0) >= 100
+                                    ? '...'
+                                    : rowData?.milestones}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
                     )

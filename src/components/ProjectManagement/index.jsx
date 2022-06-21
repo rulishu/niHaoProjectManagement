@@ -88,6 +88,8 @@ const ProjectManagement = (fun) => {
           listData={initListData(userList, seachValue.projectLeaderId, 'key', {
             memberName: 'memberName',
           })}
+          isAllowsForNo={false}
+          isGonnaHitDeselect={false}
           selectLabel={(e) => {
             baseRef.setFieldValue('projectLeaderId', e)
             setAddrolds(false)
@@ -111,7 +113,7 @@ const ProjectManagement = (fun) => {
             mainTitle: `项目负责人`,
           }}
           actionButtons={
-            JSON.parse(localStorage.getItem('userData')).admin
+            JSON.parse(localStorage.getItem('userData'))?.admin
               ? {
                   create: { title: '快速邀请成员并成为负责人' },
                   manage: { isHide: true },
@@ -122,6 +124,7 @@ const ProjectManagement = (fun) => {
                 }
           }
           form={{
+            isHidSubmit: true,
             fields: (props) => {
               return {
                 userId: {
@@ -264,6 +267,7 @@ const ProjectManagement = (fun) => {
             initialValue: seachValue?.begin,
             placeholder: '请选择起始日期',
             widget: 'dateInput',
+            disabled: isHangup,
             widgetProps: {
               format: 'YYYY-MM-DD',
               // onChange: () => {
@@ -275,6 +279,7 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
+            help: isHangup ? '项目挂起后不能编辑日期' : '',
             // rules: [{ required: true, message: '请输入起始日期' }],
           },
           {
@@ -294,6 +299,8 @@ const ProjectManagement = (fun) => {
             },
             span: '24',
             required: true,
+            disabled: isHangup,
+            help: isHangup ? '项目挂起后不能编辑日期' : '',
             // rules: [
             //   {
             //     validator: (value) => {
@@ -365,6 +372,7 @@ const ProjectManagement = (fun) => {
               onChange: () => {
                 // setShowSubmit(false)
                 setAddrolds(false)
+                updateData({ isHangup: !isHangup })
               },
             },
             help: '挂起指的是项目暂时停止开发',

@@ -9,8 +9,8 @@ import timeDistance from '@/utils/timeDistance'
 const UserReview = (props) => {
   const dispatch = useDispatch()
   const {
-    project: { editCommentData, replyConData, taskInfoData },
     projectuser: { userSelectAllList },
+    projectTasks: { replyConData, taskInfoData, editCommentData },
   } = useSelector((state) => state)
   const curUser = JSON.parse(localStorage.getItem('userData'))
 
@@ -30,8 +30,8 @@ const UserReview = (props) => {
 
   // 判断是否是当前评论
   useEffect(() => {
-    setIsCurUser(curUser.admin || curUser?.userId === item?.createId)
-  }, [curUser.admin, curUser?.userId, item?.createId])
+    setIsCurUser(curUser?.admin || curUser?.userId === item?.createId)
+  }, [curUser?.admin, curUser?.userId, item?.createId])
 
   // 判断是否是当前评论
   useEffect(() => {
@@ -39,35 +39,44 @@ const UserReview = (props) => {
   }, [showReview, item])
 
   // 点击回复与评论回调函数
-  const strikeEditOrReply = (type) => {
+  const strikeEditOrReply = (type, data) => {
+    dispatch({
+      type: 'projectTasks/update',
+      payload: { editCommentData: { operatingRecords: data } },
+    })
     setIsEdit(!isEdit)
     setEditOrReply(type)
-    setShowReview(item.taskHistoryId)
+    setShowReview(item?.taskHistoryId)
   }
 
   // 编辑或回复评论
   const subEditOrReply = () => {
+    const { assignmentId, projectId, taskHistoryId } = item
     const callback = () => {
       setShowReview(0)
       setIsEdit(false)
     }
     const action =
       editOrReply === 1
-        ? 'project/getAddComment'
+        ? 'projectTasks/addTaskComment'
         : editOrReply === 2
-        ? 'project/getEditComment'
+        ? 'projectTasks/editTaskComment'
         : ''
+
     const params =
       editOrReply === 1
         ? {
             operatingRecords: replyConData.operatingRecords,
-            parentId: item.taskHistoryId,
-            projectId: item.projectId,
+            parentId: taskHistoryId,
+            projectId,
+            assignmentId,
           }
         : editOrReply === 2
         ? {
             ...editCommentData,
-            operatingRecords: editCommentData.operatingRecords,
+            taskHistoryId,
+            operatingRecords:
+              editCommentData.operatingRecords || item?.operatingRecords,
           }
         : {}
     dispatch({
@@ -78,6 +87,7 @@ const UserReview = (props) => {
 
   // MD文档编译器
   const editContentBox = (editData, editType) => {
+    const newEditData = editType === 1 ? replyConData : editCommentData
     return (
       <div className={styles.editContent}>
         <FromMD
@@ -90,11 +100,11 @@ const UserReview = (props) => {
               ? 'editCommentData'
               : 'commentData'
           }
-          editData={editData}
+          editData={newEditData}
           fromValue="operatingRecords"
           btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
-          isComment={true}
+          // isComment={true}
           isEdit={isEdit}
           onClose={() => setIsEdit(false)}
         />
@@ -112,7 +122,7 @@ const UserReview = (props) => {
   }
 
   return (
-    <div className={styles.eventLiBox} key={item.taskHistoryId}>
+    <div className={styles.eventLiBox} key={item?.taskHistoryId}>
       <div className={styles.eventLiIcon}>
         <Avatar
           src={item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''}>
@@ -122,15 +132,15 @@ const UserReview = (props) => {
       <div className={styles.eventLiContent}>
         <div className={styles.messageHeader}>
           <div className={styles.info}>
-            {item.createName}
-            <span style={{ color: '#666' }}> @{item.userName} </span>·{' '}
+            {item?.createName}
+            <span style={{ color: '#666' }}> @{item?.userName} </span>·{' '}
             <span style={{ color: '#666' }}>
               {timeDistance(item?.createTime).time}
               {timeDistance(item?.createTime).status ? '前' : '后'}{' '}
             </span>
           </div>
           <div className={styles.actions}>
-            {item.createName === taskInfoData.createName &&
+            {item?.createName === taskInfoData?.createName &&
               !(editOrReply === 2 && isEdit) && (
                 <Tooltip placement="top" content={'此用户是此问题的作者'}>
                   <span
@@ -143,19 +153,25 @@ const UserReview = (props) => {
                   </span>
                 </Tooltip>
               )}
-            {item.memberRole && !(editOrReply === 2 && isEdit) && (
+            {item?.memberRole && !(editOrReply === 2 && isEdit) && (
               <Tooltip
                 placement="top"
-                content={'此用户在管理项目中具有所有者角色'}>
+                content={`此用户在管理项目中具有${
+                  item?.memberRole === 1
+                    ? '开发'
+                    : item.memberRole === 2
+                    ? '测试'
+                    : '项目管理者'
+                }角色`}>
                 <span
                   className={styles.namebox}
                   style={{
                     backgroundColor: 'white',
                     color: '#666',
                   }}>
-                  {item.memberRole === 1
+                  {item?.memberRole === 1
                     ? '开发'
-                    : item.memberRole === 2
+                    : item?.memberRole === 2
                     ? '测试'
                     : '项目管理者'}
                 </span>
@@ -190,14 +206,14 @@ const UserReview = (props) => {
                   basic
                   size="small"
                   type="light"
-                  onClick={() => strikeEditOrReply(2, item.operatingRecords)}
+                  onClick={() => strikeEditOrReply(2, item?.operatingRecords)}
                 />
               </Tooltip>
             )}
           </div>
         </div>
         <div className={styles.messageContent}>
-          {(editOrReply !== 2 || !isEdit) && showMDBox(item.operatingRecords)}
+          {(editOrReply !== 2 || !isEdit) && showMDBox(item?.operatingRecords)}
           {isEdit && editContentBox(item, editOrReply)}
         </div>
       </div>
@@ -211,7 +227,7 @@ const UserReview = (props) => {
         type="danger"
         content={`是否确认删除本条评论！`}
         onConfirm={() => {
-          dispatch.project.delCommentById(item)
+          dispatch.projectTasks.delTaskComment(item)
         }}></Modal>
     </div>
   )

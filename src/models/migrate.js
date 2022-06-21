@@ -4,6 +4,8 @@ import {
   setConfigControl,
   synchronizationControl, // gitlab数据同步
   getDataByIdControl, // 根据主键id查询数据
+  migrateLabelsDataById, // 根据主键id迁移标签（Labels）数据
+  migrateIssuesDataById, // 根据主键id迁移issue数据
   migrateMilestoneDataById,
   migrateProjectDataById,
   // 第三方迁入源控制层
@@ -105,6 +107,22 @@ const thirdpartyMigration = createModel()({
       const data = await migrateMilestoneDataById(payload)
       if (data && data.code === 200) {
         Notify.success({ description: '同步里程碑数据成功' })
+      }
+    },
+
+    // 根据主键id迁移标签（Labels）数据
+    async migrateLabelsDataById(payload, { migrate: { control } }) {
+      const data = await migrateLabelsDataById(payload)
+      if (data && data.code === 200) {
+        Notify.success({ description: '同步标签数据成功' })
+      }
+    },
+
+    // 根据主键id迁移issue数据
+    async migrateIssuesDataById(payload, { migrate: { control } }) {
+      const data = await migrateIssuesDataById(payload)
+      if (data && data.code === 200) {
+        Notify.success({ description: '同步Issues数据成功' })
       }
     },
 

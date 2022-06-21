@@ -30,6 +30,7 @@ const FromMD = (props) => {
   const form = useRef()
   const isBundle = useRef(false)
   const [mdRefs, setMdRefs] = useState()
+  const [isShow, setIsShow] = useState(false)
   const newTribute = useMemo(() => {
     return new Tribute({
       collection: [
@@ -115,6 +116,9 @@ const FromMD = (props) => {
   }, [fromValue, mdRefs, newTribute, editData, editName, upDate])
 
   useEffect(() => {
+    if (editData[fromValue] === '') {
+      setIsShow(false)
+    }
     document.addEventListener('paste', pasteDataEvent)
     return () => {
       document.removeEventListener('paste', pasteDataEvent)
@@ -147,6 +151,8 @@ const FromMD = (props) => {
   }
 
   const addImg = (event) => {
+    const showname = event.name !== ''
+    setIsShow(showname)
     const file = event
     if (!file) return
     dispatch({
@@ -155,6 +161,7 @@ const FromMD = (props) => {
         file: file,
       },
     }).then((res) => {
+      setIsShow(true)
       if (res && res.code === 200) {
         const fieldValues = form.current.getFieldValues()
         form.current.setFieldValue(
@@ -220,10 +227,12 @@ const FromMD = (props) => {
                         }
                       }}
                       disabled={
-                        isComment
-                          ? editData[fromValue] === ''
-                          : infoData
-                          ? editData === infoData
+                        isShow === true
+                          ? false
+                          : true || isComment
+                          ? infoData
+                            ? editData === infoData
+                            : editData[fromValue] === ''
                           : false
                       }>
                       {btnName || '提交'}

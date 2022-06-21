@@ -61,29 +61,30 @@ export const deleteAssignment = (params) => {
     body: params,
   })
 }
-//新增评论
-export const getAssignmentHistorySave = (params) => {
-  return request('/api/ManagerAssignmentHistory/assignmentHistorySave', {
-    method: 'POST',
-    body: params,
-  })
-}
 
-//编辑评论
-export const getAssignmentHistoryEdit = (params) => {
-  return request('/api/ManagerAssignmentHistory/assignmentHistoryUpdate', {
-    method: 'POST',
-    body: params,
-  })
-}
+// //新增评论
+// export const getAssignmentHistorySave = (params) => {
+//   return request('/api/ManagerAssignmentHistory/assignmentHistorySave', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
 
-//删除评论
-export const getAssignmentHistoryDel = (params) => {
-  return request('/api/ManagerAssignmentHistory/delete', {
-    method: 'POST',
-    body: params,
-  })
-}
+// //编辑评论
+// export const getAssignmentHistoryEdit = (params) => {
+//   return request('/api/ManagerAssignmentHistory/assignmentHistoryUpdate', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
+
+// //删除评论
+// export const getAssignmentHistoryDel = (params) => {
+//   return request('/api/ManagerAssignmentHistory/delete', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
 
 // 查询成员不分页
 export const queryFuzzyAllProjectMember = (params) => {
@@ -117,17 +118,17 @@ export function countAssignment(params) {
   })
 }
 
-//添加任务至我的待办
-export function addMyToDo(params) {
-  return request('/api/ManagerTodoList/addMyToDo', {
-    method: 'POST',
-    body: params,
-  })
-}
-//待办事项转换批量
-export const getStrutsSwitch = (params) => {
-  return request('/api/ManagerTodoList/strutsSwitchBatch', {
-    method: 'POST',
-    body: params,
-  })
-}
+// // 添加任务至我的待办
+// export function addMyToDo(params) {
+//   return request('/api/ManagerTodoList/addMyToDo', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
+// // 待办事项转换批量
+// export const getStrutsSwitch = (params) => {
+//   return request('/api/ManagerTodoList/strutsSwitchBatch', {
+//     method: 'POST',
+//     body: params,
+//   })
+// }
