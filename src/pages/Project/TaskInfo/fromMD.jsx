@@ -177,6 +177,9 @@ const FromMD = (props) => {
         style={{ flex: 1, marginBottom: 10 }}
         ref={form}
         onChange={({ current }) => {
+          if (current.operatingRecords === '') {
+            setIsShow(false)
+          }
           upDate({
             [editName]: {
               ...editData,

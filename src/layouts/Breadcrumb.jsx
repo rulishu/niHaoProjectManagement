@@ -73,10 +73,10 @@ const Bread = (props) => {
         <div></div>
       )}
       {domList?.length === 3 ? (
-        <Breadcrumb.Item
-          style={{ marginTop: 4, fontSize: 14 }}
-          onClick={() => onClickthree()}>
-          <span className={styles.itemText}>{domList.at(1).name}</span>
+        <Breadcrumb.Item style={{ marginTop: 4, fontSize: 14 }}>
+          <span className={styles.itemText} onClick={() => onClickthree()}>
+            {domList.at(1).name}
+          </span>
           <span style={{ margin: '0 5px' }}>/</span> {domList.at(2).name}
         </Breadcrumb.Item>
       ) : (
