@@ -6,7 +6,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import Detail from './Detail'
 // import Authorization from './Authorization/index'
 import DeletePopover from '@/components/DeletePopover'
-import { changeDate } from '@/utils/utils'
+import { changeTime } from '@/utils/timeDistance'
 import { searchFun } from '@/utils/publicFun'
 import { useSelector } from 'react-redux'
 
@@ -40,7 +40,7 @@ const Demo = (props) => {
     },
     // 格式化查询参数 会接收到pageIndex 当前页  searchValues 表单数据
     query: (page, pageSize, formData) => {
-      // console.log('formData===>', formData)
+      console.log('formData===>', formData)
       return {
         page,
         pageSize,
@@ -48,8 +48,8 @@ const Demo = (props) => {
         roleName: formData.roleName,
         status: formData.status,
         params: {
-          beginTime: changeDate(formData.createTime?.at(0))?.trim(),
-          endTime: changeDate(formData.createTime?.at(1))?.trim(),
+          beginTime: changeTime(formData.createTime?.at(0))?.trim(),
+          endTime: changeTime(formData.createTime?.at(1))?.trim(),
         },
       }
     },
@@ -219,14 +219,6 @@ const Demo = (props) => {
                 ],
               },
               render: (text) => (
-                // <Switch
-                //   disabled={rowData.hasUser}
-                //   checked={rowData.status === '0'}
-                //   onChange={(even) => {
-                //     updateState(even.target.checked, rowData)
-                //   }}
-                //   data-checked="停用"
-                //   data-unchecked="正常"></Switch>
                 <div>
                   {text === '1' ? (
                     <Tag light color="#dc3545">
@@ -248,7 +240,7 @@ const Demo = (props) => {
               props: {
                 // label: '进入时间-离开时间',
                 widget: 'dateInputRange',
-                format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'YYYY-MM-DD',
               },
             },
             {
@@ -275,17 +267,6 @@ const Demo = (props) => {
                     onClick={handleEditTable.bind(this, 'edit', rowData)}>
                     编辑
                   </Button>
-                  {/* <Divider type="vertical" /> */}
-                  {/* </AuthBtn> */}
-                  {/* <AuthBtn path="/api/managerRole/selectRole"> */}
-                  {/* <Button
-                    size="small"
-                    type="success"
-                    onClick={handleEditTable.bind(this, 'view', rowData)}>
-                    查看
-                  </Button> */}
-                  {/* </AuthBtn> */}
-                  {/* <AuthBtn path="/api/managerRole/deleteRole"> */}
                   {rowData.hasUser ? (
                     <Tooltip
                       placement="left"
