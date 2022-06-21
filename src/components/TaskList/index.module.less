@@ -109,20 +109,69 @@
         }
 
         .itemComments {
-          span {
+          & > span {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
+            font-size: 14px;
+            color: #999;
+            line-height: 24px;
 
             span {
               margin-right: 2px;
+
+              svg {
+                width: 20px;
+                height: 20px;
+              }
             }
           }
         }
       }
     }
+
+    .liHead {
+      .itemLeft {
+        padding-left: 16px;
+        padding-top: 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+
+      .itemRight {
+        & > div {
+          display: flex;
+          justify-content: center;
+
+          & > span {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.clickableDiscolor {
+  :global {
+    .w-icon {
+      transition: inherit;
+    }
+  }
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
   }
 }
 
