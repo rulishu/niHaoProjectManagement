@@ -189,6 +189,7 @@ const Task = (props) => {
       },
     })
   }
+  const [labelSearch, setLabelSearch] = useState()
   // 列表
   const taskDataList = (data, taskTotal, num) => {
     return (
@@ -202,6 +203,13 @@ const Task = (props) => {
               listNavigate={listGo}
               delAssignment={delAssignment}
               labelsData={labelsListData}
+              milestonesData={milistones}
+              onCLickSearch={(type, val) => {
+                setLabelSearch({
+                  type: type,
+                  obj: { value: val.value, label: val.label },
+                })
+              }}
             />
             {taskTotal > 0 && (
               <div style={{ marginTop: '0.5rem' }}>
@@ -270,6 +278,7 @@ const Task = (props) => {
               updateData={updateData}
               pageS={pageS}
               project={project}
+              labelSearch={labelSearch}
             />
           </div>
 
