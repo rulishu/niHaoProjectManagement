@@ -33,7 +33,7 @@ const LabelSelect = (props) => {
 
   useEffect(() => {
     if (labelSearch) {
-      form.setFields({ [labelSearch.type]: labelSearch.obj })
+      form.setFields({ [labelSearch.type]: [labelSearch.obj] })
       changeFun({ [labelSearch.type]: [labelSearch.obj] }, true)
     }
   }, [labelSearch]) // eslint-disable-line
