@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import { useParams } from 'react-router-dom'
 import { Button, Drawer, Icon, Card, Divider, Loader, DateInput } from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
@@ -28,6 +28,10 @@ const TaskDetail = (props) => {
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
   const [taskDueDate, setTaskDueDate] = useState(taskInfo.dueDate) //任务截止日期
   const [dueDateState, setDueDateState] = useState(false) //任务截止日期弹窗状态
+  useEffect(() => {
+    setCLabelList(taskInfo.labels)
+    setTaskDueDate(taskInfo.dueDate)
+  }, [taskInfo.labels, taskInfo.dueDate])
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
