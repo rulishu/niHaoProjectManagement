@@ -66,8 +66,8 @@ export default function Demo() {
                     overflowX: 'hidden',
                     overflowY: 'auto',
                   }}>
-                  {projectList?.length === 0 ? (
-                    <Empty style={{ marginTop: 20 }} />
+                  {projectList.length === 0 ? (
+                    <Empty />
                   ) : (
                     <Menu>
                       {projectList?.map((e, key) => {
@@ -101,154 +101,169 @@ export default function Demo() {
                 }
                 bordered={false}
                 style={{ height: 400 }}>
-                <Row>
-                  <Col
-                    style={{
-                      textAlign: 'center',
-                    }}>
-                    <Progress.Circle
-                      width={100}
-                      strokeWidth={10}
-                      percent={
-                        projectList?.length === 0
-                          ? 0
-                          : active === 0
-                          ? NumColor(
-                              totalWorkVoOne?.projectYwcNum,
-                              totalWorkVoOne?.projectNum
-                            )
-                          : NumColor(
-                              totalData?.projectYwcNum,
-                              totalData?.projectNum
-                            )
-                      }
-                      format={(percent) => (
-                        <span>
-                          {projectList?.length === 0
-                            ? 0
-                            : active === 0
-                            ? totalWorkVoOne?.projectNum
-                            : totalData?.projectNum}
-                          <div style={{ padding: '10px 0 0 0', fontSize: 12 }}>
-                            总任务
-                          </div>
-                        </span>
-                      )}
-                    />
-                    <div>
-                      {projectList.length ? (
-                        <div style={{ margin: 10 }}>
-                          {active === 0 && totalWorkVoOne?.projectNum !== 0 ? (
-                            <Button
-                              type="primary"
-                              onClick={() => {
-                                if (active === 0) {
-                                  navigate(`${projectListOne?.projectUrl}/task`)
-                                } else {
-                                  navigate(`${projectData?.projectUrl}/task`)
-                                }
-                              }}>
-                              查看全部
-                            </Button>
-                          ) : active !== 0 && totalData?.projectNum !== 0 ? (
-                            <Button
-                              type="primary"
-                              onClick={() => {
-                                if (active === 0) {
-                                  navigate(`${projectListOne?.projectUrl}/task`)
-                                } else {
-                                  navigate(`${projectData?.projectUrl}/task`)
-                                }
-                              }}>
-                              查看全部
-                            </Button>
+                {projectList.length === 0 ? (
+                  <Empty />
+                ) : (
+                  <>
+                    <Row>
+                      <Col
+                        style={{
+                          textAlign: 'center',
+                        }}>
+                        <Progress.Circle
+                          width={100}
+                          strokeWidth={10}
+                          percent={
+                            projectList.length === 0
+                              ? 0
+                              : active === 0
+                              ? NumColor(
+                                  totalWorkVoOne?.projectYwcNum,
+                                  totalWorkVoOne?.projectNum
+                                )
+                              : NumColor(
+                                  totalData?.projectYwcNum,
+                                  totalData?.projectNum
+                                )
+                          }
+                          format={(percent) => (
+                            <span>
+                              {projectList.length === 0
+                                ? 0
+                                : active === 0
+                                ? totalWorkVoOne?.projectNum
+                                : totalData?.projectNum}
+                              <div
+                                style={{ padding: '10px 0 0 0', fontSize: 12 }}>
+                                总任务
+                              </div>
+                            </span>
+                          )}
+                        />
+                        <div>
+                          {projectList.length ? (
+                            <div style={{ margin: 10 }}>
+                              {active === 0 &&
+                              totalWorkVoOne?.projectNum !== 0 ? (
+                                <Button
+                                  type="primary"
+                                  onClick={() => {
+                                    if (active === 0) {
+                                      navigate(
+                                        `${projectListOne.projectUrl}/task`
+                                      )
+                                    } else {
+                                      navigate(`${projectData.projectUrl}/task`)
+                                    }
+                                  }}>
+                                  查看全部
+                                </Button>
+                              ) : active !== 0 &&
+                                totalData?.projectNum !== 0 ? (
+                                <Button
+                                  type="primary"
+                                  onClick={() => {
+                                    if (active === 0) {
+                                      navigate(
+                                        `${projectListOne.projectUrl}/task`
+                                      )
+                                    } else {
+                                      navigate(`${projectData.projectUrl}/task`)
+                                    }
+                                  }}>
+                                  查看全部
+                                </Button>
+                              ) : (
+                                ''
+                              )}
+                              <Button
+                                type="primary"
+                                onClick={() => {
+                                  if (active === 0) {
+                                    navigate(`${projectListOne.projectUrl}`)
+                                  } else {
+                                    navigate(`${projectData.projectUrl}`)
+                                  }
+                                }}>
+                                项目概览
+                              </Button>
+                            </div>
                           ) : (
                             ''
                           )}
-                          <Button
-                            type="primary"
-                            onClick={() => {
-                              if (active === 0) {
-                                navigate(`${projectListOne?.projectUrl}`)
-                              } else {
-                                navigate(`${projectData?.projectUrl}`)
-                              }
-                            }}>
-                            项目概览
-                          </Button>
                         </div>
-                      ) : (
-                        ''
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <div
-                      style={{
-                        marginTop: 20,
-                        textAlign: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        flexDirection: 'row',
-                      }}>
-                      {[
-                        {
-                          title: '未开始',
-                          num:
-                            projectList?.length === 0
-                              ? 0
-                              : active === 0
-                              ? totalWorkVoOne?.projectWksNum
-                              : totalData?.projectWksNum,
-                          key: 1,
-                        },
-                        {
-                          title: '进行中',
-                          num:
-                            projectList.length === 0
-                              ? 0
-                              : active === 0
-                              ? totalWorkVoOne?.projectKfzNum
-                              : totalData?.projectKfzNum,
-                          key: 2,
-                        },
-                        {
-                          title: '已完成',
-                          num:
-                            projectList.length === 0
-                              ? 0
-                              : active === 0
-                              ? totalWorkVoOne?.projectYwcNum
-                              : totalData?.projectYwcNum,
-                          key: 3,
-                        },
-                        {
-                          title: '已逾期',
-                          num:
-                            projectList.length === 0
-                              ? 0
-                              : active === 0
-                              ? totalWorkVoOne?.projectYqsNum
-                              : totalData?.projectYqsNum,
-                          key: 4,
-                        },
-                      ].map((item, key) => {
-                        return (
-                          <div key={key} onClick={() => goToTask(key + 1)}>
-                            <Card
-                              bordered={false}
-                              title={item.title}
-                              style={{ width: 80, cursor: 'pointer' }}>
-                              <span style={{ fontSize: 36 }}>{item?.num}</span>
-                            </Card>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </Col>
-                </Row>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <div
+                          style={{
+                            marginTop: 20,
+                            textAlign: 'center',
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                            flexDirection: 'row',
+                          }}>
+                          {[
+                            {
+                              title: '未开始',
+                              num:
+                                projectList.length === 0
+                                  ? 0
+                                  : active === 0
+                                  ? totalWorkVoOne?.projectWksNum
+                                  : totalData?.projectWksNum,
+                              key: 1,
+                            },
+                            {
+                              title: '进行中',
+                              num:
+                                projectList.length === 0
+                                  ? 0
+                                  : active === 0
+                                  ? totalWorkVoOne?.projectKfzNum
+                                  : totalData?.projectKfzNum,
+                              key: 2,
+                            },
+                            {
+                              title: '已完成',
+                              num:
+                                projectList.length === 0
+                                  ? 0
+                                  : active === 0
+                                  ? totalWorkVoOne?.projectYwcNum
+                                  : totalData?.projectYwcNum,
+                              key: 3,
+                            },
+                            {
+                              title: '已逾期',
+                              num:
+                                projectList.length === 0
+                                  ? 0
+                                  : active === 0
+                                  ? totalWorkVoOne?.projectYqsNum
+                                  : totalData?.projectYqsNum,
+                              key: 4,
+                            },
+                          ].map((item, key) => {
+                            return (
+                              <div key={key} onClick={() => goToTask(key + 1)}>
+                                <Card
+                                  bordered={false}
+                                  title={item.title}
+                                  style={{ width: 80, cursor: 'pointer' }}>
+                                  <span style={{ fontSize: 36 }}>
+                                    {item?.num}
+                                  </span>
+                                </Card>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </Col>
+                    </Row>
+                  </>
+                )}
               </Card>
             </Col>
             <Col fixed style={{ width: '25%' }}>
@@ -257,8 +272,8 @@ export default function Demo() {
                 bordered={false}
                 style={{ height: 400, position: 'relative' }}>
                 <div className={styles.milestoneInfoList}>
-                  {projectList?.length === 0 ? (
-                    <Empty style={{ marginTop: 20 }} />
+                  {projectList.length === 0 ? (
+                    <Empty />
                   ) : (
                     <ul>
                       <li className={styles.milInfoLiHead}>
@@ -268,7 +283,7 @@ export default function Demo() {
                       </li>
                       {milepost?.length === 0 &&
                       milesWorkVoListOne?.length === 0 ? (
-                        <Empty style={{ marginTop: 20 }} />
+                        <Empty />
                       ) : active === 0 ? (
                         milesWorkVoListOne?.map((item) => {
                           return (
