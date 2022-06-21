@@ -55,6 +55,7 @@ export default createModel()({
     replyConData: { operatingRecords: '' }, // 回复评论
     editCommentData: { operatingRecords: '' }, // 编辑评论
     replyState: false, // 回复状态
+    toDoListState: false,
   },
   effects: (dispatch) => {
     return {
@@ -171,33 +172,48 @@ export default createModel()({
       // 删除评论
       async delTaskComment(params, { projectTasks }) {
         const { assignmentId, projectId, taskHistoryId } = params
-        const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
+        const { getTaskDetailsDataUnCheck } = dispatch.projectTasks
         const data = await delTaskComment({
           projectId,
           id: taskHistoryId,
         })
         if (data && data.code === 200) {
           getTaskDetailsDataUnCheck({ projectId, id: assignmentId })
-          update({ commentData: { operatingRecords: '' } })
+          dispatch.projectTasks.update({
+            commentData: { operatingRecords: '' },
+          })
         }
       },
 
       // 添加任务至我的待办
       async addMyToDo(payload, { projectTasks }) {
+        dispatch.projectTasks.update({
+          toDoListState: true,
+        })
         const { projectId, assignmentId } = projectTasks.taskInfoData
         const { param, callback } = payload
         const data = await addMyToDo({ projectId, id: assignmentId, ...param })
         if (data && data.code === 200) {
+          dispatch.projectTasks.update({
+            toDoListState: false,
+          })
           dispatch.projectTasks.getTaskDetailsDataUnCheck({
             projectId,
             id: assignmentId,
           })
           callback && callback()
+        } else {
+          dispatch.projectTasks.update({
+            toDoListState: false,
+          })
         }
       },
 
       // 标记已完成
       async getStrutsSwitch(payload, { projectTasks }) {
+        dispatch.projectTasks.update({
+          toDoListState: true,
+        })
         const { loginUserTodoIdList } = projectTasks
         const { projectId, assignmentId } = projectTasks.taskInfoData
         const { param, callback } = payload
@@ -205,11 +221,18 @@ export default createModel()({
           param?.length ? param : loginUserTodoIdList
         )
         if (data && data.code === 200) {
+          dispatch.projectTasks.update({
+            toDoListState: false,
+          })
           dispatch.projectTasks.getTaskDetailsDataUnCheck({
             projectId,
             id: assignmentId,
           })
           callback && callback()
+        } else {
+          dispatch.projectTasks.update({
+            toDoListState: false,
+          })
         }
       },
     }
