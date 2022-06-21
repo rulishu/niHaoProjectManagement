@@ -76,9 +76,14 @@ const TaskDetail = (props) => {
       const labels = labelList?.filter((item) => {
         return newData?.includes(item.id)
       })
+      const labelIdList = []
+      labels?.map((item) => {
+        labelIdList.push(item.id)
+        return null
+      })
       if (
         JSON.stringify(taskInfo?.labels?.sort()) !==
-        JSON.stringify(labels?.sort())
+        JSON.stringify(labelIdList?.sort())
       ) {
         dispatch.taskboard.getEdit({
           taskInfo: {
@@ -198,6 +203,9 @@ const TaskDetail = (props) => {
         onClose={() => {
           setTaskDetails(false)
           setDueDateState(false)
+          dispatch.taskboard.update({
+            taskInfo: {},
+          })
         }}
         size="340px"
         usePortal={false}>
@@ -230,7 +238,7 @@ const TaskDetail = (props) => {
                     onClick={() => {
                       navigate(`/${taskInfo.createUserAccount}`)
                     }}>
-                    {taskInfo.createUserAccount}
+                    {taskInfo.createName}
                   </span>{' '}
                   于{taskInfo?.createTime?.slice(0, 10)}
                   时创建
@@ -370,9 +378,11 @@ const TaskDetail = (props) => {
                 <div className={styles.rLabelTitle}>
                   <span>截止日期</span>
                   <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-                    <Button basic type="primary" onClick={() => editDubTime()}>
-                      编辑
-                    </Button>
+                    <Icon
+                      color="#768390"
+                      type="setting-o"
+                      onClick={() => editDubTime()}
+                    />
                   </AuthBtn>
                 </div>
                 {dueDateState ? (
