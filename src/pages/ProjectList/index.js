@@ -112,7 +112,14 @@ const ProjectList = (props) => {
       </div>
     )
   }
-
+  const updateUserRole = (rowData) => {
+    dispatch({
+      type: 'projectlist/update',
+      payload: {
+        userRole: rowData?.userRole,
+      },
+    })
+  }
   return (
     <Container>
       <div className={styles.warp}>
@@ -277,12 +284,7 @@ const ProjectList = (props) => {
                             onClick={() => {
                               router.navigate(rowData?.projectUrl)
                               // console.log('rowData?.userRole',rowData?.userRole);
-                              dispatch({
-                                type: 'projectlist/update',
-                                payload: {
-                                  userRole: rowData?.userRole,
-                                },
-                              })
+                              updateUserRole(rowData)
                             }}>
                             {text}
                           </h2>
