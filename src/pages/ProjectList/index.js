@@ -14,10 +14,16 @@ const ProjectList = (props) => {
   const { router } = props
   const token = localStorage.getItem('token')
   const {
-    projectlist: { queryForm, proNum },
+    projectlist: { proNum },
   } = useSelector((state) => state)
-  console.log(queryForm)
   const dispatch = useDispatch()
+  const [queryForm, setQueryForm] = useState({
+    pageSize: 20,
+    status: '',
+    type: '20',
+    name: '',
+    order: 3,
+  })
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
@@ -26,7 +32,7 @@ const ProjectList = (props) => {
       type: queryForm.type,
       name: queryForm.name,
     })
-  }, [dispatch, queryForm.type, queryForm.name])
+  }, [dispatch, queryForm.name, queryForm.type])
   const table = useTable('/api/project/selectOneInfo', {
     formatData: (data) => {
       return {
@@ -79,11 +85,9 @@ const ProjectList = (props) => {
           <li
             key={item.value}
             onClick={() => {
-              dispatch.projectlist.update({
-                queryForm: {
-                  ...queryForm,
-                  order: item.value,
-                },
+              setQueryForm({
+                ...queryForm,
+                order: item.value,
               })
               setIsPulldown(false)
               setSorting(item.value)
@@ -148,11 +152,9 @@ const ProjectList = (props) => {
                       : tab === '0'
                       ? 0
                       : ''
-                  dispatch.projectlist.update({
-                    queryForm: {
-                      ...queryForm,
-                      status: newStatus,
-                    },
+                  setQueryForm({
+                    ...queryForm,
+                    status: newStatus,
                   })
                   table.onSearch()
                 }}>
@@ -179,11 +181,9 @@ const ProjectList = (props) => {
                   placeholder="按名称筛选"
                   onChange={(e) => {
                     const nameSearch = () => {
-                      dispatch.projectlist.update({
-                        queryForm: {
-                          ...queryForm,
-                          name: e.target.value,
-                        },
+                      setQueryForm({
+                        ...queryForm,
+                        name: e.target.value,
                       })
                       table.onSearch()
                     }
@@ -216,12 +216,9 @@ const ProjectList = (props) => {
               activeKey="1"
               className="projectListTabs"
               onTabClick={(tab, key, e) => {
-                // setProjectType(tab === '1' ? '20' : '10')
-                dispatch.projectlist.update({
-                  queryForm: {
-                    ...queryForm,
-                    type: tab === '1' ? '20' : '10',
-                  },
+                setQueryForm({
+                  ...queryForm,
+                  type: tab === '1' ? '20' : '10',
                 })
                 table.onSearch()
               }}>

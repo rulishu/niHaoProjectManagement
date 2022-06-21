@@ -14,13 +14,6 @@ import {
 const projectlist = createModel()({
   name: 'projectlist',
   state: {
-    queryForm: {
-      pageSize: 20,
-      status: '',
-      type: '20',
-      name: '',
-      order: 3,
-    },
     page: 1,
     pageSize: 10,
     total: 0,
