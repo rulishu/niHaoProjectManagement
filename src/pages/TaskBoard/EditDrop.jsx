@@ -79,7 +79,15 @@ const EditDrop = (props) => {
       <Overlay isOpen={editOpen} onClose={() => setEditOpen(false)}>
         {popContent === 'edit' ? (
           <Card active style={{ width: 500 }}>
-            <strong style={{ fontSize: '18px' }}>小记</strong>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <strong style={{ fontSize: '18px' }}>小记</strong>
+              <Button
+                icon="close"
+                basic
+                onClick={() => {
+                  setEditOpen(false)
+                }}></Button>
+            </div>
             <div style={{ marginTop: '10px' }}>
               <Textarea
                 value={noteTitle}
@@ -109,6 +117,12 @@ const EditDrop = (props) => {
                   })
                 }}>
                 保存小记
+              </Button>
+              <Button
+                onClick={() => {
+                  setEditOpen(false)
+                }}>
+                取消
               </Button>
             </div>
           </Card>
