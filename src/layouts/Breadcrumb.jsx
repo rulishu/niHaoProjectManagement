@@ -48,7 +48,7 @@ const Bread = (props) => {
   // 点击里程碑/任务管理跳转
   const onClickthree = () => {
     const issue = domList.at(1).name
-    if (issue === '任务管理') {
+    if (issue === '任务列表') {
       navigate(`${projectUrl}/task`)
     } else if (issue === '里程碑') {
       navigate(`${projectUrl}/milestone`)
@@ -76,8 +76,8 @@ const Bread = (props) => {
         <Breadcrumb.Item
           style={{ marginTop: 4, fontSize: 14 }}
           onClick={() => onClickthree()}>
-          <span className={styles.itemText}>{domList.at(1).name}</span> /{' '}
-          {domList.at(2).name}
+          <span className={styles.itemText}>{domList.at(1).name}</span>
+          <span style={{ margin: '0 5px' }}>/</span> {domList.at(2).name}
         </Breadcrumb.Item>
       ) : (
         domList?.map((item, index) => {

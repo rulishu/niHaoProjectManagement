@@ -114,7 +114,7 @@ const routes = [
           },
           {
             path: '/tissue/:projectId/task',
-            name: '任务管理',
+            name: '任务列表',
             isAuth: true,
             hideInMenu: true,
             routes: [
@@ -257,7 +257,7 @@ const routes = [
           },
           {
             path: '/:userAccount/:projectId/task',
-            name: '任务管理',
+            name: '任务列表',
             isAuth: true,
             hideInMenu: true,
             routes: [
