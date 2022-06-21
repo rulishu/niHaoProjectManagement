@@ -193,10 +193,7 @@ const TaskBoard = () => {
                 <Droppable droppableId={dropItem.id.toString()} key={dropIndex}>
                   {(provided) => {
                     return (
-                      <div
-                        className={styles.dragList}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}>
+                      <div className={styles.dragList}>
                         <div className={styles.dragListHead}>
                           <p className={styles.listName}>
                             {dropItem.listTitle}
@@ -254,7 +251,10 @@ const TaskBoard = () => {
                             </ButtonGroup>
                           </div>
                         </div>
-                        <div className={styles.dragListBox}>
+                        <div
+                          className={styles.dragListBox}
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}>
                           {dropItem?.managerBoardNotes?.map((item, index) => {
                             if (item.new) {
                               return (
