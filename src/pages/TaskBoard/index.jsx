@@ -335,7 +335,17 @@ const TaskBoard = () => {
                                                 onClick={() => {
                                                   openTaskInfo(item)
                                                 }}>
-                                                <Icon type="down-circle-o" />
+                                                {item.assignmentStatus === 3 ? (
+                                                  <Icon
+                                                    color="#d99156"
+                                                    type="minus-circle-o"
+                                                  />
+                                                ) : (
+                                                  <Icon
+                                                    color="#57ab5a"
+                                                    type="circle-o"
+                                                  />
+                                                )}
                                                 <div
                                                   style={{
                                                     fontSize: '18px',
