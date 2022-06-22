@@ -216,7 +216,7 @@ const TaskDetail = (props) => {
             loading.effects.taskboard.changeCloseTime
           }>
           <Card style={{ minWidth: '300px' }}>
-            <div>
+            <div style={{ paddingBottom: '10px' }}>
               <div>
                 <Icon
                   color="#57ab5a"
