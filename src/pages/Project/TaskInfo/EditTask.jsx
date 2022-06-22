@@ -17,7 +17,7 @@ const EditTask = () => {
   const {
     projectuser: { userSelectAllList },
     labels: { listData: labelsListData },
-    projectTasks: { editTaskData, taskInfoData, loginUserTodoIdList },
+    projectTasks: { editTaskData, taskInfoData, toDoListState },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
@@ -87,7 +87,7 @@ const EditTask = () => {
 
   // 添加待办
   const addMyToDo = async () => {
-    await dispatch.project.addMyToDo({
+    await dispatch.projectTasks.addMyToDo({
       param: {},
       callback: () => {
         dispatch.routeManagement.getInfo({})
@@ -97,8 +97,8 @@ const EditTask = () => {
 
   // 标记已完成
   const getStrutsSwitch = async () => {
-    await dispatch.project.getStrutsSwitch({
-      param: loginUserTodoIdList,
+    await dispatch.projectTasks.getStrutsSwitch({
+      param: taskInfoData.loginUserTodoIdList,
       callback: () => {
         dispatch.routeManagement.getInfo({})
       },
@@ -147,22 +147,21 @@ const EditTask = () => {
         await getTaskDetailsDataUnCheck({ projectId, id: assignmentId }),
     })
   }
-
+  console.log(taskInfoData)
   return (
     <div className={styles.rightFixed}>
       <div className={styles.rightNav}>
         <div className={styles.rLabel}>
           <Button
-            loading={
-              loading?.effects?.projectTasks?.addMyToDo ||
-              loading?.effects?.projectTasks?.getStrutsSwitch
-            }
+            loading={toDoListState}
             onClick={() => {
-              loginUserTodoIdList && loginUserTodoIdList.length > 0
+              taskInfoData.loginUserTodoIdList &&
+              taskInfoData.loginUserTodoIdList.length > 0
                 ? getStrutsSwitch()
                 : addMyToDo()
             }}>
-            {loginUserTodoIdList && loginUserTodoIdList.length > 0
+            {taskInfoData.loginUserTodoIdList &&
+            taskInfoData.loginUserTodoIdList.length > 0
               ? '标记已完成'
               : '添加待办一个事项'}
           </Button>

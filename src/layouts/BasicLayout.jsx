@@ -160,7 +160,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       userName: userData?.userName,
       menuLeft: (
         <>
-          {checkAll === false ? (
+          {checkAll === false && breadUrl !== '/dashboard' ? (
             <div
               className={styles.title}
               onClick={() => {

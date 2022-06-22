@@ -96,11 +96,8 @@ const FromMD = (props) => {
   }
 
   useEffect(() => {
-    if (
-      mdRefs?.current?.textarea &&
-      !isBundle.current &&
-      Object.keys(editData).length > 2
-    ) {
+    // Object.keys(editData).length > 2
+    if (mdRefs?.current?.textarea && !isBundle.current) {
       isBundle.current = true
       newTribute.attach(mdRefs.current.textarea)
       mdRefs.current.textarea.addEventListener('tribute-replaced', (e) => {
@@ -168,6 +165,12 @@ const FromMD = (props) => {
           fromValue,
           fieldValues[fromValue] + `![image](/api/file/selectFile/${res?.data})`
         )
+        upDate({
+          [editName]: {
+            ...editData,
+            ...form.current.getFieldValues(),
+          },
+        })
       }
     })
   }
@@ -177,6 +180,9 @@ const FromMD = (props) => {
         style={{ flex: 1, marginBottom: 10 }}
         ref={form}
         onChange={({ current }) => {
+          if (current.operatingRecords === '') {
+            setIsShow(false)
+          }
           upDate({
             [editName]: {
               ...editData,

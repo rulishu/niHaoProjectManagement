@@ -47,8 +47,10 @@ export default createModel()({
           userData: data.user,
         })
         const imgs = data?.user?.admin
+        const isPassword = data?.password
         // payload.callback && payload.callback(data.user)
         localStorage.setItem('key', imgs)
+        localStorage.setItem('isPassword', isPassword)
         return true
       }
     },

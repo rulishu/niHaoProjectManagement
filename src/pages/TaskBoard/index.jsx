@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import {
   Card,
@@ -37,7 +37,7 @@ const TaskBoard = () => {
 
   const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
   const [itemName, setItemName] = useState('') // 新增小记时title
-
+  const pageView = useRef(null)
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({
       projectId,
@@ -46,6 +46,13 @@ const TaskBoard = () => {
       first: true,
     })
   }, [dispatch, projectId])
+  useEffect(() => {
+    if (creatBut) {
+      scrollToEle()
+    } else {
+      pageView.current.scrollLeft = 0
+    }
+  }, [creatBut])
 
   const deleteBoard = () => {
     //删除看板
@@ -75,6 +82,11 @@ const TaskBoard = () => {
       listTitle: name,
       setEditList,
     })
+  }
+
+  const scrollToEle = () => {
+    const leftWidth = pageView.current?.['clientWidth']
+    pageView.current.scrollLeft = leftWidth + 28
   }
 
   const openTaskInfo = (item) => {
@@ -173,7 +185,7 @@ const TaskBoard = () => {
   }
 
   return (
-    <>
+    <div className={styles.content}>
       <Header
         param={{
           selectBoard,
@@ -186,17 +198,14 @@ const TaskBoard = () => {
         }}
       />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className={styles.drapItem}>
+        <div className={styles.drapItem} ref={pageView}>
           {list.length !== 0 ? (
             list?.map((dropItem, dropIndex) => {
               return (
                 <Droppable droppableId={dropItem.id.toString()} key={dropIndex}>
                   {(provided) => {
                     return (
-                      <div
-                        className={styles.dragList}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}>
+                      <div className={styles.dragList}>
                         <div className={styles.dragListHead}>
                           <p className={styles.listName}>
                             {dropItem.listTitle}
@@ -254,7 +263,10 @@ const TaskBoard = () => {
                             </ButtonGroup>
                           </div>
                         </div>
-                        <div className={styles.dragListBox}>
+                        <div
+                          className={styles.dragListBox}
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}>
                           {dropItem?.managerBoardNotes?.map((item, index) => {
                             if (item.new) {
                               return (
@@ -342,7 +354,12 @@ const TaskBoard = () => {
                                                     color: '#007bff',
                                                     marginLeft: '5px',
                                                   }}>
-                                                  {item?.assignmentTitle}
+                                                  <span
+                                                    className={
+                                                      styles.listItemColor
+                                                    }>
+                                                    {item?.assignmentTitle}
+                                                  </span>
                                                 </div>
                                               </div>
                                               <div
@@ -466,7 +483,7 @@ const TaskBoard = () => {
           selectBoard,
         }}
       />
-    </>
+    </div>
   )
 }
 export default TaskBoard

@@ -1,9 +1,15 @@
 @import '../../common.less';
+.content {
+  padding: 14px;
+  background: #fff;
+  height: calc(100% - 40px);
+}
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 0 5px;
+  background: #fff;
 }
 
 .flexRight {
@@ -18,7 +24,7 @@
   margin: 5px;
   width: 400px;
   min-width: 400px;
-  padding: 3px;
+  padding: 5px;
   overflow: hidden;
 }
 
@@ -33,9 +39,15 @@
   background-color: #fff;
   display: flex;
   width: 100%;
-  padding: 10px;
-  height: calc(96% - 66px);
+  padding: 10px 0;
+  height: calc(100% - 20px);
   overflow: auto;
+
+  :global {
+    .w-card-body {
+      padding: 5px 10px;
+    }
+  }
 }
 
 .dragListHead {
@@ -48,8 +60,9 @@
 
   .listName {
     display: flex;
-    padding: 10px;
+    padding: 10px 5px;
     font-size: @font-size-base + 2px;
+    align-items: center;
   }
 }
 
@@ -60,20 +73,28 @@
   .listItem {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    // align-items: flex-end;
+  }
+
+  .listItemColor {
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
 .listNum {
-  margin-left: 3px;
+  margin-left: 10px;
   margin-right: 10px;
   line-height: 25px;
 }
 
 .userHead {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
+  // width: 24px;
+  // height: 24px;
+  // margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .newList {
@@ -110,7 +131,7 @@
 .drawerFooter {
   height: 100px;
   width: 100%;
-  padding: 15px;
+  padding: 15px 0;
 
   .footerDiv {
     flex-wrap: wrap;
@@ -135,11 +156,15 @@
     .w-overlay-enter-done {
       z-index: 998;
     }
+
+    .w-divider-horizontal {
+      margin: 0;
+    }
   }
 }
 
 .rLabel {
-  padding: 16px 0 10px 0;
+  padding: 10px 0;
   font-size: 14px;
 }
 
@@ -175,4 +200,20 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.noteTitle {
+  font-size: 18px;
+  color: #007bff;
+  margin-left: 5px;
+}
+
+.noteId {
+  font-size: 12px;
+  color: #5e5e5e;
+}
+
+.noteDesc {
+  font-size: 10px;
+  color: #5e5e5e;
 }

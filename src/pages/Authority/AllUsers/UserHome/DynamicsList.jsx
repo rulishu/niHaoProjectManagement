@@ -90,21 +90,24 @@ const ProjectList = (props) => {
                       {item?.projectName}
                     </span>
                     {item?.assignmentTitle && (
-                      <span
-                        className={
-                          item.projectUrl && item?.assignmentId
-                            ? styles.clickOn
-                            : ''
-                        }
-                        onClick={() =>
-                          item.projectUrl &&
-                          item?.assignmentId &&
-                          goSpecifyPage({
-                            path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
-                          })
-                        }>
-                        {'/' + item?.assignmentTitle}
-                      </span>
+                      <>
+                        <span style={{ color: '#008ef0' }}> / </span>
+                        <span
+                          className={
+                            item.projectUrl && item?.assignmentId
+                              ? styles.clickOn
+                              : ''
+                          }
+                          onClick={() =>
+                            item.projectUrl &&
+                            item?.assignmentId &&
+                            goSpecifyPage({
+                              path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
+                            })
+                          }>
+                          {item?.assignmentTitle}
+                        </span>
+                      </>
                     )}
                   </div>
                 </li>
