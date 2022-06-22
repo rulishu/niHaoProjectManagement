@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Button, Pagination, Loader, Notify } from 'uiw'
+import { useEffect, useRef } from 'react'
+import { Button, Pagination, Loader, Input, Form } from 'uiw'
 import { TaskList } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,12 +7,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import useLocationPage from '@/hooks/useLocationPage'
 import 'tributejs/tribute.css'
 
-const Task = (props) => {
+const Task = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
   const { userAccount } = useParams()
-  const [taskStatus, setTaskStatus] = useState('2')
+  const form = useRef()
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -24,24 +24,16 @@ const Task = (props) => {
   } = useSelector((state) => state)
   const { membersList, milistonesList } = project
 
-  const pageS = (payload) => {
-    dispatch.project.getList({ ...payload, projectId: taskId })
-    dispatch.project.countAssignment({ ...payload, projectId: taskId })
-  }
-
   useEffect(() => {
-    dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId })
-    dispatch.project.selectLabel({ projectId: taskId })
-    dispatch.project.assignment_label()
-    dispatch.labels.getAllLabelData({ projectId: taskId })
-    dispatch.projectuser.pullSelectAll({ memberName: '', projectId: taskId })
+    dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId }) // 初始化人员
+    dispatch.labels.getAllLabelData({ projectId: taskId }) // 初始化标签数据
     dispatch.milestone.getListAll({
       projectId: taskId,
       milestonesStatusList: [1, 2],
-    })
+    }) // 初始化里程碑
     dispatch.project.getAssignment({ projectId: taskId }) //不分页获取所有任务
-
     dispatch.projectTasks.getTaskPagingData({ projectId: taskId }) //不分页获取所有任务
+    dispatch.project.countAssignment({ projectId: taskId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
@@ -52,49 +44,6 @@ const Task = (props) => {
     })
     await dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
   }
-
-  // 进页面先查询一次，获取任务数量角标
-  useEffect(() => {
-    const newStatus = window.location.hash.split('?')[1] || ''
-    setTaskStatus(newStatus)
-    dispatch({
-      type: 'project/update',
-      payload: {
-        page: 1,
-        pageSize: 10,
-        projectId: taskId,
-        splicingConditionsDtos: [],
-      },
-    })
-    dispatch({
-      type: 'project/update',
-      payload: {
-        activeKey: taskStatus,
-        tabDtos: [
-          {
-            condition: '=',
-            field: 'assignmentStatus',
-            value: taskStatus,
-          },
-        ],
-        selectDtos: [],
-      },
-    })
-
-    if (taskId) {
-      // 任务状态(1.未开始 2.进行中 3.已完成,4.已逾期)
-      pageS({
-        assignmentStatus: taskStatus,
-      })
-      dispatch({
-        type: 'project/getProjectCountById', //统计
-        payload: { projectId: taskId },
-      })
-    } else {
-      Notify.success({ description: '查无此项' })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params, taskStatus])
 
   const updateData = (payload) => {
     dispatch({ type: 'project/update', payload })
@@ -128,11 +77,34 @@ const Task = (props) => {
         vertical
         style={{ width: '100%' }}
         loading={loading.effects.projectTasks.getTaskPagingData}>
-        <div>
-          <div className={styles.nav}>
-            <Button type="primary" onClick={() => goIssue()}>
-              新建任务
-            </Button>
+        <>
+          <div>
+            <Form
+              ref={form}
+              fields={{
+                assignmentTitle: {
+                  children: (
+                    <Input preIcon="search" placeholder="输入任务名查询" />
+                  ),
+                },
+              }}
+              onSubmit={({ initial, current }) => conditionChange(current)}
+              style={{ width: '100%' }}>
+              {({ fields }) => {
+                return (
+                  <div className={styles.taskHeadBox}>
+                    <div className={styles.searchTask}>
+                      {fields?.assignmentTitle}
+                    </div>
+                    <div className={styles.newTask}>
+                      <Button type="primary" onClick={() => goIssue()}>
+                        新建任务
+                      </Button>
+                    </div>
+                  </div>
+                )
+              }}
+            </Form>
           </div>
           <TaskList
             listData={taskListData || []}
@@ -156,7 +128,7 @@ const Task = (props) => {
               ''
             )}
           </div>
-        </div>
+        </>
       </Loader>
     </div>
   )
