@@ -32,6 +32,8 @@ export const columnsSearch = (
           ? '测试'
           : memberRole === 3
           ? '项目管理者'
+          : memberRole === 4
+          ? '创建者'
           : ''}
       </div>
     ),
@@ -52,11 +54,11 @@ export const columnsSearch = (
     title: '访问到期日期',
     key: 'accessExpirationTime',
     align: 'center',
-    render: (accessExpirationTime) => {
-      return accessExpirationTime ? (
+    render: (accessExpirationTime, key, rowData) => {
+      return accessExpirationTime !== null && rowData.memberRole !== 4 ? (
         <div>{formatter('YYYY-MM-DD', new Date(accessExpirationTime))}</div>
       ) : (
-        ''
+        <div>无</div>
       )
     },
   },
@@ -67,51 +69,59 @@ export const columnsSearch = (
     align: 'center',
     render: (text, key, rowData) => (
       <div>
-        {own === 'true' || Number(memberRoles) === 3 ? (
-          <Button
-            size="small"
-            icon="edit"
-            type="primary"
-            disabled={userRole === '开发' || userRole === '测试' ? true : false}
-            onClick={() => handleEditTable('edit', rowData)}>
-            编辑
-          </Button>
-        ) : (
-          ''
-        )}
-        {own === 'true' || Number(memberRoles) === 3 ? (
-          userInfo === rowData?.memberName ? (
-            <Button
-              size="small"
-              type="danger"
-              icon="close"
-              onClick={() => handleEditTable('out', rowData)}>
-              退出
-            </Button>
-          ) : (
-            <Button
-              size="small"
-              type="danger"
-              icon="user-delete"
-              disabled={
-                rowData?.memberName === userInfo ||
-                userRole === '开发' ||
-                userRole === '测试'
-                  ? true
-                  : false
-              }
-              onClick={() => handleEditTable('del', rowData)}>
-              删除
-            </Button>
-          )
-        ) : userInfo === rowData?.memberName ? (
-          <Button
-            size="small"
-            type="danger"
-            icon="close"
-            onClick={() => handleEditTable('out', rowData)}>
-            退出
-          </Button>
+        {rowData.memberRole !== 4 ? (
+          <div>
+            {own === 'true' || Number(memberRoles) === 3 ? (
+              <Button
+                size="small"
+                icon="edit"
+                type="primary"
+                disabled={
+                  userRole === '开发' || userRole === '测试' ? true : false
+                }
+                onClick={() => handleEditTable('edit', rowData)}>
+                编辑
+              </Button>
+            ) : (
+              ''
+            )}
+            {own === 'true' || Number(memberRoles) === 3 ? (
+              userInfo === rowData?.memberName ? (
+                <Button
+                  size="small"
+                  type="danger"
+                  icon="close"
+                  onClick={() => handleEditTable('out', rowData)}>
+                  退出
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  type="danger"
+                  icon="user-delete"
+                  disabled={
+                    rowData?.memberName === userInfo ||
+                    userRole === '开发' ||
+                    userRole === '测试'
+                      ? true
+                      : false
+                  }
+                  onClick={() => handleEditTable('del', rowData)}>
+                  删除
+                </Button>
+              )
+            ) : userInfo === rowData?.memberName ? (
+              <Button
+                size="small"
+                type="danger"
+                icon="close"
+                onClick={() => handleEditTable('out', rowData)}>
+                退出
+              </Button>
+            ) : (
+              ''
+            )}
+          </div>
         ) : (
           ''
         )}
