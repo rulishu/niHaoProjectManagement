@@ -1,6 +1,8 @@
 import { Icon, Tooltip, Avatar } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
+import { DropdownBox } from '@/components'
+
 import styles from './index.module.less'
 
 const TaskList = (props) => {
@@ -11,23 +13,38 @@ const TaskList = (props) => {
     onCLickSearch,
     listNavigate,
     onTabClick,
+    onTab,
+    labelsListData,
+    teamMembersListData,
+    milestonesListData,
   } = props
+
+  // 任务状态
+  const taskState = [
+    { onTab: '1', color: '#d99156', title: '未开始', icon: 'plus-circle-o' },
+    { onTab: '2', color: '#fbb957', title: '进行中', icon: 'circle-o' },
+    { onTab: '3', color: '#41b349', title: '已完成', icon: 'circle-check-o' },
+    { onTab: '4', color: '#813c85', title: '已逾期', icon: 'circle-close-o' },
+  ]
 
   // 跳转路径
   const listGoTo = (val) => {
     listNavigate(val)
   }
 
+  // 跳转页面方法
   const goPage = (value) => {
     navigate(`/${value}`)
   }
 
+  // 修改分类
   const onTabClicks = (tab) => {
     onTabClick(tab)
   }
 
+  // 标签板块
   const labelBox = (value = []) => {
-    return labelsData.map((item) => {
+    return labelsData?.map((item) => {
       if (value?.includes(item?.id)) {
         return (
           <span
@@ -60,62 +77,70 @@ const TaskList = (props) => {
         <ul>
           <li className={styles.liHead}>
             <div className={styles.itemLeft}>
-              <span
-                className={styles.clickableDiscolor}
-                style={{ fill: '#41b3498c' }}
-                onClick={() => onTabClicks('1')}>
-                <Icon type="minus-circle-o" />
-                未开始
-              </span>
-              <span
-                className={styles.clickableDiscolor}
-                style={{ fill: '#41b3498c' }}
-                onClick={() => onTabClicks('2')}>
-                <Icon type="plus-circle-o" />
-                进行中
-              </span>
-              <span
-                className={styles.clickableDiscolor}
-                style={{ fill: '#41b3498c' }}
-                onClick={() => onTabClicks('3')}>
-                <Icon type="circle-check-o" />
-                已完成
-              </span>
-              <span
-                className={styles.clickableDiscolor}
-                style={{ fill: '#41b3498c' }}
-                onClick={() => onTabClicks('4')}>
-                <Icon type="circle-close-o" />
-                已逾期
-              </span>
+              <p>
+                {taskState.map((item, index) => {
+                  return (
+                    <span
+                      key={index}
+                      className={`${styles.clickableDiscolor}  
+                      ${onTab === item.onTab ? styles.action : ''}`}
+                      style={{ color: item.color }}
+                      onClick={() => onTabClicks(item.onTab)}>
+                      <Icon type={item.icon} />
+                      {item.title}
+                    </span>
+                  )
+                })}
+              </p>
             </div>
             <div className={styles.itemRight}>
-              <div>
+              <DropdownBox
+                listData={milestonesListData}
+                title="里程碑"
+                columnType="milestone"
+                columnKey="milestonesId"
+                searchValue={['milestonesTitle']}>
                 <span className={styles.clickableDiscolor}>
                   里程碑
                   <Icon type="down" />
                 </span>
-              </div>
-              <div>
+              </DropdownBox>
+              <DropdownBox
+                listData={teamMembersListData}
+                title="指派人"
+                columnType="member"
+                columnKey="userId"
+                searchValue={['memberName', 'userAcount']}>
                 <span className={styles.clickableDiscolor}>
                   指派人
                   <Icon type="down" />
                 </span>
-              </div>
-              <div>
+              </DropdownBox>
+              <DropdownBox
+                listData={labelsListData}
+                title="标签"
+                columnType="label"
+                columnKey="id"
+                searchValue={['name']}>
                 <span className={styles.clickableDiscolor}>
-                  里程碑
+                  标签
                   <Icon type="down" />
                 </span>
-              </div>
+              </DropdownBox>
             </div>
           </li>
-
           {listData.map((item) => {
             return (
               <li key={item.assignmentId}>
                 <div className={styles.itemState}>
-                  <Icon type="circle-check-o" />
+                  {
+                    <Icon
+                      type={taskState[item.assignmentStatus - 1].icon}
+                      style={{
+                        fill: taskState[item.assignmentStatus - 1].color,
+                      }}
+                    />
+                  }
                 </div>
                 <div className={styles.itemLeft}>
                   <div className={styles.itemLeftTop}>
