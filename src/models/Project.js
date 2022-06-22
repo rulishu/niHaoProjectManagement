@@ -72,6 +72,7 @@ export default createModel()({
       operatingRecords: '',
     },
     teamMembers: [],
+    membersList: [],
     assignmentLabels: [],
     milistones: [],
     splicingConditionsDtos: [],
@@ -200,7 +201,7 @@ export default createModel()({
               label: item.memberName,
               value: item.userId,
             }))
-            dispatch.project.update({ teamMembers })
+            dispatch.project.update({ teamMembers, membersList: data.data })
           }
         }
       },
@@ -215,7 +216,7 @@ export default createModel()({
               label: item.milestonesTitle,
               value: item.milestonesId,
             }))
-            dispatch.project.update({ milistones })
+            dispatch.project.update({ milistones, milistonesList: data.data })
           }
         }
       },

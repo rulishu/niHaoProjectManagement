@@ -21,6 +21,18 @@ export const columnsSearch = (
     },
   },
   {
+    title: '成员邮箱',
+    key: 'email',
+    align: 'center',
+    width: 250,
+    props: {
+      widget: 'input',
+      widgetProps: {
+        placeholder: '输入成员邮箱',
+      },
+    },
+  },
+  {
     title: '成员角色',
     key: 'memberRole',
     align: 'center',
