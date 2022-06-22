@@ -1,4 +1,5 @@
 @import '../../common.less';
+
 .content {
   background: #fff;
   padding: 14px;
@@ -40,6 +41,7 @@
   padding: 10px 0;
   height: calc(96% - 66px);
   overflow: auto;
+
   :global {
     .w-card-body {
       padding: 5px 10px;
@@ -72,6 +74,7 @@
     justify-content: space-between;
     // align-items: flex-end;
   }
+
   .listItemColor {
     &:hover {
       text-decoration: underline;
@@ -152,6 +155,7 @@
     .w-overlay-enter-done {
       z-index: 998;
     }
+
     .w-divider-horizontal {
       margin: 0;
     }
@@ -195,4 +199,20 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.noteTitle {
+  font-size: 18px;
+  color: #007bff;
+  margin-left: 5px;
+}
+
+.noteId {
+  font-size: 12px;
+  color: #5e5e5e;
+}
+
+.noteDesc {
+  font-size: 10px;
+  color: #5e5e5e;
 }

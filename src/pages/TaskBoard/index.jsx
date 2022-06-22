@@ -245,7 +245,6 @@ const TaskBoard = () => {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  //编辑列表
                                   setEditBoardName(dropItem.listTitle)
                                   setEditList(true)
                                   setSelectList(dropItem.id)
@@ -254,7 +253,6 @@ const TaskBoard = () => {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  //删除列表
                                   setDeleteConfirmation(true)
                                   setSelectList(dropItem.id)
                                 }}>
@@ -347,20 +345,20 @@ const TaskBoard = () => {
                                                 onClick={() => {
                                                   openTaskInfo(item)
                                                 }}>
-                                                {item.assignmentStatus === 3 ? (
-                                                  <Icon
-                                                    color="#d99156"
-                                                    type="minus-circle-o"
-                                                  />
-                                                ) : (
-                                                  <Icon
-                                                    color="#57ab5a"
-                                                    type="circle-o"
-                                                  />
-                                                )}
+                                                <Icon
+                                                  color={
+                                                    item.assignmentStatus === 3
+                                                      ? '#d99156'
+                                                      : '#57ab5a'
+                                                  }
+                                                  type={
+                                                    item.assignmentStatus === 3
+                                                      ? 'minus-circle-o'
+                                                      : 'circle-o'
+                                                  }
+                                                />
                                                 <div
-                                                // className={styles.}
-                                                >
+                                                  className={styles.noteTitle}>
                                                   <span
                                                     className={
                                                       styles.listItemColor
@@ -369,11 +367,7 @@ const TaskBoard = () => {
                                                   </span>
                                                 </div>
                                               </div>
-                                              <div
-                                                style={{
-                                                  fontSize: '12px',
-                                                  color: '#5e5e5e',
-                                                }}>
+                                              <div className={styles.noteId}>
                                                 #{item?.assignmentId}
                                               </div>
                                             </div>
@@ -386,9 +380,8 @@ const TaskBoard = () => {
                                                   <Avatar
                                                     onClick={() => {
                                                       if (
-                                                        item.assigneeUserAccount &&
                                                         item.assigneeUserAccount !==
-                                                          null
+                                                        null
                                                       ) {
                                                         navigate(
                                                           `/${item.assigneeUserAccount}`
@@ -422,11 +415,7 @@ const TaskBoard = () => {
                                                   {item?.title}
                                                 </div>
                                               </div>
-                                              <div
-                                                style={{
-                                                  fontSize: '10px',
-                                                  color: '#5e5e5e',
-                                                }}>
+                                              <div className={styles.noteDesc}>
                                                 由{item?.createName} 于{' '}
                                                 {item?.createTime.slice(0, 10)}{' '}
                                                 创建
