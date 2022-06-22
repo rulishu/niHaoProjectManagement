@@ -182,6 +182,7 @@ const TaskDetail = (props) => {
                 projectId,
                 assignmentId: taskInfo.assignmentId,
                 type: taskState,
+                boardId: selectBoard,
                 setTaskDetails,
               })
             }}>
@@ -218,11 +219,19 @@ const TaskDetail = (props) => {
           <Card style={{ minWidth: '300px' }}>
             <div style={{ paddingBottom: '10px' }}>
               <div>
-                <Icon
-                  color="#57ab5a"
-                  type="down-circle-o"
-                  style={{ marginRight: '5px' }}
-                />
+                {taskInfo.assignmentStatus === 3 ? (
+                  <Icon
+                    style={{ marginRight: '5px' }}
+                    color="#d99156"
+                    type="minus-circle-o"
+                  />
+                ) : (
+                  <Icon
+                    style={{ marginRight: '5px' }}
+                    color="#57ab5a"
+                    type="circle-o"
+                  />
+                )}
                 <span style={{ fontSize: '18px' }}>
                   {taskInfo.assignmentTitle}
                 </span>
