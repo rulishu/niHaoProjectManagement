@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Input, Icon, Button, OverlayTrigger } from 'uiw'
+import { Input, Icon, Button, OverlayTrigger, Empty } from 'uiw'
 import ColumnDom from './ColumnDom'
 import styles from './index.module.less'
 
@@ -17,6 +17,8 @@ const DropdownBox = (props) => {
     isCancel = true, // 能取消选中
     onSelect, // 每次点击选择触发
     onClose, // 组件关闭的回调
+    isSearchBox = true, // 是否显示搜索框
+    isSelectClose = true, // 选择后是关闭组件
   } = props
 
   // 弹窗是否显示
@@ -27,27 +29,39 @@ const DropdownBox = (props) => {
 
   const [newListData, setNewListData] = useState(listData)
 
-  // 弹窗 open 发生变化
+  // 数据源 发生变化
   useEffect(() => setNewListData(listData), [listData])
 
   // 弹窗 open 发生变化
   useEffect(() => setIsOpen(open), [open])
 
-  // 选中数组发生变化
-  useEffect(() => setOptions(selectData || []), [selectData])
-
+  // 选中数组 发生变化
+  useEffect(() => {
+    setOptions(selectData || [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  console.log('isOpen===>', isOpen)
   // 点击选择触发
   const optionEvent = (key) => {
     const exists = options?.includes(key)
     if (isRadio) {
       setOptions(exists && isCancel ? [] : [key])
+      onSelect && onSelect([key], key)
+      if (isSelectClose) {
+        console.log('关了么?')
+        setIsOpen(false)
+      }
       return
     }
     const params = exists
       ? options?.filter((i) => i !== key)
       : [...options, key]
     setOptions(params)
-    onSelect && onSelect()
+    onSelect && onSelect(params, key)
+    if (isSelectClose) {
+      console.log('关了么?')
+      setIsOpen(false)
+    }
   }
 
   const inputSearch = (value) => {
@@ -83,32 +97,40 @@ const DropdownBox = (props) => {
           }}
         />
       </header>
-      <div className={styles.selectInputBox}>
-        <Input
-          placeholder="请输入内容"
-          onInput={(e) => inputSearch(e.target.value)}
-        />
-      </div>
+      {isSearchBox && (
+        <div className={styles.selectInputBox}>
+          <Input
+            placeholder="请输入内容"
+            onInput={(e) => inputSearch(e.target.value)}
+          />
+        </div>
+      )}
       <ul className={styles.listUl}>
-        {newListData?.map((item, index) => {
-          return (
-            <li key={index} onClick={() => optionEvent(item?.[columnKey])}>
-              <div className={styles.check}>
-                {options?.includes(item?.[columnKey]) && <Icon type="check" />}
-              </div>
-              <div>
-                {columnDom ? (
-                  columnDom(item)
-                ) : (
-                  <ColumnDom
-                    itemData={item}
-                    columnType={columnType || 'label'}
-                  />
-                )}
-              </div>
-            </li>
-          )
-        })}
+        {newListData?.length ? (
+          newListData?.map((item, index) => {
+            return (
+              <li key={index} onClick={() => optionEvent(item?.[columnKey])}>
+                <div className={styles.check}>
+                  {options?.includes(item?.[columnKey]) && (
+                    <Icon type="check" />
+                  )}
+                </div>
+                <div>
+                  {columnDom ? (
+                    columnDom(item)
+                  ) : (
+                    <ColumnDom
+                      itemData={item}
+                      columnType={columnType || 'label'}
+                    />
+                  )}
+                </div>
+              </li>
+            )
+          })
+        ) : (
+          <Empty />
+        )}
       </ul>
     </div>
   )
@@ -126,6 +148,7 @@ const DropdownBox = (props) => {
           if (!is) {
             onClose && onClose(options, is)
           }
+          setIsOpen(is)
         }}>
         <div>{props?.children}</div>
       </OverlayTrigger>

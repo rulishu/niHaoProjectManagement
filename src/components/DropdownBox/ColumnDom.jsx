@@ -43,10 +43,20 @@ const ColumnDom = (props) => {
     )
   }
 
+  // 排序
+  const sortLi = (data) => {
+    return (
+      <div className={styles.sortLi}>
+        <span>{data.label}</span>
+      </div>
+    )
+  }
+
   const liBoxObj = {
-    label: labelLi,
-    member: memberLi,
-    milestone: milestoneLi,
+    label: labelLi, // 标签
+    member: memberLi, // 人员
+    milestone: milestoneLi, // 里程碑
+    sort: sortLi, // 排序
   }
 
   return (
