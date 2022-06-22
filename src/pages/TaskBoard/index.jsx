@@ -2,39 +2,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import {
-  Card,
-  Icon,
-  Avatar,
-  Button,
-  Input,
-  ButtonGroup,
-  Empty,
-  Loader,
-} from 'uiw'
+import { useNavigate } from 'react-router-dom'
+import { Card, Icon, Avatar, Button, Input, Empty, Tooltip, Loader } from 'uiw'
 import styles from './index.module.less'
 import DeletePop from './DeletePop'
 import Header from './Header'
 import TaskDetail from './TaskDetail'
 import EditDrop from './EditDrop'
 import CreatList from './CreatList'
+import ListButtonGroup from './ListButtonGroup'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { taskboard, loading } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
   const { boardList, list } = taskboard
-
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
-
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [editList, setEditList] = useState(false) // 编辑列表弹窗
   const [editBoardName, setEditBoardName] = useState('') // 编辑列表名
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [creat, setCreat] = useState(false) // 创建列表弹窗
-
   const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
   const [itemName, setItemName] = useState('') // 新增小记时title
   const pageView = useRef(null)
@@ -86,7 +77,7 @@ const TaskBoard = () => {
 
   const scrollToEle = () => {
     const leftWidth = pageView.current?.['clientWidth']
-    pageView.current.scrollLeft = leftWidth + 28
+    pageView.current.scrollLeft = leftWidth
   }
 
   const openTaskInfo = (item) => {
@@ -185,7 +176,7 @@ const TaskBoard = () => {
   }
 
   return (
-    <div className={styles.content}>
+    <>
       <Header
         param={{
           selectBoard,
@@ -215,52 +206,16 @@ const TaskBoard = () => {
                             <span className={styles.listNum}>
                               {dropItem?.managerBoardNotes?.length}
                             </span>
-                            <ButtonGroup>
-                              <Button
-                                onClick={() => {
-                                  //添加item按钮
-                                  const newList = list
-                                  if (
-                                    newList[dropIndex].managerBoardNotes
-                                      .length !== 0 &&
-                                    newList[dropIndex]?.managerBoardNotes[0]
-                                      ?.new
-                                  ) {
-                                    newList[
-                                      dropIndex
-                                    ]?.managerBoardNotes?.shift()
-                                  } else {
-                                    newList[
-                                      dropIndex
-                                    ]?.managerBoardNotes?.unshift({
-                                      assignmentId: 0,
-                                      new: true,
-                                    })
-                                  }
-                                  dispatch.taskboard.update({
-                                    list: newList,
-                                  })
-                                }}>
-                                <Icon type="plus" />
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  setEditBoardName(dropItem.listTitle)
-                                  //编辑列表
-                                  setEditList(true)
-                                  setSelectList(dropItem.id)
-                                }}>
-                                <Icon type="edit" />
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  //删除列表
-                                  setDeleteConfirmation(true)
-                                  setSelectList(dropItem.id)
-                                }}>
-                                <Icon type="delete" />
-                              </Button>
-                            </ButtonGroup>
+                            <ListButtonGroup
+                              param={{
+                                dropIndex,
+                                dropItem,
+                                setDeleteConfirmation,
+                                setEditList,
+                                setEditBoardName,
+                                setSelectList,
+                              }}
+                            />
                           </div>
                         </div>
                         <div
@@ -347,13 +302,20 @@ const TaskBoard = () => {
                                                 onClick={() => {
                                                   openTaskInfo(item)
                                                 }}>
-                                                <Icon type="down-circle-o" />
+                                                <Icon
+                                                  color={
+                                                    item.assignmentStatus === 3
+                                                      ? '#d99156'
+                                                      : '#57ab5a'
+                                                  }
+                                                  type={
+                                                    item.assignmentStatus === 3
+                                                      ? 'minus-circle-o'
+                                                      : 'circle-o'
+                                                  }
+                                                />
                                                 <div
-                                                  style={{
-                                                    fontSize: '18px',
-                                                    color: '#007bff',
-                                                    marginLeft: '5px',
-                                                  }}>
+                                                  className={styles.noteTitle}>
                                                   <span
                                                     className={
                                                       styles.listItemColor
@@ -362,29 +324,39 @@ const TaskBoard = () => {
                                                   </span>
                                                 </div>
                                               </div>
-                                              <div
-                                                style={{
-                                                  fontSize: '12px',
-                                                  color: '#5e5e5e',
-                                                }}>
+                                              <div className={styles.noteId}>
                                                 #{item?.assignmentId}
                                               </div>
                                             </div>
                                             <div className={styles.userHead}>
                                               {item?.assigneeUserAvatar !==
                                                 null && (
-                                                <Avatar
-                                                  src={
-                                                    isUrl(
-                                                      item.assigneeUserAvatar
-                                                    )
-                                                      ? item.assigneeUserAvatar
-                                                      : `/api/file/selectFile/${item.assigneeUserAvatar}`
-                                                  }>
-                                                  {item?.assigneeUserName !==
-                                                    null &&
-                                                    item?.assigneeUserName[0]}
-                                                </Avatar>
+                                                <Tooltip
+                                                  placement="bottom"
+                                                  content={`指派给 ${item?.assigneeUserName}`}>
+                                                  <Avatar
+                                                    onClick={() => {
+                                                      if (
+                                                        item.assigneeUserAccount !==
+                                                        null
+                                                      ) {
+                                                        navigate(
+                                                          `/${item.assigneeUserAccount}`
+                                                        )
+                                                      }
+                                                    }}
+                                                    src={
+                                                      isUrl(
+                                                        item.assigneeUserAvatar
+                                                      )
+                                                        ? item.assigneeUserAvatar
+                                                        : `/api/file/selectFile/${item.assigneeUserAvatar}`
+                                                    }>
+                                                    {item?.assigneeUserName !==
+                                                      null &&
+                                                      item?.assigneeUserName[0]}
+                                                  </Avatar>
+                                                </Tooltip>
                                               )}
                                             </div>
                                           </div>
@@ -400,11 +372,7 @@ const TaskBoard = () => {
                                                   {item?.title}
                                                 </div>
                                               </div>
-                                              <div
-                                                style={{
-                                                  fontSize: '10px',
-                                                  color: '#5e5e5e',
-                                                }}>
+                                              <div className={styles.noteDesc}>
                                                 由{item?.createName} 于{' '}
                                                 {item?.createTime.slice(0, 10)}{' '}
                                                 创建
@@ -483,7 +451,7 @@ const TaskBoard = () => {
           selectBoard,
         }}
       />
-    </div>
+    </>
   )
 }
 export default TaskBoard
