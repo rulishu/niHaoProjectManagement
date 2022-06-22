@@ -185,7 +185,7 @@ const TaskBoard = () => {
   }
 
   return (
-    <div className={styles.content}>
+    <>
       <Header
         param={{
           selectBoard,
@@ -494,7 +494,7 @@ const TaskBoard = () => {
           selectBoard,
         }}
       />
-    </div>
+    </>
   )
 }
 export default TaskBoard
