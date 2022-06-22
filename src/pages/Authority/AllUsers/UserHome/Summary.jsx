@@ -32,17 +32,10 @@ const DynamicsList = (props) => {
             {userTask?.map((item, index) => {
               if (index < 10) {
                 return (
-                  <li className={styles.eventItem} key={index}>
-                    <div className={styles.avatar}>
-                      <Avatar
-                        src={
-                          user?.avatar
-                            ? `/api/file/selectFile/${user?.avatar}`
-                            : ''
-                        }>
-                        {user?.nickName && user?.nickName[0]}
-                      </Avatar>
-                    </div>
+                  <li
+                    className={styles.eventItem}
+                    style={{ padding: '16px 0px 16px 8px' }}
+                    key={index}>
                     <div className={styles.dynamicTop}>
                       <span
                         className={styles.name}
@@ -166,7 +159,10 @@ const DynamicsList = (props) => {
             {userDynamics?.map((item, index) => {
               if (index < 10) {
                 return (
-                  <li className={styles.eventItem} key={index}>
+                  <li
+                    className={styles.eventItem}
+                    style={{ padding: '16px 8px 16px 48px' }}
+                    key={index}>
                     <div className={styles.avatar}>
                       <Avatar
                         src={
