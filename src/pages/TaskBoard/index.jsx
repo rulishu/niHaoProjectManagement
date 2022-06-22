@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useNavigate } from 'react-router-dom'
 import {
   Card,
   Icon,
@@ -10,6 +11,7 @@ import {
   Input,
   ButtonGroup,
   Empty,
+  Tooltip,
   Loader,
 } from 'uiw'
 import styles from './index.module.less'
@@ -21,20 +23,18 @@ import CreatList from './CreatList'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { taskboard, loading } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
   const { boardList, list } = taskboard
-
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
-
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
   const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [editList, setEditList] = useState(false) // 编辑列表弹窗
   const [editBoardName, setEditBoardName] = useState('') // 编辑列表名
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
   const [creat, setCreat] = useState(false) // 创建列表弹窗
-
   const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
   const [itemName, setItemName] = useState('') // 新增小记时title
 
@@ -233,8 +233,8 @@ const TaskBoard = () => {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  setEditBoardName(dropItem.listTitle)
                                   //编辑列表
+                                  setEditBoardName(dropItem.listTitle)
                                   setEditList(true)
                                   setSelectList(dropItem.id)
                                 }}>
@@ -347,11 +347,8 @@ const TaskBoard = () => {
                                                   />
                                                 )}
                                                 <div
-                                                  style={{
-                                                    fontSize: '18px',
-                                                    color: '#007bff',
-                                                    marginLeft: '5px',
-                                                  }}>
+                                                // className={styles.}
+                                                >
                                                   <span
                                                     className={
                                                       styles.listItemColor
@@ -371,18 +368,33 @@ const TaskBoard = () => {
                                             <div className={styles.userHead}>
                                               {item?.assigneeUserAvatar !==
                                                 null && (
-                                                <Avatar
-                                                  src={
-                                                    isUrl(
-                                                      item.assigneeUserAvatar
-                                                    )
-                                                      ? item.assigneeUserAvatar
-                                                      : `/api/file/selectFile/${item.assigneeUserAvatar}`
-                                                  }>
-                                                  {item?.assigneeUserName !==
-                                                    null &&
-                                                    item?.assigneeUserName[0]}
-                                                </Avatar>
+                                                <Tooltip
+                                                  placement="bottom"
+                                                  content={`指派给 ${item?.assigneeUserName}`}>
+                                                  <Avatar
+                                                    onClick={() => {
+                                                      if (
+                                                        item.assigneeUserAccount &&
+                                                        item.assigneeUserAccount !==
+                                                          null
+                                                      ) {
+                                                        navigate(
+                                                          `/${item.assigneeUserAccount}`
+                                                        )
+                                                      }
+                                                    }}
+                                                    src={
+                                                      isUrl(
+                                                        item.assigneeUserAvatar
+                                                      )
+                                                        ? item.assigneeUserAvatar
+                                                        : `/api/file/selectFile/${item.assigneeUserAvatar}`
+                                                    }>
+                                                    {item?.assigneeUserName !==
+                                                      null &&
+                                                      item?.assigneeUserName[0]}
+                                                  </Avatar>
+                                                </Tooltip>
                                               )}
                                             </div>
                                           </div>
