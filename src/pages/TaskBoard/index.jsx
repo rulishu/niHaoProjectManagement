@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -37,7 +37,7 @@ const TaskBoard = () => {
   const [creat, setCreat] = useState(false) // 创建列表弹窗
   const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
   const [itemName, setItemName] = useState('') // 新增小记时title
-
+  const pageView = useRef(null)
   useEffect(() => {
     dispatch.taskboard.selectOneInfo({
       projectId,
@@ -46,6 +46,13 @@ const TaskBoard = () => {
       first: true,
     })
   }, [dispatch, projectId])
+  useEffect(() => {
+    if (creatBut) {
+      scrollToEle()
+    } else {
+      pageView.current.scrollLeft = 0
+    }
+  }, [creatBut])
 
   const deleteBoard = () => {
     //删除看板
@@ -75,6 +82,11 @@ const TaskBoard = () => {
       listTitle: name,
       setEditList,
     })
+  }
+
+  const scrollToEle = () => {
+    const leftWidth = pageView.current?.['clientWidth']
+    pageView.current.scrollLeft = leftWidth
   }
 
   const openTaskInfo = (item) => {
@@ -173,7 +185,7 @@ const TaskBoard = () => {
   }
 
   return (
-    <>
+    <div className={styles.content}>
       <Header
         param={{
           selectBoard,
@@ -186,7 +198,7 @@ const TaskBoard = () => {
         }}
       />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className={styles.drapItem}>
+        <div className={styles.drapItem} ref={pageView}>
           {list.length !== 0 ? (
             list?.map((dropItem, dropIndex) => {
               return (
@@ -493,7 +505,7 @@ const TaskBoard = () => {
           selectBoard,
         }}
       />
-    </>
+    </div>
   )
 }
 export default TaskBoard

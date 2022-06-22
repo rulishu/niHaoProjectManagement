@@ -173,6 +173,7 @@ const ProjectManagement = (fun) => {
       drawerType: '',
       fileIds: '',
       editLoading: false,
+      isHangup: false,
     })
     // setShowSubmit(true)
     setAddrolds(false)

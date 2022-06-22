@@ -13,6 +13,7 @@ const PassWordChange = (props) => {
   const ispwd = isPassword === 'true'
   const [visible, setVisible] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const {
     userHome: { user },
@@ -23,8 +24,10 @@ const PassWordChange = (props) => {
 
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}
-    if (!current.oldUserPassword) {
-      errorObj.oldUserPassword = '密码不能为空！'
+    if (isPassword !== 'true') {
+      if (!current.oldUserPassword) {
+        errorObj.oldUserPassword = '密码不能为空！'
+      }
     }
     // if (
     //   !current.newUserPassword ||
@@ -47,6 +50,7 @@ const PassWordChange = (props) => {
       err.filed = errorObj
       throw err
     }
+    setLoading(true)
     // dispatch.updatePassword(current)
     if (ispwd) {
       dispatch.updatePassword({
@@ -60,6 +64,7 @@ const PassWordChange = (props) => {
             Notify.success({ description: res.message })
             setVisible(false)
             setIsVisible(false)
+            setLoading(false)
             localStorage.clear()
             navigate('/login', { replace: true })
           }
@@ -76,6 +81,7 @@ const PassWordChange = (props) => {
             Notify.success({ description: res.message })
             setVisible(false)
             setIsVisible(false)
+            setLoading(false)
             localStorage.clear()
             navigate('/login', { replace: true })
           }
@@ -115,7 +121,7 @@ const PassWordChange = (props) => {
           userName: {
             labelClassName: 'fieldLabel',
             label: '账号',
-            initialValue: userData?.userName || user?.userName,
+            initialValue: user?.userName ? user?.userName : userData?.userName,
             disabled: true,
             children: <Input />,
           },
@@ -131,8 +137,8 @@ const PassWordChange = (props) => {
           newUserPassword: {
             labelClassName: 'fieldLabel',
             labelFor: 'password',
-            label: isPassword === 'true' ? '初始密码' : '密码',
-            placeholder: '请输入密码',
+            label: '新密码',
+            placeholder: '请输入新密码',
             required: true,
             help: '必须含有字母跟数字且大于六位',
             rules: [
@@ -143,7 +149,7 @@ const PassWordChange = (props) => {
           newUserPassword2: {
             labelClassName: 'fieldLabel',
             labelFor: 'password',
-            label: '请重复密码',
+            label: '请重复新密码',
             placeholder: '请确认新密码',
             required: true,
             rules: [{ required: true, message: '请重复密码' }],
@@ -175,6 +181,7 @@ const PassWordChange = (props) => {
                     disabled={!canSubmit()}
                     type="primary"
                     htmlType="submit"
+                    loading={loading}
                     style={{ width: 120 }}>
                     保存
                   </Button>
