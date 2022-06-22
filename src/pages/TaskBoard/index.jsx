@@ -3,23 +3,14 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from 'react-router-dom'
-import {
-  Card,
-  Icon,
-  Avatar,
-  Button,
-  Input,
-  ButtonGroup,
-  Empty,
-  Tooltip,
-  Loader,
-} from 'uiw'
+import { Card, Icon, Avatar, Button, Input, Empty, Tooltip, Loader } from 'uiw'
 import styles from './index.module.less'
 import DeletePop from './DeletePop'
 import Header from './Header'
 import TaskDetail from './TaskDetail'
 import EditDrop from './EditDrop'
 import CreatList from './CreatList'
+import ListButtonGroup from './ListButtonGroup'
 
 const TaskBoard = () => {
   const dispatch = useDispatch()
@@ -215,50 +206,16 @@ const TaskBoard = () => {
                             <span className={styles.listNum}>
                               {dropItem?.managerBoardNotes?.length}
                             </span>
-                            <ButtonGroup>
-                              <Button
-                                onClick={() => {
-                                  //添加item按钮
-                                  const newList = list
-                                  if (
-                                    newList[dropIndex].managerBoardNotes
-                                      .length !== 0 &&
-                                    newList[dropIndex]?.managerBoardNotes[0]
-                                      ?.new
-                                  ) {
-                                    newList[
-                                      dropIndex
-                                    ]?.managerBoardNotes?.shift()
-                                  } else {
-                                    newList[
-                                      dropIndex
-                                    ]?.managerBoardNotes?.unshift({
-                                      assignmentId: 0,
-                                      new: true,
-                                    })
-                                  }
-                                  dispatch.taskboard.update({
-                                    list: newList,
-                                  })
-                                }}>
-                                <Icon type="plus" />
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  setEditBoardName(dropItem.listTitle)
-                                  setEditList(true)
-                                  setSelectList(dropItem.id)
-                                }}>
-                                <Icon type="edit" />
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  setDeleteConfirmation(true)
-                                  setSelectList(dropItem.id)
-                                }}>
-                                <Icon type="delete" />
-                              </Button>
-                            </ButtonGroup>
+                            <ListButtonGroup
+                              param={{
+                                dropIndex,
+                                dropItem,
+                                setDeleteConfirmation,
+                                setEditList,
+                                setEditBoardName,
+                                setSelectList,
+                              }}
+                            />
                           </div>
                         </div>
                         <div
