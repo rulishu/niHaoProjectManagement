@@ -90,14 +90,14 @@ const Milestone = () => {
     { value: 3, title: '更新时间' },
   ]
 
-  // 关闭里程碑
-  const closingMilestone = async (projectId, milestonesId) => {
+  // 改变里程碑状态
+  const changeMilestone = async (projectId, milestonesId, status) => {
     await dispatch({
       type: 'milestone/editStatusMilestones',
       payload: {
         projectId,
         milestonesId,
-        milestonesStatus: 2,
+        milestonesStatus: status,
       },
     })
     dispatch({
@@ -181,15 +181,27 @@ const Milestone = () => {
                       </Col>
                       <Col span="4" className={styles.itemListRight}>
                         <div>
-                          {item.milestonesStatus === 1 && (
+                          {item.milestonesStatus === 1 ? (
                             <Button
                               onClick={() => {
-                                closingMilestone(
+                                changeMilestone(
                                   item.projectId,
-                                  item.milestonesId
+                                  item.milestonesId,
+                                  2
                                 )
                               }}>
                               关闭里程碑
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                changeMilestone(
+                                  item.projectId,
+                                  item.milestonesId,
+                                  1
+                                )
+                              }}>
+                              打开里程碑
                             </Button>
                           )}
                         </div>
