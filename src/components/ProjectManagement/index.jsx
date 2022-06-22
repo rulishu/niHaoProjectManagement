@@ -244,19 +244,6 @@ const ProjectManagement = (fun) => {
             label: '项目负责人:',
             key: 'projectLeaderId',
             widget: 'dropdown',
-            // initialValue: dataprojectLeaderId,
-            // placeholder: '请选择项目负责人',
-            // option: option,
-            // widgetProps: {
-            // mode: 'single',
-            // labelInValue: true,
-            // showSearch: true,
-            // allowClear: true,
-            // onSearch: handleSearch,
-            // onChange: () => {
-            //   setShowSubmit(false)
-            // },
-            // },
             span: '24',
             required: true,
             // rules: [{ required: true, message: '请输入项目负责人' }],
@@ -381,7 +368,11 @@ const ProjectManagement = (fun) => {
           },
         ]}
         onSubmit={(initial, current) => {
+          console.log(current)
           const errorObj = {}
+          if (!current?.name) {
+            errorObj.name = '请输入项目名称'
+          }
           if (!current?.begin) {
             errorObj.begin = '请输入起始日期'
           }
