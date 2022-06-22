@@ -242,6 +242,7 @@ const Demo = (props) => {
                 widget: 'dateInputRange',
                 format: 'YYYY-MM-DD',
               },
+              render: (text) => <div>{text.split(' ')[0] || ''}</div>,
             },
             {
               title: '操作',
