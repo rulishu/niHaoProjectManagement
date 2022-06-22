@@ -1,0 +1,212 @@
+.taskList {
+  max-width: 1280px;
+  margin-right: auto;
+  margin-left: auto;
+  line-height: 1.5;
+  font-size: 16px;
+
+  .list {
+    border: 1px solid #e5eaee;
+    border-radius: 6px;
+
+    li {
+      display: flex;
+      border-top-color: transparent;
+      list-style-type: none;
+      border-top: 1px solid #e5eaee;
+      transition: all 0.2s ease-in-out;
+
+      &:not(:first-child):hover {
+        transition: all 0.2s ease-in-out;
+        background-color: #e5eaee9f;
+      }
+
+      .itemState {
+        padding-left: 16px;
+        padding-top: 8px;
+      }
+
+      .itemLeft {
+        width: 30%;
+        flex: 14;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px;
+        overflow: hidden;
+
+        .itemLeftTop {
+          display: flex;
+          justify-content: flex-start;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          align-items: center;
+
+          .label {
+            display: inline-block;
+            padding: 0 7px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+            white-space: nowrap;
+            border: 1px solid transparent;
+            border-radius: 2em;
+            margin-left: 8px;
+          }
+
+          p {
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            max-width: 600px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+
+          .labelBox {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .itemLeftBase {
+          font-size: 12px;
+
+          span {
+            padding: 0 2px;
+          }
+
+          .mark {
+          }
+
+          .updateTime {
+          }
+
+          .person {
+          }
+        }
+      }
+
+      .itemRight {
+        white-space: nowrap;
+        text-align: right;
+        padding-top: 8px;
+        padding-right: 16px;
+        flex-shrink: 0;
+        width: 30%;
+        flex: 6;
+        display: flex;
+
+        & > div {
+          flex: 1;
+          margin-left: 8px;
+          flex-shrink: 0;
+          text-align: center;
+        }
+
+        .itemComments {
+          & > span {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            line-height: 24px;
+
+            span {
+              margin-right: 2px;
+
+              svg {
+                width: 20px;
+                height: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 列表头
+    .liHead {
+      border-top: none;
+
+      .itemLeft {
+        width: 50%;
+        flex: 10;
+
+        & > p {
+          padding-left: 8px;
+          padding-top: 8px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+
+          & > span {
+            margin-right: 8px;
+            opacity: 0.4;
+          }
+
+          .action {
+            opacity: 1;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .itemRight {
+        width: 50%;
+        flex: 10;
+
+        & > div {
+          display: flex;
+          justify-content: center;
+
+          & > span {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.clickableDiscolor {
+  :global {
+    .w-icon {
+      transition: inherit;
+    }
+  }
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+
+  & > span {
+    padding: 0 2px;
+  }
+
+  &:hover {
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.clickable {
+  &:hover {
+    color: #000;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
