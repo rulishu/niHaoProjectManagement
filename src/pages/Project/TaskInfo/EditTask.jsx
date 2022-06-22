@@ -110,7 +110,6 @@ const EditTask = () => {
     setAssignState(false)
     setLabelState(false)
     setMilepostState(false)
-    setDueDateState(false)
     let params = param
 
     const {
@@ -143,11 +142,12 @@ const EditTask = () => {
     const { projectId, assignmentId } = taskInfoData
     await methods[type]({
       param: { projectId, assignmentId, ...params },
-      callback: async () =>
-        await getTaskDetailsDataUnCheck({ projectId, id: assignmentId }),
+      callback: async () => {
+        await getTaskDetailsDataUnCheck({ projectId, id: assignmentId })
+        setDueDateState(false)
+      },
     })
   }
-  console.log(taskInfoData)
   return (
     <div className={styles.rightFixed}>
       <div className={styles.rightNav}>
@@ -280,14 +280,18 @@ const EditTask = () => {
           {dueDateState ? (
             <DateInput
               value={taskInfoData?.dueDate}
-              format="YYYY/MM/DD"
+              format="YYYY-MM-DD"
               allowClear={true}
               autoClose={true}
               datePickerProps={{ todayButton: '今天' }}
               onChange={(v) => editTaskDataWay('closeTime', v)}
             />
           ) : (
-            <span>{taskInfoData?.dueDate || '无'}</span>
+            <span
+              style={{ cursor: 'pointer' }}
+              onClick={() => setDueDateState(!dueDateState)}>
+              {taskInfoData?.dueDate || '无'}
+            </span>
           )}
         </div>
         <div className={styles.rLabel} style={{ borderBottom: 'none' }}>
