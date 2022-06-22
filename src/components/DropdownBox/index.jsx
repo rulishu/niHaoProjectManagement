@@ -40,7 +40,7 @@ const DropdownBox = (props) => {
     setOptions(selectData || [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log('isOpen===>', isOpen)
+
   // 点击选择触发
   const optionEvent = (key) => {
     const exists = options?.includes(key)
@@ -48,7 +48,6 @@ const DropdownBox = (props) => {
       setOptions(exists && isCancel ? [] : [key])
       onSelect && onSelect([key], key)
       if (isSelectClose) {
-        console.log('关了么?')
         setIsOpen(false)
       }
       return
@@ -59,7 +58,6 @@ const DropdownBox = (props) => {
     setOptions(params)
     onSelect && onSelect(params, key)
     if (isSelectClose) {
-      console.log('关了么?')
       setIsOpen(false)
     }
   }
