@@ -12,7 +12,7 @@ import {
   // getProjectOverviewTask, // 项目概览：任务列表
   // getTaskDetailsData, // 任务列表详情查询
   getTaskDetailsDataUnCheck, // 任务列表详情查询
-  // getTaskPagingData, // 任务列表分页查询
+  getTaskPagingData, // 任务列表分页查询
   /* 评论 */
   addTaskComment, // 添加评论
   editTaskComment, // 编辑评论
@@ -27,8 +27,19 @@ import {
 export default createModel()({
   name: 'projectTasks',
   state: {
-    page: 1,
-    pageSize: 10,
+    searchOptions: {
+      page: 1,
+      pageSize: 10,
+      assignmentStatus: '1',
+      createId: [], // 创建人
+      labels: [], // 标签
+      milestonesId: [], // 里程碑
+      assignmentUserId: [], // 指派人
+      orderByColumn: 'assignmentTitle',
+      isAsc: 'asc',
+    },
+    taskListData: [],
+    taskListDataTotal: 0,
     issueType: 'cancel',
     editTaskData: {
       labels: [], // 标签
@@ -58,6 +69,20 @@ export default createModel()({
   },
   effects: (dispatch) => {
     return {
+      // 任务列表分页查询
+      async getTaskPagingData(payload, { projectTasks }) {
+        const { searchOptions } = projectTasks
+        const data = await getTaskPagingData({ ...searchOptions, ...payload })
+        if (data && data.code === 200) {
+          dispatch({
+            type: 'projectTasks/update',
+            payload: {
+              taskListData: data.data.rows,
+              taskListDataTotal: data.data.total,
+            },
+          })
+        }
+      },
       // 任务列表详情查询
       async getTaskDetailsDataUnCheck(payload, { projectTasks }) {
         const data = await getTaskDetailsDataUnCheck(payload)
