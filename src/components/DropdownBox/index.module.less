@@ -1,0 +1,126 @@
+.dropdownBox {
+}
+
+.listContent {
+  width: 260px;
+  margin: 8px 0 16px 0;
+  font-size: 12px;
+  border: 1px solid #e5eaee;
+  border-radius: 6px;
+  animation-name: SelectMenu-modal-animation--sm;
+  height: auto;
+  max-height: 350px;
+  margin-top: 8px;
+  background-color: #fff;
+
+  .listHead {
+    display: flex;
+    padding: 16px;
+    padding: 7px 16px 7px 16px;
+    align-items: center;
+    border-bottom: 1px solid #e5eaee;
+
+    .title {
+      flex: 1;
+      font-weight: 600;
+    }
+
+    // 关闭按钮
+    button {
+      width: 16px;
+      height: 16px;
+      padding: 8px;
+      margin: -8px -7px;
+      line-height: 1;
+      color: var(--color-fg-muted);
+      background-color: transparent;
+      border: 0;
+    }
+
+    :global {
+      .w-btn-dark.w-btn-basic:hover {
+        background-color: transparent;
+        color: #999;
+      }
+    }
+  }
+
+  // 搜索输入框
+  .selectInputBox {
+    padding: 8px;
+    margin: auto;
+    border-bottom: 1px solid #e5eaee;
+  }
+
+  .listUl {
+    display: inline-block;
+    overflow: auto;
+    width: 100%;
+    max-height: 270px;
+
+    li {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 7px 16px;
+      overflow: hidden;
+      text-align: left;
+      cursor: pointer;
+      border: 0;
+      border-bottom: 1px solid #e5eaee;
+
+      &:hover {
+        background-color: #e5eaee;
+      }
+
+      // 是否勾选图标
+      .check {
+        max-width: 40px;
+        min-width: 24px;
+        display: flex;
+      }
+    }
+  }
+}
+
+// 列表每行的样式
+.columnDom {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  // 标签
+  .labelLi {
+    .piece {
+      margin-right: 5px;
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 0.25rem;
+    }
+  }
+
+  // 指派人
+  .memberLi {
+    .userInfo {
+      display: flex;
+      align-items: center;
+      margin-left: 8px;
+
+      .name {
+        font-size: 14px;
+        padding-right: 4px;
+      }
+
+      .account {
+        color: #ccc;
+        font-size: 12px;
+      }
+    }
+  }
+}
