@@ -16,7 +16,7 @@ const DeletePop = (props) => {
   return (
     <>
       {creat && (
-        <div style={{ width: '20%', display: 'flex', margin: '0px 10px' }}>
+        <div style={{ width: '20%', display: 'flex', margin: '5px' }}>
           <Card
             title="新增列表"
             bodyClassName={styles.newListCardBody}
