@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ProForm, useForm } from '@uiw-admin/components'
-import styles from '../index.module.less'
+// import styles from '../index.module.less'
 
 const LabelSelect = (props) => {
   const {
@@ -70,7 +70,7 @@ const LabelSelect = (props) => {
 
   return (
     <div style={{ padding: '0 4px' }}>
-      <div className={styles.boxProForm}>
+      <div>
         <ProForm
           form={form}
           formType="pure"
@@ -95,9 +95,9 @@ const LabelSelect = (props) => {
                 },
                 allowClear: true,
                 showSearch: true,
-                style: {
-                  width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
-                },
+                // style: {
+                //   width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+                // },
               },
               span: '6',
             },
@@ -121,9 +121,9 @@ const LabelSelect = (props) => {
                 },
                 allowClear: true,
                 showSearch: true,
-                style: {
-                  width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
-                },
+                // style: {
+                //   width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+                // },
               },
               span: '6',
             },
@@ -147,9 +147,9 @@ const LabelSelect = (props) => {
                 },
                 allowClear: true,
                 showSearch: true,
-                style: {
-                  width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
-                },
+                // style: {
+                //   width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+                // },
               },
               span: '6',
             },
@@ -180,9 +180,9 @@ const LabelSelect = (props) => {
                 },
                 showSearch: true,
                 allowClear: true,
-                style: {
-                  width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
-                },
+                // style: {
+                //   width: 'calc((100vw - 200px - 28px - 30px - 40px) / 4)',
+                // },
               },
               span: '6',
             },
