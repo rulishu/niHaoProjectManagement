@@ -27,7 +27,8 @@
       }
 
       .itemLeft {
-        flex: 8;
+        width: 30%;
+        flex: 14;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -100,8 +101,8 @@
         padding-top: 8px;
         padding-right: 16px;
         flex-shrink: 0;
-        width: 20%;
-        flex: 4;
+        width: 30%;
+        flex: 6;
         display: flex;
 
         & > div {
@@ -135,7 +136,12 @@
 
     // 列表头
     .liHead {
+      border-top: none;
+
       .itemLeft {
+        width: 50%;
+        flex: 10;
+
         & > p {
           padding-left: 8px;
           padding-top: 8px;
@@ -156,6 +162,9 @@
       }
 
       .itemRight {
+        width: 50%;
+        flex: 10;
+
         & > div {
           display: flex;
           justify-content: center;

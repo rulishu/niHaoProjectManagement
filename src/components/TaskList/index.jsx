@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Icon, Tooltip, Avatar } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
@@ -12,12 +13,13 @@ const TaskList = (props) => {
     labelsData = [],
     onCLickSearch,
     listNavigate,
-    onTabClick,
-    onTab,
     labelsListData,
     teamMembersListData,
     milestonesListData,
+    conditionChange,
   } = props
+
+  const [onTab, setOnTab] = useState('1')
 
   // 任务状态
   const taskState = [
@@ -25,6 +27,40 @@ const TaskList = (props) => {
     { onTab: '2', color: '#fbb957', title: '进行中', icon: 'circle-o' },
     { onTab: '3', color: '#41b349', title: '已完成', icon: 'circle-check-o' },
     { onTab: '4', color: '#813c85', title: '已逾期', icon: 'circle-close-o' },
+  ]
+
+  // 任务排序
+  const taskSort = [
+    {
+      key: 1,
+      value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
+      label: '名称升序',
+    },
+    {
+      key: 2,
+      value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
+      label: '名称降序',
+    },
+    {
+      key: 3,
+      value: { orderByColumn: 'createTime', isAsc: 'asc' },
+      label: '创建时间升序',
+    },
+    {
+      key: 4,
+      value: { orderByColumn: 'createTime', isAsc: 'desc' },
+      label: '创建时间降序',
+    },
+    {
+      key: 5,
+      value: { orderByColumn: 'updateTime', isAsc: 'asc' },
+      label: '更新时间升序',
+    },
+    {
+      key: 6,
+      value: { orderByColumn: 'updateTime', isAsc: 'desc' },
+      label: '更新时间降序',
+    },
   ]
 
   // 跳转路径
@@ -37,9 +73,10 @@ const TaskList = (props) => {
     navigate(`/${value}`)
   }
 
-  // 修改分类
-  const onTabClicks = (tab) => {
-    onTabClick(tab)
+  // 选项变化回调
+  const optionsChange = (value) => {
+    // const param = { [type]: value }
+    conditionChange && conditionChange({ ...value })
   }
 
   // 标签板块
@@ -83,9 +120,12 @@ const TaskList = (props) => {
                     <span
                       key={index}
                       className={`${styles.clickableDiscolor}  
-                      ${onTab === item.onTab ? styles.action : ''}`}
+                      ${item.onTab === onTab ? styles.action : ''}`}
                       style={{ color: item.color }}
-                      onClick={() => onTabClicks(item.onTab)}>
+                      onClick={() => {
+                        setOnTab(item.onTab)
+                        optionsChange({ assignmentStatus: item.onTab })
+                      }}>
                       <Icon type={item.icon} />
                       {item.title}
                     </span>
@@ -95,11 +135,36 @@ const TaskList = (props) => {
             </div>
             <div className={styles.itemRight}>
               <DropdownBox
+                listData={teamMembersListData}
+                title="创建人"
+                columnType="member"
+                columnKey="userId"
+                searchValue={['memberName', 'userAcount']}
+                onSelect={(value) => optionsChange({ createId: value })}>
+                <span className={styles.clickableDiscolor}>
+                  创建人
+                  <Icon type="down" />
+                </span>
+              </DropdownBox>
+              <DropdownBox
+                listData={labelsListData}
+                title="标签"
+                columnType="label"
+                columnKey="id"
+                searchValue={['name']}
+                onSelect={(value) => optionsChange({ labels: value })}>
+                <span className={styles.clickableDiscolor}>
+                  标签
+                  <Icon type="down" />
+                </span>
+              </DropdownBox>
+              <DropdownBox
                 listData={milestonesListData}
                 title="里程碑"
                 columnType="milestone"
                 columnKey="milestonesId"
-                searchValue={['milestonesTitle']}>
+                searchValue={['milestonesTitle']}
+                onSelect={(value) => optionsChange({ milestonesId: value })}>
                 <span className={styles.clickableDiscolor}>
                   里程碑
                   <Icon type="down" />
@@ -110,20 +175,29 @@ const TaskList = (props) => {
                 title="指派人"
                 columnType="member"
                 columnKey="userId"
-                searchValue={['memberName', 'userAcount']}>
+                searchValue={['memberName', 'userAcount']}
+                onSelect={(value) =>
+                  optionsChange({ assignmentUserId: value })
+                }>
                 <span className={styles.clickableDiscolor}>
                   指派人
                   <Icon type="down" />
                 </span>
               </DropdownBox>
               <DropdownBox
-                listData={labelsListData}
-                title="标签"
-                columnType="label"
-                columnKey="id"
-                searchValue={['name']}>
+                listData={taskSort}
+                title="排序"
+                columnType="sort"
+                columnKey="key"
+                isRadio={true}
+                isCancel={false}
+                isSearchBox={false}
+                selectData={[1]}
+                onSelect={(_, key) => {
+                  optionsChange(taskSort.filter((s) => s.key === key)[0].value)
+                }}>
                 <span className={styles.clickableDiscolor}>
-                  标签
+                  排序
                   <Icon type="down" />
                 </span>
               </DropdownBox>
@@ -194,12 +268,16 @@ const TaskList = (props) => {
                     )}
                   </div>
                   <div className={styles.itemComments}>
-                    <span
-                      className={styles.clickableDiscolor}
-                      onClick={() => listGoTo(item)}>
-                      <Icon type="message" />
-                      {item?.commentNum}
-                    </span>
+                    {item?.commentNum > 0 ? (
+                      <span
+                        className={styles.clickableDiscolor}
+                        onClick={() => listGoTo(item)}>
+                        <Icon type="message" />
+                        {item?.commentNum}
+                      </span>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </div>
               </li>
