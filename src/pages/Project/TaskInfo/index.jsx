@@ -92,6 +92,11 @@ const TaskInfo = () => {
     dispatch.projectTasks.editTaskList({ projectId })
   }
 
+  // 返回
+  const goBack = () => {
+    window.history.back(-1)
+  }
+
   return (
     <div className={styles.infoLoad}>
       <Loader
@@ -145,6 +150,9 @@ const TaskInfo = () => {
                       </Button>
                     )}
                   </AuthBtn>
+                  <Button type="light" onClick={() => goBack()}>
+                    返回
+                  </Button>
                 </div>
               </div>
               <div className={styles.navItem}>

@@ -53,7 +53,7 @@ function Dictionary() {
 
   // 操作
   async function handleEditTable(type, record) {
-    console.log(record)
+    // console.log(record)
     updateData({
       isView: type === 'view',
       tableType: type,
@@ -169,15 +169,15 @@ function Dictionary() {
               key: 'dictType',
               ellipsis: true,
               align: 'center',
-              render: (text, key, rowData) => (
-                <Tooltip placement="topLeft" content={text}>
-                  <Button
-                    type="link"
-                    onClick={handleEditTable.bind(this, 'detail', rowData)}>
-                    {text}
-                  </Button>
-                </Tooltip>
-              ),
+              // render: (text, key, rowData) => (
+              //   <Tooltip placement="topLeft" content={text}>
+              //     <Button
+              //       type="link"
+              //       onClick={handleEditTable.bind(this, 'detail', rowData)}>
+              //       {text}
+              //     </Button>
+              //   </Tooltip>
+              // ),
               props: {
                 widget: 'input',
                 initialValue: '',

@@ -1,22 +1,33 @@
 import { useEffect, useState, useImperativeHandle } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Modal, Row, Col, Input, Form, Button, Notify } from 'uiw'
 import { useNavigate } from 'react-router-dom'
 import { verifyPwd } from '@/utils/utils'
 
 // eslint-disable-next-line react/display-name
 const PassWordChange = (props) => {
+  //是否第一次第三方登录-修改密码
+  const isPassword = localStorage.getItem('isPassword')
   const navigate = useNavigate()
   const { dispatch, refs } = props
+  const ispwd = isPassword === 'true'
   const [visible, setVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [loading, setLoading] = useState(false)
+
+  const {
+    userHome: { user },
+  } = useSelector((state) => state)
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem('userData'))
   )
 
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}
-    if (!current.oldUserPassword) {
-      errorObj.oldUserPassword = '密码不能为空！'
+    if (isPassword !== 'true') {
+      if (!current.oldUserPassword) {
+        errorObj.oldUserPassword = '密码不能为空！'
+      }
     }
     // if (
     //   !current.newUserPassword ||
@@ -39,26 +50,48 @@ const PassWordChange = (props) => {
       err.filed = errorObj
       throw err
     }
+    setLoading(true)
     // dispatch.updatePassword(current)
-    console.log(current)
-    dispatch.updatePassword({
-      params: {
-        oldPassword: current?.oldUserPassword,
-        newPassword: current?.newUserPassword,
-      },
-      callback: (res) => {
-        if (res.code === 200) {
-          Notify.success({ description: res.message })
-          setVisible(false)
-          localStorage.clear()
-          navigate('/login', { replace: true })
-        }
-      },
-    })
+    if (ispwd) {
+      dispatch.updatePassword({
+        params: {
+          // gitlab登录的默认密码是：nihao!888
+          oldPassword: 'nihao!888',
+          newPassword: current?.newUserPassword,
+        },
+        callback: (res) => {
+          if (res.code === 200) {
+            Notify.success({ description: res.message })
+            setVisible(false)
+            setIsVisible(false)
+            setLoading(false)
+            localStorage.clear()
+            navigate('/login', { replace: true })
+          }
+        },
+      })
+    } else {
+      dispatch.updatePassword({
+        params: {
+          oldPassword: current?.oldUserPassword,
+          newPassword: current?.newUserPassword,
+        },
+        callback: (res) => {
+          if (res.code === 200) {
+            Notify.success({ description: res.message })
+            setVisible(false)
+            setIsVisible(false)
+            setLoading(false)
+            localStorage.clear()
+            navigate('/login', { replace: true })
+          }
+        },
+      })
+    }
   }
 
   useImperativeHandle(refs, () => ({
-    open: () => setVisible(true),
+    open: () => (ispwd ? setIsVisible(true) : setVisible(true)),
   }))
 
   useEffect(
@@ -69,10 +102,12 @@ const PassWordChange = (props) => {
     <Modal
       title="修改密码"
       width={900}
-      isOpen={visible}
+      isOpen={isPassword === 'true' ? isVisible : visible}
       onClosed={() => setVisible(false)}
       type="danger"
-      useButton={false}>
+      isCloseButtonShown={isPassword === 'true' ? false : true}
+      useButton={false}
+      maskClosable={false}>
       <Form
         resetOnSubmit={false}
         onSubmit={onSubmit}
@@ -86,7 +121,7 @@ const PassWordChange = (props) => {
           userName: {
             labelClassName: 'fieldLabel',
             label: '账号',
-            initialValue: userData?.userName,
+            initialValue: user?.userName ? user?.userName : userData?.userName,
             disabled: true,
             children: <Input />,
           },
@@ -94,6 +129,7 @@ const PassWordChange = (props) => {
             labelClassName: 'fieldLabel',
             labelFor: 'password',
             label: '原密码',
+            placeholder: '请输入原密码',
             required: true,
             rules: [{ required: true, message: '输入原密码' }],
             children: <Input type="password" />,
@@ -102,6 +138,7 @@ const PassWordChange = (props) => {
             labelClassName: 'fieldLabel',
             labelFor: 'password',
             label: '新密码',
+            placeholder: '请输入新密码',
             required: true,
             help: '必须含有字母跟数字且大于六位',
             rules: [
@@ -112,7 +149,8 @@ const PassWordChange = (props) => {
           newUserPassword2: {
             labelClassName: 'fieldLabel',
             labelFor: 'password',
-            label: '请重复密码',
+            label: '请重复新密码',
+            placeholder: '请确认新密码',
             required: true,
             rules: [{ required: true, message: '请重复密码' }],
             children: <Input type="password" />,
@@ -124,9 +162,13 @@ const PassWordChange = (props) => {
               <Row gutter={10}>
                 <Col>{fields.userName}</Col>
               </Row>
-              <Row gutter={10}>
-                <Col>{fields.oldUserPassword}</Col>
-              </Row>
+              {isPassword === 'true' ? (
+                ''
+              ) : (
+                <Row gutter={10}>
+                  <Col>{fields.oldUserPassword}</Col>
+                </Row>
+              )}
               <Row gutter={10}>
                 <Col>{fields.newUserPassword}</Col>
               </Row>
@@ -139,6 +181,7 @@ const PassWordChange = (props) => {
                     disabled={!canSubmit()}
                     type="primary"
                     htmlType="submit"
+                    loading={loading}
                     style={{ width: 120 }}>
                     保存
                   </Button>

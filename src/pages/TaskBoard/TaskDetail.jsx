@@ -1,7 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import { useParams } from 'react-router-dom'
-import { Button, Drawer, Icon, Card, Divider, Loader, DateInput } from 'uiw'
+import {
+  Button,
+  Drawer,
+  Icon,
+  Card,
+  Divider,
+  Loader,
+  DateInput,
+  Notify,
+} from 'uiw'
 import { AuthBtn } from '@uiw-admin/authorized'
 import { useNavigate } from 'react-router-dom'
 import { CompDropdown } from '@/components'
@@ -21,13 +30,16 @@ const TaskDetail = (props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { taskboard } = useSelector((state) => state)
-  const { taskInfo, labelList, userAllList, milepostaData } = taskboard
+  const { taskInfo, labelList, userAllList, milepostaData, taskDueDate } =
+    taskboard
   const [assignState, setAssignState] = useState(false) //指派人组件状态
   const [labelState, setLabelState] = useState(false) //标签组件状态
   const [cLabelList, setCLabelList] = useState(taskInfo.labels) //当前选中标签
   const [milepostState, setMilepostState] = useState(false) //里程碑组件状态
-  const [taskDueDate, setTaskDueDate] = useState(taskInfo.dueDate) //任务截止日期
   const [dueDateState, setDueDateState] = useState(false) //任务截止日期弹窗状态
+  useEffect(() => {
+    setCLabelList(taskInfo.labels)
+  }, [taskInfo.labels])
   const editAssign = () => {
     setAssignState(!assignState)
     dispatch.projectuser.pullSelectAll({ userName: '', projectId: projectId })
@@ -64,9 +76,14 @@ const TaskDetail = (props) => {
       const labels = labelList?.filter((item) => {
         return newData?.includes(item.id)
       })
+      const labelIdList = []
+      labels?.map((item) => {
+        labelIdList.push(item.id)
+        return null
+      })
       if (
         JSON.stringify(taskInfo?.labels?.sort()) !==
-        JSON.stringify(labels?.sort())
+        JSON.stringify(labelIdList?.sort())
       ) {
         dispatch.taskboard.getEdit({
           taskInfo: {
@@ -105,13 +122,24 @@ const TaskDetail = (props) => {
 
   //截止日期选择
   const dueDateChange = async (e) => {
-    setTaskDueDate(e)
+    const creatTime = new Date(taskInfo.createTime).getTime()
+    const newTime = new Date(e).getTime()
+    if (newTime >= creatTime || isNaN(newTime)) {
+      dispatch.taskboard.update({
+        taskDueDate: e,
+      })
+      dispatch.taskboard.changeCloseTime({
+        projectId,
+        assignmentId: taskInfo.assignmentId,
+        dueDate: e ? dayjs(e).format('YYYY-MM-DD') : null,
+      })
+    } else {
+      dispatch.taskboard.update({
+        taskDueDate: taskInfo.dueDate,
+      })
+      Notify.error({ title: '截止日期需在创建日期之后！' })
+    }
     setDueDateState(false)
-    dispatch.taskboard.changeCloseTime({
-      projectId,
-      assignmentId: taskInfo.assignmentId,
-      dueDate: dayjs(e).format('YYYY-MM-DD'),
-    })
   }
 
   const footer = () => {
@@ -154,6 +182,7 @@ const TaskDetail = (props) => {
                 projectId,
                 assignmentId: taskInfo.assignmentId,
                 type: taskState,
+                boardId: selectBoard,
                 setTaskDetails,
               })
             }}>
@@ -163,7 +192,6 @@ const TaskDetail = (props) => {
       </div>
     )
   }
-
   return (
     <div className={styles.nihao}>
       <Drawer
@@ -175,23 +203,35 @@ const TaskDetail = (props) => {
         footer={footer()}
         onClose={() => {
           setTaskDetails(false)
-          setTaskDueDate('')
+          setDueDateState(false)
+          dispatch.taskboard.update({
+            taskInfo: {},
+          })
         }}
-        size="330px"
+        size="340px"
         usePortal={false}>
         <Loader
           loading={
             loading.effects.taskboard.selectByProjectId ||
-            loading.effects.taskboard.changeAssignmentUser
+            loading.effects.taskboard.changeAssignmentUser ||
+            loading.effects.taskboard.changeCloseTime
           }>
           <Card style={{ minWidth: '300px' }}>
-            <div>
+            <div style={{ paddingBottom: '10px' }}>
               <div>
-                <Icon
-                  color="#57ab5a"
-                  type="down-circle-o"
-                  style={{ marginRight: '5px' }}
-                />
+                {taskInfo.assignmentStatus === 3 ? (
+                  <Icon
+                    style={{ marginRight: '5px' }}
+                    color="#d99156"
+                    type="minus-circle-o"
+                  />
+                ) : (
+                  <Icon
+                    style={{ marginRight: '5px' }}
+                    color="#57ab5a"
+                    type="circle-o"
+                  />
+                )}
                 <span style={{ fontSize: '18px' }}>
                   {taskInfo.assignmentTitle}
                 </span>
@@ -208,7 +248,7 @@ const TaskDetail = (props) => {
                     onClick={() => {
                       navigate(`/${taskInfo.createUserAccount}`)
                     }}>
-                    {taskInfo.createUserAccount}
+                    {taskInfo.createName}
                   </span>{' '}
                   于{taskInfo?.createTime?.slice(0, 10)}
                   时创建
@@ -348,14 +388,17 @@ const TaskDetail = (props) => {
                 <div className={styles.rLabelTitle}>
                   <span>截止日期</span>
                   <AuthBtn path="/api/ManagerAssignment/managerAssignmentUpdate">
-                    <Button basic type="primary" onClick={() => editDubTime()}>
-                      编辑
-                    </Button>
+                    <Icon
+                      color="#768390"
+                      type="setting-o"
+                      onClick={() => editDubTime()}
+                    />
                   </AuthBtn>
                 </div>
                 {dueDateState ? (
                   <DateInput
                     value={taskDueDate}
+                    style={{ marginTop: '5px' }}
                     format="YYYY/MM/DD"
                     allowClear={true}
                     autoClose={true}
@@ -363,7 +406,11 @@ const TaskDetail = (props) => {
                     onChange={(e) => dueDateChange(e)}
                   />
                 ) : (
-                  <span>{taskInfo?.dueDate || '无'}</span>
+                  <span
+                    style={{ marginTop: '5px', display: 'block' }}
+                    onClick={() => editDubTime()}>
+                    {taskInfo?.dueDate || '无'}
+                  </span>
                 )}
               </div>
               <Divider />

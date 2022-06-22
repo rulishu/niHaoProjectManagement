@@ -24,7 +24,7 @@ const DynamicsList = (props) => {
       </div>
       {userTask?.length ? (
         <Loader
-          tip="最新动态加载中..."
+          tip="最新任务加载中..."
           vertical
           style={{ width: '100%' }}
           loading={loading.effects.userHome.getUserInfo}>
@@ -32,17 +32,10 @@ const DynamicsList = (props) => {
             {userTask?.map((item, index) => {
               if (index < 10) {
                 return (
-                  <li className={styles.eventItem} key={index}>
-                    <div className={styles.avatar}>
-                      <Avatar
-                        src={
-                          user?.avatar
-                            ? `/api/file/selectFile/${user?.avatar}`
-                            : ''
-                        }>
-                        {user?.nickName && user?.nickName[0]}
-                      </Avatar>
-                    </div>
+                  <li
+                    className={styles.eventItem}
+                    style={{ padding: '16px 0px 16px 8px' }}
+                    key={index}>
                     <div className={styles.dynamicTop}>
                       <span
                         className={styles.name}
@@ -85,6 +78,7 @@ const DynamicsList = (props) => {
                       </span>
                     </div>
                     <div
+                      className={styles.dynamicBot}
                       style={{
                         width: '80%',
                         color: '#008ef0',
@@ -93,7 +87,7 @@ const DynamicsList = (props) => {
                         textOverflow: 'ellipsis',
                       }}>
                       <span
-                        className={item.projectUrl ? styles.clickOn : ''}
+                        className={item.projectUrl && styles.clickOn}
                         onClick={() =>
                           item.projectUrl &&
                           goSpecifyPage({ path: `${item.projectUrl}` })
@@ -101,17 +95,35 @@ const DynamicsList = (props) => {
                         {item?.name}
                       </span>
                       {item?.assignmentTitle && (
-                        <span
-                          onClick={() =>
-                            item.projectUrl &&
-                            item?.assignmentId &&
-                            goSpecifyPage({
-                              path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
-                            })
-                          }>
-                          {'/' + item?.assignmentTitle}
-                        </span>
+                        <>
+                          <span> / </span>
+                          <span
+                            className={
+                              item.projectUrl &&
+                              item?.assignmentId &&
+                              styles.clickOn
+                            }
+                            onClick={() =>
+                              item.projectUrl &&
+                              item?.assignmentId &&
+                              goSpecifyPage({
+                                path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
+                              })
+                            }>
+                            {item?.assignmentTitle}
+                          </span>
+                        </>
                       )}
+                    </div>
+                    <div
+                      className={styles.dynamicCon}
+                      style={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {'任务描述：' + (item?.description || '')}
                     </div>
                   </li>
                 )
@@ -147,7 +159,10 @@ const DynamicsList = (props) => {
             {userDynamics?.map((item, index) => {
               if (index < 10) {
                 return (
-                  <li className={styles.eventItem} key={index}>
+                  <li
+                    className={styles.eventItem}
+                    style={{ padding: '16px 8px 16px 48px' }}
+                    key={index}>
                     <div className={styles.avatar}>
                       <Avatar
                         src={
@@ -168,11 +183,10 @@ const DynamicsList = (props) => {
                         前
                       </span>
                     </div>
-
                     <div
                       className={styles.dynamicCon}
                       style={{
-                        width: '80%',
+                        width: '100%',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
@@ -180,15 +194,16 @@ const DynamicsList = (props) => {
                       {item?.operatingRecords}
                     </div>
                     <div
+                      className={styles.dynamicBot}
                       style={{
-                        width: '50%',
+                        width: '100%',
                         color: '#008ef0',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                       }}>
                       <span
-                        className={item.projectUrl ? styles.clickOn : ''}
+                        className={item.projectUrl && styles.clickOn}
                         onClick={() =>
                           item.projectUrl &&
                           goSpecifyPage({ path: `${item.projectUrl}` })
@@ -196,21 +211,24 @@ const DynamicsList = (props) => {
                         {item?.projectName}
                       </span>
                       {item?.assignmentTitle && (
-                        <span
-                          className={
-                            item.projectUrl && item?.assignmentId
-                              ? styles.clickOn
-                              : ''
-                          }
-                          onClick={() =>
-                            item.projectUrl &&
-                            item?.assignmentId &&
-                            goSpecifyPage({
-                              path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
-                            })
-                          }>
-                          {'/'} <span>{item?.assignmentTitle}</span>
-                        </span>
+                        <>
+                          <span> / </span>
+                          <span
+                            className={
+                              item.projectUrl &&
+                              item?.assignmentId &&
+                              styles.clickOn
+                            }
+                            onClick={() =>
+                              item.projectUrl &&
+                              item?.assignmentId &&
+                              goSpecifyPage({
+                                path: `${item.projectUrl}/task/taskInfo/${item?.assignmentId}`,
+                              })
+                            }>
+                            <span>{item?.assignmentTitle}</span>
+                          </span>
+                        </>
                       )}
                     </div>
                   </li>
