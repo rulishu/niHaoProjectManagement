@@ -87,6 +87,8 @@ const TaskList = (props) => {
           <span
             key={item?.id}
             style={{
+              paddingLeft: 8,
+              paddingRight: 8,
               borderColor: item.color,
               backgroundColor: `${item.color}40`,
               color: item.color,
@@ -219,14 +221,11 @@ const TaskList = (props) => {
                 <div className={styles.itemLeft}>
                   <div className={styles.itemLeftTop}>
                     <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
-                    <span className={styles.labelBox}>
-                      {labelBox(item?.labels)}
-                    </span>
                   </div>
                   <div className={styles.itemLeftBase}>
                     <span className={styles.mark}>#{item.assignmentId}</span>
                     <span className={styles.updateTime}>
-                      更新于{timeDistance(item.updateTime).time}前
+                      · 创建于{timeDistance(item.createTime).time}前
                     </span>
                     由
                     <span
@@ -236,33 +235,44 @@ const TaskList = (props) => {
                     </span>
                     {item.milestonesId ? (
                       <span className={styles.clickable}>
-                        <Icon type="pie-chart" />
+                        <Icon type="coffee" />
                         {item?.milestonesTitle}
                       </span>
                     ) : (
                       ''
                     )}
+                    <span className={styles.labelBox}>
+                      {labelBox(item?.labels)}
+                    </span>
                   </div>
                 </div>
                 <div className={styles.itemRight}>
                   <div></div>
-                  <div>
+                  <div style={{ flexWrap: 'wrap' }}>
                     {item.assigneeUserId ? (
-                      <Tooltip content={`指派给${item?.assigneeUserName}`}>
-                        <span
-                          className={styles.clickable}
-                          onClick={() => goPage(`${item.assigneeUserAccount}`)}>
-                          <Avatar
-                            size="small"
-                            src={
-                              item?.assigneeUserAvatar &&
-                              `/api/file/selectFile/${item?.assigneeUserAvatar}`
-                            }
-                            className={styles.roleAvatar}>
-                            {item.assigneeUserName && item.assigneeUserName[0]}
-                          </Avatar>
-                        </span>
-                      </Tooltip>
+                      <>
+                        <Tooltip content={`指派给${item?.assigneeUserName}`}>
+                          <span
+                            className={styles.clickable}
+                            onClick={() =>
+                              goPage(`${item.assigneeUserAccount}`)
+                            }>
+                            <Avatar
+                              size="small"
+                              src={
+                                item?.assigneeUserAvatar &&
+                                `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                              }
+                              className={styles.roleAvatar}>
+                              {item.assigneeUserName &&
+                                item.assigneeUserName[0]}
+                            </Avatar>
+                          </span>
+                        </Tooltip>
+                        <div style={{ fontSize: 12 }}>
+                          更新于{timeDistance(item.updateTime).time}前
+                        </div>
+                      </>
                     ) : (
                       ''
                     )}
