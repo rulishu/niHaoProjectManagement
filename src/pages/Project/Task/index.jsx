@@ -26,6 +26,10 @@ const Task = () => {
   const { membersList } = project
 
   useEffect(() => {
+    dispatch({ type: 'projectTasks/clean' })
+  }, [dispatch])
+
+  useEffect(() => {
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId }) // 初始化人员
     dispatch.labels.getAllLabelData({ projectId: taskId }) // 初始化标签数据
     dispatch.milestone.getListAll({
