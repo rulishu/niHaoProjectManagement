@@ -1,5 +1,5 @@
 import { useEffect, useState, useImperativeHandle } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { Modal, Row, Col, Input, Form, Button, Notify } from 'uiw'
 import { useNavigate } from 'react-router-dom'
 import { verifyPwd } from '@/utils/utils'
@@ -15,9 +15,6 @@ const PassWordChange = (props) => {
   const [isVisible, setIsVisible] = useState(true)
   const [loading, setLoading] = useState(false)
 
-  const {
-    userHome: { user },
-  } = useSelector((state) => state)
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem('userData'))
   )
@@ -98,6 +95,7 @@ const PassWordChange = (props) => {
     () => setUserData(() => JSON.parse(localStorage.getItem('userData'))),
     []
   )
+  const num = localStorage.getItem('userNumber')
   return (
     <Modal
       title="修改密码"
@@ -121,7 +119,7 @@ const PassWordChange = (props) => {
           userName: {
             labelClassName: 'fieldLabel',
             label: '账号',
-            initialValue: user?.userName ? user?.userName : userData?.userName,
+            initialValue: num ? num : userData?.userName,
             disabled: true,
             children: <Input />,
           },
@@ -175,17 +173,30 @@ const PassWordChange = (props) => {
               <Row gutter={10}>
                 <Col>{fields.newUserPassword2}</Col>
               </Row>
-              <Row gutter={10} justify="center">
-                <Col fixed>
+              <Row gutter={10} justify="center" align="middle">
+                <Col span="5">
                   <Button
                     disabled={!canSubmit()}
                     type="primary"
                     htmlType="submit"
                     loading={loading}
-                    style={{ width: 120 }}>
+                    style={{ width: 100 }}>
                     保存
                   </Button>
                 </Col>
+                {isPassword === 'true' ? (
+                  <Col span="5" style={{ marginLeft: 8 }}>
+                    <Button
+                      style={{ width: 100 }}
+                      onClick={() => {
+                        navigate('/login', { replace: true })
+                      }}>
+                      退出登录
+                    </Button>
+                  </Col>
+                ) : (
+                  ''
+                )}
               </Row>
             </div>
           )
