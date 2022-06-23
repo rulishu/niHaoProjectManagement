@@ -77,11 +77,19 @@
         background-color: #e5eaee;
       }
 
+      .checkDiv {
+        width: 100%;
+      }
+
       // 是否勾选图标
       .check {
         max-width: 40px;
         min-width: 24px;
         display: flex;
+
+        & > div {
+          width: 100%;
+        }
       }
     }
   }
@@ -92,10 +100,12 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+  width: 100%;
 
   & > div {
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   // 标签
@@ -106,6 +116,14 @@
       width: 15px;
       height: 15px;
       border-radius: 0.25rem;
+    }
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      white-space: nowrap;
+      width: 100%;
     }
   }
 
@@ -126,5 +144,16 @@
         font-size: 12px;
       }
     }
+  }
+}
+
+.milestoneLi {
+  .milestoneSpan {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    width: 100%;
+    padding-right: 10px;
   }
 }
