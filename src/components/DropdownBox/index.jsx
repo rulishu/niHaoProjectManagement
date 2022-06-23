@@ -39,7 +39,7 @@ const DropdownBox = (props) => {
   useEffect(() => {
     setOptions(selectData || [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [selectData])
 
   // 点击选择触发
   const optionEvent = (key) => {

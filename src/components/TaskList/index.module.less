@@ -36,6 +36,19 @@
         padding: 8px;
         overflow: hidden;
 
+        .labelBox {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          cursor: pointer;
+
+          .label {
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
         .itemLeftTop {
           display: flex;
           justify-content: flex-start;
@@ -73,17 +86,6 @@
             &:hover {
               text-decoration: underline;
               cursor: pointer;
-            }
-          }
-
-          .labelBox {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            cursor: pointer;
-
-            &:hover {
-              text-decoration: underline;
             }
           }
         }
