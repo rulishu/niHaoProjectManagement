@@ -113,7 +113,7 @@ const DropdownBox = (props) => {
                     <Icon type="check" />
                   )}
                 </div>
-                <div>
+                <div className={styles.checkDiv}>
                   {columnDom ? (
                     columnDom(item)
                   ) : (
