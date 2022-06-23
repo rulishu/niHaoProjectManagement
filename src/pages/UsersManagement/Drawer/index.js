@@ -127,7 +127,6 @@ const Drawer = (props) => {
         ...current,
         id: queryInfo?.id,
         accessExpirationTime: changeTime(current?.accessExpirationTime),
-        // joinTime: changeTimeFormat(current?.joinTime),
         memberRole: Number(current?.memberRole),
         projectId: projectId,
       }

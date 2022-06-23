@@ -58,7 +58,7 @@ export const columnsSearch = (
       return createTime ? (
         <div>{formatter('YYYY-MM-DD', new Date(createTime))}</div>
       ) : (
-        ''
+        <div>无</div>
       )
     },
   },
