@@ -1,0 +1,212 @@
+@import '../../common.less';
+
+.userContent {
+  width: 100%;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.userTabs {
+  width: 100%;
+  height: 42px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.userTabsItem {
+  padding: 7px 10px;
+  display: inline-block;
+  height: 100%;
+  font-size: 14px;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.tabsLabelTitle {
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.tabsLabelNum {
+  display: inline-flex;
+  color: #000;
+  font-weight: 600;
+  margin-left: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 10rem;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.userListTitle {
+  width: 100%;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 10px 20px;
+}
+
+.userListItem {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userAvatar {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.userAcount {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+
+  span:nth-child(1) {
+    color: #303030;
+  }
+  span:nth-child(2) {
+    color: #666;
+    font-size: 12px;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.createTime {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+
+.userRole {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  .noChange {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 20px;
+  }
+}
+
+.userMail {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  span {
+    font-size: 14px;
+    color: #666;
+    width: 90%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+.userButton {
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.userDel {
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pagination {
+  margin: 4px;
+}
+// 下拉
+.toggle {
+  padding: 6px 8px 6px 10px;
+  background-color: @white;
+  color: @black;
+  font-size: @font-size-base;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #666;
+}
+
+// 下拉菜单
+.dropdownMenu {
+  width: auto;
+  z-index: 300;
+  min-width: 120px;
+  max-width: 500px;
+  margin-top: @margin-xss;
+  margin-bottom: @margin-lg;
+  font-size: @font-size-sm;
+  font-weight: 400;
+  padding: @padding-xs 0;
+  background-color: @white;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  display: block;
+  min-height: 40px;
+  max-height: 445px;
+  overflow-y: auto;
+
+  ul {
+    display: block;
+    text-align: left;
+    list-style: none;
+    padding: 0 1px;
+
+    li {
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      display: block;
+      font-weight: 400;
+      position: relative;
+      padding: @margin-xs @margin-sm;
+      color: #303030;
+      line-height: 16px;
+      white-space: normal;
+      overflow: hidden;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: @normal-color;
+        color: @black;
+        outline: 0;
+        text-decoration: none;
+      }
+    }
+  }
+}
