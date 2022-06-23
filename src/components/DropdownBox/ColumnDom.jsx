@@ -38,7 +38,7 @@ const ColumnDom = (props) => {
   const milestoneLi = (data) => {
     return (
       <div className={styles.milestoneLi}>
-        <span>{data.milestonesTitle}</span>
+        <span className={styles.milestoneSpan}>{data.milestonesTitle}</span>
       </div>
     )
   }

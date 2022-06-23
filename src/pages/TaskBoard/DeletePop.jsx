@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Overlay, Card, Input } from 'uiw'
+import { Button, Overlay, Card, Input, Modal } from 'uiw'
 import styles from './index.module.less'
 
 /**
@@ -47,7 +47,7 @@ const DeletePop = (props) => {
           </div>
         </Card>
       </Overlay>
-      <Overlay
+      {/* <Overlay
         isOpen={deleteConfirmation}
         onClose={() => setDeleteConfirmation(false)}>
         <Card active style={{ width: 500 }}>
@@ -66,7 +66,23 @@ const DeletePop = (props) => {
             </Button>
           </div>
         </Card>
-      </Overlay>
+      </Overlay> */}
+      <Modal
+        title="删除提示"
+        isOpen={deleteConfirmation}
+        confirmText="确定"
+        cancelText="取消"
+        icon="information"
+        type="danger"
+        onConfirm={() => deleteList()}
+        onCancel={() => setDeleteConfirmation(false)}
+        onClosed={() => setDeleteConfirmation(false)}>
+        <div>
+          删除列表?
+          <br />
+          <strong>您确定您将删除这个列表吗？!</strong>
+        </div>
+      </Modal>
       <Overlay isOpen={editList} onClose={() => setEditList(false)}>
         <Card title={`编辑 ${editBoardName}`} active style={{ width: 500 }}>
           <strong style={{ margin: 0 }}>列表名称</strong>

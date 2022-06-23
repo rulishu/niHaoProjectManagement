@@ -94,7 +94,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
 
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
-
+  localStorage.setItem('userNumber', userData?.userName)
   let routes = props.routes
   if (currUserRoute) {
     routes = props.routes

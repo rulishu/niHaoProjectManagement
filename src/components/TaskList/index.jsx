@@ -17,6 +17,7 @@ const TaskList = (props) => {
     teamMembersListData,
     milestonesListData,
     conditionChange,
+    searchOptions,
   } = props
 
   const [onTab, setOnTab] = useState('1')
@@ -154,6 +155,7 @@ const TaskList = (props) => {
                 columnType="label"
                 columnKey="id"
                 searchValue={['name']}
+                selectData={searchOptions.labels}
                 onSelect={(value) => optionsChange({ labels: value })}>
                 <span className={styles.clickableDiscolor}>
                   标签
@@ -166,6 +168,7 @@ const TaskList = (props) => {
                 columnType="milestone"
                 columnKey="milestonesId"
                 searchValue={['milestonesTitle']}
+                selectData={searchOptions.milestonesId}
                 onSelect={(value) => optionsChange({ milestonesId: value })}>
                 <span className={styles.clickableDiscolor}>
                   里程碑
@@ -234,7 +237,15 @@ const TaskList = (props) => {
                       {item?.updateName}
                     </span>
                     {item.milestonesId ? (
-                      <span className={styles.clickable}>
+                      <span
+                        className={styles.clickable}
+                        onClick={() => {
+                          onCLickSearch &&
+                            onCLickSearch('milestonesId', {
+                              value: item.milestonesId,
+                              label: item.milestonesTitle,
+                            })
+                        }}>
                         <Icon type="coffee" />
                         {item?.milestonesTitle}
                       </span>

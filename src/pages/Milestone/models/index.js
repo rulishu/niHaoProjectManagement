@@ -42,6 +42,7 @@ export default createModel()({
     allLabelData: [], // 所有标签数据
     total: 0,
     activeKey: '1',
+    milistones: [], //  里程碑
   },
   effects: (dispatch) => {
     return {
@@ -89,8 +90,13 @@ export default createModel()({
         }
         const data = await getSelectAll(params)
         if (data.code === 200) {
+          const milistones = data.data.map((item) => ({
+            label: item.milestonesTitle,
+            value: item.milestonesId,
+          }))
           dispatch.milestone.update({
             milepostaData: data?.data || [],
+            milistones,
           })
         }
       },
