@@ -38,7 +38,7 @@ const EditDrop = (props) => {
   }
   const menu = () => (
     <div>
-      <Menu bordered style={{ width: '200px' }}>
+      <Menu bordered style={{ width: '140px' }}>
         <Loader
           style={{ width: '100%' }}
           loading={loading.effects.taskboard.noteToAssignment}>

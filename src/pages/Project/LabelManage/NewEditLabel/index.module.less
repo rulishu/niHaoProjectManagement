@@ -59,12 +59,25 @@
     align-items: center;
     justify-content: flex-start;
 
+    :global {
+      .w-input-inner {
+        border-radius: 0 3px 3px 0;
+      }
+    }
+
     // 颜色块
     .colBlock {
       display: inline-block;
       width: 30px;
       min-width: 30px;
       height: 30px;
+      box-shadow: rgb(19 124 189 / 0%) 0px 0px 0px 0px,
+        rgb(19 124 189 / 0%) 0px 0px 0px 0px,
+        rgb(16 22 26 / 15%) 0px 0px 0px 1px inset,
+        rgb(16 22 26 / 20%) 0px 1px 1px inset;
+      outline: none;
+      border: none;
+      border-radius: 3px 0px 0px 3px;
     }
   }
 

@@ -378,7 +378,10 @@ const TaskBoard = () => {
                                               <div style={{ display: 'flex' }}>
                                                 <Icon type="tag-o" />
                                                 <div
-                                                  style={{ marginLeft: '5px' }}>
+                                                  style={{
+                                                    marginLeft: '5px',
+                                                    fontSize: 18,
+                                                  }}>
                                                   {item?.title}
                                                 </div>
                                               </div>
