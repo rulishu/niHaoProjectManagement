@@ -60,9 +60,9 @@ const Bread = (props) => {
     <Avatar size="mini" src={`/api/file/selectFile/${projectAvatar}`} />
   )
   return (
-    <Breadcrumb>
+    <Breadcrumb className={styles.breadcrumbBox}>
       {projectId ? (
-        <div style={{ marginRight: '5px' }}>
+        <div>
           {projectAvatar ? AvatarImage : ''}
           <Button onClick={() => onClickitem()} type="link">
             {proName}
@@ -73,11 +73,14 @@ const Bread = (props) => {
         <div></div>
       )}
       {domList?.length === 3 ? (
-        <Breadcrumb.Item style={{ marginTop: 4, fontSize: 14 }}>
-          <span className={styles.itemText} onClick={() => onClickthree()}>
+        <Breadcrumb.Item>
+          <Button
+            type="link"
+            className={styles.itemText}
+            onClick={() => onClickthree()}>
             {domList.at(1).name}
-          </span>
-          <span style={{ margin: '0 5px' }}>/</span> {domList.at(2).name}
+          </Button>
+          <span style={{ marginRight: 5 }}>/</span> {domList.at(2).name}
         </Breadcrumb.Item>
       ) : (
         domList?.map((item, index) => {
@@ -91,7 +94,7 @@ const Bread = (props) => {
             return (
               <Breadcrumb.Item
                 key={index}
-                style={{ marginTop: 4, fontSize: 14 }}>
+                style={{ marginLeft: 7, fontSize: 14 }}>
                 {name}
               </Breadcrumb.Item>
             )
