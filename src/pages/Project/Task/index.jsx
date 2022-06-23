@@ -39,7 +39,6 @@ const Task = () => {
   }, [params])
 
   const conditionChange = async (params) => {
-    console.log('searchOptions', params)
     await dispatch({
       type: 'projectTasks/update',
       payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
@@ -116,6 +115,14 @@ const Task = () => {
             labelsListData={labelsListData}
             teamMembersListData={membersList}
             milestonesListData={milepostaData}
+            searchOptions={searchOptions}
+            onCLickSearch={(type, val) => {
+              let obj = searchOptions[type]
+              if (!searchOptions[type].includes(val.value)) {
+                obj.push(val.value)
+              }
+              conditionChange({ [type]: obj })
+            }}
           />
           <div className={styles.pagination}>
             {taskListDataTotal > 10 ? (
