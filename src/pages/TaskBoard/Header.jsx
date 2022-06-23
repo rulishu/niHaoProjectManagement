@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Button, Input } from 'uiw'
+import { Button, Input, Overlay, Card } from 'uiw'
 import styles from './index.module.less'
 import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
@@ -21,6 +21,26 @@ const Header = (props) => {
   const { taskboard } = useSelector((state) => state)
   const { boardList } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
+  const [isEditBoard, setIsEditBoard] = useState(false) // 编辑看板状态
+  const [editBoardName, setEditBoardName] = useState('') // 编辑看板input值
+
+  useEffect(() => {
+    setEditBoardName(
+      boardList?.filter((item) => item?.id === selectBoard)[0]?.name
+    )
+  }, [boardList, selectBoard])
+
+  const editBoard = () => {
+    //保存按钮
+    dispatch.taskboard.editBoard({
+      setIsEditBoard,
+      id: selectBoard,
+      name: editBoardName,
+      projectId,
+      setCreatBut,
+      setSelectBoard,
+    })
+  }
 
   return (
     <div className={styles.header}>
@@ -115,15 +135,47 @@ const Header = (props) => {
           }}
         />
       </div>
-      <Button
-        type={creatBut ? 'light' : 'primary'}
-        disabled={creatBut}
-        onClick={() => {
-          setCreat(true)
-          setCreatBut(true)
-        }}>
-        创建列表
-      </Button>
+      <div>
+        <Button
+          disabled={creatBut}
+          onClick={() => {
+            setIsEditBoard(!isEditBoard)
+          }}>
+          编辑看板
+        </Button>
+        <Button
+          type={creatBut ? 'light' : 'primary'}
+          disabled={creatBut}
+          onClick={() => {
+            setCreat(true)
+            setCreatBut(true)
+          }}>
+          创建列表
+        </Button>
+      </div>
+      <Overlay isOpen={isEditBoard} onClose={() => setIsEditBoard(false)}>
+        <Card title={'编辑看板'} active style={{ width: 500 }}>
+          <strong style={{ margin: 0 }}>看板名称</strong>
+          <div style={{ marginTop: '10px' }}>
+            <Input
+              value={editBoardName}
+              onInput={(e) => {
+                setEditBoardName(e.target.value)
+              }}
+            />
+          </div>
+          <div className={styles.flexRight} style={{ marginTop: '10px' }}>
+            <Button
+              loading={loading.effects.taskboard.editBoard}
+              type="primary"
+              onClick={() => {
+                editBoard()
+              }}>
+              保存看板
+            </Button>
+          </div>
+        </Card>
+      </Overlay>
     </div>
   )
 }

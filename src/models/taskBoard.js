@@ -21,6 +21,7 @@ import {
   changeAssignmentMilestones,
   changeAssignmentUser,
   changeCloseTime,
+  editBoard,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -340,6 +341,22 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           userAllList: data?.data || [],
+        })
+      }
+    },
+
+    //编辑看板
+    async editBoard(params) {
+      const { setIsEditBoard, ...other } = params
+      const data = await editBoard({ ...other })
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑成功' })
+        setIsEditBoard(false)
+        dispatch.taskboard.selectOneInfo({
+          first: true,
+          projectId: other.projectId,
+          setCreatBut: other.setCreatBut,
+          setSelectBoard: other.setSelectBoard,
         })
       }
     },

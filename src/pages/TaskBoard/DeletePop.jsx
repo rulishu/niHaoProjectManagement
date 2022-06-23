@@ -3,7 +3,7 @@ import { Button, Overlay, Card, Input } from 'uiw'
 import styles from './index.module.less'
 
 /**
- * 删除看板弹窗
+ * 删除弹窗
  */
 
 const DeletePop = (props) => {

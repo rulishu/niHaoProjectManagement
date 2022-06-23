@@ -87,7 +87,7 @@ const TaskBoard = () => {
         pageView.current.scrollLeft = leftWidth
         clearInterval(rollTimer)
       }
-    }, 20)
+    }, 15)
   }
 
   const openTaskInfo = (item) => {
