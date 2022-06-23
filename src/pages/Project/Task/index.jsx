@@ -20,9 +20,10 @@ const Task = () => {
     project,
     labels: { listData: labelsListData },
     projectTasks: { taskListData, searchOptions, taskListDataTotal },
+    milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
-  const { membersList, milistonesList } = project
+  const { membersList } = project
 
   useEffect(() => {
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId }) // 初始化人员
@@ -38,6 +39,7 @@ const Task = () => {
   }, [params])
 
   const conditionChange = async (params) => {
+    console.log('searchOptions', params)
     await dispatch({
       type: 'projectTasks/update',
       payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
@@ -113,7 +115,7 @@ const Task = () => {
             conditionChange={conditionChange}
             labelsListData={labelsListData}
             teamMembersListData={membersList}
-            milestonesListData={milistonesList}
+            milestonesListData={milepostaData}
           />
           <div className={styles.pagination}>
             {taskListDataTotal > 10 ? (
