@@ -76,8 +76,18 @@ const TaskBoard = () => {
   }
 
   const scrollToEle = () => {
-    const leftWidth = pageView.current?.['clientWidth']
-    pageView.current.scrollLeft = leftWidth
+    let rollTimer
+    const leftWidth = pageView.current?.scrollWidth
+    const initPosition = pageView.current.scrollLeft
+    let speed = 2
+    rollTimer = setInterval(() => {
+      speed = speed * 1.5
+      pageView.current.scrollLeft = initPosition + speed
+      if (initPosition + speed > leftWidth - 100) {
+        pageView.current.scrollLeft = leftWidth
+        clearInterval(rollTimer)
+      }
+    }, 20)
   }
 
   const openTaskInfo = (item) => {
