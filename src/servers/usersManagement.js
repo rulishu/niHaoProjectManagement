@@ -59,6 +59,14 @@ function fuzzyNameS(params) {
     body: { ...params },
   })
 }
+// 根据用户账户，昵称模糊查询，根据完整邮箱账户查询
+function searchUser(params) {
+  return request(`/api/system/user/searchUser/${params}`, {
+    method: 'POST',
+    requestType: 'urlencoded',
+    body: params,
+  })
+}
 export {
   queryPaging,
   inviteMember,
@@ -68,4 +76,5 @@ export {
   queryFuzzyAllUser,
   fuzzyNameQuery,
   fuzzyNameS,
+  searchUser,
 }

@@ -8,6 +8,7 @@ import {
   queryFuzzyAllUser,
   fuzzyNameQuery,
   fuzzyNameS,
+  searchUser,
 } from '@/servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -21,12 +22,15 @@ const usersManagement = createModel()({
     tableType: '',
     userIdList: [],
     teamIdList: [],
-    groupList: '',
+    groupList: [],
     loading: false,
     activeKey: '1',
     listData: [],
     total: 0,
     memberInfo: {},
+    modalVisible: false,
+    modalTitle: '',
+    userList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -103,7 +107,7 @@ const usersManagement = createModel()({
     async fuzzyNameQuery(payload) {
       const dph = dispatch
       const data = await fuzzyNameQuery(payload)
-      if (data.code === 200) {
+      if (data && data.code === 200) {
         const teamIdList = data?.data.map((item) => ({
           label: item.teamName,
           value: item.id,
@@ -122,8 +126,29 @@ const usersManagement = createModel()({
           label: item.teamName,
           value: item.id,
         }))
+        console.log(teamIdList)
         dph.usersManagement.updateState({
           groupList: teamIdList,
+        })
+      }
+    },
+    // 根据用户账户，昵称模糊查询，根据完整邮箱账户查询
+    async searchUser(params) {
+      const dph = dispatch
+      if (params) {
+        const data = await searchUser(params)
+        if (data && data.code === 200) {
+          const userList = data?.data.map((item) => ({
+            label: `${item.nickName} ${item.email}`,
+            value: item.userId,
+          }))
+          dph.usersManagement.updateState({
+            userList: userList,
+          })
+        }
+      } else {
+        dph.usersManagement.updateState({
+          userList: [],
         })
       }
     },
