@@ -1,8 +1,12 @@
 import UserLogin from '@uiw-admin/user-login'
 import { Form, Row, Col, Button } from 'uiw'
 import { useDispatch, useSelector } from 'react-redux'
+import { isEmail } from '@/utils/utils'
+import { useRef, useState } from 'react'
+import debounce from '@/utils/debounce'
 
 const Register = () => {
+  const form = useRef()
   const dispatch = useDispatch()
   const reg = /[^0-9a-zA-Z_]/g //只能是数字，字母，下划线
   const {
@@ -15,10 +19,12 @@ const Register = () => {
       payload: { isLogin: !isLogin },
     })
   }
+  const [arr, setArr] = useState(0)
 
   return (
     <UserLogin projectName={'新用户注册'} logo="">
       <Form
+        ref={form}
         onSubmit={({ current }) => {
           const errorObj = {}
           if (!current.username) errorObj.username = `账号不能为空！`
@@ -48,6 +54,10 @@ const Register = () => {
           if (current.secondPassword !== current.password) {
             errorObj.password = `密码不一致！`
             errorObj.secondPassword = `密码不一致！`
+          }
+          if (!current.email) errorObj.email = `邮箱不能为空！`
+          if (!isEmail(current.email)) {
+            errorObj.email = `请输入正确的邮箱`
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()
@@ -107,6 +117,34 @@ const Register = () => {
               />
             ),
           },
+          email: {
+            label: `邮箱`,
+            labelFor: 'email',
+            children: (
+              <input
+                id="email"
+                type="text"
+                placeholder={`请输入邮箱`}
+                className="form-field"
+                onChange={(e) => {
+                  if (!isEmail(e.target.value)) {
+                    setArr(1)
+                  } else {
+                    setArr(2)
+                    debounce(dispatch, 500, {
+                      type: 'login/emailValidityChecks',
+                      payload: {
+                        param: {
+                          email: e.target.value,
+                        },
+                        callback: setArr,
+                      },
+                    })
+                  }
+                }}
+              />
+            ),
+          },
         }}>
         {({ fields, canSubmit }) => {
           return (
@@ -119,6 +157,30 @@ const Register = () => {
               </Row>
               <Row>
                 <Col style={{ color: '#555' }}>{fields.secondPassword}</Col>
+              </Row>
+              <Row>
+                <Col style={{ color: '#555' }}>
+                  <span>{fields.email}</span>
+                  <span>
+                    {arr === 0 ? (
+                      ''
+                    ) : arr === 1 ? (
+                      <span style={{ color: 'red', fontSize: 12 }}>
+                        邮箱格式错误
+                      </span>
+                    ) : arr === 2 ? (
+                      <span style={{ color: 'red', fontSize: 12 }}>
+                        该邮箱不可用
+                      </span>
+                    ) : arr === 3 ? (
+                      <span style={{ color: 'green', fontSize: 12 }}>
+                        该邮箱可用
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                  </span>
+                </Col>
               </Row>
               <Row>
                 <Button

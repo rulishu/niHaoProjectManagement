@@ -247,3 +247,9 @@ export function verifyPwd(phone) {
   const phoneReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
   return phoneReg.test(phone)
 }
+
+//邮箱校验
+export function isEmail(email) {
+  const isReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+  return isReg.test(email)
+}
