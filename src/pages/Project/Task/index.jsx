@@ -2,17 +2,18 @@ import { useEffect, useRef } from 'react'
 import { Button, Pagination, Loader, Input, Form } from 'uiw'
 import { TaskList } from '@/components'
 import styles from './index.module.less'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import useLocationPage from '@/hooks/useLocationPage'
 import 'tributejs/tribute.css'
 
-const Task = () => {
+const Task = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
   const { userAccount } = useParams()
   const form = useRef()
+  const taskStatus = useLocation().search.replace('?', '')
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -30,6 +31,16 @@ const Task = () => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch({
+      type: 'projectTasks/update',
+      payload: {
+        searchOptions: {
+          ...searchOptions,
+          page: 1,
+          assignmentStatus: taskStatus,
+        },
+      },
+    })
     dispatch.project.queryFuzzyAllProjectMember({ projectId: taskId }) // 初始化人员
     dispatch.labels.getAllLabelData({ projectId: taskId }) // 初始化标签数据
     dispatch.milestone.getListAll({
@@ -40,7 +51,7 @@ const Task = () => {
     dispatch.projectTasks.getTaskPagingData({ projectId: taskId }) //不分页获取所有任务
     dispatch.project.countAssignment({ projectId: taskId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params])
+  }, [params]) // eslint-disable-line
 
   const conditionChange = async (params) => {
     await dispatch({
@@ -120,6 +131,7 @@ const Task = () => {
             teamMembersListData={membersList}
             milestonesListData={milepostaData}
             searchOptions={searchOptions}
+            activeKey={taskStatus}
             onCLickSearch={(type, val) => {
               let obj = searchOptions[type]
               if (!searchOptions[type].includes(val.value)) {
