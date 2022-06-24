@@ -18,9 +18,10 @@ const TaskList = (props) => {
     milestonesListData,
     conditionChange,
     searchOptions,
+    activeKey,
   } = props
 
-  const [onTab, setOnTab] = useState('1')
+  const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
   const taskState = [
