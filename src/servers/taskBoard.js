@@ -177,3 +177,11 @@ export function changeCloseTime(params) {
     body: { ...params },
   })
 }
+
+// 编辑看板
+export function editBoard(params) {
+  return request('/api/ManagerBoard/editBoard', {
+    method: 'POST',
+    body: { ...params },
+  })
+}

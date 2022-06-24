@@ -21,6 +21,7 @@ import {
   changeAssignmentMilestones,
   changeAssignmentUser,
   changeCloseTime,
+  editBoard,
 } from '../servers/taskBoard'
 
 import { getAllLabelData } from '../servers/labels'
@@ -41,6 +42,8 @@ const taskboard = createModel()({
     labelList: [],
     userAllList: [],
     taskDueDate: '',
+    create: false,
+    createBut: false,
   },
   reducers: {
     update: (state, payload) => {
@@ -57,14 +60,7 @@ const taskboard = createModel()({
         list: [],
       })
       const { pageSize, page, type } = taskboard
-      const {
-        projectId,
-        setSelectBoard,
-        first,
-        setCreatBut,
-        creat,
-        creatBoardId,
-      } = payload
+      const { projectId, setSelectBoard, first, creat, creatBoardId } = payload
       let params = {
         pageSize,
         page,
@@ -74,9 +70,13 @@ const taskboard = createModel()({
       const data = await selectAllBoard(params)
       if (data && data.code === 200) {
         if (data?.data.length === 0) {
-          setCreatBut(true)
+          dispatch.taskboard.update({
+            createBut: true,
+          })
         } else {
-          setCreatBut(false)
+          dispatch.taskboard.update({
+            createBut: false,
+          })
         }
         dispatch.taskboard.update({
           boardList: data?.data || [],
@@ -94,7 +94,9 @@ const taskboard = createModel()({
           setSelectBoard(creatBoardId)
         }
       } else {
-        setCreatBut(true)
+        dispatch.taskboard.update({
+          createBut: true,
+        })
       }
     },
 
@@ -105,6 +107,17 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           list: data?.data || [],
+        })
+        if (data?.data.length === 0) {
+          dispatch.taskboard.update({
+            create: true,
+            createBut: true,
+          })
+          return
+        }
+        dispatch.taskboard.update({
+          create: false,
+          createBut: false,
         })
       }
     },
@@ -143,15 +156,17 @@ const taskboard = createModel()({
 
     //新增看板列表
     async addBoardList(payload) {
-      const { setCreat, setCreatBut, ...other } = payload
+      const { ...other } = payload
       const data = await addBoardList(other)
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectAllBoardNote({
           boardId: payload.boardId,
         })
-        setCreat(false)
-        setCreatBut(false)
+        dispatch.taskboard.update({
+          create: false,
+          createBut: false,
+        })
       }
     },
 
@@ -170,7 +185,7 @@ const taskboard = createModel()({
 
     //新增看板
     async saveBoard(payload) {
-      const { setCreatBut, setIsOpen, setSelectBoard, ...other } = payload
+      const { setIsOpen, setSelectBoard, ...other } = payload
       const data = await saveBoard(other)
       if (data && data.code === 200) {
         setIsOpen(false)
@@ -178,7 +193,6 @@ const taskboard = createModel()({
         Notify.success({ title: '新增看板成功' })
         dispatch.taskboard.selectOneInfo({
           boardId: payload.boardId,
-          setCreatBut,
           projectId,
           setSelectBoard,
           creat: true,
@@ -215,14 +229,12 @@ const taskboard = createModel()({
 
     //删除看板
     async deleteBoard(payload) {
-      const { setCreatBut, setDeleteBoardCon, setSelectBoard, projectId, id } =
-        payload
+      const { setDeleteBoardCon, setSelectBoard, projectId, id } = payload
       const data = await deleteBoard({ projectId, id })
       if (data && data.code === 200) {
         Notify.success({ title: data.message })
         dispatch.taskboard.selectOneInfo({
           boardId: payload.boardId,
-          setCreatBut,
           projectId,
           setSelectBoard,
           first: true,
@@ -340,6 +352,21 @@ const taskboard = createModel()({
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           userAllList: data?.data || [],
+        })
+      }
+    },
+
+    //编辑看板
+    async editBoard(params) {
+      const { setIsEditBoard, ...other } = params
+      const data = await editBoard({ ...other })
+      if (data && data.code === 200) {
+        Notify.success({ title: '编辑成功' })
+        setIsEditBoard(false)
+        dispatch.taskboard.selectOneInfo({
+          first: true,
+          projectId: other.projectId,
+          setSelectBoard: other.setSelectBoard,
         })
       }
     },

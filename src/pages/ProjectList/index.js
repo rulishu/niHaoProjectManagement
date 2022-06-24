@@ -72,8 +72,8 @@ const ProjectList = (props) => {
   const refresh = () => {
     table.onSearch()
     dispatch.projectlist.selectNumber({
-      type: queryForm.projectType,
-      name: queryForm.projectName,
+      type: queryForm.type,
+      name: queryForm.name,
     })
   }
 

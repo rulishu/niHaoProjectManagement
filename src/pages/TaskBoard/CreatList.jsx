@@ -8,14 +8,14 @@ import styles from './index.module.less'
  */
 
 const DeletePop = (props) => {
-  const { creat, setCreat, setCreatBut, selectBoard } = props.param
+  const { selectBoard } = props.param
   const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state)
+  const { loading, taskboard } = useSelector((state) => state)
+  const { create } = taskboard
   const [boardName, setBoardName] = useState('') // 新建列表名
-
   return (
     <>
-      {creat && (
+      {create && (
         <div style={{ width: '20%', display: 'flex', margin: '5px' }}>
           <Card
             title="新增列表"
@@ -24,8 +24,10 @@ const DeletePop = (props) => {
               <div className={styles.newListButton}>
                 <Button
                   onClick={() => {
-                    setCreat(false)
-                    setCreatBut(false)
+                    dispatch.taskboard.update({
+                      create: false,
+                      createBut: false,
+                    })
                   }}>
                   取消
                 </Button>
@@ -37,8 +39,6 @@ const DeletePop = (props) => {
                     dispatch.taskboard.addBoardList({
                       boardId: selectBoard,
                       listTitle: boardName,
-                      setCreat,
-                      setCreatBut,
                     })
                   }}>
                   添加列表
