@@ -15,10 +15,10 @@ import {
   Icon,
   DateInput,
   Button,
+  Empty,
 } from 'uiw'
 import { useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
-// import formatter from '@uiw/formatter'
 import { changeTime } from '@/utils/utils'
 import formatter from '@uiw/formatter'
 import Search from './search'
@@ -235,7 +235,7 @@ const Index = () => {
                     })}
                 </Row>
               </div>
-              {listData &&
+              {listData && listData.length > 0 ? (
                 listData.map((item, index) => {
                   return (
                     <Row className={styles.userListItem} key={index}>
@@ -315,9 +315,9 @@ const Index = () => {
                               value={item.accessExpirationTime}
                               format="YYYY-MM-DD"
                               autoClose
+                              allowClear={false}
                               onChange={(e) => {
                                 handleEditTable('edit', item)
-                                // editTime(formatter('YYYY-MM-DD', new Date(e)))
                                 editTime(changeTime(e))
                               }}
                             />
@@ -329,11 +329,6 @@ const Index = () => {
                       <Col span={userTitle && userTitle[5]?.length}>
                         <div className={styles.userButton}>
                           {userInfo === item?.memberName ? (
-                            // <div
-                            //   className={styles.userDel}
-                            //   onClick={() => handleEditTable('out', item)}>
-                            //   退出该项目
-                            // </div>
                             <Tooltip placement="top" content="退出项目">
                               <Button
                                 type="danger"
@@ -344,11 +339,6 @@ const Index = () => {
                             </Tooltip>
                           ) : (
                             (owner === 'true' || Number(memberRoles) === 3) && (
-                              // <div
-                              //   className={styles.userDel}
-                              //   onClick={() => handleEditTable('del', item)}>
-                              //   移出该成员
-                              // </div>
                               <Button
                                 type="danger"
                                 className={styles.userDel}
@@ -361,7 +351,10 @@ const Index = () => {
                       </Col>
                     </Row>
                   )
-                })}
+                })
+              ) : (
+                <Empty style={{ padding: '30px 0' }}></Empty>
+              )}
             </div>
             <div className={styles.pagination}>
               {total > 10 && (
