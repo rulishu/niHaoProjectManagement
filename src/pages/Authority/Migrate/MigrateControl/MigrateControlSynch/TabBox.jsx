@@ -3,7 +3,7 @@ import { List, Button, Empty, Drawer, Avatar } from 'uiw'
 import formatter from '@uiw/formatter'
 import DrawerBox from './DrawerBox'
 import styles from './index.module.less'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 const TabBox = (props) => {
   const { data, type } = props
@@ -11,7 +11,7 @@ const TabBox = (props) => {
   const [isDrawer, setIsDrawer] = useState(false)
   const [drawerType, setDrawerType] = useState(false)
   const [drawerCon, setDrawerCon] = useState({})
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const ListDataObj = (data) => {
     const dataObj = {
@@ -74,9 +74,10 @@ const TabBox = (props) => {
       <div
         className={styles.memberBox}
         // style={{cursor: 'pointer'}}
-        onClick={() => {
-          navigate(`/${value.username}`)
-        }}>
+        // onClick={() => {
+        //   navigate(`/${value.username}`)
+        // }}
+      >
         <div className={styles.memberBoxLeft}>
           <div className={styles.memberAvatar}>
             <Avatar src={value.avatarUrl}>{value.name[0]}</Avatar>

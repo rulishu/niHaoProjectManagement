@@ -35,7 +35,7 @@ const MigrateControlSynch = () => {
 
   useEffect(() => {
     setTabKey(location?.state?.tabKey || '1')
-  }, [location.state.tabKey, synchId])
+  }, [location?.state?.tabKey, synchId])
 
   const synchronousData = async (type) => {
     // 同步项目数据
