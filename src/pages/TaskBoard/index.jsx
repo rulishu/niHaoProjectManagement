@@ -17,15 +17,13 @@ const TaskBoard = () => {
   const navigate = useNavigate()
   const { taskboard, loading } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
-  const { boardList, list } = taskboard
+  const { boardList, list, createBut } = taskboard
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
-  const [creatBut, setCreatBut] = useState(false) // 创建列表弹窗按钮
   const [editList, setEditList] = useState(false) // 编辑列表弹窗
   const [editBoardName, setEditBoardName] = useState('') // 编辑列表名
   const [deleteConfirmation, setDeleteConfirmation] = useState(false) // 列表删除弹窗状态
-  const [creat, setCreat] = useState(false) // 创建列表弹窗
   const [taskDetails, setTaskDetails] = useState(false) // 小记详情抽屉
   const [itemName, setItemName] = useState('') // 新增小记时title
   const pageView = useRef(null)
@@ -33,24 +31,22 @@ const TaskBoard = () => {
     dispatch.taskboard.selectOneInfo({
       projectId,
       setSelectBoard,
-      setCreatBut,
       first: true,
     })
   }, [dispatch, projectId])
   useEffect(() => {
-    if (creatBut) {
+    if (createBut) {
       scrollToEle()
     } else {
       pageView.current.scrollLeft = 0
     }
-  }, [creatBut])
+  }, [createBut])
 
   const deleteBoard = () => {
     //删除看板
     dispatch.taskboard.deleteBoard({
       projectId,
       id: selectBoard,
-      setCreatBut,
       setDeleteBoardCon,
       setSelectBoard,
     })
@@ -192,9 +188,6 @@ const TaskBoard = () => {
           selectBoard,
           setDeleteBoardCon,
           setSelectBoard,
-          setCreatBut,
-          setCreat,
-          creatBut,
           loading,
         }}
       />
@@ -425,7 +418,7 @@ const TaskBoard = () => {
                 size="large"
                 loading={loading.effects.taskboard.selectAllBoardNote}>
                 {boardList.length ? (
-                  creatBut ? (
+                  createBut ? (
                     <div></div>
                   ) : (
                     <Empty size="200px" />
@@ -436,7 +429,7 @@ const TaskBoard = () => {
               </Loader>
             </div>
           )}
-          <CreatList param={{ creat, setCreat, setCreatBut, selectBoard }} />
+          <CreatList param={{ selectBoard }} />
         </div>
       </DragDropContext>
       <DeletePop

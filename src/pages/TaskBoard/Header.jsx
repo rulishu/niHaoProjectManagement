@@ -7,19 +7,12 @@ import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
 
 const Header = (props) => {
-  const {
-    selectBoard,
-    setDeleteBoardCon,
-    setSelectBoard,
-    setCreatBut,
-    setCreat,
-    creatBut,
-    loading,
-  } = props.param
+  const { selectBoard, setDeleteBoardCon, setSelectBoard, loading } =
+    props.param
   const { projectId } = useParams()
   const dispatch = useDispatch()
   const { taskboard } = useSelector((state) => state)
-  const { boardList } = taskboard
+  const { boardList, createBut } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
   const [isEditBoard, setIsEditBoard] = useState(false) // 编辑看板状态
   const [editBoardName, setEditBoardName] = useState('') // 编辑看板input值
@@ -37,7 +30,6 @@ const Header = (props) => {
       id: selectBoard,
       name: editBoardName,
       projectId,
-      setCreatBut,
       setSelectBoard,
     })
   }
@@ -111,7 +103,9 @@ const Header = (props) => {
           shape="input"
           runLabel={() => {
             setIsOpen(false)
-            setCreat(false)
+            dispatch.taskboard.update({
+              create: false,
+            })
             setDeleteBoardCon(true)
           }}
           onChange={(e) => {
@@ -123,11 +117,12 @@ const Header = (props) => {
             setIsOpen(is)
           }}
           createTag={(icutData, nitData) => {
-            setCreat(false)
+            dispatch.taskboard.update({
+              create: false,
+            })
             dispatch.taskboard.saveBoard({
               name: nitData.boardTitle,
               projectId,
-              setCreatBut,
               setIsOpen,
               setSelectBoard,
             })
@@ -137,18 +132,22 @@ const Header = (props) => {
       </div>
       <div>
         <Button
-          disabled={creatBut}
+          disabled={createBut}
           onClick={() => {
             setIsEditBoard(!isEditBoard)
           }}>
           编辑看板
         </Button>
         <Button
-          type={creatBut ? 'light' : 'primary'}
-          disabled={creatBut}
+          type={createBut ? 'light' : 'primary'}
+          disabled={createBut}
           onClick={() => {
-            setCreat(true)
-            setCreatBut(true)
+            dispatch.taskboard.update({
+              create: true,
+            })
+            dispatch.taskboard.update({
+              createBut: true,
+            })
           }}>
           创建列表
         </Button>
