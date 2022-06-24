@@ -116,10 +116,10 @@ const FromMD = (props) => {
     if (editData[fromValue] === '') {
       setIsShow(false)
     }
-    document.addEventListener('paste', pasteDataEvent)
-    return () => {
-      document.removeEventListener('paste', pasteDataEvent)
-    }
+    // document.addEventListener('paste', pasteDataEvent)
+    // return () => {
+    //   document.removeEventListener('paste', pasteDataEvent)
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editData[fromValue]])
 
@@ -205,6 +205,7 @@ const FromMD = (props) => {
                 rfval={(e) => {
                   setMdRefs(e)
                 }}
+                onPaste={(e) => pasteDataEvent(e)}
               />
             ),
           },
