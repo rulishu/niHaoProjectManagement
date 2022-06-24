@@ -19,7 +19,8 @@ import {
 } from 'uiw'
 import { useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
-import formatter from '@uiw/formatter'
+// import formatter from '@uiw/formatter'
+import { changeTime } from '@/utils/utils'
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -186,7 +187,7 @@ const Index = () => {
   const editTime = (memberTime) => {
     const payload = {
       id: memberInfo.id,
-      accessExpirationTime: memberTime,
+      accessExpirationTime: memberTime || '',
       memberRole: memberInfo.memberRole,
       userId: memberInfo.userId,
       projectId: memberInfo.projectId,
@@ -330,7 +331,8 @@ const Index = () => {
                               autoClose
                               onChange={(e) => {
                                 handleEditTable('edit', item)
-                                editTime(formatter('YYYY-MM-DD', new Date(e)))
+                                // editTime(formatter('YYYY-MM-DD', new Date(e)))
+                                editTime(changeTime(e))
                               }}
                             />
                           ) : (
