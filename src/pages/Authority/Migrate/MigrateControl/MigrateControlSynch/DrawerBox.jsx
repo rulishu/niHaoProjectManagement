@@ -7,8 +7,6 @@ import styles from './index.module.less'
 const DrawerBox = (props) => {
   const { data, type } = props
 
-  console.log('data.start_date', data)
-
   return (
     <div className={styles.drawerBox}>
       <div className={styles.title}>

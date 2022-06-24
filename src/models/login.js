@@ -50,7 +50,10 @@ const login = createModel()({
       })
 
       if (data && data.code === 200) {
-        const lastPath = JSON.parse(localStorage.getItem('lastPath'))
+        const lastPath =
+          JSON.parse(localStorage.getItem('lastPath')) !== '/login'
+            ? JSON.parse(localStorage.getItem('lastPath'))
+            : null
         param?.setIsOk && param.setIsOk(false)
         Notify.success({ title: '登录成功' })
         // const userDataAccount = localStorage.getItem('userData')
