@@ -199,7 +199,7 @@ const Index = () => {
   const roleMenu = (
     <div className={styles.dropdownMenu}>
       <ul>
-        {roleList.slice(0, 3).map((item) => (
+        {roleList?.slice(0, 3).map((item) => (
           <li
             key={item.value}
             onClick={() => {
@@ -277,7 +277,7 @@ const Index = () => {
                         <div className={styles.createTime}>
                           <Tooltip
                             placement="top"
-                            content={item?.createTime.slice(0, 10)}>
+                            content={item?.createTime?.slice(0, 10)}>
                             {`${timeDistance(item?.createTime).time}前`}
                           </Tooltip>
                         </div>
