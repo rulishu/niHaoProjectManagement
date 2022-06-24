@@ -6,6 +6,7 @@ import {
   authorAndLogin,
   register,
   getRegisterSwitch,
+  emailValidityChecks,
 } from '../servers/login'
 import { getInfo } from '../servers/menumanagement'
 
@@ -173,6 +174,21 @@ const login = createModel()({
         dispatch.login.updateState({
           isRegister: data.data,
         })
+      }
+    },
+
+    //注册邮箱
+    async emailValidityChecks(payload) {
+      const { param, callback } = payload
+      const data = await emailValidityChecks(param)
+      if (data && data.code === 200) {
+        callback && callback(3)
+        dispatch.login.updateState({
+          isRegister: data.data,
+        })
+      }
+      if (data && data.code === 400) {
+        callback && callback(2)
       }
     },
   }),

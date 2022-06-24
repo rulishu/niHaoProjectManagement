@@ -51,10 +51,23 @@ function getRegisterSwitch() {
   })
 }
 
+/** 注册邮箱
+ * @param code
+ */
+function emailValidityChecks(params) {
+  return request('/api/emailValidityChecks', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  })
+}
+
 export {
   submitLogin,
   getThirdLoginToken,
   authorAndLogin,
   register,
   getRegisterSwitch,
+  emailValidityChecks,
 }
