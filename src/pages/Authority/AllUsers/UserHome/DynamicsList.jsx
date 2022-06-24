@@ -24,11 +24,6 @@ const ProjectList = (props) => {
 
   const handleScroll = (e) => {
     let el = e && e.target
-    // console.log('el',el);
-    // let scrollTop = document.documentElement.scrollTop; // 滚动条滚动高度
-    // let clientHeight = document.documentElement.clientHeight; // 可视区域高度
-    // let scrollHeight = document.documentElement.scrollHeight; //滚动内容高度
-
     // console.log('clientHeight',el.scrollTop, el.clientHeight, el.scrollHeight);
     if (el?.scrollTop + el?.clientHeight + 2 >= el?.scrollHeight) {
       console.log('滚动到底部了')
@@ -77,9 +72,6 @@ const ProjectList = (props) => {
                       前
                     </span>
                   </div>
-                  <div className={styles.dynamicCon}>
-                    {item?.operatingRecords}
-                  </div>
                   <div className={styles.dynamicBot}>
                     <span
                       className={item.projectUrl ? styles.clickOn : ''}
@@ -109,6 +101,9 @@ const ProjectList = (props) => {
                         </span>
                       </>
                     )}
+                  </div>
+                  <div className={styles.dynamicCon}>
+                    {'评论：' + (item?.operatingRecords || '')}
                   </div>
                 </li>
               )
