@@ -35,7 +35,7 @@ const Task = (props) => {
       type: 'projectTasks/update',
       payload: {
         searchOptions: {
-          ...searchOptions,
+          // ...searchOptions,
           page: 1,
           assignmentStatus: taskStatus,
         },
