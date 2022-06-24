@@ -26,6 +26,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const [checkAll, setCheckAll] = useState(false)
   const [projectList, setprojectList] = useState(false)
   const [users, setusers] = useState(false)
+  const [organization, setOrganization] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
@@ -204,6 +205,31 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 setusers(false)
               }}>
               项目管理
+            </div>
+          )}
+          {organization === false ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(true)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
+            </div>
+          ) : (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(false)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
             </div>
           )}
           {userData?.admin === true && users === false ? (
