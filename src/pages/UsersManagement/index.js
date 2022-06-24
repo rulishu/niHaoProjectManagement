@@ -276,7 +276,8 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[3]?.length}>
                         <div className={styles.userRole}>
-                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                          {(owner === 'true' || Number(memberRoles) === 3) &&
+                          item.memberRole !== 4 ? (
                             <OverlayTrigger
                               placement="bottomRight"
                               trigger="click"
@@ -307,7 +308,8 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[4]?.length}>
                         <div className={styles.createTime}>
-                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                          {(owner === 'true' || Number(memberRoles) === 3) &&
+                          item.memberRole !== 4 ? (
                             <DateInput
                               style={{ width: '90%' }}
                               value={item.accessExpirationTime}
