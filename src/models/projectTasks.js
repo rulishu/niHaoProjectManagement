@@ -95,7 +95,7 @@ export default createModel()({
               editTaskFromData: {
                 assignmentId: data.data?.assignmentId,
                 assignmentTitle: data.data?.assignmentTitle,
-                description: data.data?.description,
+                description: data.data?.description || '',
               },
               editTaskData: {
                 labels: data.data?.labels,
