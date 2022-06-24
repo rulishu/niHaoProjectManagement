@@ -8,6 +8,13 @@ import axios from 'axios'
 import { Notify } from 'uiw'
 import newDebounce from '@/utils/debounce'
 
+if (window.location.hash.indexOf('#/') !== -1) {
+  localStorage.setItem(
+    'lastPath',
+    JSON.stringify(window.location.hash.replace('#/', '/'))
+  )
+}
+
 // 添加响应拦截器
 axios.interceptors.response.use(
   async (response) => {

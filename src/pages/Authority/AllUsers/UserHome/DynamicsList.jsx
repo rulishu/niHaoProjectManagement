@@ -31,7 +31,6 @@ const ProjectList = (props) => {
 
     // console.log('clientHeight',el.scrollTop, el.clientHeight, el.scrollHeight);
     if (el?.scrollTop + el?.clientHeight + 2 >= el?.scrollHeight) {
-      console.log('滚动到底部了')
       if (newUserDynamicsList.length !== userDynamics.length) {
         setNewUserDynamicsList([
           ...newUserDynamicsList,
