@@ -184,16 +184,6 @@ const DynamicsList = (props) => {
                       </span>
                     </div>
                     <div
-                      className={styles.dynamicCon}
-                      style={{
-                        width: '100%',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                      }}>
-                      {item?.operatingRecords}
-                    </div>
-                    <div
                       className={styles.dynamicBot}
                       style={{
                         width: '100%',
@@ -230,6 +220,16 @@ const DynamicsList = (props) => {
                           </span>
                         </>
                       )}
+                    </div>
+                    <div
+                      className={styles.dynamicCon}
+                      style={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {'评论：' + (item?.operatingRecords || '')}
                     </div>
                   </li>
                 )
