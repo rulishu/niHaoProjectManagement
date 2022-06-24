@@ -77,9 +77,6 @@ const ProjectList = (props) => {
                       前
                     </span>
                   </div>
-                  <div className={styles.dynamicCon}>
-                    {item?.operatingRecords}
-                  </div>
                   <div className={styles.dynamicBot}>
                     <span
                       className={item.projectUrl ? styles.clickOn : ''}
@@ -109,6 +106,9 @@ const ProjectList = (props) => {
                         </span>
                       </>
                     )}
+                  </div>
+                  <div className={styles.dynamicCon}>
+                    {'评论：' + (item?.operatingRecords || '')}
                   </div>
                 </li>
               )
