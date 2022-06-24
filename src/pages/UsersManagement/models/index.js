@@ -1,5 +1,6 @@
 import { createModel } from '@rematch/core'
 import {
+  queryPaging,
   inviteMember,
   inviteTeam,
   updateProjectMember,
@@ -7,7 +8,7 @@ import {
   queryFuzzyAllUser,
   fuzzyNameQuery,
   fuzzyNameS,
-} from '../../../servers/usersManagement'
+} from '@/servers/usersManagement'
 
 const usersManagement = createModel()({
   name: 'usersManagement',
@@ -22,6 +23,10 @@ const usersManagement = createModel()({
     teamIdList: [],
     groupList: '',
     loading: false,
+    activeKey: '1',
+    listData: [],
+    total: 0,
+    memberInfo: {},
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -30,6 +35,17 @@ const usersManagement = createModel()({
     }),
   },
   effects: (dispatch) => ({
+    // 分页查询成员
+    async selectPageList(payload) {
+      const dph = dispatch
+      const data = await queryPaging(payload)
+      if (data.code === 200) {
+        dph.usersManagement.updateState({
+          listData: data.data.rows,
+          total: data.data.total,
+        })
+      }
+    },
     // 邀请成员
     async inviteMember(payload) {
       const dph = dispatch

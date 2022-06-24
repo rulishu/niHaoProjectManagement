@@ -1,6 +1,14 @@
 import request from '@/utils/request'
 // import { request } from '@uiw-admin/utils'
 
+// 分页查询成员
+function queryPaging(params) {
+  return request('/api/member/selectProjectMember', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
 // 邀请成员
 function inviteMember(params) {
   return request('/api/member/inviteMember', {
@@ -52,6 +60,7 @@ function fuzzyNameS(params) {
   })
 }
 export {
+  queryPaging,
   inviteMember,
   inviteTeam,
   updateProjectMember,

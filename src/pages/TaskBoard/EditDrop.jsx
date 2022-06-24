@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Textarea,
+  Modal,
 } from 'uiw'
 import styles from './index.module.less'
 
@@ -76,8 +77,8 @@ const EditDrop = (props) => {
           <Icon type="more" />
         </div>
       </OverlayTrigger>
-      <Overlay isOpen={editOpen} onClose={() => setEditOpen(false)}>
-        {popContent === 'edit' ? (
+      {popContent === 'edit' ? (
+        <Overlay isOpen={editOpen} onClose={() => setEditOpen(false)}>
           <Card active style={{ width: 500 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <strong style={{ fontSize: '18px' }}>小记</strong>
@@ -126,31 +127,55 @@ const EditDrop = (props) => {
               </Button>
             </div>
           </Card>
-        ) : popContent === 'delete' ? (
-          <Card active style={{ width: 500 }}>
-            <strong style={{ fontSize: '18px' }}>删除小记</strong>
-            <div style={{ marginTop: '10px' }}>你确定要删除这个小记？</div>
+        </Overlay>
+      ) : popContent === 'delete' ? (
+        // <Card active style={{ width: 500 }}>
+        //   <strong style={{ fontSize: '18px' }}>删除小记</strong>
+        //   <div style={{ marginTop: '10px' }}>你确定要删除这个小记？</div>
+        //   <br />
+        //   <div className={styles.flexRight}>
+        //     <Button
+        //       type="danger"
+        //       loading={loading.effects.taskboard.deleteBoardNote}
+        //       onClick={() => {
+        //         dispatch.taskboard.deleteBoardNote({
+        //           boardId,
+        //           noteId,
+        //           listId,
+        //           setEditOpen,
+        //         })
+        //       }}>
+        //       删除小记
+        //     </Button>
+        //   </div>
+        // </Card>
+
+        <Modal
+          title="删除提示"
+          isOpen={editOpen}
+          confirmText="确定"
+          cancelText="取消"
+          icon="information"
+          type="danger"
+          onConfirm={() => {
+            dispatch.taskboard.deleteBoardNote({
+              boardId,
+              noteId,
+              listId,
+              setEditOpen,
+            })
+          }}
+          onCancel={() => setEditOpen(false)}
+          onClosed={() => setEditOpen(false)}>
+          <div>
+            删除小记?
             <br />
-            <div className={styles.flexRight}>
-              <Button
-                type="danger"
-                loading={loading.effects.taskboard.deleteBoardNote}
-                onClick={() => {
-                  dispatch.taskboard.deleteBoardNote({
-                    boardId,
-                    noteId,
-                    listId,
-                    setEditOpen,
-                  })
-                }}>
-                删除小记
-              </Button>
-            </div>
-          </Card>
-        ) : (
-          <div></div>
-        )}
-      </Overlay>
+            <strong>你确定要删除这个小记？!</strong>
+          </div>
+        </Modal>
+      ) : (
+        <div></div>
+      )}
     </div>
   )
 }
