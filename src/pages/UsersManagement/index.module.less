@@ -1,5 +1,14 @@
 @import '../../common.less';
 
+.wrap {
+  width: 100%;
+  padding: @padding-md - 1px;
+  background-color: @white;
+  border-radius: 2px;
+  margin: auto;
+  max-width: 1280px;
+}
+
 .userContent {
   width: 100%;
   padding: 15px;
@@ -51,13 +60,14 @@
 .userListTitle {
   width: 100%;
   border-bottom: 1px solid #dbdbdb;
-  padding: 10px 20px;
+  padding: 10px 16px;
 }
 
 .userListItem {
   display: flex;
   padding: 10px 20px;
   border-bottom: 1px solid #dbdbdb;
+  align-items: center;
 }
 
 .userInfo {
@@ -66,8 +76,8 @@
 }
 
 .userAvatar {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   font-size: 24px;
 }
@@ -82,29 +92,32 @@
   span:nth-child(1) {
     color: #303030;
   }
+
   span:nth-child(2) {
     color: #666;
     font-size: 12px;
   }
+
   &:hover {
     text-decoration: underline;
   }
 }
 
 .createTime {
-  height: 48px;
+  height: 42px;
   display: flex;
   align-items: center;
   color: #666;
 }
 
 .userRole {
-  height: 48px;
+  height: 42px;
   display: flex;
   align-items: center;
+
   .noChange {
     font-size: 12px;
-    padding: 5px 10px;
+    padding: 0 7px;
     background-color: #f0f0f0;
     color: #666;
     border-radius: 20px;
@@ -112,9 +125,10 @@
 }
 
 .userMail {
-  height: 48px;
+  height: 42px;
   display: flex;
   align-items: center;
+
   span {
     font-size: 14px;
     color: #666;
@@ -124,27 +138,30 @@
     overflow: hidden;
   }
 }
+
 .userButton {
-  height: 48px;
+  height: 42px;
   display: flex;
   align-items: center;
 }
 
 .userDel {
-  color: #dc3545;
+  background-color: #fff;
   border: 1px solid #dc3545;
-  border-radius: 5px;
-  padding: 8px 15px;
+  color: #dc3545;
+  height: 30px;
   font-size: 14px;
-  cursor: pointer;
 }
 
 .pagination {
   margin: 4px;
 }
+
 // 下拉
 .toggle {
-  padding: 6px 8px 6px 10px;
+  padding: 0 6px;
+  height: 30px;
+  line-height: 30px;
   background-color: @white;
   color: @black;
   font-size: @font-size-base;

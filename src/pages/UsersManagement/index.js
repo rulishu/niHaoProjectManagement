@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Fragment } from 'react'
 import useLocationPage from '@/hooks/useLocationPage'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import {
+  Card,
   Tabs,
   Pagination,
   Avatar,
@@ -14,6 +15,7 @@ import {
   OverlayTrigger,
   Icon,
   DateInput,
+  Button,
 } from 'uiw'
 import { useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
@@ -86,15 +88,15 @@ const Index = () => {
   const userTitle = [
     {
       name: '账户',
-      length: '6',
+      length: '8',
     },
     {
       name: '授予访问时间',
-      length: '4',
+      length: '3',
     },
     {
       name: '邮箱',
-      length: '4',
+      length: '5',
     },
     {
       name: '成员角色',
@@ -102,11 +104,11 @@ const Index = () => {
     },
     {
       name: '授予到期时间',
-      length: '4',
+      length: '3',
     },
     {
       name: '操作',
-      length: '3',
+      length: '2',
     },
   ]
   //操作
@@ -223,177 +225,198 @@ const Index = () => {
     })
     .map((a) => a.memberRole)
   return (
-    <div className={styles.userContent}>
-      <div style={{ borderBottom: '1px solid #dbdbdb' }}>
-        <Tabs
-          type="line"
-          activeKey={activeKey}
-          onTabClick={(activeKey) => console.log(activeKey)}>
-          <Tabs.Pane label={tabsLabel('成员', total)} key="1" />
-        </Tabs>
-      </div>
-      <div className={styles.userList}>
-        <div className={styles.userListTitle}>
-          <Row>
-            {userTitle &&
-              userTitle.map((item, index) => {
-                return (
-                  <Col span={item.length} key={index}>
-                    {item.name}
-                  </Col>
-                )
-              })}
-          </Row>
-        </div>
-        {listData &&
-          listData.map((item, index) => {
-            return (
-              <Row className={styles.userListItem} key={index}>
-                <Col span={userTitle && userTitle[0]?.length}>
-                  <div
-                    className={styles.userInfo}
-                    onClick={() => goPage(`${item.userName}`)}>
-                    <Avatar
-                      size="small"
-                      src={
-                        item?.avatar && `/api/file/selectFile/${item?.avatar}`
-                      }
-                      className={styles.userAvatar}>
-                      {item.memberName && item.memberName[0]}
-                    </Avatar>
-                    <div className={styles.userAcount}>
-                      <span>{item.memberName}</span>
-                      <span>@{item.userName}</span>
-                    </div>
-                  </div>
-                </Col>
-                <Col span={userTitle && userTitle[1]?.length}>
-                  <div className={styles.createTime}>
-                    <Tooltip
-                      placement="top"
-                      content={item?.createTime.slice(0, 10)}>
-                      {`${timeDistance(item?.createTime).time}前`}
-                    </Tooltip>
-                  </div>
-                </Col>
-                <Col span={userTitle && userTitle[2]?.length}>
-                  <Tooltip placement="top" content={item?.email}>
-                    <div className={styles.userMail}>
-                      <span>{item.email}</span>
-                    </div>
-                  </Tooltip>
-                </Col>
-                <Col span={userTitle && userTitle[3]?.length}>
-                  <div className={styles.userRole}>
-                    {owner === 'true' || Number(memberRoles) === 3 ? (
-                      <OverlayTrigger
-                        placement="bottomRight"
-                        trigger="click"
-                        isOpen={isPulldown && activeIndex === index}
-                        onVisibleChange={(open) => {
-                          setIsPulldown(open)
-                          setActiveIndex(index)
-                          handleEditTable('edit', item)
-                        }}
-                        overlay={roleMenu}>
-                        <div className={styles.toggle}>
-                          <span>{getTitle(item.memberRole)}</span>
-                          <Icon
-                            type={
-                              isPulldown && activeIndex === index
-                                ? 'up'
-                                : 'down'
-                            }
-                          />
-                        </div>
-                      </OverlayTrigger>
-                    ) : (
-                      <div className={styles.noChange}>
-                        {getTitle(item.memberRole)}
-                      </div>
-                    )}
-                  </div>
-                </Col>
-                <Col span={userTitle && userTitle[4]?.length}>
-                  <div className={styles.createTime}>
-                    {owner === 'true' || Number(memberRoles) === 3 ? (
-                      <DateInput
-                        style={{ width: '90%' }}
-                        value={item.accessExpirationTime}
-                        format="YYYY-MM-DD"
-                        autoClose
-                        onChange={(e) => {
-                          handleEditTable('edit', item)
-                          editTime(formatter('YYYY-MM-DD', new Date(e)))
-                        }}
-                      />
-                    ) : (
-                      item.accessExpirationTime
-                    )}
-                  </div>
-                </Col>
-                <Col span={userTitle && userTitle[5]?.length}>
-                  <div className={styles.userButton}>
-                    {userInfo === item?.memberName ? (
-                      <div
-                        className={styles.userDel}
-                        onClick={() => handleEditTable('out', item)}>
-                        退出该项目
-                      </div>
-                    ) : (
-                      (owner === 'true' || Number(memberRoles) === 3) && (
-                        <div
-                          className={styles.userDel}
-                          onClick={() => handleEditTable('del', item)}>
-                          移出该成员
-                        </div>
+    <Fragment>
+      <Card>
+        <div className={styles.wrap}>
+          <div className={styles.userContent}>
+            <div style={{ borderBottom: '1px solid #dbdbdb' }}>
+              <Tabs
+                type="line"
+                activeKey={activeKey}
+                onTabClick={(activeKey) => console.log(activeKey)}>
+                <Tabs.Pane label={tabsLabel('成员', total)} key="1" />
+              </Tabs>
+            </div>
+            <div className={styles.userList}>
+              <div className={styles.userListTitle}>
+                <Row>
+                  {userTitle &&
+                    userTitle.map((item, index) => {
+                      return (
+                        <Col span={item.length} key={index}>
+                          {item.name}
+                        </Col>
                       )
-                    )}
-                  </div>
-                </Col>
-              </Row>
-            )
-          })}
-      </div>
-      <div className={styles.pagination}>
-        {total > 10 && (
-          <Pagination
-            current={1}
-            alignment="center"
-            pageSize={10}
-            total={total}
-            onChange={(page) =>
-              dispatch({
-                type: 'usersManagement/selectPageList',
-                payload: {
-                  page: page,
-                  pageSize: 10,
-                  projectId: projectId,
-                },
-              })
-            }
-          />
-        )}
-      </div>
-      <Modal
-        title={type === 'del' ? '移出成员提示' : '退出项目提示'}
-        isOpen={delectVisible}
-        confirmText="确定"
-        cancelText="取消"
-        icon="information"
-        type="danger"
-        onConfirm={() => onConfirm()}
-        onCancel={() => onClose()}
-        onClosed={onClose}>
-        <p>
-          确定要
-          {type === 'del'
-            ? `确认移出成员${memberInfo.memberName}`
-            : '确认退出该项目'}
-          吗?
-        </p>
-      </Modal>
-    </div>
+                    })}
+                </Row>
+              </div>
+              {listData &&
+                listData.map((item, index) => {
+                  return (
+                    <Row className={styles.userListItem} key={index}>
+                      <Col span={userTitle && userTitle[0]?.length}>
+                        <div
+                          className={styles.userInfo}
+                          onClick={() => goPage(`${item.userName}`)}>
+                          <Avatar
+                            size="small"
+                            src={
+                              item?.avatar &&
+                              `/api/file/selectFile/${item?.avatar}`
+                            }
+                            className={styles.userAvatar}>
+                            {item.memberName && item.memberName[0]}
+                          </Avatar>
+                          <div className={styles.userAcount}>
+                            <span>{item.memberName}</span>
+                            <span>@{item.userName}</span>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col span={userTitle && userTitle[1]?.length}>
+                        <div className={styles.createTime}>
+                          <Tooltip
+                            placement="top"
+                            content={item?.createTime.slice(0, 10)}>
+                            {`${timeDistance(item?.createTime).time}前`}
+                          </Tooltip>
+                        </div>
+                      </Col>
+                      <Col span={userTitle && userTitle[2]?.length}>
+                        <Tooltip placement="top" content={item?.email}>
+                          <div className={styles.userMail}>
+                            <span>{item.email}</span>
+                          </div>
+                        </Tooltip>
+                      </Col>
+                      <Col span={userTitle && userTitle[3]?.length}>
+                        <div className={styles.userRole}>
+                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                            <OverlayTrigger
+                              placement="bottomRight"
+                              trigger="click"
+                              isOpen={isPulldown && activeIndex === index}
+                              onVisibleChange={(open) => {
+                                setIsPulldown(open)
+                                setActiveIndex(index)
+                                handleEditTable('edit', item)
+                              }}
+                              overlay={roleMenu}>
+                              <div className={styles.toggle}>
+                                <span>{getTitle(item.memberRole)}</span>
+                                <Icon
+                                  type={
+                                    isPulldown && activeIndex === index
+                                      ? 'up'
+                                      : 'down'
+                                  }
+                                />
+                              </div>
+                            </OverlayTrigger>
+                          ) : (
+                            <div className={styles.noChange}>
+                              {getTitle(item.memberRole)}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+                      <Col span={userTitle && userTitle[4]?.length}>
+                        <div className={styles.createTime}>
+                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                            <DateInput
+                              style={{ width: '90%' }}
+                              value={item.accessExpirationTime}
+                              format="YYYY-MM-DD"
+                              autoClose
+                              onChange={(e) => {
+                                handleEditTable('edit', item)
+                                editTime(formatter('YYYY-MM-DD', new Date(e)))
+                              }}
+                            />
+                          ) : (
+                            item.accessExpirationTime
+                          )}
+                        </div>
+                      </Col>
+                      <Col span={userTitle && userTitle[5]?.length}>
+                        <div className={styles.userButton}>
+                          {userInfo === item?.memberName ? (
+                            // <div
+                            //   className={styles.userDel}
+                            //   onClick={() => handleEditTable('out', item)}>
+                            //   退出该项目
+                            // </div>
+                            <Tooltip placement="top" content="退出项目">
+                              <Button
+                                type="danger"
+                                className={styles.userDel}
+                                onClick={() => handleEditTable('out', item)}
+                                icon="rollback"
+                              />
+                            </Tooltip>
+                          ) : (
+                            (owner === 'true' || Number(memberRoles) === 3) && (
+                              // <div
+                              //   className={styles.userDel}
+                              //   onClick={() => handleEditTable('del', item)}>
+                              //   移出该成员
+                              // </div>
+                              <Button
+                                type="danger"
+                                className={styles.userDel}
+                                onClick={() => handleEditTable('del', item)}>
+                                删除成员
+                              </Button>
+                            )
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  )
+                })}
+            </div>
+            <div className={styles.pagination}>
+              {total > 10 && (
+                <Pagination
+                  current={1}
+                  alignment="center"
+                  pageSize={10}
+                  total={total}
+                  onChange={(page) =>
+                    dispatch({
+                      type: 'usersManagement/selectPageList',
+                      payload: {
+                        page: page,
+                        pageSize: 10,
+                        projectId: projectId,
+                      },
+                    })
+                  }
+                />
+              )}
+            </div>
+            <Modal
+              title={type === 'del' ? '移出成员提示' : '退出项目提示'}
+              isOpen={delectVisible}
+              confirmText="确定"
+              cancelText="取消"
+              icon="information"
+              type="danger"
+              onConfirm={() => onConfirm()}
+              onCancel={() => onClose()}
+              onClosed={onClose}>
+              <p>
+                确定要
+                {type === 'del'
+                  ? `确认移出成员${memberInfo.memberName}`
+                  : '确认退出该项目'}
+                吗?
+              </p>
+            </Modal>
+          </div>
+        </div>
+      </Card>
+    </Fragment>
   )
 }
 
