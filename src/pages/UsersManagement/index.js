@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import {
   Card,
-  Tabs,
   Pagination,
   Avatar,
   Row,
@@ -21,6 +20,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
 // import formatter from '@uiw/formatter'
 import { changeTime } from '@/utils/utils'
+import formatter from '@uiw/formatter'
+import Search from './search'
+import Invite from './invite'
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -29,14 +31,7 @@ const Index = () => {
   const [isPulldown, setIsPulldown] = useState(false)
   const [activeIndex, setActiveIndex] = useState(10)
   const {
-    usersManagement: {
-      listData,
-      total,
-      activeKey,
-      delectVisible,
-      type,
-      memberInfo,
-    },
+    usersManagement: { listData, total, delectVisible, type, memberInfo },
     routeManagement: { userInfo, dataUser },
   } = useSelector((state) => state)
   const updateData = (payload) => {
@@ -71,15 +66,6 @@ const Index = () => {
       },
     })
   }, [dispatch, projectId])
-  // Tabs标签
-  const tabsLabel = (title, num) => {
-    return (
-      <>
-        <span className={styles.tabsLabelTitle}>{title}</span>
-        <span className={styles.tabsLabelNum}>{num || 0}</span>
-      </>
-    )
-  }
   // 跳转页面方法
   const goPage = (value) => {
     navigate(`/${value}`)
@@ -185,17 +171,21 @@ const Index = () => {
     }).then((data) => information(data))
   }
   const editTime = (memberTime) => {
-    const payload = {
-      id: memberInfo.id,
-      accessExpirationTime: memberTime || '',
-      memberRole: memberInfo.memberRole,
-      userId: memberInfo.userId,
-      projectId: memberInfo.projectId,
+    if (memberTime) {
+      const payload = {
+        id: memberInfo.id,
+        accessExpirationTime: formatter('YYYY-MM-DD', new Date(memberTime)),
+        memberRole: memberInfo.memberRole,
+        userId: memberInfo.userId,
+        projectId: memberInfo.projectId,
+      }
+      dispatch({
+        type: 'usersManagement/updateProjectMember',
+        payload,
+      }).then((data) => information(data))
+    } else {
+      Notify.error({ title: '授予到期时间不能为空' })
     }
-    dispatch({
-      type: 'usersManagement/updateProjectMember',
-      payload,
-    }).then((data) => information(data))
   }
   const roleMenu = (
     <div className={styles.dropdownMenu}>
@@ -230,14 +220,8 @@ const Index = () => {
       <Card>
         <div className={styles.wrap}>
           <div className={styles.userContent}>
-            <div style={{ borderBottom: '1px solid #dbdbdb' }}>
-              <Tabs
-                type="line"
-                activeKey={activeKey}
-                onTabClick={(activeKey) => console.log(activeKey)}>
-                <Tabs.Pane label={tabsLabel('成员', total)} key="1" />
-              </Tabs>
-            </div>
+            <Invite />
+            <Search />
             <div className={styles.userList}>
               <div className={styles.userListTitle}>
                 <Row>
