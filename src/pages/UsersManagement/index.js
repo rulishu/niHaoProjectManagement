@@ -32,7 +32,7 @@ const Index = () => {
   const [activeIndex, setActiveIndex] = useState(10)
   const {
     usersManagement: { listData, total, delectVisible, type, memberInfo },
-    routeManagement: { userInfo, dataUser },
+    routeManagement: { userInfoName, dataUser },
   } = useSelector((state) => state)
   const updateData = (payload) => {
     dispatch({
@@ -216,10 +216,9 @@ const Index = () => {
   //超级管理员权限
   const owner = localStorage.getItem('key')
   //权限设置:仅项目管理者可以邀请/编辑删除
-  console.log(dataUser)
   let memberRoles = dataUser
     ?.filter((item) => {
-      return item.memberName === userInfo
+      return item.userAcount === userInfoName
     })
     .map((a) => a.memberRole)
   return (
@@ -253,8 +252,12 @@ const Index = () => {
                           <Avatar
                             size="small"
                             src={
-                              item?.avatar &&
-                              `/api/file/selectFile/${item?.avatar}`
+                              item.avatar?.substring(0, 4) === 'http'
+                                ? item.avatar
+                                : item.avatar?.substring(0, 4) !== 'http' &&
+                                  item.avatar !== ''
+                                ? `/api/file/selectFile/${item.avatar}`
+                                : item.path
                             }
                             className={styles.userAvatar}>
                             {item.memberName && item.memberName[0]}
@@ -335,7 +338,8 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[5]?.length}>
                         <div className={styles.userButton}>
-                          {userInfo === item?.memberName ? (
+                          {userInfoName === item?.userName &&
+                          item.memberRole !== 4 ? (
                             <Tooltip placement="top" content="退出项目">
                               <Button
                                 type="danger"
@@ -345,7 +349,8 @@ const Index = () => {
                               />
                             </Tooltip>
                           ) : (
-                            (owner === 'true' || Number(memberRoles) === 3) && (
+                            (owner === 'true' || Number(memberRoles) === 3) &&
+                            item.memberRole !== 4 && (
                               <Button
                                 type="danger"
                                 className={styles.userDel}
