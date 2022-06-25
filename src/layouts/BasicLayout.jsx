@@ -46,6 +46,20 @@ function BasicLayoutScreen(props = { routes: [] }) {
     localStorage.setItem('lastPath', JSON.stringify(location.pathname))
   }, [location])
 
+  useEffect(() => {
+    if (breadUrl === '/dashboard') {
+      setusers(false)
+      setCheckAll(true)
+    } else if (breadUrl === '/projectList') {
+      setusers(false)
+      setprojectList(true)
+    } else {
+      setCheckAll(false)
+      setprojectList(false)
+      setusers(true)
+    }
+  }, [breadUrl])
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
     await dispatch({
@@ -91,7 +105,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
     refresh(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
   localStorage.setItem('userNumber', userData?.userName)
@@ -102,6 +115,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
     onLogoClick: () => {
+      setusers(false)
+      setCheckAll(true)
       navigate(`/dashboard`, { replace: true })
     },
     // logo: require('./logo.png'),
@@ -159,8 +174,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
           : userData?.path,
       userName: userData?.userName,
       menuLeft: (
+        //这边的代码写的很迷，我业务代码不熟悉，就只改bug，不做优化了。
         <>
-          {checkAll === false && breadUrl !== '/dashboard' ? (
+          {checkAll === false ? (
             <div
               className={styles.title}
               onClick={() => {
@@ -176,16 +192,16 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate(`/dashboard`)
-                setCheckAll(false)
+                // setCheckAll(false)
                 setprojectList(false)
                 setusers(false)
               }}>
               工作台
             </div>
           )}
-          {projectList === false ? (
+          {projectList && breadUrl === '/projectList' ? (
             <div
-              className={styles.title}
+              className={styles.newtitle}
               onClick={() => {
                 navigate(`/projectList`)
                 setprojectList(true)
@@ -196,10 +212,10 @@ function BasicLayoutScreen(props = { routes: [] }) {
             </div>
           ) : (
             <div
-              className={styles.newtitle}
+              className={styles.title}
               onClick={() => {
                 navigate(`/projectList`)
-                setprojectList(false)
+                setprojectList(true)
                 setCheckAll(false)
                 setusers(false)
               }}>
@@ -223,7 +239,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate('/Authority/users')
-                setusers(false)
+                setusers(true)
                 setprojectList(false)
                 setCheckAll(false)
               }}>
