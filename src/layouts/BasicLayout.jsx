@@ -105,8 +105,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
     refresh(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log('checkAll: ', checkAll)
-  console.log('breadUrl: ', breadUrl)
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
   localStorage.setItem('userNumber', userData?.userName)
