@@ -44,15 +44,27 @@ const FromMD = (props) => {
             return '<span style:"visibility: hidden;"></span>'
           },
           menuItemTemplate: function (item) {
-            return `<div style='display: flex; align-items: center;'>
-                <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
-                  item?.original?.avatar
-                    ? `/api/file/selectFile/${item?.original?.avatar}`
-                    : ''
-                }' />
+            return `<div style='display: flex; align-items: center;'> ${
+              item?.original?.avatar
+                ? `<img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
+                    item?.original?.avatar &&
+                    item?.original?.avatar.substring(0, 4) !== 'http'
+                      ? `/api/file/selectFile/${item?.original?.avatar}`
+                      : item?.original?.avatar
+                  }' />
                 <span style='font-size: 14px; font-weight: lighter;'>${
                   item?.original?.memberName
-                }</span>
+                }</span>`
+                : `
+              <span style='height: 30px; width: 30px; font-size: 12px; border-radius: 50px; text-align: center; background: #ccc; color: #fff; vertical-align: middle; white-space: nowrap; position: relative; overflow: hidden; display: inline-flex; justify-content: center; align-items: center; margin-right: 8px;'> ${
+                item?.original?.memberName &&
+                item?.original?.memberName.substring(0, 1)
+              }</span>
+              <span style='font-size: 14px; font-weight: lighter;'>${
+                item?.original?.memberName
+              }</span>`
+            }
+            
               </div>`
           },
           fillAttr: 'memberName',
