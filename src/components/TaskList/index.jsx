@@ -20,7 +20,6 @@ const TaskList = (props) => {
     searchOptions,
     activeKey,
   } = props
-
   const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
@@ -200,7 +199,9 @@ const TaskList = (props) => {
                 isSearchBox={false}
                 selectData={[1]}
                 onSelect={(_, key) => {
-                  optionsChange(taskSort.filter((s) => s.key === key)[0].value)
+                  const valueInfo = taskSort.filter((s) => s.key === key)[0]
+                    .value
+                  optionsChange(valueInfo)
                 }}>
                 <span className={styles.clickableDiscolor}>
                   排序
