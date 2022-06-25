@@ -29,6 +29,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
+  const params = useParams()
   const { userAccount } = useParams()
   // const [userData, setuserData] = useState({})
   const [isError, setIsError] = useState(false)
@@ -49,16 +50,26 @@ function BasicLayoutScreen(props = { routes: [] }) {
   useEffect(() => {
     if (breadUrl === '/dashboard') {
       setusers(false)
+      setprojectList(false)
       setCheckAll(true)
     } else if (breadUrl === '/projectList') {
       setusers(false)
+      setCheckAll(false)
       setprojectList(true)
     } else {
-      setCheckAll(false)
-      setprojectList(false)
-      setusers(true)
+      if (!!params?.userAccount && !!params?.projectId) {
+        setprojectList(true)
+        setCheckAll(false)
+        setusers(false)
+      } else {
+        setCheckAll(false)
+        setprojectList(false)
+        setusers(true)
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breadUrl])
+  console.log('breadUrl: ', breadUrl)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -199,7 +210,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               工作台
             </div>
           )}
-          {projectList && breadUrl === '/projectList' ? (
+          {projectList ? (
             <div
               className={styles.newtitle}
               onClick={() => {
