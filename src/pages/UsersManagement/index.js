@@ -58,6 +58,12 @@ const Index = () => {
       },
     })
     dispatch({
+      type: 'routeManagement/queryFuzzyAllProjectMember',
+      payload: {
+        projectId: projectId,
+      },
+    })
+    dispatch({
       type: 'usersManagement/selectPageList',
       payload: {
         page: 1,
@@ -210,6 +216,7 @@ const Index = () => {
   //超级管理员权限
   const owner = localStorage.getItem('key')
   //权限设置:仅项目管理者可以邀请/编辑删除
+  console.log(dataUser)
   let memberRoles = dataUser
     ?.filter((item) => {
       return item.memberName === userInfo
