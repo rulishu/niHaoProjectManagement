@@ -13,6 +13,7 @@ import {
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { Label } from '@/components'
 import './index.css'
 
 const OtherInfo = (props) => {
@@ -143,13 +144,14 @@ const OtherInfo = (props) => {
           return (
             <li className={styles.labelLiLe} key={item?.labelId}>
               <div className={styles.labelLiLeft}>
-                <span
+                <Label color={item?.label?.color}>{item?.label?.name}</Label>
+                {/* <span
                   className={styles.taskTags}
                   style={{
                     backgroundColor: item?.label?.color || '#813c858c',
                   }}>
                   {item?.label?.name}
-                </span>
+                </span> */}
               </div>
               <div className={styles.labelLiRight}>
                 <Button basic type="light" onClick={() => goTaskListPage(2)}>

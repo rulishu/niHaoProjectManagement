@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Card, Button, Icon, OverlayTrigger } from 'uiw'
+import { Label } from '@/components'
 import CreateLabel from './CreateLabel'
 import LabelBox from './LabelBox'
 import styles from './index.module.less'
@@ -149,39 +150,41 @@ const CompDropdown = (props) => {
             ))
           ) : (
             data?.map((item) => (
-              <div
-                key={item?.key}
-                className={item.color ? styles.tagListLi : styles.noColorTag}
-                style={{
-                  backgroundColor: item.color,
-                  borderColor: item?.color,
-                }}>
-                {newHeader()?.map((headItem, index) => {
-                  return (
-                    <span className={styles.tagTitle} key={index}>
-                      {headItem.resultsShow && headItem?.component ? (
-                        headItem?.component(item, headItem)
-                      ) : (
-                        <span></span>
-                      )}
+              <Label color={item.color} key={item?.key}>
+                <div
+                  className={item.color ? styles.tagListLi : styles.noColorTag}
+                  // style={{
+                  //   backgroundColor: item.color,
+                  //   borderColor: item?.color,
+                  // }}
+                >
+                  {newHeader()?.map((headItem, index) => {
+                    return (
+                      <span className={styles.tagTitle} key={index}>
+                        {headItem.resultsShow && headItem?.component ? (
+                          headItem?.component(item, headItem)
+                        ) : (
+                          <span></span>
+                        )}
+                      </span>
+                    )
+                  })}
+                  {isTagClose && (
+                    <span
+                      className={styles.tagBut}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        optionEvent(item?.key)
+                      }}>
+                      <Icon
+                        color="#000"
+                        className={styles.tagIcon}
+                        type="close"
+                      />
                     </span>
-                  )
-                })}
-                {isTagClose && (
-                  <span
-                    className={styles.tagBut}
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      optionEvent(item?.key)
-                    }}>
-                    <Icon
-                      color="#000"
-                      className={styles.tagIcon}
-                      type="close"
-                    />
-                  </span>
-                )}
-              </div>
+                  )}
+                </div>
+              </Label>
             ))
           )
         ) : (

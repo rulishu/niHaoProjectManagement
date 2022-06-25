@@ -140,11 +140,12 @@ const TodoList = () => {
                               ) : (
                                 <span>#{item.issuesId}</span>
                               )}
-                              <span>{item.assignmentTitle}</span> · 更新于
+                              <span>{item.assignmentTitle}</span>
+                              {'\xa0'}· 更新于
                               {timeDistance(item?.createTime).time}
                               {timeDistance(item?.createTime).status
                                 ? '前'
-                                : '后'}{' '}
+                                : '后'}
                             </div>
                           ) : (
                             <div className={styles.listContent}>
@@ -153,7 +154,7 @@ const TodoList = () => {
                                 value={item.assignUserName}
                               />
                               <span>
-                                {item.doType === 0 ? '评论' : '分配给你'}{' '}
+                                {item.doType === 0 ? '评论' : '分配给你'}
                               </span>
                               <LinkText
                                 link={
@@ -173,7 +174,8 @@ const TodoList = () => {
                                 }
                                 value={item.projectName}
                               />
-                              · 更新于{timeDistance(item?.createTime).time}
+                              {'\xa0'}· 更新于
+                              {timeDistance(item?.createTime).time}
                               {timeDistance(item?.createTime).status
                                 ? '前'
                                 : '后'}{' '}

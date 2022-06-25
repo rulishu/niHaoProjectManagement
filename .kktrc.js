@@ -18,7 +18,9 @@ export default defaultConfig({
       createProxyMiddleware({
         target: 'http://192.168.188.222:33202', // 测试环境地址
         // target: 'http://192.168.188.215:7500/', // 邓伟伟
-        // target: ' http://50237w524r.qicp.vip/',
+        // target: 'http://192.168.188.81:7500/', // 曾王杰
+        // target: 'http://192.168.188.199:7500/', // 王龙飞
+        // target: 'https://dtpms-dev.nihaosi.com/', //  测试环境
         changeOrigin: true,
         // headers: {Authorization: 'Bearer ' + token},
       })

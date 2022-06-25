@@ -15,6 +15,7 @@ import {
 } from 'uiw'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
+import { Label } from '@/components'
 import styles from './index.module.less'
 
 const LabelManage = (props) => {
@@ -56,8 +57,8 @@ const LabelManage = (props) => {
 
   // 下拉框数据
   const sortingList = [
-    { value: 1, title: '名称升序' },
-    { value: 2, title: '名称降序' },
+    // { value: 1, title: '名称升序' },
+    // { value: 2, title: '名称降序' },
     { value: 3, title: '创建时间升序' },
     { value: 4, title: '创建时间降序' },
     { value: 5, title: '更新时间升序' },
@@ -195,7 +196,18 @@ const LabelManage = (props) => {
                                     paddingLeft: 0,
                                   }}>
                                   <Tooltip placement="top" content={item?.name}>
-                                    <span
+                                    <span>
+                                      <Label
+                                        color={item?.color}
+                                        value={
+                                          item?.name && item?.name.length > 10
+                                            ? item?.name.substring(0, 10) +
+                                              '...'
+                                            : item?.name || ''
+                                        }
+                                      />
+                                    </span>
+                                    {/* <span
                                       className={styles.namebox}
                                       style={{
                                         backgroundColor: item?.color,
@@ -213,7 +225,7 @@ const LabelManage = (props) => {
                                           ? item?.name.substring(0, 10) + '...'
                                           : item?.name || ''
                                       }`}
-                                    </span>
+                                    </span> */}
                                   </Tooltip>
                                 </Blank>
                               </Col>
@@ -280,18 +292,6 @@ const LabelManage = (props) => {
                 </Loader>
               </ul>
             </div>
-            {/* <Alert
-              isOpen={alertShow}
-              confirmText="确认"
-              onClosed={() => setAlertShow(false)}
-              type="danger"
-              content={`是否确认删除本条标签！`}
-              onConfirm={() => {
-                dispatch({
-                  type: 'labels/deleteLabel',
-                  payload: [delId],
-                })
-              }}></Alert> */}
             {/* 统一删除按钮样式 */}
             <Modal
               title="删除提示"
