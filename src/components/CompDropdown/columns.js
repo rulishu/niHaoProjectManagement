@@ -1,6 +1,7 @@
 import { Input, DateInput, Avatar } from 'uiw'
 import Custom from './Custom'
 import styles from './template.module.less'
+import { ThisTime, changeTime } from '@/utils/timeDistance'
 
 // 配置 label 的模板
 const label = {
@@ -175,6 +176,7 @@ const milepost = {
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
               popoverProps={{ usePortal: false }}
+              placeholder="请选择截止日期"
             />
           ),
         },
@@ -207,7 +209,10 @@ const milepost = {
         errorObj.milestonesTitle = '请输入标题,长度为2~100'
       }
       if (!startTime) {
-        errorObj.startTime = '开始时间不能为空！'
+        errorObj.startTime = '截止日期不能为空！'
+      }
+      if (startTime && changeTime(startTime) <= ThisTime()) {
+        errorObj.startTime = '截止日期不能晚于当前日期！'
       }
       return errorObj
     },
