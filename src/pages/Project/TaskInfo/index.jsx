@@ -188,6 +188,7 @@ const TaskInfo = () => {
                     fromValue={'description'}
                     btnName="保存编辑"
                     onClose={() => goEditIssue('cancel')}
+                    isTitleErr={isTitleErr}
                   />
                 </div>
               ) : (

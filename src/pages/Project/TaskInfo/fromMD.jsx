@@ -24,6 +24,7 @@ const FromMD = (props) => {
     btnName,
     isComment,
     onClose,
+    isTitleErr,
   } = props
   const dispatch = useDispatch()
   const params = useParams()
@@ -199,7 +200,8 @@ const FromMD = (props) => {
         fields={{
           [fromValue]: {
             inline: true,
-            initialValue: editData[fromValue],
+            initialValue:
+              editName === 'replyConData' ? '' : editData[fromValue],
             children: (
               <NEWMDEditor
                 rfval={(e) => {
@@ -229,7 +231,7 @@ const FromMD = (props) => {
                       // htmlType="submit"
                       onClick={() => {
                         submit()
-                        if (form.current) {
+                        if (!isTitleErr) {
                           form?.current?.setFieldValue(fromValue, '')
                         }
                       }}
