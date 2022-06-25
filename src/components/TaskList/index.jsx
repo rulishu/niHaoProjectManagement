@@ -287,8 +287,13 @@ const TaskList = (props) => {
                             <Avatar
                               size="small"
                               src={
-                                item?.assigneeUserAvatar &&
-                                `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                                item.assigneeUserAvatar?.substring(0, 4) ===
+                                'http'
+                                  ? item.assigneeUserAvatar
+                                  : item.assigneeUserAvatar?.substring(0, 4) !==
+                                      'http' &&
+                                    item.assigneeUserAvatar !== '' &&
+                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
                               }
                               className={styles.roleAvatar}>
                               {item.assigneeUserName &&

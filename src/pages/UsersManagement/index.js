@@ -255,9 +255,8 @@ const Index = () => {
                               item.avatar?.substring(0, 4) === 'http'
                                 ? item.avatar
                                 : item.avatar?.substring(0, 4) !== 'http' &&
-                                  item.avatar !== ''
-                                ? `/api/file/selectFile/${item.avatar}`
-                                : item.path
+                                  item.avatar !== '' &&
+                                  `/api/file/selectFile/${item.avatar}`
                             }
                             className={styles.userAvatar}>
                             {item.memberName && item.memberName[0]}
