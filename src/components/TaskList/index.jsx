@@ -32,16 +32,16 @@ const TaskList = (props) => {
 
   // 任务排序
   const taskSort = [
-    {
-      key: 1,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
-      label: '名称升序',
-    },
-    {
-      key: 2,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
-      label: '名称降序',
-    },
+    // {
+    //   key: 1,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
+    //   label: '名称升序',
+    // },
+    // {
+    //   key: 2,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
+    //   label: '名称降序',
+    // },
     {
       key: 3,
       value: { orderByColumn: 'createTime', isAsc: 'asc' },
