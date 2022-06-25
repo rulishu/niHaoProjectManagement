@@ -17,6 +17,7 @@ const MigrateSource = (props) => {
       ids,
       source,
       source: { dataInfo },
+      migrateId,
     },
     loading,
   } = useSelector((state) => state)
@@ -136,6 +137,7 @@ const MigrateSource = (props) => {
                 delDatSource,
                 synchrodata,
                 loading,
+                migrateId,
               })}
             />
           </>
