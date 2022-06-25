@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Icon, Tooltip, Avatar } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
-import { DropdownBox } from '@/components'
+import { DropdownBox, Label } from '@/components'
 
 import styles from './index.module.less'
 
@@ -85,25 +85,38 @@ const TaskList = (props) => {
     return labelsData?.map((item) => {
       if (value?.includes(item?.id)) {
         return (
-          <span
+          <Label
+            color={item.color}
             key={item?.id}
-            style={{
-              paddingLeft: 8,
-              paddingRight: 8,
-              borderColor: item.color,
-              backgroundColor: `${item.color}40`,
-              color: item.color,
-            }}
-            className={styles.label}
             onClick={() => {
               onCLickSearch &&
                 onCLickSearch('labels', {
                   value: item.id,
                   label: item.name,
                 })
-            }}>
+            }}
+            style={{ paddingLeft: 8, paddingRight: 8 }}>
             {item.name}
-          </span>
+          </Label>
+          // <span
+          //   key={item?.id}
+          //   style={{
+          //     paddingLeft: 8,
+          //     paddingRight: 8,
+          //     borderColor: item.color,
+          //     backgroundColor: `${item.color}40`,
+          //     color: item.color,
+          //   }}
+          //   className={styles.label}
+          // onClick={() => {
+          //   onCLickSearch &&
+          //     onCLickSearch('labels', {
+          //       value: item.id,
+          //       label: item.name,
+          //     })
+          // }}>
+          //   {item.name}
+          // </span>
         )
       }
       return null
@@ -226,6 +239,9 @@ const TaskList = (props) => {
                 <div className={styles.itemLeft}>
                   <div className={styles.itemLeftTop}>
                     <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
+                    <span className={styles.labelBox}>
+                      {labelBox(item?.labels)}
+                    </span>
                   </div>
                   <div className={styles.itemLeftBase}>
                     <span className={styles.mark}>#{item.assignmentId}</span>·
@@ -255,9 +271,6 @@ const TaskList = (props) => {
                     ) : (
                       ''
                     )}
-                    <span className={styles.labelBox}>
-                      {labelBox(item?.labels)}
-                    </span>
                   </div>
                 </div>
                 <div className={styles.itemRight}>
@@ -283,9 +296,9 @@ const TaskList = (props) => {
                             </Avatar>
                           </span>
                         </Tooltip>
-                        <div style={{ fontSize: 12 }}>
+                        {/* <div style={{ fontSize: 12 }}>
                           更新于{timeDistance(item.updateTime).time}前
-                        </div>
+                        </div> */}
                       </>
                     ) : (
                       ''
