@@ -31,19 +31,20 @@ const Label = (props) => {
     const g = parseInt(newColor.substr(3, 2), 16)
     const b = parseInt(newColor.substr(5, 2), 16)
     const yiq = (r * 299 + g * 587 + b * 114) / 1000
-    return yiq >= 128 ? 'black' : 'white'
+    return yiq >= 128 ? '#303030' : '#fff'
   }
 
   return (
-    <label
-      className={styles.labelWrap}
-      style={{
-        backgroundColor: color,
-        color: getColorShade(color),
-      }}
-      {...param}>
-      {props?.children || value}
-    </label>
+    <span {...param} className={styles.labelContent}>
+      <label
+        className={styles.labelWrap}
+        style={{
+          backgroundColor: color,
+          color: getColorShade(color),
+        }}>
+        {props?.children || value}
+      </label>
+    </span>
   )
 }
 
