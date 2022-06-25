@@ -232,6 +232,7 @@ const TaskList = (props) => {
                     由
                     <span
                       className={styles.clickable}
+                      style={{ paddingLeft: 5 }}
                       onClick={() => goPage(`${item.assigneeUserAccount}`)}>
                       {item?.updateName}
                     </span>
