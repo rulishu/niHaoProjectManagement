@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Button, Pagination, Loader, Input, Form } from 'uiw'
+import { Button, Pagination, Loader, Input, Form, Empty } from 'uiw'
 import { TaskList } from '@/components'
 import styles from './index.module.less'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
@@ -126,24 +126,28 @@ const Task = (props) => {
               }}
             </Form>
           </div>
-          <TaskList
-            listData={taskListData || []}
-            labelsData={labelsListData}
-            listNavigate={listGo}
-            conditionChange={conditionChange}
-            labelsListData={labelsListData}
-            teamMembersListData={membersList}
-            milestonesListData={milepostaData}
-            searchOptions={searchOptions}
-            activeKey={taskStatus}
-            onCLickSearch={(type, val) => {
-              let obj = searchOptions[type]
-              if (!searchOptions[type].includes(val.value)) {
-                obj.push(val.value)
-              }
-              conditionChange({ [type]: obj })
-            }}
-          />
+          {Array.isArray(taskListData) && taskListData.length > 0 ? (
+            <TaskList
+              listData={taskListData || []}
+              labelsData={labelsListData}
+              listNavigate={listGo}
+              conditionChange={conditionChange}
+              labelsListData={labelsListData}
+              teamMembersListData={membersList}
+              milestonesListData={milepostaData}
+              searchOptions={searchOptions}
+              activeKey={taskStatus}
+              onCLickSearch={(type, val) => {
+                let obj = searchOptions[type]
+                if (!searchOptions[type].includes(val.value)) {
+                  obj.push(val.value)
+                }
+                conditionChange({ [type]: obj })
+              }}
+            />
+          ) : (
+            <Empty />
+          )}
           <div className={styles.pagination}>
             {taskListDataTotal > 10 ? (
               <Pagination
