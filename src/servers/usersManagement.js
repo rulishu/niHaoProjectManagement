@@ -52,6 +52,14 @@ function fuzzyNameQuery(params) {
   })
 }
 
+// 分页查询成员不分页
+function selectProjectMemberList(params) {
+  return request('/api/member/selectProjectMemberList', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
 // 查询用户所在团队
 function fuzzyNameS(params) {
   return request('/api/ManagerTeam/fuzzyNameS', {
@@ -77,4 +85,5 @@ export {
   fuzzyNameQuery,
   fuzzyNameS,
   searchUser,
+  selectProjectMemberList,
 }

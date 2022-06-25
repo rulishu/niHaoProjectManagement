@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import {
@@ -14,6 +14,7 @@ import {
 } from 'uiw'
 import { useParams } from 'react-router-dom'
 import formatter from '@uiw/formatter'
+import { ThisTime, changeTime } from '@/utils/timeDistance'
 
 const Invite = () => {
   const dispatch = useDispatch()
@@ -27,23 +28,28 @@ const Invite = () => {
       modalTitle,
       userList,
       groupList,
-      userIdList,
+      allUserList,
     },
   } = useSelector((state) => state)
+  const [teamList, setTeamList] = useState(groupList)
+
   useEffect(() => {
     dispatch({
-      type: 'usersManagement/queryFuzzyAllUser',
+      type: 'usersManagement/selectProjectMemberList',
+      payload: { projectId: projectId },
     })
-  }, [dispatch])
+  }, [dispatch, projectId])
   //邀请团队、成员-模糊查询
   const handleSearch = (e) => {
     setTimeout(() => {
-      const filterOpion = groupList?.filter(
-        (item) => !!item.label.includes(e.trim())
-      )
-      updateData({
-        groupList: [...filterOpion],
-      })
+      if (e) {
+        const filterOpion = groupList?.filter(
+          (item) => !!item.label.includes(e.trim())
+        )
+        setTeamList([...filterOpion])
+      } else {
+        setTeamList(groupList)
+      }
     }, 500)
   }
   // Tabs标签
@@ -62,10 +68,9 @@ const Invite = () => {
     })
   }
   const invite = (type) => {
-    const userIds = userIdList.map((item) => item.value)
     type === 'team' &&
       dispatch.usersManagement.fuzzyNameS({
-        userIds: userIds,
+        userIds: allUserList,
       })
     updateData({
       modalVisible: true,
@@ -102,6 +107,29 @@ const Invite = () => {
     }
   }
   const submitData = (current) => {
+    const errorObj = {}
+    if (modalTitle === '邀请成员' && !current.userId) {
+      errorObj.userId = '邀请成员不能为空！'
+    }
+    if (modalTitle === '邀请团队' && !current.teamId) {
+      errorObj.teamId = '邀请团队不能为空！'
+    }
+    if (!current.memberRole) {
+      errorObj.memberRole = '成员角色不能为空！'
+    }
+    if (
+      !current.accessExpirationTime ||
+      (current.accessExpirationTime &&
+        changeTime(current?.accessExpirationTime) <= ThisTime())
+    ) {
+      errorObj.accessExpirationTime =
+        '授予到期时间不能为空并且不能不能晚于当前日期！'
+    }
+    if (Object.keys(errorObj).length > 0) {
+      const err = new Error()
+      err.filed = errorObj
+      throw err
+    }
     // 邀请成员
     if (modalTitle === '邀请成员') {
       let userId = current.userId.map((a) => a.value)
@@ -174,7 +202,11 @@ const Invite = () => {
           }}
           fields={{
             userId: {
-              label: '按账户姓名邮箱搜索',
+              label: (
+                <>
+                  <span style={{ color: 'red' }}>*</span>按账户姓名邮箱搜索
+                </>
+              ),
               children: (
                 <SearchSelect
                   option={userList}
@@ -189,14 +221,18 @@ const Invite = () => {
               ),
             },
             teamId: {
-              label: '邀请团队',
+              label: (
+                <>
+                  <span style={{ color: 'red' }}>*</span>邀请团队
+                </>
+              ),
               children: (
                 <SearchSelect
-                  option={groupList}
+                  option={teamList}
                   labelInValue={true}
                   showSearch={true}
                   allowClear={true}
-                  placeholder={'按账户姓名邮箱搜索'}
+                  placeholder={'按团队姓名搜索'}
                   onSearch={(e) => {
                     handleSearch(e)
                   }}
@@ -204,7 +240,11 @@ const Invite = () => {
               ),
             },
             memberRole: {
-              label: '成员角色',
+              label: (
+                <>
+                  <span style={{ color: 'red' }}>*</span>成员角色
+                </>
+              ),
               children: (
                 <SearchSelect
                   option={options}
@@ -214,7 +254,11 @@ const Invite = () => {
               ),
             },
             accessExpirationTime: {
-              label: '授予到期时间',
+              label: (
+                <>
+                  <span style={{ color: 'red' }}>*</span>授予访问到期时间
+                </>
+              ),
               children: (
                 <DateInput
                   placeholder="请输入访问到期日期"
