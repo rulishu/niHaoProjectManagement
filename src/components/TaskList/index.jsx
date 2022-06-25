@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Icon, Tooltip, Avatar } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
-import { DropdownBox } from '@/components'
+import { DropdownBox, Label } from '@/components'
 
 import styles from './index.module.less'
 
@@ -20,7 +20,6 @@ const TaskList = (props) => {
     searchOptions,
     activeKey,
   } = props
-
   const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
@@ -33,16 +32,16 @@ const TaskList = (props) => {
 
   // 任务排序
   const taskSort = [
-    {
-      key: 1,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
-      label: '名称升序',
-    },
-    {
-      key: 2,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
-      label: '名称降序',
-    },
+    // {
+    //   key: 1,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
+    //   label: '名称升序',
+    // },
+    // {
+    //   key: 2,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
+    //   label: '名称降序',
+    // },
     {
       key: 3,
       value: { orderByColumn: 'createTime', isAsc: 'asc' },
@@ -86,25 +85,38 @@ const TaskList = (props) => {
     return labelsData?.map((item) => {
       if (value?.includes(item?.id)) {
         return (
-          <span
+          <Label
+            color={item.color}
             key={item?.id}
-            style={{
-              paddingLeft: 8,
-              paddingRight: 8,
-              borderColor: item.color,
-              backgroundColor: `${item.color}40`,
-              color: item.color,
-            }}
-            className={styles.label}
             onClick={() => {
               onCLickSearch &&
                 onCLickSearch('labels', {
                   value: item.id,
                   label: item.name,
                 })
-            }}>
+            }}
+            style={{ paddingLeft: 8, paddingRight: 8 }}>
             {item.name}
-          </span>
+          </Label>
+          // <span
+          //   key={item?.id}
+          //   style={{
+          //     paddingLeft: 8,
+          //     paddingRight: 8,
+          //     borderColor: item.color,
+          //     backgroundColor: `${item.color}40`,
+          //     color: item.color,
+          //   }}
+          //   className={styles.label}
+          // onClick={() => {
+          //   onCLickSearch &&
+          //     onCLickSearch('labels', {
+          //       value: item.id,
+          //       label: item.name,
+          //     })
+          // }}>
+          //   {item.name}
+          // </span>
         )
       }
       return null
@@ -200,7 +212,9 @@ const TaskList = (props) => {
                 isSearchBox={false}
                 selectData={[1]}
                 onSelect={(_, key) => {
-                  optionsChange(taskSort.filter((s) => s.key === key)[0].value)
+                  const valueInfo = taskSort.filter((s) => s.key === key)[0]
+                    .value
+                  optionsChange(valueInfo)
                 }}>
                 <span className={styles.clickableDiscolor}>
                   排序
@@ -225,17 +239,21 @@ const TaskList = (props) => {
                 <div className={styles.itemLeft}>
                   <div className={styles.itemLeftTop}>
                     <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
+                    <span className={styles.labelBox}>
+                      {labelBox(item?.labels)}
+                    </span>
                   </div>
                   <div className={styles.itemLeftBase}>
-                    <span className={styles.mark}>#{item.assignmentId}</span>
-                    <span className={styles.updateTime}>
-                      · 创建于{timeDistance(item.createTime).time}前
-                    </span>
+                    <span className={styles.mark}>#{item.assignmentId}</span>·
                     由
                     <span
                       className={styles.clickable}
+                      style={{ paddingLeft: 5 }}
                       onClick={() => goPage(`${item.assigneeUserAccount}`)}>
                       {item?.updateName}
+                    </span>
+                    <span className={styles.updateTime}>
+                      创建于{timeDistance(item.createTime).time}前
                     </span>
                     {item.milestonesId ? (
                       <span
@@ -253,9 +271,6 @@ const TaskList = (props) => {
                     ) : (
                       ''
                     )}
-                    <span className={styles.labelBox}>
-                      {labelBox(item?.labels)}
-                    </span>
                   </div>
                 </div>
                 <div className={styles.itemRight}>
@@ -281,9 +296,9 @@ const TaskList = (props) => {
                             </Avatar>
                           </span>
                         </Tooltip>
-                        <div style={{ fontSize: 12 }}>
+                        {/* <div style={{ fontSize: 12 }}>
                           更新于{timeDistance(item.updateTime).time}前
-                        </div>
+                        </div> */}
                       </>
                     ) : (
                       ''

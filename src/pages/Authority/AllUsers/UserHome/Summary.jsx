@@ -3,6 +3,13 @@ import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 
+// 任务操作类型
+const dynamicType = {
+  0: '',
+  1: '操作：',
+  2: '评论：',
+}
+
 // 用户首页概括
 const DynamicsList = (props) => {
   const {
@@ -229,7 +236,7 @@ const DynamicsList = (props) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                       }}>
-                      {'评论：' + (item?.operatingRecords || '')}
+                      {dynamicType[item.type] + (item?.operatingRecords || '')}
                     </div>
                   </li>
                 )

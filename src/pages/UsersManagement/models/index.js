@@ -8,6 +8,8 @@ import {
   queryFuzzyAllUser,
   fuzzyNameQuery,
   fuzzyNameS,
+  searchUser,
+  selectProjectMemberList,
 } from '@/servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -21,12 +23,16 @@ const usersManagement = createModel()({
     tableType: '',
     userIdList: [],
     teamIdList: [],
-    groupList: '',
+    groupList: [],
     loading: false,
     activeKey: '1',
     listData: [],
     total: 0,
     memberInfo: {},
+    modalVisible: false,
+    modalTitle: '',
+    userList: [],
+    allUserList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -103,13 +109,26 @@ const usersManagement = createModel()({
     async fuzzyNameQuery(payload) {
       const dph = dispatch
       const data = await fuzzyNameQuery(payload)
-      if (data.code === 200) {
+      if (data && data.code === 200) {
         const teamIdList = data?.data.map((item) => ({
           label: item.teamName,
           value: item.id,
         }))
         dph.usersManagement.updateState({
           teamIdList: teamIdList,
+        })
+      }
+    },
+    //查询成员不分页
+    async selectProjectMemberList(payload) {
+      const dph = dispatch
+      const data = await selectProjectMemberList(payload)
+      if (data && data.code === 200) {
+        const allUserList = data?.data.map((item) => {
+          return item.userId
+        })
+        dph.usersManagement.updateState({
+          allUserList: allUserList,
         })
       }
     },
@@ -124,6 +143,26 @@ const usersManagement = createModel()({
         }))
         dph.usersManagement.updateState({
           groupList: teamIdList,
+        })
+      }
+    },
+    // 根据用户账户，昵称模糊查询，根据完整邮箱账户查询
+    async searchUser(params) {
+      const dph = dispatch
+      if (params) {
+        const data = await searchUser(params)
+        if (data && data.code === 200) {
+          const userList = data?.data.map((item) => ({
+            label: `${item.nickName} ${item.email}`,
+            value: item.userId,
+          }))
+          dph.usersManagement.updateState({
+            userList: userList,
+          })
+        }
+      } else {
+        dph.usersManagement.updateState({
+          userList: [],
         })
       }
     },

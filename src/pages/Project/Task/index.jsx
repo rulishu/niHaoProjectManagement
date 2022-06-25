@@ -35,7 +35,11 @@ const Task = (props) => {
       type: 'projectTasks/update',
       payload: {
         searchOptions: {
-          ...searchOptions,
+          // ...searchOptions,
+          createId: [], // 创建人
+          labels: [], // 标签
+          milestonesId: [], // 里程碑
+          assignmentUserId: [], // 指派人
           page: 1,
           assignmentStatus: taskStatus,
         },

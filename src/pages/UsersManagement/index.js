@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './index.module.less'
 import {
   Card,
-  Tabs,
   Pagination,
   Avatar,
   Row,
@@ -16,11 +15,14 @@ import {
   Icon,
   DateInput,
   Button,
+  Empty,
 } from 'uiw'
 import { useParams, useNavigate } from 'react-router-dom'
 import timeDistance from '@/utils/timeDistance'
-// import formatter from '@uiw/formatter'
 import { changeTime } from '@/utils/utils'
+import formatter from '@uiw/formatter'
+import Search from './search'
+import Invite from './invite'
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -29,15 +31,8 @@ const Index = () => {
   const [isPulldown, setIsPulldown] = useState(false)
   const [activeIndex, setActiveIndex] = useState(10)
   const {
-    usersManagement: {
-      listData,
-      total,
-      activeKey,
-      delectVisible,
-      type,
-      memberInfo,
-    },
-    routeManagement: { userInfo, dataUser },
+    usersManagement: { listData, total, delectVisible, type, memberInfo },
+    routeManagement: { userInfoName, dataUser },
   } = useSelector((state) => state)
   const updateData = (payload) => {
     dispatch({
@@ -63,6 +58,12 @@ const Index = () => {
       },
     })
     dispatch({
+      type: 'routeManagement/queryFuzzyAllProjectMember',
+      payload: {
+        projectId: projectId,
+      },
+    })
+    dispatch({
       type: 'usersManagement/selectPageList',
       payload: {
         page: 1,
@@ -71,15 +72,6 @@ const Index = () => {
       },
     })
   }, [dispatch, projectId])
-  // Tabs标签
-  const tabsLabel = (title, num) => {
-    return (
-      <>
-        <span className={styles.tabsLabelTitle}>{title}</span>
-        <span className={styles.tabsLabelNum}>{num || 0}</span>
-      </>
-    )
-  }
   // 跳转页面方法
   const goPage = (value) => {
     navigate(`/${value}`)
@@ -185,22 +177,26 @@ const Index = () => {
     }).then((data) => information(data))
   }
   const editTime = (memberTime) => {
-    const payload = {
-      id: memberInfo.id,
-      accessExpirationTime: memberTime || '',
-      memberRole: memberInfo.memberRole,
-      userId: memberInfo.userId,
-      projectId: memberInfo.projectId,
+    if (memberTime) {
+      const payload = {
+        id: memberInfo.id,
+        accessExpirationTime: formatter('YYYY-MM-DD', new Date(memberTime)),
+        memberRole: memberInfo.memberRole,
+        userId: memberInfo.userId,
+        projectId: memberInfo.projectId,
+      }
+      dispatch({
+        type: 'usersManagement/updateProjectMember',
+        payload,
+      }).then((data) => information(data))
+    } else {
+      Notify.error({ title: '授予到期时间不能为空' })
     }
-    dispatch({
-      type: 'usersManagement/updateProjectMember',
-      payload,
-    }).then((data) => information(data))
   }
   const roleMenu = (
     <div className={styles.dropdownMenu}>
       <ul>
-        {roleList.slice(0, 3).map((item) => (
+        {roleList?.slice(0, 3).map((item) => (
           <li
             key={item.value}
             onClick={() => {
@@ -222,7 +218,7 @@ const Index = () => {
   //权限设置:仅项目管理者可以邀请/编辑删除
   let memberRoles = dataUser
     ?.filter((item) => {
-      return item.memberName === userInfo
+      return item.userAcount === userInfoName
     })
     .map((a) => a.memberRole)
   return (
@@ -230,14 +226,8 @@ const Index = () => {
       <Card>
         <div className={styles.wrap}>
           <div className={styles.userContent}>
-            <div style={{ borderBottom: '1px solid #dbdbdb' }}>
-              <Tabs
-                type="line"
-                activeKey={activeKey}
-                onTabClick={(activeKey) => console.log(activeKey)}>
-                <Tabs.Pane label={tabsLabel('成员', total)} key="1" />
-              </Tabs>
-            </div>
+            <Invite />
+            <Search />
             <div className={styles.userList}>
               <div className={styles.userListTitle}>
                 <Row>
@@ -251,7 +241,7 @@ const Index = () => {
                     })}
                 </Row>
               </div>
-              {listData &&
+              {listData && listData.length > 0 ? (
                 listData.map((item, index) => {
                   return (
                     <Row className={styles.userListItem} key={index}>
@@ -262,8 +252,12 @@ const Index = () => {
                           <Avatar
                             size="small"
                             src={
-                              item?.avatar &&
-                              `/api/file/selectFile/${item?.avatar}`
+                              item.avatar?.substring(0, 4) === 'http'
+                                ? item.avatar
+                                : item.avatar?.substring(0, 4) !== 'http' &&
+                                  item.avatar !== ''
+                                ? `/api/file/selectFile/${item.avatar}`
+                                : item.path
                             }
                             className={styles.userAvatar}>
                             {item.memberName && item.memberName[0]}
@@ -278,21 +272,28 @@ const Index = () => {
                         <div className={styles.createTime}>
                           <Tooltip
                             placement="top"
-                            content={item?.createTime.slice(0, 10)}>
+                            content={item?.createTime?.slice(0, 10)}>
                             {`${timeDistance(item?.createTime).time}前`}
                           </Tooltip>
                         </div>
                       </Col>
                       <Col span={userTitle && userTitle[2]?.length}>
-                        <Tooltip placement="top" content={item?.email}>
+                        {item.email ? (
+                          <Tooltip placement="top" content={item?.email}>
+                            <div className={styles.userMail}>
+                              <span>{item.email}</span>
+                            </div>
+                          </Tooltip>
+                        ) : (
                           <div className={styles.userMail}>
                             <span>{item.email}</span>
                           </div>
-                        </Tooltip>
+                        )}
                       </Col>
                       <Col span={userTitle && userTitle[3]?.length}>
                         <div className={styles.userRole}>
-                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                          {(owner === 'true' || Number(memberRoles) === 3) &&
+                          item.memberRole !== 4 ? (
                             <OverlayTrigger
                               placement="bottomRight"
                               trigger="click"
@@ -323,15 +324,16 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[4]?.length}>
                         <div className={styles.createTime}>
-                          {owner === 'true' || Number(memberRoles) === 3 ? (
+                          {(owner === 'true' || Number(memberRoles) === 3) &&
+                          item.memberRole !== 4 ? (
                             <DateInput
                               style={{ width: '90%' }}
                               value={item.accessExpirationTime}
                               format="YYYY-MM-DD"
                               autoClose
+                              allowClear={false}
                               onChange={(e) => {
                                 handleEditTable('edit', item)
-                                // editTime(formatter('YYYY-MM-DD', new Date(e)))
                                 editTime(changeTime(e))
                               }}
                             />
@@ -342,12 +344,8 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[5]?.length}>
                         <div className={styles.userButton}>
-                          {userInfo === item?.memberName ? (
-                            // <div
-                            //   className={styles.userDel}
-                            //   onClick={() => handleEditTable('out', item)}>
-                            //   退出该项目
-                            // </div>
+                          {userInfoName === item?.userName &&
+                          item.memberRole !== 4 ? (
                             <Tooltip placement="top" content="退出项目">
                               <Button
                                 type="danger"
@@ -357,12 +355,8 @@ const Index = () => {
                               />
                             </Tooltip>
                           ) : (
-                            (owner === 'true' || Number(memberRoles) === 3) && (
-                              // <div
-                              //   className={styles.userDel}
-                              //   onClick={() => handleEditTable('del', item)}>
-                              //   移出该成员
-                              // </div>
+                            (owner === 'true' || Number(memberRoles) === 3) &&
+                            item.memberRole !== 4 && (
                               <Button
                                 type="danger"
                                 className={styles.userDel}
@@ -375,7 +369,10 @@ const Index = () => {
                       </Col>
                     </Row>
                   )
-                })}
+                })
+              ) : (
+                <Empty style={{ padding: '30px 0' }}></Empty>
+              )}
             </div>
             <div className={styles.pagination}>
               {total > 10 && (

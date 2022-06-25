@@ -171,7 +171,13 @@ export default function Index() {
               width: 250,
               ellipsis: true,
               render: (address) => (
-                <div style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    textAlign: 'center',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                  }}>
                   <Tooltip placement="leftTop" content={address}>
                     <span>{address || ''}</span>
                   </Tooltip>

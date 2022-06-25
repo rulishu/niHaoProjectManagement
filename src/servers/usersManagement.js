@@ -52,11 +52,27 @@ function fuzzyNameQuery(params) {
   })
 }
 
+// 分页查询成员不分页
+function selectProjectMemberList(params) {
+  return request('/api/member/selectProjectMemberList', {
+    method: 'POST',
+    body: { ...params },
+  })
+}
+
 // 查询用户所在团队
 function fuzzyNameS(params) {
   return request('/api/ManagerTeam/fuzzyNameS', {
     method: 'POST',
     body: { ...params },
+  })
+}
+// 根据用户账户，昵称模糊查询，根据完整邮箱账户查询
+function searchUser(params) {
+  return request(`/api/system/user/searchUser/${params}`, {
+    method: 'POST',
+    requestType: 'urlencoded',
+    body: params,
   })
 }
 export {
@@ -68,4 +84,6 @@ export {
   queryFuzzyAllUser,
   fuzzyNameQuery,
   fuzzyNameS,
+  searchUser,
+  selectProjectMemberList,
 }
