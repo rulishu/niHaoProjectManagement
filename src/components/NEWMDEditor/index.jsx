@@ -15,7 +15,7 @@ const NEWMDEditor = (props) => {
         // {...props}
         ref={mdref}
         value={props.value}
-        onPaste={(e) => props.onPaste(e)}
+        onPaste={(e) => props.onPaste() && props.onPaste(e)}
         onChange={(value) => props.onChange(value)}
         style={{ flex: 1 }}
         preview={props?.preview || 'edit'}
