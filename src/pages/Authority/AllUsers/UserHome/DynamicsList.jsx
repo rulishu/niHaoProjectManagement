@@ -38,6 +38,13 @@ const ProjectList = (props) => {
     }
   }
 
+  // 任务操作类型
+  const dynamicType = {
+    0: '',
+    1: '操作：',
+    2: '评论：',
+  }
+
   return (
     <div
       className={styles.userAllDynamicList}
@@ -102,7 +109,7 @@ const ProjectList = (props) => {
                     )}
                   </div>
                   <div className={styles.dynamicCon}>
-                    {'评论：' + (item?.operatingRecords || '')}
+                    {dynamicType[item?.type] + (item?.operatingRecords || '')}
                   </div>
                 </li>
               )
