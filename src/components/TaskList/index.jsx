@@ -228,15 +228,15 @@ const TaskList = (props) => {
                     <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
                   </div>
                   <div className={styles.itemLeftBase}>
-                    <span className={styles.mark}>#{item.assignmentId}</span>
-                    <span className={styles.updateTime}>
-                      · 创建于{timeDistance(item.createTime).time}前
-                    </span>
+                    <span className={styles.mark}>#{item.assignmentId}</span>·
                     由
                     <span
                       className={styles.clickable}
                       onClick={() => goPage(`${item.assigneeUserAccount}`)}>
                       {item?.updateName}
+                    </span>
+                    <span className={styles.updateTime}>
+                      创建于{timeDistance(item.createTime).time}前
                     </span>
                     {item.milestonesId ? (
                       <span
