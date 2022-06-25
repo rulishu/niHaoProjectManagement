@@ -275,11 +275,17 @@ const Index = () => {
                         </div>
                       </Col>
                       <Col span={userTitle && userTitle[2]?.length}>
-                        <Tooltip placement="top" content={item?.email}>
+                        {item.email ? (
+                          <Tooltip placement="top" content={item?.email}>
+                            <div className={styles.userMail}>
+                              <span>{item.email}</span>
+                            </div>
+                          </Tooltip>
+                        ) : (
                           <div className={styles.userMail}>
                             <span>{item.email}</span>
                           </div>
-                        </Tooltip>
+                        )}
                       </Col>
                       <Col span={userTitle && userTitle[3]?.length}>
                         <div className={styles.userRole}>
