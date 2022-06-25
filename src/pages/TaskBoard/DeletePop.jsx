@@ -78,9 +78,10 @@ const DeletePop = (props) => {
         onCancel={() => setDeleteConfirmation(false)}
         onClosed={() => setDeleteConfirmation(false)}>
         <div>
-          删除列表?
+          确定要删除这个列表吗？
+          {/* 删除列表?
           <br />
-          <strong>您确定您将删除这个列表吗？!</strong>
+          <strong>您确定您将删除这个列表吗？!</strong> */}
         </div>
       </Modal>
       <Overlay isOpen={editList} onClose={() => setEditList(false)}>
