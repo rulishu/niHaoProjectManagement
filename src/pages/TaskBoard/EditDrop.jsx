@@ -168,9 +168,10 @@ const EditDrop = (props) => {
           onCancel={() => setEditOpen(false)}
           onClosed={() => setEditOpen(false)}>
           <div>
-            删除小记?
+            确定要删除这个小记？
+            {/* 删除小记?
             <br />
-            <strong>你确定要删除这个小记？!</strong>
+            <strong>你确定要删除这个小记？!</strong> */}
           </div>
         </Modal>
       ) : (
