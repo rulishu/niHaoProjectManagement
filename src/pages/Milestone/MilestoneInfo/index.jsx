@@ -171,7 +171,7 @@ const MilestoneInfo = () => {
             <span className={styles.headTitle}>
               <strong>里程碑</strong>
               {editState.startTime}
-              {editState.dueTime && '-' + editState.dueTime}
+              {editState.dueTime && ' ~ ' + editState.dueTime}
             </span>
           </div>
           <div className={styles.headRight}>
