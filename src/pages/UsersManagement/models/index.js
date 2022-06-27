@@ -9,6 +9,7 @@ import {
   fuzzyNameQuery,
   fuzzyNameS,
   searchUser,
+  selectProjectMemberList,
 } from '@/servers/usersManagement'
 
 const usersManagement = createModel()({
@@ -31,6 +32,7 @@ const usersManagement = createModel()({
     modalVisible: false,
     modalTitle: '',
     userList: [],
+    allUserList: [],
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -117,6 +119,19 @@ const usersManagement = createModel()({
         })
       }
     },
+    //查询成员不分页
+    async selectProjectMemberList(payload) {
+      const dph = dispatch
+      const data = await selectProjectMemberList(payload)
+      if (data && data.code === 200) {
+        const allUserList = data?.data.map((item) => {
+          return item.userId
+        })
+        dph.usersManagement.updateState({
+          allUserList: allUserList,
+        })
+      }
+    },
     // 模糊查询团队
     async fuzzyNameS(payload) {
       const dph = dispatch
@@ -126,7 +141,6 @@ const usersManagement = createModel()({
           label: item.teamName,
           value: item.id,
         }))
-        console.log(teamIdList)
         dph.usersManagement.updateState({
           groupList: teamIdList,
         })
