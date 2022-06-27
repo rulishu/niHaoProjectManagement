@@ -57,6 +57,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
       setusers(false)
       setCheckAll(false)
       setprojectList(true)
+    } else if (breadUrl === '/organizeList') {
+      setusers(false)
+      setOrganization(true)
+      setCheckAll(false)
+      setprojectList(false)
     } else {
       if (!!params?.userAccount && !!params?.projectId) {
         setprojectList(true)
@@ -70,7 +75,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breadUrl])
-  console.log('breadUrl: ', breadUrl)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -194,6 +198,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/dashboard`)
                 setCheckAll(true)
+                setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
@@ -205,6 +210,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/dashboard`)
                 // setCheckAll(false)
+                setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
@@ -217,6 +223,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/projectList`)
                 setprojectList(true)
+                setOrganization(false)
                 setCheckAll(false)
                 setusers(false)
               }}>
@@ -229,6 +236,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/projectList`)
                 setprojectList(true)
                 setCheckAll(false)
+                setOrganization(false)
                 setusers(false)
               }}>
               项目管理
@@ -251,7 +259,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate(`/organizeList`)
-                setOrganization(false)
+                setOrganization(true)
                 setprojectList(false)
                 setCheckAll(false)
                 setusers(false)
@@ -266,6 +274,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate('/Authority/users')
                 setusers(true)
                 setprojectList(false)
+                setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理
@@ -278,6 +287,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate('/Authority/users')
                 setusers(true)
                 setprojectList(false)
+                setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理

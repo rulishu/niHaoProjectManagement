@@ -1,11 +1,12 @@
-import { Notify } from 'uiw'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { useSelector, useDispatch } from 'react-redux'
 import { isChina } from '@/utils/utils'
+import debounce from '@/utils/debounce'
+import RouteInput from './RouteInput'
 
 export default function DelectModals(props) {
   const {
-    organizeList: { addVisible },
+    organizeList: { addVisible, search },
   } = useSelector((state) => state)
   const form = useForm()
 
@@ -38,6 +39,7 @@ export default function DelectModals(props) {
       ]}>
       <ProForm
         form={form}
+        customWidgetsList={{ inputs: RouteInput }}
         // 提交后验证
         onSubmit={(initial, current) => {
           const errorObj = {}
@@ -60,8 +62,22 @@ export default function DelectModals(props) {
             payload: {
               ...current,
               parentId: 0,
+              search,
             },
           })
+        }}
+        onChange={(initial, current) => {
+          if (isChina(current.urlCode) === true && current.urlCode !== '') {
+            debounce(dispatch, 500, {
+              type: 'organizeList/checkUrlUniqueness',
+              payload: { urlCode: current.urlCode },
+            })
+          } else {
+            const errorObj = {}
+            if (isChina(current?.urlCode) !== true) {
+              errorObj.urlCode = '不能包含中文和空格'
+            }
+          }
         }}
         formDatas={[
           {
@@ -77,19 +93,17 @@ export default function DelectModals(props) {
             label: '路由',
             key: 'urlCode',
             placeholder: '请输入路由',
-            widget: 'input',
+            widget: 'inputs',
             required: true,
             // initialValue: queryInfo?.urlCode,
             span: '24',
             widgetProps: {
               onChange: (e) => {
                 if (isChina(e.target.value) === true) {
-                  dispatch({
+                  debounce(dispatch, 200, {
                     type: 'organizeList/checkUrlUniqueness',
                     payload: { urlCode: e.target.value },
                   })
-                } else {
-                  Notify.error({ title: isChina(e.target.value) })
                 }
               },
             },

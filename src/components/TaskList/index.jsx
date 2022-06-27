@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Icon, Tooltip, Avatar } from 'uiw'
+import { Icon, Tooltip, Avatar, Empty } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
 import { DropdownBox, Label } from '@/components'
@@ -20,6 +20,7 @@ const TaskList = (props) => {
     searchOptions,
     activeKey,
   } = props
+  console.log(labelsListData)
   const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
@@ -223,108 +224,116 @@ const TaskList = (props) => {
               </DropdownBox>
             </div>
           </li>
-          {listData.map((item) => {
-            return (
-              <li key={item.assignmentId}>
-                <div className={styles.itemState}>
-                  {
-                    <Icon
-                      type={taskState[item.assignmentStatus - 1].icon}
-                      style={{
-                        fill: taskState[item.assignmentStatus - 1].color,
-                      }}
-                    />
-                  }
-                </div>
-                <div className={styles.itemLeft}>
-                  <div className={styles.itemLeftTop}>
-                    <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
-                    <span className={styles.labelBox}>
-                      {labelBox(item?.labels)}
-                    </span>
+          {listData.length !== 0 ? (
+            listData.map((item) => {
+              return (
+                <li key={item.assignmentId}>
+                  <div className={styles.itemState}>
+                    {
+                      <Icon
+                        type={taskState[item.assignmentStatus - 1].icon}
+                        style={{
+                          fill: taskState[item.assignmentStatus - 1].color,
+                        }}
+                      />
+                    }
                   </div>
-                  <div className={styles.itemLeftBase}>
-                    <span className={styles.mark}>#{item.assignmentId}</span>·
-                    由
-                    <span
-                      className={styles.clickable}
-                      style={{ paddingLeft: 5 }}
-                      onClick={() => goPage(`${item.assigneeUserAccount}`)}>
-                      {item?.updateName}
-                    </span>
-                    <span className={styles.updateTime}>
-                      创建于{timeDistance(item.createTime).time}前
-                    </span>
-                    {item.milestonesId ? (
+                  <div className={styles.itemLeft}>
+                    <div className={styles.itemLeftTop}>
+                      <p onClick={() => listGoTo(item)}>
+                        {item.assignmentTitle}
+                      </p>
+                      <span className={styles.labelBox}>
+                        {labelBox(item?.labels)}
+                      </span>
+                    </div>
+                    <div className={styles.itemLeftBase}>
+                      <span className={styles.mark}>#{item.assignmentId}</span>·
+                      由
                       <span
                         className={styles.clickable}
-                        onClick={() => {
-                          onCLickSearch &&
-                            onCLickSearch('milestonesId', {
-                              value: item.milestonesId,
-                              label: item.milestonesTitle,
-                            })
-                        }}>
-                        <Icon type="coffee" />
-                        {item?.milestonesTitle}
+                        style={{ paddingLeft: 5 }}
+                        onClick={() => goPage(`${item.assigneeUserAccount}`)}>
+                        {item?.updateName}
                       </span>
-                    ) : (
-                      ''
-                    )}
+                      <span className={styles.updateTime}>
+                        创建于{timeDistance(item.createTime).time}前
+                      </span>
+                      {item.milestonesId ? (
+                        <span
+                          className={styles.clickable}
+                          onClick={() => {
+                            onCLickSearch &&
+                              onCLickSearch('milestonesId', {
+                                value: item.milestonesId,
+                                label: item.milestonesTitle,
+                              })
+                          }}>
+                          <Icon type="coffee" />
+                          {item?.milestonesTitle}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className={styles.itemRight}>
-                  <div></div>
-                  <div style={{ flexWrap: 'wrap' }}>
-                    {item.assigneeUserId ? (
-                      <>
-                        <Tooltip content={`指派给${item?.assigneeUserName}`}>
-                          <span
-                            className={styles.clickable}
-                            onClick={() =>
-                              goPage(`${item.assigneeUserAccount}`)
-                            }>
-                            <Avatar
-                              size="small"
-                              src={
-                                item.assigneeUserAvatar?.substring(0, 4) ===
-                                'http'
-                                  ? item.assigneeUserAvatar
-                                  : item.assigneeUserAvatar?.substring(0, 4) !==
-                                      'http' &&
-                                    item.assigneeUserAvatar !== '' &&
-                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
-                              }
-                              className={styles.roleAvatar}>
-                              {item.assigneeUserName &&
-                                item.assigneeUserName[0]}
-                            </Avatar>
-                          </span>
-                        </Tooltip>
-                        {/* <div style={{ fontSize: 12 }}>
+                  <div className={styles.itemRight}>
+                    <div></div>
+                    <div style={{ flexWrap: 'wrap' }}>
+                      {item.assigneeUserId ? (
+                        <>
+                          <Tooltip content={`指派给${item?.assigneeUserName}`}>
+                            <span
+                              className={styles.clickable}
+                              onClick={() =>
+                                goPage(`${item.assigneeUserAccount}`)
+                              }>
+                              <Avatar
+                                size="small"
+                                src={
+                                  item.assigneeUserAvatar?.substring(0, 4) ===
+                                  'http'
+                                    ? item.assigneeUserAvatar
+                                    : item.assigneeUserAvatar?.substring(
+                                        0,
+                                        4
+                                      ) !== 'http' &&
+                                      item.assigneeUserAvatar !== '' &&
+                                      `/api/file/selectFile/${item.assigneeUserAvatar}`
+                                }
+                                className={styles.roleAvatar}>
+                                {item.assigneeUserName &&
+                                  item.assigneeUserName[0]}
+                              </Avatar>
+                            </span>
+                          </Tooltip>
+                          {/* <div style={{ fontSize: 12 }}>
                           更新于{timeDistance(item.updateTime).time}前
                         </div> */}
-                      </>
-                    ) : (
-                      ''
-                    )}
+                        </>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <div className={styles.itemComments}>
+                      {item?.commentNum > 0 ? (
+                        <span
+                          className={styles.clickableDiscolor}
+                          onClick={() => listGoTo(item)}>
+                          <Icon type="message" />
+                          {item?.commentNum}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   </div>
-                  <div className={styles.itemComments}>
-                    {item?.commentNum > 0 ? (
-                      <span
-                        className={styles.clickableDiscolor}
-                        onClick={() => listGoTo(item)}>
-                        <Icon type="message" />
-                        {item?.commentNum}
-                      </span>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-              </li>
-            )
-          })}
+                </li>
+              )
+            })
+          ) : (
+            <Empty />
+          )}
         </ul>
       </div>
     </div>

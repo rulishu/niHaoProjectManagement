@@ -1,9 +1,10 @@
-import { Button, Tooltip } from 'uiw'
+import { Button, Tooltip, Icon } from 'uiw'
 
 const sourceTypeObj = { 10: 'GitLab', 20: 'GitHub', 30: '禅道' }
 
 export const columns = (methods) => {
-  const { getDataByIdSource, delDatSource, synchrodata, loading } = methods
+  const { getDataByIdSource, delDatSource, synchrodata, loading, migrateId } =
+    methods
   return [
     {
       title: '迁移源名称',
@@ -64,7 +65,6 @@ export const columns = (methods) => {
       width: 210,
       align: 'center',
       render: (text, key, rowData) => {
-        // console.log(text, key, rowData);
         return (
           <div>
             <Button
@@ -88,9 +88,15 @@ export const columns = (methods) => {
             <Button
               size="small"
               type="warning"
-              icon="reload"
-              loading={loading.effects.migrate.synchronizationControl}
+              disabled={loading.effects.migrate.synchronizationControl}
               onClick={() => synchrodata(rowData)}>
+              <Icon
+                type="reload"
+                spin={
+                  migrateId === rowData.id &&
+                  loading.effects.migrate.synchronizationControl
+                }
+              />
               同步数据
             </Button>
           </div>

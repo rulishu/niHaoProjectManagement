@@ -130,6 +130,7 @@ const TaskDetail = (props) => {
       })
       dispatch.taskboard.changeCloseTime({
         projectId,
+        createTime: taskInfo.createTime,
         assignmentId: taskInfo.assignmentId,
         dueDate: e ? dayjs(e).format('YYYY-MM-DD') : null,
       })

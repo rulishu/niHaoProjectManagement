@@ -25,13 +25,15 @@ const OrganizeList = (props) => {
     const dataSouce = data?.filter(function (item) {
       return item.parentId === 0
     })
-    function uniqueFunc(arr, uniId) {
-      const res = new Map()
-      return arr?.filter(
-        (item) => !res.has(item[uniId]) && res.set(item[uniId], 1)
-      )
-    }
-    return uniqueFunc(dataSouce, dataSouce?.length + 1)
+    // function uniqueFunc(arr, uniId) {
+    //   console.log('uniId',uniId);
+    //   const res = new Map()
+    //   return arr?.filter(
+    //     (item) => !res.has(item[uniId]) && res.set(item[uniId], 1)
+    //   )
+    // }
+    // return uniqueFunc(dataSouce, dataSouce?.length + 1)
+    return dataSouce
   }
 
   const table = useTable('/api/organization/selectOrganizationProject', {
@@ -94,12 +96,14 @@ const OrganizeList = (props) => {
     )
   }
 
+  const search = table.onSearch
   // 新增组织
   const onAdd = () => {
     dispatch({
       type: 'organizeList/updateState',
       payload: {
         addVisible: true,
+        search: search,
       },
     })
   }

@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ProDrawer, ProForm, useForm } from '@uiw-admin/components'
 import { Loader } from 'uiw'
 import formatter from '@uiw/formatter'
-import { useState } from 'react'
-import CompDropdown from '../../components/CompDropdown'
-import { initListData } from '@/utils/utils'
+// import { useState } from 'react'
+// import CompDropdown from '../../components/CompDropdown'
+// import { initListData } from '@/utils/utils'
 import styles from './index.module.less'
-import AddList from './AddList'
+// import AddList from './AddList'
 
 /**
  * 使用方法：
@@ -29,7 +29,7 @@ import AddList from './AddList'
 
 const ProjectManagement = (fun) => {
   // const [showSubmit, setShowSubmit] = useState(true)
-  const [addrolds, setAddrolds] = useState(false)
+  // const [addrolds, setAddrolds] = useState(false)
   const baseRef = useForm()
   const dispatch = useDispatch()
   const {
@@ -37,12 +37,12 @@ const ProjectManagement = (fun) => {
       drawerVisible,
       drawerType,
       seachValue,
-      userList,
+      // userList,
       id,
       isHangup,
       editLoading,
       fileIds, //Logo文件的id
-      addList,
+      // addList,
     },
     userHome: { user },
     loading,
@@ -55,116 +55,116 @@ const ProjectManagement = (fun) => {
     })
   }
 
-  const optionEvent = (item) => {
-    let key = item.userId
-    let memberName = item.nickName + '  ' + item.email
-    let arr = userList
-    arr.push({
-      key,
-      memberName,
-    })
-    updateData({ userList: arr })
+  // const optionEvent = (item) => {
+  //   let key = item.userId
+  //   let memberName = item.nickName + '  ' + item.email
+  //   let arr = userList
+  //   arr.push({
+  //     key,
+  //     memberName,
+  //   })
+  //   updateData({ userList: arr })
 
-    baseRef.setFieldValue('projectLeaderId', item.userId)
-    let data = {
-      projectLeaderId: item.userId,
-      name: seachValue?.name,
-      begin: seachValue?.begin,
-      end: seachValue?.end,
-      descr: seachValue?.descr,
-      status: seachValue?.status,
-    }
-    updateData({ seachValue: data })
-    setAddrolds(false)
-  }
+  //   baseRef.setFieldValue('projectLeaderId', item.userId)
+  //   let data = {
+  //     projectLeaderId: item.userId,
+  //     name: seachValue?.name,
+  //     begin: seachValue?.begin,
+  //     end: seachValue?.end,
+  //     descr: seachValue?.descr,
+  //     status: seachValue?.status,
+  //   }
+  //   updateData({ seachValue: data })
+  //   setAddrolds(false)
+  // }
 
-  const dropdown = () => {
-    return (
-      <>
-        <CompDropdown
-          isOpen={addrolds}
-          shape="input"
-          template="addrole"
-          listData={initListData(userList, seachValue.projectLeaderId, 'key', {
-            memberName: 'memberName',
-          })}
-          isAllowsForNo={false}
-          isGonnaHitDeselect={false}
-          selectLabel={(e) => {
-            baseRef.setFieldValue('projectLeaderId', e)
-            setAddrolds(false)
-            // setShowSubmit(false)
-            let arr = {
-              projectLeaderId: e,
-              name: seachValue?.name,
-              begin: seachValue?.begin,
-              end: seachValue?.end,
-              descr: seachValue?.descr,
-              status: seachValue?.status,
-            }
-            updateData({ seachValue: arr })
-          }}
-          onClickLabelShow={(e) => {
-            setAddrolds(e)
-          }}
-          isRadio={true}
-          textBooks={{
-            createTitle: `快速邀请成员并成为负责人`,
-            mainTitle: `项目负责人`,
-          }}
-          actionButtons={
-            JSON.parse(localStorage.getItem('userData'))?.admin
-              ? {
-                  create: { title: '快速邀请成员并成为负责人' },
-                  manage: { isHide: true },
-                }
-              : {
-                  create: { isHide: true },
-                  manage: { isHide: true },
-                }
-          }
-          form={{
-            isHidSubmit: true,
-            fields: (props) => {
-              return {
-                userId: {
-                  inline: true,
-                  children: (
-                    <>
-                      <AddList data={addList} optionEvent={optionEvent} />
-                    </>
-                  ),
-                },
-              }
-            },
-            fieldsShow: ({ fields }) => {
-              return (
-                <div style={{ minWidth: '350px' }}>
-                  <div
-                    style={{
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      display: 'flex',
-                      lineHeight: '30px',
-                    }}>
-                    {fields.userId}
-                  </div>
-                </div>
-              )
-            },
-            // verify: (initial, current) => {
-            //   const errorObj = {}
-            //   const { userId } = current
-            //   if (!userId) {
-            //     errorObj.userId = '请选择用户'
-            //   }
-            //   return errorObj
-            // },
-          }}
-        />
-      </>
-    )
-  }
+  // const dropdown = () => {
+  //   return (
+  //     <>
+  //       <CompDropdown
+  //         isOpen={addrolds}
+  //         shape="input"
+  //         template="addrole"
+  //         listData={initListData(userList, seachValue.projectLeaderId, 'key', {
+  //           memberName: 'memberName',
+  //         })}
+  //         isAllowsForNo={false}
+  //         isGonnaHitDeselect={false}
+  //         selectLabel={(e) => {
+  //           baseRef.setFieldValue('projectLeaderId', e)
+  //           setAddrolds(false)
+  //           // setShowSubmit(false)
+  //           let arr = {
+  //             projectLeaderId: e,
+  //             name: seachValue?.name,
+  //             begin: seachValue?.begin,
+  //             end: seachValue?.end,
+  //             descr: seachValue?.descr,
+  //             status: seachValue?.status,
+  //           }
+  //           updateData({ seachValue: arr })
+  //         }}
+  //         onClickLabelShow={(e) => {
+  //           setAddrolds(e)
+  //         }}
+  //         isRadio={true}
+  //         textBooks={{
+  //           createTitle: `快速邀请成员并成为负责人`,
+  //           mainTitle: `项目负责人`,
+  //         }}
+  //         actionButtons={
+  //           JSON.parse(localStorage.getItem('userData'))?.admin
+  //             ? {
+  //                 create: { title: '快速邀请成员并成为负责人' },
+  //                 manage: { isHide: true },
+  //               }
+  //             : {
+  //                 create: { isHide: true },
+  //                 manage: { isHide: true },
+  //               }
+  //         }
+  //         form={{
+  //           isHidSubmit: true,
+  //           fields: (props) => {
+  //             return {
+  //               userId: {
+  //                 inline: true,
+  //                 children: (
+  //                   <>
+  //                     <AddList data={addList} optionEvent={optionEvent} />
+  //                   </>
+  //                 ),
+  //               },
+  //             }
+  //           },
+  //           fieldsShow: ({ fields }) => {
+  //             return (
+  //               <div style={{ minWidth: '350px' }}>
+  //                 <div
+  //                   style={{
+  //                     paddingLeft: 10,
+  //                     paddingRight: 10,
+  //                     display: 'flex',
+  //                     lineHeight: '30px',
+  //                   }}>
+  //                   {fields.userId}
+  //                 </div>
+  //               </div>
+  //             )
+  //           },
+  //           // verify: (initial, current) => {
+  //           //   const errorObj = {}
+  //           //   const { userId } = current
+  //           //   if (!userId) {
+  //           //     errorObj.userId = '请选择用户'
+  //           //   }
+  //           //   return errorObj
+  //           // },
+  //         }}
+  //       />
+  //     </>
+  //   )
+  // }
 
   const onClose = () => {
     updateData({
@@ -176,7 +176,7 @@ const ProjectManagement = (fun) => {
       isHangup: false,
     })
     // setShowSubmit(true)
-    setAddrolds(false)
+    // setAddrolds(false)
   }
 
   function saveData(newValue) {
@@ -220,7 +220,7 @@ const ProjectManagement = (fun) => {
   const proform = () => {
     return (
       <ProForm
-        customWidgetsList={{ dropdown: dropdown }}
+        // customWidgetsList={{ dropdown: dropdown }}
         formType="pure"
         form={baseRef}
         formDatas={[
@@ -232,7 +232,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 // setShowSubmit(false)
-                setAddrolds(false)
+                // setAddrolds(false)
               },
             },
             placeholder: '请输入项目名称',
@@ -240,15 +240,15 @@ const ProjectManagement = (fun) => {
             required: true,
             rules: [{ required: true, message: '请输入项目名称' }],
           },
-          {
-            label: '项目负责人:',
-            key: 'projectLeaderId',
-            widget: 'dropdown',
-            span: '24',
-            required: true,
-            // rules: [{ required: true, message: '请输入项目负责人' }],
-            hide: drawerType === 'add',
-          },
+          // {
+          //   label: '项目负责人:',
+          //   key: 'projectLeaderId',
+          //   widget: 'dropdown',
+          //   span: '24',
+          //   required: true,
+          //   rules: [{ required: true, message: '请输入项目负责人' }],
+          //   hide: drawerType === 'add',
+          // },
           {
             label: '起始日期:',
             key: 'begin',
@@ -262,7 +262,7 @@ const ProjectManagement = (fun) => {
               //   setShowSubmit(false)
               // },
               onClick: () => {
-                setAddrolds(false)
+                // setAddrolds(false)
               },
             },
             span: '24',
@@ -282,7 +282,7 @@ const ProjectManagement = (fun) => {
               //   setShowSubmit(false)
               // },
               onClick: () => {
-                setAddrolds(false)
+                // setAddrolds(false)
               },
             },
             span: '24',
@@ -310,7 +310,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 // setShowSubmit(false)
-                setAddrolds(false)
+                // setAddrolds(false)
               },
             },
             span: '24',
@@ -336,7 +336,7 @@ const ProjectManagement = (fun) => {
               },
               onChange: async (e) => {
                 // setShowSubmit(false)
-                setAddrolds(false)
+                // setAddrolds(false)
                 if (e.length > 0) {
                   await dispatch({
                     type: 'projectUpdate/uploadFile',
@@ -359,7 +359,7 @@ const ProjectManagement = (fun) => {
             widgetProps: {
               onChange: () => {
                 // setShowSubmit(false)
-                setAddrolds(false)
+                // setAddrolds(false)
                 updateData({ isHangup: !isHangup })
               },
             },
@@ -393,7 +393,7 @@ const ProjectManagement = (fun) => {
           }
           const newValue = {
             ...current,
-            projectLeaderId: seachValue.projectLeaderId,
+            // projectLeaderId: seachValue.projectLeaderId,
             begin: formatter(current.begin),
             end: formatter(current.end),
           }
