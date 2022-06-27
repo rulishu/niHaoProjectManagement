@@ -21,6 +21,7 @@ import { NumColor } from '../../utils/utils'
 export default function Home() {
   const {
     projectoverview: { allDataSource, pageSize },
+    projectlist: { projectData },
   } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
   const navigate = useNavigate()
@@ -302,9 +303,8 @@ export default function Home() {
           <Col style={{ height: 330, overflowX: 'hidden', overflowY: 'auto' }}>
             <List bordered={false} noHover={true}>
               <List.Item className={styles.leftList}>
-                <span className={styles.leftTitle}>项目负责人:</span>
-                {allDataSource.projectLeader?.nickName +
-                  allDataSource.projectLeader?.email || ''}
+                <span className={styles.leftTitle}>项目创建人:</span>
+                {projectData?.createName || ''}
               </List.Item>
               <List.Item>
                 <span className={styles.leftTitle}> 起始日期: </span>{' '}
