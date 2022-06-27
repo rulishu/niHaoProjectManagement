@@ -172,6 +172,7 @@ const milepost = {
           labelFor: 'date-inline',
           children: (
             <DateInput
+              placeholder="请选择开始时间"
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
               popoverProps={{ usePortal: false }}
