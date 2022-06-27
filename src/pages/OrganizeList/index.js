@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Tabs, Button, Input, Icon, OverlayTrigger, Tooltip, Avatar } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
@@ -6,6 +6,7 @@ import { Container } from '@/components'
 import styles from './index.module.less'
 import newDebounce from '@/utils/debounce'
 import './index.css'
+import AddDrawer from './AddDrawer'
 
 const OrganizeList = (props) => {
   const token = localStorage.getItem('token')
@@ -18,12 +19,6 @@ const OrganizeList = (props) => {
   const [sorting, setSorting] = useState(1)
   // 下拉框是否可见
   const [isPulldown, setIsPulldown] = useState(false)
-  useEffect(() => {
-    dispatch.projectlist.selectNumber({
-      type: queryForm.type,
-      name: queryForm.name,
-    })
-  }, [dispatch, queryForm.name, queryForm.type])
 
   // 一级组织筛选 相同数据过滤
   const lastData = (data) => {
@@ -32,7 +27,7 @@ const OrganizeList = (props) => {
     })
     function uniqueFunc(arr, uniId) {
       const res = new Map()
-      return arr.filter(
+      return arr?.filter(
         (item) => !res.has(item[uniId]) && res.set(item[uniId], 1)
       )
     }
@@ -99,13 +94,23 @@ const OrganizeList = (props) => {
     )
   }
 
+  // 新增组织
+  const onAdd = () => {
+    dispatch({
+      type: 'organizeList/updateState',
+      payload: {
+        addVisible: true,
+      },
+    })
+  }
+
   return (
     <Container>
       <div className={styles.warp}>
         <div className={styles.container}>
           <div className={styles.projectHead}>
             <h1>组织</h1>
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" onClick={() => onAdd()}>
               新建组织
             </Button>
           </div>
@@ -242,6 +247,7 @@ const OrganizeList = (props) => {
           </div>
         </div>
       </div>
+      <AddDrawer />
     </Container>
   )
 }

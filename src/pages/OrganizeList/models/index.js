@@ -1,23 +1,12 @@
 import { createModel } from '@rematch/core'
-import { selectOrganizationProject } from '@/servers/organizeList'
+import { getAdd, checkUrlUniqueness } from '@/servers/organizeList'
+import { Notify } from 'uiw'
 
 const organizeList = createModel()({
   name: 'organizeList',
   state: {
-    drawerVisible: false,
-    queryInfo: {},
-    delectVisible: false,
-    userId: '',
-    projectId: '',
-    tableType: '',
-    userIdList: [],
-    teamIdList: [],
-    groupList: '',
+    addVisible: false,
     loading: false,
-    activeKey: '1',
-    listData: [],
-    total: 0,
-    memberInfo: {},
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -26,15 +15,24 @@ const organizeList = createModel()({
     }),
   },
   effects: (dispatch) => ({
-    // 获取组织下的项目
-    async selectOrganizationProject(payload) {
+    // 新建组织
+    async getAdd(payload) {
       const dph = dispatch
-      const data = await selectOrganizationProject(payload)
+      const data = await getAdd(payload)
       if (data.code === 200) {
         dph.organizeList.updateState({
-          listData: data.data.rows,
-          total: data.data.total,
+          addVisible: false,
         })
+      }
+    },
+
+    // 检验路由
+    async checkUrlUniqueness(payload) {
+      const data = await checkUrlUniqueness(payload)
+      if (data.code === 200) {
+        Notify.success({ title: data.message })
+      } else {
+        Notify.error({ title: '检验失败' + data.message })
       }
     },
   }),

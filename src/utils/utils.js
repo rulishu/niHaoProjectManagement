@@ -253,3 +253,15 @@ export function isEmail(email) {
   const isReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
   return isReg.test(email)
 }
+
+// 不能输入中文/空格
+export function isChina(value) {
+  let reg = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g
+  if (reg.test(value)) {
+    return '不能有中文！！'
+  }
+  if (/\s/g.test(value)) {
+    return '不能有空格！！'
+  }
+  return true
+}
