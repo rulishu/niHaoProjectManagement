@@ -22,6 +22,7 @@ const projectlist = createModel()({
     proNum: {}, //各类型项目数量
     proName: '', //项目名称
     userRole: '', //项目角色
+    projectData: '', // 项目详情
   },
   reducers: {
     update: (state, payload) => {
@@ -101,6 +102,7 @@ const projectlist = createModel()({
       const data = await queryProject(payload)
       if (data && data.code === 200) {
         dispatch.projectlist.update({
+          projectData: data?.data,
           proName: data?.data?.name,
           projectAvatar: data?.data?.projectAvatar,
           projectUrl: data?.data?.projectUrl,

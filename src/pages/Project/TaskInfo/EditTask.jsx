@@ -127,7 +127,10 @@ const EditTask = () => {
     }
 
     if (type === 'closeTime') {
-      params = { dueDate: param ? dayjs(param).format('YYYY-MM-DD') : '' }
+      params = {
+        dueDate: param ? dayjs(param).format('YYYY-MM-DD') : '',
+        createTime: taskInfoData.createTime,
+      }
     }
 
     if (type === 'labels') {
