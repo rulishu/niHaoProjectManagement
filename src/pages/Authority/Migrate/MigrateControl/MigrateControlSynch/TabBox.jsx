@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react'
 import { List, Button, Empty, Drawer, Avatar } from 'uiw'
+import { Label } from '@/components'
 import formatter from '@uiw/formatter'
 import DrawerBox from './DrawerBox'
 import styles from './index.module.less'
@@ -61,9 +62,7 @@ const TabBox = (props) => {
   const labelBox = (value) => {
     return (
       <div className={styles.labelBox}>
-        <p style={{ backgroundColor: value?.color }}>
-          <span>{value?.name}</span>
-        </p>
+        <Label color={value?.color}>{value?.name}</Label>
       </div>
     )
   }

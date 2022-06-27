@@ -95,8 +95,7 @@ const TaskList = (props) => {
                   value: item.id,
                   label: item.name,
                 })
-            }}
-            style={{ paddingLeft: 8, paddingRight: 8 }}>
+            }}>
             {item.name}
           </Label>
           // <span
@@ -211,7 +210,7 @@ const TaskList = (props) => {
                 isRadio={true}
                 isCancel={false}
                 isSearchBox={false}
-                selectData={[1]}
+                selectData={[3]}
                 onSelect={(_, key) => {
                   const valueInfo = taskSort.filter((s) => s.key === key)[0]
                     .value

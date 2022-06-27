@@ -13,7 +13,7 @@ const DropdownBox = (props) => {
     isRadio = false, // isRadio
     columnKey,
     searchValue = [columnKey], // 搜索key
-    // selectData, // 初始选中数组
+    selectData, // 初始选中数组
     isCancel = true, // 能取消选中
     onSelect, // 每次点击选择触发
     onClose, // 组件关闭的回调
@@ -35,10 +35,10 @@ const DropdownBox = (props) => {
   useEffect(() => setIsOpen(open), [open])
 
   // 选中数组 发生变化
-  // useEffect(() => {
-  //   setOptions(selectData || [])
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectData])
+  useEffect(() => {
+    setOptions(selectData || [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectData])
   // 点击选择触发
   const optionEvent = (key) => {
     const exists = options?.includes(key)

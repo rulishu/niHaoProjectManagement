@@ -35,7 +35,7 @@ export default createModel()({
       labels: [], // 标签
       milestonesId: [], // 里程碑
       assignmentUserId: [], // 指派人
-      orderByColumn: 'assignmentTitle',
+      orderByColumn: 'createTime',
       isAsc: 'asc',
     },
     taskListData: [],
