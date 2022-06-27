@@ -5,11 +5,12 @@
  * @returns 时间 + 单位
  */
 const timeDistance = (beforeTime, afterTime = new Date()) => {
-  beforeTime = Date.parse(beforeTime)
+  const date_str = beforeTime
+  const date_number = Date.parse(date_str.replace(/-/g, '/'))
   afterTime = Date.parse(afterTime)
   // 计算两个日期之间相差的毫秒数的绝对值
-  const ms = Math.abs(afterTime - beforeTime)
-  const type = afterTime - beforeTime >= 0
+  const ms = Math.abs(afterTime - date_number)
+  const type = afterTime - date_number >= 0
 
   // 毫秒数除以一天的毫秒数,就得到了天数
   let time = Math.floor(ms / (24 * 3600 * 1000))
