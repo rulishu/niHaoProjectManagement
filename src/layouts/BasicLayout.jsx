@@ -26,9 +26,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const [checkAll, setCheckAll] = useState(false)
   const [projectList, setprojectList] = useState(false)
   const [users, setusers] = useState(false)
+  const [organization, setOrganization] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
+  const params = useParams()
   const { userAccount } = useParams()
   // const [userData, setuserData] = useState({})
   const [isError, setIsError] = useState(false)
@@ -49,16 +51,26 @@ function BasicLayoutScreen(props = { routes: [] }) {
   useEffect(() => {
     if (breadUrl === '/dashboard') {
       setusers(false)
+      setprojectList(false)
       setCheckAll(true)
     } else if (breadUrl === '/projectList') {
       setusers(false)
+      setCheckAll(false)
       setprojectList(true)
     } else {
-      setCheckAll(false)
-      setprojectList(false)
-      setusers(true)
+      if (!!params?.userAccount && !!params?.projectId) {
+        setprojectList(true)
+        setCheckAll(false)
+        setusers(false)
+      } else {
+        setCheckAll(false)
+        setprojectList(false)
+        setusers(true)
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breadUrl])
+  console.log('breadUrl: ', breadUrl)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -199,7 +211,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               工作台
             </div>
           )}
-          {projectList && breadUrl === '/projectList' ? (
+          {projectList ? (
             <div
               className={styles.newtitle}
               onClick={() => {
@@ -220,6 +232,31 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 setusers(false)
               }}>
               项目管理
+            </div>
+          )}
+          {organization === false ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(true)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
+            </div>
+          ) : (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(false)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
             </div>
           )}
           {userData?.admin === true && users === false ? (

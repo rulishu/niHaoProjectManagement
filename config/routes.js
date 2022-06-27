@@ -331,6 +331,15 @@ const routes = [
         ],
       },
       {
+        path: '/organizeList',
+        name: '组织',
+        hideInMenu: true,
+        hiddenMainMenu: true,
+        isAuth: false,
+        component: '@/pages/OrganizeList',
+        navigate: '(navigate) => {navigate(`/organizeList',
+      },
+      {
         path: '/Authority',
         name: '系统管理',
         hideInMenu: true,

@@ -20,7 +20,6 @@ const TaskList = (props) => {
     searchOptions,
     activeKey,
   } = props
-
   const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
@@ -33,16 +32,16 @@ const TaskList = (props) => {
 
   // 任务排序
   const taskSort = [
-    {
-      key: 1,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
-      label: '名称升序',
-    },
-    {
-      key: 2,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
-      label: '名称降序',
-    },
+    // {
+    //   key: 1,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
+    //   label: '名称升序',
+    // },
+    // {
+    //   key: 2,
+    //   value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
+    //   label: '名称降序',
+    // },
     {
       key: 3,
       value: { orderByColumn: 'createTime', isAsc: 'asc' },
@@ -213,7 +212,9 @@ const TaskList = (props) => {
                 isSearchBox={false}
                 selectData={[1]}
                 onSelect={(_, key) => {
-                  optionsChange(taskSort.filter((s) => s.key === key)[0].value)
+                  const valueInfo = taskSort.filter((s) => s.key === key)[0]
+                    .value
+                  optionsChange(valueInfo)
                 }}>
                 <span className={styles.clickableDiscolor}>
                   排序
@@ -243,15 +244,16 @@ const TaskList = (props) => {
                     </span>
                   </div>
                   <div className={styles.itemLeftBase}>
-                    <span className={styles.mark}>#{item.assignmentId}</span>
-                    <span className={styles.updateTime}>
-                      · 创建于{timeDistance(item.createTime).time}前
-                    </span>
+                    <span className={styles.mark}>#{item.assignmentId}</span>·
                     由
                     <span
                       className={styles.clickable}
+                      style={{ paddingLeft: 5 }}
                       onClick={() => goPage(`${item.assigneeUserAccount}`)}>
                       {item?.updateName}
+                    </span>
+                    <span className={styles.updateTime}>
+                      创建于{timeDistance(item.createTime).time}前
                     </span>
                     {item.milestonesId ? (
                       <span
@@ -285,8 +287,13 @@ const TaskList = (props) => {
                             <Avatar
                               size="small"
                               src={
-                                item?.assigneeUserAvatar &&
-                                `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                                item.assigneeUserAvatar?.substring(0, 4) ===
+                                'http'
+                                  ? item.assigneeUserAvatar
+                                  : item.assigneeUserAvatar?.substring(0, 4) !==
+                                      'http' &&
+                                    item.assigneeUserAvatar !== '' &&
+                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
                               }
                               className={styles.roleAvatar}>
                               {item.assigneeUserName &&

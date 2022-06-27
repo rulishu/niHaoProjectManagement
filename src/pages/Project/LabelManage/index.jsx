@@ -57,8 +57,8 @@ const LabelManage = (props) => {
 
   // 下拉框数据
   const sortingList = [
-    { value: 1, title: '名称升序' },
-    { value: 2, title: '名称降序' },
+    // { value: 1, title: '名称升序' },
+    // { value: 2, title: '名称降序' },
     { value: 3, title: '创建时间升序' },
     { value: 4, title: '创建时间降序' },
     { value: 5, title: '更新时间升序' },
