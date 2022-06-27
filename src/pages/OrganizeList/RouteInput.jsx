@@ -21,7 +21,6 @@ const RouteInput = (props) => {
     })
   }, [dispatch])
 
-  console.log('props', props)
   return (
     <div style={{ width: '100%' }}>
       <Input

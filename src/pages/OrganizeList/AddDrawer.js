@@ -99,12 +99,10 @@ export default function DelectModals(props) {
             span: '24',
             widgetProps: {
               onChange: (e) => {
-                if (isChina(e.target.value) === true) {
-                  debounce(dispatch, 200, {
-                    type: 'organizeList/checkUrlUniqueness',
-                    payload: { urlCode: e.target.value },
-                  })
-                }
+                debounce(dispatch, 200, {
+                  type: 'organizeList/checkUrlUniqueness',
+                  payload: { urlCode: e.target.value },
+                })
               },
             },
           },
