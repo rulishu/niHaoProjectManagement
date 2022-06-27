@@ -177,7 +177,6 @@ const milepost = {
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
               popoverProps={{ usePortal: false }}
-              placeholder="请选择截止日期"
             />
           ),
         },
