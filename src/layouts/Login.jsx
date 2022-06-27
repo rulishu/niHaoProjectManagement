@@ -27,7 +27,9 @@ const Login = () => {
     })
   }
   return (
-    <UserLogin projectName={'尼好程序开发测试项目管理软件'}>
+    <UserLogin
+      projectName={'尼好程序开发测试项目管理软件'}
+      styleContainer={{ backgroundSize: '100%' }}>
       <Form
         onSubmit={({ current }) => {
           const errorObj = {}
