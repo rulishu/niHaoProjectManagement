@@ -15,7 +15,7 @@ const labels = createModel()({
     listData: [],
     labelInfo: {},
     sorting: {
-      orderByColumn: 'name', // 排序列名 name：名称 createTime：创建时间  updateTime：更新时间
+      orderByColumn: 'createTime', // 排序列名 name：名称 createTime：创建时间  updateTime：更新时间
       isAsc: 'asc', // 排序方式  desc降序  asc 升序
     },
     name: '', // 查询标签名

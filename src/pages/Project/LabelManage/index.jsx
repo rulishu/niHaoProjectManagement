@@ -27,7 +27,7 @@ const LabelManage = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { projectId } = useParams()
-  const [sorting, setSorting] = useState(1)
+  const [sorting, setSorting] = useState(3)
   const [inputValue, setInputValue] = useState('')
   const [isPulldown, setIsPulldown] = useState(false)
   const [alertShow, setAlertShow] = useState(false)
@@ -67,8 +67,8 @@ const LabelManage = (props) => {
 
   // 对应的排序对象
   const sortingObj = [
-    { key: 1, value: { orderByColumn: 'name', isAsc: 'asc' } },
-    { key: 2, value: { orderByColumn: 'name', isAsc: 'desc' } },
+    // { key: 1, value: { orderByColumn: 'name', isAsc: 'asc' } },
+    // { key: 2, value: { orderByColumn: 'name', isAsc: 'desc' } },
     { key: 3, value: { orderByColumn: 'createTime', isAsc: 'asc' } },
     { key: 4, value: { orderByColumn: 'createTime', isAsc: 'desc' } },
     { key: 5, value: { orderByColumn: 'updateTime', isAsc: 'asc' } },
