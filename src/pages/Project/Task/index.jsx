@@ -5,6 +5,7 @@ import styles from './index.module.less'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import useLocationPage from '@/hooks/useLocationPage'
+import SearchBox from './SearchBox'
 import 'tributejs/tribute.css'
 
 const Task = (props) => {
@@ -20,7 +21,12 @@ const Task = (props) => {
   const {
     project,
     labels: { listData: labelsListData },
-    projectTasks: { taskListData, searchOptions, taskListDataTotal },
+    projectTasks: {
+      taskListData,
+      searchOptions,
+      taskListDataTotal,
+      searchValue,
+    },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
@@ -57,7 +63,69 @@ const Task = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]) // eslint-disable-line
 
-  const conditionChange = async (params) => {
+  //  type:1 增加，2 删除
+  const setSearchValue = (value, type) => {
+    let newSearchValue = searchValue
+    if (type === 1) {
+      newSearchValue = newSearchValue.replace(value, '')
+    }
+    if (type === 2) {
+      newSearchValue = `${searchValue} ${value}`
+    }
+    dispatch({
+      type: 'projectTasks/update',
+      payload: { searchValue: newSearchValue },
+    })
+  }
+
+  // 曹祖
+  const convertData = (item, dataSource, title, key, name) => {
+    const result = dataSource.filter((dataItem) => {
+      return dataItem[key] === item
+    })[0]
+    return `${title}:${result[name]}`
+  }
+
+  const searchConfigObj = {
+    labels: {
+      title: '标签',
+      key: 'id',
+      name: 'name',
+      dataSource: labelsListData,
+    },
+    createId: {
+      title: '创建人',
+      key: 'userId',
+      name: 'memberName',
+      dataSource: membersList,
+    },
+    milestonesId: {
+      title: '里程碑',
+      key: 'milestonesId',
+      name: 'milestonesTitle',
+      dataSource: milepostaData,
+    },
+    assignmentUserId: {
+      title: '指派人',
+      key: 'userId',
+      name: 'memberName',
+      dataSource: membersList,
+    },
+  }
+
+  // 搜索变化触发回调
+  const conditionChange = async (params, value) => {
+    const key = searchConfigObj[Object.keys(params)[0]]?.key
+    const title = searchConfigObj[Object.keys(params)[0]]?.title
+    const name = searchConfigObj[Object.keys(params)[0]]?.name
+    const dataSource = searchConfigObj[Object.keys(params)[0]]?.dataSource
+
+    const type = params[Object.keys(params)[0]].includes(value) ? 2 : 1
+    const stringValue = convertData(value, dataSource, title, key, name)
+
+    // 修改输入框的值
+    setSearchValue(stringValue, type)
+
     await dispatch({
       type: 'projectTasks/update',
       payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
@@ -125,6 +193,9 @@ const Task = (props) => {
                 )
               }}
             </Form>
+          </div>
+          <div>
+            <SearchBox value={searchValue} />
           </div>
           <TaskList
             listData={taskListData || []}

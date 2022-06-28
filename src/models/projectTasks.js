@@ -27,6 +27,7 @@ import {
 export default createModel()({
   name: 'projectTasks',
   state: {
+    searchValue: '',
     searchOptions: {
       page: 1,
       pageSize: 10,
