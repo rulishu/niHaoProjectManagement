@@ -330,7 +330,7 @@ export default function Demo() {
                               </div>
                               <div className={styles.itemTime}>
                                 {item?.dueTime &&
-                                  dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                                  dayjs(item?.dueTime).format('YYYY/MM/DD')}
                               </div>
                               <div className={styles.itemProg}>
                                 {item?.rate === '0.00%' ? '0%' : item?.rate}

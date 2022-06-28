@@ -20,6 +20,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import newDebounce from '@/utils/debounce'
 import styles from './index.module.less'
 import useLocationPage from '@/hooks/useLocationPage'
+import { convertToString } from '@/utils/utils'
 
 const { Line } = Progress
 
@@ -141,8 +142,9 @@ const Milestone = () => {
                         </div>
                         {item.startTime && (
                           <div className={styles.date}>
-                            {item.startTime}
-                            {item.dueTime && '~' + item.dueTime}
+                            {convertToString(item?.startTime)}
+                            {item.dueTime &&
+                              '~' + convertToString(item?.dueTime)}
                           </div>
                         )}
                         <div>
