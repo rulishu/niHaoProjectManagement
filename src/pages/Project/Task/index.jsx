@@ -51,8 +51,8 @@ const Task = (props) => {
       projectId: taskId,
       milestonesStatusList: [1, 2],
     }) // 初始化里程碑
-    dispatch.project.getAssignment({ projectId: taskId }) //不分页获取所有任务
-    dispatch.projectTasks.getTaskPagingData({ projectId: taskId }) //不分页获取所有任务
+    dispatch.project.getAssignment({ projectId: taskId }) // 不分页获取所有任务
+    dispatch.projectTasks.getTaskPagingData({ projectId: taskId }) // 不分页获取所有任务
     dispatch.project.countAssignment({ projectId: taskId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]) // eslint-disable-line
