@@ -42,9 +42,9 @@ const ListHead = (props) => {
   ]
 
   // 选项变化回调
-  const optionsChange = (value) => {
+  const optionsChange = (data, value) => {
     // const param = { [type]: value }
-    conditionChange && conditionChange({ ...value })
+    conditionChange && conditionChange({ ...data }, value)
   }
 
   return (
@@ -76,7 +76,7 @@ const ListHead = (props) => {
           columnType="member"
           columnKey="userId"
           searchValue={['memberName', 'userAcount']}
-          onSelect={(value) => optionsChange({ createId: value })}>
+          onSelect={(data, value) => optionsChange({ createId: data }, value)}>
           <span className={styles.clickableDiscolor}>
             创建人
             <Icon type="down" />
@@ -89,7 +89,7 @@ const ListHead = (props) => {
           columnKey="id"
           searchValue={['name']}
           selectData={searchOptions.labels}
-          onSelect={(value) => optionsChange({ labels: value })}>
+          onSelect={(data, value) => optionsChange({ labels: data }, value)}>
           <span className={styles.clickableDiscolor}>
             标签
             <Icon type="down" />
@@ -102,7 +102,9 @@ const ListHead = (props) => {
           columnKey="milestonesId"
           searchValue={['milestonesTitle']}
           selectData={searchOptions.milestonesId}
-          onSelect={(value) => optionsChange({ milestonesId: value })}>
+          onSelect={(data, value) =>
+            optionsChange({ milestonesId: data }, value)
+          }>
           <span className={styles.clickableDiscolor}>
             里程碑
             <Icon type="down" />
@@ -114,7 +116,9 @@ const ListHead = (props) => {
           columnType="member"
           columnKey="userId"
           searchValue={['memberName', 'userAcount']}
-          onSelect={(value) => optionsChange({ assignmentUserId: value })}>
+          onSelect={(data, value) =>
+            optionsChange({ assignmentUserId: data }, value)
+          }>
           <span className={styles.clickableDiscolor}>
             指派人
             <Icon type="down" />
