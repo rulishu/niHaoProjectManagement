@@ -79,7 +79,7 @@ const LabelSelect = (props) => {
             widgetProps: {
               mode: 'single',
               labelInValue: true,
-              placeholder: '指办人',
+              placeholder: '指派人',
               onSearch: (value) => {
                 const filterOpion = teamMembers.filter((item) =>
                   item.label.includes(value.trim())

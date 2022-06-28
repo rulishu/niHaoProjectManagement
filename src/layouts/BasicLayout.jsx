@@ -26,7 +26,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const [checkAll, setCheckAll] = useState(false)
   const [projectList, setprojectList] = useState(false)
   const [users, setusers] = useState(false)
-  const [organization, setOrganization] = useState(false)
+  // const [organization, setOrganization] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
@@ -59,7 +59,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
       setprojectList(true)
     } else if (breadUrl === '/organizeList') {
       setusers(false)
-      setOrganization(true)
+      // setOrganization(true)
       setCheckAll(false)
       setprojectList(false)
     } else {
@@ -198,7 +198,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/dashboard`)
                 setCheckAll(true)
-                setOrganization(false)
+                // setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
@@ -210,7 +210,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/dashboard`)
                 // setCheckAll(false)
-                setOrganization(false)
+                // setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
@@ -223,7 +223,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               onClick={() => {
                 navigate(`/projectList`)
                 setprojectList(true)
-                setOrganization(false)
+                // setOrganization(false)
                 setCheckAll(false)
                 setusers(false)
               }}>
@@ -236,13 +236,13 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate(`/projectList`)
                 setprojectList(true)
                 setCheckAll(false)
-                setOrganization(false)
+                // setOrganization(false)
                 setusers(false)
               }}>
               项目管理
             </div>
           )}
-          {organization === false ? (
+          {/* {organization === false ? (
             <div
               className={styles.title}
               onClick={() => {
@@ -266,7 +266,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
               }}>
               组织
             </div>
-          )}
+          )} */}
           {userData?.admin === true && users === false ? (
             <div
               className={styles.title}
@@ -274,7 +274,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate('/Authority/users')
                 setusers(true)
                 setprojectList(false)
-                setOrganization(false)
+                // setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理
@@ -287,7 +287,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate('/Authority/users')
                 setusers(true)
                 setprojectList(false)
-                setOrganization(false)
+                // setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理
