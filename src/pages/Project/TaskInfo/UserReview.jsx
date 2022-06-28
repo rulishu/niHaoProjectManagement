@@ -132,7 +132,8 @@ const UserReview = (props) => {
       <div className={styles.eventLiContent}>
         <div className={styles.messageHeader}>
           <div className={styles.info}>
-            {item?.createName}
+            {item?.nickName}
+            {/* createName 变成实时更新的 nickName */}
             <span style={{ color: '#666' }}> @{item?.userName} </span>·{' '}
             <span style={{ color: '#666' }}>
               {timeDistance(item?.createTime).time}
