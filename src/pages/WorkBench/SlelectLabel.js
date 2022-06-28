@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
+import { convertToString } from '@/utils/utils'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
@@ -125,6 +126,7 @@ export default function SlelectLabel() {
             {
               title: '截止时间',
               key: 'dueDate',
+              render: (text) => <div>{text && convertToString(text)}</div>,
             },
           ]}
         />
@@ -176,11 +178,11 @@ export default function SlelectLabel() {
                   {newMemberList?.map((a, key) => {
                     return (
                       <Steps.Step
-                        title={a?.createTime}
+                        title={convertToString(a?.createTime)}
                         key={key}
                         description={
                           <div className={styles.mouseList}>
-                            {a?.operatingRecords}
+                            {convertToString(a?.operatingRecords)}
                           </div>
                         }></Steps.Step>
                     )

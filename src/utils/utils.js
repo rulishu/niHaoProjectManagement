@@ -265,3 +265,9 @@ export function isChina(value) {
   }
   return true
 }
+
+// yyyy-MM-dd转换成yyyy/MM/dd
+export function convertToString(s) {
+  // eslint-disable-next-line no-useless-escape
+  return s?.replace(/\-/g, '/')
+}

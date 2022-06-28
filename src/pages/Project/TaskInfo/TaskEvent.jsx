@@ -4,6 +4,7 @@ import { Card, Icon } from 'uiw'
 import FromMD from './fromMD'
 import UserReview from './UserReview'
 import styles from './taskEvent.module.less'
+import { convertToString } from '@/utils/utils'
 
 const TaskEvent = () => {
   const dispatch = useDispatch()
@@ -76,7 +77,9 @@ const TaskEvent = () => {
           <div className={styles.eventLiIcon}>
             <Icon type="user" />
           </div>
-          <div className={styles.eventLiContent}>{item.operatingRecords}</div>
+          <div className={styles.eventLiContent}>
+            {convertToString(item?.operatingRecords)}
+          </div>
         </div>
       </li>
     )

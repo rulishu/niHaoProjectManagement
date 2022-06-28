@@ -7,6 +7,7 @@ import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
 import MDEditor from '@uiw/react-md-editor'
 // import timeDistance from '@/utils/timeDistance'
+import { convertToString } from '@/utils/utils'
 import './index.css'
 
 const MilestoneInfo = () => {
@@ -170,8 +171,8 @@ const MilestoneInfo = () => {
             </span>
             <span className={styles.headTitle}>
               <strong>里程碑</strong>
-              {editState.startTime}
-              {editState.dueTime && ' ~ ' + editState.dueTime}
+              {convertToString(editState?.startTime)}
+              {editState.dueTime && ' ~ ' + convertToString(editState?.dueTime)}
             </span>
           </div>
           <div className={styles.headRight}>

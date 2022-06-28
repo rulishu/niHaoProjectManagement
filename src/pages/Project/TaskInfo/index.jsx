@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
 import useLocationPage from '@/hooks/useLocationPage'
 import TaskEvent from './TaskEvent'
+import { convertToString } from '@/utils/utils'
 
 const TaskInfo = () => {
   const dispatch = useDispatch()
@@ -126,7 +127,8 @@ const TaskInfo = () => {
                     }
                   </Button>
                   <span className={styles.title}>
-                    {taskInfoData?.createTime} 创建于 {taskInfoData?.createName}
+                    {convertToString(taskInfoData?.createTime)} 创建于{' '}
+                    {taskInfoData?.createName}
                   </span>
                 </div>
                 <div>
