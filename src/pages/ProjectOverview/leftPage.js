@@ -305,7 +305,7 @@ export default function Home() {
             <List bordered={false} noHover={true}>
               <List.Item className={styles.leftList}>
                 <span className={styles.leftTitle}>项目创建人:</span>
-                {projectData?.createName || ''}
+                {projectData?.nickName || ''}
               </List.Item>
               <List.Item>
                 <span className={styles.leftTitle}> 起始日期: </span>{' '}

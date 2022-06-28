@@ -256,7 +256,7 @@ const TaskList = (props) => {
                         {item?.updateName}
                       </span>
                       <span className={styles.updateTime}>
-                        创建于{timeDistance(item.createTime).time}前
+                        更新于{timeDistance(item.updateTime).time}前
                       </span>
                       {item.milestonesId ? (
                         <span
