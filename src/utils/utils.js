@@ -238,7 +238,7 @@ export const guid = () => {
 
 //十六进制颜色正则
 export function isColor(iDCard) {
-  let cPattern = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
+  let cPattern = /^#[0-9a-fA-F]{6}$/ // /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
   return cPattern.test(iDCard)
 }
 
