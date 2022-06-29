@@ -142,6 +142,7 @@ export default function Home() {
                   key: 'createName',
                   width: 100,
                   ellipsis: true,
+                  render: (recode, text, index) => <div>{index.nickName} </div>,
                 },
                 {
                   title: '任务状态',
@@ -230,6 +231,7 @@ export default function Home() {
               key: 'createName',
               width: 100,
               ellipsis: true,
+              render: (recode, text, index) => <div>{index.nickName} </div>,
             },
             {
               title: '任务状态',
