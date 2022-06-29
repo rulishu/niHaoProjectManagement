@@ -292,9 +292,10 @@ const taskboard = createModel()({
       const data = await changeAssignmentStatus(other)
       if (data && data.code === 200) {
         Notify.success({ title: '更改任务状态成功' })
-        setTaskDetails(false)
-        // dispatch.routeManagement.getInfo({})
-        dispatch.taskboard.selectAllBoardNote({ boardId })
+        if (setTaskDetails) {
+          setTaskDetails(false)
+          dispatch.taskboard.selectAllBoardNote({ boardId })
+        }
       }
     },
 

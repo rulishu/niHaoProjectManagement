@@ -19,7 +19,6 @@ const TaskInfo = () => {
   useLocationPage()
   const {
     projectTasks: { issueType, taskInfoData, editTaskFromData },
-    allusers: { uuid },
     loading,
   } = useSelector((state) => state)
   const [isTitleErr, serIsTitleErr] = useState(false)
@@ -50,20 +49,24 @@ const TaskInfo = () => {
     updateData({ issueType: type })
   }
   const goStateIssue = async (e) => {
-    const { assignmentId, assignmentTitle, description } = editTaskFromData
+    let taskState = ''
+    if (e === 3) {
+      taskState = '关闭'
+    } else if (e === 1) {
+      taskState = '打开'
+    }
     updateData({
-      editFromData: {
-        assignmentId,
-        assignmentTitle,
-        description,
+      taskInfoData: {
+        ...taskInfoData,
         assignmentStatus: e,
       },
     })
-    const result = await dispatch.project.getEdit({
-      fileId: uuid ? [uuid] : editTaskFromData.fileId,
-      projectId: projectId,
+    const { assignmentId } = editTaskFromData
+    dispatch.taskboard.changeAssignmentStatus({
+      projectId,
+      assignmentId,
+      type: taskState,
     })
-    result && e === 3 && dispatch.routeManagement.getInfo({})
   }
 
   const steInputChange = (e) => {
