@@ -4,6 +4,7 @@ import { navigate } from '@uiw-admin/router-control'
 // import { useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import dayjs from 'dayjs'
+import { convertToString } from '@/utils/utils'
 
 export default function AllTasks() {
   const {
@@ -51,7 +52,7 @@ export default function AllTasks() {
                     </div>
                     <div className={styles.itemTime}>
                       {item?.dueTime &&
-                        dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                        dayjs(item?.dueTime).format('YYYY/MM/DD')}
                     </div>
                     <div className={styles.itemProg}>
                       {item?.rate === '0.00%' ? '0%' : item?.rate}
@@ -78,11 +79,11 @@ export default function AllTasks() {
               {projectDynamicsList?.map((itm, key) => {
                 return (
                   <Steps.Step
-                    title={itm?.createTime}
+                    title={convertToString(itm?.createTime)}
                     key={key}
                     description={
                       <div className={styles.mouseList}>
-                        {itm?.operatingRecords}
+                        {convertToString(itm?.operatingRecords)}
                       </div>
                     }></Steps.Step>
                 )

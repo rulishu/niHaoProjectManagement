@@ -162,6 +162,9 @@ const allusers = createModel()({
     },
     //编辑个人
     async editNewPerson(payload) {
+      dispatch.allusers.update({
+        saveState: true,
+      })
       const { param, callback } = payload
       await editGetInfo(param.userId)
       const data = await editNewperson(param)
@@ -173,6 +176,9 @@ const allusers = createModel()({
           userData: '',
         })
       }
+      dispatch.allusers.update({
+        saveState: false,
+      })
       await dispatch.userHome.getUserInfo({ id: param.userId })
     },
     //修改引导状态

@@ -17,6 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import ProjectManagement from '../../components/ProjectManagement'
 import { NumColor } from '../../utils/utils'
+import { convertToString } from '@/utils/utils'
 
 export default function Home() {
   const {
@@ -141,6 +142,7 @@ export default function Home() {
                   key: 'createName',
                   width: 100,
                   ellipsis: true,
+                  render: (recode, text, index) => <div>{index.nickName} </div>,
                 },
                 {
                   title: '任务状态',
@@ -229,6 +231,7 @@ export default function Home() {
               key: 'createName',
               width: 100,
               ellipsis: true,
+              render: (recode, text, index) => <div>{index.nickName} </div>,
             },
             {
               title: '任务状态',
@@ -304,15 +307,15 @@ export default function Home() {
             <List bordered={false} noHover={true}>
               <List.Item className={styles.leftList}>
                 <span className={styles.leftTitle}>项目创建人:</span>
-                {projectData?.createName || ''}
+                {projectData?.nickName || ''}
               </List.Item>
               <List.Item>
                 <span className={styles.leftTitle}> 起始日期: </span>{' '}
-                {allDataSource.begin || ''}
+                {convertToString(allDataSource?.begin) || ''}
               </List.Item>
               <List.Item>
                 <span className={styles.leftTitle}> 截止日期: </span>{' '}
-                {allDataSource.end || ''}
+                {convertToString(allDataSource?.end) || ''}
               </List.Item>
               <List.Item>
                 <div>

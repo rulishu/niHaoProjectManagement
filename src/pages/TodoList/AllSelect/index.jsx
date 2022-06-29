@@ -67,9 +67,10 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              // style: { width: '260px' },
             },
             span: '6',
+            colstyle: { maxWidth: 300 },
           },
           {
             label: '',
@@ -79,7 +80,7 @@ const LabelSelect = (props) => {
             widgetProps: {
               mode: 'single',
               labelInValue: true,
-              placeholder: '指办人',
+              placeholder: '指派人',
               onSearch: (value) => {
                 const filterOpion = teamMembers.filter((item) =>
                   item.label.includes(value.trim())
@@ -93,9 +94,10 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              // style: { width: '260px' },
             },
             span: '6',
+            colstyle: { maxWidth: 300 },
           },
           // {
           //   label: '',
