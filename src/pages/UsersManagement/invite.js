@@ -191,6 +191,7 @@ const Invite = () => {
         type="primary"
         onClosed={() => closeVisible()}
         width={500}>
+        {/* <div className={styles.inviteForm}> */}
         <Form
           ref={form}
           onSubmit={({ initial, current }) => submitData(current)}
@@ -209,6 +210,7 @@ const Invite = () => {
               ),
               children: (
                 <SearchSelect
+                  usePortal={false}
                   option={userList}
                   labelInValue={true}
                   showSearch={true}
@@ -228,6 +230,7 @@ const Invite = () => {
               ),
               children: (
                 <SearchSelect
+                  usePortal={false}
                   option={teamList}
                   labelInValue={true}
                   showSearch={true}
@@ -285,6 +288,7 @@ const Invite = () => {
             )
           }}
         </Form>
+        {/* </div> */}
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
             style={{ width: 80 }}
