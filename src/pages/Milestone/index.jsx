@@ -174,6 +174,9 @@ const Milestone = () => {
                               navigate(`/${userAccount}/${projectId}/task`, {
                                 state: { projectId },
                               })
+                              dispatch.milestone.update({
+                                milestonesId: item.milestonesId,
+                              })
                             }}>
                             {item?.allTaskNum} 个任务数
                           </span>
