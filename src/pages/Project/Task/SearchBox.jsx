@@ -24,8 +24,32 @@ const SearchBox = () => {
           },
         }}
         onChange={({ initial, current }) => {
-          if (current.searchValue.trim() === searchValue.trim()) {
-            console.log('没变化')
+          const newSearchValue = `${current.searchValue} `
+          if (current.searchValue.trim() !== searchValue.trim()) {
+            const LABEL = /标签:(?<labels>.*?)\s/g
+            const MILESTONES = /里程碑:(?<milestonesId>.*?)\s/g
+            const CREATE = /创建人:(?<createId>.*?)\s/g
+            const ASSIGNMENTUSER = /指派人:(?<assignmentUserId>.*?)\s/g
+            if (LABEL.exec(newSearchValue)?.length) {
+              for (const match of newSearchValue.matchAll(LABEL)) {
+                console.log('labels,======>', match)
+              }
+            }
+            if (MILESTONES.exec(newSearchValue)?.length) {
+              for (const match of newSearchValue.matchAll(MILESTONES)) {
+                console.log('milestonesId,======>', match)
+              }
+            }
+            if (CREATE.exec(newSearchValue)?.length) {
+              for (const match of newSearchValue.matchAll(CREATE)) {
+                console.log('createId,======>', match)
+              }
+            }
+            if (ASSIGNMENTUSER.exec(newSearchValue)?.length) {
+              for (const match of newSearchValue.matchAll(ASSIGNMENTUSER)) {
+                console.log('assignmentUserId,======>', match)
+              }
+            }
           }
           dispatch({
             type: 'projectTasks/update',

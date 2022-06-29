@@ -78,9 +78,9 @@ const Task = (props) => {
     })
   }
 
-  // 曹祖
+  // 操作
   const convertData = (item, dataSource, title, key, name) => {
-    const result = dataSource.filter((dataItem) => {
+    const result = dataSource?.filter((dataItem) => {
       return dataItem[key] === item
     })[0]
     return `${title}:${result[name]}`
@@ -96,7 +96,7 @@ const Task = (props) => {
     createId: {
       title: '创建人',
       key: 'userId',
-      name: 'memberName',
+      name: 'userAcount',
       dataSource: membersList,
     },
     milestonesId: {
@@ -108,7 +108,7 @@ const Task = (props) => {
     assignmentUserId: {
       title: '指派人',
       key: 'userId',
-      name: 'memberName',
+      name: 'userAcount',
       dataSource: membersList,
     },
   }
