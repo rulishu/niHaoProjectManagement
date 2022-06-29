@@ -140,6 +140,14 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
+          const userData = await getInfo()
+          sessionStorage.setItem(
+            'userName',
+            JSON.stringify(userData?.user.userName)
+          )
+          sessionStorage.setItem('userAccount', userData?.user.userName)
+          localStorage.setItem('userAccount', userData?.user.userName)
+          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         }
         dispatch({
           type: 'routeManagement/getRouters',
