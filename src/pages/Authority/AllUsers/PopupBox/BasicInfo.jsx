@@ -143,6 +143,9 @@ const BasicInfo = (props) => {
                   throw err
                 }
               }}
+              onChange={(initial, current) => {
+                dispatch.update({ baseDetail: { ...baseDetail, ...current } })
+              }}
               formDatas={[
                 {
                   label: '姓名: ',
