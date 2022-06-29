@@ -107,6 +107,7 @@ export default function SlelectLabel() {
             {
               title: '任务状态',
               key: 'assignmentStatus',
+              width: 100,
               render: (text) => {
                 if (text === 1) {
                   return <Tag color="#F95C2B">未开始</Tag>
@@ -122,10 +123,12 @@ export default function SlelectLabel() {
             {
               title: '创建人',
               key: 'createName',
+              width: 200,
             },
             {
               title: '截止时间',
               key: 'dueDate',
+              width: 200,
               render: (text) => <div>{text && convertToString(text)}</div>,
             },
           ]}

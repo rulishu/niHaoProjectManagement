@@ -67,9 +67,10 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              // style: { width: '260px' },
             },
             span: '6',
+            colstyle: { maxWidth: 300 },
           },
           {
             label: '',
@@ -93,9 +94,10 @@ const LabelSelect = (props) => {
               // loading: loading,
               allowClear: true,
               showSearch: true,
-              style: { width: '260px' },
+              // style: { width: '260px' },
             },
             span: '6',
+            colstyle: { maxWidth: 300 },
           },
           // {
           //   label: '',
