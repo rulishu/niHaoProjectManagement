@@ -320,7 +320,9 @@ const TaskList = (props) => {
                           className={styles.clickableDiscolor}
                           onClick={() => listGoTo(item)}>
                           <Icon type="message" />
-                          {item?.commentNum}
+                          <span className={styles.commentNum}>
+                            {item?.commentNum}
+                          </span>
                         </span>
                       ) : (
                         ''
