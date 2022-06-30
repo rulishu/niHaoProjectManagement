@@ -114,6 +114,10 @@ const login = createModel()({
 
     //第三方登录
     async getThirdLoginToken() {
+      const userData = await getInfo()
+      localStorage.setItem('userName', JSON.stringify(userData?.user.userName))
+      localStorage.setItem('userAccount1111', userData?.user.userName)
+      localStorage.setItem('userData1111', JSON.stringify(userData?.user || {}))
       dispatch.login.updateState({
         submitLoading: true,
       })
@@ -132,6 +136,10 @@ const login = createModel()({
 
     //第三方登录
     async authorAndLogin(param) {
+      const userData = await getInfo()
+      localStorage.setItem('userName', JSON.stringify(userData?.user.userName))
+      localStorage.setItem('userAccount2222', userData?.user.userName)
+      localStorage.setItem('userData2222', JSON.stringify(userData?.user || {}))
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
@@ -140,13 +148,6 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
-          const userData = await getInfo()
-          localStorage.setItem(
-            'userName',
-            JSON.stringify(userData?.user.userName)
-          )
-          localStorage.setItem('userAccount', userData?.user.userName)
-          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         }
         dispatch({
           type: 'routeManagement/getRouters',
