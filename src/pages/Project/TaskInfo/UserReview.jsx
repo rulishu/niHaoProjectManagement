@@ -5,6 +5,7 @@ import { Avatar, Button, Tooltip, Modal } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
 import timeDistance from '@/utils/timeDistance'
+// import LinkText from '@/components/LinkText'
 
 const UserReview = (props) => {
   const dispatch = useDispatch()
@@ -81,7 +82,7 @@ const UserReview = (props) => {
         : {}
     dispatch({
       type: action,
-      payload: { params, callback },
+      payload: { params, callback, isType: 3 },
     })
   }
 
@@ -114,6 +115,9 @@ const UserReview = (props) => {
 
   // 显示MD文档
   const showMDBox = (data) => {
+    // const datsas= userSelectAllList?.filter(function(item){
+    //   return data?.includes(item?.memberName);
+    // })
     return (
       <div data-color-mode="light" style={{ flex: 1 }}>
         <MarkdownPreview source={data || ''} style={{ width: '100%' }} />

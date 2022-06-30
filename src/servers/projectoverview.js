@@ -39,3 +39,13 @@ export function getProjectOverview(params) {
     body: params,
   })
 }
+
+/**
+ * 查询项目概览：任务详情
+ */
+export function getSelectById(params) {
+  return request('/api/ManagerAssignment/selectById', {
+    method: 'POST',
+    body: params,
+  })
+}
