@@ -201,7 +201,7 @@ const Task = (props) => {
             </Form>
           </div>
           <div>
-            <SearchBox value={searchValue} />
+            <SearchBox value={searchValue} projectId={taskId} />
           </div>
           <TaskList
             listData={taskListData || []}

@@ -76,6 +76,7 @@ const ListHead = (props) => {
           columnType="member"
           columnKey="userId"
           searchValue={['memberName', 'userAcount']}
+          selectData={searchOptions.createId}
           onSelect={(data, value) => optionsChange({ createId: data }, value)}>
           <span className={styles.clickableDiscolor}>
             创建人
@@ -116,6 +117,7 @@ const ListHead = (props) => {
           columnType="member"
           columnKey="userId"
           searchValue={['memberName', 'userAcount']}
+          selectData={searchOptions.assignmentUserId}
           onSelect={(data, value) =>
             optionsChange({ assignmentUserId: data }, value)
           }>
