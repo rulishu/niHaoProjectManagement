@@ -1,6 +1,6 @@
 import { useEffect, useState, useImperativeHandle } from 'react'
 import { connect } from 'react-redux'
-import { Modal, Row, Col, Input, Form, Button, Notify } from 'uiw'
+import { Modal, Row, Col, Input, Form, Button, Notify, Loader } from 'uiw'
 import { useNavigate } from 'react-router-dom'
 import { verifyPwd } from '@/utils/utils'
 
@@ -18,6 +18,11 @@ const PassWordChange = (props) => {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem('userData'))
   )
+
+  useEffect(() => {
+    const callback = async () => await props.userDispatch.getInfo()
+    callback()
+  }, [props])
 
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}
@@ -105,113 +110,122 @@ const PassWordChange = (props) => {
       isCloseButtonShown={isPassword === 'true' ? false : true}
       useButton={false}
       maskClosable={false}>
-      <Form
-        resetOnSubmit={false}
-        onSubmit={onSubmit}
-        onSubmitError={(error) => {
-          if (error.filed) {
-            return { ...error.filed }
-          }
-          return null
-        }}
-        fields={{
-          userName: {
-            labelClassName: 'fieldLabel',
-            label: '账号',
-            initialValue: num ? num : userData?.userName,
-            disabled: true,
-            children: <Input />,
-          },
-          oldUserPassword: {
-            labelClassName: 'fieldLabel',
-            labelFor: 'password',
-            label: '原密码',
-            placeholder: '请输入原密码',
-            required: true,
-            rules: [{ required: true, message: '输入原密码' }],
-            children: <Input type="password" />,
-          },
-          newUserPassword: {
-            labelClassName: 'fieldLabel',
-            labelFor: 'password',
-            label: '新密码',
-            placeholder: '请输入新密码',
-            required: true,
-            help: '必须含有字母跟数字且大于六位',
-            rules: [
-              { required: true, message: '必须含有字母跟数字且大于六位' },
-            ],
-            children: <Input type="password" />,
-          },
-          newUserPassword2: {
-            labelClassName: 'fieldLabel',
-            labelFor: 'password',
-            label: '请重复新密码',
-            placeholder: '请确认新密码',
-            required: true,
-            rules: [{ required: true, message: '请重复密码' }],
-            children: <Input type="password" />,
-          },
-        }}>
-        {({ fields, state, canSubmit }) => {
-          return (
-            <div>
-              <Row gutter={10}>
-                <Col>{fields.userName}</Col>
-              </Row>
-              {isPassword === 'true' ? (
-                ''
-              ) : (
+      {num ? (
+        <Form
+          resetOnSubmit={false}
+          onSubmit={onSubmit}
+          onSubmitError={(error) => {
+            if (error.filed) {
+              return { ...error.filed }
+            }
+            return null
+          }}
+          fields={{
+            userName: {
+              labelClassName: 'fieldLabel',
+              label: '账号',
+              initialValue: num ? num : userData?.userName,
+              disabled: true,
+              children: <Input />,
+            },
+            oldUserPassword: {
+              labelClassName: 'fieldLabel',
+              labelFor: 'password',
+              label: '原密码',
+              placeholder: '请输入原密码',
+              required: true,
+              rules: [{ required: true, message: '输入原密码' }],
+              children: <Input type="password" />,
+            },
+            newUserPassword: {
+              labelClassName: 'fieldLabel',
+              labelFor: 'password',
+              label: '新密码',
+              placeholder: '请输入新密码',
+              required: true,
+              help: '必须含有字母跟数字且大于六位',
+              rules: [
+                { required: true, message: '必须含有字母跟数字且大于六位' },
+              ],
+              children: <Input type="password" />,
+            },
+            newUserPassword2: {
+              labelClassName: 'fieldLabel',
+              labelFor: 'password',
+              label: '请重复新密码',
+              placeholder: '请确认新密码',
+              required: true,
+              rules: [{ required: true, message: '请重复密码' }],
+              children: <Input type="password" />,
+            },
+          }}>
+          {({ fields, state, canSubmit }) => {
+            return (
+              <div>
                 <Row gutter={10}>
-                  <Col>{fields.oldUserPassword}</Col>
+                  <Col>{fields.userName}</Col>
                 </Row>
-              )}
-              <Row gutter={10}>
-                <Col>{fields.newUserPassword}</Col>
-              </Row>
-              <Row gutter={10}>
-                <Col>{fields.newUserPassword2}</Col>
-              </Row>
-              <Row gutter={10} justify="center" align="middle">
-                <Col span="5">
-                  <Button
-                    disabled={!canSubmit()}
-                    type="primary"
-                    htmlType="submit"
-                    loading={loading}
-                    style={{ width: 100 }}>
-                    保存
-                  </Button>
-                </Col>
                 {isPassword === 'true' ? (
-                  <Col span="5" style={{ marginLeft: 8 }}>
+                  ''
+                ) : (
+                  <Row gutter={10}>
+                    <Col>{fields.oldUserPassword}</Col>
+                  </Row>
+                )}
+                <Row gutter={10}>
+                  <Col>{fields.newUserPassword}</Col>
+                </Row>
+                <Row gutter={10}>
+                  <Col>{fields.newUserPassword2}</Col>
+                </Row>
+                <Row gutter={10} justify="center" align="middle">
+                  <Col span="5">
                     <Button
-                      style={{ width: 100 }}
-                      onClick={() => {
-                        navigate('/login', { replace: true })
-                        setIsVisible(false)
-                      }}>
-                      退出登录
+                      disabled={!canSubmit()}
+                      type="primary"
+                      htmlType="submit"
+                      loading={loading}
+                      style={{ width: 100 }}>
+                      保存
                     </Button>
                   </Col>
-                ) : (
-                  ''
-                )}
-              </Row>
-            </div>
-          )
-        }}
-      </Form>
+                  {isPassword === 'true' ? (
+                    <Col span="5" style={{ marginLeft: 8 }}>
+                      <Button
+                        style={{ width: 100 }}
+                        onClick={() => {
+                          navigate('/login', { replace: true })
+                          setIsVisible(false)
+                        }}>
+                        退出登录
+                      </Button>
+                    </Col>
+                  ) : (
+                    ''
+                  )}
+                </Row>
+              </div>
+            )
+          }}
+        </Form>
+      ) : (
+        <Loader
+          tip="加载中..."
+          style={{ width: '100%' }}
+          loading={true}></Loader>
+      )}
     </Modal>
   )
 }
 
-const mapStateToProps = ({ allusers }) => ({
+const mapStateToProps = ({ allusers, routeManagement }) => ({
   state: allusers,
+  userState: routeManagement,
 })
 
-const mapDispatchToProps = ({ allusers }) => ({
+const mapDispatchToProps = ({ allusers, routeManagement }) => ({
   dispatch: allusers,
+  userDispatch: routeManagement,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PassWordChange)
