@@ -71,7 +71,7 @@ const NewEditLabel = (props) => {
             errorObj.color = '颜色必填'
           }
           if (!isColor(color)) {
-            errorObj.color = '请填写正确的颜色码'
+            errorObj.color = '请填写正确的颜色码 示例:#b8b8b8'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()

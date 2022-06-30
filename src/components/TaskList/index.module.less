@@ -23,7 +23,7 @@
 
       .itemState {
         padding-left: 16px;
-        padding-top: 8px;
+        padding-top: 12px;
         align-items: center;
       }
 
@@ -138,13 +138,11 @@
             align-items: center;
             color: #999;
             line-height: 24px;
-
             span {
               margin-right: 2px;
-
               svg {
-                width: 20px;
-                height: 20px;
+                width: 16px;
+                height: 16px;
               }
             }
           }
@@ -210,7 +208,15 @@
   :global {
     .w-icon {
       transition: inherit;
+      height: 16px;
+      line-height: 1;
     }
+  }
+  .commentNum {
+    // justify-content:'center';
+    // align-items:'center';
+    height: 16px;
+    line-height: 1;
   }
 
   display: flex;

@@ -91,11 +91,12 @@ const PassWordChange = (props) => {
     open: () => (ispwd ? setIsVisible(true) : setVisible(true)),
   }))
 
-  useEffect(
-    () => setUserData(() => JSON.parse(localStorage.getItem('userData'))),
-    []
-  )
-  const num = localStorage.getItem('userNumber')
+  useEffect(() => {
+    setUserData(() => JSON.parse(sessionStorage.getItem('userData')))
+  }, [])
+  const num = sessionStorage.getItem('userNumber')
+  console.log(sessionStorage.getItem('userNumber'))
+  console.log('userData', userData)
   return (
     <Modal
       title="修改密码"
