@@ -21,7 +21,6 @@ const login = createModel()({
     isRegister: false,
     submitLoading: false, //登录按钮loading样式
     registerLoading: false, //注册按钮loading样式
-    userInfo: '',
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -120,7 +119,6 @@ const login = createModel()({
       localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       dispatch.login.updateState({
         submitLoading: true,
-        userInfo: userData.user,
       })
       const data = await getThirdLoginToken()
       if (data && data.data) {
