@@ -279,9 +279,9 @@ const Index = () => {
                       <Col span={userTitle && userTitle[2]?.length}>
                         {item.email ? (
                           <Tooltip placement="top" content={item?.email}>
-                            <div className={styles.userMail}>
-                              <span>{item.email}</span>
-                            </div>
+                            {/* <div className={styles.userMail}> */}
+                            <span>{item.email}</span>
+                            {/* </div> */}
                           </Tooltip>
                         ) : (
                           <div className={styles.userMail}>
