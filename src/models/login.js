@@ -21,6 +21,7 @@ const login = createModel()({
     isRegister: false,
     submitLoading: false, //登录按钮loading样式
     registerLoading: false, //注册按钮loading样式
+    userInfo: '',
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -72,10 +73,10 @@ const login = createModel()({
         const userData = await getInfo()
         sessionStorage.setItem(
           'userName',
-          JSON.stringify(userData?.user.userName)
+          JSON.stringify(userData?.user?.userName)
         )
-        sessionStorage.setItem('userAccount', userData?.user.userName)
-        localStorage.setItem('userAccount', userData?.user.userName)
+        sessionStorage.setItem('userAccount', userData?.user?.userName)
+        localStorage.setItem('userAccount', userData?.user?.userName)
         localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {
@@ -114,8 +115,12 @@ const login = createModel()({
 
     //第三方登录
     async getThirdLoginToken() {
+      const userData = await getInfo()
+      localStorage.setItem('userName', userData?.user?.userName)
+      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       dispatch.login.updateState({
         submitLoading: true,
+        userInfo: userData.user,
       })
       const data = await getThirdLoginToken()
       if (data && data.data) {
@@ -132,6 +137,9 @@ const login = createModel()({
 
     //第三方登录
     async authorAndLogin(param) {
+      const userData = await getInfo()
+      localStorage.setItem('userName', userData?.user?.userName)
+      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
@@ -140,14 +148,6 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
-          const userData = await getInfo()
-          sessionStorage.setItem(
-            'userName',
-            JSON.stringify(userData?.user.userName)
-          )
-          sessionStorage.setItem('userAccount', userData?.user.userName)
-          localStorage.setItem('userAccount', userData?.user.userName)
-          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         }
         dispatch({
           type: 'routeManagement/getRouters',

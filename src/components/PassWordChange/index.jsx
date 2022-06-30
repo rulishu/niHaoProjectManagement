@@ -9,7 +9,7 @@ const PassWordChange = (props) => {
   //是否第一次第三方登录-修改密码
   const isPassword = localStorage.getItem('isPassword')
   const navigate = useNavigate()
-  const { dispatch, refs } = props
+  const { dispatch, refs, userInfo } = props
   const ispwd = isPassword === 'true'
   const [visible, setVisible] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
@@ -92,9 +92,12 @@ const PassWordChange = (props) => {
   }))
 
   useEffect(() => {
-    setUserData(() => JSON.parse(sessionStorage.getItem('userData')))
+    setUserData(() => JSON.parse(localStorage.getItem('userData')))
   }, [])
-  const num = sessionStorage.getItem('userNumber')
+  const num = localStorage.getItem('userName')
+  console.log('userName', localStorage.getItem('userName'))
+  console.log('userData', userData)
+  console.log('userInfo===>', userInfo)
   return (
     <Modal
       title="修改密码"
@@ -205,8 +208,9 @@ const PassWordChange = (props) => {
   )
 }
 
-const mapStateToProps = ({ allusers }) => ({
+const mapStateToProps = ({ allusers, login }) => ({
   state: allusers,
+  userInfo: login.userInfo,
 })
 
 const mapDispatchToProps = ({ allusers }) => ({
