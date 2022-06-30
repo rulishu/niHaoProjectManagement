@@ -114,15 +114,17 @@ const login = createModel()({
 
     //第三方登录
     async getThirdLoginToken() {
-      const userData = await getInfo()
-      localStorage.setItem('userName', userData?.user?.userName)
-      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       dispatch.login.updateState({
         submitLoading: true,
       })
       const data = await getThirdLoginToken()
       if (data && data.data) {
         window.location.href = data.data.gitLabUrl
+        if (data && data.code === 200) {
+          const userData = await getInfo()
+          localStorage.setItem('userName', userData?.user?.userName)
+          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
+        }
         dispatch.login.updateState({
           submitLoading: false,
         })
@@ -135,9 +137,6 @@ const login = createModel()({
 
     //第三方登录
     async authorAndLogin(param) {
-      const userData = await getInfo()
-      localStorage.setItem('userName', userData?.user?.userName)
-      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
