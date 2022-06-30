@@ -92,10 +92,10 @@ const PassWordChange = (props) => {
   }))
 
   useEffect(() => {
-    setUserData(() => JSON.parse(localStorage.getItem('userData')))
+    setUserData(() => JSON.parse(sessionStorage.getItem('userData')))
   }, [])
-  const num = localStorage.getItem('userNumber')
-  console.log(localStorage.getItem('userNumber'))
+  const num = sessionStorage.getItem('userNumber')
+  console.log(sessionStorage.getItem('userNumber'))
   console.log('userData', userData)
   return (
     <Modal
