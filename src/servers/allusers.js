@@ -15,7 +15,6 @@ export const queryByPage = (params) => {
 
 //查询用户列表不分页
 export const listNotPage = (params) => {
-  console.log('params', params)
   return request('/api/system/user/listNotPage', {
     method: 'POST',
     body: params,

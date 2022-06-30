@@ -368,7 +368,6 @@ const ProjectManagement = (fun) => {
           },
         ]}
         onSubmit={(initial, current) => {
-          console.log(current)
           const errorObj = {}
           if (!current?.name) {
             errorObj.name = '请输入项目名称'
