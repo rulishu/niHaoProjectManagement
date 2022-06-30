@@ -246,9 +246,7 @@ const Index = () => {
                   return (
                     <Row className={styles.userListItem} key={index}>
                       <Col span={userTitle && userTitle[0]?.length}>
-                        <div
-                          className={styles.userInfo}
-                          onClick={() => goPage(`${item.userName}`)}>
+                        <div className={styles.userInfo}>
                           <Avatar
                             size="small"
                             src={
@@ -261,7 +259,9 @@ const Index = () => {
                             className={styles.userAvatar}>
                             {item.memberName && item.memberName[0]}
                           </Avatar>
-                          <div className={styles.userAcount}>
+                          <div
+                            className={styles.userAcount}
+                            onClick={() => goPage(`${item.userName}`)}>
                             <span>{item.memberName}</span>
                             <span>@{item.userName}</span>
                           </div>
