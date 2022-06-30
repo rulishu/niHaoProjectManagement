@@ -166,8 +166,12 @@ export default createModel()({
       async addTaskComment(payload, { projectTasks }) {
         const { projectId, assignmentId } = projectTasks.taskInfoData
         const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
-        const { params, callback } = payload
-        const data = await addTaskComment({ type: 2, projectId, ...params })
+        const { params, callback, isType } = payload
+        const data = await addTaskComment({
+          type: isType,
+          projectId,
+          ...params,
+        })
         if (data && data.code === 200) {
           getTaskDetailsDataUnCheck({ projectId, id: assignmentId })
           update({

@@ -204,7 +204,7 @@ const NewIssue = (props) => {
             onSubmit={(current) => {
               const errorObj = {}
               const { dueDate, labels, assignmentTitle } = fromData
-              if (!current.assignmentTitle) {
+              if (current?.current?.assignmentTitle.trim() === '') {
                 errorObj.assignmentTitle = '请输入正确的标题'
               }
               if (

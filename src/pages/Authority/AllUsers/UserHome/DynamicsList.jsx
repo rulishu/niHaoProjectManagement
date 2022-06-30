@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 import { useEffect, useState } from 'react'
+import LinkText from '@/components/LinkText'
 
 const ProjectList = (props) => {
   const {
@@ -109,7 +110,93 @@ const ProjectList = (props) => {
                     )}
                   </div>
                   <div className={styles.dynamicCon}>
-                    {dynamicType[item?.type] + (item?.operatingRecords || '')}
+                    {item.historyType === 1 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords}
+                        <LinkText link={`${item?.projectUrl}`}>
+                          【{item?.projectName}】
+                        </LinkText>
+                      </span>
+                    ) : item.historyType === 2 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords}
+                        <LinkText
+                          link={`${item?.projectUrl}/task/taskInfo/${item.assignmentId}`}>
+                          {' '}
+                          #{item?.assignmentId}
+                        </LinkText>
+                      </span>
+                    ) : item.historyType === 3 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords} 指派给了 @
+                        {item?.assignmentUserName}
+                      </span>
+                    ) : item.historyType === 4 ? (
+                      <span>
+                        {' '}
+                        {dynamicType[item.type]} {item.operatingRecords}{' '}
+                        指派人取消了
+                      </span>
+                    ) : item.historyType === 5 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords}
+                        <LinkText
+                          link={`${item?.projectUrl}/milestone/milestoneInfo/${item.milestonesId}`}
+                          value={`${item.milestonesTitle}`}
+                        />
+                      </span>
+                    ) : item.historyType === 6 || item.historyType === 7 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords}
+                        <LinkText
+                          link={`${item?.projectUrl}/milestone/milestoneInfo/${item.milestonesId}`}
+                          value={`${item.milestonesTitle}`}
+                        />
+                      </span>
+                    ) : item.historyType === 8 ? (
+                      <span>
+                        {' '}
+                        {dynamicType[item.type]} {item.operatingRecords}
+                        截止日期移除了
+                      </span>
+                    ) : item.historyType === 9 ? (
+                      <span>
+                        {' '}
+                        {dynamicType[item.type]} {item.operatingRecords}标签{' '}
+                      </span>
+                    ) : item.historyType === 10 ? (
+                      <span>
+                        {' '}
+                        {dynamicType[item.type]} {item.operatingRecords}标签{' '}
+                      </span>
+                    ) : item.historyType === 11 ? (
+                      <span>
+                        {item.type === 3 ? '回复:' : '评论:'}
+                        {item.operatingRecords}
+                        {/* 1:记录 2:评论 3:回复 */}
+                      </span>
+                    ) : item.historyType === 12 ||
+                      item.historyType === 13 ||
+                      item.historyType === 14 ||
+                      item.historyType === 15 ? (
+                      <span>
+                        {' '}
+                        {dynamicType[item.type]} {item.operatingRecords}
+                        <LinkText
+                          link={`${item?.projectUrl}/task/taskInfo/${item.assignmentId}`}>
+                          {' '}
+                          #{item?.assignmentId}
+                        </LinkText>
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    {/* + (item?.operatingRecords || '')} */}
                   </div>
                 </li>
               )

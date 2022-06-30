@@ -22,7 +22,8 @@ const PassWordChange = (props) => {
   useEffect(() => {
     const callback = async () => await props.userDispatch.getInfo()
     callback()
-  }, [props])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) //props
 
   const onSubmit = ({ initial, current }) => {
     const errorObj = {}

@@ -5,6 +5,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 import { convertToString } from '@/utils/utils'
+import LinkText from '@/components/LinkText'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
@@ -179,13 +180,298 @@ export default function SlelectLabel() {
                   current={newMemberList?.length}
                   style={{ padding: '20px 0' }}>
                   {newMemberList?.map((a, key) => {
+                    // const one =  a?.operatingRecords?.match(/@(\S*) /)?.at(1)
                     return (
                       <Steps.Step
                         title={convertToString(a?.createTime)}
                         key={key}
                         description={
                           <div className={styles.mouseList}>
-                            {convertToString(a?.operatingRecords)}
+                            {a.historyType === 1 ? (
+                              <span>
+                                <LinkText link={`/${a?.userName}`}>
+                                  {a.nickName}
+                                </LinkText>
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText link={`${a?.projectUrl}`}>
+                                  【{a?.projectName}】
+                                </LinkText>
+                              </span>
+                            ) : a.historyType === 2 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                              </span>
+                            ) : a.historyType === 3 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                指派给了
+                                <LinkText
+                                  color="gray"
+                                  link={`/${a.assignmentUserName}`}
+                                  value={`@${a.assignmentUserName}`}
+                                />
+                              </span>
+                            ) : a.historyType === 4 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                指派人取消了
+                              </span>
+                            ) : a.historyType === 5 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`/${a.userName}/${a.projectId}/milestone/milestoneInfo/${a.milestonesId}`}
+                                  value={`${a.milestonesTitle}`}
+                                />
+                              </span>
+                            ) : a.historyType === 6 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`/${a.userName}/${a.projectId}/milestone/milestoneInfo/${a.milestonesId}`}
+                                  value={`${a.milestonesTitle}`}
+                                />
+                              </span>
+                            ) : a.historyType === 7 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                将任务
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                {convertToString(a?.operatingRecords)}
+                                {a.dueDate}
+                              </span>
+                            ) : a.historyType === 8 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                截止日期移除了
+                              </span>
+                            ) : a.historyType === 9 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                标签
+                              </span>
+                            ) : a.historyType === 10 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                标签
+                              </span>
+                            ) : a.historyType === 11 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                指派给了
+                              </span>
+                            ) : a.historyType === 12 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                                指派给了
+                              </span>
+                            ) : a.historyType === 13 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                              </span>
+                            ) : a.historyType === 14 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                              </span>
+                            ) : a.historyType === 15 ? (
+                              <span>
+                                <LinkText
+                                  link={`/${a.userName}`}
+                                  value={a.nickName}
+                                />
+                                <LinkText
+                                  className={styles.mouseList}
+                                  color="gray"
+                                  link={`/${a?.userName}`}>
+                                  @{a?.userName}
+                                </LinkText>
+                                {convertToString(a?.operatingRecords)}
+                                <LinkText
+                                  link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
+                                  value={`#${a.assignmentId}`}
+                                />
+                              </span>
+                            ) : (
+                              convertToString(a?.operatingRecords)
+                            )}
                           </div>
                         }></Steps.Step>
                     )
