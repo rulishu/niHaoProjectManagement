@@ -61,6 +61,9 @@ const NewEditLabel = (props) => {
         onSubmit={async ({ initial, current }) => {
           const errorObj = {}
           const { name, desc, color } = current
+          if (name.trim() === '') {
+            errorObj.name = '请输入正确的标题'
+          }
           if (!name || name.length < 2 || name.length > 64) {
             errorObj.name = '请输入标题,长度为2~64'
           }
