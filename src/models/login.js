@@ -21,6 +21,7 @@ const login = createModel()({
     isRegister: false,
     submitLoading: false, //登录按钮loading样式
     registerLoading: false, //注册按钮loading样式
+    userInfo: '',
   },
   reducers: {
     updateState: (state, payload) => ({
@@ -115,11 +116,11 @@ const login = createModel()({
     //第三方登录
     async getThirdLoginToken() {
       const userData = await getInfo()
-      localStorage.setItem('userName', JSON.stringify(userData?.user?.userName))
-      localStorage.setItem('userAccount1111', userData?.user?.userName)
-      localStorage.setItem('userData1111', JSON.stringify(userData?.user || {}))
+      localStorage.setItem('userName', userData?.user?.userName)
+      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       dispatch.login.updateState({
         submitLoading: true,
+        userInfo: userData.user,
       })
       const data = await getThirdLoginToken()
       if (data && data.data) {
@@ -137,9 +138,8 @@ const login = createModel()({
     //第三方登录
     async authorAndLogin(param) {
       const userData = await getInfo()
-      localStorage.setItem('userName', JSON.stringify(userData?.user?.userName))
-      localStorage.setItem('userAccount2222', userData?.user?.userName)
-      localStorage.setItem('userData2222', JSON.stringify(userData?.user || {}))
+      localStorage.setItem('userName', userData?.user?.userName)
+      localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
