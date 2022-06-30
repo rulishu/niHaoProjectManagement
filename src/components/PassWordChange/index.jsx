@@ -95,8 +95,6 @@ const PassWordChange = (props) => {
     setUserData(() => JSON.parse(sessionStorage.getItem('userData')))
   }, [])
   const num = sessionStorage.getItem('userNumber')
-  console.log(sessionStorage.getItem('userNumber'))
-  console.log('userData', userData)
   return (
     <Modal
       title="修改密码"

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Input, Form } from 'uiw'
 import styles from './index.module.less'
 
@@ -10,30 +11,6 @@ const taskStatus = {
   已逾期: 4,
 }
 
-// // 任务排序
-// const taskSorts = [
-//   {
-//     key: 3,
-//     value: { orderByColumn: 'createTime', isAsc: 'asc' },
-//     label: '创建时间升序',
-//   },
-//   {
-//     key: 4,
-//     value: { orderByColumn: 'createTime', isAsc: 'desc' },
-//     label: '创建时间降序',
-//   },
-//   {
-//     key: 5,
-//     value: { orderByColumn: 'updateTime', isAsc: 'asc' },
-//     label: '更新时间升序',
-//   },
-//   {
-//     key: 6,
-//     value: { orderByColumn: 'updateTime', isAsc: 'desc' },
-//     label: '更新时间降序',
-//   },
-// ]
-
 const SearchBox = (props) => {
   const {
     project: { membersList },
@@ -42,9 +19,9 @@ const SearchBox = (props) => {
     milestone: { milepostaData },
   } = useSelector((state) => state)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { userAccount, projectId } = useParams()
   const form = useRef()
-
-  const { projectId } = props
 
   useEffect(() => {
     form.current.setFieldValue('searchValue', searchValue)
@@ -56,10 +33,9 @@ const SearchBox = (props) => {
   }, [searchValue])
 
   const ParsingInputValue = (value, type) => {
-    console.log(value, type)
     const newSearchValue = ` ${value} `
     const newSearchOptions = {
-      assignmentStatus: '1',
+      assignmentStatus: '',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑
@@ -135,6 +111,24 @@ const SearchBox = (props) => {
     })
   }
 
+  // 跳转到 任务详情方法
+  const goIssue = () => {
+    dispatch({
+      type: 'project/update',
+      payload: {
+        issueType: 'add',
+        fromData: {
+          assignmentTitle: '',
+          assignmentType: 1,
+          description: '',
+          projectId,
+          labels: [],
+        },
+      },
+    })
+    navigate(`/${userAccount}/${projectId}/task/newIssue`)
+  }
+
   return (
     <div className={styles.searchBox}>
       <Form
@@ -156,7 +150,9 @@ const SearchBox = (props) => {
             <div className={styles.taskHeadBox}>
               <div className={styles.searchTask}>{fields?.searchValue}</div>
               <div className={styles.newTask}>
-                <Button type="primary">新建任务</Button>
+                <Button type="primary" onClick={() => goIssue()}>
+                  新建任务
+                </Button>
               </div>
             </div>
           )

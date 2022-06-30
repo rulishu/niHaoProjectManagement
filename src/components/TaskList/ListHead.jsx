@@ -41,9 +41,13 @@ const ListHead = (props) => {
     },
   ]
 
-  // 选项变化回调
+  /**
+   * 选项变化回调
+   * @param {Array} data 数据
+   * @param {number | string} value 当前数据
+   * @param {number} form 类型
+   */
   const optionsChange = (data, value, form) => {
-    // const param = { [type]: value }
     conditionChange && conditionChange({ ...data }, value, form)
   }
 
@@ -139,7 +143,7 @@ const ListHead = (props) => {
           selectData={[3]}
           onSelect={(_, key) => {
             const valueInfo = taskSort.filter((s) => s.key === key)[0].value
-            optionsChange(valueInfo, 2, 3)
+            optionsChange(valueInfo)
           }}>
           <span className={styles.clickableDiscolor}>
             排序
