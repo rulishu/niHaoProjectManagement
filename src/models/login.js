@@ -72,10 +72,10 @@ const login = createModel()({
         const userData = await getInfo()
         sessionStorage.setItem(
           'userName',
-          JSON.stringify(userData?.user.userName)
+          JSON.stringify(userData?.user?.userName)
         )
-        sessionStorage.setItem('userAccount', userData?.user.userName)
-        localStorage.setItem('userAccount', userData?.user.userName)
+        sessionStorage.setItem('userAccount', userData?.user?.userName)
+        localStorage.setItem('userAccount', userData?.user?.userName)
         localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {
@@ -141,11 +141,10 @@ const login = createModel()({
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
           const userData = await getInfo()
-          sessionStorage.setItem(
+          localStorage.setItem(
             'userName',
             JSON.stringify(userData?.user.userName)
           )
-          sessionStorage.setItem('userAccount', userData?.user.userName)
           localStorage.setItem('userAccount', userData?.user.userName)
           localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         }

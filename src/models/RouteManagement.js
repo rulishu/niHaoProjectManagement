@@ -51,6 +51,7 @@ export default createModel()({
         // payload.callback && payload.callback(data.user)
         localStorage.setItem('key', imgs)
         localStorage.setItem('isPassword', isPassword)
+        localStorage.setItem('userNumber', data?.user?.userName)
         return true
       }
     },
