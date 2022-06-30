@@ -62,6 +62,7 @@ export default function TodoList() {
                   {
                     title: '待办ID',
                     key: 'id',
+                    width: 150,
                   },
                   {
                     title: '待办内容',

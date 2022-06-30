@@ -2,7 +2,7 @@ import { Input, DateInput, Avatar } from 'uiw'
 import Custom from './Custom'
 import styles from './template.module.less'
 import { ThisTime, changeTime } from '@/utils/timeDistance'
-
+import { isColor } from '@/utils/utils'
 // 配置 label 的模板
 const label = {
   // 数据渲染头部
@@ -79,6 +79,9 @@ const label = {
       }
       if (!current?.color) {
         errorObj.color = '请选择或输入标签背景颜色'
+      }
+      if (!isColor(current.color)) {
+        errorObj.color = '请填写正确的颜色码 示例:#b8b8b8'
       }
       return errorObj
     },

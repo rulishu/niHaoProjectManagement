@@ -116,10 +116,10 @@ const AddUser = () => {
           onChange={(e, data) => onChange(e, data)}>
           {teamMemberList.map((item, idx) => (
             <Checkbox
-              style={{ width: 150, marginBottom: 5 }}
+              style={{ width: 300, marginBottom: 5 }}
               key={idx}
               value={item.value}>
-              {item.label}
+              {item.label}@{item.account}
             </Checkbox>
           ))}
         </Checkbox.Group>
@@ -142,10 +142,10 @@ const AddUser = () => {
           onChange={(e, data) => onChange1(e, data)}>
           {teamData.map((item, idx) => (
             <Checkbox
-              style={{ width: 150, marginBottom: 5 }}
+              style={{ width: 300, marginBottom: 5 }}
               key={idx}
               value={item.value}>
-              {item.label}
+              {item.label}@{item.account}
             </Checkbox>
           ))}
         </Checkbox.Group>
