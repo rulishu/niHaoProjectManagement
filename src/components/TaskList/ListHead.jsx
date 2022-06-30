@@ -42,9 +42,9 @@ const ListHead = (props) => {
   ]
 
   // 选项变化回调
-  const optionsChange = (data, value) => {
+  const optionsChange = (data, value, form) => {
     // const param = { [type]: value }
-    conditionChange && conditionChange({ ...data }, value)
+    conditionChange && conditionChange({ ...data }, value, form)
   }
 
   return (
@@ -60,7 +60,7 @@ const ListHead = (props) => {
                 style={{ color: item.color }}
                 onClick={() => {
                   setOnTab(item.onTab)
-                  optionsChange({ assignmentStatus: item.onTab })
+                  optionsChange({ assignmentStatus: item.onTab }, item.onTab, 1)
                 }}>
                 <Icon type={item.icon} />
                 {item.title}
@@ -77,7 +77,9 @@ const ListHead = (props) => {
           columnKey="userId"
           searchValue={['memberName', 'userAcount']}
           selectData={searchOptions.createId}
-          onSelect={(data, value) => optionsChange({ createId: data }, value)}>
+          onSelect={(data, value) =>
+            optionsChange({ createId: data }, value, 2)
+          }>
           <span className={styles.clickableDiscolor}>
             创建人
             <Icon type="down" />
@@ -90,7 +92,7 @@ const ListHead = (props) => {
           columnKey="id"
           searchValue={['name']}
           selectData={searchOptions.labels}
-          onSelect={(data, value) => optionsChange({ labels: data }, value)}>
+          onSelect={(data, value) => optionsChange({ labels: data }, value, 2)}>
           <span className={styles.clickableDiscolor}>
             标签
             <Icon type="down" />
@@ -104,7 +106,7 @@ const ListHead = (props) => {
           searchValue={['milestonesTitle']}
           selectData={searchOptions.milestonesId}
           onSelect={(data, value) =>
-            optionsChange({ milestonesId: data }, value)
+            optionsChange({ milestonesId: data }, value, 2)
           }>
           <span className={styles.clickableDiscolor}>
             里程碑
@@ -119,7 +121,7 @@ const ListHead = (props) => {
           searchValue={['memberName', 'userAcount']}
           selectData={searchOptions.assignmentUserId}
           onSelect={(data, value) =>
-            optionsChange({ assignmentUserId: data }, value)
+            optionsChange({ assignmentUserId: data }, value, 2)
           }>
           <span className={styles.clickableDiscolor}>
             指派人
@@ -137,7 +139,7 @@ const ListHead = (props) => {
           selectData={[3]}
           onSelect={(_, key) => {
             const valueInfo = taskSort.filter((s) => s.key === key)[0].value
-            optionsChange(valueInfo)
+            optionsChange(valueInfo, 2, 3)
           }}>
           <span className={styles.clickableDiscolor}>
             排序
