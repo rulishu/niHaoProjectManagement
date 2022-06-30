@@ -8,7 +8,7 @@ import useLocationPage from '@/hooks/useLocationPage'
 import SearchBox from './SearchBox'
 import 'tributejs/tribute.css'
 
-const Task = (props) => {
+const Task = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
@@ -38,6 +38,7 @@ const Task = (props) => {
   }, [dispatch])
 
   useEffect(() => {
+    console.log('searchOptions====>', searchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {
@@ -60,7 +61,6 @@ const Task = (props) => {
     }) // 初始化里程碑
 
     dispatch.project.getAssignment({ projectId: taskId }) // 不分页获取所有任务
-    dispatch.projectTasks.getTaskPagingData({ projectId: taskId }) // 不分页获取所有任务
     dispatch.projectTasks.getTaskPagingData({
       projectId: taskId,
       milestonesId: [milestonesId],
@@ -69,14 +69,21 @@ const Task = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]) // eslint-disable-line
 
-  //  type:1 增加，2 删除
-  const setSearchValue = (value, type) => {
-    let newSearchValue = searchValue
+  // 设置搜索输入框的value
+  //  type:1 增加，2 删除 3 修改
+  const setSearchValue = (value, type, sourceValue, targetValue) => {
+    let newSearchValue = sourceValue
     if (type === 1) {
-      newSearchValue = newSearchValue.replace(value, '')
+      // 增加
+      newSearchValue = `${searchValue} ${value}`
     }
     if (type === 2) {
-      newSearchValue = `${searchValue} ${value}`
+      // 删除
+      newSearchValue = newSearchValue.replace(value, '')
+    }
+    if (type === 3) {
+      // 替换
+      newSearchValue = newSearchValue.replace(targetValue, value)
     }
     dispatch({
       type: 'projectTasks/update',
@@ -118,19 +125,50 @@ const Task = (props) => {
       dataSource: membersList,
     },
   }
+  // 任务状态对象
+  const taskStatusObj = {
+    1: '未开始',
+    2: '进行中',
+    3: '已完成',
+    4: '已逾期',
+  }
 
-  // 搜索变化触发回调
-  const conditionChange = async (params, value) => {
-    const key = searchConfigObj[Object.keys(params)[0]]?.key
-    const title = searchConfigObj[Object.keys(params)[0]]?.title
-    const name = searchConfigObj[Object.keys(params)[0]]?.name
-    const dataSource = searchConfigObj[Object.keys(params)[0]]?.dataSource
-
-    const type = params[Object.keys(params)[0]].includes(value) ? 2 : 1
-    const stringValue = convertData(value, dataSource, title, key, name)
-
+  /**
+   * 搜索变化触发回调
+   * @param {params} 参数对象 {}
+   * @param {value} 当前值
+   * @param {form} 1:任务状态 2:其他信息 3:排序
+   */
+  const conditionChange = async (params, value, form) => {
+    let type = '',
+      stringValue = '',
+      targetValue = ''
+    if (form === 1) {
+      // 任务状态
+      stringValue = `状态:${taskStatusObj[value]} `
+      targetValue = `状态:${taskStatusObj[searchOptions.assignmentStatus]} `
+      type = 3
+    }
+    if (form === 2) {
+      // 下拉框
+      const key = searchConfigObj[Object.keys(params)[0]]?.key
+      const title = searchConfigObj[Object.keys(params)[0]]?.title
+      const name = searchConfigObj[Object.keys(params)[0]]?.name
+      const dataSource = searchConfigObj[Object.keys(params)[0]]?.dataSource
+      type = params[Object.keys(params)[0]].includes(value) ? 1 : 2 // 删除 or 新增
+      stringValue = convertData(value, dataSource, title, key, name)
+    }
+    if (form === 3) {
+      // 排序
+      const key = searchConfigObj[Object.keys(params)[0]]?.key
+      const title = searchConfigObj[Object.keys(params)[0]]?.title
+      const name = searchConfigObj[Object.keys(params)[0]]?.name
+      const dataSource = searchConfigObj[Object.keys(params)[0]]?.dataSource
+      type = params[Object.keys(params)[0]].includes(value) ? 1 : 2 // 删除 or 新增
+      stringValue = convertData(value, dataSource, title, key, name)
+    }
     // 修改输入框的值
-    setSearchValue(stringValue, type)
+    setSearchValue(stringValue, type, searchValue, targetValue)
 
     await dispatch({
       type: 'projectTasks/update',
