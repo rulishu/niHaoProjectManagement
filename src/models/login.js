@@ -120,11 +120,6 @@ const login = createModel()({
       const data = await getThirdLoginToken()
       if (data && data.data) {
         window.location.href = data.data.gitLabUrl
-        if (data && data.code === 200) {
-          const userData = await getInfo()
-          localStorage.setItem('userName', userData?.user?.userName)
-          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
-        }
         dispatch.login.updateState({
           submitLoading: false,
         })
@@ -145,14 +140,17 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
+          const userData = await getInfo()
+          localStorage.setItem('userName', userData?.user?.userName)
+          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
+          await dispatch({
+            type: 'routeManagement/getRouters',
+            payload: {
+              callback: (data) =>
+                localStorage.setItem('routes', JSON.stringify(data)),
+            },
+          })
         }
-        dispatch({
-          type: 'routeManagement/getRouters',
-          payload: {
-            callback: (data) =>
-              localStorage.setItem('routes', JSON.stringify(data)),
-          },
-        })
       }
     },
 
