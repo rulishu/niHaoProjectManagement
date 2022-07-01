@@ -185,7 +185,7 @@ export default function AllTasks() {
                         ) : itm.historyType === 7 ? (
                           <span>
                             {convertToString(itm?.operatingRecords)}
-                            {itm.dueDate}
+                            {/* {itm.dueDate} */}
                           </span>
                         ) : itm.historyType === 8 ? (
                           <span>
