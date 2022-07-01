@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import LeftPage from './leftPage'
 import RightPage from './rightPage'
 import useLocationPage from '@/hooks/useLocationPage'
+import styles from './index.module.less'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -32,7 +33,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex' }} className={styles.homeWrap}>
       <LeftPage />
       <RightPage />
     </div>

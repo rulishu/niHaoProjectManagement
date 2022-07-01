@@ -1,8 +1,15 @@
 @import '../../common.less';
+
+.homeWrap {
+  height: calc(100% - 40px);
+  overflow: auto;
+}
+
 .card {
   width: '100%';
   margin: 20px 10px;
 }
+
 //我的任务&&所有任务-表格行鼠标经过时样式修改
 .mouseList {
   :global {
@@ -13,9 +20,11 @@
     }
   }
 }
+
 .leftList {
   flex-wrap: wrap;
 }
+
 .leftTitle {
   line-height: 32px;
   font-weight: 600;
@@ -23,12 +32,14 @@
   font-size: 14px;
   margin-right: 3px;
 }
+
 .msList {
   flex-wrap: wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
 }
+
 .title {
   font-size: 14px;
   color: #666;
@@ -93,9 +104,11 @@
     flex-direction: column;
     align-items: center;
     align-content: flex-start;
+
     .memberItemLi {
       display: flex;
       flex-wrap: wrap;
+
       span {
         font-size: 24px;
       }
@@ -131,6 +144,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     margin-top: @margin-lg + 6px;
+
     li {
       display: flex;
       flex-direction: row;
@@ -138,6 +152,7 @@
       justify-content: space-between;
       border-radius: 2px;
       padding: @padding-xss @padding-xs;
+
       .itemName {
         width: 35%;
         overflow: hidden;
@@ -145,13 +160,16 @@
         text-overflow: ellipsis;
         margin-right: 1%;
       }
+
       .itemTime {
         width: 35%;
         margin-right: 1%;
       }
+
       .itemProg {
         width: 28%;
       }
+
       &:hover {
         background-color: rgba(167, 182, 194, 0.3);
         cursor: pointer;
@@ -177,6 +195,7 @@
     }
   }
 }
+
 body {
   :global {
     .w-empty {
