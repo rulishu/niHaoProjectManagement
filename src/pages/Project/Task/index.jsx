@@ -73,18 +73,14 @@ const Task = () => {
       newSearchValue = `${searchValue} ${value}`
     }
     // 删除
-    if (type === 2) {
-      newSearchValue = newSearchValue.replace(value, '')
-    }
+    if (type === 2) newSearchValue = newSearchValue.replace(value, '')
     if (type === 3) {
-      if (newSearchValue.indexOf(targetValue) === -1) {
-        // 如果不存在，则新增
+      // 如果不存在，则新增
+      if (newSearchValue.indexOf(targetValue) === -1)
         newSearchValue = `${searchValue} ${value}`
-      }
-      if (newSearchValue.indexOf(targetValue) !== -1) {
-        // 如果存在，则替换
+      // 如果存在，则替换
+      if (newSearchValue.indexOf(targetValue) !== -1)
         newSearchValue = newSearchValue.replace(targetValue, value)
-      }
     }
     dispatch({
       type: 'projectTasks/update',
@@ -106,24 +102,28 @@ const Task = () => {
       key: 'id',
       name: 'name',
       dataSource: labelsListData,
+      regular: /标签:(?<labels>.*?)\s/g,
     },
     createId: {
       title: '创建人',
       key: 'userId',
       name: 'userAcount',
       dataSource: membersList,
+      regular: /创建人:(?<createId>.*?)\s/g,
     },
     milestonesId: {
       title: '里程碑',
       key: 'milestonesId',
       name: 'milestonesTitle',
       dataSource: milepostaData,
+      regular: /里程碑:(?<milestonesId>.*?)\s/g,
     },
     assignmentUserId: {
       title: '指派人',
       key: 'userId',
       name: 'userAcount',
       dataSource: membersList,
+      regular: /指派人:(?<assignmentUserId>.*?)\s/g,
     },
   }
 
@@ -191,7 +191,11 @@ const Task = () => {
         loading={loading.effects.projectTasks.getTaskPagingData}>
         <>
           <div>
-            <SearchBox value={searchValue} projectId={taskId} />
+            <SearchBox
+              value={searchValue}
+              projectId={taskId}
+              searchConfigObj={searchConfigObj}
+            />
           </div>
           <TaskList
             listData={taskListData || []}
@@ -203,13 +207,6 @@ const Task = () => {
             milestonesListData={milepostaData}
             searchOptions={searchOptions}
             activeKey={taskStatus}
-            onCLickSearch={(type, val) => {
-              let obj = searchOptions[type]
-              if (!searchOptions[type].includes(val.value)) {
-                obj.push(val.value)
-              }
-              conditionChange({ [type]: obj })
-            }}
           />
           <div className={styles.pagination}>
             {taskListDataTotal > 10 ? (

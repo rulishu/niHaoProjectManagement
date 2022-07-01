@@ -11,7 +11,6 @@ const TaskList = (props) => {
   const {
     listData = [], // 数据源
     labelsData = [], // 标签数据源
-    // onCLickSearch, // 点击触发搜索事件
     listNavigate, // 标题跳转
     labelsListData, // 标签数据源
     teamMembersListData, // 指派人数据源
@@ -50,11 +49,6 @@ const TaskList = (props) => {
             onClick={() => {
               conditionChange &&
                 conditionChange({ labels: [item?.id] }, item?.id, 2)
-              // onCLickSearch &&
-              //   onCLickSearch('labels', {
-              //     value: item.id,
-              //     label: item.name,
-              //   })
             }}>
             {item.name}
           </Label>
@@ -82,6 +76,7 @@ const TaskList = (props) => {
           </li>
           {listData.length !== 0 ? (
             listData.map((item) => {
+              console.log('item====>', item)
               return (
                 <li key={item.assignmentId}>
                   <div className={styles.itemState}>
@@ -106,15 +101,35 @@ const TaskList = (props) => {
                     <div className={styles.itemLeftBase}>
                       <span className={styles.mark}>#{item.assignmentId}</span>·
                       由
-                      <span
-                        className={styles.clickable}
-                        style={{ paddingLeft: 5 }}
-                        onClick={() => goPage(`${item.assigneeUserAccount}`)}>
-                        {item?.updateName}
-                      </span>
-                      <span className={styles.updateTime}>
-                        更新于{timeDistance(item.updateTime).time}前
-                      </span>
+                      {item?.createTime === item?.updateTime ? (
+                        <>
+                          {' '}
+                          <span
+                            className={styles.clickable}
+                            style={{ paddingLeft: 5 }}
+                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
+                          >
+                            {item?.createName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            创建于{timeDistance(item.createTime).time}前
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          {' '}
+                          <span
+                            className={styles.clickable}
+                            style={{ paddingLeft: 5 }}
+                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
+                          >
+                            {item?.updateName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            更新于{timeDistance(item.updateTime).time}前
+                          </span>
+                        </>
+                      )}
                       {item.milestonesId ? (
                         <span
                           className={styles.clickable}
@@ -125,11 +140,6 @@ const TaskList = (props) => {
                                 item?.milestonesId,
                                 2
                               )
-                            // onCLickSearch &&
-                            //   onCLickSearch('milestonesId', {
-                            //     value: item.milestonesId,
-                            //     label: item.milestonesTitle,
-                            //   })
                           }}>
                           <Icon type="coffee" />
                           {item?.milestonesTitle}

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Input, Form } from 'uiw'
 import styles from './index.module.less'
 
+// 任务状态对象
 const taskStatus = {
   未开始: 1,
   进行中: 2,
@@ -13,15 +14,13 @@ const taskStatus = {
 
 const SearchBox = (props) => {
   const {
-    project: { membersList },
-    labels: { listData: labelsListData },
     projectTasks: { searchValue, searchOptions },
-    milestone: { milepostaData },
   } = useSelector((state) => state)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { userAccount, projectId } = useParams()
   const form = useRef()
+  const { searchConfigObj } = props
 
   useEffect(() => {
     form.current.setFieldValue('searchValue', searchValue)
@@ -43,64 +42,33 @@ const SearchBox = (props) => {
       orderByColumn: 'createTime',
       isAsc: 'asc',
     }
-    if (value.trim() !== searchValue.trim() || type === 1) {
-      const LABEL = /标签:(?<labels>.*?)\s/g
-      const MILESTONES = /里程碑:(?<milestonesId>.*?)\s/g
-      const CREATE = /创建人:(?<createId>.*?)\s/g
-      const ASSIGNMENTUSER = /指派人:(?<assignmentUserId>.*?)\s/g
-      const STATE = /状态:(?<assignmentStatus>.*?)\s/g
 
+    if (value.trim() !== searchValue.trim() || type === 1) {
+      const STATE = /状态:(?<assignmentStatus>.*?)\s/g
+      // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
         for (const match of newSearchValue.matchAll(STATE)) {
           newSearchOptions.assignmentStatus =
-            taskStatus[match?.groups.assignmentStatus.trim()]
+            taskStatus[match?.groups.assignmentStatus.trim()] || 999
         }
       }
-
-      if (newSearchValue.match(LABEL)?.length) {
-        for (const match of newSearchValue.matchAll(LABEL)) {
-          labelsListData.map((item) => {
-            if (item.name.trim() === match?.groups.labels.trim()) {
-              newSearchOptions.labels.push(item.id)
-            }
-            return null
-          })
+      Object.entries(searchConfigObj).map((item) => {
+        if (newSearchValue.match(item[1].regular)?.length) {
+          for (const match of newSearchValue.matchAll(item[1].regular)) {
+            item[1].dataSource.map((dataItem) => {
+              if (
+                dataItem[item[1].name].trim() === match?.groups[item[0]].trim()
+              ) {
+                newSearchOptions[item[0]].push(dataItem[item[1].key])
+                return null
+              }
+              newSearchOptions[item[0]]?.push(match?.groups[item[0]])
+              return null
+            })
+          }
         }
-      }
-      if (newSearchValue.match(MILESTONES)?.length) {
-        for (const match of newSearchValue.matchAll(MILESTONES)) {
-          milepostaData.map((item) => {
-            if (
-              item.milestonesTitle.trim() === match?.groups.milestonesId.trim()
-            ) {
-              newSearchOptions.milestonesId.push(item.milestonesId)
-            }
-            return null
-          })
-        }
-      }
-      if (newSearchValue.match(CREATE)?.length) {
-        for (const match of newSearchValue.matchAll(CREATE)) {
-          membersList.map((item) => {
-            if (item.userAcount.trim() === match?.groups.createId.trim()) {
-              newSearchOptions.createId.push(item.userId)
-            }
-            return null
-          })
-        }
-      }
-      if (newSearchValue.match(ASSIGNMENTUSER)?.length) {
-        for (const match of newSearchValue.matchAll(ASSIGNMENTUSER)) {
-          membersList.map((item) => {
-            if (
-              item.userAcount.trim() === match?.groups.assignmentUserId.trim()
-            ) {
-              newSearchOptions.assignmentUserId.push(item.userId)
-            }
-            return null
-          })
-        }
-      }
+        return null
+      })
     }
     dispatch({
       type: 'projectTasks/update',
