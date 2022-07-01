@@ -45,15 +45,13 @@ const SearchBox = (props) => {
 
     if (value.trim() !== searchValue.trim() || type === 1) {
       const STATE = /状态:(?<assignmentStatus>.*?)\s/g
+      // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
-        // 解析任务状态
         for (const match of newSearchValue.matchAll(STATE)) {
-          console.log(match?.groups.assignmentStatus.trim())
           newSearchOptions.assignmentStatus =
             taskStatus[match?.groups.assignmentStatus.trim()] || 999
         }
       }
-
       Object.entries(searchConfigObj).map((item) => {
         if (newSearchValue.match(item[1].regular)?.length) {
           for (const match of newSearchValue.matchAll(item[1].regular)) {
@@ -72,7 +70,6 @@ const SearchBox = (props) => {
         return null
       })
     }
-    console.log(newSearchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {

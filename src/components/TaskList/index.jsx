@@ -76,6 +76,7 @@ const TaskList = (props) => {
           </li>
           {listData.length !== 0 ? (
             listData.map((item) => {
+              console.log('item====>', item)
               return (
                 <li key={item.assignmentId}>
                   <div className={styles.itemState}>
@@ -100,15 +101,35 @@ const TaskList = (props) => {
                     <div className={styles.itemLeftBase}>
                       <span className={styles.mark}>#{item.assignmentId}</span>·
                       由
-                      <span
-                        className={styles.clickable}
-                        style={{ paddingLeft: 5 }}
-                        onClick={() => goPage(`${item.assigneeUserAccount}`)}>
-                        {item?.updateName}
-                      </span>
-                      <span className={styles.updateTime}>
-                        更新于{timeDistance(item.updateTime).time}前
-                      </span>
+                      {item?.createTime === item?.updateTime ? (
+                        <>
+                          {' '}
+                          <span
+                            className={styles.clickable}
+                            style={{ paddingLeft: 5 }}
+                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
+                          >
+                            {item?.createName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            创建于{timeDistance(item.createTime).time}前
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          {' '}
+                          <span
+                            className={styles.clickable}
+                            style={{ paddingLeft: 5 }}
+                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
+                          >
+                            {item?.updateName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            更新于{timeDistance(item.updateTime).time}前
+                          </span>
+                        </>
+                      )}
                       {item.milestonesId ? (
                         <span
                           className={styles.clickable}

@@ -318,7 +318,7 @@ export default function SlelectLabel() {
                                   value={`#${a.assignmentId}`}
                                 />
                                 {convertToString(a?.operatingRecords)}
-                                {a.dueDate}
+                                {/* {a.dueDate} */}
                               </span>
                             ) : a.historyType === 8 ? (
                               <span>
