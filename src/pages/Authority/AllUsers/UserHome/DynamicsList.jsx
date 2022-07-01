@@ -4,6 +4,7 @@ import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 import { useEffect, useState } from 'react'
 import LinkText from '@/components/LinkText'
+import { Label } from '@/components'
 
 const ProjectList = (props) => {
   const {
@@ -44,6 +45,19 @@ const ProjectList = (props) => {
     0: '',
     1: '操作：',
     2: '评论：',
+  }
+
+  //标签
+  const labelBox = (items, value = []) => {
+    console.log('items', items)
+    return items?.map((item) => {
+      console.log('item:::>', item)
+      return (
+        <Label color={item.color} key={item?.id}>
+          {item.name}
+        </Label>
+      )
+    })
   }
 
   return (
@@ -173,7 +187,11 @@ const ProjectList = (props) => {
                     ) : item.historyType === 9 ? (
                       <span>
                         {' '}
-                        {dynamicType[item.type]} {item.operatingRecords}标签{' '}
+                        {dynamicType[item.type]} {item.operatingRecords}
+                        <span className={styles.labelBox}>
+                          {labelBox(item?.labelsInfo)}
+                        </span>
+                        标签{' '}
                       </span>
                     ) : item.historyType === 10 ? (
                       <span>
