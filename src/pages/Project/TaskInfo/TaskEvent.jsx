@@ -6,6 +6,7 @@ import UserReview from './UserReview'
 import styles from './taskEvent.module.less'
 import { convertToString } from '@/utils/utils'
 import LinkText from '@/components/LinkText'
+import { Label } from '@/components'
 
 const TaskEvent = () => {
   const dispatch = useDispatch()
@@ -69,6 +70,19 @@ const TaskEvent = () => {
         </Card>
       </li>
     )
+  }
+
+  //标签
+  const labelBox = (items, value = []) => {
+    console.log('items', items)
+    return items?.map((item) => {
+      console.log('item:::>', item)
+      return (
+        <Label color={item.color} key={item?.id}>
+          {item.name}
+        </Label>
+      )
+    })
   }
 
   // 动态事件
@@ -201,6 +215,9 @@ const TaskEvent = () => {
                   @{item?.userName}
                 </LinkText>
                 {convertToString(item?.operatingRecords)}
+                <span className={styles.labelBox}>
+                  {labelBox(item?.labelsInfo)}
+                </span>
                 标签
               </span>
             ) : item.historyType === 10 ? (

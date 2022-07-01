@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 import { convertToString } from '@/utils/utils'
 import LinkText from '@/components/LinkText'
+import { Label } from '@/components'
 
 export default function SlelectLabel() {
   const dispatch = useDispatch()
@@ -58,6 +59,19 @@ export default function SlelectLabel() {
         ])
       }
     }
+  }
+
+  //标签
+  const labelBox = (items, value = []) => {
+    console.log('items', items)
+    return items?.map((item) => {
+      console.log('item:::>', item)
+      return (
+        <Label color={item.color} key={item?.id}>
+          {item.name}
+        </Label>
+      )
+    })
   }
 
   const TableList = () => {
@@ -187,11 +201,12 @@ export default function SlelectLabel() {
                         key={key}
                         description={
                           <div className={styles.mouseList}>
+                            <LinkText
+                              link={`/${a.userName}`}
+                              value={a.nickName}
+                            />
                             {a.historyType === 1 ? (
                               <span>
-                                <LinkText link={`/${a?.userName}`}>
-                                  {a.nickName}
-                                </LinkText>
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"
@@ -206,10 +221,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 2 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -223,10 +234,6 @@ export default function SlelectLabel() {
                               </span>
                             ) : a.historyType === 3 ? (
                               <span>
-                                <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"
@@ -248,10 +255,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 4 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -267,10 +270,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 5 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -285,10 +284,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 6 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -302,10 +297,6 @@ export default function SlelectLabel() {
                               </span>
                             ) : a.historyType === 7 ? (
                               <span>
-                                <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"
@@ -323,10 +314,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 8 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -342,10 +329,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 9 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -356,14 +339,13 @@ export default function SlelectLabel() {
                                   link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
                                   value={`#${a.assignmentId}`}
                                 />
+                                <span className={styles.labelBox}>
+                                  {labelBox(a?.labelsInfo)}
+                                </span>
                                 标签
                               </span>
                             ) : a.historyType === 10 ? (
                               <span>
-                                <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"
@@ -380,13 +362,10 @@ export default function SlelectLabel() {
                             ) : a.historyType === 11 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
+                                  {' '}
                                   @{a?.userName}
                                 </LinkText>
                                 {convertToString(a?.operatingRecords)}
@@ -398,10 +377,6 @@ export default function SlelectLabel() {
                               </span>
                             ) : a.historyType === 12 ? (
                               <span>
-                                <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"
@@ -418,10 +393,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 13 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -436,10 +407,6 @@ export default function SlelectLabel() {
                             ) : a.historyType === 14 ? (
                               <span>
                                 <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
-                                <LinkText
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
@@ -453,10 +420,6 @@ export default function SlelectLabel() {
                               </span>
                             ) : a.historyType === 15 ? (
                               <span>
-                                <LinkText
-                                  link={`/${a.userName}`}
-                                  value={a.nickName}
-                                />
                                 <LinkText
                                   className={styles.mouseList}
                                   color="gray"

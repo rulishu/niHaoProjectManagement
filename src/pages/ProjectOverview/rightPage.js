@@ -7,6 +7,7 @@ import styles from './index.module.less'
 import dayjs from 'dayjs'
 import { convertToString } from '@/utils/utils'
 import LinkText from '@/components/LinkText'
+import { Label } from '@/components'
 
 export default function AllTasks() {
   // const dispatch = useDispatch()
@@ -44,6 +45,20 @@ export default function AllTasks() {
   // }
   // console.log('projectDynamicsList', projectDynamicsList)
   // console.log('assignmentList',assignmentList);
+
+  //标签
+  const labelBox = (items, value = []) => {
+    console.log('items', items)
+    return items?.map((item) => {
+      console.log('item:::>', item)
+      return (
+        <Label color={item.color} key={item?.id}>
+          {item.name}
+        </Label>
+      )
+    })
+  }
+
   return (
     <div style={{ width: '30%', maxWidth: 300 }}>
       <Card
@@ -188,6 +203,9 @@ export default function AllTasks() {
                               link={`/${itm?.userName}/${itm?.projectId}/task/taskInfo/${itm?.assignmentId}`}
                               value={`#${itm?.assignmentId}`}
                             />
+                            <span className={styles.labelBox}>
+                              {labelBox(itm?.labelsInfo)}
+                            </span>
                             任务标签
                           </span>
                         ) : itm.historyType === 10 ? (
