@@ -329,7 +329,7 @@ export default function Home() {
           </Col>
         </Card>
         <Card
-          title={`我的项目 / ${allDataSource?.projectName || ''}`}
+          title={`${allDataSource?.projectName || '无'}`}
           bordered={false}
           style={{
             height: 400,
