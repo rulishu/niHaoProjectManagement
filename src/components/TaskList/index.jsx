@@ -11,7 +11,6 @@ const TaskList = (props) => {
   const {
     listData = [], // 数据源
     labelsData = [], // 标签数据源
-    // onCLickSearch, // 点击触发搜索事件
     listNavigate, // 标题跳转
     labelsListData, // 标签数据源
     teamMembersListData, // 指派人数据源
@@ -50,11 +49,6 @@ const TaskList = (props) => {
             onClick={() => {
               conditionChange &&
                 conditionChange({ labels: [item?.id] }, item?.id, 2)
-              // onCLickSearch &&
-              //   onCLickSearch('labels', {
-              //     value: item.id,
-              //     label: item.name,
-              //   })
             }}>
             {item.name}
           </Label>
@@ -125,11 +119,6 @@ const TaskList = (props) => {
                                 item?.milestonesId,
                                 2
                               )
-                            // onCLickSearch &&
-                            //   onCLickSearch('milestonesId', {
-                            //     value: item.milestonesId,
-                            //     label: item.milestonesTitle,
-                            //   })
                           }}>
                           <Icon type="coffee" />
                           {item?.milestonesTitle}
