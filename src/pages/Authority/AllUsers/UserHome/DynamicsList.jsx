@@ -5,6 +5,7 @@ import styles from './index.module.less'
 import { useEffect, useState } from 'react'
 import LinkText from '@/components/LinkText'
 import { Label } from '@/components'
+import { convertToString } from '@/utils/utils'
 
 const ProjectList = (props) => {
   const {
@@ -175,8 +176,8 @@ const ProjectList = (props) => {
                     ) : item.historyType === 7 ? (
                       <span>
                         {dynamicType[item.type]}
-                        {item.operatingRecords}
-                        {item.dueDate}
+                        {convertToString(item.operatingRecords)}
+                        {/* {item.dueDate} */}
                       </span>
                     ) : item.historyType === 8 ? (
                       <span>

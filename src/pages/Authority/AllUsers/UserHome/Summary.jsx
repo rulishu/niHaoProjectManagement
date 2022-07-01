@@ -4,6 +4,7 @@ import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
 import LinkText from '@/components/LinkText'
 import { Label } from '@/components'
+import { convertToString } from '@/utils/utils'
 
 // 任务操作类型
 const dynamicType = {
@@ -301,8 +302,8 @@ const DynamicsList = (props) => {
                       ) : item.historyType === 7 ? (
                         <span>
                           {dynamicType[item.type]}
-                          {item.operatingRecords}
-                          {item.dueDate}
+                          {convertToString(item.operatingRecords)}
+                          {/* {item.dueDate} */}
                         </span>
                       ) : item.historyType === 8 ? (
                         <span>
