@@ -149,7 +149,7 @@ const ProjectList = (props) => {
                           value={`${item.milestonesTitle}`}
                         />
                       </span>
-                    ) : item.historyType === 6 || item.historyType === 7 ? (
+                    ) : item.historyType === 6 ? (
                       <span>
                         {dynamicType[item.type]}
                         {item.operatingRecords}
@@ -157,6 +157,12 @@ const ProjectList = (props) => {
                           link={`${item?.projectUrl}/milestone/milestoneInfo/${item.milestonesId}`}
                           value={`${item.milestonesTitle}`}
                         />
+                      </span>
+                    ) : item.historyType === 7 ? (
+                      <span>
+                        {dynamicType[item.type]}
+                        {item.operatingRecords}
+                        {item.dueDate}
                       </span>
                     ) : item.historyType === 8 ? (
                       <span>

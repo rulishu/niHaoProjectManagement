@@ -95,14 +95,17 @@ export default function AllTasks() {
               current={projectDynamicsList?.length}
               style={{ padding: '20px 0' }}>
               {projectDynamicsList?.map((itm, key) => {
-                const one = itm?.operatingRecords?.match(/@(\S*) /)?.at(1)
+                // const one = itm?.operatingRecords?.match(/@(\S*) /)?.at(1)
                 return (
                   <Steps.Step
                     title={convertToString(itm?.createTime)}
                     key={key}
                     description={
                       <div className={styles.mouseList}>
-                        <LinkText link={`/${one}`} value={itm?.nickName} />
+                        <LinkText
+                          link={`/${itm.userName}`}
+                          value={itm?.nickName}
+                        />
                         <LinkText
                           className={styles.mouseList}
                           color="gray"
@@ -165,8 +168,10 @@ export default function AllTasks() {
                             />
                           </span>
                         ) : itm.historyType === 7 ? (
-                          // convertToString(itm?.operatingRecords)
-                          <span>{convertToString(itm?.operatingRecords)}</span>
+                          <span>
+                            {convertToString(itm?.operatingRecords)}
+                            {itm.dueDate}
+                          </span>
                         ) : itm.historyType === 8 ? (
                           <span>
                             {convertToString(itm?.operatingRecords)}

@@ -177,6 +177,7 @@ const TaskEvent = () => {
                   @{item?.userName}
                 </LinkText>
                 {convertToString(item?.operatingRecords)}
+                {item.dueDate}
               </span>
             ) : item.historyType === 8 ? (
               <span>
