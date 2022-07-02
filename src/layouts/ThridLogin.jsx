@@ -70,10 +70,11 @@ const ThridLogin = () => {
         {gitlab}
       </Button>
       <Loader
-        tip="加载中..."
+        tip="第三方登录加载中..."
         size="large"
         bgColor="rgba(255, 255, 255, 0.9)"
         fullscreen={isFullscreen}
+        loading={isFullscreen}
       />
     </>
   )
