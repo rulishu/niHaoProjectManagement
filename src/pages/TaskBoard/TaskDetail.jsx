@@ -105,7 +105,7 @@ const TaskDetail = (props) => {
         param: { ...formData, projectId },
         callback: (data) => {
           result = data
-          dispatch.labels.getAllLabelData({ projectId })
+          dispatch.taskboard.getAllLabelData({ projectId })
         },
       },
     })
@@ -193,6 +193,7 @@ const TaskDetail = (props) => {
       </div>
     )
   }
+
   return (
     <div className={styles.nihao}>
       <Drawer
