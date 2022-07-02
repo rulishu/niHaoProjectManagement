@@ -13,6 +13,7 @@ const ListHead = (props) => {
     conditionChange,
     searchOptions,
     activeKey,
+    taskNum,
   } = props
 
   const [onTab, setOnTab] = useState(activeKey || '1')
@@ -61,7 +62,8 @@ const ListHead = (props) => {
               setOnTab('1')
               optionsChange({ assignmentStatus: '1' }, '1', 1)
             }}>
-            <Icon type="plus-circle-o" />4 打开
+            <Icon type="circle-o" />
+            {taskNum?.open} 打开
           </span>
           <span
             className={onTab === '3' ? styles.action : ''}
@@ -69,7 +71,8 @@ const ListHead = (props) => {
               setOnTab('3')
               optionsChange({ assignmentStatus: '3' }, '3', 1)
             }}>
-            <Icon type="check" />1 关闭
+            <Icon type="check" />
+            {taskNum?.close} 关闭
           </span>
           {/* {taskState.map((item, index) => {
             return (
