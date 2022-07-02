@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { Form, Row, Col, Button } from 'uiw'
 import ThridLogin from './ThridLogin'
 import { useState } from 'react'
+import styles from './index.module.less'
 
 export let navigate
 const Login = () => {
@@ -26,10 +27,20 @@ const Login = () => {
       payload: { isLogin: !isLogin },
     })
   }
+  const copyRight = () => (
+    <div className={styles.copyRight}>
+      上海尼好系统集成有限公司&nbsp;&nbsp; Shanghai Ni Hao System Integration
+      Co., Ltd.&nbsp;&nbsp; 税 号:913102300764281266&nbsp;&nbsp;
+      地址:上海市青浦区明珠路1018号e通世界双子楼B座508室&nbsp;&nbsp;
+      电话:021-61112686
+    </div>
+  )
+
   return (
     <UserLogin
       projectName={'尼好程序开发测试项目管理软件'}
-      styleContainer={{ backgroundSize: '100% 100%' }}>
+      styleContainer={{ backgroundSize: '100% 100%' }}
+      footer={copyRight()}>
       <Form
         onSubmit={({ current }) => {
           const errorObj = {}
