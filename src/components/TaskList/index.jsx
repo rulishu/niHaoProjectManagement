@@ -76,7 +76,6 @@ const TaskList = (props) => {
           </li>
           {listData.length !== 0 ? (
             listData.map((item) => {
-              console.log('item====>', item)
               return (
                 <li key={item.assignmentId}>
                   <div className={styles.itemState}>
@@ -103,13 +102,11 @@ const TaskList = (props) => {
                       由
                       {item?.createTime === item?.updateTime ? (
                         <>
-                          {' '}
                           <span
                             className={styles.clickable}
-                            style={{ paddingLeft: 5 }}
-                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
-                          >
-                            {item?.createName}
+                            // style={{ paddingLeft: 5 }}
+                            onClick={() => goPage(`${item.createUserAccount}`)}>
+                            {item?.createUserNickName}
                           </span>
                           <span className={styles.updateTime}>
                             创建于{timeDistance(item.createTime).time}前
@@ -117,12 +114,10 @@ const TaskList = (props) => {
                         </>
                       ) : (
                         <>
-                          {' '}
                           <span
                             className={styles.clickable}
-                            style={{ paddingLeft: 5 }}
-                            // onClick={() => goPage(`${item.assigneeUserAccount}`)}
-                          >
+                            // style={{ paddingLeft: 5 }}
+                            onClick={() => goPage(`${item.updateUserName}`)}>
                             {item?.updateName}
                           </span>
                           <span className={styles.updateTime}>
