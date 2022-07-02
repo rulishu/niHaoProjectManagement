@@ -182,9 +182,9 @@ const TaskList = (props) => {
                     <div className={styles.itemComments}>
                       {item?.commentNum > 0 ? (
                         <span
-                          className={styles.clickableDiscolor}
+                          className={styles.clickable}
                           onClick={() => listGoTo(item)}>
-                          <Icon type="message" />
+                          <Icon type="message" className={styles.commentIcon} />
                           <span className={styles.commentNum}>
                             {item?.commentNum}
                           </span>
