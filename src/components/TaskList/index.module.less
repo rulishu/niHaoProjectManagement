@@ -1,3 +1,9 @@
+@light-li-bg-color: #f6f8fa;
+@light-font-color-default: #24292f; // 深色
+@light-font-color-muted: #57606a; // 浅色
+@light-font-color-accent: #0969da; // 蓝色
+@light-font-size-default: 14px; // 浅色
+
 .taskList {
   max-width: 1280px;
   margin-right: auto;
@@ -6,47 +12,63 @@
   font-size: 16px;
 
   .list {
-    border: 1px solid #e5eaee;
-    border-radius: 6px;
+    font-size: @light-font-size-default;
+    line-height: 1.5;
+
+    ul {
+      border: 1px solid #d0d7de;
+      margin-right: 0;
+      margin-left: 0;
+      border-radius: 6px;
+    }
 
     li {
       display: flex;
       border-top-color: transparent;
       list-style-type: none;
-      border-top: 1px solid #e5eaee;
+      border-top: 1px solid hsla(210, 18%, 87%, 1);
       transition: all 0.2s ease-in-out;
 
       &:not(:first-child):hover {
         transition: all 0.2s ease-in-out;
-        background-color: #e5eaee9f;
+        background-color: @light-li-bg-color;
+      }
+
+      &:nth-of-type(2) {
+        border-top: none;
       }
 
       .itemState {
-        padding-left: 16px;
-        padding-top: 12px;
+        display: flex;
         align-items: center;
+        margin-left: 16px;
+        margin-top: 8px;
+        height: 24px;
+        line-height: 24px;
+
+        & > span {
+          width: 16px;
+          height: 16px;
+          font-weight: 600;
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
 
       .itemLeft {
-        width: 30%;
-        flex: 14;
         display: flex;
         flex-direction: column;
         justify-content: center;
         padding: 8px;
         overflow: hidden;
+        flex: auto;
 
         .labelBox {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          cursor: pointer;
-
-          .label {
-            &:hover {
-              text-decoration: underline;
-            }
-          }
+          display: inline;
+          line-height: 1.5;
         }
 
         .itemLeftTop {
@@ -59,42 +81,32 @@
           -webkit-line-clamp: 2;
           align-items: center;
 
-          .label {
-            display: inline-block;
-            padding: 0 7px;
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 18px;
-            white-space: nowrap;
-            border: 1px solid transparent;
-            border-radius: 2em;
-            margin-left: 8px;
-
-            &:hover {
-              text-decoration: underline;
-              cursor: pointer;
-            }
-          }
-
           p {
             font-weight: 600;
             text-decoration: none;
             white-space: nowrap;
-            // max-width: 600px;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 16px;
+            color: @light-font-color-default;
+            transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+            transition-property: color, background-color, box-shadow,
+              border-color;
 
             &:hover {
-              text-decoration: underline;
+              color: @light-font-color-accent;
               cursor: pointer;
+              transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+              transition-property: color, background-color, box-shadow,
+                border-color;
             }
           }
         }
 
         .itemLeftBase {
           font-size: 12px;
-          margin: 5px;
-          margin-left: 0px;
+          margin-top: 4px;
+          color: @light-font-color-muted;
 
           span {
             border-radius: 25px;
@@ -109,19 +121,52 @@
 
           // .person {
           // }
+
+          // 里程碑
+          .milestone {
+            display: inline-block;
+            max-width: 125px;
+            vertical-align: top;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            & > span {
+              width: 16px;
+              height: 16px;
+              display: inline-block;
+              overflow: visible !important;
+              vertical-align: bottom;
+              margin-right: 2px;
+
+              & > svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
         }
       }
 
       .itemRight {
         white-space: nowrap;
         text-align: right;
-        // padding-top: 8px;
-        // padding-right: 16px;
         flex-shrink: 0;
-        width: 20%;
-        // flex: 6;
         display: flex;
-        align-items: center;
+        // align-items: center;
+        width: calc(100% / 14 * 3);
+        padding-right: 16px;
+        padding-top: 8px;
+        flex-shrink: 0;
+
+        .avatar {
+          :global {
+            .w-avatar {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
 
         & > div {
           flex: 1;
@@ -131,20 +176,26 @@
         }
 
         .itemComments {
-          & > span {
+          text-align: right;
+          color: @light-font-color-muted;
+
+          span {
+            padding: 0;
             display: flex;
-            flex-direction: row;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
-            color: #999;
-            line-height: 24px;
-            span {
-              margin-right: 2px;
-              svg {
-                width: 16px;
-                height: 16px;
-              }
-            }
+          }
+
+          .commentIcon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+          }
+
+          .commentNum {
+            font-weight: 600;
+            font-size: 12px;
+            margin-left: 2px;
           }
         }
       }
@@ -158,40 +209,91 @@
 
     // 列表头
     .liHead {
+      background-color: @light-li-bg-color;
       border-top: none;
+      padding: 16px;
+      margin: -1px -1px 0;
+      border-right-width: 1px;
+      border-left-width: 1px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      border: 1px solid #d0d7de;
+
+      .listHead {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+      }
 
       .itemLeft {
-        width: 50%;
-        flex: 10;
+        height: 21px;
+        padding: 0;
 
         & > p {
-          padding-left: 8px;
           display: flex;
           flex-direction: row;
           justify-content: flex-start;
           align-items: center;
 
           & > span {
-            margin-right: 8px;
-            opacity: 0.4;
+            margin-right: 10px;
+            color: @light-font-color-muted;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            padding: 0;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 0;
+            -webkit-appearance: none;
+            appearance: none;
+
+            &:hover {
+              color: @light-font-color-default;
+            }
+
+            & > span {
+              margin-right: 4px;
+              display: inline-block;
+              overflow: visible !important;
+              vertical-align: text-bottom;
+              width: 16px;
+              height: 16px;
+
+              svg {
+                width: 16px;
+                height: 16px;
+                fill: currentColor;
+              }
+            }
           }
 
           .action {
-            opacity: 1;
-            font-weight: 500;
+            font-weight: 600;
+            color: @light-font-color-default;
           }
         }
       }
 
       .itemRight {
-        // width: 50%;
-        flex: 5;
-        // margin-left: 100px;
-        // align-items: center;
+        justify-content: flex-end;
+        padding-right: 0;
+        padding-top: 0;
 
         & > div {
           display: flex;
           justify-content: center;
+          padding-right: 16px;
+          padding-left: 16px;
+
+          &:last-child {
+            padding-right: 0;
+          }
 
           & > span {
             display: flex;
@@ -205,17 +307,36 @@
 }
 
 .clickableDiscolor {
+  color: @light-font-color-muted;
+
   :global {
     .w-icon {
       transition: inherit;
-      height: 16px;
+      height: @light-font-size-default;
       line-height: 1;
     }
   }
+
+  .dropdownIcon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    content: '';
+    border-style: solid;
+    border-width: 4px 4px 0;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    list-style: none;
+    white-space: nowrap;
+    cursor: pointer;
+    word-wrap: break-word;
+    list-style: none;
+  }
+
   .commentNum {
-    // justify-content:'center';
-    // align-items:'center';
-    height: 16px;
+    height: 14px;
     line-height: 1;
   }
 
@@ -224,21 +345,18 @@
   align-items: center;
   transition: all 0.2s ease-in-out;
 
-  & > span {
-    padding: 0 2px;
-  }
-
   &:hover {
-    color: #999;
+    color: @light-font-color-default;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
   }
 }
 
 .clickable {
+  padding: 0 2px;
+
   &:hover {
-    color: #000;
-    text-decoration: underline;
+    color: @light-font-color-accent;
     cursor: pointer;
   }
 }

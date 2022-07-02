@@ -18,14 +18,15 @@ const TaskList = (props) => {
     conditionChange, // 选项变化触发回调
     searchOptions, // 搜索事件配置
     activeKey, // 状态初始值
+    taskNum,
   } = props
 
   // 任务状态
   const taskState = [
-    { onTab: '1', color: '#d99156', title: '未开始', icon: 'plus-circle-o' },
-    { onTab: '2', color: '#fbb957', title: '进行中', icon: 'circle-o' },
-    { onTab: '3', color: '#41b349', title: '已完成', icon: 'circle-check-o' },
-    { onTab: '4', color: '#813c85', title: '已逾期', icon: 'circle-close-o' },
+    { onTab: '1', color: '#1a7f37', title: '未开始', icon: 'circle-o' },
+    { onTab: '2', color: '#1a7f37', title: '进行中', icon: 'circle-o' },
+    { onTab: '3', color: '#8250df ', title: '已完成', icon: 'circle-check-o' },
+    { onTab: '4', color: '#cf222e', title: '已逾期', icon: 'circle-close-o' },
   ]
 
   // 跳转路径
@@ -72,6 +73,7 @@ const TaskList = (props) => {
               conditionChange={conditionChange}
               searchOptions={searchOptions}
               activeKey={activeKey}
+              taskNum={taskNum}
             />
           </li>
           {listData.length !== 0 ? (
@@ -98,7 +100,9 @@ const TaskList = (props) => {
                       </span>
                     </div>
                     <div className={styles.itemLeftBase}>
-                      <span className={styles.mark}>#{item.assignmentId}</span>·
+                      <span className={styles.mark}>
+                        #{item.assignmentId}&ensp;
+                      </span>
                       由
                       {item?.createTime === item?.updateTime ? (
                         <>
@@ -109,7 +113,7 @@ const TaskList = (props) => {
                             {item?.createUserNickName}
                           </span>
                           <span className={styles.updateTime}>
-                            创建于{timeDistance(item.createTime).time}前
+                            创建于{timeDistance(item.createTime).time}前&ensp;
                           </span>
                         </>
                       ) : (
@@ -121,13 +125,13 @@ const TaskList = (props) => {
                             {item?.updateName}
                           </span>
                           <span className={styles.updateTime}>
-                            更新于{timeDistance(item.updateTime).time}前
+                            更新于{timeDistance(item.updateTime).time}前&ensp;
                           </span>
                         </>
                       )}
                       {item.milestonesId ? (
                         <span
-                          className={styles.clickable}
+                          className={`${styles.clickable} ${styles.milestone}`}
                           onClick={() => {
                             conditionChange &&
                               conditionChange(
@@ -146,35 +150,31 @@ const TaskList = (props) => {
                   </div>
                   <div className={styles.itemRight}>
                     <div></div>
-                    <div style={{ flexWrap: 'wrap' }}>
+                    <div className={styles.avatar}>
                       {item.assigneeUserId ? (
-                        <>
-                          <Tooltip content={`指派给${item?.assigneeUserName}`}>
-                            <span
-                              className={styles.clickable}
-                              onClick={() =>
-                                goPage(`${item.assigneeUserAccount}`)
-                              }>
-                              <Avatar
-                                size="small"
-                                src={
-                                  item.assigneeUserAvatar?.substring(0, 4) ===
-                                  'http'
-                                    ? item.assigneeUserAvatar
-                                    : item.assigneeUserAvatar?.substring(
-                                        0,
-                                        4
-                                      ) !== 'http' &&
-                                      item.assigneeUserAvatar !== '' &&
-                                      `/api/file/selectFile/${item.assigneeUserAvatar}`
-                                }
-                                className={styles.roleAvatar}>
-                                {item.assigneeUserName &&
-                                  item.assigneeUserName[0]}
-                              </Avatar>
-                            </span>
-                          </Tooltip>
-                        </>
+                        <Tooltip content={`指派给${item?.assigneeUserName}`}>
+                          <span
+                            className={styles.clickable}
+                            onClick={() =>
+                              goPage(`${item.assigneeUserAccount}`)
+                            }>
+                            <Avatar
+                              size="small"
+                              src={
+                                item.assigneeUserAvatar?.substring(0, 4) ===
+                                'http'
+                                  ? item.assigneeUserAvatar
+                                  : item.assigneeUserAvatar?.substring(0, 4) !==
+                                      'http' &&
+                                    item.assigneeUserAvatar !== '' &&
+                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
+                              }
+                              className={styles.roleAvatar}>
+                              {item.assigneeUserName &&
+                                item.assigneeUserName[0]}
+                            </Avatar>
+                          </span>
+                        </Tooltip>
                       ) : (
                         ''
                       )}
@@ -182,9 +182,9 @@ const TaskList = (props) => {
                     <div className={styles.itemComments}>
                       {item?.commentNum > 0 ? (
                         <span
-                          className={styles.clickableDiscolor}
+                          className={styles.clickable}
                           onClick={() => listGoTo(item)}>
-                          <Icon type="message" />
+                          <Icon type="message" className={styles.commentIcon} />
                           <span className={styles.commentNum}>
                             {item?.commentNum}
                           </span>

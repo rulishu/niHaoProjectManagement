@@ -6,6 +6,8 @@ import styles from './index.module.less'
 
 // 任务状态对象
 const taskStatus = {
+  打开: 1,
+  关闭: 3,
   未开始: 1,
   进行中: 2,
   已完成: 3,
