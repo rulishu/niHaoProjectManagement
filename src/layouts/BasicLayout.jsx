@@ -62,7 +62,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
       // setOrganization(true)
       setCheckAll(false)
       setprojectList(false)
-    } else {
+    } else if (breadUrl === '/todoList') {
+      setCheckAll(false)
+      setprojectList(false)
+      setusers(false)
+    } else if (breadUrl === '/Authority') {
       if (!!params?.userAccount && !!params?.projectId) {
         setprojectList(true)
         setCheckAll(false)
@@ -295,7 +299,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
           ) : (
             ''
           )}
-          <div className={styles.title} onClick={() => navigate(`/todoList`)}>
+          <div
+            className={styles.title}
+            onClick={() => {
+              setusers(false)
+              setprojectList(false)
+              // setOrganization(false)
+              setCheckAll(false)
+              navigate(`/todoList`)
+            }}>
             <Badge
               count={
                 todoListCount !== 0 && todoNotices !== 0
