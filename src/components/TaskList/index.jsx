@@ -98,11 +98,10 @@ const TaskList = (props) => {
                       </span>
                     </div>
                     <div className={styles.itemLeftBase}>
-                      <span className={styles.mark}>#{item.assignmentId}</span>·
+                      <span className={styles.mark}>#{item.assignmentId}</span>
                       由
                       {item?.createTime === item?.updateTime ? (
                         <>
-                          {' '}
                           <span
                             className={styles.clickable}
                             style={{ paddingLeft: 5 }}
@@ -116,7 +115,6 @@ const TaskList = (props) => {
                         </>
                       ) : (
                         <>
-                          {' '}
                           <span
                             className={styles.clickable}
                             style={{ paddingLeft: 5 }}
@@ -150,35 +148,31 @@ const TaskList = (props) => {
                   </div>
                   <div className={styles.itemRight}>
                     <div></div>
-                    <div style={{ flexWrap: 'wrap' }}>
+                    <div className={styles.avatar}>
                       {item.assigneeUserId ? (
-                        <>
-                          <Tooltip content={`指派给${item?.assigneeUserName}`}>
-                            <span
-                              className={styles.clickable}
-                              onClick={() =>
-                                goPage(`${item.assigneeUserAccount}`)
-                              }>
-                              <Avatar
-                                size="small"
-                                src={
-                                  item.assigneeUserAvatar?.substring(0, 4) ===
-                                  'http'
-                                    ? item.assigneeUserAvatar
-                                    : item.assigneeUserAvatar?.substring(
-                                        0,
-                                        4
-                                      ) !== 'http' &&
-                                      item.assigneeUserAvatar !== '' &&
-                                      `/api/file/selectFile/${item.assigneeUserAvatar}`
-                                }
-                                className={styles.roleAvatar}>
-                                {item.assigneeUserName &&
-                                  item.assigneeUserName[0]}
-                              </Avatar>
-                            </span>
-                          </Tooltip>
-                        </>
+                        <Tooltip content={`指派给${item?.assigneeUserName}`}>
+                          <span
+                            className={styles.clickable}
+                            onClick={() =>
+                              goPage(`${item.assigneeUserAccount}`)
+                            }>
+                            <Avatar
+                              size="small"
+                              src={
+                                item.assigneeUserAvatar?.substring(0, 4) ===
+                                'http'
+                                  ? item.assigneeUserAvatar
+                                  : item.assigneeUserAvatar?.substring(0, 4) !==
+                                      'http' &&
+                                    item.assigneeUserAvatar !== '' &&
+                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
+                              }
+                              className={styles.roleAvatar}>
+                              {item.assigneeUserName &&
+                                item.assigneeUserName[0]}
+                            </Avatar>
+                          </span>
+                        </Tooltip>
                       ) : (
                         ''
                       )}
