@@ -131,7 +131,8 @@ const login = createModel()({
     },
 
     //第三方登录
-    async authorAndLogin(param) {
+    async authorAndLogin(payload) {
+      const { param, callback } = payload
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
@@ -140,9 +141,6 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
-          const userData = await getInfo()
-          localStorage.setItem('userName', userData?.user?.userName)
-          localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
           await dispatch({
             type: 'routeManagement/getRouters',
             payload: {
@@ -152,6 +150,7 @@ const login = createModel()({
           })
         }
       }
+      callback && callback(false)
     },
 
     //注册新用户
