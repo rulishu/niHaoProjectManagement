@@ -76,7 +76,6 @@ const TaskList = (props) => {
           </li>
           {listData.length !== 0 ? (
             listData.map((item) => {
-              console.log('item====>', item)
               return (
                 <li key={item.assignmentId}>
                   <div className={styles.itemState}>
