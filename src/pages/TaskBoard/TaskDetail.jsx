@@ -82,14 +82,16 @@ const TaskDetail = (props) => {
         return null
       })
       if (
+        JSON.stringify(taskInfo?.labels?.sort()) &&
         JSON.stringify(taskInfo?.labels?.sort()) !==
-        JSON.stringify(labelIdList?.sort())
+          JSON.stringify(labelIdList?.sort())
       ) {
         dispatch.taskboard.getEdit({
           taskInfo: {
             ...taskInfo,
             labels: labels.length ? newData : [],
           },
+          projectId,
         })
       }
       return newData

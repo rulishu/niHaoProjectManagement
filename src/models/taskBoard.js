@@ -327,9 +327,14 @@ const taskboard = createModel()({
 
     // 编辑任务
     async getEdit(payload) {
+      const { projectId } = payload
       const data = await getManagerAssignmentUpdate(payload.taskInfo)
       if (data && data.code === 200) {
         Notify.success({ title: '修改标签成功' })
+        dispatch.taskboard.selectByProjectId({
+          projectId,
+          id: payload.taskInfo.assignmentId,
+        })
       }
     },
 
