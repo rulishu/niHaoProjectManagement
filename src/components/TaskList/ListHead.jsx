@@ -6,13 +6,14 @@ import styles from './index.module.less'
 
 const ListHead = (props) => {
   const {
-    taskState,
+    // taskState,
     labelsListData,
     teamMembersListData,
     milestonesListData,
     conditionChange,
     searchOptions,
     activeKey,
+    taskNum,
   } = props
 
   const [onTab, setOnTab] = useState(activeKey || '1')
@@ -55,7 +56,25 @@ const ListHead = (props) => {
     <div className={styles.listHead}>
       <div className={styles.itemLeft}>
         <p>
-          {taskState.map((item, index) => {
+          <span
+            className={onTab === '1' ? styles.action : ''}
+            onClick={() => {
+              setOnTab('1')
+              optionsChange({ assignmentStatus: '1' }, '1', 1)
+            }}>
+            <Icon type="circle-o" />
+            {taskNum?.open} 打开
+          </span>
+          <span
+            className={onTab === '3' ? styles.action : ''}
+            onClick={() => {
+              setOnTab('3')
+              optionsChange({ assignmentStatus: '3' }, '3', 1)
+            }}>
+            <Icon type="check" />
+            {taskNum?.close} 关闭
+          </span>
+          {/* {taskState.map((item, index) => {
             return (
               <span
                 key={index}
@@ -70,7 +89,7 @@ const ListHead = (props) => {
                 {item.title}
               </span>
             )
-          })}
+          })} */}
         </p>
       </div>
       <div className={styles.itemRight}>
@@ -85,8 +104,9 @@ const ListHead = (props) => {
             optionsChange({ createId: data }, value, 2)
           }>
           <span className={styles.clickableDiscolor}>
-            创建人
-            <Icon type="down" />
+            &ensp;创建人&ensp;
+            {/* <Icon type="down" /> */}
+            <span className={styles.dropdownIcon}></span>
           </span>
         </DropdownBox>
         <DropdownBox
@@ -98,8 +118,9 @@ const ListHead = (props) => {
           selectData={searchOptions.labels}
           onSelect={(data, value) => optionsChange({ labels: data }, value, 2)}>
           <span className={styles.clickableDiscolor}>
-            标签
-            <Icon type="down" />
+            &ensp;标签&ensp;
+            {/* <Icon type="down" /> */}
+            <span className={styles.dropdownIcon}></span>
           </span>
         </DropdownBox>
         <DropdownBox
@@ -113,8 +134,9 @@ const ListHead = (props) => {
             optionsChange({ milestonesId: data }, value, 2)
           }>
           <span className={styles.clickableDiscolor}>
-            里程碑
-            <Icon type="down" />
+            &ensp;里程碑&ensp;
+            {/* <Icon type="down" /> */}
+            <span className={styles.dropdownIcon}></span>
           </span>
         </DropdownBox>
         <DropdownBox
@@ -128,8 +150,9 @@ const ListHead = (props) => {
             optionsChange({ assignmentUserId: data }, value, 2)
           }>
           <span className={styles.clickableDiscolor}>
-            指派人
-            <Icon type="down" />
+            &ensp;指派人&ensp;
+            {/* <Icon type="down" /> */}
+            <span className={styles.dropdownIcon}></span>
           </span>
         </DropdownBox>
         <DropdownBox
@@ -146,8 +169,9 @@ const ListHead = (props) => {
             optionsChange(valueInfo)
           }}>
           <span className={styles.clickableDiscolor}>
-            排序
-            <Icon type="down" />
+            &ensp;排序&ensp;
+            {/* <Icon type="down" /> */}
+            <span className={styles.dropdownIcon}></span>
           </span>
         </DropdownBox>
       </div>

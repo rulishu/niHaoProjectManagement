@@ -30,7 +30,7 @@ const Task = () => {
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
-  const { membersList } = project
+  const { membersList, taskNum } = project
 
   useEffect(() => {
     dispatch({ type: 'projectTasks/clean' })
@@ -129,9 +129,9 @@ const Task = () => {
 
   // 任务状态对象
   const taskStatusObj = {
-    1: '未开始',
-    2: '进行中',
-    3: '已完成',
+    1: '打开',
+    2: '打开',
+    3: '关闭',
     4: '已逾期',
   }
 
@@ -207,6 +207,10 @@ const Task = () => {
             milestonesListData={milepostaData}
             searchOptions={searchOptions}
             activeKey={taskStatus}
+            taskNum={{
+              open: taskNum.completed,
+              close: taskNum.noGoing,
+            }}
           />
           <div className={styles.pagination}>
             {taskListDataTotal > 10 ? (
