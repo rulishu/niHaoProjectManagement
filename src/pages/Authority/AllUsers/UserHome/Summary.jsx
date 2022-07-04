@@ -334,7 +334,8 @@ const DynamicsList = (props) => {
                       ) : item.historyType === 12 ||
                         item.historyType === 13 ||
                         item.historyType === 14 ||
-                        item.historyType === 15 ? (
+                        item.historyType === 15 ||
+                        item.historyType === 16 ? (
                         <span>
                           {' '}
                           {dynamicType[item.type]} {item.operatingRecords}
