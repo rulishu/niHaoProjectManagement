@@ -309,15 +309,15 @@ export default function Home() {
                 <span className={styles.leftTitle}>项目创建人:</span>
                 {projectData?.nickName || ''}
               </List.Item>
-              <List.Item>
+              <List.Item className={styles.leftList}>
                 <span className={styles.leftTitle}> 起始日期: </span>{' '}
                 {convertToString(allDataSource?.begin) || ''}
               </List.Item>
-              <List.Item>
+              <List.Item className={styles.leftList}>
                 <span className={styles.leftTitle}> 截止日期: </span>{' '}
                 {convertToString(allDataSource?.end) || ''}
               </List.Item>
-              <List.Item>
+              <List.Item className={styles.leftList}>
                 <div>
                   <div className={styles.leftTitle}>项目描述: </div>
                   <div className={styles.msList}>
