@@ -55,7 +55,6 @@ const Task = () => {
     dispatch.project.getAssignment({ projectId: taskId }) // 不分页获取所有任务
     // dispatch.projectTasks.getTaskPagingData({
     //   projectId: taskId,
-    //   milestonesId: [milestonesId],
     // }) // 不分页获取所有任务
     dispatch.project.countAssignment({ projectId: taskId })
     // eslint-disable-next-line react-hooks/exhaustive-deps
