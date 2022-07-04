@@ -271,3 +271,22 @@ export function convertToString(s) {
   // eslint-disable-next-line no-useless-escape
   return s?.replace(/\-/g, '/')
 }
+
+// @查找
+export function findall(a, x) {
+  let results = [],
+    len = a.length,
+    pos = 0
+  while (pos < len) {
+    // eslint-disable-next-line no-const-assign
+    pos = a.indexOf(x, pos)
+    if (pos === -1) {
+      //未找到就退出循环完成搜索
+      break
+    }
+    results.push(pos) //找到就存储索引
+    // eslint-disable-next-line no-const-assign
+    pos += 1 //并从下个位置开始搜索
+  }
+  return results
+}
