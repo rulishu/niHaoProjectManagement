@@ -6,12 +6,8 @@ import styles from './index.module.less'
 
 // 任务状态对象
 const taskStatus = {
-  打开: 1,
-  关闭: 3,
-  未开始: 1,
-  进行中: 2,
-  已完成: 3,
-  已逾期: 4,
+  打开: '1',
+  关闭: '2',
 }
 
 const SearchBox = (props) => {
@@ -36,7 +32,8 @@ const SearchBox = (props) => {
   const ParsingInputValue = (value, type) => {
     const newSearchValue = ` ${value} `
     const newSearchOptions = {
-      assignmentStatus: '',
+      // assignmentStatus: '',
+      code: '1',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑
@@ -46,12 +43,11 @@ const SearchBox = (props) => {
     }
 
     if (value.trim() !== searchValue.trim() || type === 1) {
-      const STATE = /状态:(?<assignmentStatus>.*?)\s/g
+      const STATE = /状态:(?<code>.*?)\s/g
       // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
         for (const match of newSearchValue.matchAll(STATE)) {
-          newSearchOptions.assignmentStatus =
-            taskStatus[match?.groups.assignmentStatus.trim()] || 999
+          newSearchOptions.code = taskStatus[match?.groups.code.trim()] || 999
         }
       }
       Object.entries(searchConfigObj).map((item) => {
