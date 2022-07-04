@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import MarkdownPreview from '@uiw/react-markdown-preview'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Avatar, Button, Tooltip, Modal } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
@@ -8,9 +9,14 @@ import timeDistance from '@/utils/timeDistance'
 // import LinkText from '@/components/LinkText'
 
 const UserReview = (props) => {
+  const navigate = useNavigate()
+  const params = useParams()
   const dispatch = useDispatch()
+  const { projectId, userAccount } = params
   const {
     projectuser: { userSelectAllList },
+    milestone: { milepostaData },
+    labels: { listData },
     projectTasks: { replyConData, taskInfoData, editCommentData },
   } = useSelector((state) => state)
   const curUser = JSON.parse(localStorage.getItem('userData'))
@@ -112,15 +118,113 @@ const UserReview = (props) => {
       </div>
     )
   }
+  console.log('listData', listData)
+  const parsingMdValue = (value) => {
+    let newValue = ` ${value} `
+    // type:1 人员 ，2 任务，3 里程碑 ，4 标签
+    const taskInfoObj = {
+      people: {
+        className: styles.styleP,
+        type: 1,
+        regExp: /@(?<people>.*?)\s/g,
+        tag: '@',
+      },
+      task: {
+        className: styles.styleP,
+        type: 2,
+        regExp: /#(?<task>.*?)\s/g,
+        tag: '#',
+      },
+      milestone: {
+        className: styles.styleP,
+        type: 3,
+        regExp: /%(?<milestone>.*?)\s/g,
+        tag: '%',
+      },
+      label: {
+        className: styles.mdLabel,
+        type: 4,
+        regExp: /~(?<label>.*?)\s/g,
+        tag: '~',
+      },
+    }
+    Object.entries(taskInfoObj).forEach((item, index) => {
+      if (value.match(item[1]?.regExp)?.length) {
+        for (const eveyValue of newValue.matchAll(item?.at(1).regExp)) {
+          const name = eveyValue.groups[item[0]]
+          const tag = item[1].tag
+          const type = item[1].type
+          const className = item[1].className
+          let id = 0
+          if (item[0] === 'milestone') {
+            id = milepostaData.filter((item) => {
+              return item.milestonesTitle === name
+            })[0].milestonesId
+          }
+          let labelColor = ''
+          if (item[0] === 'label') {
+            console.log('name', name)
+            labelColor = listData.filter((item) => {
+              return item.name === name
+            })[0].color
+          }
+          console.log('labelColor', labelColor)
+          newValue = newValue.replace(
+            tag + name + ' ',
+            `<span 
+            className=${className} 
+            data-type=${type} 
+            data-value=${item[0] === 'milestone' ? id : name}>
+             ${item[0] === 'label' ? name : tag + name}
+          </span>`
+          )
+        }
+      }
+    })
 
+    // const personReg=/@(?<labels>.*?)\s/g
+    // const a= value?.match(personReg)
+    // let newValue=value
+    // for(let i=0;i<a?.length;i++){
+    //   newValue=newValue.replace(a[i],`<p className=${styles.styleP} data-type='1' data-value=${a[i]}>${a[i]}</p>`)
+    // }
+    return newValue
+  }
+
+  const mdClick = (e) => {
+    const type = e?.target?.dataset.type
+    const value = e?.target?.dataset.value
+    const typeObj = {
+      1: { link: '/' },
+      2: { link: `/${userAccount}/${projectId}/task/taskInfo/${value}` },
+      3: {
+        link: `/${userAccount}/${projectId}/milestone/milestoneInfo/${value}`,
+      },
+      4: { link: '/', noGo: true },
+    }
+
+    if (type && !typeObj[type]?.noGo) {
+      navigate(typeObj[type].link) //.replace('@','').trim()
+    }
+  }
   // 显示MD文档
   const showMDBox = (data) => {
+    // const atPerson=data?.match(/@(\S*) /)?.at(1)
     // const datsas= userSelectAllList?.filter(function(item){
     //   return data?.includes(item?.memberName);
     // })
+
+    // onClick={()=>{  navigate(`/${atPerson}`) }}
     return (
-      <div data-color-mode="light" style={{ flex: 1 }}>
-        <MarkdownPreview source={data || ''} style={{ width: '100%' }} />
+      <div
+        data-color-mode="light"
+        style={{ flex: 1 }}
+        onClick={(e) => mdClick(e)}>
+        <MarkdownPreview
+          source={parsingMdValue(data) || ''}
+          style={{ width: '100%' }}
+          className={styles.textTitle}
+        />
       </div>
     )
   }

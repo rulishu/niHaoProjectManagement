@@ -74,9 +74,7 @@ const TaskEvent = () => {
 
   //标签
   const labelBox = (items, value = []) => {
-    console.log('items', items)
     return items?.map((item) => {
-      console.log('item:::>', item)
       return (
         <Label color={item.color} key={item?.id}>
           {item.name}

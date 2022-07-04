@@ -39,7 +39,7 @@ const FromMD = (props) => {
           values: function (text, cb) {
             remoteSearch(queryFuzzyAllProjectMember, (users) => cb(users))
           },
-          lookup: 'memberName',
+          lookup: 'userAcount',
           noMatchTemplate: function () {
             return '<span style:"visibility: hidden;"></span>'
           },
@@ -53,7 +53,7 @@ const FromMD = (props) => {
                       : item?.original?.avatar
                   }' />
                 <span style='font-size: 14px; font-weight: lighter;'>${
-                  item?.original?.memberName
+                  item?.original?.userAcount + ' ' + item?.original?.memberName
                 }</span>`
                 : `
               <span style='height: 30px; width: 30px; font-size: 12px; border-radius: 50px; text-align: center; background: #ccc; color: #fff; vertical-align: middle; white-space: nowrap; position: relative; overflow: hidden; display: inline-flex; justify-content: center; align-items: center; margin-right: 8px;'> ${
@@ -61,13 +61,13 @@ const FromMD = (props) => {
                 item?.original?.memberName.substring(0, 1)
               }</span>
               <span style='font-size: 14px; font-weight: lighter;'>${
-                item?.original?.memberName
+                item?.original?.userAcount + ' ' + item?.original?.memberName
               }</span>`
             }
             
               </div>`
           },
-          fillAttr: 'memberName',
+          fillAttr: 'userAcount',
         },
         {
           trigger: '#',
