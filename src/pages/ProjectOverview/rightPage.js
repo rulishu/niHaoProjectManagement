@@ -254,7 +254,7 @@ export default function AllTasks() {
                               value={`#${itm?.assignmentId}`}
                             />
                           </span>
-                        ) : itm.historyType === 15 ? (
+                        ) : itm.historyType === 15 || itm.historyType === 16 ? (
                           <span>
                             {convertToString(itm?.operatingRecords)}
                             <LinkText

@@ -29,9 +29,10 @@ export default createModel()({
   state: {
     searchValue: '',
     searchOptions: {
+      code: '1',
       page: 1,
       pageSize: 10,
-      assignmentStatus: '1',
+      // assignmentStatus: '1',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑

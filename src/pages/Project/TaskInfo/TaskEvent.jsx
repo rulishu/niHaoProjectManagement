@@ -84,9 +84,278 @@ const TaskEvent = () => {
       )
     })
   }
-
+  const dynamic = (item) => {
+    return {
+      1: (
+        <>
+          <LinkText link={`${item?.projectUrl}`}>
+            【{item?.projectName}】{' '}
+          </LinkText>
+        </>
+      ),
+      2: (
+        <>
+          <span> #{item.assignmentId}</span>
+        </>
+      ),
+      3: (
+        <>
+          <span> #{item.assignmentId}</span>指派给了
+          <LinkText
+            color="gray"
+            link={`/${item.userName}`}
+            value={`@${item.assignmentUserName}`}
+          />
+        </>
+      ),
+      4: (
+        <>
+          <span> #{item.assignmentId}</span>指派人取消了
+        </>
+      ),
+      5: (
+        <>
+          <LinkText
+            link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
+            value={`${item.milestonesTitle}`}
+          />
+        </>
+      ),
+      6: (
+        <>
+          <LinkText
+            link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
+            value={`${item.milestonesTitle}`}
+          />
+        </>
+      ),
+      7: <>{/* {item.dueDate} */}</>,
+      8: <>截止日期移除了</>,
+      9: (
+        <>
+          <span className={styles.labelBox}>{labelBox(item?.labelsInfo)}</span>
+          标签
+        </>
+      ),
+      10: <>标签</>,
+      12: <>时间逾期了</>,
+      13: (
+        <>
+          <span> #{item.assignmentId}</span>
+        </>
+      ),
+      14: (
+        <>
+          <span> #{item.assignmentId}</span>
+        </>
+      ),
+      15: <></>,
+      16: <></>,
+    }
+  }
   // 动态事件
   const event = (item) => {
+    // return (
+    //   <li key={item.taskHistoryId}>
+    //     <div className={styles.eventLiBox}>
+    //       <div className={styles.eventLiIcon}>
+    //         <Icon type="user" />
+    //       </div>
+    //       <div className={styles.eventLiContent}>
+    //         {item.historyType === 1 ? (
+    //           <span>
+    //             <LinkText link={`/${item?.userName}`}>{item.nickName}</LinkText>
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <LinkText link={`${item?.projectUrl}`}>
+    //               【{item?.projectName}】
+    //             </LinkText>
+    //           </span>
+    //         ) : item.historyType === 2 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span> #{item.assignmentId}</span>
+    //           </span>
+    //         ) : item.historyType === 3 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span> #{item.assignmentId}</span>
+    //             指派给了
+    //             <LinkText
+    //               color="gray"
+    //               link={`/${item.userName}`}
+    //               value={`@${item.assignmentUserName}`}
+    //             />
+    //           </span>
+    //         ) : item.historyType === 4 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span> #{item.assignmentId}</span>
+    //             指派人取消了
+    //           </span>
+    //         ) : item.historyType === 5 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <LinkText
+    //               link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
+    //               value={`${item.milestonesTitle}`}
+    //             />
+    //           </span>
+    //         ) : item.historyType === 6 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <LinkText
+    //               link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
+    //               value={`${item.milestonesTitle}`}
+    //             />
+    //           </span>
+    //         ) : item.historyType === 7 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             {/* {item.dueDate} */}
+    //           </span>
+    //         ) : item.historyType === 8 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             截止日期移除了
+    //           </span>
+    //         ) : item.historyType === 9 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span className={styles.labelBox}>
+    //               {labelBox(item?.labelsInfo)}
+    //             </span>
+    //             标签
+    //           </span>
+    //         ) : item.historyType === 10 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             标签
+    //           </span>
+    //         ) : item.historyType === 11 ? (
+    //           <span></span>
+    //         ) : item.historyType === 12 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             时间逾期了
+    //           </span>
+    //         ) : item.historyType === 13 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span> #{item.assignmentId}</span>
+    //           </span>
+    //         ) : item.historyType === 14 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //             <span> #{item.assignmentId}</span>
+    //           </span>
+    //         ) : item.historyType === 15 || item.historyType === 16 ? (
+    //           <span>
+    //             <LinkText link={`/${item.userName}`} value={item.nickName} />
+    //             <LinkText
+    //               className={styles.mouseList}
+    //               color="gray"
+    //               link={`/${item?.userName}`}>
+    //               @{item?.userName}
+    //             </LinkText>
+    //             {convertToString(item?.operatingRecords)}
+    //           </span>
+    //         ) : (
+    //           ''
+    //         )}
+    //       </div>
+    //     </div>
+    //   </li>
+    // )
     return (
       <li key={item.taskHistoryId}>
         <div className={styles.eventLiBox}>
@@ -94,7 +363,9 @@ const TaskEvent = () => {
             <Icon type="user" />
           </div>
           <div className={styles.eventLiContent}>
-            {item.historyType === 1 ? (
+            {item.historyType === 11 ? (
+              <span></span>
+            ) : (
               <span>
                 <LinkText link={`/${item?.userName}`}>{item.nickName}</LinkText>
                 <LinkText
@@ -104,185 +375,8 @@ const TaskEvent = () => {
                   @{item?.userName}
                 </LinkText>
                 {convertToString(item?.operatingRecords)}
-                <LinkText link={`${item?.projectUrl}`}>
-                  【{item?.projectName}】
-                </LinkText>
+                {dynamic(item)[item.historyType]}
               </span>
-            ) : item.historyType === 2 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span> #{item.assignmentId}</span>
-              </span>
-            ) : item.historyType === 3 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span> #{item.assignmentId}</span>
-                指派给了
-                <LinkText
-                  color="gray"
-                  link={`/${item.userName}`}
-                  value={`@${item.assignmentUserName}`}
-                />
-              </span>
-            ) : item.historyType === 4 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span> #{item.assignmentId}</span>
-                指派人取消了
-              </span>
-            ) : item.historyType === 5 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <LinkText
-                  link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
-                  value={`${item.milestonesTitle}`}
-                />
-              </span>
-            ) : item.historyType === 6 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <LinkText
-                  link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
-                  value={`${item.milestonesTitle}`}
-                />
-              </span>
-            ) : item.historyType === 7 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                {/* {item.dueDate} */}
-              </span>
-            ) : item.historyType === 8 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                截止日期移除了
-              </span>
-            ) : item.historyType === 9 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span className={styles.labelBox}>
-                  {labelBox(item?.labelsInfo)}
-                </span>
-                标签
-              </span>
-            ) : item.historyType === 10 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                标签
-              </span>
-            ) : item.historyType === 11 ? (
-              <span></span>
-            ) : item.historyType === 12 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                时间逾期了
-              </span>
-            ) : item.historyType === 13 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span> #{item.assignmentId}</span>
-              </span>
-            ) : item.historyType === 14 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-                <span> #{item.assignmentId}</span>
-              </span>
-            ) : item.historyType === 15 ? (
-              <span>
-                <LinkText link={`/${item.userName}`} value={item.nickName} />
-                <LinkText
-                  className={styles.mouseList}
-                  color="gray"
-                  link={`/${item?.userName}`}>
-                  @{item?.userName}
-                </LinkText>
-                {convertToString(item?.operatingRecords)}
-              </span>
-            ) : (
-              ''
             )}
           </div>
         </div>
@@ -307,7 +401,7 @@ const TaskEvent = () => {
       </div>
     )
   }
-
+  // console.log(taskInfoData?.managerAssignmentHistories);
   return (
     <div>
       <div className={styles.taskEventWrap}>

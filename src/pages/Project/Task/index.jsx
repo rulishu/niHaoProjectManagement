@@ -31,17 +31,14 @@ const Task = () => {
     loading,
   } = useSelector((state) => state)
   const { membersList, taskNum } = project
+  const open = taskNum.all - taskNum.completed //打开状态的任务数量
 
   useEffect(() => {
     dispatch({ type: 'projectTasks/clean' })
   }, [dispatch])
 
   useEffect(() => {
-    conditionChange(
-      { assignmentStatus: `${taskStatus || ''}` },
-      `${taskStatus || ''}`,
-      1
-    )
+    conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, taskStatus])
 
@@ -129,9 +126,7 @@ const Task = () => {
   // 任务状态对象
   const taskStatusObj = {
     1: '打开',
-    2: '打开',
-    3: '关闭',
-    4: '已逾期',
+    2: '关闭',
   }
 
   /**
@@ -147,7 +142,7 @@ const Task = () => {
     if (form === 1) {
       // 任务状态
       stringValue = value && `状态:${taskStatusObj[value]} `
-      targetValue = `状态:${taskStatusObj[searchOptions.assignmentStatus]} `
+      targetValue = `状态:${taskStatusObj[searchOptions.code]} `
       type = 3
     }
     if (form === 2) {
@@ -207,8 +202,8 @@ const Task = () => {
             searchOptions={searchOptions}
             activeKey={taskStatus}
             taskNum={{
-              open: taskNum.completed,
-              close: taskNum.noGoing,
+              open: open,
+              close: taskNum.completed,
             }}
           />
           <div className={styles.pagination}>
