@@ -270,7 +270,7 @@ const TaskEvent = () => {
                 {convertToString(item?.operatingRecords)}
                 <span> #{item.assignmentId}</span>
               </span>
-            ) : item.historyType === 15 ? (
+            ) : item.historyType === 15 || item.historyType === 16 ? (
               <span>
                 <LinkText link={`/${item.userName}`} value={item.nickName} />
                 <LinkText
@@ -307,7 +307,7 @@ const TaskEvent = () => {
       </div>
     )
   }
-
+  // console.log(taskInfoData?.managerAssignmentHistories);
   return (
     <div>
       <div className={styles.taskEventWrap}>

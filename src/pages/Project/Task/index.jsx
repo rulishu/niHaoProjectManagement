@@ -36,7 +36,6 @@ const Task = () => {
   useEffect(() => {
     dispatch({ type: 'projectTasks/clean' })
   }, [dispatch])
-  console.log(taskNum)
 
   useEffect(() => {
     conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
