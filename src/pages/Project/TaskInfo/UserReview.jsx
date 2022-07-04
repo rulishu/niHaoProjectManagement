@@ -167,27 +167,26 @@ const UserReview = (props) => {
             labelColor = listData.filter((item) => {
               return item.name === name
             })[0].color
+            newValue = newValue.replace(
+              tag + name + ' ',
+              `<table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table>`
+            )
+            // return newValue
           }
-          console.log('labelColor', labelColor)
-          newValue = newValue.replace(
-            tag + name + ' ',
-            `<span 
-            className=${className} 
-            data-type=${type} 
-            data-value=${item[0] === 'milestone' ? id : name}>
-             ${item[0] === 'label' ? name : tag + name}
-          </span>`
-          )
+          if (item[0] !== 'label') {
+            newValue = newValue.replace(
+              tag + name + ' ',
+              `<span 
+              className=${className}
+              data-type=${type} 
+              data-value=${item[0] === 'milestone' ? id : name}>
+               ${item[0] === 'label' ? name : tag + name}
+            </span>`
+            )
+          }
         }
       }
     })
-
-    // const personReg=/@(?<labels>.*?)\s/g
-    // const a= value?.match(personReg)
-    // let newValue=value
-    // for(let i=0;i<a?.length;i++){
-    //   newValue=newValue.replace(a[i],`<p className=${styles.styleP} data-type='1' data-value=${a[i]}>${a[i]}</p>`)
-    // }
     return newValue
   }
 
@@ -195,7 +194,7 @@ const UserReview = (props) => {
     const type = e?.target?.dataset.type
     const value = e?.target?.dataset.value
     const typeObj = {
-      1: { link: '/' },
+      1: { link: `/${value}` },
       2: { link: `/${userAccount}/${projectId}/task/taskInfo/${value}` },
       3: {
         link: `/${userAccount}/${projectId}/milestone/milestoneInfo/${value}`,

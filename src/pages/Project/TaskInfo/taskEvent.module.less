@@ -153,21 +153,33 @@
   }
 }
 .mdLabel {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  padding: 2px 8px;
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
-  white-space: nowrap;
-  max-width: 100%;
-  border-radius: 14px;
-  color: #fff;
-  min-width: 30px;
-  font-size: 12px;
-  line-height: 1;
-  background: red;
+  display: inline !important;
+  tr {
+    background-color: transparent;
+    border-top: none !important;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin: 2px;
+    td {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      line-height: 1;
+      padding: 2px 8px;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: top;
+      white-space: nowrap;
+      max-width: 100%;
+      border-radius: 14px;
+      color: #fff;
+      min-width: 30px;
+      font-size: 12px;
+    }
+  }
 }
