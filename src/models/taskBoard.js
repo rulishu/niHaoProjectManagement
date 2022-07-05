@@ -254,8 +254,7 @@ const taskboard = createModel()({
 
     // 快速创建任务
     async noteToAssignment(payload) {
-      const { ...other } = payload
-      const data = await noteToAssignment(other)
+      const data = await noteToAssignment(payload)
       if (data && data.code === 200) {
         Notify.success({ title: '快速创建任务成功' })
         dispatch.taskboard.selectAllBoardNote({

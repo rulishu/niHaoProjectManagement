@@ -207,7 +207,9 @@ const TaskBoard = () => {
                           <div className={styles.listName}>
                             <Icon type="appstore-o" />
                             <span className={styles.listNum}>
-                              {dropItem?.managerBoardNotes?.length}
+                              {dropItem?.managerBoardNotes[0]?.new
+                                ? dropItem?.managerBoardNotes?.length - 1
+                                : dropItem?.managerBoardNotes?.length}
                             </span>
                             <ListButtonGroup
                               param={{
