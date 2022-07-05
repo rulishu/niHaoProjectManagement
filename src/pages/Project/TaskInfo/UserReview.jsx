@@ -147,23 +147,30 @@ const UserReview = (props) => {
         tag: '~',
       },
     }
-    Object?.entries(taskInfoObj)?.forEach((item, index) => {
+    Object?.entries(taskInfoObj)?.forEach((item) => {
       if (value?.match(item[1]?.regExp)?.length) {
         for (const eveyValue of newValue?.matchAll(item?.at(1).regExp)) {
           const name = eveyValue?.groups[item[0]]
           const tag = item[1].tag
           const type = item[1].type
           const className = item[1].className
+          let notClick = false
           let id = 0
           if (item[0] === 'milestone') {
             id = milepostaData?.filter((item) => {
               return item?.milestonesTitle === name
             })[0]?.milestonesId
+            notClick = id === 0
+          }
+          if (item[0] === 'people') {
+            notClick = !userSelectAllList?.filter(
+              (item) => item?.userAcount === name
+            ).length
           }
           let labelColor = ''
           if (item[0] === 'label') {
             labelColor = listData?.filter((item) => {
-              return item.name === name
+              return item?.name === name
             })[0]?.color
             newValue = newValue?.replace(
               tag + name + ' ',
@@ -171,7 +178,7 @@ const UserReview = (props) => {
             )
             // return newValue
           }
-          if (item[0] !== 'label') {
+          if (item[0] !== 'label' && !notClick) {
             newValue = newValue?.replace(
               tag + name + ' ',
               `<span 
