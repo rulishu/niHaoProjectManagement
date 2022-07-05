@@ -186,6 +186,7 @@ const FromMD = (props) => {
       }
     })
   }
+
   return (
     <>
       <Form
@@ -250,7 +251,8 @@ const FromMD = (props) => {
                           ? false
                           : true || isComment
                           ? infoData
-                            ? editData === infoData
+                            ? JSON.stringify(editData) ===
+                              JSON.stringify(infoData)
                             : editData[fromValue] === ''
                           : false
                       }>

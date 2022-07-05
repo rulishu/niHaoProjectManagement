@@ -122,8 +122,9 @@ export default createModel()({
         const { projectId, assignmentId } = taskInfoData
         const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
         const newTaskInfoData = { ...taskInfoData, ...editTaskFromData }
-        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData))
+        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData)) {
           return false
+        }
         const data = await editTaskList({
           ...editTaskFromData,
           ...params,
