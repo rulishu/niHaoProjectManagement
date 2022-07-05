@@ -89,7 +89,7 @@ const Task = () => {
     const result = dataSource?.filter((dataItem) => {
       return dataItem[key] === item
     })[0]
-    return `${title}:${result[name]}`
+    return `${title}:${result?.[name]}`
   }
 
   const searchConfigObj = {

@@ -38,7 +38,7 @@ export default createModel()({
       milestonesId: [], // 里程碑
       assignmentUserId: [], // 指派人
       orderByColumn: 'createTime',
-      isAsc: 'asc',
+      isAsc: 'desc',
     },
     taskListData: [],
     taskListDataTotal: 0,
@@ -122,8 +122,9 @@ export default createModel()({
         const { projectId, assignmentId } = taskInfoData
         const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
         const newTaskInfoData = { ...taskInfoData, ...editTaskFromData }
-        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData))
+        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData)) {
           return false
+        }
         const data = await editTaskList({
           ...editTaskFromData,
           ...params,
@@ -279,7 +280,7 @@ export default createModel()({
             milestonesId: [], // 里程碑
             assignmentUserId: [], // 指派人
             orderByColumn: 'assignmentTitle',
-            isAsc: 'asc',
+            isAsc: 'desc',
           },
         })
       },

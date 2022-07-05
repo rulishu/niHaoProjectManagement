@@ -89,11 +89,10 @@ const TaskInfo = () => {
       serIsTitleErr(true)
       return
     }
-    if (editTaskFromData.description.length > 300) {
-      return
-    }
+    // if (editTaskFromData.description.length > 300) {
+    //   return
     serIsTitleErr(false)
-    dispatch.projectTasks.editTaskList({ projectId })
+    await dispatch.projectTasks.editTaskList({ projectId })
   }
 
   // 返回
@@ -189,7 +188,11 @@ const TaskInfo = () => {
                     submit={goSaveIssue}
                     editName={'editTaskFromData'}
                     editData={editTaskFromData}
-                    infoData={taskInfoData}
+                    infoData={{
+                      assignmentId: taskInfoData.assignmentId,
+                      assignmentTitle: taskInfoData.assignmentTitle,
+                      description: taskInfoData.description,
+                    }}
                     fromValue={'description'}
                     btnName="保存编辑"
                     onClose={() => goEditIssue('cancel')}

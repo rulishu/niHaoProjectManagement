@@ -163,7 +163,7 @@ const ListHead = (props) => {
           isRadio={true}
           isCancel={false}
           isSearchBox={false}
-          selectData={[3]}
+          selectData={[4]}
           onSelect={(_, key) => {
             const valueInfo = taskSort.filter((s) => s.key === key)[0].value
             optionsChange(valueInfo)
