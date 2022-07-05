@@ -166,7 +166,7 @@ const UserReview = (props) => {
             console.log('name', name)
             labelColor = listData.filter((item) => {
               return item.name === name
-            })[0].color
+            })[0]?.color
             newValue = newValue.replace(
               tag + name + ' ',
               `<table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table>`
