@@ -78,6 +78,7 @@ export default function AllTasks() {
               allDataSources?.map((item) => {
                 return (
                   <li
+                    className={styles.milInfoLiFooter}
                     key={item?.milestonesId}
                     onClick={() => goMilestones(item?.milestonesId)}>
                     <div className={styles.itemName}>
