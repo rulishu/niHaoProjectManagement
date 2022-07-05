@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Button, Input, Overlay, Card } from 'uiw'
+import { Button, Input, Overlay, Card, Checkbox } from 'uiw'
 import styles from './index.module.less'
 import { CompDropdown } from '@/components'
 import { initListData } from '@/utils/utils'
@@ -12,7 +12,7 @@ const Header = (props) => {
   const { projectId } = useParams()
   const dispatch = useDispatch()
   const { taskboard } = useSelector((state) => state)
-  const { boardList, createBut } = taskboard
+  const { boardList, createBut, openTaskList, closeTaskList } = taskboard
   const [isOpen, setIsOpen] = useState(false) // 看板选择组件是否打开状态
   const [isEditBoard, setIsEditBoard] = useState(false) // 编辑看板状态
   const [editBoardName, setEditBoardName] = useState('') // 编辑看板input值
@@ -154,14 +154,46 @@ const Header = (props) => {
       </div>
       <Overlay isOpen={isEditBoard} onClose={() => setIsEditBoard(false)}>
         <Card title={'编辑看板'} active style={{ width: 500 }}>
-          <strong style={{ margin: 0 }}>看板名称</strong>
-          <div style={{ marginTop: '10px' }}>
-            <Input
-              value={editBoardName}
-              onInput={(e) => {
-                setEditBoardName(e.target.value)
-              }}
-            />
+          <div className={styles.editBoardForm}>
+            <strong style={{ margin: 0 }}>看板名称</strong>
+            <div style={{ marginTop: '10px' }}>
+              <Input
+                value={editBoardName}
+                onInput={(e) => {
+                  setEditBoardName(e.target.value)
+                }}
+              />
+            </div>
+          </div>
+          <div className={styles.editBoardForm}>
+            <strong style={{ margin: 0 }}>看板选项</strong>
+            <div style={{ margin: '5px', color: '#5e5e5e' }}>
+              设置看板中是否显示默认列表
+            </div>
+            <div>
+              <div>
+                <Checkbox
+                  checked={openTaskList}
+                  onChange={(e) => {
+                    dispatch.taskboard.update({
+                      openTaskList: e.target.checked,
+                    })
+                  }}>
+                  显示打开任务列表
+                </Checkbox>
+              </div>
+              <div>
+                <Checkbox
+                  checked={closeTaskList}
+                  onChange={(e) => {
+                    dispatch.taskboard.update({
+                      closeTaskList: e.target.checked,
+                    })
+                  }}>
+                  显示关闭任务列表
+                </Checkbox>
+              </div>
+            </div>
           </div>
           <div className={styles.flexRight} style={{ marginTop: '10px' }}>
             <Button

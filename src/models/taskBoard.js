@@ -36,14 +36,17 @@ const taskboard = createModel()({
     page: 1,
     pageSize: 10,
     total: 0,
-    boardList: [],
-    list: [],
-    taskInfo: {},
-    labelList: [],
-    userAllList: [],
-    taskDueDate: '',
-    create: false,
+    boardList: [], //看板列表
+    list: [], //列表
+    taskInfo: {}, //任务信息
+    labelList: [], //标签列表
+    userAllList: [], //用户列表
+    taskDueDate: '', //任务截止日期
+    create: false, //创建按钮状态
     createBut: false,
+    project: '',
+    openTaskList: true,
+    closeTaskList: true,
   },
   reducers: {
     update: (state, payload) => {
@@ -101,9 +104,13 @@ const taskboard = createModel()({
     },
 
     //查询看板中列表
-    async selectAllBoardNote(payload) {
-      const { ...other } = payload
-      const data = await selectAllBoardNote(other)
+    async selectAllBoardNote(payload, { taskboard }) {
+      const { project } = taskboard
+      const params = {
+        ...payload,
+        projectId: project,
+      }
+      const data = await selectAllBoardNote(params)
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           list: data?.data || [],
@@ -362,7 +369,9 @@ const taskboard = createModel()({
     },
 
     //编辑看板
-    async editBoard(params) {
+    async editBoard(params, { taskboard }) {
+      const { openTaskList, closeTaskList } = taskboard
+      console.log(openTaskList, closeTaskList)
       const { setIsEditBoard, ...other } = params
       const data = await editBoard({ ...other })
       if (data && data.code === 200) {

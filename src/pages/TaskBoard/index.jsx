@@ -17,7 +17,7 @@ const TaskBoard = () => {
   const navigate = useNavigate()
   const { taskboard, loading } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
-  const { boardList, list, createBut } = taskboard
+  const { boardList, list, createBut, project } = taskboard
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
@@ -33,7 +33,13 @@ const TaskBoard = () => {
       setSelectBoard,
       first: true,
     })
-  }, [dispatch, projectId])
+    if (project !== projectId) {
+      dispatch.taskboard.update({
+        project: projectId,
+      })
+    }
+  }, [dispatch, projectId, project])
+
   useEffect(() => {
     if (createBut) {
       scrollToEle()
