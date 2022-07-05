@@ -53,15 +53,11 @@ const Index = () => {
   useEffect(() => {
     dispatch({
       type: 'routeManagement/getInfo',
-      payload: {
-        callback: '',
-      },
+      payload: { callback: '' },
     })
     dispatch({
       type: 'routeManagement/queryFuzzyAllProjectMember',
-      payload: {
-        projectId: projectId,
-      },
+      payload: { projectId: projectId },
     })
     dispatch({
       type: 'usersManagement/selectPageList',
