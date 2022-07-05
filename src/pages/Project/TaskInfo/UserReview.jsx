@@ -209,7 +209,7 @@ const UserReview = (props) => {
 
     if (type && !typeObj[type]?.noGo) {
       navigate(`${typeObj[type].link.trim()}`)
-      if (type === 2 || type === 3) {
+      if (+type === 2 || +type === 3) {
         window.location.reload()
       }
     }
