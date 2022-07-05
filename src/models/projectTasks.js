@@ -38,7 +38,7 @@ export default createModel()({
       milestonesId: [], // 里程碑
       assignmentUserId: [], // 指派人
       orderByColumn: 'createTime',
-      isAsc: 'asc',
+      isAsc: 'desc',
     },
     taskListData: [],
     taskListDataTotal: 0,
@@ -279,7 +279,7 @@ export default createModel()({
             milestonesId: [], // 里程碑
             assignmentUserId: [], // 指派人
             orderByColumn: 'assignmentTitle',
-            isAsc: 'asc',
+            isAsc: 'desc',
           },
         })
       },
