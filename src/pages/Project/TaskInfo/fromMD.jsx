@@ -77,7 +77,7 @@ const FromMD = (props) => {
           lookup: function (allWork) {
             return '#' + allWork.assignmentId + ' ' + allWork.assignmentTitle
           },
-          fillAttr: 'assignmentTitle',
+          fillAttr: 'assignmentId',
         },
         {
           trigger: '~',
