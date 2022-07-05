@@ -122,10 +122,10 @@ const TaskEvent = () => {
       ),
       6: (
         <>
-          <LinkText
+          {/* <LinkText
             link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
             value={`${item.milestonesTitle}`}
-          />
+          /> */}
         </>
       ),
       7: <>{/* {item.dueDate} */}</>,

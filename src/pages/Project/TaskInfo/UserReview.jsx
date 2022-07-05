@@ -162,13 +162,12 @@ const UserReview = (props) => {
           }
           let labelColor = ''
           if (item[0] === 'label') {
-            console.log('name', name)
             labelColor = listData?.filter((item) => {
               return item.name === name
             })[0]?.color
             newValue = newValue?.replace(
               tag + name + ' ',
-              `<table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table>`
+              `<span><table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table></span>`
             )
             // return newValue
           }
@@ -193,7 +192,7 @@ const UserReview = (props) => {
     const type = e?.target?.dataset?.type
     const value = e?.target?.dataset?.value
     const typeObj = {
-      1: { link: `/${value}` },
+      1: { link: `/${value?.trim()}` },
       2: { link: `/${userAccount}/${projectId}/task/taskInfo/${value}` },
       3: {
         link: `/${userAccount}/${projectId}/milestone/milestoneInfo/${value}`,
@@ -202,7 +201,10 @@ const UserReview = (props) => {
     }
 
     if (type && !typeObj[type]?.noGo) {
-      navigate(typeObj[type].link) //.replace('@','').trim()
+      navigate(`${typeObj[type].link.trim()}`)
+      if (type === 2 || type === 3) {
+        window.location.reload()
+      }
     }
   }
   // 显示MD文档
