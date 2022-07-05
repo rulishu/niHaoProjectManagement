@@ -76,6 +76,7 @@ const MigrateControlSynch = () => {
                   <Button
                     type="primary"
                     icon="reload"
+                    loading={loading.effects.migrate.migrateProjectDataById}
                     onClick={() => synchronousData(1)}>
                     同步项目数据
                   </Button>
@@ -123,6 +124,7 @@ const MigrateControlSynch = () => {
                     <Button
                       type="primary"
                       icon="reload"
+                      loading={loading.effects.migrate.migrateIssuesDataById}
                       onClick={() => synchronousData(2)}>
                       同步任务数据
                     </Button>
@@ -131,6 +133,7 @@ const MigrateControlSynch = () => {
                     <Button
                       type="primary"
                       icon="reload"
+                      loading={loading.effects.migrate.migrateLabelsDataById}
                       onClick={() => synchronousData(3)}>
                       同步标签数据
                     </Button>
@@ -139,6 +142,7 @@ const MigrateControlSynch = () => {
                     <Button
                       type="primary"
                       icon="reload"
+                      loading={loading.effects.migrate.migrateMilestoneDataById}
                       onClick={() => synchronousData(4)}>
                       同步里程碑数据
                     </Button>
