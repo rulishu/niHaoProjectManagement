@@ -15,187 +15,187 @@
     font-size: @light-font-size-default;
     line-height: 1.5;
 
-    ul {
+    & > ul {
       border: 1px solid #d0d7de;
       margin-right: 0;
       margin-left: 0;
       border-radius: 6px;
-    }
 
-    li {
-      display: flex;
-      border-top-color: transparent;
-      list-style-type: none;
-      border-top: 1px solid hsla(210, 18%, 87%, 1);
-      transition: all 0.2s ease-in-out;
-
-      &:not(:first-child):hover {
+      & > li {
+        display: flex;
+        border-top-color: transparent;
+        list-style-type: none;
+        border-top: 1px solid hsla(210, 18%, 87%, 1);
         transition: all 0.2s ease-in-out;
-        background-color: @light-li-bg-color;
-      }
 
-      &:nth-of-type(2) {
-        border-top: none;
-      }
-
-      .itemState {
-        display: flex;
-        align-items: center;
-        margin-left: 16px;
-        margin-top: 8px;
-        height: 24px;
-        line-height: 24px;
-
-        & > span {
-          width: 16px;
-          height: 16px;
-          font-weight: 600;
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-
-      .itemLeft {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 8px;
-        overflow: hidden;
-        flex: auto;
-
-        .labelBox {
-          display: inline;
-          line-height: 1.5;
+        &:not(:first-child):hover {
+          transition: all 0.2s ease-in-out;
+          background-color: @light-li-bg-color;
         }
 
-        .itemLeftTop {
+        &:nth-of-type(2) {
+          border-top: none;
+        }
+
+        .itemState {
           display: flex;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
           align-items: center;
+          margin-left: 16px;
+          margin-top: 8px;
+          height: 24px;
+          line-height: 24px;
 
-          p {
+          & > span {
+            width: 16px;
+            height: 16px;
             font-weight: 600;
-            text-decoration: none;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 16px;
-            color: @light-font-color-default;
-            transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
-            transition-property: color, background-color, box-shadow,
-              border-color;
 
-            &:hover {
-              color: @light-font-color-accent;
-              cursor: pointer;
-              transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
-              transition-property: color, background-color, box-shadow,
-                border-color;
+            svg {
+              width: 100%;
+              height: 100%;
             }
           }
         }
 
-        .itemLeftBase {
-          font-size: 12px;
-          margin-top: 4px;
-          color: @light-font-color-muted;
+        .itemLeft {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 8px;
+          overflow: hidden;
+          flex: auto;
 
-          span {
-            border-radius: 25px;
-            // margin-right: 5px;
+          .labelBox {
+            display: inline;
+            line-height: 1.5;
           }
 
-          // .mark {
-          // }
-
-          // .updateTime {
-          // }
-
-          // .person {
-          // }
-
-          // 里程碑
-          .milestone {
-            display: inline-block;
-            max-width: 125px;
-            vertical-align: top;
+          .itemLeftTop {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            align-items: center;
 
-            & > span {
-              width: 16px;
-              height: 16px;
+            p {
+              font-weight: 600;
+              text-decoration: none;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              font-size: 16px;
+              color: @light-font-color-default;
+              transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+              transition-property: color, background-color, box-shadow,
+                border-color;
+
+              &:hover {
+                color: @light-font-color-accent;
+                cursor: pointer;
+                transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+                transition-property: color, background-color, box-shadow,
+                  border-color;
+              }
+            }
+          }
+
+          .itemLeftBase {
+            font-size: 12px;
+            margin-top: 4px;
+            color: @light-font-color-muted;
+
+            span {
+              border-radius: 25px;
+              // margin-right: 5px;
+            }
+
+            // .mark {
+            // }
+
+            // .updateTime {
+            // }
+
+            // .person {
+            // }
+
+            // 里程碑
+            .milestone {
               display: inline-block;
-              overflow: visible !important;
-              vertical-align: bottom;
-              margin-right: 2px;
+              max-width: 125px;
+              vertical-align: top;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
 
-              & > svg {
-                width: 100%;
-                height: 100%;
+              & > span {
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                overflow: visible !important;
+                vertical-align: bottom;
+                margin-right: 2px;
+
+                & > svg {
+                  width: 100%;
+                  height: 100%;
+                }
               }
             }
           }
         }
-      }
 
-      .itemRight {
-        white-space: nowrap;
-        text-align: right;
-        flex-shrink: 0;
-        display: flex;
-        // align-items: center;
-        width: calc(100% / 14 * 3);
-        padding-right: 16px;
-        padding-top: 8px;
-        flex-shrink: 0;
+        .itemRight {
+          white-space: nowrap;
+          text-align: right;
+          flex-shrink: 0;
+          display: flex;
+          // align-items: center;
+          width: calc(100% / 14 * 3);
+          padding-right: 16px;
+          padding-top: 8px;
+          flex-shrink: 0;
 
-        .avatar {
-          :global {
-            .w-avatar {
-              width: 20px;
-              height: 20px;
+          .avatar {
+            :global {
+              .w-avatar {
+                width: 20px;
+                height: 20px;
+              }
             }
           }
-        }
 
-        & > div {
-          flex: 1;
-          margin-left: 8px;
-          flex-shrink: 0;
-          text-align: center;
-        }
-
-        .itemComments {
-          text-align: right;
-          color: @light-font-color-muted;
-
-          span {
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
+          & > div {
+            flex: 1;
+            margin-left: 8px;
+            flex-shrink: 0;
+            text-align: center;
           }
 
-          .commentIcon {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-          }
+          .itemComments {
+            text-align: right;
+            color: @light-font-color-muted;
 
-          .commentNum {
-            font-weight: 600;
-            font-size: 12px;
-            margin-left: 2px;
+            span {
+              padding: 0;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+            }
+
+            .commentIcon {
+              width: 16px;
+              height: 16px;
+              vertical-align: middle;
+            }
+
+            .commentNum {
+              font-weight: 600;
+              font-size: 12px;
+              margin-left: 2px;
+            }
           }
         }
       }
