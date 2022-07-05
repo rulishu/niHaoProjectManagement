@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import {
   Icon,
@@ -16,6 +17,7 @@ import styles from './index.module.less'
 const EditDrop = (props) => {
   const { rowData, loading } = props
   const { noteId, boardId, title, listId } = rowData
+  const { projectId } = useParams()
   //操作弹窗
   const [dropOpen, setDropOpen] = useState(false)
   //编辑弹窗
@@ -48,6 +50,7 @@ const EditDrop = (props) => {
               dispatch.taskboard.noteToAssignment({
                 noteId,
                 boardId,
+                projectId,
               })
             }}
             icon="reload"
