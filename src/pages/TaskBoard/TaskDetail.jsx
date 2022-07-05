@@ -82,7 +82,7 @@ const TaskDetail = (props) => {
         return null
       })
       if (
-        JSON.stringify(taskInfo?.labels?.sort()) &&
+        taskInfo?.labels &&
         JSON.stringify(taskInfo?.labels?.sort()) !==
           JSON.stringify(labelIdList?.sort())
       ) {
@@ -96,6 +96,12 @@ const TaskDetail = (props) => {
       }
       return newData
     })
+  }
+
+  // 新建 里程碑
+  const createMilestone = async (formData) => {
+    const result = await dispatch.taskboard.addMilestone(formData)
+    return result
   }
 
   // 新建标签
@@ -384,7 +390,7 @@ const TaskDetail = (props) => {
                       replace: true,
                     })
                   }}
-                  // createTag={(_, current) => createMilestone(current)}
+                  createTag={(_, current) => createMilestone(current)}
                 />
               </div>
               <Divider />
