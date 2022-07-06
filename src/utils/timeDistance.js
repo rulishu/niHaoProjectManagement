@@ -31,6 +31,10 @@ const timeDistance = (beforeTime, afterTime = new Date()) => {
     if (time < 1) {
       time = Math.floor(ms / (60 * 1000))
       unit = '分钟'
+      if (time < 1) {
+        time = Math.floor(ms / 1000)
+        unit = '秒'
+      }
     }
   }
   return { time: time + unit, status: type }

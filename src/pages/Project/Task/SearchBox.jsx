@@ -39,7 +39,7 @@ const SearchBox = (props) => {
       milestonesId: [], // 里程碑
       assignmentUserId: [], // 指派人
       orderByColumn: 'createTime',
-      isAsc: 'asc',
+      isAsc: 'desc',
     }
 
     if (value.trim() !== searchValue.trim() || type === 1) {

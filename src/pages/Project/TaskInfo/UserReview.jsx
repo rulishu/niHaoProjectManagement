@@ -118,7 +118,6 @@ const UserReview = (props) => {
       </div>
     )
   }
-  console.log('listData', listData)
   const parsingMdValue = (value) => {
     let newValue = ` ${value} `
     // type:1 人员 ，2 任务，3 里程碑 ，4 标签
@@ -148,33 +147,39 @@ const UserReview = (props) => {
         tag: '~',
       },
     }
-    Object.entries(taskInfoObj).forEach((item, index) => {
-      if (value.match(item[1]?.regExp)?.length) {
-        for (const eveyValue of newValue.matchAll(item?.at(1).regExp)) {
-          const name = eveyValue.groups[item[0]]
+    Object?.entries(taskInfoObj)?.forEach((item) => {
+      if (value?.match(item[1]?.regExp)?.length) {
+        for (const eveyValue of newValue?.matchAll(item?.at(1).regExp)) {
+          const name = eveyValue?.groups[item[0]]
           const tag = item[1].tag
           const type = item[1].type
           const className = item[1].className
+          let notClick = false
           let id = 0
           if (item[0] === 'milestone') {
-            id = milepostaData.filter((item) => {
-              return item.milestonesTitle === name
-            })[0].milestonesId
+            id = milepostaData?.filter((item) => {
+              return item?.milestonesTitle === name
+            })[0]?.milestonesId
+            notClick = id === 0
+          }
+          if (item[0] === 'people') {
+            notClick = !userSelectAllList?.filter(
+              (item) => item?.userAcount === name
+            ).length
           }
           let labelColor = ''
           if (item[0] === 'label') {
-            console.log('name', name)
-            labelColor = listData.filter((item) => {
-              return item.name === name
-            })[0].color
-            newValue = newValue.replace(
+            labelColor = listData?.filter((item) => {
+              return item?.name === name
+            })[0]?.color
+            newValue = newValue?.replace(
               tag + name + ' ',
-              `<table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table>`
+              `<span><table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table></span>`
             )
             // return newValue
           }
-          if (item[0] !== 'label') {
-            newValue = newValue.replace(
+          if (item[0] !== 'label' && !notClick) {
+            newValue = newValue?.replace(
               tag + name + ' ',
               `<span 
               className=${className}
@@ -191,10 +196,10 @@ const UserReview = (props) => {
   }
 
   const mdClick = (e) => {
-    const type = e?.target?.dataset.type
-    const value = e?.target?.dataset.value
+    const type = e?.target?.dataset?.type
+    const value = e?.target?.dataset?.value
     const typeObj = {
-      1: { link: `/${value}` },
+      1: { link: `/${value?.trim()}` },
       2: { link: `/${userAccount}/${projectId}/task/taskInfo/${value}` },
       3: {
         link: `/${userAccount}/${projectId}/milestone/milestoneInfo/${value}`,
@@ -203,7 +208,10 @@ const UserReview = (props) => {
     }
 
     if (type && !typeObj[type]?.noGo) {
-      navigate(typeObj[type].link) //.replace('@','').trim()
+      navigate(`${typeObj[type].link.trim()}`)
+      if (+type === 2 || +type === 3) {
+        window.location.reload()
+      }
     }
   }
   // 显示MD文档

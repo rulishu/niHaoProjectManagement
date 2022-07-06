@@ -34,23 +34,27 @@ const Invite = () => {
   const [teamList, setTeamList] = useState(groupList)
 
   useEffect(() => {
-    dispatch({
-      type: 'usersManagement/selectProjectMemberList',
-      payload: { projectId: projectId },
-    })
+    setTeamList(groupList)
+  }, [groupList])
+
+  useEffect(() => {
+    const callback = async () =>
+      await dispatch({
+        type: 'usersManagement/selectProjectMemberList',
+        payload: { projectId: projectId },
+      })
+    callback()
   }, [dispatch, projectId])
   //邀请团队、成员-模糊查询
   const handleSearch = (e) => {
-    setTimeout(() => {
-      if (e) {
-        const filterOpion = groupList?.filter(
-          (item) => !!item.label.includes(e.trim())
-        )
-        setTeamList([...filterOpion])
-      } else {
-        setTeamList(groupList)
-      }
-    }, 500)
+    if (e) {
+      const filterOpion = groupList?.filter(
+        (item) => !!item.label.includes(e.trim())
+      )
+      setTeamList([...filterOpion])
+    } else {
+      setTeamList(groupList)
+    }
   }
   // Tabs标签
   const tabsLabel = (title, num) => {
@@ -236,9 +240,7 @@ const Invite = () => {
                   showSearch={true}
                   allowClear={true}
                   placeholder={'按团队姓名搜索'}
-                  onSearch={(e) => {
-                    handleSearch(e)
-                  }}
+                  onSearch={(e) => handleSearch(e)}
                 />
               ),
             },

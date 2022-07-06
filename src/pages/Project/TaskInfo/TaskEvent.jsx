@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Icon } from 'uiw'
+import { Card, Avatar } from 'uiw'
 import FromMD from './fromMD'
 import UserReview from './UserReview'
 import styles from './taskEvent.module.less'
@@ -122,10 +122,10 @@ const TaskEvent = () => {
       ),
       6: (
         <>
-          <LinkText
+          {/* <LinkText
             link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
             value={`${item.milestonesTitle}`}
-          />
+          /> */}
         </>
       ),
       7: <>{/* {item.dueDate} */}</>,
@@ -359,7 +359,11 @@ const TaskEvent = () => {
       <li key={item.taskHistoryId}>
         <div className={styles.eventLiBox}>
           <div className={styles.eventLiIcon}>
-            <Icon type="user" />
+            {/* <Icon type="user" /> */}
+            <Avatar
+              src={item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''}>
+              {item?.nickName && item?.nickName[0]}
+            </Avatar>
           </div>
           <div className={styles.eventLiContent}>
             {item.historyType === 11 ? (
