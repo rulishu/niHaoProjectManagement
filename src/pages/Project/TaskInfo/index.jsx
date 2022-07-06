@@ -99,7 +99,6 @@ const TaskInfo = () => {
   const goBack = () => {
     window.history.back(-1)
   }
-  console.log('taskInfoData?.createTime', changeDate(taskInfoData?.createTime))
 
   return (
     <div className={styles.infoLoad}>
