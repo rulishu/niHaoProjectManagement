@@ -6,8 +6,12 @@ import styles from './index.module.less'
 
 // 任务状态对象
 const taskStatus = {
-  打开: '1',
-  关闭: '2',
+  打开: { type: 'code', value: '1' },
+  关闭: { type: 'code', value: '2' },
+  未开始: { type: 'assignmentStatus', value: '1' },
+  进行中: { type: 'assignmentStatus', value: '2' },
+  已完成: { type: 'assignmentStatus', value: '3' },
+  已逾期: { type: 'assignmentStatus', value: '4' },
 }
 
 const SearchBox = (props) => {
@@ -33,7 +37,7 @@ const SearchBox = (props) => {
     const newSearchValue = ` ${value} `
     const newSearchOptions = {
       // assignmentStatus: '',
-      code: '1',
+      // code: '1',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑
@@ -43,11 +47,17 @@ const SearchBox = (props) => {
     }
 
     if (value.trim() !== searchValue.trim() || type === 1) {
-      const STATE = /状态:(?<code>.*?)\s/g
+      const STATE = /状态:(?<state>.*?)\s/g
       // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
         for (const match of newSearchValue.matchAll(STATE)) {
-          newSearchOptions.code = taskStatus[match?.groups.code.trim()] || 999
+          // console.log('match====>', match, taskStatus[match?.groups.state.trim()]);
+          if (taskStatus[match?.groups.state?.trim()]) {
+            const { type, value } = taskStatus[match?.groups.state?.trim()]
+            newSearchOptions.assignmentStatus = null
+            newSearchOptions.code = null
+            newSearchOptions[type] = value
+          }
         }
       }
       Object.entries(searchConfigObj).map((item) => {
@@ -68,6 +78,7 @@ const SearchBox = (props) => {
         return null
       })
     }
+    console.log('searchOptions===>', searchOptions, newSearchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {

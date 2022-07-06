@@ -157,6 +157,7 @@ const Task = () => {
     // 修改输入框的值
     setSearchValue(stringValue, type, searchValue, targetValue)
 
+    console.log('nihaoya ====>', searchOptions, params)
     await dispatch({
       type: 'projectTasks/update',
       payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
