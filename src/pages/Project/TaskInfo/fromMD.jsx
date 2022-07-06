@@ -240,9 +240,9 @@ const FromMD = (props) => {
                     <Button
                       type="primary"
                       // htmlType="submit"
-                      onClick={() => {
-                        submit()
-                        if (form.current) {
+                      onClick={async () => {
+                        const results = await submit()
+                        if (form.current && results !== false) {
                           form?.current?.setFieldValue(fromValue, '')
                         }
                       }}
