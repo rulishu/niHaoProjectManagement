@@ -182,11 +182,11 @@ export function changeDate(date) {
     const d = new Date(date)
     return (
       d.getFullYear() +
-      '-' +
+      '年' +
       changeStr(d.getMonth() + 1) +
-      '-' +
+      '月' +
       changeStr(d.getDate()) +
-      ' ' +
+      '日' +
       changeStr(d.getHours()) +
       ':' +
       changeStr(d.getMinutes()) +
