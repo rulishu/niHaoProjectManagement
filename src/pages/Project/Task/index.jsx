@@ -25,11 +25,12 @@ const Task = () => {
       searchOptions,
       taskListDataTotal,
       searchValue,
+      taskNum,
     },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
-  const { membersList, taskNum } = project
+  const { membersList } = project
   const open = taskNum.all - taskNum.completed //打开状态的任务数量
 
   useEffect(() => {
@@ -44,6 +45,10 @@ const Task = () => {
         `${taskStatus || ''}`,
         1
       )
+    }
+    if (!taskStatus) {
+      dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
+      dispatch.projectTasks.countAssignment({ projectId: taskId })
     }
     // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,6 +190,7 @@ const Task = () => {
       },
     })
     await dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
+    await dispatch.projectTasks.countAssignment({ projectId: taskId })
   }
 
   const updateData = (payload) => {
@@ -223,7 +229,7 @@ const Task = () => {
             teamMembersListData={membersList}
             milestonesListData={milepostaData}
             searchOptions={searchOptions}
-            activeKey={taskStatus}
+            activeKey={searchOptions.code}
             taskNum={{
               open: open,
               close: taskNum.completed,
@@ -236,7 +242,12 @@ const Task = () => {
                 alignment="center"
                 pageSize={searchOptions.pagesize}
                 total={taskListDataTotal}
-                onChange={(page) => conditionChange({ page })}
+                onChange={(page) =>
+                  dispatch.projectTasks.getTaskPagingData({
+                    page,
+                    projectId: taskId,
+                  })
+                }
               />
             ) : (
               ''

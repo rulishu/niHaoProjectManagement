@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Icon } from 'uiw'
 import { DropdownBox } from '@/components'
 
@@ -16,7 +16,11 @@ const ListHead = (props) => {
     taskNum,
   } = props
 
-  const [onTab, setOnTab] = useState(activeKey || '1')
+  const [onTab, setOnTab] = useState(activeKey)
+
+  useEffect(() => {
+    setOnTab(activeKey)
+  }, [activeKey])
 
   // 任务排序
   const taskSort = [
@@ -59,7 +63,7 @@ const ListHead = (props) => {
           <span
             className={onTab === '1' ? styles.action : ''}
             onClick={() => {
-              setOnTab('1')
+              setOnTab('open')
               optionsChange({ code: '1' }, 'open', 1)
             }}>
             <Icon type="circle-o" />
@@ -68,7 +72,7 @@ const ListHead = (props) => {
           <span
             className={onTab === '2' ? styles.action : ''}
             onClick={() => {
-              setOnTab('2')
+              setOnTab('close')
               optionsChange({ code: '2' }, 'close', 1)
             }}>
             <Icon type="check" />
