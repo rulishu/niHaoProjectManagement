@@ -25,11 +25,12 @@ const Task = () => {
       searchOptions,
       taskListDataTotal,
       searchValue,
+      taskNum,
     },
     milestone: { milepostaData },
     loading,
   } = useSelector((state) => state)
-  const { membersList, taskNum } = project
+  const { membersList } = project
   const open = taskNum.all - taskNum.completed //打开状态的任务数量
 
   useEffect(() => {
@@ -37,7 +38,6 @@ const Task = () => {
   }, [dispatch])
 
   useEffect(() => {
-    console.log(taskStatusObj[taskStatus], taskStatus)
     if (taskStatusObj[taskStatus]) {
       const { type } = taskStatusObj[taskStatus]
       conditionChange(
@@ -48,6 +48,7 @@ const Task = () => {
     }
     if (!taskStatus) {
       dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
+      dispatch.projectTasks.countAssignment({ projectId: taskId })
     }
     // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -189,6 +190,7 @@ const Task = () => {
       },
     })
     await dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
+    await dispatch.projectTasks.countAssignment({ projectId: taskId })
   }
 
   const updateData = (payload) => {

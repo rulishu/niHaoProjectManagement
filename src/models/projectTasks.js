@@ -5,7 +5,7 @@ import {
   editTaskAssign, // 更改任务指派人
   editTaskCloseTime, // 更改任务关闭时间
   editTaskLabel, // 更改任务标签
-  // countAssignment, // 任务状态统计
+  countAssignment, // 任务状态统计
   // delBatchTake, // 批量删除
   // addTaskList, // 任务列表新增
   editTaskList, // 任务列表编辑
@@ -39,6 +39,13 @@ export default createModel()({
       assignmentUserId: [], // 指派人
       orderByColumn: 'createTime',
       isAsc: 'desc',
+    },
+    taskNum: {
+      all: 0, // 所有任务数
+      completed: 0, //
+      noGoing: 0, //
+      onGoing: 0, //
+      withoutTime: 0, //
     },
     taskListData: [],
     taskListDataTotal: 0,
@@ -264,6 +271,23 @@ export default createModel()({
         } else {
           dispatch.projectTasks.update({
             toDoListState: false,
+          })
+        }
+      },
+
+      // 任务状态统计
+      async countAssignment(payload, { projectTasks }) {
+        const {
+          searchOptions: { createId, labels, milestonesId, assignmentUserId },
+        } = projectTasks
+        const params = { createId, labels, milestonesId, assignmentUserId }
+        const data = await countAssignment({ ...params, ...payload })
+        if (data && data.code === 200) {
+          dispatch({
+            type: 'projectTasks/update',
+            payload: {
+              taskNum: data.data,
+            },
           })
         }
       },
