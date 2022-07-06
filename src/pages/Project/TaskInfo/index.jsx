@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
 import useLocationPage from '@/hooks/useLocationPage'
 import TaskEvent from './TaskEvent'
-import { convertToString } from '@/utils/utils'
+import { changeDate } from '@/utils/utils'
 
 const TaskInfo = () => {
   const dispatch = useDispatch()
@@ -99,6 +99,7 @@ const TaskInfo = () => {
   const goBack = () => {
     window.history.back(-1)
   }
+  console.log('taskInfoData?.createTime', changeDate(taskInfoData?.createTime))
 
   return (
     <div className={styles.infoLoad}>
@@ -129,8 +130,8 @@ const TaskInfo = () => {
                     }
                   </Button>
                   <span className={styles.title}>
-                    {convertToString(taskInfoData?.createTime)} 创建于{' '}
-                    {taskInfoData?.createName}
+                    由{taskInfoData?.createName}创建于
+                    {changeDate(taskInfoData?.createTime)}
                   </span>
                 </div>
                 <div>
