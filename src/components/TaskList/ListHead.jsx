@@ -60,7 +60,7 @@ const ListHead = (props) => {
             className={onTab === '1' ? styles.action : ''}
             onClick={() => {
               setOnTab('1')
-              optionsChange({ code: '1' }, '1', 1)
+              optionsChange({ code: 'open' }, 'open', 1)
             }}>
             <Icon type="circle-o" />
             {taskNum?.open} 打开
@@ -69,7 +69,7 @@ const ListHead = (props) => {
             className={onTab === '2' ? styles.action : ''}
             onClick={() => {
               setOnTab('2')
-              optionsChange({ code: '2' }, '2', 1)
+              optionsChange({ code: 'close' }, 'close', 1)
             }}>
             <Icon type="check" />
             {taskNum?.close} 关闭

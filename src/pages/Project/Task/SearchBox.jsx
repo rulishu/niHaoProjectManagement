@@ -51,7 +51,6 @@ const SearchBox = (props) => {
       // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
         for (const match of newSearchValue.matchAll(STATE)) {
-          // console.log('match====>', match, taskStatus[match?.groups.state.trim()]);
           if (taskStatus[match?.groups.state?.trim()]) {
             const { type, value } = taskStatus[match?.groups.state?.trim()]
             newSearchOptions.assignmentStatus = null
@@ -60,25 +59,31 @@ const SearchBox = (props) => {
           }
         }
       }
-      Object.entries(searchConfigObj).map((item) => {
+      if (!newSearchValue.match(STATE)) {
+        newSearchOptions.assignmentStatus = ''
+        newSearchOptions.code = null
+      }
+      Object.entries(searchConfigObj).forEach((item) => {
         if (newSearchValue.match(item[1].regular)?.length) {
           for (const match of newSearchValue.matchAll(item[1].regular)) {
-            item[1].dataSource.map((dataItem) => {
+            item[1].dataSource.forEach((dataItem) => {
               if (
                 dataItem[item[1].name].trim() === match?.groups[item[0]].trim()
               ) {
                 newSearchOptions[item[0]].push(dataItem[item[1].key])
-                return null
               }
-              newSearchOptions[item[0]]?.push(match?.groups[item[0]])
-              return null
             })
+            if (
+              newSearchOptions[item[0]].length !==
+              newSearchValue.match(item[1].regular)?.length
+            ) {
+              newSearchOptions[item[0]].push(0)
+            }
           }
         }
-        return null
       })
     }
-    console.log('searchOptions===>', searchOptions, newSearchOptions)
+    // console.log('searchOptions===>', searchOptions, newSearchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {

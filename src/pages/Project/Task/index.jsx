@@ -14,7 +14,6 @@ const Task = () => {
   const params = useParams()
   const { userAccount } = useParams()
   const taskStatus = useLocation().search.replace('?', '')
-
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -38,7 +37,16 @@ const Task = () => {
   }, [dispatch])
 
   useEffect(() => {
-    conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
+    if (taskStatusObj[taskStatus]) {
+      const { type } = taskStatusObj[taskStatus]
+      conditionChange(
+        { [type]: `${taskStatus || ''}` },
+        `${taskStatus || ''}`,
+        1
+      )
+    }
+
+    // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, taskStatus])
 
@@ -125,8 +133,12 @@ const Task = () => {
 
   // 任务状态对象
   const taskStatusObj = {
-    1: '打开',
-    2: '关闭',
+    open: { type: 'code', value: '打开' },
+    close: { type: 'code', value: '关闭' },
+    1: { type: 'assignmentStatus', value: '未开始' },
+    2: { type: 'assignmentStatus', value: '进行中' },
+    3: { type: 'assignmentStatus', value: '已完成' },
+    4: { type: 'assignmentStatus', value: '已逾期' },
   }
 
   /**
@@ -136,13 +148,14 @@ const Task = () => {
    * @param {form} 1:任务状态 2:其他信息 3:排序
    */
   const conditionChange = async (params, value, form) => {
+    console.log(params, value, form, searchOptions)
     let type = '', // 类型 1：新增 2：删除 3：替换
       stringValue = '',
       targetValue = ''
     if (form === 1) {
       // 任务状态
-      stringValue = value && `状态:${taskStatusObj[value]} `
-      targetValue = `状态:${taskStatusObj[searchOptions.code]} `
+      stringValue = value && `状态:${taskStatusObj[value].value} `
+      targetValue = `状态:${taskStatusObj[searchOptions?.code]?.value} `
       type = 3
     }
     if (form === 2) {
@@ -157,10 +170,17 @@ const Task = () => {
     // 修改输入框的值
     setSearchValue(stringValue, type, searchValue, targetValue)
 
-    console.log('nihaoya ====>', searchOptions, params)
     await dispatch({
       type: 'projectTasks/update',
-      payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
+      payload: {
+        searchOptions: {
+          ...searchOptions,
+          assignmentStatus: null,
+          code: null,
+          page: 1,
+          ...params,
+        },
+      },
     })
     await dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
   }
