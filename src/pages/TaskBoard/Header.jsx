@@ -72,7 +72,7 @@ const Header = (props) => {
                   children: (
                     <Input
                       placeholder="请输入标题"
-                      style={{ width: '95%', lineHeight: '40px' }}
+                      style={{ width: '90%', lineHeight: '40px' }}
                     />
                   ),
                 },

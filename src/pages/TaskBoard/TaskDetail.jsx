@@ -82,7 +82,7 @@ const TaskDetail = (props) => {
         return null
       })
       if (
-        taskInfo?.labels &&
+        taskInfo?.labels !== undefined &&
         JSON.stringify(taskInfo?.labels?.sort()) !==
           JSON.stringify(labelIdList?.sort())
       ) {
