@@ -6,8 +6,12 @@ import styles from './index.module.less'
 
 // 任务状态对象
 const taskStatus = {
-  打开: '1',
-  关闭: '2',
+  打开: { type: 'code', value: '1' },
+  关闭: { type: 'code', value: '2' },
+  未开始: { type: 'assignmentStatus', value: '1' },
+  进行中: { type: 'assignmentStatus', value: '2' },
+  已完成: { type: 'assignmentStatus', value: '3' },
+  已逾期: { type: 'assignmentStatus', value: '4' },
 }
 
 const SearchBox = (props) => {
@@ -33,7 +37,7 @@ const SearchBox = (props) => {
     const newSearchValue = ` ${value} `
     const newSearchOptions = {
       // assignmentStatus: '',
-      code: '1',
+      // code: '1',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑
@@ -43,31 +47,43 @@ const SearchBox = (props) => {
     }
 
     if (value.trim() !== searchValue.trim() || type === 1) {
-      const STATE = /状态:(?<code>.*?)\s/g
+      const STATE = /状态:(?<state>.*?)\s/g
       // 解析任务状态
       if (newSearchValue.match(STATE)?.length) {
         for (const match of newSearchValue.matchAll(STATE)) {
-          newSearchOptions.code = taskStatus[match?.groups.code.trim()] || 999
+          if (taskStatus[match?.groups.state?.trim()]) {
+            const { type, value } = taskStatus[match?.groups.state?.trim()]
+            newSearchOptions.assignmentStatus = null
+            newSearchOptions.code = null
+            newSearchOptions[type] = value
+          }
         }
       }
-      Object.entries(searchConfigObj).map((item) => {
+      if (!newSearchValue.match(STATE)) {
+        newSearchOptions.assignmentStatus = ''
+        newSearchOptions.code = null
+      }
+      Object.entries(searchConfigObj).forEach((item) => {
         if (newSearchValue.match(item[1].regular)?.length) {
           for (const match of newSearchValue.matchAll(item[1].regular)) {
-            item[1].dataSource.map((dataItem) => {
+            item[1].dataSource.forEach((dataItem) => {
               if (
                 dataItem[item[1].name].trim() === match?.groups[item[0]].trim()
               ) {
                 newSearchOptions[item[0]].push(dataItem[item[1].key])
-                return null
               }
-              newSearchOptions[item[0]]?.push(match?.groups[item[0]])
-              return null
             })
+            if (
+              newSearchOptions[item[0]].length !==
+              newSearchValue.match(item[1].regular)?.length
+            ) {
+              newSearchOptions[item[0]].push(0)
+            }
           }
         }
-        return null
       })
     }
+    // console.log('searchOptions===>', searchOptions, newSearchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {

@@ -14,7 +14,6 @@ const Task = () => {
   const params = useParams()
   const { userAccount } = useParams()
   const taskStatus = useLocation().search.replace('?', '')
-
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -38,7 +37,15 @@ const Task = () => {
   }, [dispatch])
 
   useEffect(() => {
-    conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
+    if (taskStatusObj[taskStatus]) {
+      const { type } = taskStatusObj[taskStatus]
+      conditionChange(
+        { [type]: `${taskStatus || ''}` },
+        `${taskStatus || ''}`,
+        1
+      )
+    }
+    // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, taskStatus])
 
@@ -57,13 +64,18 @@ const Task = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]) // eslint-disable-line
 
-  // 设置搜索输入框的value
-  //  type:1 增加，2 删除 3 修改
+  /**
+   * 设置搜索输入框的value
+   * @param {string} value 初始值
+   * @param {number} type  1 增加，2 删除 3 修改
+   * @param {string} sourceValue 原始字符串
+   * @param {string | regexp} targetValue  被替换的值，默认值为 value
+   */
   const setSearchValue = (value, type, sourceValue, targetValue = value) => {
-    let newSearchValue = sourceValue
+    let newSearchValue = ` ${sourceValue} `
     // 增加
     if (type === 1) {
-      if (newSearchValue.indexOf(targetValue) === -1) {
+      if (newSearchValue.search(targetValue) === -1) {
         // 如果不存在，则新增
       }
       newSearchValue = `${searchValue} ${value}`
@@ -72,15 +84,15 @@ const Task = () => {
     if (type === 2) newSearchValue = newSearchValue.replace(value, '')
     if (type === 3) {
       // 如果不存在，则新增
-      if (newSearchValue.indexOf(targetValue) === -1)
+      if (newSearchValue.search(targetValue) === -1)
         newSearchValue = `${searchValue} ${value}`
       // 如果存在，则替换
-      if (newSearchValue.indexOf(targetValue) !== -1)
+      if (newSearchValue.search(targetValue) !== -1)
         newSearchValue = newSearchValue.replace(targetValue, value)
     }
     dispatch({
       type: 'projectTasks/update',
-      payload: { searchValue: newSearchValue },
+      payload: { searchValue: newSearchValue.trim() },
     })
   }
 
@@ -125,8 +137,12 @@ const Task = () => {
 
   // 任务状态对象
   const taskStatusObj = {
-    1: '打开',
-    2: '关闭',
+    open: { type: 'code', value: '打开' },
+    close: { type: 'code', value: '关闭' },
+    1: { type: 'assignmentStatus', value: '未开始' },
+    2: { type: 'assignmentStatus', value: '进行中' },
+    3: { type: 'assignmentStatus', value: '已完成' },
+    4: { type: 'assignmentStatus', value: '已逾期' },
   }
 
   /**
@@ -139,14 +155,14 @@ const Task = () => {
     let type = '', // 类型 1：新增 2：删除 3：替换
       stringValue = '',
       targetValue = ''
+    // 任务状态
     if (form === 1) {
-      // 任务状态
-      stringValue = value && `状态:${taskStatusObj[value]} `
-      targetValue = `状态:${taskStatusObj[searchOptions.code]} `
+      stringValue = value && `状态:${taskStatusObj[value].value} `
+      targetValue = /状态:(?<start>.*?)\s/g
       type = 3
     }
+    // 下拉框
     if (form === 2) {
-      // 下拉框
       const key = searchConfigObj[Object.keys(params)[0]]?.key
       const title = searchConfigObj[Object.keys(params)[0]]?.title
       const name = searchConfigObj[Object.keys(params)[0]]?.name
@@ -156,10 +172,17 @@ const Task = () => {
     }
     // 修改输入框的值
     setSearchValue(stringValue, type, searchValue, targetValue)
-
     await dispatch({
       type: 'projectTasks/update',
-      payload: { searchOptions: { ...searchOptions, page: 1, ...params } },
+      payload: {
+        searchOptions: {
+          ...searchOptions,
+          assignmentStatus: null,
+          code: null,
+          page: 1,
+          ...params,
+        },
+      },
     })
     await dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
   }

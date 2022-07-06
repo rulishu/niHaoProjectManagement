@@ -29,7 +29,7 @@ export default createModel()({
   state: {
     searchValue: '',
     searchOptions: {
-      code: '1',
+      // code: '1',
       page: 1,
       pageSize: 10,
       // assignmentStatus: '1',
