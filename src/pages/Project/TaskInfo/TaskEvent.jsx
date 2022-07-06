@@ -102,7 +102,7 @@ const TaskEvent = () => {
           <span> #{item.assignmentId}</span>指派给了
           <LinkText
             color="gray"
-            link={`/${item.userName}`}
+            link={`/${item.assignmentUserName}`}
             value={`@${item.assignmentUserName}`}
           />
         </>

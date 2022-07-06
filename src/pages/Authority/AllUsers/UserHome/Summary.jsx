@@ -272,8 +272,11 @@ const DynamicsList = (props) => {
                       ) : item.historyType === 3 ? (
                         <span>
                           {dynamicType[item.type]}
-                          {item.operatingRecords} 指派给了 @
-                          {item?.assignmentUserName}
+                          {item.operatingRecords} 指派给了
+                          <LinkText
+                            link={`/${item?.assignmentUserName}`}
+                            value={`@${item?.assignmentUserName}`}
+                          />
                         </span>
                       ) : item.historyType === 4 ? (
                         <span>
