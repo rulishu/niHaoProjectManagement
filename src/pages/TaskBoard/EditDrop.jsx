@@ -15,7 +15,7 @@ import {
 import styles from './index.module.less'
 
 const EditDrop = (props) => {
-  const { rowData, loading } = props
+  const { rowData, loading, type } = props
   const { noteId, boardId, title, listId } = rowData
   const { projectId } = useParams()
   //操作弹窗
@@ -39,29 +39,51 @@ const EditDrop = (props) => {
     setDropOpen(false)
     setEditOpen(true)
   }
-  const menu = () => (
-    <div>
-      <Menu bordered style={{ width: '140px' }}>
-        <Loader
-          style={{ width: '100%' }}
-          loading={loading.effects.taskboard.noteToAssignment}>
-          <Menu.Item
-            onClick={() => {
-              dispatch.taskboard.noteToAssignment({
-                noteId,
-                boardId,
-                projectId,
-              })
-            }}
-            icon="reload"
-            text="快速创建任务"
-          />
-        </Loader>
-        <Menu.Item onClick={() => editNote()} icon="edit" text="编辑小记" />
-        <Menu.Item onClick={() => deleteNote()} icon="delete" text="删除小记" />
-      </Menu>
-    </div>
-  )
+  const menu = () => {
+    if (type === 'edit') {
+      return (
+        <div>
+          <Menu bordered style={{ width: '140px' }}>
+            <Loader
+              style={{ width: '100%' }}
+              loading={loading.effects.taskboard.noteToAssignment}>
+              <Menu.Item
+                onClick={() => {
+                  dispatch.taskboard.noteToAssignment({
+                    noteId,
+                    boardId,
+                    projectId,
+                  })
+                }}
+                icon="reload"
+                text="快速创建任务"
+              />
+            </Loader>
+            <Menu.Item onClick={() => editNote()} icon="edit" text="编辑小记" />
+            <Menu.Item
+              onClick={() => deleteNote()}
+              icon="delete"
+              text="删除小记"
+            />
+          </Menu>
+        </div>
+      )
+    }
+    if (type === 'task') {
+      return (
+        <div>
+          <Menu bordered style={{ width: '140px' }}>
+            <Menu.Item
+              onClick={() => deleteNote()}
+              icon="delete"
+              text="删除小记"
+            />
+          </Menu>
+        </div>
+      )
+    }
+  }
+
   return (
     <div className={styles.warp}>
       <OverlayTrigger

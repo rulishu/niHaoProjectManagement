@@ -346,6 +346,9 @@ const TaskBoard = () => {
                                                   placement="bottom"
                                                   content={`指派给 ${item?.assigneeUserName}`}>
                                                   <Avatar
+                                                    style={{
+                                                      marginRight: '22px',
+                                                    }}
                                                     onClick={() => {
                                                       if (
                                                         item.assigneeUserAccount !==
@@ -369,6 +372,17 @@ const TaskBoard = () => {
                                                   </Avatar>
                                                 </Tooltip>
                                               )}
+                                              <div>
+                                                <EditDrop
+                                                  rowData={{
+                                                    boardId: selectBoard,
+                                                    noteId: item.noteId,
+                                                    listId: item.listId,
+                                                  }}
+                                                  loading={loading}
+                                                  type="task"
+                                                />
+                                              </div>
                                             </div>
                                           </div>
                                         </Card>
@@ -401,6 +415,7 @@ const TaskBoard = () => {
                                                   listId: item.listId,
                                                 }}
                                                 loading={loading}
+                                                type="edit"
                                               />
                                             </div>
                                           </div>
@@ -424,6 +439,7 @@ const TaskBoard = () => {
             <div className={styles.empty}>
               <Loader
                 size="large"
+                tip="加载中..."
                 loading={loading.effects.taskboard.selectAllBoardNote}>
                 {boardList.length ? (
                   createBut ? (
