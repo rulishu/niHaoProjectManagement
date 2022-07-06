@@ -87,7 +87,7 @@ const TaskInfo = () => {
       editTaskFromData.assignmentTitle.length > 100
     ) {
       serIsTitleErr(true)
-      return
+      return false
     }
     // if (editTaskFromData.description.length > 300) {
     //   return
