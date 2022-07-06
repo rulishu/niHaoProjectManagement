@@ -198,7 +198,9 @@ const TaskList = (props) => {
               )
             })
           ) : (
-            <Empty />
+            <div className={styles.liEmpty}>
+              <Empty />
+            </div>
           )}
         </ul>
       </div>

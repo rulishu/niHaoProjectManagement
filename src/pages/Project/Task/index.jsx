@@ -37,6 +37,7 @@ const Task = () => {
   }, [dispatch])
 
   useEffect(() => {
+    console.log(taskStatusObj[taskStatus], taskStatus)
     if (taskStatusObj[taskStatus]) {
       const { type } = taskStatusObj[taskStatus]
       conditionChange(
@@ -44,6 +45,9 @@ const Task = () => {
         `${taskStatus || ''}`,
         1
       )
+    }
+    if (!taskStatus) {
+      dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
     }
     // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -223,7 +227,7 @@ const Task = () => {
             teamMembersListData={membersList}
             milestonesListData={milepostaData}
             searchOptions={searchOptions}
-            activeKey={taskStatus}
+            activeKey={searchOptions.code}
             taskNum={{
               open: open,
               close: taskNum.completed,
@@ -236,7 +240,12 @@ const Task = () => {
                 alignment="center"
                 pageSize={searchOptions.pagesize}
                 total={taskListDataTotal}
-                onChange={(page) => conditionChange({ page })}
+                onChange={(page) =>
+                  dispatch.projectTasks.getTaskPagingData({
+                    page,
+                    projectId: taskId,
+                  })
+                }
               />
             ) : (
               ''
