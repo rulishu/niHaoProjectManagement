@@ -229,7 +229,6 @@ const UserReview = (props) => {
         onClick={(e) => mdClick(e)}>
         <MarkdownPreview
           source={parsingMdValue(data) || ''}
-          style={{ width: '100%', display: 'flex' }}
           className={styles.textTitle}
         />
       </div>
