@@ -14,6 +14,40 @@ const Task = () => {
   const params = useParams()
   const { userAccount } = useParams()
   const taskStatus = useLocation().search.replace('?', '')
+  const urlSearch = useLocation().search
+  // 解析
+  const urlQuery = () => {
+    return new URLSearchParams(urlSearch)
+  }
+
+  // 解析url中搜索参数
+  const urlParsingObj = {
+    state: '状态',
+    create: '创建人',
+    assigned: '指派人',
+    label: '标签',
+    q: '',
+  }
+
+  useEffect(() => {
+    let newSearchValue = ''
+    // 输出键值对
+    for (let data of urlQuery()?.entries()) {
+      if (urlParsingObj[data?.[0]]) {
+        newSearchValue = `${newSearchValue} ${urlParsingObj[data?.[0]]}:${
+          data[1]
+        } `
+      }
+      if (!urlParsingObj[data?.[0]]) {
+        newSearchValue = `${newSearchValue} ${data?.[0]}:${data[1]} `
+      }
+    }
+    dispatch({
+      type: 'projectTasks/update',
+      payload: { searchValue: newSearchValue.trim() },
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlSearch])
   // 处理带id的路由
   useLocationPage()
   const taskId = params.projectId || ''
@@ -40,16 +74,14 @@ const Task = () => {
   useEffect(() => {
     if (taskStatusObj[taskStatus]) {
       const { type } = taskStatusObj[taskStatus]
-      conditionChange(
-        { [type]: `${taskStatus || ''}` },
-        `${taskStatus || ''}`,
-        1
-      )
+      const codeObj = { open: 1, close: 2 }
+      const value = type === 'code' ? codeObj[taskStatus] : taskStatus
+      conditionChange({ [type]: `${value || ''}` }, `${taskStatus || ''}`, 1)
     }
-    if (!taskStatus) {
-      dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
-      dispatch.projectTasks.countAssignment({ projectId: taskId })
-    }
+    // if (!taskStatus) {
+    dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
+    dispatch.projectTasks.countAssignment({ projectId: taskId })
+    // }
     // conditionChange({ code: `${taskStatus || ''}` }, `${taskStatus || ''}`, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, taskStatus])
@@ -65,7 +97,7 @@ const Task = () => {
     // dispatch.projectTasks.getTaskPagingData({
     //   projectId: taskId,
     // }) // 不分页获取所有任务
-    dispatch.project.countAssignment({ projectId: taskId })
+    dispatch.project.countAssignment({ projectId: taskId }) // 获取各个状态任务个数
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]) // eslint-disable-line
 
