@@ -40,11 +40,9 @@ const Task = () => {
   useEffect(() => {
     if (taskStatusObj[taskStatus]) {
       const { type } = taskStatusObj[taskStatus]
-      conditionChange(
-        { [type]: `${taskStatus || ''}` },
-        `${taskStatus || ''}`,
-        1
-      )
+      const codeObj = { open: 1, close: 2 }
+      const value = type === 'code' ? codeObj[taskStatus] : taskStatus
+      conditionChange({ [type]: `${value || ''}` }, `${taskStatus || ''}`, 1)
     }
     if (!taskStatus) {
       dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
