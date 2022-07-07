@@ -290,3 +290,15 @@ export function findall(a, x) {
   }
   return results
 }
+
+// 去除树中的空children
+export function removeEmptyChildren(node) {
+  node.forEach((item) => {
+    if ('children' in item && item.children.length === 0) {
+      delete item.children
+    } else if ('children' in item && item.children.length) {
+      removeEmptyChildren(item.children)
+    }
+  })
+  return node
+}
