@@ -65,7 +65,7 @@ const Register = () => {
             errorObj.secondPassword = `密码不一致！`
           }
           if (!current.email) errorObj.email = `邮箱不能为空！`
-          if (!isEmail(current.email)) {
+          if (!isEmail(current.email) || arr !== 3) {
             errorObj.email = `请输入正确的邮箱`
           }
           if (Object.keys(errorObj).length > 0) {
