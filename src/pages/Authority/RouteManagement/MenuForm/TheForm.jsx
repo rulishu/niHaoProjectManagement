@@ -2,7 +2,6 @@ import { ProForm } from '@uiw-admin/components'
 export const TheForm = (props) => {
   const { onSubmit, menuItemData, fromType } = props
   // fromType 1 新增 2 编辑
-  console.log(menuItemData)
   return (
     <ProForm
       title={fromType === 1 ? '新增' : fromType === 2 ? '编辑' : ''}

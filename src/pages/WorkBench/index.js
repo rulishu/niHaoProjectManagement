@@ -247,7 +247,11 @@ export default function Demo() {
                             },
                           ].map((item, key) => {
                             return (
-                              <div key={key} onClick={() => goToTask(key + 1)}>
+                              <div
+                                key={key}
+                                onClick={() =>
+                                  goToTask(`state=${item?.title}`)
+                                }>
                                 <Card
                                   bordered={false}
                                   title={item.title}
