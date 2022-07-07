@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.less'
 import OtherInfo from './OtherInfo'
 import MDEditor from '@uiw/react-md-editor'
+import useLocationPage from '@/hooks/useLocationPage'
 // import timeDistance from '@/utils/timeDistance'
 import { convertToString } from '@/utils/utils'
 import './index.css'
@@ -18,7 +19,7 @@ const MilestoneInfo = () => {
     loading,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
-
+  useLocationPage()
   const [milestonesState, setMilestonesState] = useState()
   const [openAlert, setOpenAlert] = useState(false)
   const [editState, setEditState] = useState({ start: false, due: false })
