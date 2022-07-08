@@ -172,23 +172,38 @@ const Index = () => {
       payload,
     }).then((data) => information(data))
   }
-  const editTime = (memberTime) => {
+  const editTime = (memberTime, index) => {
+    const date = new Date().getTime()
+    const newData = memberTime.getTime()
     if (memberTime) {
-      const payload = {
-        id: memberInfo.id,
-        accessExpirationTime: formatter('YYYY-MM-DD', new Date(memberTime)),
-        memberRole: memberInfo.memberRole,
-        userId: memberInfo.userId,
-        projectId: memberInfo.projectId,
+      if (date < newData) {
+        const payload = {
+          id: listData[index].id,
+          accessExpirationTime: formatter(
+            'YYYY-MM-DD',
+            new Date(changeTime(memberTime))
+          ),
+          memberRole: listData[index].memberRole,
+          userId: listData[index].userId,
+          projectId: listData[index].projectId,
+        }
+        dispatch({
+          type: 'usersManagement/updateProjectMember',
+          payload,
+        }).then((data) => information(data))
+      } else {
+        Notify.error({ title: '到期日期不能在当前日期之前' })
       }
-      dispatch({
-        type: 'usersManagement/updateProjectMember',
-        payload,
-      }).then((data) => information(data))
     } else {
       Notify.error({ title: '授予到期时间不能为空' })
     }
   }
+
+  const disabledDate = (currentDate) => {
+    // 今天和今天之前不能选择
+    return currentDate && currentDate.valueOf() < Date.now()
+  }
+
   const roleMenu = (
     <div className={styles.dropdownMenu}>
       <ul>
@@ -327,9 +342,12 @@ const Index = () => {
                               format="YYYY-MM-DD"
                               autoClose
                               allowClear={false}
+                              datePickerProps={{
+                                disabledDate: disabledDate,
+                              }}
                               onChange={(e) => {
                                 handleEditTable('edit', item)
-                                editTime(changeTime(e))
+                                editTime(e, index)
                               }}
                             />
                           ) : (
