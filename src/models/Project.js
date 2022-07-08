@@ -95,8 +95,6 @@ export default createModel()({
             overtimeTotal: data.data?.totalWorkVo?.projectYqsNum || 0,
             total: data.data?.totalWorkVo?.projectNum || 0,
           })
-        } else {
-          Notify.error({ description: data?.message })
         }
       },
       // 分页查询
@@ -408,8 +406,6 @@ export default createModel()({
           dispatch.project.update({
             taskNum: data.data,
           })
-        } else {
-          Notify.error({ title: data.message })
         }
       },
 

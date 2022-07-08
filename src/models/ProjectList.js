@@ -60,8 +60,6 @@ const projectlist = createModel()({
         dispatch.projectlist.update({
           proNum: data.data,
         })
-      } else {
-        Notify.error({ title: data.message })
       }
     },
 
@@ -73,8 +71,6 @@ const projectlist = createModel()({
         Notify.success({ title: data.data })
         setDeleteOpen(false)
         search()
-      } else {
-        // Notify.error({ title: data.data })
       }
     },
 
@@ -92,8 +88,6 @@ const projectlist = createModel()({
         Notify.success({ title: title })
         setDeleteOpen(false)
         search()
-      } else {
-        // Notify.error({ title: data.data })
       }
     },
 
@@ -107,8 +101,6 @@ const projectlist = createModel()({
           projectAvatar: data?.data?.projectAvatar,
           projectUrl: data?.data?.projectUrl,
         })
-      } else {
-        // Notify.error({ title: data.data })
       }
     },
   }),
