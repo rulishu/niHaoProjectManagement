@@ -78,9 +78,11 @@ const ProjectList = (props) => {
                   <div className={styles.avatar}>
                     <Avatar
                       src={
-                        user?.avatar
-                          ? `/api/file/selectFile/${user?.avatar}`
-                          : ''
+                        user.avatar?.substring(0, 4) === 'http'
+                          ? user.avatar
+                          : user.avatar?.substring(0, 4) !== 'http' &&
+                            user.avatar !== '' &&
+                            `/api/file/selectFile/${user?.avatar}`
                       }>
                       {user?.nickName && user?.nickName[0]}
                     </Avatar>
