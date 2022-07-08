@@ -149,11 +149,6 @@ export default function Index() {
               },
               align: 'center',
             },
-            // {
-            //   title: '创建人',
-            //   key: 'createName',
-            //   align: 'center',
-            // },
             {
               title: '团队描述',
               key: 'teamDes',
