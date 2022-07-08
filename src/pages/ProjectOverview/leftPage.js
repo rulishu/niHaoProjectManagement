@@ -410,7 +410,7 @@ export default function Home() {
                         key={item.key}
                         title={item.title}
                         style={{ cursor: 'pointer' }}
-                        onClick={() => goToTask(item.key)}>
+                        onClick={() => goToTask(`state=${item?.title}`)}>
                         <span style={{ fontSize: 36 }}>{item.num}</span>
                       </Card>
                     )

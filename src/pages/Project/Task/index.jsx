@@ -26,6 +26,7 @@ const Task = () => {
     create: '创建人',
     assigned: '指派人',
     label: '标签',
+    milestone: '里程碑',
     q: '',
   }
 
