@@ -6,7 +6,6 @@ import {
   getselectAllUserProject,
   getselectAssignUser,
 } from '../servers/TodoList'
-import { Notify } from 'uiw'
 
 /**
  * 待办事项
@@ -81,8 +80,6 @@ export default createModel()({
           dispatch.todolist.getList({ status: '1' })
           dispatch.todolist.getList({ status: '0' })
           dispatch.routeManagement.getInfo({})
-        } else {
-          Notify.error({ title: data.message, description: '' })
         }
         await dispatch.todolist.getList({
           page: 1,
@@ -99,8 +96,6 @@ export default createModel()({
         // console.log('data------>11111', data)
         if (data && data.code === 200) {
           // Notify.success({ title: data.message, description: '' })
-        } else {
-          Notify.error({ title: data.message, description: '' })
         }
       },
 

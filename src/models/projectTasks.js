@@ -40,6 +40,7 @@ export default createModel()({
       orderByColumn: 'createTime',
       isAsc: 'desc',
     },
+    isOnSearch: false,
     taskNum: {
       all: 0, // 所有任务数
       completed: 0, //
