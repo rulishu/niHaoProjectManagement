@@ -23,7 +23,7 @@ const TaskList = (props) => {
 
   // 任务状态
   const taskState = [
-    { onTab: '1', color: '#1a7f37', title: '未开始', icon: 'circle-o' },
+    { onTab: '1', color: '#a7a8bd', title: '未开始', icon: 'minus-circle-o' },
     { onTab: '2', color: '#1a7f37', title: '进行中', icon: 'circle-o' },
     { onTab: '3', color: '#8250df ', title: '已完成', icon: 'circle-check-o' },
     { onTab: '4', color: '#cf222e', title: '已逾期', icon: 'circle-close-o' },
