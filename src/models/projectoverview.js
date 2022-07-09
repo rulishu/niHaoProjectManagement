@@ -5,11 +5,7 @@ import {
   getProjectMembers,
   getSelectById,
 } from '../servers/projectoverview'
-import { Notify } from 'uiw'
 
-const NotifyError = (message) => {
-  return Notify.error({ description: message })
-}
 const projectoverview = createModel()({
   name: 'projectoverview',
   state: {
@@ -28,8 +24,6 @@ const projectoverview = createModel()({
         dispatch.projectoverview.update({
           allDataSource: data?.data || [],
         })
-      } else {
-        NotifyError(data?.message)
       }
     },
     // 查询项目动态
@@ -39,8 +33,6 @@ const projectoverview = createModel()({
         dispatch.projectoverview.update({
           projectDynamicsList: data?.data || [],
         })
-      } else {
-        NotifyError(data?.message)
       }
     },
 
@@ -51,8 +43,6 @@ const projectoverview = createModel()({
         dispatch.projectoverview.update({
           projectMembersList: data?.data || [],
         })
-      } else {
-        NotifyError(data?.message)
       }
     },
 
@@ -63,8 +53,6 @@ const projectoverview = createModel()({
         dispatch.projectoverview.update({
           assignmentList: data?.data || [],
         })
-      } else {
-        NotifyError(data?.message)
       }
     },
   }),

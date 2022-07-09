@@ -97,12 +97,12 @@ const SearchBox = (props) => {
                 newSearchOptions[item[0]].push(dataItem[item[1].key])
               }
             })
-            if (
-              newSearchOptions[item[0]].length !==
-              newSearchValue.match(item[1].regular)?.length
-            ) {
-              newSearchOptions[item[0]].push(0)
-            }
+          }
+          if (
+            newSearchOptions[item[0]].length !==
+            newSearchValue.match(item[1].regular)?.length
+          ) {
+            newSearchOptions[item[0]].push(0)
           }
         }
       })

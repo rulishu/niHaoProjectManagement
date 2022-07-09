@@ -131,7 +131,7 @@ const UserReview = (props) => {
       task: {
         className: styles.styleP,
         type: 2,
-        regExp: /#(?<task>.*?)\s/g,
+        regExp: /#(?<task>\d{4}?)\s/g,
         tag: '#',
       },
       milestone: {
@@ -156,6 +156,10 @@ const UserReview = (props) => {
           const className = item[1].className
           let notClick = false
           let id = 0
+          // const isNum = (/(^[1-9]\d*$)/.test(name))
+          // if (item[0] === 'task'&& !isNum) {
+          //   return name
+          // }
           if (item[0] === 'milestone') {
             id = milepostaData?.filter((item) => {
               return item?.milestonesTitle === name
@@ -174,7 +178,7 @@ const UserReview = (props) => {
             })[0]?.color
             newValue = newValue?.replace(
               tag + name + ' ',
-              `<span><table className=${className}><tr><td bgcolor=${labelColor}>${name}</td></tr></table></span>`
+              `<span style="background-color:${labelColor}" className=${className}>${name}</span>`
             )
             // return newValue
           }
@@ -229,7 +233,6 @@ const UserReview = (props) => {
         onClick={(e) => mdClick(e)}>
         <MarkdownPreview
           source={parsingMdValue(data) || ''}
-          style={{ width: '100%', display: 'flex' }}
           className={styles.textTitle}
         />
       </div>
