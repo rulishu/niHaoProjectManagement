@@ -21,8 +21,8 @@ const AddUser = () => {
   const [indeterminate1, setIndeterminate1] = useState(false)
   const [checkAll1, setCheckAll1] = useState(false)
   const [num, setNum] = useState(false)
-  const [userInside, setUserInside] = useState([]) //组内用户全选 获取全部用户id
-  const [userOutside, setUserOutside] = useState([]) //组外用户全选 获取全部用户id
+  // const [userInside, setUserInside] = useState([]) //组内用户全选 获取全部用户id
+  // const [userOutside, setUserOutside] = useState([]) //组外用户全选 获取全部用户id
   const {
     team: { isUsers, teamData, teamMemberList, teamId, modalState },
   } = useSelector((state) => state)
@@ -79,7 +79,7 @@ const AddUser = () => {
     let oldData = []
     teamMemberList.map((item, index) => oldData.push(item.value))
     let newData = oldData.filter((n) => n)
-    setUserInside(newData)
+    // setUserInside(newData)
     setInputValue(e.target.checked ? newData : [])
     setIndeterminate(false)
     setCheckAll(e.target.checked)
@@ -101,7 +101,7 @@ const AddUser = () => {
     teamData.map((item, index) => oldData.push(item.value))
     //过滤null
     let newData = oldData.filter((n) => n)
-    setUserOutside(newData)
+    // setUserOutside(newData)
     setNum(true)
     setInputValue1(e.target.checked ? newData : [])
     setIndeterminate1(false)
@@ -163,44 +163,51 @@ const AddUser = () => {
     },
   ]
   const onConfirm = () => {
-    if (checkAll !== true && checkAll1 !== true) {
-      dispatch({
-        type: 'team/updateMembers',
-        payload: {
-          teamId: teamId,
-          userIdList: inputValue1,
-          num: num,
-        },
+    // if (checkAll === false && checkAll1 === false) {
+    // let  resultArr;
+    // js 筛选重复数据方法
+    let resultArr = inputValue
+      ?.concat(inputValue1)
+      .filter(function (item, index, self) {
+        return self.indexOf(item) === index
       })
-    } else if (checkAll === true && checkAll1 === false) {
-      dispatch({
-        type: 'team/updateMembers',
-        payload: {
-          teamId: teamId,
-          userIdList:
-            userInside === '' ? inputValue1 : inputValue1.concat(userInside),
-          num: num,
-        },
-      })
-    } else if (checkAll1 === true && checkAll === false) {
-      dispatch({
-        type: 'team/updateMembers',
-        payload: {
-          teamId: teamId,
-          userIdList: userOutside,
-          num: num,
-        },
-      })
-    } else if (checkAll1 === true && checkAll === true) {
-      dispatch({
-        type: 'team/updateMembers',
-        payload: {
-          teamId: teamId,
-          userIdList: userOutside?.concat(userInside),
-          num: num,
-        },
-      })
-    }
+    dispatch({
+      type: 'team/updateMembers',
+      payload: {
+        teamId: teamId,
+        userIdList: resultArr,
+        num: num,
+      },
+    })
+    // } else if (checkAll === true && checkAll1 === false) {
+    //   dispatch({
+    //     type: 'team/updateMembers',
+    //     payload: {
+    //       teamId: teamId,
+    //       userIdList:
+    //         userInside === '' ? inputValue1 : inputValue1.concat(userInside),
+    //       num: num,
+    //     },
+    //   })
+    // } else if (checkAll1 === true && checkAll === false) {
+    //   dispatch({
+    //     type: 'team/updateMembers',
+    //     payload: {
+    //       teamId: teamId,
+    //       userIdList: userOutside,
+    //       num: num,
+    //     },
+    //   })
+    // } else if (checkAll1 === true && checkAll === true) {
+    //   dispatch({
+    //     type: 'team/updateMembers',
+    //     payload: {
+    //       teamId: teamId,
+    //       userIdList: userOutside?.concat(userInside),
+    //       num: num,
+    //     },
+    //   })
+    // }
   }
 
   return (
