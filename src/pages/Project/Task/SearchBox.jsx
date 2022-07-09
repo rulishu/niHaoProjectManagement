@@ -38,7 +38,18 @@ const SearchBox = (props) => {
   }
 
   useEffect(() => {
-    form.current.setFieldValue('searchValue', searchValue)
+    let newSearchValue = searchValue
+    // 将newSearchValue转化成数组
+    newSearchValue = newSearchValue.split(' ')
+    // 去除重复
+    newSearchValue = [...new Set(newSearchValue)]
+    //去除空项
+    newSearchValue = newSearchValue.filter((item) => item)
+    // 将数组转化成字符串
+    newSearchValue = newSearchValue.join(' ')
+    // newSearchValue 中逗号替换成空格
+    newSearchValue = newSearchValue.replace(/,/g, ' ')
+    form.current.setFieldValue('searchValue', newSearchValue)
   }, [searchValue])
 
   useEffect(() => {
