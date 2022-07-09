@@ -85,7 +85,6 @@ const TaskEvent = () => {
     })
   }
   const dynamic = (item) => {
-    console.log('item===>', item)
     //动态
     return {
       1: (
