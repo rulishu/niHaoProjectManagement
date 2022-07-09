@@ -137,6 +137,7 @@ const team = createModel()({
           arr.push({
             label: item.nickName,
             value: item.userId,
+            account: item.userName,
           })
         })
         dispatch.team.updateState({
@@ -153,6 +154,7 @@ const team = createModel()({
           arr.push({
             label: item.nickName,
             value: item.userId,
+            account: item.userName,
           })
         })
         dispatch.team.updateState({

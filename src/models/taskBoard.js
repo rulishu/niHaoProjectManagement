@@ -23,7 +23,7 @@ import {
   changeCloseTime,
   editBoard,
 } from '../servers/taskBoard'
-
+import { addMilestones } from '@/servers/milestone'
 import { getAllLabelData } from '../servers/labels'
 import { getManagerAssignmentUpdate } from '../servers/project'
 
@@ -36,14 +36,17 @@ const taskboard = createModel()({
     page: 1,
     pageSize: 10,
     total: 0,
-    boardList: [],
-    list: [],
-    taskInfo: {},
-    labelList: [],
-    userAllList: [],
-    taskDueDate: '',
-    create: false,
+    boardList: [], //看板列表
+    list: [], //列表
+    taskInfo: {}, //任务信息
+    labelList: [], //标签列表
+    userAllList: [], //用户列表
+    taskDueDate: '', //任务截止日期
+    create: false, //创建按钮状态
     createBut: false,
+    project: '',
+    openTaskList: true,
+    closeTaskList: true,
   },
   reducers: {
     update: (state, payload) => {
@@ -101,9 +104,13 @@ const taskboard = createModel()({
     },
 
     //查询看板中列表
-    async selectAllBoardNote(payload) {
-      const { ...other } = payload
-      const data = await selectAllBoardNote(other)
+    async selectAllBoardNote(payload, { taskboard }) {
+      const { project } = taskboard
+      const params = {
+        ...payload,
+        projectId: project,
+      }
+      const data = await selectAllBoardNote(params)
       if (data && data.code === 200) {
         dispatch.taskboard.update({
           list: data?.data || [],
@@ -254,8 +261,7 @@ const taskboard = createModel()({
 
     // 快速创建任务
     async noteToAssignment(payload) {
-      const { ...other } = payload
-      const data = await noteToAssignment(other)
+      const data = await noteToAssignment(payload)
       if (data && data.code === 200) {
         Notify.success({ title: '快速创建任务成功' })
         dispatch.taskboard.selectAllBoardNote({
@@ -292,9 +298,10 @@ const taskboard = createModel()({
       const data = await changeAssignmentStatus(other)
       if (data && data.code === 200) {
         Notify.success({ title: '更改任务状态成功' })
-        setTaskDetails(false)
-        // dispatch.routeManagement.getInfo({})
-        dispatch.taskboard.selectAllBoardNote({ boardId })
+        if (setTaskDetails) {
+          setTaskDetails(false)
+          dispatch.taskboard.selectAllBoardNote({ boardId })
+        }
       }
     },
 
@@ -303,7 +310,6 @@ const taskboard = createModel()({
       const { selectBoard, ...other } = payload
       const data = await changeAssignmentUser(other)
       if (data && data.code === 200) {
-        Notify.success({ title: '指派成功' })
         dispatch.taskboard.selectByProjectId({
           projectId: payload.projectId,
           id: payload.assignmentId,
@@ -324,11 +330,30 @@ const taskboard = createModel()({
       }
     },
 
+    // 新增里程碑
+    async addMilestone(payload, { taskboard }) {
+      const { project } = taskboard
+      const params = { projectId: project, ...payload }
+      console.log(params)
+      const data = await addMilestones(params)
+      if (data.code === 200) {
+        dispatch.taskboard.getListAll({
+          projectId: project,
+          milestonesStatusList: [1, 2],
+        })
+        return true
+      }
+    },
+
     // 编辑任务
     async getEdit(payload) {
+      const { projectId } = payload
       const data = await getManagerAssignmentUpdate(payload.taskInfo)
       if (data && data.code === 200) {
-        Notify.success({ title: '修改标签成功' })
+        dispatch.taskboard.selectByProjectId({
+          projectId,
+          id: payload.taskInfo.assignmentId,
+        })
       }
     },
 
@@ -336,7 +361,6 @@ const taskboard = createModel()({
     async changeCloseTime(payload) {
       const data = await changeCloseTime(payload)
       if (data && data.code === 200) {
-        Notify.success({ title: '截止日期已修改' })
         dispatch.taskboard.selectByProjectId({
           projectId: payload.projectId,
           id: payload.assignmentId,
@@ -357,7 +381,9 @@ const taskboard = createModel()({
     },
 
     //编辑看板
-    async editBoard(params) {
+    async editBoard(params, { taskboard }) {
+      const { openTaskList, closeTaskList } = taskboard
+      console.log(openTaskList, closeTaskList)
       const { setIsEditBoard, ...other } = params
       const data = await editBoard({ ...other })
       if (data && data.code === 200) {

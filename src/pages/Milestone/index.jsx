@@ -12,6 +12,7 @@ import {
   Empty,
   Loader,
   Icon,
+  Card,
   OverlayTrigger,
 } from 'uiw'
 import formatter from '@uiw/formatter'
@@ -19,6 +20,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import newDebounce from '@/utils/debounce'
 import styles from './index.module.less'
 import useLocationPage from '@/hooks/useLocationPage'
+import { convertToString } from '@/utils/utils'
 
 const { Line } = Progress
 
@@ -140,8 +142,9 @@ const Milestone = () => {
                         </div>
                         {item.startTime && (
                           <div className={styles.date}>
-                            {item.startTime}
-                            {item.dueTime && '~' + item.dueTime}
+                            {convertToString(item?.startTime)}
+                            {item.dueTime &&
+                              '~' + convertToString(item?.dueTime)}
                           </div>
                         )}
                         <div>
@@ -260,74 +263,78 @@ const Milestone = () => {
   }
 
   return (
-    <div className={styles.wrap}>
-      <Loader
-        tip="loading..."
-        vertical
-        style={{ width: '100%' }}
-        loading={loading.effects.milestone.selectPageList}>
-        <div>
-          <div className={styles.topArea}>
-            <Tabs
-              type="line"
-              activeKey={activeKey}
-              onTabClick={(activeKey) =>
-                dispatch.milestone.update({ activeKey })
-              }>
-              <Tabs.Pane label={tabsLabel('打开', openListTotal)} key="1" />
-              <Tabs.Pane label={tabsLabel('关闭', closeListTotal)} key="2" />
-              <Tabs.Pane label={tabsLabel('所有', total)} key="" />
-            </Tabs>
-            <div className={styles.navControls}>
-              <div>
-                <Input
-                  placeholder="请输入内容"
-                  style={{ maxWidth: 200 }}
-                  // onBlur={(e) =>
-                  //   getMilestoneByValue({ milestonesTitle: e.target.value })
-                  // }
-                  onChange={(e) => {
-                    setMilestoneValue(e.target.value)
-                    newDebounce(getMilestoneByValue, 500, {
-                      milestonesTitle: e.target.value,
-                    })
-                  }}
-                />
-              </div>
-              <div className={styles.dropdown}>
-                <OverlayTrigger
-                  placement="bottomRight"
-                  trigger="click"
-                  isOpen={isPulldown}
-                  onVisibleChange={(open) => setIsPulldown(open)}
-                  overlay={card}>
-                  <div className={styles.toggle}>
-                    <span>
-                      {sortingList.map(
-                        (item) => item.value === sorting && item.title
-                      )}
-                    </span>
-                    <Icon type={isPulldown ? 'up' : 'down'} />
+    <Fragment>
+      <Card>
+        <div className={styles.wrap}>
+          <Loader
+            tip="loading..."
+            vertical
+            style={{ width: '100%' }}
+            loading={loading.effects.milestone.selectPageList}>
+            <div>
+              <div className={styles.topArea}>
+                <Tabs
+                  type="line"
+                  activeKey={activeKey}
+                  onTabClick={(activeKey) =>
+                    dispatch.milestone.update({ activeKey })
+                  }>
+                  <Tabs.Pane label={tabsLabel('打开', openListTotal)} key="1" />
+                  <Tabs.Pane
+                    label={tabsLabel('关闭', closeListTotal)}
+                    key="2"
+                  />
+                  <Tabs.Pane label={tabsLabel('所有', total)} key="" />
+                </Tabs>
+                <div className={styles.navControls}>
+                  <div>
+                    <Input
+                      placeholder="请输入内容"
+                      style={{ maxWidth: 200 }}
+                      onChange={(e) => {
+                        setMilestoneValue(e.target.value)
+                        newDebounce(getMilestoneByValue, 500, {
+                          milestonesTitle: e.target.value,
+                        })
+                      }}
+                    />
                   </div>
-                </OverlayTrigger>
+                  <div className={styles.dropdown}>
+                    <OverlayTrigger
+                      placement="bottomRight"
+                      trigger="click"
+                      isOpen={isPulldown}
+                      onVisibleChange={(open) => setIsPulldown(open)}
+                      overlay={card}>
+                      <div className={styles.toggle}>
+                        <span>
+                          {sortingList.map(
+                            (item) => item.value === sorting && item.title
+                          )}
+                        </span>
+                        <Icon type={isPulldown ? 'up' : 'down'} />
+                      </div>
+                    </OverlayTrigger>
+                  </div>
+                  <div>
+                    <Button type="primary" onClick={() => goNewNmilestone()}>
+                      创建里程碑
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Button type="primary" onClick={() => goNewNmilestone()}>
-                  创建里程碑
-                </Button>
-              </div>
+              {activeKey === '1' && (
+                <div>{milesList(openListData, openListTotal)}</div>
+              )}
+              {activeKey === '2' && (
+                <div>{milesList(closeListData, closeListTotal)}</div>
+              )}
+              {activeKey === '' && <div>{milesList(listData, total)}</div>}
             </div>
-          </div>
-          {activeKey === '1' && (
-            <div>{milesList(openListData, openListTotal)}</div>
-          )}
-          {activeKey === '2' && (
-            <div>{milesList(closeListData, closeListTotal)}</div>
-          )}
-          {activeKey === '' && <div>{milesList(listData, total)}</div>}
+          </Loader>
         </div>
-      </Loader>
-    </div>
+      </Card>
+    </Fragment>
   )
 }
 

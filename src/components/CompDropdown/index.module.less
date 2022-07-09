@@ -52,26 +52,8 @@
   // 表亲列表项
   .tagListLi,
   .noColorTag {
-    margin: 2px;
-    overflow: hidden;
-    border-radius: 12px;
-    max-width: 100%;
-    padding: 2px 6px;
     display: flex;
     align-items: center;
-    font-size: 12px;
-    color: #fff;
-    line-height: 1;
-    border-style: solid;
-    border-width: 1px;
-
-    .tagTitle {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: top;
-      white-space: nowrap;
-      max-width: 100%;
-    }
 
     .tagBut {
       display: block;
@@ -96,6 +78,14 @@
         font-size: 8px;
       }
     }
+  }
+
+  .tagTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .noColorTag {
@@ -202,7 +192,7 @@
       .labelListLi {
         display: flex;
         align-items: center;
-        padding: 0 12px;
+        // padding: 0 12px;
 
         &:hover {
           background-color: #f0f0f0;

@@ -3,6 +3,7 @@ import { ProTable, useTable } from '@uiw-admin/components'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 // import styles from './index.module.less'
+import { convertToString } from '@/utils/utils'
 
 export default function TodoList() {
   const dispatch = useDispatch()
@@ -61,6 +62,7 @@ export default function TodoList() {
                   {
                     title: '待办ID',
                     key: 'id',
+                    width: 150,
                   },
                   {
                     title: '待办内容',
@@ -88,6 +90,9 @@ export default function TodoList() {
                     title: '时间',
                     key: 'createTime',
                     width: 180,
+                    render: (text) => (
+                      <div>{text && convertToString(text)}</div>
+                    ),
                   },
                   {
                     title: '状态',

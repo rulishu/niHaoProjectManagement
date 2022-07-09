@@ -1,0 +1,254 @@
+@import '../../common.less';
+
+.warp {
+  // height: 100%;
+  min-height: 100%;
+  // max-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  background-color: @white;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 80%;
+  max-width: 1280px;
+  margin: auto;
+
+  .projectHead {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+    line-height: 1.5;
+    border-bottom: 1px solid #dbdbdb;
+
+    h1 {
+      margin: @margin-md 0;
+      font-size: @font-size-lg + 4px;
+      font-weight: 600;
+      color: @black;
+    }
+  }
+
+  .projectHeadArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    :global {
+      .w-tabs-line > div > div > .w-tabs-bar > .w-tabs-nav::after {
+        border-bottom: 0px solid #d9d9d9;
+      }
+    }
+
+    .areaLeft {
+      .tabsPaneLabel {
+        display: flex;
+
+        // 项目数量
+        .num {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.75rem;
+          // padding: @padding-xss @padding-xs;
+          background-color: #f0f0f0;
+          color: #000;
+          font-weight: 600;
+          margin-left: 0.25rem;
+          border-radius: 50%;
+          width: 1.5rem;
+          height: 1.5rem;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .areaRight {
+      display: flex;
+      align-items: center;
+
+      // 下拉
+      .dropdown {
+        margin: 0 @margin-md;
+        margin-right: 0;
+
+        .toggle {
+          padding: @padding-xss + 2px @padding-xs;
+          background-color: @white;
+          color: @black;
+          font-size: @font-size-base;
+          width: 160px;
+          text-align: left;
+          border: 1px solid #dbdbdb;
+          border-radius: 0.25rem;
+          white-space: nowrap;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .projectNavBlock {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    :global {
+      .w-tabs-line > div > div > .w-tabs-bar > .w-tabs-nav::after {
+        border-bottom: 0px solid #d9d9d9;
+      }
+    }
+  }
+
+  .projectProTable {
+    :global {
+      .w-empty {
+        padding: 30px 0;
+      }
+    }
+    .avatarContainer {
+      width: 40px;
+      height: 48px;
+
+      .listImg {
+        border-radius: @border-radius-base;
+        height: 40px;
+        width: 40px;
+        align-self: center;
+        font-size: @font-size-base;
+        margin: @margin-xss;
+        margin-right: 0px;
+      }
+    }
+
+    .projectInfo {
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+
+      .infoTopBox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        // 项目名称
+        .projectName {
+          font-weight: 500;
+          color: @black;
+          margin-right: @margin-xs;
+
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+
+        // 项目角色
+        .projectRole {
+          padding-left: @padding-xs;
+          padding-right: @padding-xs;
+          display: inline-block;
+          color: @black;
+          font-size: @font-size-sm;
+          line-height: 20px;
+          border: 1px solid #dbdbdb;
+          border-radius: 100px;
+          font-weight: 400;
+          margin: 2px;
+        }
+      }
+
+      .infoBottomBx {
+        span {
+          display: inline-block;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
+          vertical-align: top;
+          // white-space: nowrap;
+          max-width: 100%;
+          margin-bottom: 0;
+          color: #999;
+          height: 100%;
+          font-size: 12px;
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
+}
+
+// 下拉菜单
+.dropdownMenu {
+  width: auto;
+  z-index: 300;
+  min-width: 160px;
+  max-width: 500px;
+  margin-top: @margin-xss;
+  margin-bottom: @margin-lg;
+  font-size: @font-size-sm;
+  font-weight: 400;
+  padding: @padding-xs 0;
+  background-color: @white;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  display: block;
+  min-height: 40px;
+  max-height: 445px;
+  overflow-y: auto;
+
+  ul {
+    display: block;
+    text-align: left;
+    list-style: none;
+    padding: 0 1px;
+
+    li {
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      display: block;
+      font-weight: 400;
+      position: relative;
+      padding: @margin-xs @margin-sm;
+      color: #303030;
+      line-height: 16px;
+      white-space: normal;
+      overflow: hidden;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        background-color: @normal-color;
+        color: @black;
+        outline: 0;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// 编辑下拉框
+.editDropTrigger {
+  cursor: pointer;
+}
+
+// 自定义组件
+.routeInput {
+  input,
+  input:hover,
+  input:focus {
+    box-shadow: 0 0 0 1px #dc3545, 0 0 0 3px rgb(220 53 69 / 17%),
+      inset 0 1px 1px rgb(16 22 26 / 20%);
+  }
+}

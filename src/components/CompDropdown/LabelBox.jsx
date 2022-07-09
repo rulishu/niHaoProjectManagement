@@ -30,6 +30,7 @@ const LabelBox = (props) => {
     return data?.map((item, index) => {
       return (
         <li
+          style={{ padding: `${title === '人员' ? '0 8px' : '0 12px'}` }}
           key={item.key || index}
           className={styles.labelListLi}
           onClick={() => optionEvent(item?.key)}>

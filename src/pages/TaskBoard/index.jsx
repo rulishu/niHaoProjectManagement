@@ -17,7 +17,7 @@ const TaskBoard = () => {
   const navigate = useNavigate()
   const { taskboard, loading } = useSelector((state) => state)
   const { projectId, userAccount } = useParams()
-  const { boardList, list, createBut } = taskboard
+  const { boardList, list, createBut, project } = taskboard
   const [deleteBoardCon, setDeleteBoardCon] = useState(false) // 看板删除弹窗状态
   const [selectBoard, setSelectBoard] = useState(0) // 当前选择看板id
   const [selectList, setSelectList] = useState(0) // 当前选择列表id
@@ -33,7 +33,13 @@ const TaskBoard = () => {
       setSelectBoard,
       first: true,
     })
-  }, [dispatch, projectId])
+    if (project !== projectId) {
+      dispatch.taskboard.update({
+        project: projectId,
+      })
+    }
+  }, [dispatch, projectId, project])
+
   useEffect(() => {
     if (createBut) {
       scrollToEle()
@@ -207,7 +213,9 @@ const TaskBoard = () => {
                           <div className={styles.listName}>
                             <Icon type="appstore-o" />
                             <span className={styles.listNum}>
-                              {dropItem?.managerBoardNotes?.length}
+                              {dropItem?.managerBoardNotes[0]?.new
+                                ? dropItem?.managerBoardNotes?.length - 1
+                                : dropItem?.managerBoardNotes?.length}
                             </span>
                             <ListButtonGroup
                               param={{
@@ -338,6 +346,9 @@ const TaskBoard = () => {
                                                   placement="bottom"
                                                   content={`指派给 ${item?.assigneeUserName}`}>
                                                   <Avatar
+                                                    style={{
+                                                      marginRight: '22px',
+                                                    }}
                                                     onClick={() => {
                                                       if (
                                                         item.assigneeUserAccount !==
@@ -361,6 +372,17 @@ const TaskBoard = () => {
                                                   </Avatar>
                                                 </Tooltip>
                                               )}
+                                              <div>
+                                                <EditDrop
+                                                  rowData={{
+                                                    boardId: selectBoard,
+                                                    noteId: item.noteId,
+                                                    listId: item.listId,
+                                                  }}
+                                                  loading={loading}
+                                                  type="task"
+                                                />
+                                              </div>
                                             </div>
                                           </div>
                                         </Card>
@@ -393,6 +415,7 @@ const TaskBoard = () => {
                                                   listId: item.listId,
                                                 }}
                                                 loading={loading}
+                                                type="edit"
                                               />
                                             </div>
                                           </div>
@@ -416,6 +439,7 @@ const TaskBoard = () => {
             <div className={styles.empty}>
               <Loader
                 size="large"
+                tip="加载中..."
                 loading={loading.effects.taskboard.selectAllBoardNote}>
                 {boardList.length ? (
                   createBut ? (

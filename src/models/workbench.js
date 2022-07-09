@@ -6,7 +6,6 @@ import {
   selectProjectPage,
   getSelectPage,
 } from '../servers/workbench'
-import { Notify } from 'uiw'
 
 const workbench = createModel()({
   name: 'workbench',
@@ -26,8 +25,6 @@ const workbench = createModel()({
         dispatch.workbench.update({
           projectList: data?.data || [],
         })
-      } else {
-        Notify.error({ title: `失败` + data.message || '' })
       }
     },
     // 成员动态
@@ -37,8 +34,6 @@ const workbench = createModel()({
         dispatch.workbench.update({
           memberList: data?.data || [],
         })
-      } else {
-        Notify.error({ title: `失败` + data.message || '' })
       }
     },
 
@@ -49,8 +44,6 @@ const workbench = createModel()({
         dispatch.workbench.update({
           allList: data?.data || [],
         })
-      } else {
-        Notify.error({ title: `失败` + data.message || '' })
       }
     },
 
@@ -61,8 +54,6 @@ const workbench = createModel()({
         dispatch.workbench.update({
           personList: data?.data || [],
         })
-      } else {
-        Notify.error({ title: `失败` + data.message || '' })
       }
     },
 

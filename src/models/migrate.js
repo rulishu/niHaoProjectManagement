@@ -45,6 +45,7 @@ const thirdpartyMigration = createModel()({
     },
     sourceState: false,
     confignState: false,
+    migrateId: 0, // 迁移源ID
   },
   effects: (dispatch) => ({
     // 标签：条件查询-不分页
@@ -86,6 +87,10 @@ const thirdpartyMigration = createModel()({
     // gitlab数据同步
     async synchronizationControl(payload, { migrate: { control } }) {
       const { param, callback } = payload
+      dispatch({
+        type: 'migrate/updateState',
+        payload: { migrateId: param },
+      })
       const data = await synchronizationControl(param)
       if (data && data.code === 200) {
         callback && callback()

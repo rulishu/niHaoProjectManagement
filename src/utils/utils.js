@@ -182,11 +182,11 @@ export function changeDate(date) {
     const d = new Date(date)
     return (
       d.getFullYear() +
-      '-' +
+      '年' +
       changeStr(d.getMonth() + 1) +
-      '-' +
+      '月' +
       changeStr(d.getDate()) +
-      ' ' +
+      '日' +
       changeStr(d.getHours()) +
       ':' +
       changeStr(d.getMinutes()) +
@@ -238,7 +238,7 @@ export const guid = () => {
 
 //十六进制颜色正则
 export function isColor(iDCard) {
-  let cPattern = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
+  let cPattern = /^#[0-9a-fA-F]{6}$/ // /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
   return cPattern.test(iDCard)
 }
 
@@ -252,4 +252,53 @@ export function verifyPwd(phone) {
 export function isEmail(email) {
   const isReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
   return isReg.test(email)
+}
+
+// 不能输入中文/空格
+export function isChina(value) {
+  let reg = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g
+  if (reg.test(value)) {
+    return '不能有中文！！'
+  }
+  if (/\s/g.test(value)) {
+    return '不能有空格！！'
+  }
+  return true
+}
+
+// yyyy-MM-dd转换成yyyy/MM/dd
+export function convertToString(s) {
+  // eslint-disable-next-line no-useless-escape
+  return s?.replace(/\-/g, '/')
+}
+
+// @查找
+export function findall(a, x) {
+  let results = [],
+    len = a.length,
+    pos = 0
+  while (pos < len) {
+    // eslint-disable-next-line no-const-assign
+    pos = a.indexOf(x, pos)
+    if (pos === -1) {
+      //未找到就退出循环完成搜索
+      break
+    }
+    results.push(pos) //找到就存储索引
+    // eslint-disable-next-line no-const-assign
+    pos += 1 //并从下个位置开始搜索
+  }
+  return results
+}
+
+// 去除树中的空children
+export function removeEmptyChildren(node) {
+  node.forEach((item) => {
+    if ('children' in item && item.children.length === 0) {
+      delete item.children
+    } else if ('children' in item && item.children.length) {
+      removeEmptyChildren(item.children)
+    }
+  })
+  return node
 }

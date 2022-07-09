@@ -1,12 +1,12 @@
-import { Button, Divider } from 'uiw'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { history } from '@uiw-admin/router-control'
+import { Button, Divider, Loader } from 'uiw'
 
 let navigate
 const ThridLogin = () => {
   const dispatch = useDispatch()
+  const [isFullscreen, setIsFullscreen] = useState(false)
   navigate = useNavigate()
 
   const thirdLogin = () => {
@@ -18,11 +18,16 @@ const ThridLogin = () => {
 
   useEffect(() => {
     const search = window.location.search
+    console.log(search, window.location)
     if (search) {
+      setIsFullscreen(true)
       const code = search.split('code=')[1]
       dispatch({
         type: 'login/authorAndLogin',
-        payload: { code },
+        payload: {
+          param: { code },
+          callback: () => setIsFullscreen(),
+        },
       })
       // let url = window.location.href
       // url = url.replace(/(\?|#)[^'"]*/, '')
@@ -64,6 +69,13 @@ const ThridLogin = () => {
       <Button type="link" onClick={thirdLogin}>
         {gitlab}
       </Button>
+      <Loader
+        tip="第三方登录加载中..."
+        size="large"
+        bgColor="rgba(255, 255, 255, 0.9)"
+        fullscreen={isFullscreen}
+        loading={isFullscreen}
+      />
     </>
   )
 }

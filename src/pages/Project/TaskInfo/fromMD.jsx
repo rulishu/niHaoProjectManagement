@@ -24,7 +24,6 @@ const FromMD = (props) => {
     btnName,
     isComment,
     onClose,
-    isTitleErr,
   } = props
   const dispatch = useDispatch()
   const params = useParams()
@@ -40,23 +39,35 @@ const FromMD = (props) => {
           values: function (text, cb) {
             remoteSearch(queryFuzzyAllProjectMember, (users) => cb(users))
           },
-          lookup: 'memberName',
+          lookup: 'userAcount',
           noMatchTemplate: function () {
             return '<span style:"visibility: hidden;"></span>'
           },
           menuItemTemplate: function (item) {
-            return `<div style='display: flex; align-items: center;'>
-                <img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
-                  item?.original?.avatar
-                    ? `/api/file/selectFile/${item?.original?.avatar}`
-                    : ''
-                }' />
+            return `<div style='display: flex; align-items: center;'> ${
+              item?.original?.avatar
+                ? `<img style='width: 30px; height: 30px; border-radius: 50px; margin-right: 8px;' src='${
+                    item?.original?.avatar &&
+                    item?.original?.avatar.substring(0, 4) !== 'http'
+                      ? `/api/file/selectFile/${item?.original?.avatar}`
+                      : item?.original?.avatar
+                  }' />
                 <span style='font-size: 14px; font-weight: lighter;'>${
-                  item?.original?.memberName
-                }</span>
+                  item?.original?.userAcount + ' ' + item?.original?.memberName
+                }</span>`
+                : `
+              <span style='height: 30px; width: 30px; font-size: 12px; border-radius: 50px; text-align: center; background: #ccc; color: #fff; vertical-align: middle; white-space: nowrap; position: relative; overflow: hidden; display: inline-flex; justify-content: center; align-items: center; margin-right: 8px;'> ${
+                item?.original?.memberName &&
+                item?.original?.memberName.substring(0, 1)
+              }</span>
+              <span style='font-size: 14px; font-weight: lighter;'>${
+                item?.original?.userAcount + ' ' + item?.original?.memberName
+              }</span>`
+            }
+            
               </div>`
           },
-          fillAttr: 'memberName',
+          fillAttr: 'userAcount',
         },
         {
           trigger: '#',
@@ -66,7 +77,7 @@ const FromMD = (props) => {
           lookup: function (allWork) {
             return '#' + allWork.assignmentId + ' ' + allWork.assignmentTitle
           },
-          fillAttr: 'assignmentTitle',
+          fillAttr: 'assignmentId',
         },
         {
           trigger: '~',
@@ -175,6 +186,7 @@ const FromMD = (props) => {
       }
     })
   }
+
   return (
     <>
       <Form
@@ -229,9 +241,9 @@ const FromMD = (props) => {
                     <Button
                       type="primary"
                       // htmlType="submit"
-                      onClick={() => {
-                        submit()
-                        if (!isTitleErr) {
+                      onClick={async () => {
+                        const results = await submit()
+                        if (form.current && results !== false) {
                           form?.current?.setFieldValue(fromValue, '')
                         }
                       }}
@@ -240,7 +252,8 @@ const FromMD = (props) => {
                           ? false
                           : true || isComment
                           ? infoData
-                            ? editData === infoData
+                            ? JSON.stringify(editData) ===
+                              JSON.stringify(infoData)
                             : editData[fromValue] === ''
                           : false
                       }>

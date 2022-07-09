@@ -82,18 +82,26 @@ const TaskDetail = (props) => {
         return null
       })
       if (
+        taskInfo?.labels !== undefined &&
         JSON.stringify(taskInfo?.labels?.sort()) !==
-        JSON.stringify(labelIdList?.sort())
+          JSON.stringify(labelIdList?.sort())
       ) {
         dispatch.taskboard.getEdit({
           taskInfo: {
             ...taskInfo,
             labels: labels.length ? newData : [],
           },
+          projectId,
         })
       }
       return newData
     })
+  }
+
+  // 新建 里程碑
+  const createMilestone = async (formData) => {
+    const result = await dispatch.taskboard.addMilestone(formData)
+    return result
   }
 
   // 新建标签
@@ -105,7 +113,7 @@ const TaskDetail = (props) => {
         param: { ...formData, projectId },
         callback: (data) => {
           result = data
-          dispatch.labels.getAllLabelData({ projectId })
+          dispatch.taskboard.getAllLabelData({ projectId })
         },
       },
     })
@@ -130,6 +138,7 @@ const TaskDetail = (props) => {
       })
       dispatch.taskboard.changeCloseTime({
         projectId,
+        createTime: taskInfo.createTime,
         assignmentId: taskInfo.assignmentId,
         dueDate: e ? dayjs(e).format('YYYY-MM-DD') : null,
       })
@@ -380,7 +389,7 @@ const TaskDetail = (props) => {
                       replace: true,
                     })
                   }}
-                  // createTag={(_, current) => createMilestone(current)}
+                  createTag={(_, current) => createMilestone(current)}
                 />
               </div>
               <Divider />

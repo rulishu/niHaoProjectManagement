@@ -143,6 +143,16 @@ const BasicInfo = (props) => {
                   throw err
                 }
               }}
+              onChange={(initial, current) => {
+                dispatch.update({
+                  baseDetail: {
+                    ...current,
+                    deptId: current.deptId[0]?.key,
+                  },
+                  postsDataInfo: current.postIds,
+                  rolesDataInfo: current.roleIds,
+                })
+              }}
               formDatas={[
                 {
                   label: '姓名: ',
@@ -281,7 +291,7 @@ const BasicInfo = (props) => {
                   span: '12',
                   required: true,
                   // disabled: type === 1 && true,
-                  // initialValue: rolesDataInfo,
+                  initialValue: rolesDataInfo,
                   option: dropDownBox,
                   widgetProps: {
                     multiple: false,

@@ -1,7 +1,8 @@
 import { Input, DateInput, Avatar } from 'uiw'
 import Custom from './Custom'
 import styles from './template.module.less'
-
+import { ThisTime, changeTime } from '@/utils/timeDistance'
+import { isColor } from '@/utils/utils'
 // 配置 label 的模板
 const label = {
   // 数据渲染头部
@@ -78,6 +79,9 @@ const label = {
       }
       if (!current?.color) {
         errorObj.color = '请选择或输入标签背景颜色'
+      }
+      if (!isColor(current.color)) {
+        errorObj.color = '请填写正确的颜色码 示例:#b8b8b8'
       }
       return errorObj
     },
@@ -172,6 +176,7 @@ const milepost = {
           labelFor: 'date-inline',
           children: (
             <DateInput
+              placeholder="请选择开始时间"
               format="YYYY-MM-DD"
               datePickerProps={{ todayButton: '今天' }}
               popoverProps={{ usePortal: false }}
@@ -207,7 +212,10 @@ const milepost = {
         errorObj.milestonesTitle = '请输入标题,长度为2~100'
       }
       if (!startTime) {
-        errorObj.startTime = '开始时间不能为空！'
+        errorObj.startTime = '截止日期不能为空！'
+      }
+      if (startTime && changeTime(startTime) <= ThisTime()) {
+        errorObj.startTime = '截止日期不能晚于当前日期！'
       }
       return errorObj
     },

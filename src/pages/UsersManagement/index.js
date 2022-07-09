@@ -32,7 +32,7 @@ const Index = () => {
   const [activeIndex, setActiveIndex] = useState(10)
   const {
     usersManagement: { listData, total, delectVisible, type, memberInfo },
-    routeManagement: { userInfo, dataUser },
+    routeManagement: { userInfoName, dataUser },
   } = useSelector((state) => state)
   const updateData = (payload) => {
     dispatch({
@@ -53,9 +53,11 @@ const Index = () => {
   useEffect(() => {
     dispatch({
       type: 'routeManagement/getInfo',
-      payload: {
-        callback: '',
-      },
+      payload: { callback: '' },
+    })
+    dispatch({
+      type: 'routeManagement/queryFuzzyAllProjectMember',
+      payload: { projectId: projectId },
     })
     dispatch({
       type: 'usersManagement/selectPageList',
@@ -170,23 +172,38 @@ const Index = () => {
       payload,
     }).then((data) => information(data))
   }
-  const editTime = (memberTime) => {
+  const editTime = (memberTime, index) => {
+    const date = new Date().getTime()
+    const newData = memberTime.getTime()
     if (memberTime) {
-      const payload = {
-        id: memberInfo.id,
-        accessExpirationTime: formatter('YYYY-MM-DD', new Date(memberTime)),
-        memberRole: memberInfo.memberRole,
-        userId: memberInfo.userId,
-        projectId: memberInfo.projectId,
+      if (date < newData) {
+        const payload = {
+          id: listData[index].id,
+          accessExpirationTime: formatter(
+            'YYYY-MM-DD',
+            new Date(changeTime(memberTime))
+          ),
+          memberRole: listData[index].memberRole,
+          userId: listData[index].userId,
+          projectId: listData[index].projectId,
+        }
+        dispatch({
+          type: 'usersManagement/updateProjectMember',
+          payload,
+        }).then((data) => information(data))
+      } else {
+        Notify.error({ title: '到期日期不能在当前日期之前' })
       }
-      dispatch({
-        type: 'usersManagement/updateProjectMember',
-        payload,
-      }).then((data) => information(data))
     } else {
       Notify.error({ title: '授予到期时间不能为空' })
     }
   }
+
+  const disabledDate = (currentDate) => {
+    // 今天和今天之前不能选择
+    return currentDate && currentDate.valueOf() < Date.now()
+  }
+
   const roleMenu = (
     <div className={styles.dropdownMenu}>
       <ul>
@@ -212,7 +229,7 @@ const Index = () => {
   //权限设置:仅项目管理者可以邀请/编辑删除
   let memberRoles = dataUser
     ?.filter((item) => {
-      return item.memberName === userInfo
+      return item.userAcount === userInfoName
     })
     .map((a) => a.memberRole)
   return (
@@ -240,19 +257,22 @@ const Index = () => {
                   return (
                     <Row className={styles.userListItem} key={index}>
                       <Col span={userTitle && userTitle[0]?.length}>
-                        <div
-                          className={styles.userInfo}
-                          onClick={() => goPage(`${item.userName}`)}>
+                        <div className={styles.userInfo}>
                           <Avatar
                             size="small"
                             src={
-                              item?.avatar &&
-                              `/api/file/selectFile/${item?.avatar}`
+                              item.avatar?.substring(0, 4) === 'http'
+                                ? item.avatar
+                                : item.avatar?.substring(0, 4) !== 'http' &&
+                                  item.avatar !== '' &&
+                                  `/api/file/selectFile/${item.avatar}`
                             }
                             className={styles.userAvatar}>
                             {item.memberName && item.memberName[0]}
                           </Avatar>
-                          <div className={styles.userAcount}>
+                          <div
+                            className={styles.userAcount}
+                            onClick={() => goPage(`${item.userName}`)}>
                             <span>{item.memberName}</span>
                             <span>@{item.userName}</span>
                           </div>
@@ -268,11 +288,17 @@ const Index = () => {
                         </div>
                       </Col>
                       <Col span={userTitle && userTitle[2]?.length}>
-                        <Tooltip placement="top" content={item?.email}>
+                        {item.email ? (
+                          <Tooltip placement="top" content={item?.email}>
+                            {/* <div className={styles.userMail}> */}
+                            <span>{item.email}</span>
+                            {/* </div> */}
+                          </Tooltip>
+                        ) : (
                           <div className={styles.userMail}>
                             <span>{item.email}</span>
                           </div>
-                        </Tooltip>
+                        )}
                       </Col>
                       <Col span={userTitle && userTitle[3]?.length}>
                         <div className={styles.userRole}>
@@ -316,9 +342,12 @@ const Index = () => {
                               format="YYYY-MM-DD"
                               autoClose
                               allowClear={false}
+                              datePickerProps={{
+                                disabledDate: disabledDate,
+                              }}
                               onChange={(e) => {
                                 handleEditTable('edit', item)
-                                editTime(changeTime(e))
+                                editTime(e, index)
                               }}
                             />
                           ) : (
@@ -328,7 +357,8 @@ const Index = () => {
                       </Col>
                       <Col span={userTitle && userTitle[5]?.length}>
                         <div className={styles.userButton}>
-                          {userInfo === item?.memberName ? (
+                          {userInfoName === item?.userName &&
+                          item.memberRole !== 4 ? (
                             <Tooltip placement="top" content="退出项目">
                               <Button
                                 type="danger"
@@ -338,7 +368,8 @@ const Index = () => {
                               />
                             </Tooltip>
                           ) : (
-                            (owner === 'true' || Number(memberRoles) === 3) && (
+                            (owner === 'true' || Number(memberRoles) === 3) &&
+                            item.memberRole !== 4 && (
                               <Button
                                 type="danger"
                                 className={styles.userDel}

@@ -2,6 +2,26 @@ import { Icon, Button, Avatar, Loader, Empty, Row, Col } from 'uiw'
 import { useSelector } from 'react-redux'
 import timeDistance from '@/utils/timeDistance'
 import styles from './index.module.less'
+import LinkText from '@/components/LinkText'
+import { Label } from '@/components'
+import { convertToString } from '@/utils/utils'
+
+// 任务操作类型
+const dynamicType = {
+  0: '',
+  1: '操作：',
+  2: '评论：',
+}
+//标签
+const labelBox = (items, value = []) => {
+  return items?.map((item) => {
+    return (
+      <Label color={item.color} key={item?.id}>
+        {item.name}
+      </Label>
+    )
+  })
+}
 
 // 用户首页概括
 const DynamicsList = (props) => {
@@ -166,9 +186,11 @@ const DynamicsList = (props) => {
                     <div className={styles.avatar}>
                       <Avatar
                         src={
-                          user?.avatar
-                            ? `/api/file/selectFile/${user?.avatar}`
-                            : ''
+                          user.avatar?.substring(0, 4) === 'http'
+                            ? user.avatar
+                            : user.avatar?.substring(0, 4) !== 'http' &&
+                              user.avatar !== '' &&
+                              `/api/file/selectFile/${user?.avatar}`
                         }>
                         {user?.nickName && user?.nickName[0]}
                       </Avatar>
@@ -229,7 +251,107 @@ const DynamicsList = (props) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                       }}>
-                      {'评论：' + (item?.operatingRecords || '')}
+                      {item.historyType === 1 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {item.operatingRecords}
+                          <LinkText link={`${item?.projectUrl}`}>
+                            【{item?.projectName}】
+                          </LinkText>
+                        </span>
+                      ) : item.historyType === 2 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {item.operatingRecords}
+                          <LinkText
+                            link={`${item?.projectUrl}/task/taskInfo/${item.assignmentId}`}>
+                            {' '}
+                            #{item?.assignmentId}
+                          </LinkText>
+                        </span>
+                      ) : item.historyType === 3 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {item.operatingRecords} 指派给了
+                          <LinkText
+                            link={`/${item?.assignmentUserName}`}
+                            value={`@${item?.assignmentUserName}`}
+                          />
+                        </span>
+                      ) : item.historyType === 4 ? (
+                        <span>
+                          {' '}
+                          {dynamicType[item.type]} {item.operatingRecords}{' '}
+                          指派人取消了
+                        </span>
+                      ) : item.historyType === 5 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {item.operatingRecords}
+                          <LinkText
+                            link={`${item?.projectUrl}/milestone/milestoneInfo/${item.milestonesId}`}
+                            value={`${item.milestonesTitle}`}
+                          />
+                        </span>
+                      ) : item.historyType === 6 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {item.operatingRecords}
+                          <LinkText
+                            link={`${item?.projectUrl}/milestone/milestoneInfo/${item.milestonesId}`}
+                            value={`${item.milestonesTitle}`}
+                          />
+                        </span>
+                      ) : item.historyType === 7 ? (
+                        <span>
+                          {dynamicType[item.type]}
+                          {convertToString(item.operatingRecords)}
+                          {/* {item.dueDate} */}
+                        </span>
+                      ) : item.historyType === 8 ? (
+                        <span>
+                          {' '}
+                          {dynamicType[item.type]} {item.operatingRecords}
+                          截止日期移除了
+                        </span>
+                      ) : item.historyType === 9 ? (
+                        <span>
+                          {' '}
+                          {dynamicType[item.type]} {item.operatingRecords}
+                          <span className={styles.labelBox}>
+                            {labelBox(item?.labelsInfo)}
+                          </span>
+                          标签{' '}
+                        </span>
+                      ) : item.historyType === 10 ? (
+                        <span>
+                          {' '}
+                          {dynamicType[item.type]} {item.operatingRecords}标签{' '}
+                        </span>
+                      ) : item.historyType === 11 ? (
+                        <span>
+                          {item.type === 3 ? '回复:' : '评论:'}
+                          {item.operatingRecords}
+                          {/* 1:记录 2:评论 3:回复 */}
+                        </span>
+                      ) : item.historyType === 12 ||
+                        item.historyType === 13 ||
+                        item.historyType === 14 ||
+                        item.historyType === 15 ||
+                        item.historyType === 16 ? (
+                        <span>
+                          {' '}
+                          {dynamicType[item.type]} {item.operatingRecords}
+                          <LinkText
+                            link={`${item?.projectUrl}/task/taskInfo/${item.assignmentId}`}>
+                            {' '}
+                            #{item?.assignmentId}
+                          </LinkText>
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {/* {dynamicType[item.type] + (item?.operatingRecords || '')} */}
                     </div>
                   </li>
                 )

@@ -150,16 +150,6 @@ export default function Index() {
               align: 'center',
             },
             {
-              title: '创建人',
-              key: 'createName',
-              align: 'center',
-            },
-            {
-              title: '更新人',
-              key: 'updateName',
-              align: 'center',
-            },
-            {
               title: '团队描述',
               key: 'teamDes',
               align: 'center',
@@ -187,6 +177,11 @@ export default function Index() {
             {
               title: '创建时间',
               key: 'createTime',
+              align: 'center',
+            },
+            {
+              title: '更新人',
+              key: 'updateName',
               align: 'center',
             },
             {

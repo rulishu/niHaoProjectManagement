@@ -5,7 +5,7 @@ import {
   editTaskAssign, // 更改任务指派人
   editTaskCloseTime, // 更改任务关闭时间
   editTaskLabel, // 更改任务标签
-  // countAssignment, // 任务状态统计
+  countAssignment, // 任务状态统计
   // delBatchTake, // 批量删除
   // addTaskList, // 任务列表新增
   editTaskList, // 任务列表编辑
@@ -27,16 +27,26 @@ import {
 export default createModel()({
   name: 'projectTasks',
   state: {
+    searchValue: '',
     searchOptions: {
+      // code: '1',
       page: 1,
       pageSize: 10,
-      assignmentStatus: '1',
+      // assignmentStatus: '1',
       createId: [], // 创建人
       labels: [], // 标签
       milestonesId: [], // 里程碑
       assignmentUserId: [], // 指派人
-      orderByColumn: 'assignmentTitle',
-      isAsc: 'asc',
+      orderByColumn: 'createTime',
+      isAsc: 'desc',
+    },
+    isOnSearch: false,
+    taskNum: {
+      all: 0, // 所有任务数
+      completed: 0, //
+      noGoing: 0, //
+      onGoing: 0, //
+      withoutTime: 0, //
     },
     taskListData: [],
     taskListDataTotal: 0,
@@ -120,8 +130,9 @@ export default createModel()({
         const { projectId, assignmentId } = taskInfoData
         const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
         const newTaskInfoData = { ...taskInfoData, ...editTaskFromData }
-        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData))
+        if (JSON.stringify(taskInfoData) === JSON.stringify(newTaskInfoData)) {
           return false
+        }
         const data = await editTaskList({
           ...editTaskFromData,
           ...params,
@@ -165,8 +176,12 @@ export default createModel()({
       async addTaskComment(payload, { projectTasks }) {
         const { projectId, assignmentId } = projectTasks.taskInfoData
         const { getTaskDetailsDataUnCheck, update } = dispatch.projectTasks
-        const { params, callback } = payload
-        const data = await addTaskComment({ type: 2, projectId, ...params })
+        const { params, callback, isType } = payload
+        const data = await addTaskComment({
+          type: isType,
+          projectId,
+          ...params,
+        })
         if (data && data.code === 200) {
           getTaskDetailsDataUnCheck({ projectId, id: assignmentId })
           update({
@@ -261,19 +276,36 @@ export default createModel()({
         }
       },
 
+      // 任务状态统计
+      async countAssignment(payload, { projectTasks }) {
+        const {
+          searchOptions: { createId, labels, milestonesId, assignmentUserId },
+        } = projectTasks
+        const params = { createId, labels, milestonesId, assignmentUserId }
+        const data = await countAssignment({ ...params, ...payload })
+        if (data && data.code === 200) {
+          dispatch({
+            type: 'projectTasks/update',
+            payload: {
+              taskNum: data.data,
+            },
+          })
+        }
+      },
+
       // 清除
       clean() {
         dispatch.projectTasks.update({
           searchOptions: {
             page: 1,
             pageSize: 10,
-            assignmentStatus: '1',
+            // assignmentStatus: '1',
             createId: [], // 创建人
             labels: [], // 标签
             milestonesId: [], // 里程碑
             assignmentUserId: [], // 指派人
             orderByColumn: 'assignmentTitle',
-            isAsc: 'asc',
+            isAsc: 'desc',
           },
         })
       },

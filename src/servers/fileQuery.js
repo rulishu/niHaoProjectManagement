@@ -22,7 +22,7 @@ export const selectFilePathById = (params) => {
 
 // 根据uuid查询文件路径
 export const downloadFilePathById = (params) => {
-  console.log('=====>>>', params.uuid)
+  // console.log('=====>>>', params.uuid)
   // const token = localStorage.getItem('token')
   return request(`/api/file/download/${params?.uuid}`, {
     method: 'GET',

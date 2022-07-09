@@ -72,10 +72,10 @@ const login = createModel()({
         const userData = await getInfo()
         sessionStorage.setItem(
           'userName',
-          JSON.stringify(userData?.user.userName)
+          JSON.stringify(userData?.user?.userName)
         )
-        sessionStorage.setItem('userAccount', userData?.user.userName)
-        localStorage.setItem('userAccount', userData?.user.userName)
+        sessionStorage.setItem('userAccount', userData?.user?.userName)
+        localStorage.setItem('userAccount', userData?.user?.userName)
         localStorage.setItem('userData', JSON.stringify(userData?.user || {}))
         let roleAuth = []
         data?.data?.menus.forEach((item) => {
@@ -131,7 +131,8 @@ const login = createModel()({
     },
 
     //第三方登录
-    async authorAndLogin(param) {
+    async authorAndLogin(payload) {
+      const { param, callback } = payload
       const data = await authorAndLogin(param)
       if (data && data.code === 200) {
         localStorage.setItem('token', data.data.token)
@@ -140,15 +141,16 @@ const login = createModel()({
         window.location.href = `/#/dashboard`
         if (localStorage.getItem('token')) {
           history.push(`/dashboard`)
+          await dispatch({
+            type: 'routeManagement/getRouters',
+            payload: {
+              callback: (data) =>
+                localStorage.setItem('routes', JSON.stringify(data)),
+            },
+          })
         }
-        dispatch({
-          type: 'routeManagement/getRouters',
-          payload: {
-            callback: (data) =>
-              localStorage.setItem('routes', JSON.stringify(data)),
-          },
-        })
       }
+      callback && callback(false)
     },
 
     //注册新用户

@@ -61,6 +61,9 @@ const NewEditLabel = (props) => {
         onSubmit={async ({ initial, current }) => {
           const errorObj = {}
           const { name, desc, color } = current
+          if (name.trim() === '') {
+            errorObj.name = '请输入正确的标题'
+          }
           if (!name || name.length < 2 || name.length > 64) {
             errorObj.name = '请输入标题,长度为2~64'
           }
@@ -71,7 +74,7 @@ const NewEditLabel = (props) => {
             errorObj.color = '颜色必填'
           }
           if (!isColor(color)) {
-            errorObj.color = '请填写正确的颜色码'
+            errorObj.color = '请填写正确的颜色码 示例:#b8b8b8'
           }
           if (Object.keys(errorObj).length > 0) {
             const err = new Error()

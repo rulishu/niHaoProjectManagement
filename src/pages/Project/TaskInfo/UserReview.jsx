@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import MarkdownPreview from '@uiw/react-markdown-preview'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Avatar, Button, Tooltip, Modal } from 'uiw'
 import FromMD from './fromMD'
 import styles from './taskEvent.module.less'
 import timeDistance from '@/utils/timeDistance'
+// import LinkText from '@/components/LinkText'
 
 const UserReview = (props) => {
+  const navigate = useNavigate()
+  const params = useParams()
   const dispatch = useDispatch()
+  const { projectId, userAccount } = params
   const {
     projectuser: { userSelectAllList },
+    milestone: { milepostaData },
+    labels: { listData },
     projectTasks: { replyConData, taskInfoData, editCommentData },
   } = useSelector((state) => state)
   const curUser = JSON.parse(localStorage.getItem('userData'))
@@ -81,7 +88,7 @@ const UserReview = (props) => {
         : {}
     dispatch({
       type: action,
-      payload: { params, callback },
+      payload: { params, callback, isType: 3 },
     })
   }
 
@@ -100,7 +107,7 @@ const UserReview = (props) => {
               ? 'editCommentData'
               : 'commentData'
           }
-          editData={newEditData}
+          editData={editType === 2 ? newEditData : ''}
           fromValue="operatingRecords"
           btnName={editOrReply === 1 ? '回复' : '保存'}
           tributeList={userSelectAllList}
@@ -111,12 +118,123 @@ const UserReview = (props) => {
       </div>
     )
   }
+  const parsingMdValue = (value) => {
+    let newValue = ` ${value} `
+    // type:1 人员 ，2 任务，3 里程碑 ，4 标签
+    const taskInfoObj = {
+      people: {
+        className: styles.styleP,
+        type: 1,
+        regExp: /@(?<people>.*?)\s/g,
+        tag: '@',
+      },
+      task: {
+        className: styles.styleP,
+        type: 2,
+        regExp: /#(?<task>\d{4}?)\s/g,
+        tag: '#',
+      },
+      milestone: {
+        className: styles.styleP,
+        type: 3,
+        regExp: /%(?<milestone>.*?)\s/g,
+        tag: '%',
+      },
+      label: {
+        className: styles.mdLabel,
+        type: 4,
+        regExp: /~(?<label>.*?)\s/g,
+        tag: '~',
+      },
+    }
+    Object?.entries(taskInfoObj)?.forEach((item) => {
+      if (value?.match(item[1]?.regExp)?.length) {
+        for (const eveyValue of newValue?.matchAll(item?.at(1).regExp)) {
+          const name = eveyValue?.groups[item[0]]
+          const tag = item[1].tag
+          const type = item[1].type
+          const className = item[1].className
+          let notClick = false
+          let id = 0
+          // const isNum = (/(^[1-9]\d*$)/.test(name))
+          // if (item[0] === 'task'&& !isNum) {
+          //   return name
+          // }
+          if (item[0] === 'milestone') {
+            id = milepostaData?.filter((item) => {
+              return item?.milestonesTitle === name
+            })[0]?.milestonesId
+            notClick = id === 0
+          }
+          if (item[0] === 'people') {
+            notClick = !userSelectAllList?.filter(
+              (item) => item?.userAcount === name
+            ).length
+          }
+          let labelColor = ''
+          if (item[0] === 'label') {
+            labelColor = listData?.filter((item) => {
+              return item?.name === name
+            })[0]?.color
+            newValue = newValue?.replace(
+              tag + name + ' ',
+              `<span style="background-color:${labelColor}" className=${className}>${name}</span>`
+            )
+            // return newValue
+          }
+          if (item[0] !== 'label' && !notClick) {
+            newValue = newValue?.replace(
+              tag + name + ' ',
+              `<span 
+              className=${className}
+              data-type=${type} 
+              data-value=${item[0] === 'milestone' ? id : name}>
+               ${item[0] === 'label' ? name : tag + name}
+            </span>`
+            )
+          }
+        }
+      }
+    })
+    return newValue
+  }
 
+  const mdClick = (e) => {
+    const type = e?.target?.dataset?.type
+    const value = e?.target?.dataset?.value
+    const typeObj = {
+      1: { link: `/${value?.trim()}` },
+      2: { link: `/${userAccount}/${projectId}/task/taskInfo/${value}` },
+      3: {
+        link: `/${userAccount}/${projectId}/milestone/milestoneInfo/${value}`,
+      },
+      4: { link: '/', noGo: true },
+    }
+
+    if (type && !typeObj[type]?.noGo) {
+      navigate(`${typeObj[type].link.trim()}`)
+      if (+type === 2 || +type === 3) {
+        window.location.reload()
+      }
+    }
+  }
   // 显示MD文档
   const showMDBox = (data) => {
+    // const atPerson=data?.match(/@(\S*) /)?.at(1)
+    // const datsas= userSelectAllList?.filter(function(item){
+    //   return data?.includes(item?.memberName);
+    // })
+
+    // onClick={()=>{  navigate(`/${atPerson}`) }}
     return (
-      <div data-color-mode="light" style={{ flex: 1 }}>
-        <MarkdownPreview source={data || ''} style={{ width: '100%' }} />
+      <div
+        data-color-mode="light"
+        style={{ flex: 1 }}
+        onClick={(e) => mdClick(e)}>
+        <MarkdownPreview
+          source={parsingMdValue(data) || ''}
+          className={styles.textTitle}
+        />
       </div>
     )
   }
@@ -125,14 +243,21 @@ const UserReview = (props) => {
     <div className={styles.eventLiBox} key={item?.taskHistoryId}>
       <div className={styles.eventLiIcon}>
         <Avatar
-          src={item?.avatar ? `/api/file/selectFile/${item?.avatar}` : ''}>
+          src={
+            item.avatar?.substring(0, 4) === 'http'
+              ? item.avatar
+              : item.avatar?.substring(0, 4) !== 'http' &&
+                item.avatar !== '' &&
+                `/api/file/selectFile/${item?.avatar}`
+          }>
           {item?.nickName && item?.nickName[0]}
         </Avatar>
       </div>
       <div className={styles.eventLiContent}>
         <div className={styles.messageHeader}>
           <div className={styles.info}>
-            {item?.createName}
+            {item?.nickName}
+            {/* createName 变成实时更新的 nickName */}
             <span style={{ color: '#666' }}> @{item?.userName} </span>·{' '}
             <span style={{ color: '#666' }}>
               {timeDistance(item?.createTime).time}

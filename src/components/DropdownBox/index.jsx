@@ -20,7 +20,6 @@ const DropdownBox = (props) => {
     isSearchBox = true, // 是否显示搜索框
     isSelectClose = true, // 选择后是关闭组件
   } = props
-
   // 弹窗是否显示
   const [isOpen, setIsOpen] = useState(false)
 
@@ -40,7 +39,6 @@ const DropdownBox = (props) => {
     setOptions(selectData || [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectData])
-
   // 点击选择触发
   const optionEvent = (key) => {
     const exists = options?.includes(key)
@@ -61,7 +59,6 @@ const DropdownBox = (props) => {
       setIsOpen(false)
     }
   }
-
   const inputSearch = (value) => {
     const newData = value
       ? listData?.filter((item) => {

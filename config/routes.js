@@ -108,7 +108,7 @@ const routes = [
             component: '@/pages/Project/Task',
             navigate: (navigate, location) => {
               const id = sessionStorage.getItem('projectId')
-              navigate(`/tissue/${id}/task?2`)
+              navigate(`/tissue/${id}/task`)
             },
             isAuth: true,
           },
@@ -124,7 +124,7 @@ const routes = [
                 component: '@/pages/Project/Task',
                 isAuth: true,
                 navigate:
-                  "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/task?2`)}",
+                  "(navigate) => {navigate(`/tissue/${sessionStorage.getItem('projectId')}/task`)}",
               },
               {
                 path: '/tissue/:projectId/taskBoard',
@@ -242,7 +242,7 @@ const routes = [
             navigate: (navigate, location) => {
               const userId = sessionStorage.getItem('userAccount')
               const id = sessionStorage.getItem('projectId')
-              navigate(`/${userId}/${id}/task?2`)
+              navigate(`/${userId}/${id}/task`)
             },
             isAuth: true,
           },
@@ -262,7 +262,7 @@ const routes = [
             hideInMenu: true,
             routes: [
               {
-                path: '/:userAccount/:projectId/task?2',
+                path: '/:userAccount/:projectId/task',
                 name: '任务列表',
                 component: '@/pages/Project/Task',
                 isAuth: true,
@@ -329,6 +329,15 @@ const routes = [
             ],
           },
         ],
+      },
+      {
+        path: '/organizeList',
+        name: '组织',
+        hideInMenu: true,
+        hiddenMainMenu: true,
+        isAuth: false,
+        component: '@/pages/OrganizeList',
+        navigate: '(navigate) => {navigate(`/organizeList',
       },
       {
         path: '/Authority',

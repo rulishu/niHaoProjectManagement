@@ -85,6 +85,14 @@ const Bread = (props) => {
       ) : (
         domList?.map((item, index) => {
           const { path, name } = item
+          if (path === '/Authority') {
+            return (
+              <Breadcrumb.Item key={index} style={{ marginRight: -6 }}>
+                {' '}
+                {name}
+              </Breadcrumb.Item>
+            )
+          }
           if (
             path !== '/projectList' &&
             path !== '/dashboard' &&

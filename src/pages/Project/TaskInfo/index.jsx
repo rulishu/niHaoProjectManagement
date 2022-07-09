@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import FromMD from './fromMD'
 import useLocationPage from '@/hooks/useLocationPage'
 import TaskEvent from './TaskEvent'
+import { changeDate } from '@/utils/utils'
 
 const TaskInfo = () => {
   const dispatch = useDispatch()
@@ -18,7 +19,6 @@ const TaskInfo = () => {
   useLocationPage()
   const {
     projectTasks: { issueType, taskInfoData, editTaskFromData },
-    allusers: { uuid },
     loading,
   } = useSelector((state) => state)
   const [isTitleErr, serIsTitleErr] = useState(false)
@@ -49,20 +49,24 @@ const TaskInfo = () => {
     updateData({ issueType: type })
   }
   const goStateIssue = async (e) => {
-    const { assignmentId, assignmentTitle, description } = editTaskFromData
+    let taskState = ''
+    if (e === 3) {
+      taskState = '关闭'
+    } else if (e === 1) {
+      taskState = '打开'
+    }
     updateData({
-      editFromData: {
-        assignmentId,
-        assignmentTitle,
-        description,
+      taskInfoData: {
+        ...taskInfoData,
         assignmentStatus: e,
       },
     })
-    const result = await dispatch.project.getEdit({
-      fileId: uuid ? [uuid] : editTaskFromData.fileId,
-      projectId: projectId,
+    const { assignmentId } = editTaskFromData
+    dispatch.taskboard.changeAssignmentStatus({
+      projectId,
+      assignmentId,
+      type: taskState,
     })
-    result && e === 3 && dispatch.routeManagement.getInfo({})
   }
 
   const steInputChange = (e) => {
@@ -83,13 +87,12 @@ const TaskInfo = () => {
       editTaskFromData.assignmentTitle.length > 100
     ) {
       serIsTitleErr(true)
-      return
+      return false
     }
-    if (editTaskFromData.description.length > 300) {
-      return
-    }
+    // if (editTaskFromData.description.length > 300) {
+    //   return
     serIsTitleErr(false)
-    dispatch.projectTasks.editTaskList({ projectId })
+    await dispatch.projectTasks.editTaskList({ projectId })
   }
 
   // 返回
@@ -126,7 +129,8 @@ const TaskInfo = () => {
                     }
                   </Button>
                   <span className={styles.title}>
-                    {taskInfoData?.createTime} 创建于 {taskInfoData?.createName}
+                    由{taskInfoData?.createName}创建于
+                    {changeDate(taskInfoData?.createTime)}
                   </span>
                 </div>
                 <div>
@@ -184,7 +188,11 @@ const TaskInfo = () => {
                     submit={goSaveIssue}
                     editName={'editTaskFromData'}
                     editData={editTaskFromData}
-                    infoData={taskInfoData}
+                    infoData={{
+                      assignmentId: taskInfoData.assignmentId,
+                      assignmentTitle: taskInfoData.assignmentTitle,
+                      description: taskInfoData.description,
+                    }}
                     fromValue={'description'}
                     btnName="保存编辑"
                     onClose={() => goEditIssue('cancel')}

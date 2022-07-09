@@ -127,6 +127,9 @@ const NewMilestone = () => {
           const errorObj = {}
           const { milestonesTitle, startTime, milestonesDesc, dueTime } =
             current
+          if (milestonesTitle.trim() === '') {
+            errorObj.milestonesTitle = '请输入正确的标题'
+          }
           if (
             !milestonesTitle ||
             milestonesTitle.length < 2 ||

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isEmail } from '@/utils/utils'
 import { useRef, useState } from 'react'
 import debounce from '@/utils/debounce'
+import styles from './index.module.less'
 
 const Register = () => {
   const form = useRef()
@@ -20,9 +21,17 @@ const Register = () => {
     })
   }
   const [arr, setArr] = useState(0)
+  const copyRight = () => (
+    <div className={styles.copyRight}>
+      上海尼好系统集成有限公司&nbsp;&nbsp; Shanghai Ni Hao System Integration
+      Co., Ltd.&nbsp;&nbsp; 税 号:913102300764281266&nbsp;&nbsp;
+      地址:上海市青浦区明珠路1018号e通世界双子楼B座508室&nbsp;&nbsp;
+      电话:021-61112686
+    </div>
+  )
 
   return (
-    <UserLogin projectName={'新用户注册'} logo="">
+    <UserLogin projectName={'新用户注册'} footer={copyRight()} logo="">
       <Form
         ref={form}
         onSubmit={({ current }) => {
@@ -56,7 +65,7 @@ const Register = () => {
             errorObj.secondPassword = `密码不一致！`
           }
           if (!current.email) errorObj.email = `邮箱不能为空！`
-          if (!isEmail(current.email)) {
+          if (!isEmail(current.email) || arr !== 3) {
             errorObj.email = `请输入正确的邮箱`
           }
           if (Object.keys(errorObj).length > 0) {

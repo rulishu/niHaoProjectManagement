@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Modal, Table, Checkbox, Tree, Card, Row, Col, Button } from 'uiw'
+import {
+  Modal,
+  Table,
+  Checkbox,
+  TreeChecked,
+  Card,
+  Row,
+  Col,
+  Button,
+} from 'uiw'
 import { useSelector, useDispatch } from 'react-redux'
+import { removeEmptyChildren } from '@/utils/utils'
 
 const AddUser = () => {
   const dispatch = useDispatch()
@@ -116,10 +126,10 @@ const AddUser = () => {
           onChange={(e, data) => onChange(e, data)}>
           {teamMemberList.map((item, idx) => (
             <Checkbox
-              style={{ width: 150, marginBottom: 5 }}
+              style={{ width: 300, marginBottom: 5 }}
               key={idx}
               value={item.value}>
-              {item.label}
+              {item.label}@{item.account}
             </Checkbox>
           ))}
         </Checkbox.Group>
@@ -142,10 +152,10 @@ const AddUser = () => {
           onChange={(e, data) => onChange1(e, data)}>
           {teamData.map((item, idx) => (
             <Checkbox
-              style={{ width: 150, marginBottom: 5 }}
+              style={{ width: 300, marginBottom: 5 }}
               key={idx}
               value={item.value}>
-              {item.label}
+              {item.label}@{item.account}
             </Checkbox>
           ))}
         </Checkbox.Group>
@@ -192,6 +202,7 @@ const AddUser = () => {
       })
     }
   }
+
   return (
     <Modal
       title="分组用户管理"
@@ -209,8 +220,8 @@ const AddUser = () => {
         <Row gutter={10}>
           <Col fixed>
             <Card title="部门结构" noHover={true}>
-              <Tree
-                data={arrLeverTop}
+              <TreeChecked
+                data={removeEmptyChildren(arrLeverTop)}
                 showLine
                 icon={(data, { isOpen, noChild }) => {
                   if (noChild) {

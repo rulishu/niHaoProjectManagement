@@ -3,6 +3,7 @@ import { Row, Col, Card, Tabs, Button, Tag, Tooltip } from 'uiw'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
+import { convertToString } from '@/utils/utils'
 
 export default function TableManage() {
   const [tab, setTab] = useState(1)
@@ -51,6 +52,7 @@ export default function TableManage() {
             {
               title: '任务标题',
               key: 'assignmentTitle',
+              align: 'center',
               width: 200,
               ellipsis: true,
               render: (address) => (
@@ -66,7 +68,8 @@ export default function TableManage() {
             {
               title: '项目名称',
               key: 'name',
-              width: 200,
+              align: 'center',
+              // width: 200,
               ellipsis: true,
               render: (name) => (
                 <Tooltip placement="topLeft" content={name}>
@@ -77,6 +80,8 @@ export default function TableManage() {
             {
               title: '任务状态',
               key: 'assignmentStatus',
+              align: 'center',
+              width: 80,
               render: (text) => {
                 if (text === 1) {
                   return <Tag color="#F95C2B">未开始</Tag>
@@ -92,14 +97,21 @@ export default function TableManage() {
             {
               title: '指派人',
               key: 'assigneeUserName',
+              align: 'center',
+              // width: 100,
             },
             {
               title: '创建人',
               key: 'createName',
+              align: 'center',
+              // width: 100,
             },
             {
               title: '截止时间',
               key: 'dueDate',
+              align: 'center',
+              // width: 200,
+              render: (text) => <div>{text && convertToString(text)}</div>,
             },
           ]}
         />

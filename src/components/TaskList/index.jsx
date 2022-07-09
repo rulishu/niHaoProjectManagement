@@ -1,68 +1,32 @@
-import { useState } from 'react'
-import { Icon, Tooltip, Avatar } from 'uiw'
+import { Icon, Tooltip, Avatar, Empty } from 'uiw'
 import timeDistance from '@/utils/timeDistance'
 import { useNavigate } from 'react-router-dom'
-import { DropdownBox } from '@/components'
+import { Label } from '@/components'
+import ListHead from './ListHead'
 
 import styles from './index.module.less'
 
 const TaskList = (props) => {
   const navigate = useNavigate()
   const {
-    listData = [],
-    labelsData = [],
-    onCLickSearch,
-    listNavigate,
-    labelsListData,
-    teamMembersListData,
-    milestonesListData,
-    conditionChange,
-    searchOptions,
-    activeKey,
+    listData = [], // 数据源
+    labelsData = [], // 标签数据源
+    listNavigate, // 标题跳转
+    labelsListData, // 标签数据源
+    teamMembersListData, // 指派人数据源
+    milestonesListData, // 里程碑数据源
+    conditionChange, // 选项变化触发回调
+    searchOptions, // 搜索事件配置
+    activeKey, // 状态初始值
+    taskNum,
   } = props
-
-  const [onTab, setOnTab] = useState(activeKey || '1')
 
   // 任务状态
   const taskState = [
-    { onTab: '1', color: '#d99156', title: '未开始', icon: 'plus-circle-o' },
-    { onTab: '2', color: '#fbb957', title: '进行中', icon: 'circle-o' },
-    { onTab: '3', color: '#41b349', title: '已完成', icon: 'circle-check-o' },
-    { onTab: '4', color: '#813c85', title: '已逾期', icon: 'circle-close-o' },
-  ]
-
-  // 任务排序
-  const taskSort = [
-    {
-      key: 1,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'asc' },
-      label: '名称升序',
-    },
-    {
-      key: 2,
-      value: { orderByColumn: 'assignmentTitle', isAsc: 'desc' },
-      label: '名称降序',
-    },
-    {
-      key: 3,
-      value: { orderByColumn: 'createTime', isAsc: 'asc' },
-      label: '创建时间升序',
-    },
-    {
-      key: 4,
-      value: { orderByColumn: 'createTime', isAsc: 'desc' },
-      label: '创建时间降序',
-    },
-    {
-      key: 5,
-      value: { orderByColumn: 'updateTime', isAsc: 'asc' },
-      label: '更新时间升序',
-    },
-    {
-      key: 6,
-      value: { orderByColumn: 'updateTime', isAsc: 'desc' },
-      label: '更新时间降序',
-    },
+    { onTab: '1', color: '#a7a8bd', title: '未开始', icon: 'minus-circle-o' },
+    { onTab: '2', color: '#1a7f37', title: '进行中', icon: 'circle-o' },
+    { onTab: '3', color: '#8250df ', title: '已完成', icon: 'circle-check-o' },
+    { onTab: '4', color: '#cf222e', title: '已逾期', icon: 'circle-close-o' },
   ]
 
   // 跳转路径
@@ -75,36 +39,20 @@ const TaskList = (props) => {
     navigate(`/${value}`)
   }
 
-  // 选项变化回调
-  const optionsChange = (value) => {
-    // const param = { [type]: value }
-    conditionChange && conditionChange({ ...value })
-  }
-
   // 标签板块
   const labelBox = (value = []) => {
     return labelsData?.map((item) => {
       if (value?.includes(item?.id)) {
         return (
-          <span
+          <Label
+            color={item.color}
             key={item?.id}
-            style={{
-              paddingLeft: 8,
-              paddingRight: 8,
-              borderColor: item.color,
-              backgroundColor: `${item.color}40`,
-              color: item.color,
-            }}
-            className={styles.label}
             onClick={() => {
-              onCLickSearch &&
-                onCLickSearch('labels', {
-                  value: item.id,
-                  label: item.name,
-                })
+              conditionChange &&
+                conditionChange({ labels: [item?.id] }, item?.id, 2)
             }}>
             {item.name}
-          </span>
+          </Label>
         )
       }
       return null
@@ -117,152 +65,93 @@ const TaskList = (props) => {
       <div className={styles.list}>
         <ul>
           <li className={styles.liHead}>
-            <div className={styles.itemLeft}>
-              <p>
-                {taskState.map((item, index) => {
-                  return (
-                    <span
-                      key={index}
-                      className={`${styles.clickableDiscolor}  
-                      ${item.onTab === onTab ? styles.action : ''}`}
-                      style={{ color: item.color }}
-                      onClick={() => {
-                        setOnTab(item.onTab)
-                        optionsChange({ assignmentStatus: item.onTab })
-                      }}>
-                      <Icon type={item.icon} />
-                      {item.title}
-                    </span>
-                  )
-                })}
-              </p>
-            </div>
-            <div className={styles.itemRight}>
-              <DropdownBox
-                listData={teamMembersListData}
-                title="创建人"
-                columnType="member"
-                columnKey="userId"
-                searchValue={['memberName', 'userAcount']}
-                onSelect={(value) => optionsChange({ createId: value })}>
-                <span className={styles.clickableDiscolor}>
-                  创建人
-                  <Icon type="down" />
-                </span>
-              </DropdownBox>
-              <DropdownBox
-                listData={labelsListData}
-                title="标签"
-                columnType="label"
-                columnKey="id"
-                searchValue={['name']}
-                selectData={searchOptions.labels}
-                onSelect={(value) => optionsChange({ labels: value })}>
-                <span className={styles.clickableDiscolor}>
-                  标签
-                  <Icon type="down" />
-                </span>
-              </DropdownBox>
-              <DropdownBox
-                listData={milestonesListData}
-                title="里程碑"
-                columnType="milestone"
-                columnKey="milestonesId"
-                searchValue={['milestonesTitle']}
-                selectData={searchOptions.milestonesId}
-                onSelect={(value) => optionsChange({ milestonesId: value })}>
-                <span className={styles.clickableDiscolor}>
-                  里程碑
-                  <Icon type="down" />
-                </span>
-              </DropdownBox>
-              <DropdownBox
-                listData={teamMembersListData}
-                title="指派人"
-                columnType="member"
-                columnKey="userId"
-                searchValue={['memberName', 'userAcount']}
-                onSelect={(value) =>
-                  optionsChange({ assignmentUserId: value })
-                }>
-                <span className={styles.clickableDiscolor}>
-                  指派人
-                  <Icon type="down" />
-                </span>
-              </DropdownBox>
-              <DropdownBox
-                listData={taskSort}
-                title="排序"
-                columnType="sort"
-                columnKey="key"
-                isRadio={true}
-                isCancel={false}
-                isSearchBox={false}
-                selectData={[1]}
-                onSelect={(_, key) => {
-                  optionsChange(taskSort.filter((s) => s.key === key)[0].value)
-                }}>
-                <span className={styles.clickableDiscolor}>
-                  排序
-                  <Icon type="down" />
-                </span>
-              </DropdownBox>
-            </div>
+            <ListHead
+              taskState={taskState}
+              labelsListData={labelsListData}
+              teamMembersListData={teamMembersListData}
+              milestonesListData={milestonesListData}
+              conditionChange={conditionChange}
+              searchOptions={searchOptions}
+              activeKey={activeKey}
+              taskNum={taskNum}
+            />
           </li>
-          {listData.map((item) => {
-            return (
-              <li key={item.assignmentId}>
-                <div className={styles.itemState}>
-                  {
-                    <Icon
-                      type={taskState[item.assignmentStatus - 1].icon}
-                      style={{
-                        fill: taskState[item.assignmentStatus - 1].color,
-                      }}
-                    />
-                  }
-                </div>
-                <div className={styles.itemLeft}>
-                  <div className={styles.itemLeftTop}>
-                    <p onClick={() => listGoTo(item)}>{item.assignmentTitle}</p>
+          {listData.length !== 0 ? (
+            listData.map((item) => {
+              return (
+                <li key={item.assignmentId}>
+                  <div className={styles.itemState}>
+                    {
+                      <Icon
+                        type={taskState[item.assignmentStatus - 1].icon}
+                        style={{
+                          fill: taskState[item.assignmentStatus - 1].color,
+                        }}
+                      />
+                    }
                   </div>
-                  <div className={styles.itemLeftBase}>
-                    <span className={styles.mark}>#{item.assignmentId}</span>
-                    <span className={styles.updateTime}>
-                      · 创建于{timeDistance(item.createTime).time}前
-                    </span>
-                    由
-                    <span
-                      className={styles.clickable}
-                      onClick={() => goPage(`${item.assigneeUserAccount}`)}>
-                      {item?.updateName}
-                    </span>
-                    {item.milestonesId ? (
-                      <span
-                        className={styles.clickable}
-                        onClick={() => {
-                          onCLickSearch &&
-                            onCLickSearch('milestonesId', {
-                              value: item.milestonesId,
-                              label: item.milestonesTitle,
-                            })
-                        }}>
-                        <Icon type="coffee" />
-                        {item?.milestonesTitle}
+                  <div className={styles.itemLeft}>
+                    <div className={styles.itemLeftTop}>
+                      <p onClick={() => listGoTo(item)}>
+                        {item.assignmentTitle}
+                      </p>
+                      <span className={styles.labelBox}>
+                        {labelBox(item?.labels)}
                       </span>
-                    ) : (
-                      ''
-                    )}
-                    <span className={styles.labelBox}>
-                      {labelBox(item?.labels)}
-                    </span>
+                    </div>
+                    <div className={styles.itemLeftBase}>
+                      <span className={styles.mark}>
+                        #{item.assignmentId}&ensp;
+                      </span>
+                      由
+                      {item?.createTime === item?.updateTime ? (
+                        <>
+                          <span
+                            className={styles.clickable}
+                            // style={{ paddingLeft: 5 }}
+                            onClick={() => goPage(`${item.createUserAccount}`)}>
+                            {item?.createUserNickName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            创建于{timeDistance(item.createTime).time}前&ensp;
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span
+                            className={styles.clickable}
+                            // style={{ paddingLeft: 5 }}
+                            onClick={() => goPage(`${item.updateUserName}`)}>
+                            {item?.updateName}
+                          </span>
+                          <span className={styles.updateTime}>
+                            更新于{timeDistance(item.updateTime).time}前&ensp;
+                          </span>
+                        </>
+                      )}
+                      {item.milestonesId ? (
+                        <span
+                          className={`${styles.clickable} ${styles.milestone}`}
+                          onClick={() => {
+                            conditionChange &&
+                              conditionChange(
+                                { milestonesId: [item?.milestonesId] },
+                                item?.milestonesId,
+                                2
+                              )
+                          }}>
+                          <Icon type="coffee" />
+                          {item?.milestonesTitle}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className={styles.itemRight}>
-                  <div></div>
-                  <div style={{ flexWrap: 'wrap' }}>
-                    {item.assigneeUserId ? (
-                      <>
+                  <div className={styles.itemRight}>
+                    <div></div>
+                    <div className={styles.avatar}>
+                      {item.assigneeUserId ? (
                         <Tooltip content={`指派给${item?.assigneeUserName}`}>
                           <span
                             className={styles.clickable}
@@ -272,8 +161,13 @@ const TaskList = (props) => {
                             <Avatar
                               size="small"
                               src={
-                                item?.assigneeUserAvatar &&
-                                `/api/file/selectFile/${item?.assigneeUserAvatar}`
+                                item.assigneeUserAvatar?.substring(0, 4) ===
+                                'http'
+                                  ? item.assigneeUserAvatar
+                                  : item.assigneeUserAvatar?.substring(0, 4) !==
+                                      'http' &&
+                                    item.assigneeUserAvatar !== '' &&
+                                    `/api/file/selectFile/${item.assigneeUserAvatar}`
                               }
                               className={styles.roleAvatar}>
                               {item.assigneeUserName &&
@@ -281,30 +175,33 @@ const TaskList = (props) => {
                             </Avatar>
                           </span>
                         </Tooltip>
-                        <div style={{ fontSize: 12 }}>
-                          更新于{timeDistance(item.updateTime).time}前
-                        </div>
-                      </>
-                    ) : (
-                      ''
-                    )}
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <div className={styles.itemComments}>
+                      {item?.commentNum > 0 ? (
+                        <span
+                          className={styles.clickable}
+                          onClick={() => listGoTo(item)}>
+                          <Icon type="message" className={styles.commentIcon} />
+                          <span className={styles.commentNum}>
+                            {item?.commentNum}
+                          </span>
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   </div>
-                  <div className={styles.itemComments}>
-                    {item?.commentNum > 0 ? (
-                      <span
-                        className={styles.clickableDiscolor}
-                        onClick={() => listGoTo(item)}>
-                        <Icon type="message" />
-                        {item?.commentNum}
-                      </span>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-              </li>
-            )
-          })}
+                </li>
+              )
+            })
+          ) : (
+            <div className={styles.liEmpty}>
+              <Empty />
+            </div>
+          )}
         </ul>
       </div>
     </div>

@@ -26,9 +26,11 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const [checkAll, setCheckAll] = useState(false)
   const [projectList, setprojectList] = useState(false)
   const [users, setusers] = useState(false)
+  // const [organization, setOrganization] = useState(false)
   const navigate = useNavigate()
   const passwordRef = useRef()
   const dispatch = useDispatch()
+  const params = useParams()
   const { userAccount } = useParams()
   // const [userData, setuserData] = useState({})
   const [isError, setIsError] = useState(false)
@@ -45,6 +47,38 @@ function BasicLayoutScreen(props = { routes: [] }) {
   useEffect(() => {
     localStorage.setItem('lastPath', JSON.stringify(location.pathname))
   }, [location])
+
+  useEffect(() => {
+    if (breadUrl === '/dashboard') {
+      setusers(false)
+      setprojectList(false)
+      setCheckAll(true)
+    } else if (breadUrl === '/projectList') {
+      setusers(false)
+      setCheckAll(false)
+      setprojectList(true)
+    } else if (breadUrl === '/organizeList') {
+      setusers(false)
+      // setOrganization(true)
+      setCheckAll(false)
+      setprojectList(false)
+    } else if (breadUrl === '/todoList') {
+      setCheckAll(false)
+      setprojectList(false)
+      setusers(false)
+    } else if (breadUrl === '/Authority') {
+      if (!!params?.userAccount && !!params?.projectId) {
+        setprojectList(true)
+        setCheckAll(false)
+        setusers(false)
+      } else {
+        setCheckAll(false)
+        setprojectList(false)
+        setusers(true)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [breadUrl])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function refresh(type) {
@@ -91,7 +125,6 @@ function BasicLayoutScreen(props = { routes: [] }) {
     refresh(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   // const currUserRouteUrl = routesArr(JSON.parse(localStorage.getItem('routes')))
   const currUserRoute = JSON.parse(localStorage.getItem('routes'))
   localStorage.setItem('userNumber', userData?.userName)
@@ -102,6 +135,8 @@ function BasicLayoutScreen(props = { routes: [] }) {
   const basicLayoutProps = {
     projectName: '尼好项目测试管理',
     onLogoClick: () => {
+      setusers(false)
+      setCheckAll(true)
       navigate(`/dashboard`, { replace: true })
     },
     // logo: require('./logo.png'),
@@ -159,13 +194,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
           : userData?.path,
       userName: userData?.userName,
       menuLeft: (
+        //这边的代码写的很迷，我业务代码不熟悉，就只改bug，不做优化了。
         <>
-          {checkAll === false && breadUrl !== '/dashboard' ? (
+          {checkAll === false ? (
             <div
               className={styles.title}
               onClick={() => {
                 navigate(`/dashboard`)
                 setCheckAll(true)
+                // setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
@@ -176,36 +213,64 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate(`/dashboard`)
-                setCheckAll(false)
+                // setCheckAll(false)
+                // setOrganization(false)
                 setprojectList(false)
                 setusers(false)
               }}>
               工作台
             </div>
           )}
-          {projectList === false ? (
+          {projectList ? (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/projectList`)
+                setprojectList(true)
+                // setOrganization(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              项目管理
+            </div>
+          ) : (
             <div
               className={styles.title}
               onClick={() => {
                 navigate(`/projectList`)
                 setprojectList(true)
                 setCheckAll(false)
-                setusers(false)
-              }}>
-              项目管理
-            </div>
-          ) : (
-            <div
-              className={styles.newtitle}
-              onClick={() => {
-                navigate(`/projectList`)
-                setprojectList(false)
-                setCheckAll(false)
+                // setOrganization(false)
                 setusers(false)
               }}>
               项目管理
             </div>
           )}
+          {/* {organization === false ? (
+            <div
+              className={styles.title}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(true)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
+            </div>
+          ) : (
+            <div
+              className={styles.newtitle}
+              onClick={() => {
+                navigate(`/organizeList`)
+                setOrganization(true)
+                setprojectList(false)
+                setCheckAll(false)
+                setusers(false)
+              }}>
+              组织
+            </div>
+          )} */}
           {userData?.admin === true && users === false ? (
             <div
               className={styles.title}
@@ -213,6 +278,7 @@ function BasicLayoutScreen(props = { routes: [] }) {
                 navigate('/Authority/users')
                 setusers(true)
                 setprojectList(false)
+                // setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理
@@ -223,8 +289,9 @@ function BasicLayoutScreen(props = { routes: [] }) {
               className={styles.newtitle}
               onClick={() => {
                 navigate('/Authority/users')
-                setusers(false)
+                setusers(true)
                 setprojectList(false)
+                // setOrganization(false)
                 setCheckAll(false)
               }}>
               系统管理
@@ -232,7 +299,15 @@ function BasicLayoutScreen(props = { routes: [] }) {
           ) : (
             ''
           )}
-          <div className={styles.title} onClick={() => navigate(`/todoList`)}>
+          <div
+            className={styles.title}
+            onClick={() => {
+              setusers(false)
+              setprojectList(false)
+              // setOrganization(false)
+              setCheckAll(false)
+              navigate(`/todoList`)
+            }}>
             <Badge
               count={
                 todoListCount !== 0 && todoNotices !== 0
