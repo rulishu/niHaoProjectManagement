@@ -79,6 +79,12 @@ const Task = () => {
       const value = type === 'code' ? codeObj[taskStatus] : taskStatus
       conditionChange({ [type]: `${value || ''}` }, `${taskStatus || ''}`, 1)
     }
+    dispatch({
+      type: 'projectTasks/update',
+      payload: {
+        searchOptions: { ...searchOptions },
+      },
+    })
     // if (!taskStatus) {
     dispatch.projectTasks.getTaskPagingData({ projectId: taskId })
     dispatch.projectTasks.countAssignment({ projectId: taskId })

@@ -176,9 +176,12 @@ const Milestone = () => {
                           <span
                             className={styles.num}
                             onClick={() => {
-                              navigate(`/${userAccount}/${projectId}/task`, {
-                                state: { projectId },
-                              })
+                              navigate(
+                                `/${userAccount}/${projectId}/task?milestone=${item.milestonesTitle}`,
+                                {
+                                  state: { projectId },
+                                }
+                              )
                             }}>
                             {item?.allTaskNum} 个任务数
                           </span>
