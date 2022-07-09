@@ -14,10 +14,10 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import { ProTable, useTable } from '@uiw-admin/components'
 import { useNavigate, useParams } from 'react-router-dom'
-import styles from './index.module.less'
 import ProjectManagement from '../../components/ProjectManagement'
 import { NumColor } from '../../utils/utils'
 import { convertToString } from '@/utils/utils'
+import styles from './index.module.less'
 
 export default function Home() {
   const {
@@ -132,11 +132,6 @@ export default function Home() {
                   </Tooltip>
                 ),
               },
-              // {
-              //   title: '任务描述',
-              //   key: 'description',
-              //   ellipsis: true,
-              // },
               {
                 title: '创建人',
                 key: 'createName',
@@ -176,12 +171,14 @@ export default function Home() {
                 key: 'dueDate',
                 width: 180,
                 ellipsis: true,
+                render: (text) => <div>{text && convertToString(text)}</div>,
               },
               {
                 title: '创建时间',
                 key: 'createTime',
                 width: 180,
                 ellipsis: true,
+                render: (text) => <div>{text && convertToString(text)}</div>,
               },
             ]}
           />
@@ -221,11 +218,6 @@ export default function Home() {
                 </Tooltip>
               ),
             },
-            // {
-            //   title: '任务描述',
-            //   key: 'description',
-            //   ellipsis: true,
-            // },
             {
               title: '创建人',
               key: 'createName',
@@ -265,12 +257,14 @@ export default function Home() {
               key: 'dueDate',
               width: 180,
               ellipsis: true,
+              render: (text) => <div>{text && convertToString(text)}</div>,
             },
             {
               title: '创建时间',
               key: 'createTime',
               width: 180,
               ellipsis: true,
+              render: (text) => <div>{text && convertToString(text)}</div>,
             },
           ]}
         />
