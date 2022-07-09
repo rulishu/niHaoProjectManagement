@@ -368,15 +368,16 @@ export default function SlelectLabel() {
                                   className={styles.mouseList}
                                   color="gray"
                                   link={`/${a?.userName}`}>
-                                  {' '}
                                   @{a?.userName}
                                 </LinkText>
-                                {convertToString(a?.operatingRecords)}
+                                在任务
+                                {/* 1:记录 2:评论 3:回复 */}
                                 <LinkText
                                   link={`${a.projectUrl}/task/taskInfo/${a.assignmentId}`}
                                   value={`#${a.assignmentId}`}
                                 />
-                                指派给了
+                                {a?.type === 3 ? '回复: ' : '评论: '}
+                                {convertToString(a?.operatingRecords)}
                               </span>
                             ) : a.historyType === 12 ? (
                               <span>
