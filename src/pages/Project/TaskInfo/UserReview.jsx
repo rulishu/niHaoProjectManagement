@@ -156,10 +156,6 @@ const UserReview = (props) => {
           const className = item[1].className
           let notClick = false
           let id = 0
-          // const isNum = (/(^[1-9]\d*$)/.test(name))
-          // if (item[0] === 'task'&& !isNum) {
-          //   return name
-          // }
           if (item[0] === 'milestone') {
             id = milepostaData?.filter((item) => {
               return item?.milestonesTitle === name
@@ -180,7 +176,6 @@ const UserReview = (props) => {
               tag + name + ' ',
               `<span style="background-color:${labelColor}" className=${className}>${name}</span>`
             )
-            // return newValue
           }
           if (item[0] !== 'label' && !notClick) {
             newValue = newValue?.replace(

@@ -212,7 +212,8 @@ const FromMD = (props) => {
         fields={{
           [fromValue]: {
             inline: true,
-            initialValue: editData[fromValue],
+            initialValue:
+              editName === 'replyConData' ? '' : editData[fromValue],
             children: (
               <NEWMDEditor
                 rfval={(e) => {

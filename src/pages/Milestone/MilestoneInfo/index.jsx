@@ -73,7 +73,11 @@ const MilestoneInfo = () => {
 
   //
   const goTaskListPage = async (activeKey) => {
-    navigate(`/${userAccount}/${projectId}/task`, { state: { projectId } })
+    const state = activeKey === 1 ? '打开' : '关闭'
+    navigate(
+      `/${userAccount}/${projectId}/task?milestone=${listDataInfo.milestonesTitle}&state=${state}`,
+      { state: { projectId } }
+    )
     await dispatch({
       type: 'project/update',
       payload: { activeKey },

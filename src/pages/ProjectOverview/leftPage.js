@@ -173,7 +173,7 @@ export default function Home() {
               },
               {
                 title: '截止时间',
-                key: 'finishTime',
+                key: 'dueDate',
                 width: 180,
                 ellipsis: true,
               },
@@ -262,7 +262,7 @@ export default function Home() {
             },
             {
               title: '截止时间',
-              key: 'finishTime',
+              key: 'dueDate',
               width: 180,
               ellipsis: true,
             },
