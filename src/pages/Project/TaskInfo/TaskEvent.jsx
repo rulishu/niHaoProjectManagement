@@ -4,6 +4,7 @@ import { Card, Avatar } from 'uiw'
 import FromMD from './fromMD'
 import UserReview from './UserReview'
 import styles from './taskEvent.module.less'
+import timeDistance from '@/utils/timeDistance'
 import { convertToString } from '@/utils/utils'
 import LinkText from '@/components/LinkText'
 import { Label } from '@/components'
@@ -383,6 +384,8 @@ const TaskEvent = () => {
                   link={`/${item?.userName}`}>
                   @{item?.userName}
                 </LinkText>
+                {timeDistance(item.createTime).time}前{' '}
+                <span style={{ fontWeight: '800' }}>· </span>
                 {convertToString(item?.operatingRecords)}
                 {dynamic(item)[item.historyType]}
               </span>
