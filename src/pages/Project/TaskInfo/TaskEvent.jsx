@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Card, Avatar } from 'uiw'
 import FromMD from './fromMD'
 import UserReview from './UserReview'
@@ -14,7 +15,8 @@ const TaskEvent = () => {
     projectTasks: { taskInfoData, commentData },
     projectuser: { userSelectAllList },
   } = useSelector((state) => state)
-
+  const params = useParams()
+  const { projectId, userAccount } = params
   const [showReview, setShowReview] = useState(0)
 
   const updateData = (payload) => {
@@ -83,6 +85,7 @@ const TaskEvent = () => {
     })
   }
   const dynamic = (item) => {
+    console.log('item===>', item)
     //动态
     return {
       1: (
@@ -115,7 +118,7 @@ const TaskEvent = () => {
       5: (
         <>
           <LinkText
-            link={`/${item.userName}/${item.projectId}/milestone/milestoneInfo/${item.milestonesId}`}
+            link={`/${userAccount}/${projectId}/milestone/milestoneInfo/${item.milestonesId}`}
             value={`${item.milestonesTitle}`}
           />
         </>
