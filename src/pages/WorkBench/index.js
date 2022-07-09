@@ -308,7 +308,7 @@ export default function Demo() {
                                 style={{ flex: 3, fontSize: '12px' }}
                                 className={styles.itemTime}>
                                 {item?.dueTime &&
-                                  dayjs(item?.dueTime).format('YYYY-MM-DD')}
+                                  dayjs(item?.dueTime).format('YYYY/MM/DD')}
                               </span>
                               <span
                                 style={{ flex: 2 }}

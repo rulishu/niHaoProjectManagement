@@ -5,6 +5,7 @@ import formatter from '@uiw/formatter'
 // import { useState } from 'react'
 // import CompDropdown from '../../components/CompDropdown'
 // import { initListData } from '@/utils/utils'
+import { convertToString } from '@/utils/utils'
 import styles from './index.module.less'
 // import AddList from './AddList'
 
@@ -252,12 +253,12 @@ const ProjectManagement = (fun) => {
           {
             label: '起始日期:',
             key: 'begin',
-            initialValue: seachValue?.begin,
+            initialValue: convertToString(seachValue?.begin),
             placeholder: '请选择起始日期',
             widget: 'dateInput',
             disabled: isHangup,
             widgetProps: {
-              format: 'YYYY-MM-DD',
+              format: 'YYYY/MM/DD',
               // onChange: () => {
               //   setShowSubmit(false)
               // },
@@ -273,11 +274,11 @@ const ProjectManagement = (fun) => {
           {
             label: '截止日期:',
             key: 'end',
-            initialValue: seachValue?.end,
+            initialValue: convertToString(seachValue?.end),
             widget: 'dateInput',
             placeholder: '请选择截止日期',
             widgetProps: {
-              format: 'YYYY-MM-DD',
+              format: 'YYYY/MM/DD',
               // onChange: () => {
               //   setShowSubmit(false)
               // },
