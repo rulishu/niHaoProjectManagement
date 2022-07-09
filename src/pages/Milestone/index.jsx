@@ -132,7 +132,12 @@ const Milestone = () => {
                   <List.Item
                     key={index}
                     className={styles.listItem}
-                    style={{ width: '100%', padding: 0, borderRadius: 0 }}>
+                    style={{
+                      width: '100%',
+                      padding: 0,
+                      borderRadius: 0,
+                      borderBottom: 'none',
+                    }}>
                     <Row className={styles.milestonesItemList}>
                       <Col span="12" className={styles.itemListLeft}>
                         <div
