@@ -9,7 +9,7 @@ import { convertToString } from '@/utils/utils'
 
 const ProjectList = (props) => {
   const {
-    userHome: { user, userDynamics },
+    userHome: { userDynamics },
     loading,
   } = useSelector((state) => state)
   const { goSpecifyPage } = props
@@ -78,13 +78,13 @@ const ProjectList = (props) => {
                   <div className={styles.avatar}>
                     <Avatar
                       src={
-                        user.avatar?.substring(0, 4) === 'http'
-                          ? user.avatar
-                          : user.avatar?.substring(0, 4) !== 'http' &&
-                            user.avatar !== '' &&
-                            `/api/file/selectFile/${user?.avatar}`
+                        item.avatar?.substring(0, 4) === 'http'
+                          ? item.avatar
+                          : item.avatar?.substring(0, 4) !== 'http' &&
+                            item.avatar !== '' &&
+                            `/api/file/selectFile/${item?.avatar}`
                       }>
-                      {user?.nickName && user?.nickName[0]}
+                      {item?.nickName && item?.nickName[0]}
                     </Avatar>
                   </div>
                   <div className={styles.dynamicTop}>
