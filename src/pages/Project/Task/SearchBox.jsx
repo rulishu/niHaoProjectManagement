@@ -38,6 +38,10 @@ const SearchBox = (props) => {
   }
 
   useEffect(() => {
+    form.current.setFieldValue('searchValue', searchValue)
+  }, [searchValue])
+
+  useEffect(() => {
     let newSearchValue = searchValue
     // 将newSearchValue转化成数组
     newSearchValue = newSearchValue.split(' ')
@@ -49,11 +53,7 @@ const SearchBox = (props) => {
     newSearchValue = newSearchValue.join(' ')
     // newSearchValue 中逗号替换成空格
     newSearchValue = newSearchValue.replace(/,/g, ' ')
-    form.current.setFieldValue('searchValue', newSearchValue)
-  }, [searchValue])
-
-  useEffect(() => {
-    ParsingInputValue(searchValue, 1)
+    ParsingInputValue(newSearchValue, 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue])
 
@@ -117,9 +117,25 @@ const SearchBox = (props) => {
           }
         }
       })
-      history.push('#' + location.pathname + '?' + currentUrlParams.toString())
+      // 获取路由参数
+      let currentUrlParamsArr = decodeURI(currentUrlParams.toString()).split(
+        '&'
+      )
+      currentUrlParamsArr = [...new Set(currentUrlParamsArr)]
+      let valueArr = newSearchValue.split(' ')
+      valueArr = valueArr.filter((item) => item)
+      valueArr = [...new Set(valueArr)]
+      valueArr = valueArr.map((item) => {
+        return item.split(':')[1]
+      })
+      currentUrlParamsArr = currentUrlParamsArr.filter((item) => {
+        const itemArr = item.split('=')
+        return valueArr.includes(itemArr[1])
+      })
+      currentUrlParamsArr = currentUrlParamsArr.join('&')
+      let urlParams = new URLSearchParams(currentUrlParamsArr)
+      history.push('#' + location.pathname + '?' + urlParams.toString())
     }
-    // console.log('searchOptions===>', searchOptions, newSearchOptions)
     dispatch({
       type: 'projectTasks/update',
       payload: {
